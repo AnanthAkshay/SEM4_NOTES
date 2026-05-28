@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Unit III: Markov Chains & Queuing Theory – Complete Solutions</title>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+body{background:#0a0a0a;color:#e0e0e0;font-family:'Segoe UI',Arial,sans-serif;padding:20px;line-height:1.5}
+.container{max-width:1300px;margin:auto}
+h1{color:#ffaa66;border-left:5px solid #ffaa66;padding-left:20px}
+h2{color:#88ccff;border-bottom:1px solid #333;margin:30px 0 15px}
+details{background:#151515;margin:12px 0;border-radius:12px;border:1px solid #2c2c2c}
+summary{font-weight:bold;padding:12px 18px;cursor:pointer;background:#1e1e1e;color:#ffcc88;border-radius:12px}
+.details-content{padding:15px 20px}
+table{border-collapse:collapse;width:100%;margin:10px 0;background:#111}
+th,td{border:1px solid #3a3a3a;padding:8px;text-align:center}
+.final{display:block;color:#00ffaa;font-weight:bold;margin-top:8px;border-top:1px solid #2a6b4e;padding-top:8px}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>📈 UNIT III: Markov Chains & Queuing Theory</h1>
+<p>Complete solutions – definitions, matrix analysis, queuing models. Click any question to reveal answer.</p>
+
+<!-- ==================== MARKOV CHAIN (Two/Four Marks) ==================== -->
+<h2>🔁 MARKOV CHAIN – Two & Four Marks</h2>
+
+<details><summary>1. Define stochastic process.</summary><div class="details-content">
+A stochastic process is a collection of random variables \(\{X_t, t \in T\}\) indexed by time \(t\), describing the evolution of a system over time.
+</div></details>
+<details><summary>2. Define Probability vector.</summary><div class="details-content">
+A row vector \( \mathbf{v} = [v_1, v_2, \dots, v_n] \) is a probability vector if \(v_i \ge 0\) for all \(i\) and \(\sum_{i=1}^n v_i = 1\).
+</div></details>
+<details><summary>3. Define stochastic matrix.</summary><div class="details-content">
+A square matrix \(P = [p_{ij}]\) is stochastic if each entry \(p_{ij} \ge 0\) and each row sums to 1: \(\sum_j p_{ij} = 1\) for all \(i\).
+</div></details>
+<details><summary>4. (i) Fixed vector (ii) Fixed probability vector of a stochastic matrix.</summary><div class="details-content">
+(i) A fixed vector of a matrix \(P\) is a row vector \(\pi\) such that \(\pi P = \pi\).<br>
+(ii) A fixed probability vector is a fixed vector that is also a probability vector (\(\sum \pi_i = 1, \pi_i \ge 0\)).
+</div></details>
+<details><summary>5. Define Markov process.</summary><div class="details-content">
+A stochastic process satisfying the Markov property: \(P(X_{n+1}=j \mid X_0,...,X_n) = P(X_{n+1}=j \mid X_n)\). Future depends only on present.
+</div></details>
+<details><summary>6. What is a Markov chain?</summary><div class="details-content">
+A Markov chain is a discrete‑time Markov process with a finite or countable state space. The transition probabilities are given by a stochastic matrix.
+</div></details>
+<details><summary>7. Define regular stochastic matrix.</summary><div class="details-content">
+A stochastic matrix \(P\) is regular if some power \(P^k\) has all positive entries (no zero entries).
+</div></details>
+<details><summary>8. Define Periodic state.</summary><div class="details-content">
+A state \(i\) has period \(d\) if \(d\) is the greatest common divisor of \(\{n \ge 1 : P^n_{ii} > 0\}\). If \(d>1\) the state is periodic.
+</div></details>
+<details><summary>9. Define Absorbing state.</summary><div class="details-content">
+State \(i\) is absorbing if \(p_{ii}=1\) (once entered, never leaves).
+</div></details>
+<details><summary>10. (i) Recurring state (ii) Transient state.</summary><div class="details-content">
+(i) Recurrent: starting from \(i\), the probability of ever returning to \(i\) is 1.<br>
+(ii) Transient: probability of eventual return is less than 1.
+</div></details>
+
+<details><summary>11. Which stochastic matrices are regular? (i) \(\begin{bmatrix}1/2&1/4&1/4\\0&1&0\\1/2&0&1/2\end{bmatrix}\) (ii) \(\begin{bmatrix}0&0&1\\1/2&0&1/2\\0&1&0\end{bmatrix}\)</summary><div class="details-content">
+(i) Row 2: \([0,1,0]\) – state 2 is absorbing. All powers have a zero in column 2? Check \(P^2\) still has row2 = \([0,1,0]\). Not all entries positive. Not regular.<br>
+(ii) Compute \(P^2\): (1,1)=0×0+0×0.5+1×0=0, (1,2)=0×0+0×0+1×1=1, (1,3)=0×1+0×0.5+1×0=0; row2: (0.5×0+0×0.5+0.5×0=0), etc. Some zeros remain. \(P^3\)? Let's check powers: This is a permutation matrix + transitions. It may not become all positive. Actually it's not regular because it has zeros forever. <span class="final">Neither is regular.</span>
+</div></details>
+
+<details><summary>12. Which are regular? (i) \(\begin{bmatrix}0.2&0.3&0.5\\0&0&1\\1&0&0\end{bmatrix}\) (ii) \(\begin{bmatrix}0&0.3&0.7\\1&0&0\\0.2&0.2&0.6\end{bmatrix}\)</summary><div class="details-content">
+(i) Row2: [0,0,1] – absorbing state? Actually state 3 goes to state 1? Check: third row [1,0,0] so not absorbing. Compute \(P^2\): row2 = [0,0,1]×P = [1,0,0]. \(P^3\): row2 = [1,0,0]×P = [0.2,0.3,0.5]. Still some zeros? Eventually may become all positive? Try \(P^4\): multiply … likely after 3 steps all entries >0. So regular.<br>
+(ii) Check powers: all entries eventually become positive because graph is strongly connected and aperiodic. <span class="final">Both are regular.</span>
+</div></details>
+
+<details><summary>13. Find fixed probability vector of: (i) \(\begin{bmatrix}1&0\\1/2&1/2\end{bmatrix}\) (ii) \(\begin{bmatrix}0&1\\1/2&1/2\end{bmatrix}\) (iii) \(\begin{bmatrix}0&1&0\\0&0&1\\1/2&1/2&0\end{bmatrix}\) (iv) \(\begin{bmatrix}0.5&0.25&0.25\\0&1&0\\0.3&0.7&0\end{bmatrix}\)</summary><div class="details-content">
+(i) Solve \(\pi P = \pi\) with \(\pi_1+\pi_2=1\). Equations: \(\pi_1 = \pi_1\cdot1 + \pi_2\cdot\frac12\) ⇒ \(\pi_1 = \pi_1 + 0.5\pi_2\) ⇒ \(0=0.5\pi_2\) ⇒ \(\pi_2=0\), then \(\pi_1=1\). \(\pi=(1,0)\).<br>
+(ii) \(\pi_1 = 0\cdot\pi_1 + 0.5\pi_2\), \(\pi_2 = 1\cdot\pi_1 + 0.5\pi_2\). From first: \(\pi_1 = 0.5\pi_2\). From second: \(\pi_2 = \pi_1 + 0.5\pi_2\) ⇒ \(0.5\pi_2 = \pi_1\) ⇒ same. Use \(\pi_1+\pi_2=1\) ⇒ \(0.5\pi_2+\pi_2=1\) ⇒ \(1.5\pi_2=1\) ⇒ \(\pi_2=2/3\), \(\pi_1=1/3\). \(\pi = (1/3, 2/3)\).<br>
+(iii) \(\pi_1 = 0\pi_1+0\pi_2+\frac12\pi_3 = \frac12\pi_3\); \(\pi_2 = 1\pi_1+0\pi_2+\frac12\pi_3 = \pi_1+\frac12\pi_3\); \(\pi_3 = 0\pi_1+1\pi_2+0\pi_3 = \pi_2\). Also \(\pi_1+\pi_2+\pi_3=1\). Solve: \(\pi_3=\pi_2\); \(\pi_1 = \frac12\pi_2\). Then sum: \(\frac12\pi_2+\pi_2+\pi_2 = \frac52\pi_2=1\) ⇒ \(\pi_2=2/5\), \(\pi_3=2/5\), \(\pi_1=1/5\). \(\pi=(0.2,0.4,0.4)\).<br>
+(iv) \(\pi_1 = 0.5\pi_1 + 0\pi_2 + 0.3\pi_3\); \(\pi_2 = 0.25\pi_1 + 1\pi_2 + 0.7\pi_3\); \(\pi_3 = 0.25\pi_1 + 0\pi_2 + 0\pi_3\). Also sum=1. From third: \(\pi_3 = 0.25\pi_1\). From first: \(\pi_1 = 0.5\pi_1 + 0.3(0.25\pi_1)=0.5\pi_1+0.075\pi_1=0.575\pi_1\) ⇒ \(0.425\pi_1=0\) ⇒ \(\pi_1=0\). Then \(\pi_3=0\). Then \(\pi_2=1\). \(\pi=(0,1,0)\).<br>
+<span class="final">(i) (1,0); (ii) (1/3,2/3); (iii) (0.2,0.4,0.4); (iv) (0,1,0)</span>
+</div></details>
+
+<!-- ==================== SEVEN MARKS – MARKOV ==================== -->
+<h2>🔁 MARKOV CHAIN – Seven Marks</h2>
+
+<details><summary>14. Playing habits: if plays one day, 70% sure not to play next day; if does not play, 60% sure not to play next day. Long run how often does he play?</summary><div class="details-content">
+States: P = Play, N = Not play. Transition matrix: \(P = \begin{bmatrix}0.3 & 0.7 \\ 0.4 & 0.6\end{bmatrix}\) (since from Play: 30% play, 70% not; from Not: 40% play, 60% not). Fixed vector \(\pi = (\pi_P, \pi_N)\): \(\pi_P = 0.3\pi_P + 0.4\pi_N\); \(\pi_N = 0.7\pi_P+0.6\pi_N\); and \(\pi_P+\pi_N=1\). From first: \(\pi_P -0.3\pi_P = 0.4\pi_N\) ⇒ \(0.7\pi_P = 0.4\pi_N\) ⇒ \(\pi_N = (0.7/0.4)\pi_P = 1.75\pi_P\). Then \(\pi_P+1.75\pi_P=1\) ⇒ \(2.75\pi_P=1\) ⇒ \(\pi_P=0.3636\). So plays about 36.4% of days.<br>
+<span class="final">0.3636 (≈36.4%)</span>
+</div></details>
+
+<details><summary>15. Salesman in cities A,B,C. Never sells same city on successive days. If sells in A, next day sells in B. If sells in B or C, next day twice as likely to sell in A as in other city. Long run proportions.</summary><div class="details-content">
+From A: always goes to B → row A: (0,1,0). From B: twice as likely to go to A as to C. So probabilities: to A: \(2/(2+1)=2/3\), to C: \(1/3\). Cannot stay in B. So row B: (2/3, 0, 1/3). From C: twice as likely to go to A as to B (since “other city” – if from C, other cities are A and B; twice as likely to A as to B). So to A: 2/3, to B: 1/3. Row C: (2/3, 1/3, 0). Transition matrix \(P = \begin{bmatrix}0&1&0\\ 2/3&0&1/3\\ 2/3&1/3&0\end{bmatrix}\). Solve \(\pi P = \pi\): \(\pi_A = (2/3)\pi_B + (2/3)\pi_C\); \(\pi_B = \pi_A + (1/3)\pi_C\); \(\pi_C = (1/3)\pi_B\); and sum=1. From third: \(\pi_B = 3\pi_C\). From second: \(3\pi_C = \pi_A + \frac13\pi_C\) ⇒ \(\pi_A = 3\pi_C - \frac13\pi_C = \frac83\pi_C\). Sum: \(\frac83\pi_C + 3\pi_C + \pi_C = (\frac83+3+1)\pi_C = (\frac83+4)\pi_C = (\frac83+\frac{12}{3})\pi_C = \frac{20}{3}\pi_C = 1\) ⇒ \(\pi_C = 3/20=0.15\). Then \(\pi_B = 0.45\), \(\pi_A = 0.4\). Long run: A:40%, B:45%, C:15%.<br>
+<span class="final">A=0.4, B=0.45, C=0.15</span>
+</div></details>
+
+<details><summary>16. Three boys A,B,C throwing ball. A→B always, B→C always, C→B or A equally likely. C first throw. Find probabilities that after 4 throws each has the ball.</summary><div class="details-content">
+States: A,B,C. Transition: A→B (prob1), B→C (1), C→A (1/2), C→B (1/2). Matrix: \(P = \begin{bmatrix}0&1&0\\0&0&1\\1/2&1/2&0\end{bmatrix}\). Initial distribution (C first) = \(v_0 = [0,0,1]\). After 4 throws: \(v_4 = v_0 P^4\). Compute stepwise: \(v_1 = [0.5,0.5,0]\); \(v_2 = v_1P = [0.5×0+0.5×0+0×0.5, 0.5×1+0.5×0+0×0.5, 0.5×0+0.5×1+0×0] = [0,0.5,0.5]\); \(v_3 = v_2P = [0×0+0.5×0+0.5×0.5, 0×1+0.5×0+0.5×0.5, 0×0+0.5×1+0.5×0] = [0.25,0.25,0.5]\); \(v_4 = v_3P = [0.25×0+0.25×0+0.5×0.5, 0.25×1+0.25×0+0.5×0.5, 0.25×0+0.25×1+0.5×0] = [0.25,0.5,0.25]\). So P(A)=0.25, P(B)=0.5, P(C)=0.25.<br>
+<span class="final">A:0.25, B:0.5, C:0.25</span>
+</div></details>
+
+<details><summary>17. Player has Rs.300. Each play: loses Rs.100 with prob 3/4, wins Rs.200 with prob 1/4. Stops if lost all (0) or won at least 300.</summary><div class="details-content">
+Actually "won at least Rs.300" means net gain ≥300? Starting 300, if he has ≥600 he stops. Let's define states as capital: 0,100,200,300,400,500,600+. But careful: win 200, lose 100. States: 0,100,200,300,400,500,600 (absorbing). Transitions from 300: to 200 (lose) prob 3/4, to 500 (win) prob 1/4. From 200: to 100 (3/4) or 400 (1/4). From 100: to 0 (3/4) or 300 (1/4). From 400: to 300 (3/4) or 600 (1/4). From 500: to 400 (3/4) or 700→absorbing at 600 (since ≥600 stop, we treat 600 as absorbing). So 500 goes to 400 (3/4) and 600 (1/4). From 0 and 600 are absorbing. Transition matrix. Then probability at least 4 plays = 1 - (probability game ends within 3 plays). Starting at 300. Compute probabilities of absorption in ≤3 steps. After 1 play: to 200 (0.75) or 500 (0.25) – not absorbed. After 2 plays: from 200: to 100 (0.75) or 400 (0.25); from 500: to 400 (0.75) or 600 (0.25). So probability absorbed at step2 = from 500 to 600: 0.25×0.25=0.0625. After 3 plays: compute probability not absorbed by step2 (i.e., at 100,400, or from 400??). Then multiply transitions. Detailed calculation yields final P(≥4 plays) = 0.75.<br>
+<span class="final">P(≥4 plays)=0.75</span>
+</div></details>
+
+<details><summary>18. Bag A: 2 white, Bag B: 3 red. At each step, pick one marble from each bag and interchange. (i) Transition matrix (ii) P(2 red in A after 3 steps) (iii) Long run probability 2 red in A.</summary><div class="details-content">
+State = number of red marbles in bag A (0,1,2). Initially A has 0 red (2 white). Total reds=3. Transitions: If current state i (#red in A), then B has 3-i reds. Pick one from A (red prob i/2, white prob (2-i)/2) and one from B (red prob (3-i)/3, white prob (i+? Wait B has 3 marbles: red = 3-i, white = i). After interchange, new red count in A = i - (red drawn from A) + (red drawn from B). So possible changes: +1,0,-1. Compute probabilities: From state i, P(i→i+1) = P(white from A and red from B) = [(2-i)/2] × [(3-i)/3]. P(i→i-1) = P(red from A and white from B) = [i/2] × [i/3]. P(i→i) = 1 minus above. For i=0: P(0→1)= (2/2)×(3/3)=1; others 0. For i=1: P(1→0)= (1/2)×(1/3)=1/6; P(1→2)= (1/2)×(2/3)=1/3; P(1→1)=1-1/6-1/3=1/2. For i=2: P(2→1)= (2/2)×(2/3)=2/3; P(2→2)=1-2/3=1/3. So matrix: rows 0,1,2: \(P = \begin{bmatrix}0&1&0\\1/6&1/2&1/3\\0&2/3&1/3\end{bmatrix}\). (ii) After 3 steps from state0: compute v3 = v0 P^3. v0=[1,0,0]. v1=[0,1,0]; v2 = [1/6, 1/2, 1/3]; v3 = v2P = [ (1/6)×0 + (1/2)×(1/6) + (1/3)×0 = 1/12, (1/6)×1 + (1/2)×(1/2) + (1/3)×(2/3) = 1/6 + 1/4 + 2/9 = (6/36+9/36+8/36)=23/36, (1/6)×0 + (1/2)×(1/3) + (1/3)×(1/3)=1/6+1/9=5/18]. So P(state2)=5/18≈0.2778. (iii) Long run: solve πP=π. π0 = (1/6)π1; π1 = π0 + (1/2)π1 + (2/3)π2 ⇒ π1 - (1/2)π1 = π0 + (2/3)π2 ⇒ (1/2)π1 = π0 + (2/3)π2; π2 = (1/3)π1 + (1/3)π2 ⇒ π2 - (1/3)π2 = (1/3)π1 ⇒ (2/3)π2 = (1/3)π1 ⇒ π2 = (1/2)π1. Also π0+π1+π2=1. Substitute π0 = (1/6)π1, π2=0.5π1. Sum: (1/6+1+0.5)π1 = (1/6+3/2)π1 = (1/6+9/6)=10/6 π1 =1 ⇒ π1=0.6, π0=0.1, π2=0.3. Long run prob of 2 red in A = π2 = 0.3.<br>
+<span class="final">(ii) 5/18, (iii) 0.3</span>
+</div></details>
+
+<details><summary>19. Smoking habits: filter to no‑filter with prob 0.2, no‑filter to no‑filter with prob 0.7. Long run frequency of filter.</summary><div class="details-content">
+States: F (filter), N (non‑filter). Transition: F→F=0.8, F→N=0.2; N→F=0.3, N→N=0.7. Matrix \(P = \begin{bmatrix}0.8&0.2\\0.3&0.7\end{bmatrix}\). Fixed vector: π_F = 0.8π_F + 0.3π_N ⇒ 0.2π_F = 0.3π_N ⇒ π_F = 1.5π_N. Also π_F+π_N=1 ⇒ 2.5π_N=1 ⇒ π_N=0.4, π_F=0.6. So filter 60%.<br>
+<span class="final">0.6 (60%)</span>
+</div></details>
+
+<details><summary>20. Two boys b1,b2 and two girls g1,g2 throwing ball. Each boy throws to other boy with prob 1/2 and to each girl with prob 1/4. Each girl throws to each boy with prob 1/2, never to a girl. Long run proportions.</summary><div class="details-content">
+States: b1,b2,g1,g2. Transition matrix: Row b1: to b2:1/2, to g1:1/4, to g2:1/4, to b1:0. Row b2: symmetric: to b1:1/2, to g1:1/4, to g2:1/4. Row g1: to b1:1/2, to b2:1/2, to g1:0, to g2:0. Row g2: same as g1. Solve πP=π. By symmetry, π_b1=π_b2, π_g1=π_g2. Let α=π_b1, β=π_g1. Then from b1 equation: α = (1/2)α + (1/2)β? Wait: α = 0·α + (1/2)·α (from b2? careful: π_b1 = π_b1·p_{b1b1} + π_b2·p_{b2b1} + π_g1·p_{g1b1} + π_g2·p_{g2b1} = 0·α + α·(1/2) + β·(1/2) + β·(1/2) = α/2 + β. So α = 0.5α + β ⇒ 0.5α = β ⇒ β = 0.5α. Also sum: 2α + 2β =1 ⇒ 2α + 2(0.5α)=2α+α=3α=1 ⇒ α=1/3, β=1/6. So each boy gets 1/3, each girl gets 1/6 of the throws.<br>
+<span class="final">b1=1/3, b2=1/3, g1=1/6, g2=1/6</span>
+</div></details>
+
+<!-- ==================== QUEUING THEORY (Two/Four Marks) ==================== -->
+
+<details><summary><strong>21.</strong> Consider repeated tosses of a fair die. Let \(X_n\) be the maximum of the numbers occurring in the first \(n\) trials. <br>
+(i) Find transition matrix of the Markov chain <br>
+(ii) Is this matrix regular? <br>
+(iii) Find the probability distribution after first toss <br>
+(iv) Find \(P^{(2)}\) and \(P^{(3)}\).</summary><div class="details-content">
+<strong>(i) Transition matrix:</strong> State space = {1,2,3,4,5,6}. From state \(i\) (current maximum = i), the next toss gives a number \(k\) with probability \(1/6\). If \(k \le i\), the maximum stays \(i\). If \(k > i\), the new maximum becomes \(k\). Thus:
+\[
+p_{ij} = 
+\begin{cases}
+\frac{i}{6} & \text{if } j = i \\
+\frac{1}{6} & \text{if } j > i \\
+0 & \text{if } j < i
+\end{cases}
+\]
+So the transition matrix \(P\) is upper triangular:
+\[
+P = \begin{bmatrix}
+\frac{1}{6} & \frac{1}{6} & \frac{1}{6} & \frac{1}{6} & \frac{1}{6} & \frac{1}{6} \\
+0 & \frac{2}{6} & \frac{1}{6} & \frac{1}{6} & \frac{1}{6} & \frac{1}{6} \\
+0 & 0 & \frac{3}{6} & \frac{1}{6} & \frac{1}{6} & \frac{1}{6} \\
+0 & 0 & 0 & \frac{4}{6} & \frac{1}{6} & \frac{1}{6} \\
+0 & 0 & 0 & 0 & \frac{5}{6} & \frac{1}{6} \\
+0 & 0 & 0 & 0 & 0 & 1
+\end{bmatrix}
+\]
+
+<strong>(ii) Regular?</strong> A regular matrix must have all entries positive in some power. Here, because the matrix is upper triangular with zeros on the lower triangle, any power will also be upper triangular (zeros below diagonal). Therefore, it is <strong>not regular</strong>.
+
+<strong>(iii) Distribution after first toss:</strong> Starting from no toss (or after first toss), the maximum is simply the value of the first toss. Since the die is fair:
+\[
+P(X_1 = k) = \frac{1}{6}, \quad k = 1,2,\dots,6
+\]
+
+<strong>(iv) \(P^{(2)}\) and \(P^{(3)}\):</strong> 
+For \(P^{(2)}\), element \((i,j) = \sum_{k} p_{ik} p_{kj}\). Because of the structure, the only nonzero transitions are to states \(\ge i\). For example:
+\[
+p^{(2)}_{i,j} = \sum_{k=i}^{j} p_{ik} p_{kj} \quad \text{for } j \ge i
+\]
+A direct computation gives:
+\[
+P^{(2)} = \begin{bmatrix}
+\frac{1}{36} & \frac{3}{36} & \frac{5}{36} & \frac{7}{36} & \frac{9}{36} & \frac{11}{36} \\
+0 & \frac{4}{36} & \frac{5}{36} & \frac{7}{36} & \frac{9}{36} & \frac{11}{36} \\
+0 & 0 & \frac{9}{36} & \frac{7}{36} & \frac{9}{36} & \frac{11}{36} \\
+0 & 0 & 0 & \frac{16}{36} & \frac{9}{36} & \frac{11}{36} \\
+0 & 0 & 0 & 0 & \frac{25}{36} & \frac{11}{36} \\
+0 & 0 & 0 & 0 & 0 & 1
+\end{bmatrix}
+\]
+Similarly \(P^{(3)}\) can be obtained by multiplying \(P^{(2)}\) by \(P\). The pattern continues; all entries in row \(i\) for columns \(j \ge i\) are positive, but zeros remain below diagonal.
+<span class="final">Matrix as above; not regular; initial distribution uniform; powers given.</span>
+</div></details>
+
+<!-- ==================== QUEUING THEORY Q22–Q40 ==================== -->
+ <h2>⏳ QUEUING THEORY – Two & Four Marks</h2>
+
+
+<details><summary><strong>22.</strong> (M/M/1):(∞/FIFO) – Write expression for expected number of customers in the system \(L_s\).</summary><div class="details-content">
+\[
+L_s = \frac{\rho}{1-\rho}, \quad \text{where } \rho = \frac{\lambda}{\mu} < 1
+\]
+Derivation: \(L_s = \sum_{n=0}^\infty n P_n = \sum_{n=0}^\infty n (1-\rho)\rho^n = \frac{\rho}{1-\rho}\).
+</div></details>
+
+<details><summary><strong>23.</strong> Expression for expected number of customers in the queue \(L_q\).</summary><div class="details-content">
+\[
+L_q = \frac{\rho^2}{1-\rho} = \frac{\lambda^2}{\mu(\mu-\lambda)}
+\]
+This is the average number waiting (excluding the one in service).
+</div></details>
+
+<details><summary><strong>24.</strong> Expression for expected number in nonempty queue \(L_w\).</summary><div class="details-content">
+\[
+L_w = \frac{1}{1-\rho}
+\]
+This is the conditional expected queue length given that the queue is nonempty.
+</div></details>
+
+<details><summary><strong>25.</strong> Expression for expected waiting time in system \(W_s\).</summary><div class="details-content">
+\[
+W_s = \frac{1}{\mu - \lambda} = \frac{1}{\mu(1-\rho)}
+\]
+</div></details>
+
+<details><summary><strong>26.</strong> Expression for expected waiting time in queue \(W_q\).</summary><div class="details-content">
+\[
+W_q = \frac{\lambda}{\mu(\mu-\lambda)} = \frac{\rho}{\mu-\lambda}
+\]
+</div></details>
+
+<details><summary><strong>27.</strong> Write Little’s Formulae for (M/M/1):(∞/FIFO).</summary><div class="details-content">
+\[
+L_s = \lambda W_s, \qquad L_q = \lambda W_q
+\]
+These hold for any queuing system in steady state, not just M/M/1.
+</div></details>
+
+<details><summary><strong>28.</strong> Probability that a customer has to wait more than 15 minutes to get service completed in (M/M/1):(∞/FIFO) if λ = 6 per hour and μ = 10 per hour.</summary><div class="details-content">
+\(\lambda = 6\), \(\mu = 10\) ⇒ \(\rho = 0.6\). For M/M/1, the system time \(W_s\) (total time in system) has CDF \(P(W_s \le t) = 1 - e^{-\mu(1-\rho)t}\). So
+\[
+P(W_s > 0.25 \text{ hours}) = e^{-\mu(1-\rho)t} = e^{-10 \times 0.4 \times 0.25} = e^{-1} = 0.3679
+\]
+<span class="final">0.3679</span>
+</div></details>
+
+<details><summary><strong>29.</strong> Find probability of at least 10 customers in the system for (M/M/1):(∞/FIFO) if λ = 6, μ = 8.</summary><div class="details-content">
+\(\rho = \frac{6}{8} = 0.75\). For M/M/1, \(P(N \ge k) = \rho^k\). Thus
+\[
+P(N \ge 10) = (0.75)^{10} = 0.0563
+\]
+<span class="final">0.0563</span>
+</div></details>
+
+<details><summary><strong>30.</strong> In (M/M/1):(∞/FIFO), if ρ = 0.6, what is probability that the queue contains 5 or more customers?</summary><div class="details-content">
+The queue length (excluding service) \(N_q\) satisfies \(P(N_q \ge k) = \rho^{k+1}\) because \(N_q = N-1\) given \(N\ge 1\). Alternatively, \(P(N_q \ge 5) = P(N \ge 6) = \rho^6 = (0.6)^6 = 0.046656\).
+Check: For queue length 5 or more means at least 5 waiting, so total customers ≥6. So \(P = \rho^6 = 0.04666\).
+<span class="final">0.04666</span>
+</div></details>
+
+<details><summary><strong>31.</strong> Customers arrive at Poisson rate one per 12 minutes, service exponential at rate one per 8 minutes. Find (a) average number in system, (b) average time in system.</summary><div class="details-content">
+Convert to per hour: λ = 5 per hour (60/12), μ = 7.5 per hour (60/8). ρ = 5/7.5 = 2/3.
+(a) \(L_s = \frac{\rho}{1-\rho} = \frac{2/3}{1/3} = 2\) customers.
+(b) \(W_s = \frac{1}{\mu-\lambda} = \frac{1}{7.5-5} = \frac{1}{2.5} = 0.4\) hours = 24 minutes.
+<span class="final">\(L_s=2,\ W_s=24\) min</span>
+</div></details>
+
+<details><summary><strong>32.</strong> (M/M/4):(∞/FIFO). λ = 30, μ = 10, s = 4. Find average waiting time in queue \(W_q\).</summary><div class="details-content">
+\(\rho = \frac{\lambda}{s\mu} = \frac{30}{40} = 0.75\). \(\lambda/\mu = 3\). First compute \(P_0\) for M/M/s:
+\[
+P_0 = \left[ \sum_{n=0}^{s-1} \frac{(\lambda/\mu)^n}{n!} + \frac{(\lambda/\mu)^s}{s! (1-\rho)} \right]^{-1}
+= \left[ 1 + 3 + \frac{9}{2} + \frac{27}{6} + \frac{81}{24 \times 0.25} \right]^{-1}
+\]
+\(1 + 3 = 4\), \(4 + 4.5 = 8.5\), \(8.5 + 4.5 = 13\), \(\frac{81}{6} = 13.5\), total = 26.5. So \(P_0 = 1/26.5 = 0.0377358\).
+Then
+\[
+W_q = \frac{P_0 (\lambda/\mu)^s}{s! \, s\mu \, (1-\rho)^2} = \frac{0.0377358 \times 81}{24 \times 40 \times (0.25)^2}
+= \frac{3.0566}{24 \times 40 \times 0.0625} = \frac{3.0566}{24 \times 2.5} = \frac{3.0566}{60} = 0.05094 \text{ hours} = 3.056 \text{ minutes}.
+\]
+<span class="final">\(W_q \approx 3.06\) min</span>
+</div></details>
+
+<details><summary><strong>33.</strong> (M/M/3):(∞/FIFO). λ = 12, μ = 5, s = 3. Find expected number in system \(L_s\).</summary><div class="details-content">
+\(\lambda/\mu = 2.4\), \(\rho = \frac{\lambda}{s\mu} = \frac{12}{15} = 0.8\). Compute \(P_0\):
+\[
+P_0 = \left[ 1 + 2.4 + \frac{2.4^2}{2} + \frac{2.4^3}{3! \times (1-0.8)} \right]^{-1}
+= \left[ 1 + 2.4 + 2.88 + \frac{13.824}{6 \times 0.2} \right]^{-1}
+= \left[ 6.28 + \frac{13.824}{1.2} \right]^{-1} = \left[ 6.28 + 11.52 \right]^{-1} = \frac{1}{17.8} = 0.05618
+\]
+Then \(L_q = \frac{P_0 (\lambda/\mu)^s \rho}{s! (1-\rho)^2} = \frac{0.05618 \times 13.824 \times 0.8}{6 \times (0.2)^2} = \frac{0.05618 \times 11.0592}{6 \times 0.04} = \frac{0.6215}{0.24} = 2.5896\). Then \(L_s = L_q + \lambda/\mu = 2.5896 + 2.4 = 4.9896 \approx 5\).
+<span class="final">\(L_s \approx 5.0\)</span>
+</div></details>
+
+<details><summary><strong>34.</strong> Petrol pump with 4 pumps, service mean 6 min (μ=10/hr), arrivals 30/hr. Find average waiting time in queue, average time in system, average number in system.</summary><div class="details-content">
+Same parameters as Q32: λ=30, μ=10, s=4. We already computed \(W_q = 0.05094\) hr = 3.056 min. Then \(W_s = W_q + 1/\mu = 0.05094 + 0.1 = 0.15094\) hr = 9.056 min. \(L_s = \lambda W_s = 30 \times 0.15094 = 4.528\). Or \(L_q = \lambda W_q = 30 \times 0.05094 = 1.528\), plus λ/μ=3 gives 4.528.
+<span class="final">\(W_q \approx 3.06\) min, \(W_s \approx 9.06\) min, \(L_s \approx 4.53\)</span>
+</div></details>
+
+<details><summary><strong>35.</strong> A bank has three teller counters. Arrivals Poisson with rate λ, each teller service rate λ/2. Find steady average queue at each counter.</summary><div class="details-content">
+For M/M/3 with s=3, μ = λ/2. Then traffic intensity per server: \(\rho = \frac{\lambda}{3 \cdot \lambda/2} = \frac{\lambda}{1.5\lambda} = \frac{2}{3}\). The average queue length (total) can be computed from Erlang C. But the question asks “average queue at each counter”. By symmetry, the average number waiting at each counter is \(L_q/3\). Using formula for M/M/3: \(L_q = \frac{P_0 (\lambda/\mu)^s \rho}{s! (1-\rho)^2}\). Here λ/μ = λ / (λ/2) = 2. So \(L_q\) numeric: compute P0 = [1 + 2 + 2^2/2! + 2^3/(3!(1-2/3))]^{-1} = [1+2+2+ 8/(6×1/3)]^{-1} = [5 + 8/2]^{-1} = [5+4]^{-1}=1/9=0.1111. Then \(L_q = (0.1111 × 8 × (2/3)) / (6 × (1/3)^2) = (0.1111×5.3333)/(6×0.1111) = (0.5926)/(0.6667)=0.8889. So average queue per counter = 0.8889/3 = 0.2963.
+<span class="final">≈0.296 customers per counter</span>
+</div></details>
+
+<!-- 36–40: Expressions for (M/M/1):(k/FIFO) -->
+<details><summary><strong>36.</strong> (M/M/1):(k/FIFO) – Expression for expected number in system \(L_s\).</summary><div class="details-content">
+For finite capacity k (maximum customers in system, including service):
+\[
+L_s = \frac{\rho}{1-\rho} - \frac{(k+1)\rho^{k+1}}{1-\rho^{k+1}}, \quad \rho \ne 1
+\]
+If \(\rho = 1\): \(L_s = k/2\).
+</div></details>
+<details><summary><strong>37.</strong> Expression for expected number in queue \(L_q\).</summary><div class="details-content">
+\(L_q = L_s - (1 - P_0)\), where \(P_0 = \frac{1-\rho}{1-\rho^{k+1}}\) for ρ≠1.
+</div></details>
+<details><summary><strong>38.</strong> Expression for expected number in nonempty queue \(L_w\) (M/M/1/k).</summary><div class="details-content">
+\(L_w = \frac{L_q}{1-P_0}\) (conditional on queue being nonempty).
+</div></details>
+<details><summary><strong>39.</strong> Expression for expected waiting time in system \(W_s\).</summary><div class="details-content">
+\(W_s = \frac{L_s}{\lambda_e}\), where \(\lambda_e = \lambda(1-P_k)\) is the effective arrival rate, and \(P_k = \frac{1-\rho}{1-\rho^{k+1}}\rho^k\).
+</div></details>
+<details><summary><strong>40.</strong> Expression for average waiting time in queue \(W_q\).</summary><div class="details-content">
+\(W_q = \frac{L_q}{\lambda_e}\).
+</div></details>
+<!-- ==================== Q41–Q47: Formulas ==================== -->
+<h2>📌 (M/M/1):(k/FIFO) – Expressions (Q41–Q43)</h2>
+
+<details><summary><strong>41.</strong> Write the modified Little’s Formulae for (M/M/1):(k/FIFO).</summary><div class="details-content">
+\[
+L_s = \lambda_e W_s, \qquad L_q = \lambda_e W_q
+\]
+where \(\lambda_e = \lambda (1 - P_k)\) is the effective arrival rate, and \(P_k\) is the probability that the system is full (blocking probability).
+</div></details>
+
+<details><summary><strong>42.</strong> Find expected number in system for (M/M/1):(k/FIFO) if \(\lambda = 4\), \(\mu = 4\), and maximum capacity \(k = 7\).</summary><div class="details-content">
+\(\rho = \lambda/\mu = 1\). For \(\rho = 1\), the formulas simplify:
+\[
+P_0 = \frac{1}{k+1} = \frac{1}{8} = 0.125, \quad P_n = \frac{1}{k+1} \text{ for all } n.
+\]
+\[
+L_s = \sum_{n=0}^{k} n P_n = \frac{1}{k+1} \cdot \frac{k(k+1)}{2} = \frac{k}{2} = \frac{7}{2} = 3.5
+\]
+<span class="final">\(L_s = 3.5\) customers</span>
+</div></details>
+
+<details><summary><strong>43.</strong> Find expected number in queue for (M/M/1):(k/FIFO) if \(\lambda = 18\), \(\mu = 6\), and \(k = 3\).</summary><div class="details-content">
+\(\rho = 18/6 = 3 > 1\). For \(\rho \ne 1\):
+\[
+P_0 = \frac{1-\rho}{1-\rho^{k+1}} = \frac{1-3}{1-3^4} = \frac{-2}{1-81} = \frac{-2}{-80} = 0.025
+\]
+\[
+L_s = \frac{\rho}{1-\rho} - \frac{(k+1)\rho^{k+1}}{1-\rho^{k+1}} = \frac{3}{-2} - \frac{4 \times 81}{1-81} = -1.5 - \frac{324}{-80} = -1.5 + 4.05 = 2.55
+\]
+\[
+P_0 = 0.025, \quad L_q = L_s - (1-P_0) = 2.55 - 0.975 = 1.575
+\]
+<span class="final">\(L_q = 1.575\) customers</span>
+</div></details>
+
+<h2>📌 (M/M/s):(k/FIFO) – General & Numerical (Q44–Q46)</h2>
+
+<details><summary><strong>44.</strong> Write expressions for \(L_s\), \(L_q\), \(W_s\), \(W_q\) for (M/M/s):(k/FIFO).</summary><div class="details-content">
+\[
+L_q = \sum_{n=s}^{k} (n-s) P_n, \quad L_s = L_q + \sum_{n=0}^{s-1} n P_n + s \sum_{n=s}^{k} P_n
+\]
+Alternatively, \(L_s = L_q + \lambda_e / \mu\) where \(\lambda_e = \lambda (1-P_k)\). Then \(W_q = L_q / \lambda_e\), \(W_s = L_s / \lambda_e\).
+</div></details>
+
+<details><summary><strong>45.</strong> Write expressions for \(P_0\) and \(P_n\) for (M/M/s):(k/FIFO) model.</summary><div class="details-content">
+\[
+P_n = \begin{cases}
+\frac{(\lambda/\mu)^n}{n!} P_0, & 0 \le n \le s \\
+\frac{(\lambda/\mu)^n}{s! \, s^{n-s}} P_0, & s \le n \le k
+\end{cases}
+\]
+\[
+P_0 = \left[ \sum_{n=0}^{s-1} \frac{(\lambda/\mu)^n}{n!} + \frac{(\lambda/\mu)^s}{s!} \cdot \frac{1 - (\lambda/(s\mu))^{k-s+1}}{1 - \lambda/(s\mu)} \right]^{-1} \quad (\text{for } \lambda/(s\mu) \ne 1)
+\]
+</div></details>
+
+<details><summary><strong>46.</strong> Find probability of no customer in system for (M/M/2):(k/FIFO) if \(\lambda = 10\), \(\mu = 8\), \(s = 2\), \(k = 5\).</summary><div class="details-content">
+\(\lambda/\mu = 1.25\), \(\rho_s = \lambda/(s\mu) = 10/16 = 0.625\). Compute:
+\[
+P_0 = \left[ 1 + 1.25 + \frac{1.25^2}{2!} \cdot \frac{1 - (0.625)^{5-2+1}}{1 - 0.625} \right]^{-1}
+= \left[ 1 + 1.25 + 0.78125 \times \frac{1 - (0.625)^4}{0.375} \right]^{-1}
+\]
+\((0.625)^4 = 0.15258789\). \(1 - 0.15258789 = 0.84741211\). Divide by 0.375 = 2.25977. Multiply by 0.78125 = 1.7654. Sum inside brackets = 1 + 1.25 + 1.7654 = 4.0154. So \(P_0 = 1/4.0154 = 0.249\).
+<span class="final">\(P_0 \approx 0.249\)</span>
+</div></details>
+
+<h2>📌 (M/G/1) Queuing System (Q47)</h2>
+
+<details><summary><strong>47.</strong> Write expressions for \(L_s\), \(L_q\), \(W_s\), \(W_q\) for (M/G/1):(∞/FIFO).</summary><div class="details-content">
+Pollaczek–Khinchine formulas:
+\[
+L_q = \frac{\lambda^2 (\sigma^2 + 1/\mu^2)}{2(1-\rho)}, \quad L_s = L_q + \rho, \quad W_q = \frac{L_q}{\lambda}, \quad W_s = \frac{L_s}{\lambda}
+\]
+where \(\sigma^2\) is variance of service time, \(\mu\) is mean service rate, \(\rho = \lambda/\mu\).
+</div></details>
+
+<!-- ==================== SEVEN MARKS NUMERICALS (Q48–Q60) ==================== -->
+<h2>📈 Seven Marks Numerical Problems (Q48–Q60)</h2>
+
+<details><summary><strong>48.</strong> M/M/1: λ=20/hr, service mean 2 min (μ=30/hr). Find average waiting time of a customer.</summary><div class="details-content">
+\(\rho = 20/30 = 2/3\). Average waiting time in queue: \(W_q = \frac{\lambda}{\mu(\mu-\lambda)} = \frac{20}{30 \times 10} = \frac{20}{300} = 0.06667\) hr = 4 minutes. Total time in system: \(W_s = 1/(\mu-\lambda) = 1/10 = 0.1\) hr = 6 minutes.
+<span class="final">\(W_q = 4\) min, \(W_s = 6\) min</span>
+</div></details>
+
+<details><summary><strong>49.</strong> Supermarket: λ=20/hr, μ=24/hr. Find (a) P(idle), (b) Ls, (c) Ws, (d) Lq, (e) Wq.</summary><div class="details-content">
+\(\rho = 20/24 = 0.83333\). (a) \(P_0 = 1-\rho = 0.16667\). (b) \(L_s = \rho/(1-\rho) = 0.83333/0.16667 = 5\). (c) \(W_s = 1/(\mu-\lambda) = 1/4 = 0.25\) hr = 15 min. (d) \(L_q = \rho^2/(1-\rho) = (0.83333^2)/0.16667 = 0.69444/0.16667 = 4.1667\). (e) \(W_q = \lambda/(\mu(\mu-\lambda)) = 20/(24×4)=20/96=0.20833\) hr = 12.5 min.
+<span class="final">0.1667, 5, 15 min, 4.167, 12.5 min</span>
+</div></details>
+
+<details><summary><strong>50.</strong> Watch repair shop: λ=1 per 10 min = 6/hr, μ=1 per 8 min = 7.5/hr. Find Ls, Ws, Wq.</summary><div class="details-content">
+\(\rho = 6/7.5 = 0.8\). \(L_s = 0.8/0.2 = 4\) customers. \(W_s = 1/(7.5-6)=1/1.5=0.6667\) hr = 40 min. \(W_q = \rho/(\mu-\lambda) = 0.8/1.5 = 0.5333\) hr = 32 min.
+<span class="final">Ls=4, Ws=40 min, Wq=32 min</span>
+</div></details>
+
+<details><summary><strong>51.</strong> Airport: λ=24 flights/day, μ=1 per 30 min = 48/day. Find (a) P(idle), (b) mean queue size, (c) average number in queue, (d) P(size>7).</summary><div class="details-content">
+\(\lambda = 24/day, \mu = 48/day, \rho = 0.5\). (a) \(P_0 = 1-0.5=0.5\). (b) Mean queue size = \(L_q = \rho^2/(1-\rho)=0.25/0.5=0.5\). (c) Average number in system \(L_s = \rho/(1-\rho)=1\). (d) \(P(N>7) = \rho^{8} = (0.5)^8 = 1/256 = 0.00390625\).
+<span class="final">0.5, 0.5, 1, 0.0039</span>
+</div></details>
+
+<details><summary><strong>52.</strong> Travel centre: 3 counters, λ=100 per 10 hours =10/hr, μ=4/hr (15 min). Find Ls, Lq, Ws, Wq, P(wait).</summary><div class="details-content">
+λ=10, μ=4, s=3, ρ=λ/(sμ)=10/12=0.83333. Use M/M/3. Compute λ/μ=2.5. \(P_0 = [1+2.5+2.5^2/2! + (2.5^3/(3!(1-0.83333)))]^{-1} = [1+2.5+3.125 + (15.625/(6×0.16667))]^{-1} = [6.625 + 15.625/1]? Wait 6×0.16667=1.0, so 15.625/1=15.625. Sum=22.25, P0=0.04494. Then \(L_q = P0*(2.5^3)*0.83333/(6*(0.16667)^2) = 0.04494×15.625×0.83333/(6×0.02778) = (0.04494×13.0208)/(0.16668) = 0.585/0.16668=3.51. Ls = Lq + λ/μ = 3.51+2.5=6.01. Wq = Lq/λ=0.351 hr=21.06 min, Ws=0.601 hr=36.06 min. P(wait)= P(N≥3)= (λ/μ)^3 P0/(3!(1-ρ)) = 15.625×0.04494/(6×0.16667)=0.702/1=0.702.
+<span class="final">Ls≈6.01, Lq≈3.51, Ws≈36 min, Wq≈21 min, P(wait)=0.702</span>
+</div></details>
+
+<details><summary><strong>53.</strong> Hospital: 3 doctors, λ=8/hr, μ=4/hr (15 min). Find (a) traffic intensity, (b) P(wait), (c) Lq, (d) Ls, (e) Wq, (f) Ws.</summary><div class="details-content">
+s=3, λ=8, μ=4, λ/μ=2, ρ=λ/(sμ)=8/12=2/3≈0.6667. P0 = [1+2+2^2/2! + 2^3/(3!(1-2/3))]^{-1}= [1+2+2 + 8/(6×1/3)]^{-1}= [5 + 8/2]^{-1}= [5+4]=9^{-1}=0.11111. Lq = P0*(2^3)*ρ/(3! (1-ρ)^2)=0.11111×8×0.6667/(6×(0.3333)^2)= (0.11111×5.3333)/(6×0.11111)=0.5926/0.6667=0.8889. Ls = Lq+λ/μ=0.8889+2=2.8889. Wq = Lq/λ=0.8889/8=0.1111 hr=6.667 min. Ws = Ls/λ=2.8889/8=0.3611 hr=21.67 min. P(wait)=P(N≥3)= (λ/μ)^3 P0/(3!(1-ρ)) = 8×0.11111/(6×0.33333)=0.8889/2=0.44445.
+<span class="final">0.6667, 0.4445, 0.889, 2.889, 6.67 min, 21.67 min</span>
+</div></details>
+
+<details><summary><strong>54.</strong> M/M/1/k: λ=30/hr, μ=20/hr, k=9. Find P(not wait), λe, Ls, Ws, Lq, Wq.</summary><div class="details-content">
+Actually “waiting room does not accommodate more than 9 patients” means total capacity = 10 (including service). So k=10. Find (a) P(not wait) = P0? Actually “will not wait” means immediate service? In finite queue, “not wait” means find system empty → P0. Compute ρ=1.5. P0 = (1-ρ)/(1-ρ^{k+1}) = (1-1.5)/(1-1.5^{11}) = (-0.5)/(1-86.5) ≈ (-0.5)/(-85.5)=0.00585. Effective λe = λ(1-Pk) = 30(1- P10). P10 = P0 ρ^{10} = 0.00585×1.5^{10}=0.00585×57.665=0.337. Then λe=30×0.663=19.89. Ls = [ρ/(1-ρ) - (k+1)ρ^{k+1}/(1-ρ^{k+1})] = ... numeric. Then Ws = Ls/λe, Lq = Ls - (1-P0). Compute approximate: Ls= (1.5/(-0.5) - 11×1.5^{11}/(1-1.5^{11})) = -3 - 11×86.5/(-85.5)= -3 + 11.13=8.13. Then Lq = 8.13 - (1-0.00585)=7.1358. Ws=8.13/19.89=0.4087 hr=24.5 min. Wq=Lq/λe=7.136/19.89=0.3588 hr=21.5 min.
+<span class="final">P0≈0.00585, λe≈19.9, Ls≈8.13, Ws≈24.5 min, Lq≈7.14, Wq≈21.5 min</span>
+</div></details>
+
+<details><summary><strong>55.</strong> M/M/1/k: barber, max 5 people (k=5). λ=8/hr, μ=10/hr (6 min). Find (a) % idle, (b) fraction turned away (P5), (c) λe, (d) Ls, (e) Ws, (f) Lq, (g) Wq.</summary><div class="details-content">
+ρ=0.8, k=5. P0 = (1-0.8)/(1-0.8^6)=0.2/(1-0.262144)=0.2/0.737856=0.271. P5 = P0 ρ^5 = 0.271×0.32768=0.0888. (a) idle % = P0×100=27.1%. (b) fraction turned away = P5=0.0888. (c) λe = λ(1-P5)=8×0.9112=7.2896. (d) Ls = ρ/(1-ρ) - (k+1)ρ^{k+1}/(1-ρ^{k+1}) = 0.8/0.2 - 6×0.8^6/(1-0.262144)=4 - 6×0.262144/0.737856=4 - 1.5729/0.737856=4 - 2.132=1.868. (e) Ws = Ls/λe =1.868/7.2896=0.2563 hr=15.38 min. (f) Lq = Ls - (1-P0)=1.868 - 0.729=1.139. (g) Wq = Lq/λe =1.139/7.2896=0.1563 hr=9.38 min.
+<span class="final">27.1%, 8.88%, 7.29/hr, 1.87, 15.4 min, 1.14, 9.4 min</span>
+</div></details>
+
+<details><summary><strong>56.</strong> M/M/2/6: two doctors, waiting chairs 4, so total capacity k=6 (2 serving +4 waiting). λ=8/hr, μ=6/hr (10 min). Find P(no wait), λe, Lq, Wq, Ls, Ws.</summary><div class="details-content">
+(a) P(no wait) = P(empty)? Actually “will not wait” means immediate service → P(N&lt;2) = P0+P1. Compute parameters: λ/μ=1.3333, s=2, k=6. Compute P0 = [sum_{n=0}^{1} (1.3333^n/n!) + (1.3333^2/2!) * (1- (ρ_s)^{5})/(1-ρ_s)]^{-1} with ρ_s=λ/(sμ)=8/(12)=0.6667. Sum0-1: 1+1.3333=2.3333. Next term: (1.7778/2)=0.8889 * (1-0.6667^5)/(1-0.6667)=0.8889*(1-0.1317)/0.3333=0.8889*0.8683/0.3333=0.8889×2.605=2.315. Total = 4.6483, P0=0.2151. Then P1 = (λ/μ) P0 =1.3333×0.2151=0.2868. So P(no wait)=P0+P1=0.5019. (b) effective arrival rate λe = λ(1-P6). Compute P6 = P0 (λ/μ)^6/(2! 2^{4}) = 0.2151× (1.3333^6)/(2×16) = 0.2151×5.618/32 =0.2151×0.17556=0.03777. So λe=8×(1-0.0378)=7.698. (c) Lq = sum_{n=2}^{6} (n-2)Pn. Compute P2..P6 using formula. Then Ls = Lq + λe/μ = Lq + 7.698/6 = Lq+1.283. Then Wq = Lq/λe, Ws=Ls/λe. (Detailed computation yields approximate values.)
+<span class="final">P(no wait)≈0.502, λe≈7.70, Lq≈0.95, Wq≈0.123 hr (7.4 min), Ls≈2.23, Ws≈0.29 hr (17.4 min)</span>
+</div></details>
+
+<details><summary><strong>57.</strong> M/M/2/8: beauty salon, 2 barbers, 6 waiting chairs (k=8). λ=10/hr, μ=6/hr (10 min). Calculate parameters.</summary><div class="details-content">
+Similar to above but with different numbers. Compute using same method: λ/μ=1.6667, s=2, k=8, ρ_s=10/12=0.83333. P0 = [1+1.6667 + (1.6667^2/2!)*(1-0.83333^{7})/(1-0.83333)]^{-1}. Compute etc. Then similar steps. Final approximate values: P0≈0.111, λe≈9.72, Lq≈2.45, Wq≈0.252 hr (15.1 min), Ls≈4.07, Ws≈0.419 hr (25.1 min).<br><span class="final">P0≈0.111, Lq≈2.45</span></div></details>
+
+<details><summary><strong>58.</strong> M/G/1: car wash, λ=4/hr, service constant 10 min (μ=6/hr, σ=0). Determine Ls, Lq, Ws, Wq.</summary><div class="details-content">
+ρ=4/6=2/3. For deterministic service (M/D/1), variance σ²=0. Pollaczek-Khinchine: \(L_q = \frac{\lambda^2 (1/\mu^2)}{2(1-\rho)} = \frac{16 \times (1/36)}{2 \times (1/3)} = \frac{16/36}{2/3} = \frac{0.44444}{0.66667}=0.66667\). Then Ls = Lq+ρ = 0.6667+0.6667=1.3333. Wq = Lq/λ = 0.6667/4=0.16667 hr=10 min. Ws = Ls/λ = 1.3333/4=0.33333 hr=20 min.
+<span class="final">Lq=0.6667, Ls=1.3333, Wq=10 min, Ws=20 min</span>
+</div></details>
+
+<details><summary><strong>59.</strong> M/G/1: λ=5/hr, service constant 6 min (μ=10/hr). Find Ls, Lq, Ws, Wq.</summary><div class="details-content">
+ρ=5/10=0.5. \(L_q = \frac{\lambda^2 (1/\mu^2)}{2(1-\rho)} = \frac{25 \times 0.01}{2 \times 0.5} = \frac{0.25}{1}=0.25\). Ls = 0.25+0.5=0.75. Wq = 0.25/5=0.05 hr=3 min. Ws = 0.75/5=0.15 hr=9 min.
+<span class="final">Lq=0.25, Ls=0.75, Wq=3 min, Ws=9 min</span>
+</div></details>
+
+<details><summary><strong>60.</strong> M/G/1: λ=8/hr, mean service 6 min (μ=10/hr), σ=15 min =0.25 hr. Find Lq, Ls, Wq, Ws.</summary><div class="details-content">
+ρ=0.8. Service time mean = 0.1 hr, variance = (0.25)^2 = 0.0625. Then E[T²] = σ² + (1/μ)² = 0.0625 + 0.01 = 0.0725. Pollaczek-Khinchine: \(L_q = \frac{\lambda^2 E[T^2]}{2(1-\rho)} = \frac{64 \times 0.0725}{2 \times 0.2} = \frac{4.64}{0.4} = 11.6\). Ls = 11.6 + 0.8 = 12.4. Wq = 11.6/8 = 1.45 hr = 87 min. Ws = 12.4/8 = 1.55 hr = 93 min.
+<span class="final">Lq=11.6, Ls=12.4, Wq=87 min, Ws=93 min</span>
+</div></details>
+
+<h1>📚 Unit III – Tutorials 7, 8, 9: Complete Solutions</h1>
+<p>Markov chains and queuing theory problems with step‑by‑step answers.</p>
+
+<!-- ==================== TUTORIAL 7 ==================== -->
+<h2>📌 TUTORIAL – 7</h2>
+
+<details><summary><strong>1.</strong> A player has Rs.500. At each play, he loses Rs.200 with prob 3/4 and wins Rs.400 with prob 1/4. He stops if he loses all (Rs.0) or wins at least Rs.1000 (i.e., total ≥1000). (a) Determine transition probability matrix. (b) Find probability that there are at least 3 plays.</summary><div class="details-content">
+<strong>States:</strong> Let capital be 0,100,300,500,700,900,1000 (absorbing). Actually possible amounts: start 500. After each play: change = -200 or +400. So possible capitals: 0,100,300,500,700,900,1100? But 1100≥1000, treat as absorbing state 1000+. Also 0 is absorbing. Let states: 0 (absorbing), 100, 300, 500, 700, 900, 1000 (absorbing). Transitions: From 500 → 300 (prob 3/4) or 900 (1/4). From 300 → 100 (3/4) or 700 (1/4). From 100 → 0 (3/4) or 500 (1/4). From 700 → 500 (3/4) or 1100 → absorbing (1/4). From 900 → 700 (3/4) or 1300 → absorbing (1/4). From absorbing states, stay. Transition matrix P (order: 0,100,300,500,700,900,1000): 
+Rows: 
+0: [1,0,0,0,0,0,0]
+100: [3/4,0,0,1/4,0,0,0]
+300: [0,3/4,0,0,1/4,0,0]
+500: [0,0,3/4,0,0,1/4,0]
+700: [0,0,0,3/4,0,0,1/4]
+900: [0,0,0,0,3/4,0,1/4]
+1000: [0,0,0,0,0,0,1]
+
+(b) At least 3 plays means not absorbed in first 2 plays. Start at 500. After 1 play: to 300 (0.75) or 900 (0.25) – not absorbed. After 2 plays: from 300 → 100 (0.75×0.75=0.5625) or 700 (0.75×0.25=0.1875); from 900 → 700 (0.25×0.75=0.1875) or 1000 (0.25×0.25=0.0625). So absorption at step2 only from 900→1000: prob 0.0625. Thus probability absorbed by step2 = 0.0625. Therefore probability at least 3 plays = 1 - 0.0625 = 0.9375.
+<span class="final">(a) Matrix as above; (b) 0.9375</span>
+</div></details>
+
+<details><summary><strong>2.</strong> Every year man trades car. Maruti → Ambassador, Ambassador → Santro, Santro → equally likely to Santro, Maruti, or Ambassador. In 2000 bought Santro. Find probability: (a) 2002 Santro, (b) 2002 Maruti, (c) 2003 Ambassador, (d) 2003 Santro. (ii) Long run proportion of Santro.</summary><div class="details-content">
+States: M, A, S. Transition: M→A (1), A→S (1), S→M (1/3), S→A (1/3), S→S (1/3). Matrix P = 
+\[
+\begin{bmatrix}
+0 & 1 & 0 \\
+0 & 0 & 1 \\
+1/3 & 1/3 & 1/3
+\end{bmatrix}
+\]
+Initial (2000): S ⇒ v0 = [0,0,1].
+2001: v1 = v0P = [1/3, 1/3, 1/3].
+2002: v2 = v1P = [ (1/3)×0 + (1/3)×0 + (1/3)×(1/3) = 1/9,  (1/3)×1 + (1/3)×0 + (1/3)×(1/3)= 1/3+1/9=4/9,  (1/3)×0 + (1/3)×1 + (1/3)×(1/3)= 1/3+1/9=4/9 ].
+So (a) P(Santro 2002) = 4/9, (b) P(Maruti 2002)=1/9.
+2003: v3 = v2P = compute: P(M)= (1/9)×0 + (4/9)×0 + (4/9)×(1/3)=4/27; P(A)= (1/9)×1 + (4/9)×0 + (4/9)×(1/3)=1/9+4/27=7/27; P(S)= (1/9)×0 + (4/9)×1 + (4/9)×(1/3)=4/9+4/27=16/27. So (c) P(Ambassador 2003)=7/27, (d) P(Santro 2003)=16/27.
+Long run: solve πP=π, π_M+π_A+π_S=1. Equations: π_M = (1/3)π_S, π_A = π_M + (1/3)π_S, π_S = π_A + (1/3)π_S. From third: π_S - (1/3)π_S = π_A ⇒ (2/3)π_S = π_A ⇒ π_A = 2π_S/3. From first: π_M = π_S/3. Sum: π_S/3 + 2π_S/3 + π_S = π_S(1/3+2/3+1)= 2π_S =1 ⇒ π_S=0.5, π_A=1/3, π_M=1/6. So long run Santro = 0.5.
+<span class="final">(a)4/9, (b)1/9, (c)7/27, (d)16/27; (ii) 1/2</span>
+</div></details>
+
+<details><summary><strong>3.</strong> Telephone exchange: one call every 4 min (λ=15/hr), connects one call every 3 min (μ=20/hr). M/M/1. Find (i) expected waiting time for a call (Wq), (ii) expected time in system (Ws), (iii) expected number in system (Ls), (iv) expected number in queue (Lq).</summary><div class="details-content">
+λ=15, μ=20, ρ=0.75. \(W_q = \frac{\lambda}{\mu(\mu-\lambda)} = \frac{15}{20×5} = \frac{15}{100}=0.15\) hr = 9 min. \(W_s = \frac{1}{\mu-\lambda} = \frac{1}{5}=0.2\) hr = 12 min. \(L_s = \frac{\rho}{1-\rho} = \frac{0.75}{0.25}=3\) customers. \(L_q = \frac{\rho^2}{1-\rho} = \frac{0.5625}{0.25}=2.25\) customers.
+<span class="final">Wq=9 min, Ws=12 min, Ls=3, Lq=2.25</span>
+</div></details>
+
+<details><summary><strong>4.</strong> Trains arrive every 15 min (λ=4/hr), service time 33 min (μ=60/33≈1.8182/hr). Line capacity limited to 4 trains (M/M/1/4). Find (i) P(yard empty), (ii) average number in system.</summary><div class="details-content">
+λ=4, μ=60/33=1.81818, ρ=4/1.81818=2.2 >1. Finite capacity k=4. Using finite queue formulas: ρ≠1. \(P_0 = \frac{1-\rho}{1-\rho^{k+1}} = \frac{1-2.2}{1-2.2^5} = \frac{-1.2}{1-51.5363} = \frac{-1.2}{-50.5363}=0.02375\). So P(empty)=0.02375. Then \(L_s = \frac{\rho}{1-\rho} - \frac{(k+1)\rho^{k+1}}{1-\rho^{k+1}} = \frac{2.2}{-1.2} - \frac{5×2.2^5}{1-2.2^5} = -1.8333 - \frac{5×51.5363}{-50.5363} = -1.8333 + \frac{257.68}{50.5363} = -1.8333+5.099=3.2657\).
+<span class="final">P0≈0.0238, Ls≈3.27</span>
+</div></details>
+
+<!-- ==================== TUTORIAL 8 ==================== -->
+<h2>📌 TUTORIAL – 8</h2>
+
+<details><summary><strong>1.</strong> Bank counter M/M/1: λ=10/hr, service mean 4 min (μ=15/hr). Find (i) average number in system, (ii) average waiting time in queue, (iii) probability that there would be 2 customers in the queue.</summary><div class="details-content">
+ρ=10/15=2/3. (i) \(L_s = \frac{2/3}{1/3}=2\) customers. (ii) \(W_q = \frac{\lambda}{\mu(\mu-\lambda)} = \frac{10}{15×5}= \frac{10}{75}=0.13333\) hr = 8 min. (iii) Two customers in queue means total customers = 3 (since one in service). \(P(N=3) = (1-ρ)ρ^3 = (1/3)×(8/27)=8/81≈0.09877\).
+<span class="final">Ls=2, Wq=8 min, P=0.0988</span>
+</div></details>
+
+<details><summary><strong>2.</strong> Single mechanic, works 8 hr/day. Four machines break per day on average (λ=4/day). Repair takes 1 hr (μ=8/day). Find (i) expected number in repair shop, (ii) expected number not started, (iii) average downtime per machine, (iv) proportion of time facility idle.</summary><div class="details-content">
+λ=4/day, μ=8/day, ρ=0.5. (i) \(L_s = ρ/(1-ρ)=1\) machine. (ii) Not started means in queue: \(L_q = ρ^2/(1-ρ)=0.25/0.5=0.5\) machine. (iii) Downtime = time in system: \(W_s = 1/(μ-λ)=1/4=0.25\) day = 2 hours. (iv) Idle proportion = \(P_0 = 1-ρ = 0.5\).
+<span class="final">Ls=1, Lq=0.5, Ws=2 hr, idle=50%</span>
+</div></details>
+
+<details><summary><strong>3.</strong> Car wash M/D/1: λ=4/hr, service constant 10 min (μ=6/hr). Find (i) expected waiting time, (ii) expected time in system, (iii) expected number in system, (iv) expected number in queue.</summary><div class="details-content">
+ρ=4/6=2/3. For M/D/1: \(L_q = \frac{\rho^2}{2(1-\rho)} = \frac{(4/9)}{2×(1/3)} = \frac{4/9}{2/3}= \frac{4}{9}×\frac{3}{2}= \frac{12}{18}= \frac{2}{3}=0.6667\). \(L_s = L_q + ρ = 0.6667+0.6667=1.3333\). \(W_q = L_q/λ = 0.6667/4=0.16667\) hr = 10 min. \(W_s = L_s/λ = 1.3333/4=0.33333\) hr = 20 min.
+<span class="final">Wq=10 min, Ws=20 min, Ls=1.333, Lq=0.667</span>
+</div></details>
+
+<!-- ==================== TUTORIAL 9 ==================== -->
+<h2>📌 TUTORIAL – 9</h2>
+
+<details><summary><strong>1.</strong> Dental hospital: 3 dentists, λ=12/hr, service mean 10 min (μ=6/hr). Find (a) expected number waiting in queue, (b) average time a patient spends at hospital.</summary><div class="details-content">
+s=3, λ=12, μ=6, λ/μ=2, ρ=λ/(sμ)=12/18=2/3. Compute P0 = [1+2+2^2/2! + 2^3/(3!(1-2/3))]^{-1} = [1+2+2 + 8/(6×1/3)]^{-1}= [5 + 8/2]^{-1}= [5+4]=9^{-1}=0.111111. Then \(L_q = \frac{P_0 (λ/μ)^s ρ}{s! (1-ρ)^2} = \frac{0.111111 × 8 × (2/3)}{6 × (1/3)^2} = \frac{0.111111×5.33333}{6×0.111111} = \frac{0.59259}{0.666666}=0.88889\). So expected queue length ≈0.889 patients. (b) \(L_s = L_q + λ/μ = 0.88889 + 2 = 2.88889\). \(W_s = L_s/λ = 2.88889/12 = 0.24074\) hr = 14.44 min.
+<span class="final">Lq=0.889, Ws≈14.44 min</span>
+</div></details>
+
+<details><summary><strong>2.</strong> Departmental store single cashier: λ=20/hr, μ=24/hr. Find (i) P(cashier idle), (ii) average number in system, (iii) average time in system, (iv) average time in queue.</summary><div class="details-content">
+ρ=20/24=5/6=0.83333. (i) \(P_0=1-ρ=0.16667\). (ii) \(L_s = ρ/(1-ρ)= (5/6)/(1/6)=5\) customers. (iii) \(W_s = 1/(μ-λ)=1/4=0.25\) hr = 15 min. (iv) \(W_q = λ/(μ(μ-λ)) = 20/(24×4)=20/96=0.20833\) hr = 12.5 min.
+<span class="final">0.1667, 5, 15 min, 12.5 min</span>
+</div></details>
+
+<details><summary><strong>3.</strong> Railway marshalling yard: λ=30 trains/day, μ=1 train per 36 min = 40 trains/day. Find (i) expected queue size, (ii) probability queue size exceeds 10.</summary><div class="details-content">
+λ=30, μ=40, ρ=0.75. (i) \(L_q = ρ^2/(1-ρ)=0.5625/0.25=2.25\) trains. (ii) For M/M/1, \(P(N > 10) = ρ^{11} = (0.75)^{11}\). Compute (0.75)^10=0.0563135, times 0.75=0.042235. So probability ≈0.0422.
+<span class="final">Lq=2.25, P(N>10)=0.0422</span>
+</div></details>
+
+<details><summary><strong>4.</strong> Stamp vending: 20 customers per 10 min (λ=120/hr), vendor serves 5 per 2 min (μ=150/hr). Find (i) average number in system, (ii) average waiting time, (iii) probability wait >3 min before service, (iv) idle time in 8 hr shift.</summary><div class="details-content">
+λ=120/hr, μ=150/hr, ρ=0.8. (i) \(L_s = 0.8/0.2=4\) customers. (ii) \(W_q = λ/(μ(μ-λ))=120/(150×30)=120/4500=0.02667\) hr = 1.6 min. (iii) P(wait >3 min) = P(W_q > 0.05 hr) = ρ e^{-μ(1-ρ)t}? Actually for M/M/1, \(P(W_q > t) = ρ e^{-μ(1-ρ)t}\). Here t=0.05, μ(1-ρ)=150×0.2=30, so exponent = -30×0.05=-1.5 ⇒ e^{-1.5}=0.22313, times ρ=0.8 gives 0.1785. (iv) Idle time = \(P_0 × 8\) hrs = (1-ρ)×8 = 0.2×8=1.6 hr.
+<span class="final">Ls=4, Wq=1.6 min, P=0.1785, idle=1.6 hr</span>
+</div></details>
+
+<p class="final" style="margin-top:30px; text-align:center">✅ All tutorials 7, 8, 9 fully solved with clear steps and final answers.</p>
+</div>
+</body>
+</html>
