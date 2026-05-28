@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit 5: ARM Cortex-M0/M0+ Architecture & NVIC</title>
+    
+    <!-- Google Fonts & MathJax -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+    
+    <style>
+        /* CSS RESET & CUSTOM PROPERTY SYSTEM */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --bg-dark: #070b13;
+            --bg-panel: #0c1322;
+            --bg-card: #131e33;
+            --bg-card-hover: #192742;
+            --primary: #06b6d4;
+            --primary-hover: #0891b2;
+            --primary-glow: rgba(6, 182, 212, 0.3);
+            --accent-emerald: #10b981;
+            --accent-rose: #f43f5e;
+            --accent-amber: #f59e0b;
+            --border-color: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --font-display: 'Outfit', sans-serif;
+            --font-sans: 'Inter', sans-serif;
+            --font-mono: 'Fira Code', monospace;
+            --radius: 12px;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-secondary);
+            font-family: var(--font-sans);
+            line-height: 1.6;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-family: var(--font-display);
+            color: var(--text-primary);
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent-emerald) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        .intro-p {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            color: var(--text-secondary);
+        }
+
+        h2 {
+            font-family: var(--font-display);
+            color: var(--text-primary);
+            font-size: 1.6rem;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-left: 4px solid var(--primary);
+            padding-left: 12px;
+        }
+
+        /* PREMIUM DETAILS/SUMMARY ACCORDIONS */
+        details {
+            background-color: var(--bg-panel);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            margin-bottom: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        details[open] {
+            border-color: var(--primary);
+            box-shadow: 0 4px 20px var(--primary-glow);
+        }
+
+        summary {
+            padding: 18px 24px;
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            cursor: pointer;
+            user-select: none;
+            background-color: var(--bg-card);
+            outline: none;
+            transition: background 0.2s ease;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        summary::after {
+            content: "▼";
+            font-size: 0.8rem;
+            color: var(--primary);
+            transition: transform 0.3s ease;
+        }
+
+        details[open] summary::after {
+            transform: rotate(-180deg);
+        }
+
+        summary:hover {
+            background-color: var(--bg-card-hover);
+        }
+
+        .details-content {
+            padding: 24px;
+            background-color: var(--bg-panel);
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* TABLES */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.95rem;
+            text-align: left;
+            background-color: var(--bg-card);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        th, td {
+            padding: 12px 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        th {
+            background-color: rgba(6, 182, 212, 0.15);
+            color: var(--text-primary);
+            font-family: var(--font-display);
+            font-weight: 700;
+        }
+
+        tr:hover {
+            background-color: rgba(255, 255, 255, 0.02);
+        }
+
+        /* KEY TAKEAWAYS / BOXED CONCLUSIONS */
+        .final {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(6, 182, 212, 0.05) 100%);
+            border: 1px solid var(--accent-emerald);
+            padding: 16px 20px;
+            border-radius: 8px;
+            color: #10b981;
+            font-weight: 600;
+            font-size: 1.05rem;
+            margin-top: 15px;
+            display: block;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
+        }
+
+        .final strong {
+            color: var(--text-primary);
+            display: block;
+            margin-bottom: 4px;
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        .important-box {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(244, 63, 94, 0.05) 100%);
+            border-left: 4px solid var(--accent-amber);
+            padding: 12px 16px;
+            border-radius: 4px;
+            color: #f59e0b;
+            margin: 15px 0;
+        }
+
+        /* BADGES */
+        .badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-right: 8px;
+            margin-bottom: 6px;
+        }
+
+        .badge-pyq {
+            background-color: rgba(244, 63, 94, 0.2);
+            color: var(--accent-rose);
+            border: 1px solid rgba(244, 63, 94, 0.3);
+        }
+
+        .badge-imp {
+            background-color: rgba(245, 158, 11, 0.2);
+            color: var(--accent-amber);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+
+        .badge-topic {
+            background-color: rgba(6, 182, 212, 0.2);
+            color: var(--primary);
+            border: 1px solid rgba(6, 182, 212, 0.3);
+        }
+
+        /* DIAGRAM CONTAINERS */
+        .diagram-container {
+            background-color: #0b111e;
+            border: 1px dashed var(--border-color);
+            border-radius: 10px;
+            padding: 24px;
+            margin: 20px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .diagram-title {
+            font-family: var(--font-display);
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-top: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .state-flex {
+            display: flex;
+            gap: 20px;
+            width: 100%;
+            max-width: 500px;
+            background-color: #111a2e;
+            padding: 20px;
+            border-radius: 8px;
+            border: 2px solid var(--border-color);
+            justify-content: center;
+        }
+
+        .state-bubble {
+            background-color: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 50%;
+            width: 110px;
+            height: 110px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-family: var(--font-display);
+            font-weight: 700;
+            color: var(--text-primary);
+            font-size: 0.8rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        .state-bubble.active {
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px var(--primary-glow);
+        }
+
+        .memory-flex {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            width: 100%;
+            max-width: 500px;
+            background-color: #111a2e;
+            padding: 16px;
+            border-radius: 8px;
+            border: 2px solid var(--border-color);
+            font-family: var(--font-mono);
+        }
+
+        .memory-block {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 12px;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+
+        /* Bullets */
+        ul, ol {
+            padding-left: 20px;
+            margin: 10px 0;
+        }
+
+        li {
+            margin-bottom: 6px;
+        }
+
+        strong.term {
+            color: var(--text-primary);
+            font-family: var(--font-display);
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>UNIT 5: ARM Cortex-M0/M0+ Architecture & NVIC</h1>
+    <p class="intro-p">Complete, exam-oriented study notes matching VTU/MSRIT curriculum for the subject Microcontrollers (IS42/21IS44).</p>
+
+    <!-- ===================== SECTION 1: THEORY NOTES & CONCEPTS ===================== -->
+    <h2>📖 Core Theory & Syllabus Foundations</h2>
+
+    <details>
+        <summary>1. Modes, States, and Register Set of Cortex-M0 Core</summary>
+        <div class="details-content">
+            <span class="badge badge-imp">Architectural Foundations</span>
+            <p style="margin-bottom:15px">The **ARM Cortex-M0** is a highly resource-efficient 32-bit processor designed for low-cost, low-power microcontrollers. It implements the **ARMv6-M** architecture profile.</p>
+            
+            <h3>Modes & States of Cortex-M0</h3>
+            <p>Unlike the 7 modes of the ARM7 processor, the Cortex-M0 keeps it highly simplified with only **2 Operating Modes** and **2 Execution States**:</p>
+            
+            <div class="diagram-container">
+                <div class="state-flex">
+                    <div class="state-bubble active">THREAD MODE<br><span style="font-size:0.7rem; font-weight:normal; color:var(--text-secondary);">Runs User Code</span></div>
+                    <div style="display:flex; align-items:center; color:var(--primary); font-weight:bold;">&larr; IRQ / Return &rarr;</div>
+                    <div class="state-bubble">HANDLER MODE<br><span style="font-size:0.7rem; font-weight:normal; color:var(--text-secondary);">Runs ISR / OS</span></div>
+                </div>
+                <div class="diagram-title">Cortex-M0 Processor Modes Transitions</div>
+            </div>
+
+            <ul>
+                <li><strong class="term">Thread Mode</strong>: The default mode used to execute normal application software. The processor enters Thread mode upon reset and can run in either a privileged or non-privileged state.</li>
+                <li><strong class="term">Handler Mode</strong>: Entered automatically to handle exceptions or interrupts. The processor **always runs in a privileged state** when in Handler mode.</li>
+                <li><strong class="term">Thumb State</strong>: The normal execution state. The Cortex-M0 executes 16-bit and 32-bit Thumb instructions exclusively; it does **not** support the 32-bit ARM instruction set ($T = 1$ always).</li>
+                <li><strong class="term">Debug State</strong>: Entered when debugging is active (e.g., hitting a breakpoint).</li>
+            </ul>
+
+            <h3 style="margin-top:15px">Cortex-M0 Core Register Map</h3>
+            <p>The core has **13 general-purpose registers (R0-R12)**, **2 Stack Pointers (banked R13)**, the **Link Register (R14)**, the **Program Counter (R15)**, and three special status registers (packaged into xPSR):</p>
+            <ul>
+                <li><strong class="term">MSP (Main Stack Pointer)</strong>: The default stack pointer used in Handler mode (during interrupts) and optionally in Thread mode.</li>
+                <li><strong class="term">PSP (Process Stack Pointer)</strong>: An alternative stack pointer used exclusively in Thread mode, typically utilized by operating systems (RTOS) to isolate user task stacks from the main OS kernel stack.</li>
+                <li><strong class="term">PRIMASK Register</strong>: A 1-bit interrupt mask register. Setting this bit to 1 disables (masks) all configurable priority interrupts, leaving only non-maskable interrupts (NMI) and hard faults active.</li>
+                <li><strong class="term">CONTROL Register</strong>: Configures which Stack Pointer (MSP or PSP) is active in Thread mode, and sets the privilege level (privileged vs. non-privileged).</li>
+            </ul>
+        </div>
+    </details>
+
+    <details>
+        <summary>2. Cortex-M0 Memory Model, Allocations & Attributes</summary>
+        <div class="details-content">
+            <span class="badge badge-pyq">Repeated PYQ</span>
+            <p style="margin-bottom:15px">The Cortex-M0 implements a predefined, highly standardized **4 GB linear memory address space** divided into distinct regions. This ensures total code compatibility across different microcontroller manufacturers.</p>
+
+            <div class="diagram-container">
+                <div class="memory-flex">
+                    <div class="memory-block" style="border-left:4px solid var(--accent-rose);">System Region (Private Peripheral Bus - PPB) <span>0xE0000000 - 0xFFFFFFFF</span></div>
+                    <div class="memory-block" style="border-left:4px solid var(--accent-amber);">External Device Space <span>0xA0000000 - 0xDFFFFFFF</span></div>
+                    <div class="memory-block" style="border-left:4px solid var(--accent-emerald);">Peripheral Space (GPIO, UART, Timers) <span>0x40000000 - 0x5FFFFFFF</span></div>
+                    <div class="memory-block" style="border-left:4px solid var(--primary);">SRAM Space (Variables, Stack) <span>0x20000000 - 0x3FFFFFFF</span></div>
+                    <div class="memory-block" style="border-left:4px solid var(--accent-cyan);">Code Space (Flash ROM) <span>0x00000000 - 0x1FFFFFFF</span></div>
+                </div>
+                <div class="diagram-title">Standard Cortex-M0 Memory Map Layout</div>
+            </div>
+
+            <h3 style="margin-top:15px">Memory Types and Access Attributes:</h3>
+            <ul>
+                <li><strong class="term">Normal Memory</strong>: Used for code execution and general RAM storage. The processor can optimize access to this region by reordering memory transactions or performing speculative read pre-fetches.</li>
+                <li><strong class="term">Device Memory</strong>: Reserved for memory-mapped peripheral registers. The processor restricts memory accesses in this region: writes cannot be buffered, and read/write operations must happen in the exact order specified by the code (no instruction reordering).</li>
+                <li><strong class="term">Strongly-Ordered Memory</strong>: The most restrictive memory class. Accesses occur strictly sequentially, and the CPU blocks further execution until the current memory transaction has completed.</li>
+            </ul>
+        </div>
+    </details>
+
+    <details>
+        <summary>3. Nested Vectored Interrupt Controller (NVIC) & Interrupt States</summary>
+        <div class="details-content">
+            <span class="badge badge-imp">Core Exception Handler</span>
+            <p style="margin-bottom:15px">The **Nested Vectored Interrupt Controller (NVIC)** is an integrated peripheral block tightly coupled with the Cortex-M0 core. It handles all system exceptions and external interrupts, providing highly efficient interrupt processing.</p>
+            
+            <h3>Key Features of the NVIC:</h3>
+            <ul>
+                <li><strong class="term">True Nested Interrupts</strong>: The NVIC evaluates the priority of incoming interrupts. If a high-priority interrupt occurs while a low-priority Interrupt Service Routine (ISR) is running, the CPU suspends the active ISR, handles the higher-priority interrupt, and then returns to the suspended ISR.</li>
+                <li><strong class="term">Vectored Interrupts</strong>: The CPU reads the exception vector address directly from the vector table in hardware. This eliminates the need for software code to identify which peripheral requested the interrupt, reducing latency.</li>
+                <li><strong class="term">Low Latency Techniques (Tail-Chaining)</strong>: If a second interrupt is pending when the current ISR completes, the CPU skips the unstacking and stacking cycles (which save/restore registers), jumping directly to the pending ISR. This reduces context-switching overhead.</li>
+            </ul>
+
+            <h3 style="margin-top:15px">The 4 Dynamic States of NVIC Interrupts</h3>
+            <ol style="margin-left:20px; margin-top:8px">
+                <li><strong class="term">Inactive</strong>: The interrupt is idle, and no request has been asserted.</li>
+                <li><strong class="term">Pending</strong>: The peripheral has asserted the interrupt request line, but the CPU has not yet started executing its ISR (often because it is running a higher-priority task).</li>
+                <li><strong class="term">Active</strong>: The CPU is currently executing the ISR for this interrupt.</li>
+                <li><strong class="term">Active & Pending</strong>: The CPU is executing the ISR, and the same peripheral has asserted another interrupt request, which is waiting in the pending state.</li>
+            </ol>
+        </div>
+    </details>
+
+    <!-- ===================== SECTION 2: SOLVED PREVIOUS YEAR QUESTIONS ===================== -->
+    <h2>✍️ Solved Previous Year University Questions (CIE & SEE)</h2>
+
+    <details>
+        <summary>Q1. Explain the memory model of Cortex-M0 and describe the memory types and attributes. [MAKEUP 2023, SEE 2024, SEE 2025] (10 Marks)</summary>
+        <div class="details-content">
+            <span class="badge badge-pyq">Highly Repeated</span>
+            <p><strong>Answer:</strong></p>
+            <p>The ARM Cortex-M0 processor features a unified, standard 4 GB memory space, mapped as a single linear address range from <code>0x00000000</code> to <code>0xFFFFFFFF</code>. Having a fixed memory map ensures that code is highly portable across different silicon vendor microcontrollers (like NXP, STM, or TI).</p>
+
+            <h3 style="margin-top:10px">1. Memory Map Regions and Allocations:</h3>
+            <ul>
+                <li><strong class="term">Code Region (0x00000000 - 0x1FFFFFFF)</strong>: Primarily used to map the on-chip non-volatile Flash memory containing the vector table and executable program code.</li>
+                <li><strong class="term">SRAM Region (0x20000000 - 0x3FFFFFFF)</strong>: Maps the on-chip volatile SRAM, used for run-time variables, dynamic data arrays, and register stacks.</li>
+                <li><strong class="term">Peripheral Region (0x40000000 - 0x5FFFFFFF)</strong>: Reserved for memory-mapped internal peripherals (like GPIO, UART, Timers, SPI, etc.).</li>
+                <li><strong class="term">System Region / PPB (0xE0000000 - 0xFFFFFFFF)</strong>: Maps the **Private Peripheral Bus (PPB)**, which contains the internal control registers for the Nested Vectored Interrupt Controller (NVIC), System Control Block (SCB), and SysTick Timer.</li>
+            </ul>
+
+            <h3 style="margin-top:15px">2. Memory Types and Attributes:</h3>
+            <p>To optimize execution speed and ensure hardware reliability, the Cortex-M0 classifies memory into three distinct types, each with its own access attributes:</p>
+            <ol style="margin-left:20px; margin-top:8px">
+                <li><strong class="term">Normal Memory</strong>:
+                    <ul>
+                        <li><strong>Usage</strong>: Assigned to Code and SRAM regions.</li>
+                        <li><strong>Attributes</strong>: The processor can perform out-of-order execution, speculative reads, and pre-fetching of instructions to maximize performance. Memory accesses can be buffered and cached.</li>
+                    </ul>
+                </li>
+                <li><strong class="term">Device Memory</strong>:
+                    <ul>
+                        <li><strong>Usage</strong>: Assigned to the Peripheral region (memory-mapped registers).</li>
+                        <li><strong>Attributes</strong>: The processor restricts optimizations in this region to prevent hardware errors: memory writes cannot be combined or buffered, and read/write operations must happen in the exact order specified by the program.</li>
+                    </ul>
+                </li>
+                <li><strong class="term">Strongly-Ordered Memory</strong>:
+                    <ul>
+                        <li><strong>Usage</strong>: Default for the System/PPB region.</li>
+                        <li><strong>Attributes</strong>: The most restrictive memory class. Accesses must occur strictly sequentially. The processor blocks further execution until the current memory transaction has completed, ensuring that system control registers are updated before subsequent code runs.</li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+    </details>
+
+    <details>
+        <summary>Q2. How does the NVIC handle nesting and priority of interrupts in a Cortex-M0 processor? [MAKEUP 2023, SEE 2023] (10 Marks)</summary>
+        <div class="details-content">
+            <span class="badge badge-pyq">Repeated PYQ</span>
+            <p><strong>Answer:</strong></p>
+            <p>The **Nested Vectored Interrupt Controller (NVIC)** in the ARM Cortex-M0 core manages system exceptions and external interrupts. Its primary feature is the ability to handle **nested interrupts** dynamically in hardware, ensuring that urgent tasks are processed immediately.</p>
+
+            <h3 style="margin-top:10px">1. Interrupt Nesting Mechanism:</h3>
+            <p>Nesting allows a higher-priority interrupt to interrupt an active, lower-priority Interrupt Service Routine (ISR):</p>
+            <ol style="margin-left:20px; margin-top:8px">
+                <li>When an interrupt is triggered, the NVIC compares its priority with the priority of the currently executing code.</li>
+                <li>If the new interrupt has a **higher priority** (lower numerical value), the NVIC suspends the currently running ISR.</li>
+                <li>The hardware automatically pushes the CPU core registers ($R0-R3, R12, LR, PC, xPSR$) onto the stack (MSP or PSP) in a single cycle. This is called **Hardware Auto-Stacking**.</li>
+                <li>The CPU then jumps directly to the vector address of the new interrupt to run its ISR.</li>
+                <li>When the higher-priority ISR finishes, the CPU pops the saved register context from the stack, resuming the lower-priority ISR.</li>
+            </ol>
+
+            <h3 style="margin-top:15px">2. Priority Level Configurations:</h3>
+            <ul>
+                <li>The Cortex-M0 supports up to **4 configurable priority levels** for interrupts, managed by 2-bit priority registers in the NVIC.</li>
+                <li>Priority levels are represented numerically: **0 is the highest priority**, and **3 is the lowest priority**.</li>
+                <li>Some system exceptions have **fixed, non-configurable negative priorities** to ensure they cannot be disabled:
+                    <ul>
+                        <li>**Reset**: Priority -3 (highest possible priority, boots the system).</li>
+                        <li>**Non-Maskable Interrupt (NMI)**: Priority -2.</li>
+                        <li>**Hard Fault**: Priority -1 (triggered on system crashes).</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h3 style="margin-top:15px">3. Priority Grouping and Tie-Breaking:</h3>
+            <p>If two interrupts with the same priority level are triggered at the same time, the NVIC uses their fixed **Exception Number** (as defined in the vector table) to break the tie: the exception with the lower exception number is processed first. However, because they share the same priority level, they cannot nest (one cannot interrupt the other if it is already running).</p>
+        </div>
+    </details>
+
+    <details>
+        <summary>Q3. Compare the 3-stage pipeline of Cortex-M0 and the 2-stage pipeline of Cortex-M0+. [SEE 2023, SEE(O) 2023] (10 Marks)</summary>
+        <div class="details-content">
+            <span class="badge badge-pyq">Repeated Pipeline Comparison</span>
+            <p><strong>Answer:</strong></p>
+            <p>The pipeline architecture determines how instructions are executed in parallel. While the **Cortex-M0** uses a traditional 3-stage pipeline, the **Cortex-M0+** optimizes this with a 2-stage pipeline to reduce power consumption and improve instruction throughput.</p>
+
+            <h3>Pipeline Architectures Comparison:</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Comparison Feature</th>
+                        <th>Cortex-M0 Pipeline</th>
+                        <th>Cortex-M0+ Pipeline</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Number of Stages</strong></td>
+                        <td>**3 stages** (Fetch, Decode, Execute).</td>
+                        <td>**2 stages** (Fetch, Decode & Execute).</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Execution Flow</strong></td>
+                        <td>Stage 1: Fetch instruction from memory.<br>Stage 2: Decode instruction control signals.<br>Stage 3: Execute in ALU and write back.</td>
+                        <td>Stage 1: Fetch instruction from memory.<br>Stage 2: Decode and Execute occur simultaneously in a single, optimized cycle.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Branch Penalty</strong></td>
+                        <td>**2 cycles**. When a branch is taken, two instructions currently in the pipeline must be flushed, wasting cycles.</td>
+                        <td>**1 cycle**. A shorter pipeline means only one fetched instruction needs to be flushed on a branch, reducing latency.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Power Consumption</strong></td>
+                        <td>Higher. Maintaining three active pipeline register stages increases dynamic power draw.</td>
+                        <td>**Significantly Lower**. Removing a pipeline register stage reduces switching activity and dynamic power consumption.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Core Efficiency</strong></td>
+                        <td>0.9 DMIPS/MHz.</td>
+                        <td>**0.95 DMIPS/MHz** (higher instruction-per-clock efficiency due to reduced branch penalties).</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3 style="margin-top:15px">Why the 2-Stage Pipeline is a Major Optimization:</h3>
+            <p>In a standard microcontroller, branch instructions (like loop jumps and conditional branches) are very common. 
+            By combining the Decode and Execute steps into a single stage, the Cortex-M0+ reduces the branch penalty to **only 1 clock cycle**. This design improves execution speed while reducing the number of registers that require clocking, saving significant battery power.</p>
+        </div>
+    </details>
+
+    <details>
+        <summary>Q4. Explain how the Cortex-M0+ achieves lower power levels than the Cortex-M0. [SEE 2024] (10 Marks)</summary>
+        <div class="details-content">
+            <p><strong>Answer:</strong></p>
+            <p>The **Cortex-M0+** was specifically designed to provide high 32-bit performance while matching the ultra-low power consumption of cheap 8-bit microcontrollers. It achieves this using several key architectural optimizations over the original Cortex-M0:</p>
+            
+            <ol style="margin-top:10px">
+                <li><strong class="term">Transition to a 2-Stage Pipeline</strong>:
+                    By replacing the 3-stage pipeline with a highly optimized **2-stage pipeline (Fetch and Decode-Execute)**, the core reduces the number of internal registers that require clocking. This minimizes dynamic power consumption ($P = C \cdot V_{DD}^2 \cdot f$) and reduces the branch penalty to a single cycle.
+                </li>
+                <li><strong class="term">Addition of the Single-Cycle I/O Port (GPIO)</strong>:
+                    The Cortex-M0+ includes a dedicated **Single-Cycle I/O (GPIO) Port** interface. This bypasses the slower peripheral bus, allowing the CPU to read or write to I/O pins in a **single clock cycle**. This allows the CPU to toggle pins faster and enter sleep states sooner, saving power.
+                </li>
+                <li><strong class="term">Reduced Core Silicon Area</strong>:
+                    The optimized instruction decoding logic makes the physical silicon area of the Cortex-M0+ smaller. A smaller silicon footprint directly reduces static leakage currents ($I_{\text{leakage}} \cdot V_{DD}$), which is critical for extending battery life in idle states.
+                </li>
+                <li><strong class="term">Dynamic Power Gating & Sleep Modes</strong>:
+                    The Cortex-M0+ provides advanced control over clock and power gating. It supports three native low-power sleep modes to shut down inactive clock trees:
+                    <ul>
+                        <li><strong>Sleep Now</strong>: Suspends the CPU clock immediately when the `WFI` (Wait For Interrupt) instruction is executed.</li>
+                        <li><strong>Sleep on Exit</strong>: Automatically puts the CPU back to sleep as soon as it exits an ISR, ideal for sensor nodes that only wake up periodically to process interrupts.</li>
+                        <li><strong>Deep Sleep Mode</strong>: Disables both the CPU clock and internal PLLs, reducing power consumption to micro-Amps.</li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+    </details>
+
+    <!-- ===================== SECTION 3: VIVA & PRACTICE QUESTIONS ===================== -->
+    <h2>❓ High-Yield Viva Voce Questions & Practice Hub</h2>
+
+    <details>
+        <summary>Unit 5 Viva Voce Q&A (Quick Revision)</summary>
+        <div class="details-content">
+            <p>Use these high-yield questions for oral assessments, lab evaluations, and quick exam review:</p>
+            <br>
+            <ol style="margin-left:20px;">
+                <li>
+                    <strong class="term">Q: Does the Cortex-M0 support the 32-bit ARM instruction set?</strong><br>
+                    A: **No**. The Cortex-M0 executes **only Thumb instructions** (16-bit and 32-bit Thumb-2 instructions). It does not support standard 32-bit ARM instructions, which simplifies the on-chip instruction decoder.
+                </li>
+                <br>
+                <li>
+                    <strong class="term">Q: Explain the difference between MSP and PSP Stack Pointers.</strong><br>
+                    A: 
+                    <ul>
+                        <li>**MSP (Main Stack Pointer)**: The default stack pointer, used by the OS kernel and all interrupt service routines (Handler mode).</li>
+                        <li>**PSP (Process Stack Pointer)**: An alternative stack pointer used exclusively by user tasks (Thread mode). This separation protects the OS kernel stack from being corrupted by application task overflows.</li>
+                    </ul>
+                </li>
+                <br>
+                <li>
+                    <strong class="term">Q: What is the Private Peripheral Bus (PPB)?</strong><br>
+                    A: A dedicated on-chip bus region mapped from <code>0xE0000000</code> to <code>0xE00FFFFF</code>. It is used to access the control registers of the processor's core peripherals, such as the NVIC, SysTick Timer, and System Control Block (SCB).
+                </li>
+                <br>
+                <li>
+                    <strong class="term">Q: What is Tail-Chaining in the NVIC?</strong><br>
+                    A: An optimization technique. If a second interrupt is pending when the current ISR exits, the NVIC skips the register unstacking and stacking cycles, jumping directly to the next ISR. This reduces interrupt latency.
+                </li>
+            </ol>
+        </div>
+    </details>
+
+    <details>
+        <summary>🚀 Last-Minute Cheat Sheet & Quick Revision Notes</summary>
+        <div class="details-content">
+            <div class="important-box">
+                <strong>⚡ Key Architectural Differences to Remember:</strong>
+                <ul>
+                    <li>**Cortex-M0** = 3-stage pipeline, 0.9 DMIPS/MHz, standard GPIO bus access.</li>
+                    <li>**Cortex-M0+** = 2-stage pipeline, 0.95 DMIPS/MHz, single-cycle GPIO access, lower static leakage.</li>
+                    <li>**NVIC Interrupt States** = Inactive &rarr; Pending &rarr; Active &rarr; Active & Pending.</li>
+                    <li>**Core Modes** = Thread Mode (user code) and Handler Mode (exception/ISR routines).</li>
+                </ul>
+            </div>
+        </div>
+    </details>
+</div>
+
+</body>
+</html>

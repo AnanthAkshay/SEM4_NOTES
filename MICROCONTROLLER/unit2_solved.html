@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit 2: Peripherals, Memory, and Software Environment</title>
+    
+    <!-- Google Fonts & MathJax -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+    
+    <style>
+        /* CSS RESET & CUSTOM PROPERTY SYSTEM */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --bg-dark: #070b13;
+            --bg-panel: #0c1322;
+            --bg-card: #131e33;
+            --bg-card-hover: #192742;
+            --primary: #10b981;
+            --primary-hover: #059669;
+            --primary-glow: rgba(16, 185, 129, 0.3);
+            --accent-cyan: #06b6d4;
+            --accent-rose: #f43f5e;
+            --accent-amber: #f59e0b;
+            --border-color: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --font-display: 'Outfit', sans-serif;
+            --font-sans: 'Inter', sans-serif;
+            --font-mono: 'Fira Code', monospace;
+            --radius: 12px;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-secondary);
+            font-family: var(--font-sans);
+            line-height: 1.6;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-family: var(--font-display);
+            color: var(--text-primary);
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent-cyan) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        .intro-p {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            color: var(--text-secondary);
+        }
+
+        h2 {
+            font-family: var(--font-display);
+            color: var(--text-primary);
+            font-size: 1.6rem;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-left: 4px solid var(--primary);
+            padding-left: 12px;
+        }
+
+        /* PREMIUM DETAILS/SUMMARY ACCORDIONS */
+        details {
+            background-color: var(--bg-panel);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            margin-bottom: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        details[open] {
+            border-color: var(--primary);
+            box-shadow: 0 4px 20px var(--primary-glow);
+        }
+
+        summary {
+            padding: 18px 24px;
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            cursor: pointer;
+            user-select: none;
+            background-color: var(--bg-card);
+            outline: none;
+            transition: background 0.2s ease;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        summary::after {
+            content: "▼";
+            font-size: 0.8rem;
+            color: var(--primary);
+            transition: transform 0.3s ease;
+        }
+
+        details[open] summary::after {
+            transform: rotate(-180deg);
+        }
+
+        summary:hover {
+            background-color: var(--bg-card-hover);
+        }
+
+        .details-content {
+            padding: 24px;
+            background-color: var(--bg-panel);
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* TABLES */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.95rem;
+            text-align: left;
+            background-color: var(--bg-card);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        th, td {
+            padding: 12px 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        th {
+            background-color: rgba(16, 185, 129, 0.15);
+            color: var(--text-primary);
+            font-family: var(--font-display);
+            font-weight: 700;
+        }
+
+        tr:hover {
+            background-color: rgba(255, 255, 255, 0.02);
+        }
+
+        /* KEY TAKEAWAYS / BOXED CONCLUSIONS */
+        .final {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(6, 182, 212, 0.05) 100%);
+            border: 1px solid var(--primary);
+            padding: 16px 20px;
+            border-radius: 8px;
+            color: #10b981;
+            font-weight: 600;
+            font-size: 1.05rem;
+            margin-top: 15px;
+            display: block;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
+        }
+
+        .final strong {
+            color: var(--text-primary);
+            display: block;
+            margin-bottom: 4px;
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        .important-box {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(244, 63, 94, 0.05) 100%);
+            border-left: 4px solid var(--accent-amber);
+            padding: 12px 16px;
+            border-radius: 4px;
+            color: #f59e0b;
+            margin: 15px 0;
+        }
+
+        /* BADGES */
+        .badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-right: 8px;
+            margin-bottom: 6px;
+        }
+
+        .badge-pyq {
+            background-color: rgba(244, 63, 94, 0.2);
+            color: var(--accent-rose);
+            border: 1px solid rgba(244, 63, 94, 0.3);
+        }
+
+        .badge-imp {
+            background-color: rgba(245, 158, 11, 0.2);
+            color: var(--accent-amber);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+
+        .badge-topic {
+            background-color: rgba(6, 182, 212, 0.2);
+            color: var(--accent-cyan);
+            border: 1px solid rgba(6, 182, 212, 0.3);
+        }
+
+        /* DIAGRAMS */
+        .diagram-container {
+            background-color: #0b111e;
+            border: 1px dashed var(--border-color);
+            border-radius: 10px;
+            padding: 24px;
+            margin: 20px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .diagram-title {
+            font-family: var(--font-display);
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-top: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Timing Diagram & Bus Structure CSS Styles */
+        .bus-flex {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+            max-width: 550px;
+            background-color: #111a2e;
+            padding: 20px;
+            border-radius: 8px;
+            border: 2px solid var(--border-color);
+        }
+
+        .bus-line {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 12px;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--text-primary);
+        }
+
+        .endian-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            width: 100%;
+            max-width: 480px;
+            background-color: #111a2e;
+            padding: 16px;
+            border-radius: 8px;
+            border: 2px solid var(--border-color);
+            text-align: center;
+            font-family: var(--font-mono);
+        }
+
+        .endian-header {
+            grid-column: span 4;
+            color: var(--accent-cyan);
+            font-weight: bold;
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 6px;
+        }
+
+        .endian-cell {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 10px;
+            border-radius: 4px;
+            color: var(--text-primary);
+            font-size: 0.85rem;
+        }
+
+        /* Timing line CSS shapes */
+        .timing-wave {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            width: 100%;
+            max-width: 500px;
+            margin: 8px 0;
+            color: var(--text-primary);
+        }
+
+        .timing-label {
+            width: 80px;
+            color: var(--accent-cyan);
+            font-weight: bold;
+        }
+
+        .wave-line {
+            flex-grow: 1;
+            height: 20px;
+            position: relative;
+            background: repeating-linear-gradient(90deg, #1e293b, #1e293b 20px, #334155 20px, #334155 40px);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+        }
+
+        /* Bullets */
+        ul, ol {
+            padding-left: 20px;
+            margin: 10px 0;
+        }
+
+        li {
+            margin-bottom: 6px;
+        }
+
+        strong.term {
+            color: var(--text-primary);
+            font-family: var(--font-display);
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>UNIT 2: Peripherals, Memory, and Software Environment</h1>
+    <p class="intro-p">Complete, exam-oriented study notes matching VTU/MSRIT curriculum for the subject Microcontrollers (IS42/21IS44).</p>
+
+    <!-- ===================== SECTION 1: THEORY NOTES & CONCEPTS ===================== -->
+    <h2>📖 Core Theory & Syllabus Foundations</h2>
+
+    <details>
+        <summary>1. Serial vs. Parallel Communication & On-Board Protocols (I2C, SPI, UART)</summary>
+        <div class="details-content">
+            <span class="badge badge-imp">Highly Exam-Oriented</span>
+            <p style="margin-bottom:15px">Microcontrollers must exchange data with peripheral sensors and other ICs. This is handled via **Serial** or **Parallel** communication.</p>
+            
+            <ul>
+                <li><strong class="term">Parallel Communication</strong>: Transfers multiple data bits (e.g., 8, 16, or 32 bits) simultaneously over a wide bundle of physical lines.
+                    <br><em>Drawback</em>: Requires massive I/O pin counts, suffers from wire crosstalk, and becomes highly complex over long PCB traces.
+                </li>
+                <li><strong class="term">Serial Communication</strong>: Transfers data sequentially, 1 bit at a time, over a single physical line.
+                    <br><em>Advantage</em>: Saves CPU pins, minimizes wire track complexity, and is robust over longer distances.
+                </li>
+            </ul>
+
+            <h3 style="margin-top:15px">The 3 Essential On-Board Serial Protocols</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Protocol</th>
+                        <th>Standard Name</th>
+                        <th>Wires Needed</th>
+                        <th>Pins List</th>
+                        <th>Max Speed</th>
+                        <th>Key Features & Master/Slave Setup</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>UART</strong></td>
+                        <td>Universal Asynchronous Receiver-Transmitter</td>
+                        <td>2 wires</td>
+                        <td>TX (Transmit)<br>RX (Receive)</td>
+                        <td>Up to 115200 bps (typical)</td>
+                        <td>Asynchronous (no shared clock line). Requires pre-configured baud rates. Point-to-point only (1 master, 1 slave).</td>
+                    </tr>
+                    <tr>
+                        <td><strong>I2C</strong></td>
+                        <td>Inter-Integrated Circuit</td>
+                        <td>2 wires</td>
+                        <td>SDA (Serial Data)<br>SCL (Serial Clock)</td>
+                        <td>100kbps (Standard)<br>400kbps (Fast)</td>
+                        <td>Synchronous. Supports **multi-master and multi-slave** networks. Employs open-drain pins with external pull-up resistors. Uses 7-bit addressing.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>SPI</strong></td>
+                        <td>Serial Peripheral Interface</td>
+                        <td>4 wires</td>
+                        <td>MOSI (Master Out Slave In)<br>MISO (Master In Slave Out)<br>SCK (Serial Clock)<br>SS/CS (Slave Select)</td>
+                        <td>Very high (10Mbps - 50Mbps)</td>
+                        <td>Synchronous. Single master, multi-slave (uses individual chip select lines). **Full-duplex** communication. No addressing protocol (hardware select).</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <span class="final">
+                <strong>⚡ Key Protocol Selection Rule</strong>
+                Use <strong>SPI</strong> for high-speed local data transfers (like displays, SD cards). Use <strong>I2C</strong> when pin counts are extremely limited and you need to connect multiple slow sensors (like temperature/barometric sensors) on the same 2 wires.
+            </span>
+        </div>
+    </details>
+
+    <details>
+        <summary>2. Direct Memory Access (DMA) Typical Architecture & Functioning</summary>
+        <div class="details-content">
+            <span class="badge badge-pyq">Repeated PYQ</span>
+            <p style="margin-bottom:15px">Normally, transferring data from a peripheral (e.g., UART receive buffer) to memory (SRAM) requires the CPU to execute a loop reading the peripheral register and writing it to RAM. This wastes CPU cycles.
+            **Direct Memory Access (DMA)** is a specialized hardware controller that bypasses the CPU, transferring data directly between memory and peripherals.</p>
+
+            <div class="diagram-container">
+                <div class="bus-flex">
+                    <div class="bus-line" style="border-color:#10b981;">ARM CPU Core (Idle / Running Math)</div>
+                    <div class="bus-line" style="background-color:#06b6d4; color:#070b13; font-weight:bold; text-align:center;">SYSTEM INTERCONNECT BUS (Released by CPU)</div>
+                    <div class="bus-line" style="border-color:#f59e0b;">DMA CONTROLLER (Controls Bus Transfer)</div>
+                    <div class="bus-line" style="border-color:#f43f5e;">UART / ADC Register &rarr; DMA Channel &rarr; SRAM Buffer</div>
+                </div>
+                <div class="diagram-title">Direct Memory Access System Bus Routing Block</div>
+            </div>
+
+            <h3 style="margin-top:15px">How a DMA Transfer Works (Step-by-Step):</h3>
+            <ol style="margin-left:20px;">
+                <li><strong class="term">Configuration</strong>: The CPU configures the DMA channel, setting the **Source Address** (e.g., UART RX register), the **Destination Address** (starting address of an SRAM array), the **Transfer Count** (e.g., 256 bytes), and the trigger event.</li>
+                <li><strong class="term">DMA Request</strong>: The CPU goes back to running its main application. When a byte arrives at the UART, the UART peripheral asserts a hardware **DMA Request** signal to the DMA controller.</li>
+                <li><strong class="term">Bus Acquisition</strong>: The DMA controller sends a **Hold Request** to the CPU, asking for control of the system bus. The CPU completes its current bus cycle, releases the address and data buses, and returns a **Hold Acknowledge** to the DMA.</li>
+                <li><strong class="term">Direct Transfer</strong>: The DMA controller places the UART register address on the bus, reads the byte, increments its internal destination pointer, and writes the byte directly to SRAM. This is done in 1-2 clock cycles without CPU interaction.</li>
+                <li><strong class="term">Interrupt on Completion</strong>: The DMA decrements its transfer count. Once the count reaches zero, the DMA releases the system bus back to the CPU and asserts an interrupt to notify the CPU that the entire 256-byte data block has been successfully transferred.</li>
+            </ol>
+        </div>
+    </details>
+
+    <details>
+        <summary>3. Semiconductor Memory, SRAM Architectural Cycles & Timing Diagrams</summary>
+        <div class="details-content">
+            <span class="badge badge-pyq">SEE 2023, 2024, 2025</span>
+            <p style="margin-bottom:15px">Semiconductor memory is classified into **Volatile** (SRAM, DRAM) and **Non-Volatile** (Flash, EEPROM, ROM). 
+            **Static RAM (SRAM)** uses a 6-transistor cell structure to store each bit of data, making it extremely fast because it does not require periodic charging cycles like DRAM.</p>
+
+            <h3>SRAM Control Pins:</h3>
+            <ul>
+                <li>$\overline{CS}$ / $\overline{CE}$ (Chip Select / Chip Enable): Active-low signal to enable the SRAM chip.</li>
+                <li>$\overline{OE}$ (Output Enable): Active-low signal to enable the read buffer, placing data on the bus.</li>
+                <li>$\overline{WE}$ (Write Enable): Active-low signal to enable write logic, writing data into the memory cell.</li>
+            </ul>
+
+            <div class="diagram-container">
+                <div class="timing-wave">
+                    <div class="timing-label">Address</div>
+                    <div class="wave-line" style="background:#475569;"></div>
+                </div>
+                <div class="timing-wave">
+                    <div class="timing-label">/CS (Chip Sel)</div>
+                    <p style="color:#f43f5e; font-weight:bold;">¯¯¯\____________/¯¯¯ (Active Low)</p>
+                </div>
+                <div class="timing-wave">
+                    <div class="timing-label">/OE (Read)</div>
+                    <p style="color:#06b6d4; font-weight:bold;">¯¯¯¯¯¯\________/¯¯¯¯ (Active Low)</p>
+                </div>
+                <div class="timing-wave">
+                    <div class="timing-label">Data Bus</div>
+                    <div class="wave-line" style="background:#0f172a; border-color:#06b6d4;">[ Valid Data Out ]</div>
+                </div>
+                <div class="diagram-title">SRAM Asynchronous Read Cycle Timing Profile</div>
+            </div>
+
+            <h3 style="margin-top:15px">Asynchronous SRAM Cycle Mechanics</h3>
+            <ol style="margin-left:20px; margin-top:8px">
+                <li><strong class="term">Read Cycle</strong>:
+                    <ul>
+                        <li>The CPU places the target memory address on the **Address Bus**.</li>
+                        <li>The CPU asserts the active-low Chip Select ($\overline{CS} = 0$) to enable the chip, and Output Enable ($\overline{OE} = 0$) to open the data buffers. The Write Enable pin remains high ($\overline{WE} = 1$).</li>
+                        <li>The internal SRAM logic decodes the address, accesses the memory cell, and places the stored byte on the **Data Bus** after a specified access delay ($t_{AA}$).</li>
+                    </ul>
+                </li>
+                <li><strong class="term">Write Cycle</strong>:
+                    <ul>
+                        <li>The CPU places the destination address on the Address Bus and the write data on the Data Bus.</li>
+                        <li>The CPU asserts $\overline{CS} = 0$ to enable the chip, and $\overline{WE} = 0$ to trigger a write operation. Output Enable remains inactive ($\overline{OE} = 1$).</li>
+                        <li>The data on the bus is latched and written into the memory cells at the target address. The write cycle concludes when $\overline{WE}$ transitions back to 1.</li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+    </details>
+
+    <details>
+        <summary>4. Low Power Systems, Thermal Design Power (TDP) & AMBA Bus Architecture</summary>
+        <div class="details-content">
+            <span class="badge badge-imp">Important Concepts</span>
+            <h3>Designing Low Power Systems & TDP</h3>
+            <p>Embedded systems must minimize thermal output and preserve battery life. 
+            **Thermal Design Power (TDP)** is the maximum amount of heat (measured in Watts) that the CPU and system components can generate under worst-case workloads, which the thermal dissipation system (heatsinks/cooling) is designed to handle.</p>
+            <p>Power consumption in CMOS digital systems is defined by the formula:</p>
+            <p class="formula">
+                $$P = C \cdot V_{DD}^2 \cdot f + I_{\text{leakage}} \cdot V_{DD}$$
+            </p>
+            <p>Where $C$ is load capacitance, $V_{DD}$ is supply voltage, $f$ is operating clock frequency, and $I_{\text{leakage}}$ is the leakage current.
+            To reduce power consumption, systems use **dynamic voltage and frequency scaling (DVFS)**, shutting down clock trees to inactive peripheral blocks (clock gating) and powering off unused silicon segments (power gating).</p>
+
+            <h3 style="margin-top:15px">ARM Advanced Microcontroller Bus Architecture (AMBA)</h3>
+            <p style="margin-bottom:10px">The AMBA system standardizes on-chip communication, splitting the SoC bus infrastructure into two main levels based on performance requirements:</p>
+            <ul>
+                <li><strong class="term">AHB (Advanced High-Performance Bus)</strong>: A high-bandwidth system bus designed to connect high-performance modules (like the ARM CPU, DMA controllers, and on-chip SRAM/Flash). It supports pipelined operations, split transactions, and wide bus widths.</li>
+                <li><strong class="term">APB (Advanced Peripheral Bus)</strong>: A simpler, low-power bus designed to connect slower peripherals (like GPIO, UART, Timers, and Watchdog). The APB is connected to the AHB via an **AHB-to-APB Bridge**, which isolates high-speed system operations from slower peripheral traffic to minimize overall power consumption.</li>
+            </ul>
+        </div>
+    </details>
+
+    <details>
+        <summary>5. Software Environment, Endianness, Data Alignment & Memory Banks</summary>
+        <div class="details-content">
+            <span class="badge badge-pyq">Repeated PYQ</span>
+            <h3>1. Embedded Software Development Environment</h3>
+            <ul>
+                <li><strong class="term">Code Editor</strong>: A text editor with syntax highlighting for writing source code (C or Assembly).</li>
+                <li><strong class="term">Cross Compiler</strong>: A compiler that runs on a development host machine (e.g., an x86 Windows PC) but generates machine code for a different target processor (e.g., an ARM Cortex-M0).</li>
+                <li><strong class="term">Debugger</strong>: Allows software developers to step through code execution, inspect register contents, and set breakpoints on the target hardware.</li>
+                <li><strong class="term">GUI (Graphical User Interface)</strong>: Integrates the editor, compiler, and debugger into a single application (like Keil $\mu$Vision).</li>
+            </ul>
+
+            <h3>2. Endianness (Byte Ordering in Memory)</h3>
+            <p style="margin-bottom:15px">Endianness defines the order in which bytes of a multi-byte word are stored in memory addresses.</p>
+            
+            <div class="diagram-container">
+                <div class="endian-grid">
+                    <div class="endian-header">BIG ENDIAN (MSB at Lowest Address)</div>
+                    <div class="endian-cell">Addr: 00<br><strong>0x12</strong> (MSB)</div>
+                    <div class="endian-cell">Addr: 01<br><strong>0x34</strong></div>
+                    <div class="endian-cell">Addr: 02<br><strong>0x56</strong></div>
+                    <div class="endian-cell">Addr: 03<br><strong>0x78</strong> (LSB)</div>
+                </div>
+                <br>
+                <div class="endian-grid">
+                    <div class="endian-header">LITTLE ENDIAN (LSB at Lowest Address)</div>
+                    <div class="endian-cell">Addr: 00<br><strong>0x78</strong> (LSB)</div>
+                    <div class="endian-cell">Addr: 01<br><strong>0x56</strong></div>
+                    <div class="endian-cell">Addr: 02<br><strong>0x34</strong></div>
+                    <div class="endian-cell">Addr: 03<br><strong>0x12</strong> (MSB)</div>
+                </div>
+                <div class="diagram-title">Byte-Mapping Comparison for 32-bit Word 0x12345678</div>
+            </div>
+
+            <h3>3. Data Alignment & Memory Banks</h3>
+            <p>A 32-bit processor performs memory accesses in aligned 4-byte boundaries. 
+            **Aligned Data Access** means a 32-bit word is stored at a memory address that is a multiple of 4 (e.g., 0x4000, 0x4004). 
+            If data is **misaligned** (e.g., a 32-bit word is stored at 0x4001), the processor must perform **two separate memory read cycles** to fetch the word and stitch it together, which degrades execution speed.</p>
+            <p>To support byte, half-word, and word accesses in a single cycle, memory is organized into **Memory Banks**. A 32-bit memory space is split into **4 parallel byte-wide banks**. The processor uses byte-lane selection pins to read or write specific bytes without affecting adjacent data.</p>
+        </div>
+    </details>
+
+    <!-- ===================== SECTION 2: SOLVED PREVIOUS YEAR QUESTIONS ===================== -->
+    <h2>✍ shrink Solved Previous Year University Questions (CIE & SEE)</h2>
+
+    <details>
+        <summary>Q1. Discuss with appropriate diagram that illustrates the use of DMA controllers on most advanced MCUs. [MAKEUP 2023, SEE 2023, SEE(O) 2023] (8 Marks)</summary>
+        <div class="details-content">
+            <span class="badge badge-pyq">Repeated PYQ</span>
+            <p><strong>Answer:</strong></p>
+            <p>A **Direct Memory Access (DMA)** controller is a specialized hardware unit that allows peripheral modules to transfer data directly to or from the system RAM without CPU intervention. This is essential in high-performance microcontrollers because it frees the CPU core to perform complex mathematical calculations or enter low-power sleep modes while data is being transferred in the background.</p>
+
+            <div class="diagram-container">
+                <div class="bus-flex" style="max-width:600px;">
+                    <div class="bus-line" style="border-color:#3b82f6; font-weight:bold;">ARM Core CPU (Calculates in Background)</div>
+                    <div class="bus-line" style="background-color:#10b981; color:#000; font-weight:bold; text-align:center;">&larr;&rarr; SYSTEM AHB INTERCONNECT BUS &larr;&rarr;</div>
+                    <div class="bus-line" style="border-color:#f59e0b; font-weight:bold;">DMA Controller (Handles Bus Transfers)</div>
+                    <div class="bus-line" style="border-color:#64748b;">Source: Peripheral (ADC/UART) &rarr; Destination: SRAM Buffers</div>
+                </div>
+                <div class="diagram-title">System-on-Chip (SoC) DMA Bus Routing Topology</div>
+            </div>
+
+            <h3 style="margin-top:15px">Working Principle of DMA Controller:</h3>
+            <ol style="margin-left:20px; margin-top:8px">
+                <li><strong class="term">Channel Initialization</strong>: The CPU configures the DMA controller by setting the **Source Register** (e.g., ADC data register), the **Destination Register** (e.g., SRAM array buffer), the **Block Size** (number of transfers), and the transfer direction.</li>
+                <li><strong class="term">DMA Request</strong>: The CPU resumes running its main program loop. When the peripheral has data ready (e.g., the ADC completes a sample conversion), it asserts a hardware **DMA Request (DREQ)** line to the DMA Controller.</li>
+                <li><strong class="term">Bus Masters Arbitration</strong>: The DMA controller sends a **Hold Request (HRQ)** to the CPU. The CPU completes its current bus access, releases control of the Address and Data buses, and returns a **Hold Acknowledge (HLDA)** signal. The DMA controller is now the master of the system bus.</li>
+                <li><strong class="term">Data Transfer</strong>: The DMA controller automatically transfers data from the source peripheral address directly to the target destination RAM address. It then increments the destination address pointer and decrements the internal block counter.</li>
+                <li><strong class="term">CPU Notification</strong>: Once the block counter reaches zero, the DMA controller releases the system bus back to the CPU and asserts an **Interrupt Request (IRQ)** to notify the CPU that the entire data block has been transferred and is ready for processing.</li>
+            </ol>
+        </div>
+    </details>
+
+    <details>
+        <summary>Q2. Discuss on the use of memory banks for a 16-bit & 32-bit processor. [MAKEUP 2023, SEE(O) 2023, SEE 2024] (6 Marks)</summary>
+        <div class="details-content">
+            <span class="badge badge-pyq">Repeated PYQ</span>
+            <p><strong>Answer:</strong></p>
+            <p>In microcontrollers, memory systems must handle variable data sizes: a byte (8 bits), a half-word (16 bits), or a word (32 bits). To read or write these different data sizes in a single clock cycle without affecting adjacent data, the memory architecture is organized into **Memory Banks**.</p>
+            <p>Memory is organized into parallel, byte-wide physical blocks (banks), each with its own write-enable and chip-select control lines.</p>
+
+            <h3 style="margin-top:15px">1. Memory Banks in a 16-Bit Processor</h3>
+            <p>A 16-bit processor has a 16-bit wide data bus. Its memory system is split into **2 parallel, byte-wide memory banks**:</p>
+            <ul>
+                <li><strong class="term">Even Bank (Bank 0)</strong>: Connected to the lower half of the data bus ($D_{7}-D_{0}$). It contains all bytes stored at **even memory addresses** (e.g., 0x00, 0x02, 0x04). Activated by the active-low signal $\overline{BLE}$ (Byte Low Enable) or $A_0 = 0$.</li>
+                <li><strong class="term">Odd Bank (Bank 1)</strong>: Connected to the upper half of the data bus ($D_{15}-D_{8}$). It contains all bytes stored at **odd memory addresses** (e.g., 0x01, 0x03, 0x05). Activated by the active-low signal $\overline{BHE}$ (Byte High Enable).</li>
+            </ul>
+            <p>This allows the processor to read or write a single 8-bit byte from either bank, or a 16-bit half-word from both banks simultaneously in a single clock cycle, provided the 16-bit word starts at an even address (aligned access).</p>
+
+            <h3 style="margin-top:15px">2. Memory Banks in a 32-Bit Processor</h3>
+            <p>A 32-bit processor (like ARM7TDMI) has a 32-bit wide data bus. Its memory system is split into **4 parallel, byte-wide memory banks**:</p>
+            <ul>
+                <li><strong>Bank 0</strong>: Connected to data lines $D_{7}-D_{0}$ (handles addresses ending in binary `00`).</li>
+                <li><strong>Bank 1</strong>: Connected to data lines $D_{15}-D_{8}$ (handles addresses ending in binary `01`).</li>
+                <li><strong>Bank 2</strong>: Connected to data lines $D_{23}-D_{16}$ (handles addresses ending in binary `10`).</li>
+                <li><strong>Bank 3</strong>: Connected to data lines $D_{31}-D_{24}$ (handles addresses ending in binary `11`).</li>
+            </ul>
+            <p>The processor uses four byte-select pins ($\overline{WBE_0}$ to $\overline{WBE_3}$) to enable specific banks. This allows it to read or write an 8-bit byte, a 16-bit half-word, or a 32-bit word in a single clock cycle, as long as the memory accesses are properly aligned.</p>
+        </div>
+    </details>
+
+    <details>
+        <summary>Q3. Solve numerical binary arithmetic to find set flags (N, Z, C, V) for a 16-bit processor. [MAKEUP 2023, SEE 2024] (8 Marks)</summary>
+        <div class="details-content">
+            <span class="badge badge-pyq">Highly Analytical</span>
+            <p><strong>Problem Statement:</strong></p>
+            <p>For a 16-bit processor, calculate the status of the flags **N (Negative)**, **Z (Zero)**, **C (Carry)**, and **V (Overflow)** after executing each of the following operations:</p>
+            <ol style="margin-left:20px; margin-top:8px">
+                <li>Subtract <code>0xFE45</code> from <code>0x0978</code>.</li>
+                <li>Compare A and B where $A = \text{0x9987}$ and $B = \text{0x9978}$.</li>
+                <li>Add <code>0x6789</code> and <code>0x1234</code>.</li>
+                <li>Add <code>0xEF39</code> and <code>0xCD34</code>.</li>
+            </ol>
+
+            <h3 style="margin-top:15px">Detailed Step-by-Step Solutions:</h3>
+
+            <h4>1. Subtract <code>0xFE45</code> from <code>0x0978</code> ($R = A - B$)</h4>
+            <p>We are performing: $\text{0x0978} - \text{0xFE45}$.
+            <br>First, represent both values in 16-bit binary:</p>
+            <ul>
+                <li>$A = \text{0x0978} = \text{0000 1001 0111 1000}_2$</li>
+                <li>$B = \text{0xFE45} = \text{1111 1110 0100 0101}_2$</li>
+            </ul>
+            <p>Subtraction is performed by adding the 2's complement of $B$ to $A$ ($A + \overline{B} + 1$):</p>
+            <ul>
+                <li>$1\text{'s complement of } B = \text{0000 0001 1011 1010}_2$</li>
+                <li>$2\text{'s complement of } B = \text{0000 0001 1011 1011}_2 \quad (\text{0x01BB})$</li>
+            </ul>
+            <p>Now perform the addition ($A + 2\text{'s complement of } B$):</p>
+            <p class="formula" style="font-family:var(--font-mono)">
+                &nbsp;&nbsp;0000 1001 0111 1000 &nbsp;(0x0978)<br>
+                + 0000 0001 1011 1011 &nbsp;(0x01BB)<br>
+                -------------------<br>
+                &nbsp;&nbsp;0000 1011 0011 0011 &nbsp;(0x0B33)
+            </p>
+            <p><strong>Flag Evaluation:</strong></p>
+            <ul>
+                <li><strong class="term">N (Negative Flag)</strong>: The MSB of the result is `0`. So, the result is positive. **N = 0**.</li>
+                <li><strong class="term">Z (Zero Flag)</strong>: The 16-bit result ($\text{0x0B33}$) is non-zero. **Z = 0**.</li>
+                <li><strong class="term">C (Carry/Borrow Flag)</strong>: During addition, no carry-out occurred from the MSB ($C_{\text{out}} = 0$). In ARM/RISC processors, the Carry flag is inverted during subtraction ($C = \overline{C_{\text{out}}}$), indicating a borrow was required. **C = 0**.</li>
+                <li><strong class="term">V (Overflow Flag)</strong>: Overflow occurs in subtraction if we subtract a negative number from a positive number and get a negative result. Here, $A$ is positive ($\text{MSB}=0$), $B$ is negative ($\text{MSB}=1$), and the result is positive ($\text{MSB}=0$). The sign is correct, so no signed overflow occurred. **V = 0**.</li>
+            </ul>
+
+            <h4 style="margin-top:15px">2. Compare A and B where $A = \text{0x9987}$ and $B = \text{0x9978}$</h4>
+            <p>A comparison instruction performs subtraction ($A - B$) to update the status flags, but discards the arithmetic result.
+            <br>Convert both values to binary:</p>
+            <ul>
+                <li>$A = \text{0x9987} = \text{1001 1001 1000 0111}_2$</li>
+                <li>$B = \text{0x9978} = \text{1001 1001 0111 1000}_2$</li>
+            </ul>
+            <p>Find the 2's complement of $B$:</p>
+            <ul>
+                <li>$1\text{'s complement of } B = \text{0110 0110 1000 0111}_2$</li>
+                <li>$2\text{'s complement of } B = \text{0110 0110 1000 1000}_2 \quad (\text{0x6688})$</li>
+            </ul>
+            <p>Perform the addition ($A + 2\text{'s complement of } B$):</p>
+            <p class="formula" style="font-family:var(--font-mono)">
+                &nbsp;&nbsp;1001 1001 1000 0111 &nbsp;(0x9987)<br>
+                + 0110 0110 1000 1000 &nbsp;(0x6688)<br>
+                -------------------<br>
+                (1)0000 0000 0000 1111 &nbsp;(0x000F) &nbsp;&rarr; Carry Out = 1
+            </p>
+            <p><strong>Flag Evaluation:</strong></p>
+            <ul>
+                <li><strong class="term">N</strong>: The MSB of the result is `0`. **N = 0**.</li>
+                <li><strong class="term">Z</strong>: The result is non-zero ($\text{0x000F}$). **Z = 0**.</li>
+                <li><strong class="term">C</strong>: A carry-out occurred from the MSB ($C_{\text{out}} = 1$), which means no borrow was required ($C = \overline{C_{\text{out}}} = 1$). **C = 1**.</li>
+                <li><strong class="term">V</strong>: Subtracting two numbers of the same sign ($A$ and $B$ are both negative, $\text{MSB}=1$) cannot result in a signed overflow. **V = 0**.</li>
+            </ul>
+
+            <h4 style="margin-top:15px">3. Add <code>0x6789</code> and <code>0x1234</code></h4>
+            <p>Convert both values to binary:</p>
+            <ul>
+                <li>$A = \text{0x6789} = \text{0110 0111 1000 1001}_2$</li>
+                <li>$B = \text{0x1234} = \text{0001 0010 0011 0100}_2$</li>
+            </ul>
+            <p>Perform the addition:</p>
+            <p class="formula" style="font-family:var(--font-mono)">
+                &nbsp;&nbsp;0110 0111 1000 1001 &nbsp;(0x6789)<br>
+                + 0001 0010 0011 0100 &nbsp;(0x1234)<br>
+                -------------------<br>
+                &nbsp;&nbsp;0111 1001 1011 1101 &nbsp;(0x79BD)
+            </p>
+            <p><strong>Flag Evaluation:</strong></p>
+            <ul>
+                <li><strong class="term">N</strong>: The MSB of the result is `0`. **N = 0**.</li>
+                <li><strong class="term">Z</strong>: The result is non-zero. **Z = 0**.</li>
+                <li><strong class="term">C</strong>: No carry-out occurred from the MSB. **C = 0**.</li>
+                <li><strong class="term">V</strong>: We added two positive numbers ($A$ and $B$ both have $\text{MSB}=0$) and got a positive result ($\text{MSB}=0$). No signed overflow occurred. **V = 0**.</li>
+            </ul>
+
+            <h4 style="margin-top:15px">4. Add <code>0xEF39</code> and <code>0xCD34</code></h4>
+            <p>Convert both values to binary:</p>
+            <ul>
+                <li>$A = \text{0xEF39} = \text{1110 1111 0011 1001}_2$</li>
+                <li>$B = \text{0xCD34} = \text{1100 1101 0011 0100}_2$</li>
+            </ul>
+            <p>Perform the addition:</p>
+            <p class="formula" style="font-family:var(--font-mono)">
+                &nbsp;&nbsp;1110 1111 0011 1001 &nbsp;(0xEF39)<br>
+                + 1100 1101 0011 0100 &nbsp;(0xCD34)<br>
+                -------------------<br>
+                (1)1011 1100 0110 1101 &nbsp;(0xBC6D) &nbsp;&rarr; Carry Out = 1
+            </p>
+            <p><strong>Flag Evaluation:</strong></p>
+            <ul>
+                <li><strong class="term">N</strong>: The MSB of the 16-bit result is `1`. **N = 1**.</li>
+                <li><strong class="term">Z</strong>: The result is non-zero. **Z = 0**.</li>
+                <li><strong class="term">C</strong>: A carry-out occurred from the MSB. **C = 1**.</li>
+                <li><strong class="term">V</strong>: We added two negative numbers ($A$ and $B$ both have $\text{MSB}=1$) and got a negative result ($\text{MSB}=1$). No signed overflow occurred. **V = 0**.</li>
+            </ul>
+
+            <span class="final">
+                <strong>Boxed Summary of Results:</strong>
+                1. <strong>0x0978 - 0xFE45</strong> &rarr; <strong>N=0, Z=0, C=0, V=0</strong><br>
+                2. <strong>Compare 0x9987, 0x9978</strong> &rarr; <strong>N=0, Z=0, C=1, V=0</strong><br>
+                3. <strong>0x6789 + 0x1234</strong> &rarr; <strong>N=0, Z=0, C=0, V=0</strong><br>
+                4. <strong>0xEF39 + 0xCD34</strong> &rarr; <strong>N=1, Z=0, C=1, V=0</strong>
+            </span>
+        </div>
+    </details>
+
+    <details>
+        <summary>Q4. Differentiate between Inter-Integrated Circuit (I2C) and Serial Peripheral Interface (SPI) buses. [SEE 2023, 2024, 2025] (8 Marks)</summary>
+        <div class="details-content">
+            <span class="badge badge-pyq">Highly Repeated</span>
+            <p><strong>Answer:</strong></p>
+            <p>Both I2C and SPI are synchronous, on-board serial communication protocols used to connect microcontrollers with external peripheral chips (like sensors, EEPROMs, and LCDs). They differ significantly in hardware complexity, communication speed, and networking capability:</p>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Comparison Feature</th>
+                        <th>I2C (Inter-Integrated Circuit)</th>
+                        <th>SPI (Serial Peripheral Interface)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Number of Wires</strong></td>
+                        <td>**2 wires** (SDA, SCL). Offers a simple PCB footprint.</td>
+                        <td>**4 wires** (MOSI, MISO, SCK, CS). Requires more PCB routing space.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Signal Pins</strong></td>
+                        <td>SDA (Serial Data Line) & SCL (Serial Clock Line).</td>
+                        <td>MOSI (Master Out Slave In), MISO (Master In Slave Out), SCK (Clock), and CS/SS (Chip Select).</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Maximum Transfer Speed</strong></td>
+                        <td>Slower. Typically 100kbps (Standard) to 400kbps (Fast Mode). Some newer modes support up to 3.4Mbps.</td>
+                        <td>Extremely fast. Typically 10Mbps to 50Mbps or higher, limited only by the maximum clock rate of the hardware.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Device Addressing</strong></td>
+                        <td>**Software Addressing**: Uses a 7-bit or 10-bit address sent over the SDA line to select the target slave device.</td>
+                        <td>**Hardware Addressing**: Uses individual, physical Chip Select (CS) lines for each slave device.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Master/Slave Setup</strong></td>
+                        <td>Supports multi-master and multi-slave configurations. Includes bus arbitration logic.</td>
+                        <td>Supports a single master, multi-slave configuration. Multi-master networks are highly complex.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Duplex Mode</strong></td>
+                        <td>Half-duplex (data is transmitted and received sequentially over the same SDA line).</td>
+                        <td>Full-duplex (data is transmitted and received simultaneously over separate MOSI and MISO lines).</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Hardware Connection</strong></td>
+                        <td>Uses open-drain outputs, requiring external pull-up resistors on both signal lines.</td>
+                        <td>Uses push-pull outputs, requiring no external pull-up resistors.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <span class="final">
+                <strong>Boxed Conclusion:</strong>
+                • Choose <strong>I2C</strong> when pin count is limited and you need to connect multiple slow peripherals.<br>
+                • Choose <strong>SPI</strong> when high data transfer rates are required (e.g., SD cards, graphical displays).
+            </span>
+        </div>
+    </details>
+
+    <details>
+        <summary>Q5. Explain the current program state of an ARM7TDMI if the CPSR had the value 0xF00000D3. [SEE 2023] (7 Marks)</summary>
+        <div class="details-content">
+            <span class="badge badge-pyq">CPSR Bit-Mapping</span>
+            <p><strong>Answer:</strong></p>
+            <p>The **CPSR (Current Program Status Register)** in an ARM7 processor contains status flags, interrupt disable control bits, and processor execution state bits.</p>
+            <p>Given the 32-bit register value: $\text{0xF00000D3}$, we first convert the hex value to binary:</p>
+            <p class="formula" style="font-family:var(--font-mono)">
+                Hex:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; F &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3<br>
+                Binary:&nbsp; 1111 &nbsp;&nbsp; 0000 &nbsp;&nbsp; 0000 &nbsp;&nbsp; 0000 &nbsp;&nbsp; 0000 &nbsp;&nbsp; 0000 &nbsp;&nbsp; 1101 &nbsp;&nbsp; 0011
+            </p>
+            <p>We analyze the register bits from MSB (Bit 31) to LSB (Bit 0) to determine the processor state:</p>
+
+            <h3 style="margin-top:15px">1. Status Flags (Bits 31-28 - Upper Nibble <code>1111</code>)</h3>
+            <ul>
+                <li><strong class="term">Bit 31 (N - Negative Flag) = 1</strong>: The result of the last ALU operation was negative.</li>
+                <li><strong class="term">Bit 30 (Z - Zero Flag) = 1</strong>: The result of the last ALU operation was zero.</li>
+                <li><strong class="term">Bit 29 (C - Carry Flag) = 1</strong>: The last ALU operation generated an unsigned carry-out or did not require a borrow.</li>
+                <li><strong class="term">Bit 28 (V - Overflow Flag) = 1</strong>: The last ALU operation caused a signed overflow.</li>
+            </ul>
+
+            <h3 style="margin-top:15px">2. Interrupt and State Control Bits (Lower Byte <code>0xD3 = 1101 0011</code>)</h3>
+            <ul>
+                <li><strong class="term">Bit 7 (I - IRQ Disable) = 1</strong>: Normal hardware interrupts (IRQ) are **disabled** (masked).</li>
+                <li><strong class="term">Bit 6 (F - FIQ Disable) = 1</strong>: Fast interrupts (FIQ) are **disabled** (masked).</li>
+                <li><strong class="term">Bit 5 (T - Thumb State) = 0</strong>: The processor is executing in 32-bit **ARM State** (if $T=1$, it would be in 16-bit Thumb state).</li>
+            </ul>
+
+            <h3 style="margin-top:15px">3. Processor Mode Bits (Bits 4-0 = <code>10011</code>)</h3>
+            <p>The lower 5 bits define the current operating mode of the ARM7 processor. The binary value is $10011_2 = 19_{10} = \text{0x13}$.
+            <br>In the ARM register mapping system, the mode value $\text{0x13}$ corresponds to **Supervisor Mode (SVC)**.</p>
+
+            <span class="final">
+                <strong>CPSR Decode Summary (0xF00000D3):</strong>
+                • **ALU Flags**: All set (N=1, Z=1, C=1, V=1).<br>
+                • **Interrupts**: Both IRQ and FIQ are disabled.<br>
+                • **State**: The processor is in 32-bit **ARM Execution State** ($T=0$).<br>
+                • **Mode**: The processor is running in **Supervisor Mode (SVC)**.
+            </span>
+        </div>
+    </details>
+
+    <!-- ===================== SECTION 3: VIVA & PRACTICE QUESTIONS ===================== -->
+    <h2>❓ High-Yield Viva Voce Questions & Practice Hub</h2>
+
+    <details>
+        <summary>Unit 2 Viva Voce Q&A (Quick Revision)</summary>
+        <div class="details-content">
+            <p>Use these high-yield questions for oral assessments, lab evaluations, and quick exam review:</p>
+            <br>
+            <ol style="margin-left:20px;">
+                <li>
+                    <strong class="term">Q: Why are I2C pins open-drain?</strong><br>
+                    A: Open-drain pins can pull a signal line to ground (0V) but cannot drive it high. Pull-up resistors are used to pull the lines high. This design prevents short circuits (bus contention) if two master devices attempt to drive the bus to opposite logic levels simultaneously.
+                </li>
+                <br>
+                <li>
+                    <strong class="term">Q: What is a Full-Duplex communication interface?</strong><br>
+                    A: It allows devices to transmit and receive data simultaneously over separate physical lines (e.g., SPI's MOSI and MISO lines), unlike half-duplex (I2C) which can only transmit or receive at any given moment.
+                </li>
+                <br>
+                <li>
+                    <strong class="term">Q: What is the purpose of the CPSR register in ARM?</strong><br>
+                    A: It tracks the execution state of the processor, containing condition code flags (N, Z, C, V), interrupt disable bits (I, F), the active execution state (ARM/Thumb), and the current processor operating mode.
+                </li>
+                <br>
+                <li>
+                    <strong class="term">Q: How does a stack operate in ARM?</strong><br>
+                    A: ARM uses a **Full Descending Stack** by default. The Stack Pointer (SP) points to the last occupied memory location, and decrements (descends) toward lower memory addresses as new data is pushed onto the stack.
+                </li>
+                <br>
+                <li>
+                    <strong class="term">Q: What is the difference between Big Endian and Little Endian formats?</strong><br>
+                    A: In Big Endian, the most significant byte (MSB) of a word is stored at the lowest memory address. In Little Endian, the least significant byte (LSB) is stored at the lowest memory address.
+                </li>
+            </ol>
+        </div>
+    </details>
+
+    <details>
+        <summary>🚀 Last-Minute Cheat Sheet & Quick Revision Notes</summary>
+        <div class="details-content">
+            <div class="important-box">
+                <strong>⚡ Key Concepts to Remember:</strong>
+                <ul>
+                    <li>**I2C** = 2 wires, half-duplex, software addressed, open-drain bus with pull-up resistors.</li>
+                    <li>**SPI** = 4 wires, full-duplex, hardware addressed via Chip Select (CS) lines, high speed.</li>
+                    <li>**DMA** = Transfers data directly between memory and peripherals without using CPU clock cycles.</li>
+                    <li>**SRAM** = Uses 6-transistor memory cells, fast access speeds, does not require periodic refresh cycles.</li>
+                </ul>
+            </div>
+        </div>
+    </details>
+</div>
+
+</body>
+</html>
