@@ -318,7 +318,8 @@ Feasible region: intersection of half-planes. Corners: (0,1): Z=2; (1,0): Z=4; (
 
 <!-- ==================== Q34 GRAPHICAL ==================== -->
 <details><summary><strong>34.</strong> Cloth types A and B: Red wool 4x+5y≤1000, Green 5x+2y≤1000, Yellow 3x+8y≤1200, Profit 5x+3y. Solve graphically.</summary><div class="details-content">
-Find feasible region corners. Intersection of red and green: 4x+5y=1000, 5x+2y=1000 → multiply first by 2, second by 5: 8x+10y=2000, 25x+10y=5000 → subtract: 17x=3000 ⇒ x≈176.47, y≈(1000-4*176.47)/5≈(1000-705.88)/5=58.82. Z=5*176.47+3*58.82=882.35+176.46=1058.8. Check other constraints: yellow: 3*176.47+8*58.82=529.4+470.6=1000≤1200 ok. Other corners: (0,200): Z=600; (250,0): Z=1250 (but yellow? 3*250=750≤1200 ok, green: 5*250=1250>1000 so not feasible). Intersection green and yellow: 5x+2y=1000, 3x+8y=1200 → multiply first by 4: 20x+8y=4000, subtract second: 17x=2800 ⇒ x=164.7, y=(1000-823.5)/2=88.25, Z=823.5+264.75=1088.25. Intersection red and yellow: 4x+5y=1000, 3x+8y=1200 → multiply first by 3, second by 4: 12x+15y=3000, 12x+32y=4800 → subtract: -17y=-1800 ⇒ y=105.88, x=(1000-529.4)/4=117.65, Z=588.25+317.64=905.9. So maximum at (164.7,88.25) approx Z=1088.25. <span class="final">Optimal: x≈165, y≈88, max profit ≈Rs.1088.</span></div></details>
+Find feasible region corners. Intersection of red and green: 4x+5y=1000, 5x+2y=1000 → multiply first by 2, second by 5: 8x+10y=2000, 25x+10y=5000 → subtract: 17x=3000 ⇒ x≈176.47, y≈(1000-4*176.47)/5≈(1000-705.88)/5=58.82. Z=5*176.47+3*58.82=882.35+176.46=1058.8. Check other constraints: yellow: 3*176.47+8*58.82=529.4+470.6=1000≤1200 ok. Other corners: (0,200): Z=600; (250,0): Z=1250 (but yellow? 3*250=750≤1200 ok, green: 5*250=1250>1000 so not feasible). Intersection green and yellow: 5x+2y=1000, 3x+8y=1200 → multiply first by 4: 20x+8y=4000, subtract second: 17x=2800 ⇒ x=164.7, y=(1000-823.5)/2=88.25, Z=823.5+264.75=1088.25. Intersection red and yellow: 4x+5y=1000, 3x+8y=1200 → multiply first by 3, second by 4: 12x+15y=3000, 12x+32y=4800 → subtract: -17y=-1800 ⇒ y=105.88, x=(1000-529.4)/4=117.65, Z=588.25+317.64=905.9. So maximum at (164.7,88.25) approx Z=1088.25. <div class="graph-container"><img src="graphs/q34.png" alt="Q34 Graph: Cloth Production" style="width:100%;max-width:600px;border-radius:8px;"></div>
+<span class="final">Optimal: x≈165, y≈88, max profit ≈Rs.1088.</span></div></details>
 
 <!-- ==================== SIMPLEX METHOD Q35 ==================== -->
 <h2>📉 Simplex Method (Q35 a–f)</h2>
@@ -339,9 +340,12 @@ Wait — let me re-check: the intersection of constraints x₁+x₂=6 and 4x₁+
 <span class="step-label">Corrected Final Tableau:</span>
 <div class="simplex-table"><table><tr><th>BV</th><th>x₁</th><th>x₂</th><th>s₁</th><th>s₂</th><th>RHS</th></tr><tr><td>s₁</td><td>0</td><td>1/4</td><td>1</td><td>−1/4</td><td>3</td></tr><tr><td>x₁</td><td>1</td><td>3/4</td><td>0</td><td>1/4</td><td>3</td></tr><tr><td>zₓ−cₓ</td><td>0</td><td>1/4</td><td>0</td><td>7/4</td><td>21</td></tr></table></div>
 All zₓ−cₓ ≥ 0. Optimal: x₁=3, x₂=0, Z=21.<br>
+<div class="graph-container"><img src="graphs/q35a.png" alt="Q35a Graph" style="width:100%;max-width:600px;border-radius:8px;"></div>
 <span class="final">Z<sub>max</sub>=21 at (3,0).</span></div></details>
 <details><summary><strong>35(b).</strong> Max Z=4x1+10x2 s/t 2x1+x2≤50, 2x1+5x2≤100, x1,x2≥0.</summary><div class="details-content">
-Solve graphically or simplex. Intersection of 2x1+x2=50 and 2x1+5x2=100 → subtract: -4x2=-50 ⇒ x2=12.5, then x1=(50-12.5)/2=18.75. Z=4*18.75+10*12.5=75+125=200. Check (0,20): Z=200, (25,0):100. So multiple optima, Zmax=200.</div></details>
+Solve graphically or simplex. Intersection of 2x1+x2=50 and 2x1+5x2=100 → subtract: -4x2=-50 ⇒ x2=12.5, then x1=(50-12.5)/2=18.75. Z=4*18.75+10*12.5=75+125=200. Check (0,20): Z=200, (25,0):100. So multiple optima, Zmax=200.<br>
+<div class="graph-container"><img src="graphs/q35b.png" alt="Q35b Graph: Multiple Optima" style="width:100%;max-width:600px;border-radius:8px;"></div>
+</div></details>
 <details><summary><strong>35(c).</strong> Max Z=6x1+11x2 s/t 2x1+x2≤104, x1+2x2≤76, x1,x2≥0.</summary><div class="details-content">
 Already solved graphically: Zmax=440 at (44,16). Simplex yields same.</div></details>
 <details><summary><strong>35(d).</strong> Max Z=5x1+3x2 s/t 3x1+5x2≤15, 5x1+2x2≤10, x1,x2≥0.</summary><div class="details-content">
@@ -378,7 +382,9 @@ Add artificials a1,a2. After simplex, optimal: x1=4, x2=1, Z=11. (Check: 4+1=5, 
 <details><summary><strong>40(c).</strong> Min Z=4x1+8x2+3x3 s/t x1+x2≥2, 2x1+x3≥5, x1,x2,x3≥0.</summary><div class="details-content">
 Big‑M: add artificials a1,a2. Solve: optimum x1=2.5, x2=0, x3=0, Z=10? But second constraint: 2*2.5=5 ok, first: 2.5≥2 ok. Better solution? x1=0,x2=2,x3=5 gives Z=0+16+15=31. So (2.5,0,0) gives Z=10. Check if lower: x1=2, x2=0, x3=1 gives Z=8+0+3=11. So 10 is lower? Actually 4*2.5=10. So optimum Z=10 at (2.5,0,0).</div></details>
 <details><summary><strong>40(d).</strong> Min Z=2x1+x2 s/t 3x1+x2=3, 4x1+3x2≥6, x1+2x2≤3, x1,x2≥0. Big‑M.</summary><div class="details-content">
-Solve: from equality, x2=3-3x1. Substitute into ≥6: 4x1+3(3-3x1)=4x1+9-9x1=9-5x1≥6 ⇒ -5x1≥-3 ⇒ x1≤0.6. Also ≤3: x1+2(3-3x1)=x1+6-6x1=6-5x1≤3 ⇒ -5x1≤-3 ⇒ x1≥0.6. Hence x1=0.6, x2=3-1.8=1.2. Z=2*0.6+1.2=1.2+1.2=2.4. Feasible. So optimum Z=2.4.</div></details>
+Solve: from equality, x2=3-3x1. Substitute into ≥6: 4x1+3(3-3x1)=4x1+9-9x1=9-5x1≥6 ⇒ -5x1≥-3 ⇒ x1≤0.6. Also ≤3: x1+2(3-3x1)=x1+6-6x1=6-5x1≤3 ⇒ -5x1≤-3 ⇒ x1≥0.6. Hence x1=0.6, x2=3-1.8=1.2. Z=2*0.6+1.2=1.2+1.2=2.4. Feasible. So optimum Z=2.4.<br>
+<div class="graph-container"><img src="graphs/q40d.png" alt="Q40d Graph" style="width:100%;max-width:600px;border-radius:8px;"></div>
+<span class="final">Z<sub>min</sub>=2.4 at (0.6, 1.2).</span></div></details>
 <details><summary><strong>40(e).</strong> Max Z=3x1+2x2 s/t 2x1+x2≤2, 3x1+4x2≥12, x1,x2≥0. Big‑M.</summary><div class="details-content">
 Second constraint is ≥12, but first caps x1 and x2. Check feasibility: maximum from first: if x1=1, x2=0 gives 3*1=3 <12. If x2=2, x1=0 gives 8<12. No feasible solution. So infeasible.</div></details>
 <details><summary><strong>40(f).</strong> Max Z=3x1+2x2+x3 s/t -3x1+2x2+2x3=8, -3x1+4x2+x3=7, x1,x2,x3≥0. Big‑M.</summary><div class="details-content">
@@ -393,11 +399,13 @@ Constraints: \(3x_1 + x_2 + a_1 = 4\)<br>
 \(x_1 + 2x_2 + s_1 = 3\)<br>
 Objective: Max \(Z' = -2x_1 - x_2 - M a_1 - M a_2\) (M large).<br>
 Simplex iterations (summarized): after pivoting, optimum solution: \(x_1 = 0.6,\; x_2 = 2.2\)? Let's solve exactly: from equality \(3x_1+x_2=4\) ⇒ \(x_2=4-3x_1\). Substitute into \(4x_1+3x_2 \ge 6\): \(4x_1+12-9x_1=12-5x_1 \ge 6\) ⇒ \(6 \ge 5x_1\) ⇒ \(x_1 \le 1.2\). Also \(x_1+2x_2 \le 3\) ⇒ \(x_1+8-6x_1=8-5x_1 \le 3\) ⇒ \(5x_1 \ge 5\) ⇒ \(x_1 \ge 1\). So \(x_1=1\), then \(x_2=1\). Check: \(3+1=4\), \(4+3=7\ge6\), \(1+2=3\le3\). Z = \(2*1+1=3\). Is there lower? Try \(x_1=1.2, x_2=0.4\): first eq fails. So \(x_1=1,x_2=1\) is the only feasible point. Hence optimum Z=3.<br>
+<div class="graph-container"><img src="graphs/q41.png" alt="Q41 Graph" style="width:100%;max-width:600px;border-radius:8px;"></div>
 <span class="final">Optimal: \(x_1=1,\; x_2=1,\; z_{\min}=3\).</span>
 </div></details>
 
 <details><summary><strong>42.</strong> Use Big‑M to minimize \(z = 4x_1 + 3x_2\) subject to \(2x_1+x_2 \ge 10,\; -3x_1+2x_2 \le 6,\; x_1+x_2 \ge 6,\; x_1,x_2 \ge 0\).</summary><div class="details-content">
 Convert to max: Max \(Z' = -4x_1-3x_2\). Constraints: \(2x_1+x_2 - s_1 + a_1 =10\); \(-3x_1+2x_2 + s_2 =6\); \(x_1+x_2 - s_3 + a_2 =6\). Add \(-M a_1 - M a_2\) to objective. After simplex, optimal solution: Intersection of \(2x_1+x_2=10\) and \(x_1+x_2=6\) gives \(x_1=4,x_2=2\). Check second: \(-12+4=-8\le6\) ok. Z = \(4*4+3*2=16+6=22\). Check other constraints? \(x_1=4,x_2=2\) satisfies all. Is it minimum? Try \(x_1=5,x_2=0\): first 10≥10, second -15≤6, third 5≥6? no. So feasible region corner. So optimum Z=22.<br>
+<div class="graph-container"><img src="graphs/q42.png" alt="Q42 Graph" style="width:100%;max-width:600px;border-radius:8px;"></div>
 <span class="final">\(x_1=4,\; x_2=2,\; z_{\min}=22\).</span>
 </div></details>
 
@@ -415,6 +423,7 @@ Phase I: add artificial \(a_1\) to first constraint, slack for others. Minimize 
 
 <details><summary><strong>43(c).</strong> Two‑phase: Max \(z = -2x_1 - x_2\) s.t \(3x_1+x_2=3,\; 4x_1+3x_2\ge6,\; x_1+2x_2\le4,\; x_1,x_2\ge0\).</summary><div class="details-content">
 Phase I: add artificial \(a_1\) to equality, \(a_2\) to ≥ constraint. Minimize \(w=a_1+a_2\). Solve. After Phase I, feasible solution obtained. Then Phase II maximize original. Solve directly: from equality \(x_2=3-3x_1\). Substitute into second: \(4x_1+3(3-3x_1)=4x_1+9-9x_1=9-5x_1\ge6\) ⇒ \(-5x_1\ge-3\) ⇒ \(x_1\le0.6\). Third: \(x_1+2(3-3x_1)=x_1+6-6x_1=6-5x_1\le4\) ⇒ \(-5x_1\le-2\) ⇒ \(x_1\ge0.4\). So \(x_1=0.4\) to \(0.6\). Then \(z=-2x_1-(3-3x_1)=-2x_1-3+3x_1 = x_1 -3\). To maximize z, choose largest x1 = 0.6, then x2=3-1.8=1.2. z=0.6-3=-2.4. So max z = -2.4.<br>
+<div class="graph-container"><img src="graphs/q43c.png" alt="Q43c Graph" style="width:100%;max-width:600px;border-radius:8px;"></div>
 <span class="final">\(x_1=0.6,\; x_2=1.2,\; z_{\max}=-2.4\).</span>
 </div></details>
 
@@ -451,6 +460,7 @@ Graphically: constraints: \(2x_1+x_2\ge4\) and \(x_1+7x_2\ge7\). Feasible region
 
 <details><summary><strong>1.</strong> Formulate LPP: Manufacturer produces M1 and M2. M1: 4h grinding, 2h polishing; M2: 2h grinding, 5h polishing. 2 grinders (40h/week each → 80h), 3 polishers (60h/week each → 180h). Profit: M1=Rs.3, M2=Rs.4. Maximize profit.</summary><div class="details-content">
 Let \(x\) = M1, \(y\) = M2. Grinding: \(4x+2y \le 80\) → \(2x+y \le 40\). Polishing: \(2x+5y \le 180\). Non‑negativity: \(x,y\ge0\). Maximize \(Z=3x+4y\).<br>
+<div class="graph-container"><img src="graphs/q12.png" alt="Tutorial 12 Q1 Graph (same as Q12)" style="width:100%;max-width:600px;border-radius:8px;"></div>
 <span class="final">Max \(Z=3x+4y\) subject to \(2x+y\le40,\; 2x+5y\le180,\; x,y\ge0\).</span>
 </div></details>
 
@@ -474,6 +484,7 @@ Feasible region: intersection. Corners: Intersection of \(3x_1+x_2=30\) and \(x_
 
 <details><summary><strong>4.</strong> Simplex: Max \(z=2x_1+3x_2\) subject to \(2x_1+x_2\le4,\; x_1+2x_2\le5,\; x_1,x_2\ge0\).</summary><div class="details-content">
 Standard form: add slacks. Initial tableau: basic s1,s2. Pivot column x2 (zj-cj = -3). Ratios: 4/1=4, 5/2=2.5 → pivot row s2, pivot 2. New tableau: x2=2.5, s1=4-2.5=1.5, x1=0, z=7.5. Next, x1 enters: ratios: s1 row: 1.5/0.5=3, x2 row: 2.5/0.5=5 → pivot s1. After pivot: x1=3, x2=1, z=2*3+3*1=9. All zj-cj ≥0. So optimum at (3,1), Z=9.<br>
+<div class="graph-container"><img src="graphs/t12q4.png" alt="Tutorial 12 Q4 Graph" style="width:100%;max-width:600px;border-radius:8px;"></div>
 <span class="final">\(x_1=3,\; x_2=1,\; z_{\max}=9\).</span>
 </div></details>
 
@@ -508,6 +519,7 @@ Dual variables \(y_1,y_2,y_3\ge0\). Dual: Min \(w=2y_1+0y_2+1y_3\) subject to:
 \(y_1 + 2y_2 + 4y_3 \ge 8\) (from x2)
 \(y_1,y_2,y_3\ge0\).
 Solve dual graphically? Or use simplex. Since primal has 2 vars, solve primal directly: Feasible region corners: intersection of \(x_1+x_2=2\) and \(-x_1+2x_2=0\) → add: \(3x_2=2\) ⇒ \(x_2=2/3\), \(x_1=4/3\). Also intersection of \(-x_1+2x_2=0\) and \(-x_1+4x_2=1\) → subtract: \(-2x_2=-1\) ⇒ \(x_2=0.5\), then \(x_1=1\). Also intersection with axes. Evaluate z=5x1+8x2: (4/3,2/3)=20/3+16/3=36/3=12; (1,0.5)=5+4=9; (0,0)=0; (0,0.5) not feasible? Check constraints: \(0+0.5=0.5≤2\), \(0-1=-1≥0? no. So (1,0.5) is feasible? Check second: 1-1=0≥0 ok; third: -1+2=1≤1 ok. So feasible. Also (0.5,0)? Then second:0.5≥0 ok; third: -0.5≤1 ok; but first:0.5≤2 ok. z=2.5. So maximum at (4/3,2/3) z=12. Hence primal optimal =12. Dual should also give 12.<br>
+<div class="graph-container"><img src="graphs/t14q1.png" alt="Tutorial 14 Q1 Graph" style="width:100%;max-width:600px;border-radius:8px;"></div>
 <span class="final">Primal optimum: \(x_1=4/3,\; x_2=2/3,\; z_{\max}=12\).</span>
 </div></details>
 
@@ -516,6 +528,7 @@ Convert to standard form for dual simplex: write constraints as ≤ by multiplyi
 \(-x_1-x_2 \le -2\)
 \(-4x_1-x_2 \le -4\)
 Add slack variables: \(-x_1-x_2+s_1=-2\), \(-4x_1-x_2+s_2=-4\). Objective: Min Z = 5x1+6x2. Initial basic feasible for dual simplex? RHS negative. Choose pivot row with most negative RHS: row2, RHS=-4. Ratio test: |cj/zj| for negative coefficients: for x1: 5/|−4|=1.25, for x2:6/|−1|=6. Choose smallest ratio 1.25 → pivot on x1 in row2. After pivot, get feasible. Continue. After iterations, solution: x1=0.6667, x2=1.3333, Z=5*(2/3)+6*(4/3)=10/3+24/3=34/3≈11.33. Check constraints: 0.6667+1.3333=2≥2, 4*0.6667+1.3333=2.6668+1.3333=4.0001≥4. So optimum Z=34/3.<br>
+<div class="graph-container"><img src="graphs/t14q2.png" alt="Tutorial 14 Q2 Graph" style="width:100%;max-width:600px;border-radius:8px;"></div>
 <span class="final">\(x_1=2/3,\; x_2=4/3,\; Z=34/3\).</span>
 </div></details>
 
