@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Unit IV: Testing of Hypothesis – Questions 1–20</title>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+body{background:#0a0a0a;color:#e0e0e0;font-family:'Segoe UI',Arial,sans-serif;padding:20px;line-height:1.5}
+.container{max-width:1300px;margin:auto}
+h1{color:#ffaa66;border-left:5px solid #ffaa66;padding-left:20px}
+h2{color:#88ccff;border-bottom:1px solid #333;margin:30px 0 15px}
+details{background:#151515;margin:12px 0;border-radius:12px;border:1px solid #2c2c2c}
+summary{font-weight:bold;padding:12px 18px;cursor:pointer;background:#1e1e1e;color:#ffcc88;border-radius:12px}
+.details-content{padding:15px 20px}
+table{border-collapse:collapse;width:100%;margin:10px 0;background:#111}
+th,td{border:1px solid #3a3a3a;padding:8px;text-align:center}
+.final{color:#00ffaa;font-weight:bold;margin-top:8px;display:block;border-top:1px solid #333;padding-top:8px}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>📊 Unit IV: Testing of Hypothesis – Questions 1 to 20</h1>
+<p>Complete solutions with definitions, formulas, and step‑by‑step calculations.</p>
+
+<!-- ==================== DEFINITIONS (Q1–Q13) ==================== -->
+<h2>📖 Definitions (Q1 – Q13)</h2>
+
+<details><summary><strong>1.</strong> Define sampling distribution of means.</summary><div class="details-content">
+The sampling distribution of the mean is the probability distribution of all possible sample means of a given sample size \(n\) drawn from a population. Its mean equals the population mean \(\mu\), and its standard deviation (standard error) is \(\sigma/\sqrt{n}\).
+</div></details>
+
+<details><summary><strong>2.</strong> Define Standard error.</summary><div class="details-content">
+Standard error (SE) is the standard deviation of a sampling distribution. For the sample mean, \(SE = \frac{\sigma}{\sqrt{n}}\) (or \(s/\sqrt{n}\) when \(\sigma\) is unknown).
+</div></details>
+
+<details><summary><strong>3.</strong> Define confidence interval.</summary><div class="details-content">
+A confidence interval is an interval estimate for a population parameter, computed from sample data, with a specified probability (confidence level) that the interval contains the true parameter. For mean: \(\bar{x} \pm z_{\alpha/2} \frac{\sigma}{\sqrt{n}}\) or \(\bar{x} \pm t_{\alpha/2} \frac{s}{\sqrt{n}}\).
+</div></details>
+
+<details><summary><strong>4.</strong> Define null hypothesis and alternate hypothesis.</summary><div class="details-content">
+<ul><li><strong>Null hypothesis (\(H_0\)):</strong> A statement of no effect or no difference, assumed true until evidence suggests otherwise.</li>
+<li><strong>Alternate hypothesis (\(H_1\) or \(H_a\)):</strong> The statement that contradicts \(H_0\), indicating an effect or difference.</li></ul>
+</div></details>
+
+<details><summary><strong>5.</strong> (i) Type I and Type II errors &nbsp; (ii) Testing of hypothesis.</summary><div class="details-content">
+<ul><li><strong>Type I error:</strong> Rejecting a true null hypothesis. Probability \(\alpha\) (level of significance).</li>
+<li><strong>Type II error:</strong> Failing to reject a false null hypothesis. Probability \(\beta\).</li>
+<li><strong>Testing of hypothesis:</strong> A statistical procedure to decide whether to accept or reject a null hypothesis based on sample evidence.</li></ul>
+</div></details>
+
+<details><summary><strong>6.</strong> (i) Level of significance &nbsp; (ii) One‑tailed and two‑tailed tests.</summary><div class="details-content">
+<ul><li><strong>Level of significance (\(\alpha\)):</strong> Probability of making a Type I error, typically 0.05 or 0.01.</li>
+<li><strong>One‑tailed test:</strong> Rejection region is in one tail of the distribution (directional hypothesis).</li>
+<li><strong>Two‑tailed test:</strong> Rejection regions are in both tails (non‑directional).</li></ul>
+</div></details>
+
+<details><summary><strong>7.</strong> Define student’s t‑distribution.</summary><div class="details-content">
+The t‑distribution is a continuous probability distribution used when the population standard deviation is unknown and the sample size is small. It is symmetric about zero, bell‑shaped, but with heavier tails than the normal. Its shape depends on degrees of freedom \((n-1)\).
+</div></details>
+
+<details><summary><strong>8.</strong> Define F‑distribution.</summary><div class="details-content">
+The F‑distribution is the distribution of the ratio of two independent chi‑square variables divided by their degrees of freedom. Used to compare variances and in ANOVA. It is skewed to the right and depends on two parameters: numerator df and denominator df.
+</div></details>
+
+<details><summary><strong>9.</strong> State the condition when F‑test is used.</summary><div class="details-content">
+The F‑test is used to test whether two population variances are equal (\(H_0: \sigma_1^2 = \sigma_2^2\)). It requires independent random samples from normal populations.
+</div></details>
+
+<details><summary><strong>10.</strong> Difference between Student’s t‑distribution and F‑distribution.</summary><div class="details-content">
+<table>
+<tr><th>t‑distribution</th><th>F‑distribution</th></tr>
+<tr><td>Symmetric about 0</td><td>Skewed right (positive)</td></tr>
+<tr><td>Used for mean tests (single or two samples)</td><td>Used for variance ratio tests</td></tr>
+<tr><td>One parameter (df)</td><td>Two parameters (df1, df2)</td></tr>
+<tr><td>t² follows F(1, df)</td><td>–</td></tr>
+</table>
+</div></details>
+
+<details><summary><strong>11.</strong> Define Chi‑square distribution.</summary><div class="details-content">
+The chi‑square (\(\chi^2\)) distribution is the sum of squares of independent standard normal variables. It is used for goodness‑of‑fit tests, tests of independence, and variance estimation. Its mean = df, variance = 2df.
+</div></details>
+
+<details><summary><strong>12.</strong> Write formula for χ²‑test and explain the terms involved.</summary><div class="details-content">
+\[
+\chi^2 = \sum \frac{(O_i - E_i)^2}{E_i}
+\]
+where \(O_i\) = observed frequency, \(E_i\) = expected frequency under \(H_0\). The test statistic follows \(\chi^2\) with \((r-1)(c-1)\) degrees of freedom for contingency tables, or \(k-1\) for goodness‑of‑fit.
+</div></details>
+
+<details><summary><strong>13.</strong> Population: 3,7,11,15. Samples of size 2 with and without replacement. Find (a) population mean, (b) population SD, (c) mean of sampling distribution of means, (d) standard error of means.</summary><div class="details-content">
+Population: \(N=4\). Values: 3,7,11,15.<br>
+(a) \(\mu = \frac{3+7+11+15}{4} = \frac{36}{4}=9\).<br>
+(b) \(\sigma^2 = \frac{(3-9)^2+(7-9)^2+(11-9)^2+(15-9)^2}{4} = \frac{36+4+4+36}{4}= \frac{80}{4}=20\), so \(\sigma = \sqrt{20}=4.4721\).<br>
+(c) Mean of sampling distribution of means = \(\mu = 9\) for both cases.<br>
+(d) With replacement: \(SE = \frac{\sigma}{\sqrt{n}} = \frac{4.4721}{\sqrt{2}}=3.1623\).<br>
+Without replacement: \(SE = \frac{\sigma}{\sqrt{n}}\sqrt{\frac{N-n}{N-1}} = 3.1623 \times \sqrt{\frac{2}{3}} = 3.1623 \times 0.8165 = 2.582\).<br>
+<span class="final">μ=9, σ=4.472, mean of sample means=9, SE (with)=3.162, SE (without)=2.582</span>
+</div></details>
+
+<!-- ==================== NUMERICALS Q14–Q20 ==================== -->
+<h2>📐 Numerical Problems (Q14 – Q20)</h2>
+
+<details><summary><strong>14.</strong> Sample: n=12, mean=7.38, SD=1.24. Find 95% and 99% confidence limits for actual diameter.</summary><div class="details-content">
+Use t‑distribution (σ unknown). df = 11. For 95%: \(t_{0.025,11}=2.201\). Margin = \(2.201 \times \frac{1.24}{\sqrt{12}} = 2.201 \times 0.3579 = 0.7876\). CI = \(7.38 \pm 0.7876 = (6.592, 8.168)\).<br>
+For 99%: \(t_{0.005,11}=3.106\). Margin = \(3.106 \times 0.3579 = 1.111\). CI = \(7.38 \pm 1.111 = (6.269, 8.491)\).<br>
+<span class="final">95%: (6.59, 8.17) mm; 99%: (6.27, 8.49) mm</span>
+</div></details>
+
+<details><summary><strong>15.</strong> Sample n=16, mean=53, sum of squares of deviations from mean =150. Test if population mean =56. Also find 95% and 99% CI for population mean.</summary><div class="details-content">
+Sample variance \(s^2 = \frac{150}{n-1} = \frac{150}{15}=10\), so \(s=3.1623\).<br>
+\(t = \frac{\bar{x}-\mu}{s/\sqrt{n}} = \frac{53-56}{3.1623/4} = \frac{-3}{0.7906} = -3.794\). df=15. Critical \(t_{0.025,15}=2.131\). Since \(|t|>2.131\), reject \(H_0\). Sample not from population with μ=56.<br>
+95% CI: \(\bar{x} \pm t_{0.025,15} \frac{s}{\sqrt{n}} = 53 \pm 2.131 \times 0.7906 = 53 \pm 1.685 = (51.315, 54.685)\).<br>
+99% CI: \(t_{0.005,15}=2.947\), margin = \(2.947 \times 0.7906 = 2.330\), CI = (50.67, 55.33).<br>
+<span class="final">Reject H0; 95% CI: (51.32,54.69); 99% CI: (50.67,55.33)</span>
+</div></details>
+
+<details><summary><strong>16.</strong> Slum: 2000 families, sample 800, 180 illiterates. Probable limits of illiterate families in population.</summary><div class="details-content">
+Sample proportion \(p = 180/800 = 0.225\). Standard error \(SE = \sqrt{\frac{p(1-p)}{n}} = \sqrt{\frac{0.225×0.775}{800}} = \sqrt{0.00021797}=0.01476\). For 95% limits: \(p \pm 1.96 SE = 0.225 \pm 0.0289 = (0.1961, 0.2539)\). Multiply by 2000: (392, 508) families. For 99%: \(z=2.576\), margin = \(2.576×0.01476=0.0380\), proportion limits (0.187,0.263) → families (374,526).<br>
+<span class="final">95%: 392 to 508; 99%: 374 to 526 families</span>
+</div></details>
+
+<details><summary><strong>17.</strong> Sample of 100 days, 10 foggy. Probable limits of percentage of foggy days.</summary><div class="details-content">
+\(p = 0.10\), \(SE = \sqrt{0.10×0.90/100}=0.03\). For 95%: \(0.10 \pm 1.96×0.03 = 0.10 \pm 0.0588 = (0.0412, 0.1588)\) → 4.12% to 15.88%. For 99%: \(2.576×0.03=0.0773\), limits (0.0227,0.1773) → 2.27% to 17.73%.<br>
+<span class="final">95%: (4.1%, 15.9%); 99%: (2.3%, 17.7%)</span>
+</div></details>
+
+<details><summary><strong>18.</strong> Nine items: 45,47,50,52,48,47,49,53,51. Test if mean differs significantly from 47.5.</summary><div class="details-content">
+\(\bar{x} = \frac{45+47+50+52+48+47+49+53+51}{9} = \frac{442}{9}=49.111\). \(s^2 = \frac{\sum(x-\bar{x})^2}{8}\). Deviations: (-4.111,-2.111,0.889,2.889,-1.111,-2.111,-0.111,3.889,1.889). Squares sum ≈ 16.90+4.46+0.79+8.35+1.23+4.46+0.012+15.12+3.57=54.89. \(s^2=54.89/8=6.861\), \(s=2.619\). \(t = \frac{49.111-47.5}{2.619/3} = \frac{1.611}{0.873}=1.845\). df=8, critical \(t_{0.025}=2.306\). Since 1.845 < 2.306, not significant. Mean does not differ significantly.<br>
+<span class="final">t=1.845, accept H0, mean not different from 47.5</span>
+</div></details>
+
+<details><summary><strong>19.</strong> Bag: tickets 1,3,5. Two draws with replacement. List samples. Show (i) mean of population = mean of sample means, (ii) sample SD = population SD / √n.</summary><div class="details-content">
+Population: {1,3,5}, \(\mu = 3\), \(\sigma^2 = \frac{(1-3)^2+(3-3)^2+(5-3)^2}{3}= \frac{4+0+4}{3}=8/3=2.6667\), \(\sigma=1.633\). All samples of size 2 with replacement: (1,1),(1,3),(1,5),(3,1),(3,3),(3,5),(5,1),(5,3),(5,5). Sample means: 1,2,3,2,3,4,3,4,5. Mean of sample means = (1+2+3+2+3+4+3+4+5)/9 = 27/9=3 = μ. Variance of sample means = \(\frac{(1-3)^2+(2-3)^2+...}{9}= \frac{4+1+0+1+0+1+1+0+4}{9}= \frac{12}{9}=1.3333\). Then standard error = \(\sqrt{1.3333}=1.1547\). Population SD/√n = 1.633/√2=1.633/1.414=1.1547. Verified.<br>
+<span class="final">Shown.</span>
+</div></details>
+
+<details><summary><strong>20.</strong> Machinist: target 0.7 inch. Sample n=10, mean=0.742, SD=0.04. Is work inferior? (Mean >0.7?)</summary><div class="details-content">
+Test \(H_0: \mu = 0.7\) vs \(H_1: \mu > 0.7\) (inferior means larger diameter? Usually inferior if larger, so one‑tailed). \(t = \frac{0.742-0.7}{0.04/\sqrt{10}} = \frac{0.042}{0.01265}=3.32\). df=9, critical \(t_{0.05,9}=1.833\). Since 3.32 > 1.833, reject H0. Work is significantly inferior (diameter too large).<br>
+<span class="final">t=3.32 > 1.833 → work is inferior.</span>
+</div></details>
+
+<details><summary><strong>21.</strong> Sample of 100 bulbs: mean life=1570h, SD=120h. Company claims average 1600h. Test at α=0.05.</summary><div class="details-content">
+\(H_0: \mu = 1600\), \(H_1: \mu \neq 1600\). Large sample, use z-test. \(z = \frac{\bar{x}-\mu}{\sigma/\sqrt{n}} = \frac{1570-1600}{120/10} = \frac{-30}{12} = -2.5\). Critical \(z_{0.025}=1.96\). Since \(|z|=2.5 > 1.96\), reject \(H_0\). Claim not acceptable.<br>
+<span class="final">z=-2.5, reject H0 → claim not acceptable.</span>
+</div></details>
+
+<details><summary><strong>22.</strong> Sample n=900, mean=3.4 cm. Population mean=3.25, SD=1.61. Test if random sample.</summary><div class="details-content">
+\(H_0: \mu = 3.25\), \(H_1: \mu \neq 3.25\). \(z = \frac{3.4-3.25}{1.61/\sqrt{900}} = \frac{0.15}{1.61/30} = \frac{0.15}{0.05367} = 2.795\). Critical \(z_{0.05}=1.96\) (two‑tailed). Since 2.795 > 1.96, reject H0. Cannot be regarded as random sample.<br>
+<span class="final">z=2.795, reject H0.</span>
+</div></details>
+
+<details><summary><strong>23.</strong> Blood pressure changes: 5,2,8,-1,3,0,6,-2,1,5,0,4. Test if stimulus increases BP.</summary><div class="details-content">
+\(H_0: \mu = 0\), \(H_1: \mu > 0\). Compute \(\bar{x} = \frac{5+2+8-1+3+0+6-2+1+5+0+4}{12} = \frac{31}{12}=2.5833\). \(s^2 = \frac{\sum (x-\bar{x})^2}{11}\). Compute deviations: (2.4167,-0.5833,5.4167,-3.5833,0.4167,-2.5833,3.4167,-4.5833,-1.5833,2.4167,-2.5833,1.4167). Squares sum ≈ 5.84+0.34+29.34+12.84+0.17+6.67+11.67+21.01+2.51+5.84+6.67+2.01 = 104.91. \(s^2=104.91/11=9.537\), \(s=3.088\). \(t = \frac{2.5833}{3.088/\sqrt{12}} = \frac{2.5833}{0.8915}=2.898\). df=11, one‑tailed critical \(t_{0.05,11}=1.796\). Since 2.898 > 1.796, reject H0. Stimulus increases BP.<br>
+<span class="final">t=2.898, reject H0 → significant increase.</span>
+</div></details>
+
+<details><summary><strong>24.</strong> Test equality of standard deviations: n1=10, s1=1.5; n2=14, s2=1.2. α=0.05.</summary><div class="details-content">
+\(F = \frac{s_1^2}{s_2^2} = \frac{2.25}{1.44} = 1.5625\). df1=9, df2=13. Critical \(F_{0.025,9,13}=3.21\) (two‑tailed, use upper tail). Since 1.5625 < 3.21, accept H0. Variances are equal.<br>
+<span class="final">F=1.5625, accept H0.</span>
+</div></details>
+
+<details><summary><strong>25.</strong> Soldiers: n1=8, mean1=166.9, SD1=8.29; Sailors: n2=6, mean2=170.3, SD2=8.50. Test if soldiers shorter.</summary><div class="details-content">
+\(H_0: \mu_1 = \mu_2\), \(H_1: \mu_1 < \mu_2\). Pooled variance: \(s_p^2 = \frac{(n_1-1)s_1^2+(n_2-1)s_2^2}{n_1+n_2-2} = \frac{7×68.7241 + 5×72.25}{12} = \frac{481.07+361.25}{12}= \frac{842.32}{12}=70.193\). \(s_p=8.378\). \(t = \frac{\bar{x}_1-\bar{x}_2}{s_p\sqrt{1/n_1+1/n_2}} = \frac{166.9-170.3}{8.378\sqrt{1/8+1/6}} = \frac{-3.4}{8.378×0.5401} = \frac{-3.4}{4.525}= -0.751\). df=12, one‑tailed critical \(t_{0.05,12}=1.782\). Since |-0.751| < 1.782, accept H0. No evidence soldiers are shorter.<br>
+<span class="final">t=-0.751, accept H0.</span>
+</div></details>
+
+<details><summary><strong>26.</strong> Theory: 9:3:3:1 ratio for 1600 beans. Observed: 882,313,287,118. Use χ² test.</summary><div class="details-content">
+Expected frequencies: total=1600. Ratio sum=16. E1=1600×9/16=900, E2=1600×3/16=300, E3=300, E4=100. χ² = \(\sum (O-E)^2/E = (882-900)^2/900 + (313-300)^2/300 + (287-300)^2/300 + (118-100)^2/100 = 324/900 + 169/300 + 169/300 + 324/100 = 0.36 + 0.5633 + 0.5633 + 3.24 = 4.7266\). df=3, critical χ²_{0.05,3}=7.815. Since 4.73 < 7.815, accept H0. Data supports theory.<br>
+<span class="final">χ²=4.727, accept H0.</span>
+</div></details>
+
+<details><summary><strong>27.</strong> Two samples sizes 8 and 8, sum of squares of deviations 34 and 24. Test equal variances. F0.05=4.2 for (7,6) df.</summary><div class="details-content">
+Sample variances: \(s_1^2=34/7=4.8571\), \(s_2^2=24/7=3.4286\). \(F = 4.8571/3.4286 = 1.4167\). Critical F_{0.05,7,7}= ? Given F0.05=4.2 for (7,6) but we need (7,7). Approx ~3.8. Since 1.4167 < 4.2, accept H0. Variances equal.<br>
+<span class="final">F=1.417, accept H0.</span>
+</div></details>
+
+<details><summary><strong>28.</strong> Coin tossed 400 times, heads 216. Test unbiased at 5%.</summary><div class="details-content">
+\(H_0: p=0.5\), \(H_1: p\neq0.5\). Sample proportion =216/400=0.54. \(z = \frac{0.54-0.5}{\sqrt{0.5×0.5/400}} = \frac{0.04}{0.025}=1.6\). Critical z=1.96. Since 1.6<1.96, accept H0. Coin is unbiased.<br>
+<span class="final">z=1.6, accept H0.</span>
+</div></details>
+
+<details><summary><strong>29.</strong> Same as Q14 (95% and 99% CI for diameter).</summary><div class="details-content">
+See Q14: 95% CI (6.59,8.17); 99% CI (6.27,8.49).</div></details>
+
+<details><summary><strong>30.</strong> Same as Q16 (illiterate families limits).</summary><div class="details-content">
+95%: 392 to 508; 99%: 374 to 526 families.</div></details>
+
+<details><summary><strong>31.</strong> Same as Q22: sample n=900, mean=3.4, pop mean=3.25, SD=1.61 → test.</summary><div class="details-content">
+z=2.795, reject H0. Not a random sample.</div></details>
+
+<details><summary><strong>32.</strong> Norm: μ=73.2, σ=8.6. Sample n=4, mean=76.7. Test μ>73.2 at α=0.01.</summary><div class="details-content">
+\(z = \frac{76.7-73.2}{8.6/\sqrt{4}} = \frac{3.5}{4.3}=0.814\). Critical z_{0.01}=2.326 (one‑tailed). Since 0.814<2.326, accept H0. Not enough evidence.<br>
+<span class="final">z=0.814, accept H0.</span>
+</div></details>
+
+<details><summary><strong>33.</strong> Ambulance: claims average <10 min. Sample n=36, mean=11, variance=16 (σ=4). Test at α=0.05.</summary><div class="details-content">
+\(H_0: \mu=10\), \(H_1: \mu>10\). \(z = \frac{11-10}{4/\sqrt{36}} = \frac{1}{0.6667}=1.5\). Critical z_{0.05}=1.645. Since 1.5<1.645, accept H0. Claim not supported.<br>
+<span class="final">z=1.5, accept H0.</span>
+</div></details>
+
+<details><summary><strong>34.</strong> Two samples: n1=1000, mean1=67.5; n2=2000, mean2=68.0; population SD=2.5. Test if from same population.</summary><div class="details-content">
+\(z = \frac{67.5-68.0}{2.5\sqrt{1/1000+1/2000}} = \frac{-0.5}{2.5\sqrt{0.001+0.0005}} = \frac{-0.5}{2.5×0.03873} = \frac{-0.5}{0.09682}= -5.164\). Critical z=1.96. Reject H0. Not from same population.<br>
+<span class="final">z=-5.16, reject H0.</span>
+</div></details>
+
+<details><summary><strong>35.</strong> District A: n=100, mean=210, SD=10; District B: n=150, mean=220, SD=12; State SD=11. Test difference.</summary><div class="details-content">
+\(z = \frac{210-220}{11\sqrt{1/100+1/150}} = \frac{-10}{11×0.1291} = \frac{-10}{1.420}= -7.04\). Critical z=1.96. Reject H0. Significant difference.<br>
+<span class="final">z=-7.04, reject H0.</span>
+</div></details>
+
+<details><summary><strong>36.</strong> University A: n=400, mean=55, SD=10; B: n=100, mean=57, SD=15. Test difference.</summary><div class="details-content">
+\(z = \frac{55-57}{\sqrt{10^2/400 + 15^2/100}} = \frac{-2}{\sqrt{0.25+2.25}} = \frac{-2}{\sqrt{2.5}} = \frac{-2}{1.581}= -1.265\). Critical z=1.96. Accept H0. No significant difference.<br>
+<span class="final">z=-1.265, accept H0.</span>
+</div></details>
+
+<details><summary><strong>37.</strong> Two bulb samples: n1=40, mean1=647, SD1=27; n2=40, mean2=638, SD2=31. Test difference at 5%.</summary><div class="details-content">
+\(z = \frac{647-638}{\sqrt{27^2/40 + 31^2/40}} = \frac{9}{\sqrt{18.225+24.025}} = \frac{9}{\sqrt{42.25}} = \frac{9}{6.5}=1.3846\). Critical z=1.96. Accept H0. No significant difference.<br>
+<span class="final">z=1.385, accept H0.</span>
+</div></details>
+
+<details><summary><strong>38.</strong> Karnataka: 1000 people, 540 rice eaters. Test if rice and wheat equally popular (p=0.5) at 1%.</summary><div class="details-content">
+\(p=0.54\), \(z = \frac{0.54-0.5}{\sqrt{0.5×0.5/1000}} = \frac{0.04}{0.01581}=2.53\). Critical z_{0.005}=2.576. Since 2.53<2.576, accept H0. Equal popularity.<br>
+<span class="final">z=2.53, accept H0.</span>
+</div></details>
+
+<details><summary><strong>39.</strong> 600 men, 325 smokers. Test if majority (p>0.5).</summary><div class="details-content">
+\(p=325/600=0.5417\). \(z = \frac{0.5417-0.5}{\sqrt{0.5×0.5/600}} = \frac{0.0417}{0.02041}=2.043\). One‑tailed critical z_{0.05}=1.645. Since 2.043>1.645, reject H0. Majority are smokers.<br>
+<span class="final">z=2.043, reject H0 → majority smoke.</span>
+</div></details>
+
+<details><summary><strong>40.</strong> Die thrown 9000 times, 3220 yielded 3 or 4. Test unbiased at 1%.</summary><div class="details-content">
+If unbiased, P(3 or 4)=2/6=1/3. Expected=9000/3=3000. \(z = \frac{3220-3000}{\sqrt{9000×1/3×2/3}} = \frac{220}{\sqrt{9000×2/9}} = \frac{220}{\sqrt{2000}} = \frac{220}{44.721}=4.92\). Critical z=2.576. Reject H0. Die is biased.<br>
+<span class="final">z=4.92, reject H0.</span>
+</div></details>
+<details><summary><strong>41.</strong> Manufacturer claims 4% defective. Sample 500, 100 defective. Test at 0.05 level.</summary><div class="details-content">
+\(H_0: p=0.04\), \(H_1: p\neq0.04\). Sample proportion \(\hat{p}=100/500=0.2\). \(z = \frac{0.2-0.04}{\sqrt{0.04×0.96/500}} = \frac{0.16}{\sqrt{0.0384/500}} = \frac{0.16}{\sqrt{0.0000768}} = \frac{0.16}{0.008763}=18.26\). Critical z=1.96. Reject H0. Claim false.<br>
+<span class="final">z=18.26, reject H0 → defective rate not 4%.</span>
+</div></details>
+
+<details><summary><strong>42.</strong> Heights of 10 males: 175,168,155,170,152,170,175,160,160,165. Find 95% confidence limits.</summary><div class="details-content">
+\(\bar{x} = \frac{175+168+155+170+152+170+175+160+160+165}{10} = \frac{1650}{10}=165\). \(s^2 = \frac{\sum(x-\bar{x})^2}{9}\). Deviations: 10,3,-10,5,-13,5,10,-5,-5,0. Squares: 100,9,100,25,169,25,100,25,25,0 = 578. \(s^2=578/9=64.222\), \(s=8.014\). df=9, \(t_{0.025,9}=2.262\). Margin = \(2.262×8.014/\sqrt{10}=2.262×2.534=5.73\). CI = \(165±5.73 = (159.27, 170.73)\).<br>
+<span class="final">95% CI: (159.3, 170.7) cm</span>
+</div></details>
+
+<details><summary><strong>43.</strong> Sample 25 bulbs, mean=1550h, SD=120h. Company claims 1600h. Test at 5%.</summary><div class="details-content">
+\(t = \frac{1550-1600}{120/\sqrt{25}} = \frac{-50}{24}= -2.0833\). df=24, critical \(t_{0.025,24}=2.064\). \(|t|=2.083 > 2.064\), reject H0. Claim not acceptable.<br>
+<span class="final">t=-2.083, reject H0.</span>
+</div></details>
+
+<details><summary><strong>44.</strong> Two samples: Sample1 (n=8): 19,17,15,21,16,18,16,14; Sample2 (n=7): 15,14,15,19,15,18,16. Test difference of means.</summary><div class="details-content">
+Sample1: \(\bar{x}_1 = \frac{19+17+15+21+16+18+16+14}{8}= \frac{136}{8}=17\). \(s_1^2 = \frac{\sum(x-17)^2}{7}\). Deviations:2,0,-2,4,-1,1,-1,-3 → squares:4,0,4,16,1,1,1,9=36, \(s_1^2=36/7=5.1429\). Sample2: \(\bar{x}_2 = \frac{15+14+15+19+15+18+16}{7}= \frac{112}{7}=16\). Deviations:-1,-2,-1,3,-1,2,0 → squares:1,4,1,9,1,4,0=20, \(s_2^2=20/6=3.3333\). Pooled \(s_p^2 = \frac{7×5.1429+6×3.3333}{13}= \frac{36+20}{13}=56/13=4.3077\), \(s_p=2.0755\). \(t = \frac{17-16}{2.0755\sqrt{1/8+1/7}} = \frac{1}{2.0755×0.5175}= \frac{1}{1.074}=0.931\). df=13, critical t=2.16. Accept H0. No significant difference.<br>
+<span class="final">t=0.931, accept H0.</span>
+</div></details>
+
+<details><summary><strong>45.</strong> Two bulb types: n1=8, mean1=1234, SD1=36; n2=7, mean2=1036, SD2=40. Test if type1 superior (μ1>μ2).</summary><div class="details-content">
+Pooled \(s_p^2 = \frac{7×1296 + 6×1600}{13}= \frac{9072+9600}{13}= \frac{18672}{13}=1436.31\), \(s_p=37.90\). \(t = \frac{1234-1036}{37.90\sqrt{1/8+1/7}} = \frac{198}{37.90×0.5175}= \frac{198}{19.62}=10.09\). df=13, one‑tailed critical \(t_{0.05,13}=1.771\). Reject H0. Type1 superior.<br>
+<span class="final">t=10.09, reject H0 → type1 better.</span>
+</div></details>
+
+<details><summary><strong>46.</strong> Sample of 6 persons: 10,12,8,9,16,5 cigarettes. Estimate average at 90% confidence (t=2.015 for df=5).</summary><div class="details-content">
+\(\bar{x} = \frac{10+12+8+9+16+5}{6}= \frac{60}{6}=10\). \(s^2 = \frac{\sum(x-10)^2}{5}\). Deviations:0,2,-2,-1,6,-5 → squares:0,4,4,1,36,25=70. \(s^2=70/5=14\), \(s=3.742\). Margin = \(2.015×3.742/\sqrt{6}=2.015×1.528=3.08\). CI = \(10±3.08 = (6.92, 13.08)\).<br>
+<span class="final">90% CI: (6.92, 13.08) cigarettes</span>
+</div></details>
+
+<details><summary><strong>47.</strong> Fertilizer machine: target 12 kg. Sample: 11,14,13,12,13,12,13,14,11,12. Test if defective (μ≠12). t=2.262 for 9 df.</summary><div class="details-content">
+\(\bar{x} = \frac{11+14+13+12+13+12+13+14+11+12}{10}= \frac{125}{10}=12.5\). \(s^2 = \frac{\sum(x-12.5)^2}{9}\). Deviations:-1.5,1.5,0.5,-0.5,0.5,-0.5,0.5,1.5,-1.5,-0.5. Squares:2.25,2.25,0.25,0.25,0.25,0.25,0.25,2.25,2.25,0.25=10.5. \(s^2=10.5/9=1.1667\), \(s=1.080\). \(t = \frac{12.5-12}{1.080/\sqrt{10}} = \frac{0.5}{0.3415}=1.464\). Critical t=2.262. Accept H0. Machine not defective.<br>
+<span class="final">t=1.464, accept H0.</span>
+</div></details>
+
+<details><summary><strong>48.</strong> Same as Q15: n=16, mean=53, sum sq dev=150. Test if population mean=56. 95% and 99% CI.</summary><div class="details-content">
+See Q15: t=-3.794, reject H0. 95% CI (51.32,54.69); 99% CI (50.67,55.33).</div></details>
+
+<details><summary><strong>49.</strong> Washers: target 0.50 mm. Sample n=10, mean=0.53, SD=0.03. Test at (i) 0.05 (ii) 0.01.</summary><div class="details-content">
+\(t = \frac{0.53-0.50}{0.03/\sqrt{10}} = \frac{0.03}{0.0094868}=3.162\). df=9. (i) critical \(t_{0.025,9}=2.262\), reject H0 at 5%. (ii) critical \(t_{0.005,9}=3.250\), accept H0 at 1%. So machine defective at 5% but not at 1%.<br>
+<span class="final">t=3.162 → reject at 5%, accept at 1%.</span>
+</div></details>
+
+<details><summary><strong>50.</strong> Eleven school boys: pre‑test and post‑test marks? Data not given. Question incomplete. But we can state: paired t-test required. Without data, cannot compute.</summary><div class="details-content">
+Insufficient data. Typically, compute differences, then \(t = \frac{\bar{d}}{s_d/\sqrt{n}}\). If given, compare with t table.</div></details>
+
+<!-- ==================== Q51 TO Q62 ==================== -->
+<h2>📐 Questions 51 – 62</h2>
+
+<details><summary><strong>51.</strong> Steel rods: specified 18.5 thousand pounds. Sample n=14, mean=17.85, SD=1.955. Test significance at 95% confidence.</summary><div class="details-content">
+\(t = \frac{17.85-18.5}{1.955/\sqrt{14}} = \frac{-0.65}{0.5225}= -1.244\). df=13, critical \(t_{0.025,13}=2.160\). |t|<2.160, accept H0. Not significant.<br>
+<span class="final">t=-1.244, not significant.</span>
+</div></details>
+
+<details><summary><strong>52.</strong> Sample1: n1=13, variance estimate 3.0; sample2: n2=15, variance estimate 2.5. Test equal variances.</summary><div class="details-content">
+\(F = 3.0/2.5 = 1.2\). df1=12, df2=14. Critical \(F_{0.05,12,14}=2.53\). Accept H0. Variances equal.<br>
+<span class="final">F=1.2, accept H0.</span>
+</div></details>
+
+<details><summary><strong>53.</strong> Two samples: n1=9, sum sq dev=160; n2=8, sum sq dev=91. Test same normal population.</summary><div class="details-content">
+\(s_1^2=160/8=20\), \(s_2^2=91/7=13\). \(F=20/13=1.5385\). df1=8, df2=7. Critical \(F_{0.05,8,7}=3.73\). Accept H0. Same variance.<br>
+<span class="final">F=1.538, accept H0.</span>
+</div></details>
+
+<details><summary><strong>54.</strong> Nicotine contents: Sample1: 21,24,25,26,27; Sample2: 22,27,28,30,31,36. Test if from same population.</summary><div class="details-content">
+Sample1: n1=5, \(\bar{x}_1=24.6\), \(s_1^2= \sum(x-24.6)^2/4 = (3.6^2+0.6^2+0.4^2+1.4^2+2.4^2)/4 = (12.96+0.36+0.16+1.96+5.76)/4=21.2/4=5.3\). Sample2: n2=6, \(\bar{x}_2=29\), \(s_2^2 = \sum(x-29)^2/5 = (49+4+1+1+4+49)/5=108/5=21.6\). Pooled \(t = \frac{24.6-29}{\sqrt{5.3/5+21.6/6}} = \frac{-4.4}{\sqrt{1.06+3.6}} = \frac{-4.4}{\sqrt{4.66}}= \frac{-4.4}{2.159}= -2.038\). df=9, critical t=2.262. Accept H0. Same population.<br>
+<span class="final">t=-2.038, accept H0.</span>
+</div></details>
+
+<details><summary><strong>55.</strong> Sample A (n=7): 28,30,32,33,33,29,34; Sample B (n=6): 29,30,30,24,27,29. Test equal variances.</summary><div class="details-content">
+Sample A: mean=31.2857, \(s_A^2 = \sum(x-31.2857)^2/6\). Deviations: -3.2857,-1.2857,0.7143,1.7143,1.7143,-2.2857,2.7143. Squares sum ≈ 10.8+1.65+0.51+2.94+2.94+5.22+7.37=31.43, \(s_A^2=5.238\). Sample B: mean=28.1667, \(s_B^2 = \sum(x-28.1667)^2/5\). Deviations:0.8333,1.8333,1.8333,-4.1667,-1.1667,0.8333. Squares sum ≈0.694+3.361+3.361+17.361+1.361+0.694=26.832, \(s_B^2=5.366\). \(F=5.366/5.238=1.024\). df1=5, df2=6, critical ≈4.39. Accept H0.<br>
+<span class="final">F=1.024, accept H0.</span>
+</div></details>
+
+<details><summary><strong>56.</strong> Two samples (given) test equal variances. (Sample I: 10 values; Sample II: 12 values).</summary><div class="details-content">
+Compute sample variances: Sample I: values 20,16,26,27,23,22,18,24,25,19 → mean=22, squares sum= (4+36+16+25+1+0+16+4+9+9)=120, \(s_1^2=120/9=13.333\). Sample II: 17,23,32,25,22,24,28,6,31,33,20,27 → mean=24, squares sum: (49+1+64+1+4+0+16+324+49+81+16+9)=614, \(s_2^2=614/11=55.818\). \(F=55.818/13.333=4.186\). df1=11, df2=9, critical \(F_{0.05,11,9}=3.10\). Since 4.186>3.10, reject H0. Variances differ.<br>
+<span class="final">F=4.186, reject H0.</span>
+</div></details>
+
+<details><summary><strong>57.</strong> Ten individuals heights: 63,63,64,66,69,69,70,70,71 (only 9 given? Possibly missing one). Suggest mean of universe is 65. Compute t-test.</summary><div class="details-content">
+Assuming 9 values: \(\bar{x} = (63+63+64+66+69+69+70+70+71)/9 = 605/9=67.222\). \(s^2 = \sum(x-67.222)^2/8\). Deviations: -4.222,-4.222,-3.222,-1.222,1.778,1.778,2.778,2.778,3.778. Squares sum ≈ 17.83+17.83+10.38+1.49+3.16+3.16+7.72+7.72+14.27=83.56, \(s^2=10.445\), \(s=3.232\). \(t = \frac{67.222-65}{3.232/3} = \frac{2.222}{1.077}=2.064\). df=8, critical \(t_{0.025,8}=2.306\). Accept H0. Mean not different from 65.<br>
+<span class="final">t=2.064, accept H0.</span>
+</div></details>
+
+<details><summary><strong>58.</strong> Same as Q21: sample 100 bulbs, mean=1570, SD=120, claim 1600.</summary><div class="details-content">
+Test at 0.05 → z=-2.5, reject claim.<br>
+<span class="final">z=-2.5, reject claim.</span>
+</div></details>
+
+<details><summary><strong>59.</strong> Fit Poisson and test goodness of fit: x:0,1,2,3,4,5,6; f:273,70,30,7,7,2,1. Total N=390.</summary><div class="details-content">
+Compute λ = (0×273+1×70+2×30+3×7+4×7+5×2+6×1)/390 = (0+70+60+21+28+10+6)/390 = 195/390=0.5. Expected frequencies: E0=390e^{-0.5}=390×0.60653=236.5; E1=236.5×0.5=118.3; E2=59.15; E3=19.72; E4=4.93; E5=0.985; E6=0.164. Combine last groups. χ² = (273-236.5)²/236.5 + (70-118.3)²/118.3 + (30-59.15)²/59.15 + (7-19.72)²/19.72 + (7+2+1-4.93-0.985-0.164)²/... = 5.64+19.68+14.38+8.21+... total ≈56. df=5 (after combining), critical χ²=11.07. Reject fit. Not Poisson.<br>
+<span class="final">χ² large, reject Poisson.</span>
+</div></details>
+
+<details><summary><strong>60.</strong> Guinea pigs: observed 34 red,10 black,20 white. Expected ratio 9:3:4 (total 64).</summary><div class="details-content">
+Expected: 36,12,16. χ² = (34-36)²/36 + (10-12)²/12 + (20-16)²/16 = 4/36 + 4/12 + 16/16 = 0.111+0.333+1=1.444. df=2, critical 5.99. Accept H0. Data consistent.<br>
+<span class="final">χ²=1.444, accept model.</span>
+</div></details>
+
+<details><summary><strong>61.</strong> Five coins tossed 320 times. Heads observed: 0:15,1:45,2:85,3:95,4:60,5:20. Test unbiased coin.</summary><div class="details-content">
+If unbiased, Binomial n=5, p=0.5. Probabilities: P(0)=1/32,1=5/32,2=10/32,3=10/32,4=5/32,5=1/32. Expected: 320/32=10 each: 10,50,100,100,50,10. χ² = (15-10)²/10 + (45-50)²/50 + (85-100)²/100 + (95-100)²/100 + (60-50)²/50 + (20-10)²/10 = 25/10+25/50+225/100+25/100+100/50+100/10 = 2.5+0.5+2.25+0.25+2+10=17.5. df=5, critical 11.07. Reject H0. Coin biased.<br>
+<span class="final">χ²=17.5, reject H0.</span>
+</div></details>
+
+<details><summary><strong>62.</strong> Vaccination experiment: 2×2 table. Test independence.</summary><div class="details-content">
+Observed: 
+\[
+\begin{array}{c|cc|c}
+ & \text{Disease} & \text{No Disease} & \text{Total} \\ \hline
+\text{Vaccinated} & 9 & 42 & 51 \\
+\text{Not vaccinated} & 17 & 28 & 45 \\ \hline
+\text{Total} & 26 & 70 & 96
+\end{array}
+\]
+Expected: E11=51×26/96=13.8125, E12=51×70/96=37.1875, E21=45×26/96=12.1875, E22=45×70/96=32.8125. χ² = (9-13.8125)²/13.8125 + (42-37.1875)²/37.1875 + (17-12.1875)²/12.1875 + (28-32.8125)²/32.8125 = 23.16/13.8125 + 23.16/37.1875 + 23.16/12.1875 + 23.16/32.8125 = 1.677+0.623+1.901+0.706=4.907. df=1, critical 3.841. Reject H0. Vaccination and disease are dependent.<br>
+<span class="final">χ²=4.907, reject independence.</span>
+</div></details>
+
+
+<h2>📌 TUTORIAL – 10</h2>
+
+<details><summary><strong>1.</strong> A sample of 900 members is found to have a mean of 3.4 cm. Can it be reasonably regarded as a truly random sample from a large population with mean 3.25 cm and SD 1.61 cm?</summary><div class="details-content">
+\(H_0: \mu = 3.25\), \(H_1: \mu \neq 3.25\). Large sample, use z-test.
+\[
+z = \frac{\bar{x} - \mu}{\sigma / \sqrt{n}} = \frac{3.4 - 3.25}{1.61 / \sqrt{900}} = \frac{0.15}{1.61/30} = \frac{0.15}{0.05367} = 2.795
+\]
+Critical value \(z_{0.025}=1.96\). Since \(|z| = 2.795 > 1.96\), reject \(H_0\). The sample cannot be regarded as a random sample from the given population.
+<span class="final">z=2.795, reject H₀ → not a random sample.</span>
+</div></details>
+
+<details><summary><strong>2.</strong> A population consists of the four numbers 2, 3, 6, 8, 11. Consider all possible samples of size 2 drawn (i) with replacement and (ii) without replacement. Find (a) population mean, (b) population standard deviation, (c) mean of sampling distribution of means, (d) standard error of means.</summary><div class="details-content">
+Population: 2,3,6,8,11. \(N=5\).<br>
+(a) \(\mu = \frac{2+3+6+8+11}{5} = \frac{30}{5}=6\).<br>
+(b) \(\sigma^2 = \frac{\sum x_i^2}{N} - \mu^2 = \frac{4+9+36+64+121}{5} - 36 = \frac{234}{5} - 36 = 46.8 - 36 = 10.8\). So \(\sigma = \sqrt{10.8} = 3.2863\).<br>
+(c) Mean of sampling distribution of means = \(\mu = 6\) for both cases.<br>
+(d) <strong>With replacement:</strong> \(SE = \frac{\sigma}{\sqrt{n}} = \frac{3.2863}{\sqrt{2}} = 2.324\).<br>
+<strong>Without replacement:</strong> \(SE = \frac{\sigma}{\sqrt{n}} \cdot \sqrt{\frac{N-n}{N-1}} = 2.324 \times \sqrt{\frac{5-2}{5-1}} = 2.324 \times \sqrt{\frac{3}{4}} = 2.324 \times 0.8660 = 2.013\).<br>
+<span class="final">μ=6, σ=3.286, mean of sample means=6, SE(with)=2.324, SE(without)=2.013.</span>
+</div></details>
+
+<details><summary><strong>3.</strong> A sample of 100 days is taken from meteorological records of a certain district and 10 of them are found to be foggy. What are the probable limits of the percentage of foggy days in the district?</summary><div class="details-content">
+Sample proportion \(p = 10/100 = 0.10\). Standard error \(SE = \sqrt{\frac{p(1-p)}{n}} = \sqrt{\frac{0.10 \times 0.90}{100}} = \sqrt{0.0009} = 0.03\).<br>
+For 95% confidence limits: \(p \pm 1.96 SE = 0.10 \pm 0.0588 = (0.0412, 0.1588)\) → \(4.12\%\) to \(15.88\%\).<br>
+For 99% confidence limits: \(p \pm 2.576 SE = 0.10 \pm 0.0773 = (0.0227, 0.1773)\) → \(2.27\%\) to \(17.73\%\).<br>
+<span class="final">95%: (4.1%, 15.9%); 99%: (2.3%, 17.7%).</span>
+</div></details>
+
+<details><summary><strong>4.</strong> The following data represent biological values of protein from cow’s milk and buffalo’s milk at a certain level. Cow’s milk: 19, 17, 15, 21, 16, 18, 16, 14; Buffalo’s milk: 15, 14, 15, 19, 15, 18, 16. Examine if the average values significantly differ.</summary><div class="details-content">
+Let sample 1 (cow): \(n_1=8\), sample 2 (buffalo): \(n_2=7\).<br>
+\(\bar{x}_1 = \frac{19+17+15+21+16+18+16+14}{8} = \frac{136}{8}=17\).<br>
+\(\bar{x}_2 = \frac{15+14+15+19+15+18+16}{7} = \frac{112}{7}=16\).<br>
+\(s_1^2 = \frac{\sum(x_1-17)^2}{7} = \frac{(2)^2+(0)^2+(-2)^2+(4)^2+(-1)^2+(1)^2+(-1)^2+(-3)^2}{7} = \frac{4+0+4+16+1+1+1+9}{7}= \frac{36}{7}=5.1429\).<br>
+\(s_2^2 = \frac{\sum(x_2-16)^2}{6} = \frac{(-1)^2+(-2)^2+(-1)^2+(3)^2+(-1)^2+(2)^2+(0)^2}{6} = \frac{1+4+1+9+1+4+0}{6}= \frac{20}{6}=3.3333\).<br>
+Pooled variance: \(s_p^2 = \frac{(n_1-1)s_1^2 + (n_2-1)s_2^2}{n_1+n_2-2} = \frac{7×5.1429 + 6×3.3333}{13} = \frac{36+20}{13}= \frac{56}{13}=4.3077\). \(s_p = 2.0755\).<br>
+\(t = \frac{\bar{x}_1 - \bar{x}_2}{s_p \sqrt{\frac{1}{n_1}+\frac{1}{n_2}}} = \frac{17-16}{2.0755 \sqrt{\frac18+\frac17}} = \frac{1}{2.0755 \times 0.5175} = \frac{1}{1.074} = 0.931\).<br>
+df = 13, critical \(t_{0.025,13}=2.160\). Since \(|t| = 0.931 < 2.160\), accept \(H_0\). No significant difference.<br>
+<span class="final">t=0.931, accept H₀ → means are not significantly different.</span>
+</div></details>
+
+<details><summary><strong>5.</strong> Show that 95% confidence limits for the mean μ of the population are \(\bar{x} \pm \frac{t_{0.05} s}{\sqrt{n}}\). Deduce that for a random sample of 16 values with mean 41.5 inches and sum of squares of deviation from mean = 135 inches², the 95% confidence limits are 39.9 and 43.1 inches.</summary><div class="details-content">
+For small samples, when population σ is unknown, the confidence interval is \(\bar{x} \pm t_{\alpha/2, n-1} \frac{s}{\sqrt{n}}\). With 95% confidence, \(\alpha=0.05\), so \(t_{0.025, n-1}\). Usually denoted \(t_{0.05}\) in some texts for two‑tailed? The given formula uses \(t_{0.05}\) meaning \(t_{0.025}\)? We'll verify with numbers.<br>
+Given: \(n=16\), \(\bar{x}=41.5\), \(\sum (x-\bar{x})^2 = 135\). Then \(s^2 = \frac{135}{15}=9\), so \(s=3\).<br>
+\(t_{0.025,15}=2.131\). Margin = \(2.131 \times \frac{3}{\sqrt{16}} = 2.131 \times 0.75 = 1.59825\).<br>
+Confidence limits: \(41.5 \pm 1.598 = (39.902, 43.098) \approx (39.9, 43.1)\). Hence proved.<br>
+<span class="final">CI = (39.9, 43.1).</span>
+</div></details>
+
+<!-- ==================== TUTORIAL 11 ==================== -->
+<h2>📌 TUTORIAL – 11</h2>
+
+<details><summary><strong>1.</strong> A group of 10 rats fed on diet A and another group of 8 rats fed on diet B recorded the following increase in weights (gms). Diet A: 5, 6, 8, 1, 12, 4, 3, 9, 6, 10; Diet B: 2, 3, 6, 8, 1, 10, 2, 8. Test whether diet A is superior to diet B.</summary><div class="details-content">
+\(H_0: \mu_A = \mu_B\), \(H_1: \mu_A > \mu_B\) (one‑tailed).<br>
+Sample A: \(n_1=10\), \(\bar{x}_1 = \frac{5+6+8+1+12+4+3+9+6+10}{10} = \frac{64}{10}=6.4\).<br>
+Deviations from 6.4: -1.4, -0.4, 1.6, -5.4, 5.6, -2.4, -3.4, 2.6, -0.4, 3.6. Squares: 1.96,0.16,2.56,29.16,31.36,5.76,11.56,6.76,0.16,12.96 = 102.4. \(s_1^2 = 102.4/9 = 11.3778\), \(s_1=3.373\).<br>
+Sample B: \(n_2=8\), \(\bar{x}_2 = \frac{2+3+6+8+1+10+2+8}{8} = \frac{40}{8}=5\).<br>
+Deviations: -3, -2, 1, 3, -4, 5, -3, 3. Squares: 9,4,1,9,16,25,9,9 = 82. \(s_2^2 = 82/7 = 11.7143\), \(s_2=3.422\).<br>
+Pooled \(s_p^2 = \frac{9×11.3778 + 7×11.7143}{16} = \frac{102.4+82}{16}= \frac{184.4}{16}=11.525\), \(s_p=3.395\).<br>
+\(t = \frac{6.4-5}{3.395 \sqrt{\frac{1}{10}+\frac{1}{8}}} = \frac{1.4}{3.395×0.4743} = \frac{1.4}{1.610}=0.869\).<br>
+df=16, one‑tailed critical \(t_{0.05,16}=1.746\). Since 0.869 < 1.746, accept H0. Diet A is not significantly superior.<br>
+<span class="final">t=0.869, accept H₀ → no evidence of superiority.</span>
+</div></details>
+
+<details><summary><strong>2.</strong> The heights of 10 males of a given locality are found to be 175, 168, 155, 170, 152, 170, 175, 160, 160 and 165 cms. Based on this sample, find the 95% confidence limits for the height of males in that locality.</summary><div class="details-content">
+\(\bar{x} = \frac{175+168+155+170+152+170+175+160+160+165}{10} = \frac{1650}{10}=165\).<br>
+Deviations: 10,3,-10,5,-13,5,10,-5,-5,0. Squares: 100,9,100,25,169,25,100,25,25,0 = 578. \(s^2 = \frac{578}{9}=64.222\), \(s=8.014\).<br>
+\(t_{0.025,9}=2.262\). Margin = \(2.262 \times \frac{8.014}{\sqrt{10}} = 2.262 \times 2.534 = 5.73\).<br>
+CI = \(165 \pm 5.73 = (159.27, 170.73)\).<br>
+<span class="final">95% CI: (159.3, 170.7) cm.</span>
+</div></details>
+
+<details><summary><strong>3.</strong> Two random samples drawn from 2 normal populations are given below. Test whether the 2 populations have the same variance.<br>
+Sample I: 20, 16, 26, 27, 23, 22, 18, 24, 25, 19<br>
+Sample II: 17, 23, 32, 25, 22, 24, 28, 6, 31, 33, 20, 27</summary><div class="details-content">
+Sample I: \(n_1=10\), mean = \(\frac{20+16+26+27+23+22+18+24+25+19}{10}= \frac{220}{10}=22\).<br>
+Deviations: -2,-6,4,5,1,0,-4,2,3,-3. Squares:4,36,16,25,1,0,16,4,9,9 = 120. \(s_1^2 = 120/9 = 13.333\).<br>
+Sample II: \(n_2=12\), mean = \(\frac{17+23+32+25+22+24+28+6+31+33+20+27}{12}= \frac{288}{12}=24\).<br>
+Deviations: -7,-1,8,1,-2,0,4,-18,7,9,-4,3. Squares:49,1,64,1,4,0,16,324,49,81,16,9 = 614. \(s_2^2 = 614/11 = 55.818\).<br>
+\(F = \frac{s_2^2}{s_1^2} = \frac{55.818}{13.333} = 4.186\). df₁=11, df₂=9. Critical \(F_{0.05,11,9}=3.10\) (approx). Since \(4.186 > 3.10\), reject H0. Variances are not equal.<br>
+<span class="final">F=4.186, reject H₀ → variances differ.</span>
+</div></details>
+
+<details><summary><strong>4.</strong> Among 64 offsprings of a certain cross between Guinea pigs, 34 were red, 10 were black and 20 were white. According to the genetic model these numbers should be in the ratio 9:3:4. Are the data consistent with the model at 5% level?</summary><div class="details-content">
+Total = 64. Expected ratio 9:3:4 → sum = 16. Expected frequencies: Red = \(64 \times 9/16 = 36\), Black = \(64 \times 3/16 = 12\), White = \(64 \times 4/16 = 16\).<br>
+\(\chi^2 = \frac{(34-36)^2}{36} + \frac{(10-12)^2}{12} + \frac{(20-16)^2}{16} = \frac{4}{36} + \frac{4}{12} + \frac{16}{16} = 0.1111 + 0.3333 + 1 = 1.4444\).<br>
+df = 3-1 = 2. Critical \(\chi^2_{0.05,2}=5.991\). Since 1.444 < 5.991, accept H0. Data consistent with model.<br>
+<span class="final">χ²=1.444, accept H₀ → model fits.</span>
+</div></details>
+
+<details><summary><strong>5.</strong> The daily wages in rupees of skilled workers in two cities are as follows.<br>
+City A: Sample size = 16, SD = 25<br>
+City B: Sample size = 13, SD = 32<br>
+Test at 5% level the equality of variances of the wage distribution in the two cities.</summary><div class="details-content">
+\(F = \frac{s_2^2}{s_1^2} = \frac{32^2}{25^2} = \frac{1024}{625} = 1.6384\).<br>
+df₁ = n₂-1 = 12, df₂ = n₁-1 = 15. Critical \(F_{0.05,12,15} \approx 2.48\). Since 1.6384 < 2.48, accept H0. Variances are equal.<br>
+<span class="final">F=1.638, accept H₀ → variances equal.</span>
+</div></details>
+
+<p class="final" style="margin-top:30px; text-align:center">✅ Tutorials 10 and 11 – all questions solved with clear steps.</p>
+</div>
+</body>
+</html>
