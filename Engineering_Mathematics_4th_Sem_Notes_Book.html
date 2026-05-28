@@ -1018,19 +1018,23 @@
             </div>
 
             <div class="tab-bar">
-                <button class="tab-btn active" id="tab-unit1-pdf1" onclick="switchUnit1PDF('notes')">
+                <button class="tab-btn active" id="tab-unit1-pdf1" onclick="switchUnit1Tab('notes')">
                     <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
                     PPT Notes
                 </button>
-                <button class="tab-btn" id="tab-unit1-pdf2" onclick="switchUnit1PDF('solutions')">
+                <button class="tab-btn" id="tab-unit1-pdf2" onclick="switchUnit1Tab('solutions')">
                     <svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2zM12 11v6M9 14h6"></path></svg>
                     Question Bank Solutions
                 </button>
+                <button class="tab-btn" id="tab-unit1-pdf3" onclick="switchUnit1Tab('syllabus')">
+                    <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5A2.5 2.5 0 0 0 6.5 22H20M4 19.5V3.5A2.5 2.5 0 0 1 6.5 1H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5z"></path></svg>
+                    Syllabus Outline
+                </button>
             </div>
 
-            <div class="dashboard-grid">
+            <div>
                 <!-- PDF Area -->
-                <div>
+                <div id="unit1-pdf-view">
                     <div class="pdf-viewer-container" id="pdf-container-unit1">
                         <div class="pdf-viewer-header">
                             <span class="pdf-viewer-title" id="unit1-pdf-title">
@@ -1046,8 +1050,10 @@
                     </div>
                 </div>
 
+                </div>
+
                 <!-- Info Column -->
-                <div>
+                <div id="unit1-syllabus-view" style="display: none;">
                     <div class="card">
                         <div class="card-header" style="border:none; margin-bottom:10px; padding-bottom:0;">
                             <h3 class="card-title">Syllabus Outline</h3>
@@ -1726,27 +1732,41 @@
             }
         }
 
-        // Switch PDF tabs in Unit 1
-        function switchUnit1PDF(type) {
+        // Switch tabs in Unit 1
+        function switchUnit1Tab(type) {
             const iframe = document.getElementById('unit1-iframe');
             const titleSpan = document.getElementById('unit1-pdf-title');
             const downloadLink = document.getElementById('unit1-download-link');
+            const pdfView = document.getElementById('unit1-pdf-view');
+            const syllabusView = document.getElementById('unit1-syllabus-view');
             
             const btn1 = document.getElementById('tab-unit1-pdf1');
             const btn2 = document.getElementById('tab-unit1-pdf2');
+            const btn3 = document.getElementById('tab-unit1-pdf3');
+            
+            // Remove active class from all
+            btn1.classList.remove('active');
+            btn2.classList.remove('active');
+            btn3.classList.remove('active');
             
             if (type === 'notes') {
+                pdfView.style.display = 'block';
+                syllabusView.style.display = 'none';
                 iframe.src = 'MATHS/Unit 1(PPT notes).pdf';
                 titleSpan.innerHTML = '<svg viewBox="0 0 24 24" style="width:16px; height:16px; stroke:var(--accent-cyan); fill:none; stroke-width:2;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg> unit_1_ppt_notes.pdf';
                 downloadLink.href = 'MATHS/Unit 1(PPT notes).pdf';
                 btn1.classList.add('active');
-                btn2.classList.remove('active');
-            } else {
+            } else if (type === 'solutions') {
+                pdfView.style.display = 'block';
+                syllabusView.style.display = 'none';
                 iframe.src = 'MATHS/QuestionBank.html';
                 titleSpan.innerHTML = '<svg viewBox="0 0 24 24" style="width:16px; height:16px; stroke:var(--accent-cyan); fill:none; stroke-width:2;"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2zM12 11v6M9 14h6"></path></svg> QuestionBank.html (Solutions)';
                 downloadLink.href = 'MATHS/QuestionBank.html';
                 btn2.classList.add('active');
-                btn1.classList.remove('active');
+            } else if (type === 'syllabus') {
+                pdfView.style.display = 'none';
+                syllabusView.style.display = 'block';
+                btn3.classList.add('active');
             }
         }
 
