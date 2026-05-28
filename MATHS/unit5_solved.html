@@ -94,7 +94,9 @@ At least 2 kg of A: \(x \ge 2\)<br>
 Not more than 4 kg of B: \(y \le 4\)<br>
 Non‑negativity: \(x, y \ge 0\)<br>
 Profit: Maximize \(Z = 5x + 6y\)<br>
-<span class="final">Max \(Z=5x+6y\) subject to \(x+y=5,\; x\ge2,\; y\le4,\; x,y\ge0\).</span>
+<div class="graph-container"><img src="graphs/q11.png" alt="Q11 Graph: Gift Pack" style="width:100%;max-width:600px;border-radius:8px;"></div>
+<table class="corner-table"><tr><th>Point</th><th>x</th><th>y</th><th>Z=5x+6y</th></tr><tr><td>(5,0)</td><td>5</td><td>0</td><td>25</td></tr><tr><td><b>(2,3) ★</b></td><td><b>2</b></td><td><b>3</b></td><td><b>28</b></td></tr></table>
+<span class="final">Max \(Z=5x+6y\) subject to \(x+y=5,\; x\ge2,\; y\le4,\; x,y\ge0\). Optimal: x=2, y=3, Z=28.</span>
 </div></details>
 
 <details><summary><strong>12.</strong> Manufacturer: M1 (4h grinding, 2h polishing), M2 (2h grinding, 5h polishing). 2 grinders (40h/week each → 80h), 3 polishers (60h/week each → 180h). Profit: M1=Rs.3, M2=Rs.4. Maximize profit.</summary><div class="details-content">
@@ -103,7 +105,9 @@ Grinding: \(4x + 2y \le 80\)<br>
 Polishing: \(2x + 5y \le 180\)<br>
 Non‑negativity: \(x, y \ge 0\)<br>
 Maximize \(Z = 3x + 4y\)<br>
-<span class="final">Max \(Z=3x+4y\) subject to \(4x+2y\le80,\; 2x+5y\le180,\; x,y\ge0\).</span>
+<div class="graph-container"><img src="graphs/q12.png" alt="Q12 Graph: Manufacturer" style="width:100%;max-width:600px;border-radius:8px;"></div>
+<table class="corner-table"><tr><th>Corner</th><th>x</th><th>y</th><th>Z=3x+4y</th></tr><tr><td>O</td><td>0</td><td>0</td><td>0</td></tr><tr><td>A</td><td>20</td><td>0</td><td>60</td></tr><tr><td><b>B ★</b></td><td><b>2.5</b></td><td><b>35</b></td><td><b>147.5</b></td></tr><tr><td>C</td><td>0</td><td>36</td><td>144</td></tr></table>
+<span class="final">Max \(Z=3x+4y\) subject to \(4x+2y\le80,\; 2x+5y\le180,\; x,y\ge0\). Optimal: x=2.5, y=35, Z=147.5.</span>
 </div></details>
 
 <details><summary><strong>13.</strong> TV sets: B&W and colour. At most 300 sets. Cost: B&W Rs.1800, colour Rs.2700; budget Rs.648,000. Profit: Rs.510 (B&W), Rs.675 (colour). Maximize profit.</summary><div class="details-content">
@@ -112,7 +116,9 @@ Let \(x\) = B&W sets, \(y\) = colour sets.<br>
 \(1800x + 2700y \le 648000\) (divide 900: \(2x+3y \le 720\))<br>
 \(x, y \ge 0\)<br>
 Maximize \(Z = 510x + 675y\)<br>
-<span class="final">Max \(Z=510x+675y\) subject to \(x+y\le300,\; 2x+3y\le720,\; x,y\ge0\).</span>
+<div class="graph-container"><img src="graphs/q13.png" alt="Q13 Graph: TV Sets" style="width:100%;max-width:600px;border-radius:8px;"></div>
+<table class="corner-table"><tr><th>Corner</th><th>x</th><th>y</th><th>Z=510x+675y</th></tr><tr><td>O</td><td>0</td><td>0</td><td>0</td></tr><tr><td>A</td><td>300</td><td>0</td><td>153,000</td></tr><tr><td><b>B ★</b></td><td><b>180</b></td><td><b>120</b></td><td><b>172,800</b></td></tr><tr><td>C</td><td>0</td><td>240</td><td>162,000</td></tr></table>
+<span class="final">Max \(Z=510x+675y\) subject to \(x+y\le300,\; 2x+3y\le720,\; x,y\ge0\). Optimal: x=180, y=120, Z=Rs.172,800.</span>
 </div></details>
 
 <details><summary><strong>14.</strong> Tennis rackets and cricket bats. Racket: 1.5h machine + 3h craftsman. Bat: 3h machine + 1h craftsman. Max: machine 42h, craftsman 24h. (i) Full capacity production? (ii) Profit Rs.20/racket, Rs.10/bat → max profit.</summary><div class="details-content">
@@ -122,6 +128,8 @@ Craftsman: \(3x + y \le 24\)<br>
 \(x, y \ge 0\)<br>
 Full capacity means using all resources: \(x+2y=28,\; 3x+y=24\). Solve: multiply first by 3: \(3x+6y=84\), subtract second: \(5y=60\) ⇒ \(y=12\), then \(x=28-24=4\). So 4 rackets, 12 bats.<br>
 Profit: Max \(Z=20x+10y\) with same constraints. At (4,12): \(Z=80+120=200\). Check corners: (0,14) → 140, (8,0) → 160. So max at (4,12) = Rs.200.<br>
+<div class="graph-container"><img src="graphs/q14.png" alt="Q14 Graph: Rackets and Bats" style="width:100%;max-width:600px;border-radius:8px;"></div>
+<table class="corner-table"><tr><th>Corner</th><th>x</th><th>y</th><th>Z=20x+10y</th></tr><tr><td>O</td><td>0</td><td>0</td><td>0</td></tr><tr><td>A</td><td>8</td><td>0</td><td>160</td></tr><tr><td><b>B ★</b></td><td><b>4</b></td><td><b>12</b></td><td><b>200</b></td></tr><tr><td>C</td><td>0</td><td>14</td><td>140</td></tr></table>
 <span class="final">(i) 4 rackets, 12 bats; (ii) Max profit = Rs.200.</span>
 </div></details>
 
@@ -131,7 +139,9 @@ Time: \(\frac{x}{50} + \frac{y}{80} \le 1\) → multiply 400: \(8x + 5y \le 400\
 Petrol cost: \(2x + 3y \le 120\)<br>
 \(x, y \ge 0\)<br>
 Maximize distance \(Z = x + y\)<br>
-<span class="final">Max \(Z=x+y\) subject to \(8x+5y\le400,\; 2x+3y\le120,\; x,y\ge0\).</span>
+<div class="graph-container"><img src="graphs/q15.png" alt="Q15 Graph: Motorcycle" style="width:100%;max-width:600px;border-radius:8px;"></div>
+<table class="corner-table"><tr><th>Corner</th><th>x</th><th>y</th><th>Z=x+y</th></tr><tr><td>O</td><td>0</td><td>0</td><td>0</td></tr><tr><td>A</td><td>50</td><td>0</td><td>50</td></tr><tr><td><b>B ★</b></td><td><b>42.9</b></td><td><b>11.4</b></td><td><b>54.3</b></td></tr><tr><td>C</td><td>0</td><td>40</td><td>40</td></tr></table>
+<span class="final">Max \(Z=x+y\) subject to \(8x+5y\le400,\; 2x+3y\le120,\; x,y\ge0\). Optimal: x≈42.9, y≈11.4, Z≈54.3 km.</span>
 </div></details>
 
 <!-- ==================== STANDARD FORM Q16–Q17 ==================== -->
@@ -214,10 +224,6 @@ Feasible region: intersection of half-planes. Corners: Intersection of \(x+y=8\)
 <div class="graph-container"><img src="graphs/q22.png" alt="Q22 Graph" style="width:100%;max-width:600px;border-radius:8px;"></div>
 <span class="final">Optimal: \(x=6,\; y=2,\; z_{\min}=38\).</span>
 </div></details>
-
-<h2>📈 Graphical Method (Q21–Q22 recap)</h2>
-<details><summary><strong>21.</strong> Max Z=2x+3y under constraints: x+y≤30, y≥3, x−y≥0, 0≤x≤20, 0≤y≤12 → optimal (18,12), Z=72.</summary><div class="details-content">See previous solution. <span class="final">x=18,y=12,Z=72.</span></div></details>
-<details><summary><strong>22.</strong> Min Z=5x+4y under x+2y≤10, x+y≥8, 2x+y≥12, x,y≥0 → optimal (6,2), Z=38.</summary><div class="details-content">See previous solution. <span class="final">x=6,y=2,Z=38.</span></div></details>
 
 <!-- ==================== SIMPLEX METHOD EXPLANATION ==================== -->
 <h2>📖 Simplex & Related Concepts (Q23–Q28)</h2>
