@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unit 1: ARM Embedded Systems & SoC Architecture</title>
+    <title>Unit 1: ARM Embedded Systems & SoC</title>
     
     <!-- Google Fonts & MathJax -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,7 +12,6 @@
     <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
     
     <style>
-        /* CSS RESET & CUSTOM PROPERTY SYSTEM */
         * {
             margin: 0;
             padding: 0;
@@ -24,12 +23,11 @@
             --bg-panel: #0c1322;
             --bg-card: #131e33;
             --bg-card-hover: #192742;
-            --primary: #06b6d4;
-            --primary-hover: #0891b2;
-            --primary-glow: rgba(6, 182, 212, 0.3);
-            --accent-emerald: #10b981;
-            --accent-rose: #f43f5e;
+            --primary: #10b981;
+            --primary-glow: rgba(16, 185, 129, 0.3);
+            --accent-cyan: #06b6d4;
             --accent-amber: #f59e0b;
+            --accent-rose: #f43f5e;
             --border-color: #1e293b;
             --text-primary: #f8fafc;
             --text-secondary: #94a3b8;
@@ -52,1123 +50,808 @@
             max-width: 1200px;
             margin: 0 auto;
         }
+        
+        .header-section {
+            margin-bottom: 25px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 20px;
+        }
 
         h1 {
             font-family: var(--font-display);
             color: var(--text-primary);
-            font-size: 2.5rem;
+            font-size: 2.3rem;
             font-weight: 800;
             margin-bottom: 10px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--accent-emerald) 100%);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent-cyan) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             display: inline-block;
-            border-bottom: 2px solid var(--border-color);
-            padding-bottom: 8px;
         }
 
         .intro-p {
-            font-size: 1.1rem;
-            margin-bottom: 30px;
+            font-size: 1.05rem;
             color: var(--text-secondary);
         }
 
-        h2 {
-            font-family: var(--font-display);
-            color: var(--text-primary);
-            font-size: 1.6rem;
-            margin-top: 30px;
-            margin-bottom: 15px;
+        /* MODE TAB BAR */
+        .mode-tab-bar {
             display: flex;
-            align-items: center;
-            gap: 10px;
-            border-left: 4px solid var(--primary);
-            padding-left: 12px;
+            gap: 12px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 15px;
+            overflow-x: auto;
         }
 
-        /* PREMIUM DETAILS/SUMMARY ACCORDIONS */
-        details {
-            background-color: var(--bg-panel);
+        .mode-tab-btn {
+            background-color: var(--bg-card);
             border: 1px solid var(--border-color);
-            border-radius: var(--radius);
-            margin-bottom: 15px;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-
-        details[open] {
-            border-color: var(--primary);
-            box-shadow: 0 4px 20px var(--primary-glow);
-        }
-
-        summary {
-            padding: 18px 24px;
+            color: var(--text-secondary);
+            padding: 12px 24px;
+            border-radius: 8px;
             font-family: var(--font-display);
             font-weight: 700;
-            font-size: 1.1rem;
-            color: var(--text-primary);
-            cursor: pointer;
-            user-select: none;
-            background-color: var(--bg-card);
-            outline: none;
-            transition: background 0.2s ease;
-            list-style: none;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        summary::after {
-            content: "▼";
-            font-size: 0.8rem;
-            color: var(--primary);
-            transition: transform 0.3s ease;
-        }
-
-        details[open] summary::after {
-            transform: rotate(-180deg);
-        }
-
-        summary:hover {
-            background-color: var(--bg-card-hover);
-        }
-
-        .details-content {
-            padding: 24px;
-            background-color: var(--bg-panel);
-            border-top: 1px solid var(--border-color);
-        }
-
-        /* TABLES */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
             font-size: 0.95rem;
-            text-align: left;
-            background-color: var(--bg-card);
-            border-radius: 8px;
-            overflow: hidden;
-            border: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
         }
 
-        th, td {
-            padding: 12px 16px;
-            border: 1px solid var(--border-color);
+        .mode-tab-btn:hover {
+            color: var(--text-primary);
+            background-color: var(--bg-card-hover);
+            border-color: var(--text-muted);
         }
 
-        th {
+        .mode-tab-btn.active {
             background-color: rgba(6, 182, 212, 0.15);
-            color: var(--text-primary);
-            font-family: var(--font-display);
-            font-weight: 700;
+            color: var(--accent-cyan);
+            border-color: var(--accent-cyan);
+            box-shadow: 0 4px 15px rgba(6, 182, 212, 0.2);
         }
 
-        tr:hover {
-            background-color: rgba(255, 255, 255, 0.02);
+        .mode-content {
+            display: none;
         }
 
-        /* KEY TAKEAWAYS / BOXED CONCLUSIONS */
-        .final {
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(6, 182, 212, 0.05) 100%);
-            border: 1px solid var(--accent-emerald);
-            padding: 16px 20px;
-            border-radius: 8px;
-            color: #10b981;
-            font-weight: 600;
-            font-size: 1.05rem;
-            margin-top: 15px;
+        .mode-content.active {
             display: block;
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
+            animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .final strong {
-            color: var(--text-primary);
-            display: block;
-            margin-bottom: 4px;
-            font-family: var(--font-display);
-            font-size: 1.1rem;
-            text-transform: uppercase;
-            letter-spacing: 0.03em;
-        }
-
-        .important-box {
-            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(244, 63, 94, 0.05) 100%);
-            border-left: 4px solid var(--accent-amber);
-            padding: 12px 16px;
-            border-radius: 4px;
-            color: #f59e0b;
-            margin: 15px 0;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         /* BADGES */
         .badge {
             display: inline-block;
-            padding: 3px 10px;
+            padding: 4px 10px;
             border-radius: 20px;
             font-size: 0.75rem;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            margin-right: 8px;
-            margin-bottom: 6px;
+            margin-top: 15px;
+            margin-bottom: 8px;
         }
 
         .badge-pyq {
-            background-color: rgba(244, 63, 94, 0.2);
+            background-color: rgba(244, 63, 94, 0.15);
             color: var(--accent-rose);
             border: 1px solid rgba(244, 63, 94, 0.3);
         }
 
         .badge-imp {
-            background-color: rgba(245, 158, 11, 0.2);
+            background-color: rgba(245, 158, 11, 0.15);
             color: var(--accent-amber);
             border: 1px solid rgba(245, 158, 11, 0.3);
         }
 
         .badge-topic {
-            background-color: rgba(6, 182, 212, 0.2);
-            color: var(--primary);
+            background-color: rgba(6, 182, 212, 0.15);
+            color: var(--accent-cyan);
             border: 1px solid rgba(6, 182, 212, 0.3);
         }
 
-        /* CSS DIAGRAM CONTAINERS */
-        .diagram-container {
-            background-color: #0b111e;
-            border: 1px dashed var(--border-color);
-            border-radius: 10px;
-            padding: 24px;
-            margin: 20px 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .diagram-title {
-            font-family: var(--font-display);
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            margin-top: 10px;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        /* SoC Layout CSS Diagram */
-        .soc-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
-            width: 100%;
-            max-width: 600px;
-            background-color: #111a2e;
-            padding: 16px;
-            border-radius: 8px;
-            border: 2px solid var(--border-color);
-        }
-
-        .soc-block {
-            background-color: var(--bg-card);
+        /* TOPIC CONTENT BLOCKS */
+        .topic-block {
+            background-color: var(--bg-panel);
             border: 1px solid var(--border-color);
-            border-radius: 6px;
-            padding: 12px;
-            text-align: center;
-            font-family: var(--font-display);
-            font-weight: 700;
-            color: var(--text-primary);
-            font-size: 0.85rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 50px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+            border-radius: var(--radius);
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
-        .soc-block.core {
-            grid-column: span 2;
-            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
-            border-color: #3b82f6;
-        }
-
-        .soc-block.bus {
-            grid-column: span 4;
-            background-color: #06b6d4;
-            color: #070b13;
-            font-size: 0.9rem;
-            min-height: 25px;
-        }
-
-        .soc-block.peripheral {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            color: var(--accent-emerald);
-            border-color: rgba(16, 185, 129, 0.4);
-        }
-
-        /* Reset Circuit / Waveform Diagrams */
-        .reset-flex {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 24px;
-            width: 100%;
-            justify-content: center;
-            margin: 15px 0;
-        }
-
-        .circuit-box {
-            background-color: #111a2e;
-            border: 2px solid var(--border-color);
-            border-radius: 8px;
-            padding: 15px;
-            width: 280px;
-            height: 180px;
-            position: relative;
-            font-family: var(--font-mono);
-            font-size: 0.75rem;
-        }
-
-        .circuit-node {
-            position: absolute;
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-color);
-            padding: 4px 8px;
-            border-radius: 4px;
-            color: var(--text-primary);
-        }
-
-        /* MCU Pin configuration diagram */
-        .mcu-chip {
-            width: 320px;
-            height: 320px;
-            background: linear-gradient(135deg, #111827 0%, #1f2937 100%);
-            border: 4px solid #4b5563;
-            border-radius: 16px;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 20px auto;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-        }
-
-        .mcu-title {
-            color: var(--text-primary);
+        .topic-block h3 {
             font-family: var(--font-display);
             font-weight: 800;
-            font-size: 1.2rem;
-            text-align: center;
-            letter-spacing: 0.1em;
+            color: var(--text-primary);
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--accent-cyan);
+            padding-left: 12px;
         }
 
-        .mcu-pin {
-            position: absolute;
-            background-color: var(--primary);
-            width: 12px;
-            height: 6px;
-            border-radius: 2px;
+        .topic-block p {
+            margin-bottom: 12px;
+            text-align: justify;
         }
 
-        /* Bullets */
-        ul, ol {
-            padding-left: 20px;
-            margin: 10px 0;
+        .topic-block ul, .topic-block ol {
+            margin-left: 20px;
+            margin-bottom: 15px;
         }
 
-        li {
+        .topic-block li {
             margin-bottom: 6px;
         }
 
-        strong.term {
+        strong {
             color: var(--text-primary);
+        }
+
+        /* PYQ SOLVED CONTAINER */
+        .pyq-solved {
+            background-color: var(--bg-panel);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .pyq-solved h3 {
             font-family: var(--font-display);
-            font-weight: 600;
+            font-weight: 700;
+            color: var(--accent-amber);
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        /* FORMULAS & CODE */
+        .formula {
+            background-color: rgba(16, 185, 129, 0.05);
+            border-left: 4px solid var(--primary);
+            padding: 15px 20px;
+            border-radius: 4px;
+            color: var(--primary);
+            font-family: var(--font-mono);
+            font-size: 0.95rem;
+            margin: 15px 0;
+        }
+
+        .final {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(6, 182, 212, 0.05) 100%);
+            border: 1px solid var(--primary);
+            padding: 16px 20px;
+            border-radius: 8px;
+            color: var(--text-primary);
+            margin-top: 15px;
+            display: block;
+        }
+
+        pre {
+            background-color: #0b111e;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 16px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+
+        code {
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            color: var(--accent-cyan);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.92rem;
+            border: 1px solid var(--border-color);
+        }
+
+        th, td {
+            padding: 10px 14px;
+            border: 1px solid var(--border-color);
+            text-align: left;
+        }
+
+        th {
+            background-color: rgba(6, 182, 212, 0.1);
+            color: var(--text-primary);
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>UNIT 1: ARM Embedded Systems & SoC Architecture</h1>
-    <p class="intro-p">Complete, exam-oriented study notes matching VTU/MSRIT curriculum for the subject Microcontrollers (IS42/21IS44).</p>
-
-    <!-- ===================== SECTION 1: THEORY NOTES & CONCEPTS ===================== -->
-    <h2>📖 Core Theory & Syllabus Foundations</h2>
-
-    <details>
-        <summary>1. Microprocessor vs. Microcontroller (Ultimate Comparative Guide)</summary>
-        <div class="details-content">
-            <p style="margin-bottom:15px">To understand embedded engineering, you must first master the architectural difference between a General-Purpose Microprocessor (MPU) and a Dedicated Microcontroller (MCU).</p>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Sl. No.</th>
-                        <th>Feature</th>
-                        <th>Microprocessor (MPU)</th>
-                        <th>Microcontroller (MCU)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td><strong class="term">Definition</strong></td>
-                        <td>A general-purpose silicon processor containing only the Central Processing Unit (CPU).</td>
-                        <td>A dedicated system-on-chip containing CPU, memory, and peripherals integrated on a single die.</td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td><strong class="term">Integration</strong></td>
-                        <td>Memory (RAM, ROM) and I/O controllers are connected externally via a system bus.</td>
-                        <td>Memory (RAM, ROM), I/O pins, timers, ADC, and serial ports are integrated internally.</td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td><strong class="term">System Complexity</strong></td>
-                        <td>Complex board design with large numbers of traces running between MPU, RAM, and flash.</td>
-                        <td>Highly simplified circuit design, reduced physical space, and low PCB track congestion.</td>
-                    </tr>
-                    <tr>
-                        <td>4</td>
-                        <td><strong class="term">Application</strong></td>
-                        <td>General-purpose personal computing (laptops, servers, high-end workstations).</td>
-                        <td>Dedicated, single-task systems (appliances like washing machines, automotive controllers, medical devices).</td>
-                    </tr>
-                    <tr>
-                        <td>5</td>
-                        <td><strong class="term">Power Modes</strong></td>
-                        <td>Lack of active deep low-power sleep modes; operates continuously at high current.</td>
-                        <td>Supports multi-tier low-power sleep states (Sleep, Deep Sleep, Standby) for battery execution.</td>
-                    </tr>
-                    <tr>
-                        <td>6</td>
-                        <td><strong class="term">Cost & Size</strong></td>
-                        <td>High core cost plus expensive external RAM/ROM components. Large form factor.</td>
-                        <td>Extremely low per-unit cost (often under a dollar) and compact footprint.</td>
-                    </tr>
-                    <tr>
-                        <td>7</td>
-                        <td><strong class="term">Typical Speed</strong></td>
-                        <td>GigaHertz (GHz) range (e.g., 2.0GHz to 4.5GHz).</td>
-                        <td>MegaHertz (MHz) range (typically 8MHz to 200MHz).</td>
-                    </tr>
-                </tbody>
-            </table>
-            <span class="final">
-                <strong>💡 Exam Tip: Mnemonic for Microcontrollers</strong>
-                Remember <strong>MCU = CPU + RAM + ROM + Peripherals + I/O</strong> on a single silicon block. MPUs are just CPUs that rely on external components.
-            </span>
-        </div>
-    </details>
-
-    <details>
-        <summary>2. RISC vs. CISC Architecture & The 4 Major Design Rules</summary>
-        <div class="details-content">
-            <span class="badge badge-imp">Most Important for Exam</span>
-            <p style="margin-bottom:15px">The **RISC (Reduced Instruction Set Computer)** design philosophy forms the bedrock of modern ARM processors. It stands in contrast to the historical **CISC (Complex Instruction Set Computer)** architecture.</p>
-            
-            <h3>The 4 Major Design Rules of RISC</h3>
-            <ol>
-                <li><strong class="term">Instructions</strong>: Reduced number of instruction classes. Every instruction is of a **fixed length** (e.g., 32 bits for ARM) to allow the pipeline to fetch subsequent instructions without complex decoding logic. Each instruction performs a simple operation that executes in a **single clock cycle**.</li>
-                <li><strong class="term">Pipelines</strong>: Instruction processing is broken down into small stages executing in parallel. Ideally, a pipeline advances by one step per cycle, achieving an execution throughput of 1 instruction per cycle without using complex **microcode** sub-programs.</li>
-                <li><strong class="term">Registers</strong>: RISC engines feature a large general-purpose register set. Any register can contain either data or memory addresses. These act as high-speed local memory inside the CPU.</li>
-                <li><strong class="term">Load-Store Architecture</strong>: The processor only operates on data held in registers. It cannot perform mathematical operations directly on memory. Separate **LDR (Load)** and **STR (Store)** instructions are the exclusive means of exchanging data between the registers and external RAM.</li>
-            </ol>
-
-            <span class="final">
-                <strong>📝 Architectural Complexity Concept</strong>
-                In CISC, hardware is highly complex, allowing a single assembly instruction to access memory, execute math, and write back. In RISC, instruction complexity is minimized, placing greater demands on the **compiler** to synthesize complex operations using simpler instructions.
-            </span>
-        </div>
-    </details>
-
-    <details>
-        <summary>3. ARM Design Philosophy & Deviations from Pure RISC</summary>
-        <div class="details-content">
-            <span class="badge badge-pyq">Repeated PYQ</span>
-            <p style="margin-bottom:15px">The standard ARM processor core does not implement a "pure" textbook RISC architecture because it is specifically designed for real-world **embedded applications** where battery constraints, memory costs, and code size are highly critical.</p>
-            
-            <h3>The 3 Core Physical Drivers of ARM Philosophy</h3>
-            <ul>
-                <li><strong class="term">Low Power Consumption</strong>: Target devices are battery-driven (phones, wearable tech). The CPU core must be physically small to minimize leakage currents and overall dynamic power.</li>
-                <li><strong class="term">High Code Density</strong>: Memory (Flash/ROM) is expensive on chip. ARM must achieve high performance with short, compact binaries.</li>
-                <li><strong class="term">Hardware Debug Support</strong>: Integrated hardware modules (like JTAG/ICE) let engineers inspect CPU registers in real time, reducing time-to-market.</li>
-            </ul>
-
-            <h3>How ARM Differs from "Pure" RISC (5 Major Deviations)</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Deviation Feature</th>
-                        <th>What Pure RISC Dictates</th>
-                        <th>What ARM Actually Implements (The Solution)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Variable Execution Cycle</strong></td>
-                        <td>Every instruction MUST execute in exactly 1 clock cycle.</td>
-                        <td>Multi-cycle instructions like **LDRD/STRD** (Load/Store Double) and **LDM/STM** (Load/Store Multiple) exist to optimize block transfers and speed up function entry/exit.</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Inline Barrel Shifter</strong></td>
-                        <td>The Arithmetic Logic Unit (ALU) operates directly on pure register values.</td>
-                        <td>ARM integrates a hardware **Barrel Shifter** to preprocess one register operand (shifting/rotating it) in the exact same cycle as the ALU math instruction at zero time penalty.</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Thumb 16-Bit ISA</strong></td>
-                        <td>All instructions must be a fixed length of 32 bits.</td>
-                        <td>ARM processors support a secondary **16-bit Thumb instruction set** which increases code density by 30% under constrained memory limits.</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Conditional Execution</strong></td>
-                        <td>Branches are handled exclusively via dedicated jump/branch instructions.</td>
-                        <td>Almost **every 32-bit ARM instruction can be conditionally executed** using suffixes (EQ, NE, CC, etc.), eliminating pipeline-stalling jump instructions for simple IF conditions.</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Enhanced DSP Instructions</strong></td>
-                        <td>Only basic primitive ALU math is supported.</td>
-                        <td>ARM integrates specialized DSP instructions supporting fast 16x16-bit MAC (Multiply-Accumulate) operations and **saturation math** to replace dedicated hardware DSP chips.</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </details>
-
-    <details>
-        <summary>4. Embedded Systems: Characteristics, Design, and Applications</summary>
-        <div class="details-content">
-            <span class="badge badge-pyq">SEE 2023, 2024</span>
-            <p>An **Embedded System** is a computerized system designed to perform a dedicated, specific function, often embedded within a larger mechanical or electrical system.</p>
-            
-            <h3>Core Characteristics of Embedded Systems</h3>
-            <ul>
-                <li><strong class="term">Single-Functioned</strong>: Executes a specific application repeatedly. Unlike a PC, it cannot be repurposed to run arbitrary software (e.g., a car engine controller only runs engine ignition logic).</li>
-                <li><strong class="term">Tightly Constrained</strong>: Must operate under strict physical limits: small size, tight cost budgets, limited power (often runs on coin cells), and constrained memory (KiloBytes).</li>
-                <li><strong class="term">Reactive and Real-Time</strong>: Must respond continuously to external inputs (sensors) and complete all mathematical calculations within strict deadlines (e.g., airbag deployment must happen within milliseconds of impact).</li>
-                <li><strong class="term">Hardware-Software Co-Design</strong>: Hardware elements (ASICs, processors) and application software must be optimized simultaneously to achieve maximum reliability.</li>
-            </ul>
-
-            <h3>System-on-Chip (SoC) Architectural Components</h3>
-            <p style="margin-bottom:15px">A modern microcontroller is fundamentally a **System-on-Chip (SoC)**, where all functional units of a computer system are fabricated onto a single silicon chip.</p>
-            
-            <div class="diagram-container">
-                <div class="soc-grid">
-                    <div class="soc-block core">ARM CPU Core (ALU, Registers)</div>
-                    <div class="soc-block peripheral">Internal RAM</div>
-                    <div class="soc-block peripheral">Internal ROM/Flash</div>
-                    <div class="soc-block bus">SYSTEM BUS (AMBA Bus System)</div>
-                    <div class="soc-block peripheral">Interval Timers</div>
-                    <div class="soc-block peripheral">Watchdog Timer</div>
-                    <div class="soc-block peripheral">GPIO Ports</div>
-                    <div class="soc-block peripheral">Serial Ports (UART, SPI, I2C)</div>
-                    <div class="soc-block peripheral">Clock & PLL</div>
-                    <div class="soc-block peripheral">Reset Control</div>
-                    <div class="soc-block peripheral">PWM Module</div>
-                    <div class="soc-block peripheral">Interrupt (NVIC)</div>
-                </div>
-                <div class="diagram-title">System-on-Chip (SoC) Component Interconnection Map</div>
-            </div>
-            
-            <h3>Functional Units of a SoC</h3>
-            <ul>
-                <li><strong class="term">CPU Core</strong>: The central engine that fetches, decodes, and executes software instructions.</li>
-                <li><strong class="term">Internal ROM/Flash</strong>: Non-volatile storage where the application program (firmware) is saved permanently.</li>
-                <li><strong class="term">Internal RAM</strong>: Volatile scratchpad memory for run-time variables, computation, and call stacks.</li>
-                <li><strong class="term">Timers/Counters</strong>: Peripheral blocks that tick independently of the CPU, tracking real-world time or counting external pulses.</li>
-                <li><strong class="term">GPIO Ports</strong>: General Purpose Input/Output pins that allow digital connection to buttons, LEDs, and sensors.</li>
-                <li><strong class="term">Connectivity Interfaces</strong>: Protocols (I2C, SPI, UART) that allow communication with external ICs.</li>
-            </ul>
-        </div>
-    </details>
-
-    <details>
-        <summary>5. Microcontroller Infrastructure: Timers, Reset Circuits, PLL, and PWM</summary>
-        <div class="details-content">
-            <span class="badge badge-imp">Highly Exam-Oriented</span>
-            <p>Every microcontroller requires an operational infrastructure to handle timing, clock generation, voltage monitoring, and motor/power control.</p>
-
-            <h3>1. Clock Generation & PLL (Phase-Locked Loops)</h3>
-            <p>Microcontrollers use external quartz crystals (typically 12MHz) because of their physical stability. However, the CPU core needs high frequencies (e.g., 60MHz).
-            A **Phase-Locked Loop (PLL)** is a closed-loop frequency-multiplier circuit that takes the low-frequency crystal clock input and multiplies it to produce a stable, high-frequency internal clock ($F_{OSC} \times M$). This provides high speeds while using cheap, low-frequency crystals on the PCB, reducing electromagnetic noise.</p>
-
-            <h3>2. Reset Circuits & Monitoring (POR, BOR, WDT)</h3>
-            <ul>
-                <li><strong class="term">Power-On Reset (POR)</strong>: When the power supply is switched on, the voltage takes time to stabilize. The POR circuit holds the MCU reset pin **LOW** until the VDD supply voltage rises above a safe threshold, preventing the CPU from executing corrupt instructions during power ramp-up.</li>
-                <li><strong class="term">Brown-Out Reset (BOR)</strong>: Monitors VDD continuously. If the battery voltage dips (browns out) below a safe limit during execution, the BOR circuit forces a hardware reset to avoid memory corruption.</li>
-                <li><strong class="term">Watchdog Timer (WDT) Reset</strong>: A free-running countdown timer. Software must periodically reload (pet/feed) the WDT. If the code hangs in an infinite loop or crashes, the WDT expires and automatically triggers a system reset to self-recover.</li>
-            </ul>
-
-            <div class="diagram-container">
-                <div class="reset-flex">
-                    <div class="circuit-box" style="border-color:#3b82f6;">
-                        <span style="color:#60a5fa; font-weight:bold; display:block; margin-bottom:10px;">POR Circuit Layout</span>
-                        <p>VCC (+5V / +3.3V)</p>
-                        <p>&nbsp;&nbsp;|--- [ Resistor R ] ---o--- to RESET Pin (Active Low)</p>
-                        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|</p>
-                        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ Capacitor C ]</p>
-                        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|</p>
-                        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GND</p>
-                    </div>
-                    <div class="circuit-box" style="border-color:#10b981;">
-                        <span style="color:#34d399; font-weight:bold; display:block; margin-bottom:10px;">POR Waveform (Charging)</span>
-                        <p>Voltage (V)</p>
-                        <p>5V |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ___________ (Vcc)</p>
-                        <p>&nbsp;&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/</p>
-                        <p>Vth|--------/ (Thresh: CPU Starts)</p>
-                        <p>&nbsp;&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/</p>
-                        <p>0V +------/----------------- Time (t)</p>
-                        <p>&nbsp;&nbsp;&nbsp;&lt;--- Reset State ---></p>
-                    </div>
-                </div>
-                <div class="diagram-title">Power-On Reset RC Delay Circuitry and Charging Curve</div>
-            </div>
-
-            <h3>3. Timers and Counters (The 3 Core Types)</h3>
-            <ul>
-                <li><strong class="term">Interval Timers</strong>: Use the internal crystal clock to generate precise software delays or periodic interrupts (e.g., ticking every 1ms for OS scheduling).</li>
-                <li><strong class="term">Baud Rate Generators</strong>: Timers dedicated to dividing down the CPU clock to generate standard communication rates (e.g., 9600 bps) for UART serial transmission.</li>
-                <li><strong class="term">Watchdog Timers</strong>: Dedicated safety timers that reset the microcontroller if software locks up.</li>
-            </ul>
-
-            <h3>4. Pulse Width Modulation (PWM) & Duty Cycle</h3>
-            <p>A **Pulse Width Modulator (PWM)** is a peripheral that outputs a high-frequency square wave where the ratio of the "ON" time to the total period is adjustable. This allows digital pins to control analog systems (like LED brightness or motor speed).</p>
-            
-            <p class="formula">
-                $$\text{Duty Cycle (\%)} = \left( \frac{T_{ON}}{T_{ON} + T_{OFF}} \right) \times 100\% = \left( \frac{T_{ON}}{T_{\text{Total}}} \right) \times 100\%$$
-            </p>
-            <p>For example, if a PWM wave is ON for 3ms and OFF for 3ms, $T_{\text{Total}} = 6\text{ms}$. The Duty Cycle is $\frac{3}{6} \times 100\% = 50\%$.</p>
-        </div>
-    </details>
-
-    <!-- ===================== SECTION 2: SOLVED PREVIOUS YEAR QUESTIONS ===================== -->
-    <h2>✍️ Solved Previous Year University Questions (CIE & SEE)</h2>
-
-    <details>
-        <summary>Q1. List and analyze the features of RISC processors that broke with traditional design techniques used in CISC based processors. [MAKEUP 2023, SEE 2023, 2024, 2025] (8 Marks)</summary>
-        <div class="details-content">
-            <span class="badge badge-pyq">Highly Repeated</span>
-            <p><strong>Answer:</strong></p>
-            <p>CISC processors were designed when memory was highly expensive and slow. To minimize program size, CISC used complex, variable-length instructions that carried out multiple memory accesses and arithmetic steps in a single assembly statement. RISC broke away from this paradigm with the following core architectural changes:</p>
-            
-            <ol style="margin-top:10px;">
-                <li><strong class="term">Fixed 32-Bit Instruction Size</strong>: In CISC, instructions vary from 1 byte to 15 bytes, requiring highly complex instruction alignment and decode logic. RISC processors enforce a strict fixed instruction length (e.g., exactly 32 bits for ARM). This allows the CPU to fetch the next instruction before decoding the current one, enabling efficient pipelining.</li>
-                <li><strong class="term">Single-Cycle Instruction Execution</strong>: CISC instructions take an average of 2 to 5 clock cycles (sometimes up to 100) to run because they rely on microcode sub-routines. RISC instructions are extremely simple and optimized to execute in exactly a **single clock cycle**, dramatically increasing instruction throughput.</li>
-                <li><strong class="term">Exclusion of Direct Memory Operations (Load-Store Architecture)</strong>: CISC instructions like <code>ADD AX, [0x4000]</code> read data from RAM, perform math, and write it back, all in a single instruction. RISC restricts mathematical instructions to operate **only on registers**. Separate, dedicated <code>LDR</code> (Load) and <code>STR</code> (Store) instructions are used exclusively to interface with RAM, isolating execution from slow memory buses.</li>
-                <li><strong class="term">Large General-Purpose Register Bank</strong>: CISC architectures use highly dedicated, special-purpose registers (e.g., Accumulator AX, Segment Registers). RISC systems feature a large pool of symmetric, general-purpose registers (typically 16 or 32 registers), any of which can hold either data or memory addresses.</li>
-                <li><strong class="term">Hardwired Control Unit</strong>: CISC relies on microprogramming (an internal read-only memory containing microcode steps to decode complex instructions). RISC eliminates microcode entirely, using hardwired logic gates to decode instructions instantly in a single cycle.</li>
-            </ol>
-            
-            <span class="final">
-                <strong>Boxed Conclusion: The Fundamental Paradigm Shift</strong>
-                CISC emphasizes hardware complexity to minimize code size, while RISC shifts the burden of complexity to the <strong>compiler</strong>, which optimizes software sequences to execute simple, high-speed instructions.
-            </span>
-        </div>
-    </details>
-
-    <details>
-        <summary>Q2. List and explain the three types of timers in a microcontroller unit. [MAKEUP 2023, SEE 2023] (7 Marks)</summary>
-        <div class="details-content">
-            <p><strong>Answer:</strong></p>
-            <p>A typical Microcontroller Unit (MCU) contains three main classifications of timers, distinguished by their functional purpose and clock source connection:</p>
-            
-            <ol style="margin-top:10px">
-                <li>
-                    <strong class="term">Interval Timers</strong>:
-                    <ul>
-                        <li><strong>Working Principle</strong>: Driven directly by the system clock (often divided by a prescaler). They increment a timer register (e.g., a 16-bit or 32-bit register) at regular, known intervals.</li>
-                        <li><strong>Function</strong>: When the timer overflows (counts up to maximum value and resets), it triggers a hardware interrupt. This is used by the operating system to generate accurate software delays, execute real-time operating system (RTOS) ticks, or schedule periodic tasks (like reading a sensor every 10ms).</li>
-                    </ul>
-                </li>
-                <li>
-                    <strong class="term">Baud Rate Generators / Communication Timers</strong>:
-                    <ul>
-                        <li><strong>Working Principle</strong>: Highly specialized timer modules that divide down the peripheral clock to produce a very precise frequency that matches standard communication speeds.</li>
-                        <li><strong>Function</strong>: Provides the clock source for serial communication interfaces (such as UART serial ports, I2C, or SPI). For example, it calculates and outputs the exact frequency needed to transmit data at 9600, 115200, or 1Mbps without data synchronization drift.</li>
-                    </ul>
-                </li>
-                <li>
-                    <strong class="term">Watchdog Timers (WDT)</strong>:
-                    <ul>
-                        <li><strong>Working Principle</strong>: An independent, free-running countdown timer driven by a separate, dedicated internal oscillator to ensure it functions even if the main system clock fails.</li>
-                        <li><strong>Function</strong>: Used as a safety guard. Under normal execution, the software must continuously reset (or "kick") the Watchdog counter back to its maximum value. If the microcontroller locks up (due to an infinite loop, EMI noise, or a software crash), the code fails to reset the Watchdog. The WDT then counts down to zero and automatically triggers a hardware system reset, allowing the system to self-recover without human intervention.</li>
-                    </ul>
-                </li>
-            </ol>
-
-            <span class="final">
-                <strong>Summary of Timer Categories:</strong>
-                • <strong>Interval Timer</strong>: Clocked internally for software delays & OS ticks.<br>
-                • <strong>Baud Rate Generator</strong>: Clocked internally for communications timing.<br>
-                • <strong>Watchdog Timer</strong>: Self-clocked safety loop to recover from system crashes.
-            </span>
-        </div>
-    </details>
-
-    <details>
-        <summary>Q3. With a neat diagram, explain the internal components of a typical Micro Controller Unit (MCU). [MAKEUP 2023, SEE 2023, 2025] (8 Marks)</summary>
-        <div class="details-content">
-            <span class="badge badge-pyq">Repeated PYQ</span>
-            <p><strong>Answer:</strong></p>
-            <p>A Microcontroller Unit (MCU) is a self-contained computer-on-a-chip. Unlike a microprocessor, it contains the processor core, memory system, and input/output control modules integrated on a single silicon die.</p>
-
-            <div class="diagram-container">
-                <div class="mcu-chip">
-                    <!-- Top Pins -->
-                    <div class="mcu-pin" style="top: -3px; left: 40px; transform: rotate(90deg);"></div>
-                    <div class="mcu-pin" style="top: -3px; left: 80px; transform: rotate(90deg);"></div>
-                    <div class="mcu-pin" style="top: -3px; left: 120px; transform: rotate(90deg);"></div>
-                    <div class="mcu-pin" style="top: -3px; left: 160px; transform: rotate(90deg);"></div>
-                    <div class="mcu-pin" style="top: -3px; left: 200px; transform: rotate(90deg);"></div>
-                    <div class="mcu-pin" style="top: -3px; left: 240px; transform: rotate(90deg);"></div>
-                    <div class="mcu-pin" style="top: -3px; left: 280px; transform: rotate(90deg);"></div>
-                    
-                    <!-- Bottom Pins -->
-                    <div class="mcu-pin" style="bottom: -3px; left: 40px; transform: rotate(90deg);"></div>
-                    <div class="mcu-pin" style="bottom: -3px; left: 80px; transform: rotate(90deg);"></div>
-                    <div class="mcu-pin" style="bottom: -3px; left: 120px; transform: rotate(90deg);"></div>
-                    <div class="mcu-pin" style="bottom: -3px; left: 160px; transform: rotate(90deg);"></div>
-                    <div class="mcu-pin" style="bottom: -3px; left: 200px; transform: rotate(90deg);"></div>
-                    <div class="mcu-pin" style="bottom: -3px; left: 240px; transform: rotate(90deg);"></div>
-                    <div class="mcu-pin" style="bottom: -3px; left: 280px; transform: rotate(90deg);"></div>
-
-                    <!-- Left Pins -->
-                    <div class="mcu-pin" style="left: -3px; top: 40px;"></div>
-                    <div class="mcu-pin" style="left: -3px; top: 80px;"></div>
-                    <div class="mcu-pin" style="left: -3px; top: 120px;"></div>
-                    <div class="mcu-pin" style="left: -3px; top: 160px;"></div>
-                    <div class="mcu-pin" style="left: -3px; top: 200px;"></div>
-                    <div class="mcu-pin" style="left: -3px; top: 240px;"></div>
-                    <div class="mcu-pin" style="left: -3px; top: 280px;"></div>
-
-                    <!-- Right Pins -->
-                    <div class="mcu-pin" style="right: -3px; top: 40px;"></div>
-                    <div class="mcu-pin" style="right: -3px; top: 80px;"></div>
-                    <div class="mcu-pin" style="right: -3px; top: 120px;"></div>
-                    <div class="mcu-pin" style="right: -3px; top: 160px;"></div>
-                    <div class="mcu-pin" style="right: -3px; top: 200px;"></div>
-                    <div class="mcu-pin" style="right: -3px; top: 240px;"></div>
-                    <div class="mcu-pin" style="right: -3px; top: 280px;"></div>
-
-                    <div class="mcu-title">TYPICAL MCU<br><span style="font-size:0.8rem; color:var(--primary); font-family:var(--font-mono);">21IS44/22IS42</span><br><br><span style="font-size:0.75rem; font-weight:normal; color:var(--text-secondary);">CPU + Oscillator + RAM + ROM + Timers + Interrupts + ADC + DAC + GPIO</span></div>
-                </div>
-                <div class="diagram-title">Silicon Topographical Layout of a Single-Chip Microcontroller</div>
-            </div>
-
-            <h3 style="margin-top:15px">Key Internal Functional Modules:</h3>
-            <ol style="margin-left:20px;">
-                <li><strong class="term">CPU Core (Central Processing Unit)</strong>: The instruction-execution brain. Contains the ALU (Arithmetic Logic Unit), control circuits, registers, and instruction decoding hardware.</li>
-                <li><strong class="term">Oscillator & Clock Generator</strong>: Takes an external quartz crystal input and generates the fundamental frequency clock pulses to synchronize all internal operations. Often includes PLL (Phase Locked Loop) multipliers.</li>
-                <li><strong class="term">Program Memory (Flash/ROM)</strong>: Non-volatile memory space used to store the compiled binary machine code (firmware). This memory survives power cycles.</li>
-                <li><strong class="term">Data Memory (SRAM)</strong>: Volatile memory space utilized for storing variables, runtime tables, register stacks, and active function allocations. Data is lost when VDD is removed.</li>
-                <li><strong class="term">GPIO (General Purpose Input/Output)</strong>: Drive pins that interface directly to external hardware. They can be dynamically configured via software as digital inputs (high-impedance) or digital outputs (driving high/low logic levels).</li>
-                <li><strong class="term">Interrupt Controller</strong>: Evaluates external or internal prioritize-driven signals. When an interrupt is triggered, the controller suspends execution of the main loop and forces the CPU to run an Interrupt Service Routine (ISR).</li>
-                <li><strong class="term">Timers and Counters</strong>: Independent peripheral registers that increment automatically. They handle scheduling, pulse measurement, software delays, and hardware safety checking.</li>
-                <li><strong class="term">Serial Interface Controllers</strong>: Specialized transceivers (UART, SPI, I2C) to communicate with external chips using minimal physical pins.</li>
-                <li><strong class="term">ADC & DAC</strong>: **Analog-to-Digital Converter** (converts continuous real-world sensor voltages into binary numbers) and **Digital-to-Analog Converter** (converts digital variables into output voltages).</li>
-            </ol>
-        </div>
-    </details>
-
-    <details>
-        <summary>Q4. Which are the two modes of data transfer between MCU and peripherals? Explain the general functioning of interrupts. [MAKEUP 2023, SEE 2023, 2025] (8 Marks)</summary>
-        <div class="details-content">
-            <p><strong>Answer:</strong></p>
-            <p>The two fundamental modes of handling data transfer between a Microcontroller Unit (MCU) and its connected peripheral modules are:</p>
-            
-            <ol style="margin-top:10px">
-                <li>
-                    <strong class="term">Polled Mode (Polling / Programmed I/O)</strong>:
-                    <ul>
-                        <li>The CPU repeatedly checks the status register of a peripheral module in an infinite loop (e.g., waiting for a UART receive flag to become 1).</li>
-                        <li><strong>Drawback</strong>: Extremely inefficient. The CPU wastes clock cycles doing nothing but checking status flags, leaving it unavailable to perform other calculations.</li>
-                    </ul>
-                </li>
-                <li>
-                    <strong class="term">Interrupt Mode</strong>:
-                    <ul>
-                        <li>The CPU initiates a process and goes back to executing its main application instructions. When the peripheral is ready with data, it asserts a hardware control line (Interrupt Request). The CPU suspends its current work, processes the transfer, and then resumes where it left off.</li>
-                        <li><strong>Advantage</strong>: Highly efficient. The CPU only interacts with the peripheral when active data transfer is required.</li>
-                    </ul>
-                </li>
-            </ol>
-
-            <h3 style="margin-top:15px">General Functioning of Interrupts (Mechanical Steps)</h3>
-            <p>When an interrupt request (IRQ) is asserted by a peripheral (e.g., Timer overflow or UART char received), the processor executes the following hardware sequence:</p>
-            <ol style="margin-left:20px; margin-top:8px">
-                <li><strong class="term">Finish Current Instruction</strong>: The CPU completes execution of the active machine instruction.</li>
-                <li><strong class="term">Save State (Context Save)</strong>: The hardware pushes the Current Program Status Register (CPSR) and the return address (Program Counter - PC) to the system stack, or saves them in dedicated link/status registers, preventing data loss.</li>
-                <li><strong class="term">Identify Interrupt Source</strong>: The Interrupt Controller determines which peripheral asserted the interrupt and checks its priority relative to any active operations.</li>
-                <li><strong class="term">Fetch ISR Vector Address</strong>: The CPU reads the Vector Table at a fixed address in memory to fetch the starting memory address of the corresponding **Interrupt Service Routine (ISR)**.</li>
-                <li><strong class="term">Execute the ISR</strong>: The PC is loaded with the ISR address, and the CPU executes the user-defined software routine to handle the peripheral event.</li>
-                <li><strong class="term">Restore Context & Return</strong>: The ISR ends with a special return instruction (like <code>SUBS PC, LR, #4</code> in ARM). This pops the saved CPSR and PC registers back from the stack, allowing the CPU to resume execution of the main application code exactly where it was suspended.</li>
-            </ol>
-        </div>
-    </details>
-
-    <details>
-        <summary>Q5. List and explain three types of Reset in a typical MCU. [MAKEUP 2023] (7 Marks)</summary>
-        <div class="details-content">
-            <p><strong>Answer:</strong></p>
-            <p>A microcontroller must start up in a known, predictable state to ensure the program counter points to the first line of valid code. A typical MCU integrates three primary hardware reset mechanisms to handle power-up, voltage instability, and software lock-ups:</p>
-            
-            <ol style="margin-top:10px">
-                <li>
-                    <strong class="term">Power-On Reset (POR)</strong>:
-                    <ul>
-                        <li><strong>Mechanism</strong>: Triggered when power is first applied to the microcontroller chip. The power supply VDD rails do not reach operational voltages (e.g., 3.3V) instantaneously; they ramp up over milliseconds.</li>
-                        <li><strong>Function</strong>: An internal RC-delay circuit holds the MCU reset pin **LOW** (active state) during this ramp-up. Once VDD rises above a safe threshold voltage ($V_{th}$), the reset signal goes HIGH, letting the CPU boot up safely. This prevents the processor from running on unstable voltages, which can cause erratic program execution.</li>
-                    </ul>
-                </li>
-                <li>
-                    <strong class="term">Brown-Out Reset (BOR)</strong>:
-                    <ul>
-                        <li><strong>Mechanism</strong>: Operates continuously while the system is running. It uses a precision analog comparator circuit to monitor the incoming VDD supply voltage against a fixed reference voltage.</li>
-                        <li><strong>Function</strong>: If the power supply drops temporarily (a "brown-out" condition, caused by battery depletion or sudden heavy motor loads), the BOR circuit detects that the voltage has slipped below safe operational limits. It immediately forces the chip into a reset state, protecting the internal flash/SRAM from corruption.</li>
-                    </ul>
-                </li>
-                <li>
-                    <strong class="term">Watchdog Timer (WDT) Reset</strong>:
-                    <ul>
-                        <li><strong>Mechanism</strong>: A safety countdown timer that runs independently of the main CPU clock.</li>
-                        <li><strong>Function</strong>: During normal execution, the software must periodically reset (or "kick") the Watchdog counter. If the CPU crashes, hangs in an infinite loop, or stops executing code due to electrical noise, it fails to reset the Watchdog. The timer then counts down to zero and automatically triggers a system reset, allowing the system to self-recover without manual power cycling.</li>
-                    </ul>
-                </li>
-            </ol>
-
-            <span class="final">
-                <strong>Comparison Summary:</strong>
-                • <strong>POR</strong>: Protects against voltage ramp-up anomalies at startup.<br>
-                • <strong>BOR</strong>: Protects against unexpected voltage drops during operation.<br>
-                • <strong>WDT</strong>: Protects against software lock-ups or infinite loops.
-            </span>
-        </div>
-    </details>
-
-    <details>
-        <summary>Q6. "R in RISC is somewhat antiquated." Justify the statement. [MAKEUP 2023] (5 Marks)</summary>
-        <div class="details-content">
-            <p><strong>Answer:</strong></p>
-            <p>The term **RISC** stands for **Reduced Instruction Set Computer**. Historically, "Reduced" referred to a small, simple set of instruction classes (typically under 50-60 primitive instructions) to enable single-cycle hardware decoding.</p>
-            <p>However, modern RISC architectures (like ARMv7, ARMv8, or RISC-V) have evolved, and the literal interpretation of the word "Reduced" is considered antiquated for the following reasons:</p>
-            
-            <ul style="margin-top:10px">
-                <li><strong class="term">Growing Instruction Counts</strong>: Modern RISC processors are no longer "reduced" in number. A modern ARM core features hundreds of specialized instructions, including vector processing (NEON), cryptographic acceleration, and digital signal processing (DSP) instructions.</li>
-                <li><strong class="term">Complex Mathematical Support</strong>: Early RISC designs lacked complex mathematical instructions, requiring software routines for multiplication and division. Modern RISC processors integrate dedicated hardware multipliers and floating-point units (FPUs) with complex multi-cycle instruction routines.</li>
-                <li><strong class="term">Hybrid Architectures</strong>: The line between RISC and CISC has blurred. Modern CISC processors (like Intel x86) decode complex instructions into simple, RISC-like "micro-operations" internally. Meanwhile, RISC processors use complex execution pipelines, branch prediction, and multi-cycle block memory transfers (like ARM's <code>LDM</code>/<code>STM</code>) that deviate from traditional RISC definitions.</li>
-            </ul>
-
-            <span class="final">
-                <strong>Summary Conclusion:</strong>
-                The "R" in RISC is antiquated because modern RISC design focuses on maintaining a <strong>Load-Store architecture and fixed instruction widths</strong> to enable efficient pipelining, rather than literally keeping the instruction count small.
-            </span>
-        </div>
-    </details>
-
-    <details>
-        <summary>Q7. Explain how the ARM instruction set differs from the pure RISC instruction set? [SEE 2023, 2025, SEE(O) 2023] (6 Marks)</summary>
-        <div class="details-content">
-            <span class="badge badge-pyq">Repeated PYQ</span>
-            <p><strong>Answer:</strong></p>
-            <p>A pure textbook RISC processor implements highly strict architectural rules to simplify hardware. The ARM core, designed specifically for power-constrained and cost-sensitive embedded systems, incorporates several **complex features** that deviate from pure RISC definitions to improve performance and code density:</p>
-            
-            <ol style="margin-top:10px">
-                <li><strong class="term">Variable-Cycle Block Data Transfers</strong>: Pure RISC requires every instruction to execute in exactly 1 clock cycle. ARM permits multi-cycle instructions like <strong>LDM (Load Multiple)</strong> and <strong>STM (Store Multiple)</strong>. These instructions load or store up to 16 registers from/to sequential memory addresses in a single statement, improving code density and execution speed during function calls.</li>
-                <li><strong class="term">Inline Barrel Shifter</strong>: In a pure RISC processor, shifting a register value requires a separate instruction. ARM integrates a hardware **Barrel Shifter** directly into the execution path of its data-processing instructions. This allows a register value to be shifted (e.g., shifted left by 2) and processed by the ALU in the **same clock cycle**, with zero time penalty.</li>
-                <li><strong class="term">Thumb 16-Bit Instruction Mode</strong>: Pure RISC processors require all instructions to be a fixed length (typically 32 bits). ARM supports a secondary, compact **16-bit Thumb instruction set**. The CPU can switch dynamically between 32-bit ARM mode (for maximum performance) and 16-bit Thumb mode (to reduce code size by ~30% in memory-constrained systems).</li>
-                <li><strong class="term">Conditional Execution of All Instructions</strong>: Unlike pure RISC, which relies on jump/branch instructions for conditional logic, almost **every 32-bit ARM instruction contains a 4-bit condition field**. The instruction is only executed if the corresponding flags in the status register match. This eliminates simple branch instructions, preventing pipeline stalls.</li>
-                <li><strong class="term">Enhanced DSP Instructions</strong>: ARM includes specialized multi-cycle digital signal processing instructions (such as fast $16\text{-bit} \times 16\text{-bit}$ multipliers and saturation arithmetic) that deviate from traditional RISC simplicity to support media processing.</li>
-            </ol>
-        </div>
-    </details>
-
-    <details>
-        <summary>Q8. Describe the working of power on reset signal with a circuit diagram and waveform. [SEE 2023] (6 Marks)</summary>
-        <div class="details-content">
-            <p><strong>Answer:</strong></p>
-            <p>When power is first applied to a microcontroller, the supply voltage (VDD/VCC) does not instantly reach its stable level (e.g., 3.3V or 5V); it ramps up gradually over a few milliseconds. During this transient ramp-up, the internal digital logic gates of the CPU cannot function reliably, which can lead to erratic program execution if the CPU starts running too early.</p>
-            <p>The **Power-On Reset (POR)** circuit protects the system by holding the CPU in a reset state until the supply voltage stabilizes.</p>
-
-            <h3>1. The RC Delay Circuit Diagram</h3>
-            <p>A simple external Power-On Reset circuit uses a Resistor-Capacitor (RC) network connected to the MCU's active-low RESET pin:</p>
-            <div class="diagram-container">
-                <div class="circuit-box" style="border-color:#06b6d4; width:360px;">
-                    <span style="color:#06b6d4; font-weight:bold; display:block; margin-bottom:10px;">POR RC Circuit Schema</span>
-                    <p>VCC (+5V / +3.3V Power Line)</p>
-                    <p>&nbsp;&nbsp;|------------------------|</p>
-                    <p>&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|</p>
-                    <p>[ Resistor R ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [ Diode D ] (Fast Discharge)</p>
-                    <p>&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|</p>
-                    <p>&nbsp;&nbsp;o------------------------o-------> to MCU RESET Pin</p>
-                    <p>&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Active Low Reset)</p>
-                    <p>[ Capacitor C ]</p>
-                    <p>&nbsp;&nbsp;|</p>
-                    <p>&nbsp;GND</p>
-                </div>
-            </div>
-
-            <h3>2. Detailed Working Principle</h3>
-            <ul style="margin-top:10px">
-                <li><strong class="term">Voltage Ramp-Up Phase</strong>: When VCC is turned on, the capacitor $C$ is initially discharged, pulling the voltage at the RESET pin to 0V (ground level). Because the RESET pin is active-low, this holds the CPU in a reset state.</li>
-                <li><strong class="term">RC Charging Phase</strong>: Current flows through the resistor $R$ to charge the capacitor $C$. The voltage across the capacitor ($V_C$) rises exponentially according to the time constant $\tau = R \times C$, following the charging formula:
-                    $$V_{\text{RESET}}(t) = V_{CC} \left(1 - e^{-\frac{t}{RC}}\right)$$
-                </li>
-                <li><strong class="term">Releasing Reset</strong>: As the capacitor charges, the voltage at the RESET pin eventually crosses the high-level input threshold voltage ($V_{th}$) of the MCU. The RESET pin transitions from active-low to inactive-high, releasing the CPU from the reset state. This delay gives the system oscillator and power supplies time to stabilize before the CPU executes its first instruction.</li>
-                <li><strong class="term">Discharge Diode</strong>: When power is removed, the diode $D$ allows the capacitor to discharge rapidly through the VCC line, ensuring the POR circuit is ready to trigger again if the power is cycled quickly.</li>
-            </ul>
-
-            <h3>3. Waveform representation</h3>
-            <div class="diagram-container">
-                <div class="circuit-box" style="border-color:#10b981; width:360px;">
-                    <span style="color:#10b981; font-weight:bold; display:block; margin-bottom:5px;">Voltage Profiles Waveform</span>
-                    <p>Voltage (V)</p>
-                    <p>Vcc&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ____________________ Vcc Supply Line</p>
-                    <p>Vth&nbsp;&nbsp; | - - - - - - - / ____________ RESET Pin Voltage</p>
-                    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /</p>
-                    <p>0V&nbsp;&nbsp;&nbsp; +------------/---------------------- Time (t)</p>
-                    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&lt;--- Reset Mode --->|&lt;--- Normal CPU Run ---></p>
-                </div>
-            </div>
-        </div>
-    </details>
-
-    <details>
-        <summary>Q9. List out the steps involved in the working of an interval timer. [SEE(O) 2023] (6 Marks)</summary>
-        <div class="details-content">
-            <p><strong>Answer:</strong></p>
-            <p>An **Interval Timer** is a peripheral that counts system clock pulses to track elapsed time. It executes the following step-by-step sequence to generate precise periodic delays or trigger software events:</p>
-            
-            <ol style="margin-top:10px">
-                <li><strong class="term">Timer Configuration</strong>:
-                    <ul>
-                        <li>The application software configures the Timer Control Register (TCR) to select the clock source (typically the peripheral clock, $PCLK$) and sets the mode of operation (e.g., continuous count or auto-reload mode).</li>
-                    </ul>
-                </li>
-                <li><strong class="term">Set Match / Limit Value</strong>:
-                    <ul>
-                        <li>The software writes a target value to the Match Register ($MR$). This value determines the desired time interval, calculated using the formula:
-                            $$\text{Match Value} = \text{Desired Delay} \times \text{Clock Frequency}$$
-                        </li>
-                    </ul>
-                </li>
-                <li><strong class="term">Prescaler Operation</strong>:
-                    <ul>
-                        <li>The clock signal passes through a Prescaler Counter ($PC$) register. The prescaler divides the input clock frequency by a configurable value (prescaler limit), allowing the timer to count at slower rates. This is useful for generating longer time delays.</li>
-                    </ul>
-                </li>
-                <li><strong class="term">Timer Counter (TC) Increment</strong>:
-                    <ul>
-                        <li>With each tick from the prescaler, the main Timer Counter ($TC$) register increments by 1. This counting process runs independently in hardware, requiring no CPU intervention.</li>
-                    </ul>
-                </li>
-                <li><strong class="term">Match / Overflow Detection</strong>:
-                    <ul>
-                        <li>A hardware comparator continuously compares the value of the Timer Counter ($TC$) with the target Match Register ($MR$) value.</li>
-                    </ul>
-                </li>
-                <li><strong class="term">Interrupt & Action Trigger</strong>:
-                    <ul>
-                        <li>When the $TC$ value matches the $MR$ value:
-                            <ol type="a" style="margin-left:20px; margin-top:4px">
-                                <li>The hardware sets an interrupt flag in the Timer Interrupt Register (IR).</li>
-                                <li>An interrupt request is sent to the CPU's Interrupt Controller.</li>
-                                <li>If configured to do so, the Timer Counter ($TC$) is automatically reset to zero to begin the next interval (auto-reload mode).</li>
-                            </ol>
-                        </li>
-                    </ul>
-                </li>
-                <li><strong class="term">Interrupt Service Routine Execution</strong>:
-                    <ul>
-                        <li>The CPU suspends its current task and jumps to the corresponding Timer Interrupt Service Routine (ISR) to handle the timed event (e.g., toggling a GPIO pin or updating a software counter).</li>
-                    </ul>
-                </li>
-            </ol>
-        </div>
-    </details>
-
-    <details>
-        <summary>Q10. Why does the clock use PLL? Justify. [SEE 2024] (4 Marks)</summary>
-        <div class="details-content">
-            <p><strong>Answer:</strong></p>
-            <p>Microcontrollers require a stable clock signal to synchronize internal CPU operations. While high-frequency clocks (e.g., 60MHz or 100MHz) are needed for fast processing, modern microcontrollers generate this signal using a **Phase-Locked Loop (PLL)** coupled with a lower-frequency external crystal oscillator (typically 12MHz). This approach is justified by several key engineering advantages:</p>
-            
-            <ol style="margin-top:10px">
-                <li><strong class="term">Improved Electromagnetic Compatibility (EMC)</strong>: High-frequency signals traveling over PCB traces act as miniature antennas, generating significant high-frequency electromagnetic interference (EMI). By placing a low-frequency 12MHz crystal on the board and using an on-chip PLL to multiply the frequency to 60MHz entirely within the silicon die, EMI emissions are greatly reduced.</li>
-                <li><strong class="term">Reduced System Cost</strong>: High-frequency quartz crystals (e.g., 60MHz) are physically thin, fragile, and significantly more expensive than standard, robust low-frequency crystals (e.g., 10MHz to 12MHz). Using a PLL allows for a lower system bill of materials (BOM).</li>
-                <li><strong class="term">Dynamic Frequency Scaling</strong>: A PLL can be configured dynamically via software. This allows the system to scale its clock frequency up during computationally intensive tasks, or down during idle periods to conserve power, enabling efficient system power management.</li>
-                <li><strong class="term">Jitter Reduction and Phase Alignment</strong>: The PLL feedback loop filters out phase noise and jitter from the external crystal clock source, providing a highly stable, clean clock signal to the internal CPU core and high-speed peripherals.</li>
-            </ol>
-
-            <span class="final">
-                <strong>Justification Summary:</strong>
-                Using a PLL allows the system to run at high internal speeds while utilizing a **cheap, robust, low-frequency crystal** on the PCB, which minimizes electromagnetic interference (EMI) and system costs.
-            </span>
-        </div>
-    </details>
-
-    <details>
-        <summary>Q11. What is the relevance of duty cycle? Define the duty cycle to showcase for the 50% of its usage. [SEE 2024] (6 Marks)</summary>
-        <div class="details-content">
-            <p><strong>Answer:</strong></p>
-            <p>The **Duty Cycle** is the percentage of a signal's period during which the signal is active or "ON" (logic high level). It is a key parameter in Pulse Width Modulation (PWM) signals, which are used to control the average power delivered to an analog load using digital control pins.</p>
-            
-            <h3>1. Relevance of Duty Cycle</h3>
-            <p>Digital outputs can only be fully ON (e.g., 3.3V) or fully OFF (0V). The duty cycle provides a way to output intermediate, average analog values. By switching a digital output high and low rapidly, the average voltage delivered to the load is directly proportional to the duty cycle:</p>
-            <p class="formula">
-                $$V_{\text{average}} = V_{CC} \times \text{Duty Cycle}$$
-            </p>
-            <p>This average voltage control is widely used to adjust LED brightness, control DC motor speeds, and drive analog speakers.</p>
-
-            <h3>2. Definition & 50% Usage Case</h3>
-            <p>Mathematically, the duty cycle is defined as:</p>
-            <p class="formula">
-                $$\text{Duty Cycle (\%)} = \left(\frac{T_{ON}}{T_{ON} + T_{OFF}}\right) \times 100\% = \left(\frac{T_{ON}}{T_{\text{Total}}}\right) \times 100\%$$
-            </p>
-            
-            <p>For a **50% Duty Cycle** signal, the active-high time is exactly equal to the active-low time ($T_{ON} = T_{OFF}$):</p>
-            <p class="formula">
-                $$\text{Duty Cycle} = \left(\frac{T_{ON}}{2 \cdot T_{ON}}\right) \times 100\% = 50\%$$
-            </p>
-
-            <div class="diagram-container">
-                <div class="circuit-box" style="border-color:#06b6d4; width:380px; height:160px;">
-                    <span style="color:#06b6d4; font-weight:bold; display:block; margin-bottom:5px;">50% Duty Cycle (Square Wave)</span>
-                    <p>Voltage (V)</p>
-                    <p>Vcc |&nbsp;&nbsp; +-----+&nbsp;&nbsp;&nbsp;&nbsp; +-----+&nbsp;&nbsp;&nbsp;&nbsp; +</p>
-                    <p>&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; |</p>
-                    <p>0V&nbsp; +---+&nbsp;&nbsp;&nbsp;&nbsp; +-----+&nbsp;&nbsp;&nbsp;&nbsp; +-----+-- t</p>
-                    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&lt;-Ton-&gt;|&lt;-Toff-&gt;|</p>
-                    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&lt;--- T_total ---&gt;|</p>
-                </div>
-            </div>
-            <p style="margin-top:10px">In a 50% duty cycle configuration, if VCC is 5V, the average output voltage is:</p>
-            <p class="formula">
-                $$V_{\text{average}} = 5\text{V} \times 0.50 = 2.5\text{V}$$
-            </p>
-        </div>
-    </details>
-
-    <details>
-        <summary>Q12. Explain the internal components of a System on Chip (SoC). Write diagram. [SEE 2025] (8 Marks)</summary>
-        <div class="details-content">
-            <span class="badge badge-pyq">Recent PYQ</span>
-            <p><strong>Answer:</strong></p>
-            <p>A **System on Chip (SoC)** integrates all the necessary electronic circuits and parts of an entire computer system—including the processor core, memory system, peripheral controllers, and analog interfaces—onto a single silicon substrate. This differs from traditional board-level designs where these components are placed as separate chips on a PCB.</p>
-
-            <div class="diagram-container">
-                <div class="soc-grid" style="max-width:550px">
-                    <div class="soc-block core" style="background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);">ARM CPU Core (ALU + Regs)</div>
-                    <div class="soc-block peripheral">RAM Block</div>
-                    <div class="soc-block peripheral">Flash ROM</div>
-                    <div class="soc-block bus" style="background-color: #10b981; color:#000;">HIGH SPEED AMBA SYSTEM BUS</div>
-                    <div class="soc-block peripheral">Timers</div>
-                    <div class="soc-block peripheral">GPIO Control</div>
-                    <div class="soc-block peripheral">UART / SPI</div>
-                    <div class="soc-block peripheral">Interrupt (NVIC)</div>
-                </div>
-                <div class="diagram-title">System on Chip Internal Interconnect Layout</div>
-            </div>
-
-            <h3 style="margin-top:15px">Key SoC Internal Components:</h3>
-            <ul style="margin-left:20px; margin-top:8px">
-                <li>
-                    <strong class="term">Processor Core (CPU)</strong>: 
-                    The processing engine of the SoC (e.g., an ARM Cortex-M0 or ARM7TDMI core). It executes software instructions, performs mathematical calculations, and manages data flow across the chip.
-                </li>
-                <li>
-                    <strong class="term">Memory System (SRAM & Flash)</strong>:
-                    <ul>
-                        <li><strong>SRAM (Static RAM)</strong>: High-speed volatile memory placed close to the CPU, used for rapid variable access and stack operations.</li>
-                        <li><strong>ROM/Flash</strong>: Non-volatile memory containing the primary software executable (bootloader/firmware).</li>
-                    </ul>
-                </li>
-                <li>
-                    <strong class="term">On-Chip System Bus (Interconnect)</strong>:
-                    A high-speed bus standard (such as the ARM Advanced Microcontroller Bus Architecture - **AMBA** bus) that routes data and control signals between the CPU, memory blocks, and high-performance peripherals.
-                </li>
-                <li>
-                    <strong class="term">Peripheral Modules</strong>:
-                    Digital hardware accelerators that perform dedicated tasks, saving CPU cycles:
-                    <ul>
-                        <li><strong>GPIO Controllers</strong>: Manage input and output on the physical chip pins.</li>
-                        <li><strong>Timers / PWM Generators</strong>: Manage delays, count external events, and control motor outputs.</li>
-                        <li><strong>Serial Controllers (I2C, SPI, UART)</strong>: Standard transceivers for external communications.</li>
-                    </ul>
-                </li>
-                <li>
-                    <strong class="term">Power Management Unit (PMU)</strong>:
-                    Monitors chip temperature and VDD levels, and disables clocks to unused internal modules (clock gating) or powers down sections of the silicon (power gating) to reduce battery draw during idle states.
-                </li>
-            </ul>
-        </div>
-    </details>
-
-    <!-- ===================== SECTION 3: VIVA & PRACTICE QUESTIONS ===================== -->
-    <h2>❓ High-Yield Viva Voce Questions & Practice Hub</h2>
-
-    <details>
-        <summary>Unit 1 Viva Voce Q&A (Quick Revision)</summary>
-        <div class="details-content">
-            <p>Use these high-yield questions for oral assessments, lab evaluations, and quick exam review:</p>
-            <br>
-            <ol style="margin-left:20px;">
-                <li>
-                    <strong class="term">Q: What does ARM stand for originally?</strong><br>
-                    A: Originally, **Acorn RISC Machine** (developed in 1983 by Acorn Computers). Later, as a joint venture, it was renamed to **Advanced RISC Machines**.
-                </li>
-                <br>
-                <li>
-                    <strong class="term">Q: Is the ARM architecture a "pure" RISC design?</strong><br>
-                    A: No. It is a hybrid RISC design that includes complex features like multi-cycle block data transfers, conditional execution of all instructions, and an inline barrel shifter to optimize code density and power consumption in embedded systems.
-                </li>
-                <br>
-                <li>
-                    <strong class="term">Q: What is a Barrel Shifter?</strong><br>
-                    A: A hardware module integrated into the ARM CPU execution path that can shift or rotate one of the source operands before it is processed by the ALU, executing complex operations (like multiplying by 4) in a single cycle.
-                </li>
-                <br>
-                <li>
-                    <strong class="term">Q: Why is fixed-length instruction encoding important in RISC?</strong><br>
-                    A: It simplifies the instruction fetch and decode logic, allowing the CPU pipeline to fetch the next instruction before decoding the current one, enabling parallel instruction execution.
-                </li>
-                <br>
-                <li>
-                    <strong class="term">Q: Explain the purpose of a Watchdog Timer (WDT).</strong><br>
-                    A: It acts as an independent safety counter that resets the system if the software hangs or enters an infinite loop, ensuring the system can recover automatically without human intervention.
-                </li>
-                <br>
-                <li>
-                    <strong class="term">Q: What is Brown-Out Reset (BOR)?</strong><br>
-                    A: An analog circuit that continuously monitors the VDD supply voltage. If the voltage drops below a safe threshold, it resets the microcontroller to prevent erratic behavior or memory corruption.
-                </li>
-                <br>
-                <li>
-                    <strong class="term">Q: What is a System on Chip (SoC)?</strong><br>
-                    A: An integrated circuit that packages an entire computer system—including the processor core, memory system, peripherals, and clock generation—onto a single silicon die.
-                </li>
-            </ol>
-        </div>
-    </details>
-
-    <details>
-        <summary>🚀 Last-Minute Cheat Sheet & Quick Revision Notes</summary>
-        <div class="details-content">
-            <div class="important-box">
-                <strong>⚡ Key Formulas to Memorize:</strong>
+    <div class="header-section">
+        <h1>Unit 1: ARM Embedded Systems & SoC</h1>
+        <p class="intro-p">🎓 <strong>MSRIT/VTU Expert Faculty Study Portal</strong> | Conceptual Learning using NPTEL video lectures and problem-solving sessions</p>
+    </div>
+    
+    <!-- MODE TAB SECTOR -->
+    <div class="mode-tab-bar">
+        <button class="mode-tab-btn active" onclick="switchMode(1)">📖 Mode 1: Topic & PYQ Integration</button>
+        <button class="mode-tab-btn" onclick="switchMode(2)">💻 Mode 2: Algorithm & Circuit Interfacing</button>
+        <button class="mode-tab-btn" onclick="switchMode(3)">📝 Mode 3: Solved CIE & SEE Exam Papers</button>
+    </div>
+    
+    <!-- MODE 1 -->
+    <div class="mode-content active" id="mode-1">
+        
+            <div class="topic-block">
+                <h3>Topic 1: Introduction to Embedded Systems & The Engineering Design Process</h3>
+                <div class="badge badge-imp">Easy Explanation</div>
+                <p>An <strong>embedded system</strong> is a specialized, computer-controlled device built to perform a single dedicated function under strict physical, computational, and electrical constraints. Unlike general-purpose PCs which run various arbitrary applications (browsers, word processors), an embedded system runs a single pre-programmed software task. Real-world examples include automotive ABS, smart grids, pacemakers, and home appliances.</p>
+                <p>The <strong>Engineering Design Process</strong> of an embedded system is a structured, step-by-step development cycle:
+                <ol style="margin-left: 20px; margin-top: 5px;">
+                    <li><strong>Requirements Engineering:</strong> Defining the system goals (functional, environmental, cost, size).</li>
+                    <li><strong>Specification:</strong> Formulating precise design metrics (voltage, memory size, execution speed, deadlines).</li>
+                    <li><strong>Architecture Design:</strong> Deciding the structural split between Hardware (CPU, peripherals) and Software (firmware, RTOS).</li>
+                    <li><strong>Component Selection:</strong> Sourcing the specific MCU (e.g., LPC2148), sensors, and power systems based on constraints.</li>
+                    <li><strong>System Integration & Testing:</strong> Merging the hardware and software on a PCB, debugging with oscilloscopes and JTAG, and verifying safety-critical constraints.</li>
+                </ol>
+                </p>
+                <div class="badge badge-imp">Important Points</div>
                 <ul>
-                    <li>$$\text{PWM Duty Cycle (\%)} = \left(\frac{T_{ON}}{T_{\text{Total}}}\right) \times 100\%$$</li>
-                    <li>$$\text{Average Output Voltage} = V_{CC} \times \text{Duty Cycle}$$</li>
-                    <li>$$\text{Timer Delay Constant} = \text{Desired Delay} \times \text{Peripheral Clock Frequency (PCLK)}$$</li>
+                    <li>Embedded systems are tightly-coupled systems of specialized hardware and software.</li>
+                    <li>The design process must establish rigorous metrics before hardware prototyping.</li>
+                    <li>Component selection balances cost, power limits, and physical chip area.</li>
+                </ul>
+                <div class="badge badge-imp">Diagram Explanation</div>
+                <p><strong>Embedded System Life-Cycle Block Diagram:</strong> Draw a loop starting with <em>Requirements</em> -> <em>Specification</em> -> <em>Architecture Design</em>. This splits into parallel paths for <em>Hardware Development</em> (schematics, PCB routing) and <em>Software Development</em> (coding, compiling), which merge back at the <em>System Integration & Verification</em> phase.</p>
+                <div class="badge badge-pyq">PYQs Asked</div>
+                <p>• <strong>SEE 2023 Q2(a):</strong> With a block diagram, explain the characteristics of an embedded system. (8 Marks)<br>
+                • <strong>SEE 2024 Q2(a):</strong> Discuss the characteristics of an embedded system, also describe the applications of embedded systems. (8 Marks)</p>
+                <div class="badge badge-topic">Expected Questions</div>
+                <ul>
+                    <li>Outline the detailed stages of the embedded system design process with a flowchart.</li>
+                    <li>Compare hardware-software co-design with traditional sequential design methodologies.</li>
+                </ul>
+                <div class="badge badge-imp">Exam Writing Tips</div>
+                <p><strong>How to write:</strong> Students often confuse the block diagram of the system with the flowchart of the design process. If asked for the design process, draw the engineering loop. Under characteristics, write down these headings: <em>Single-Functioned</em>, <em>Tightly-Constrained</em>, <em>Reactive/Real-Time</em>, <em>Highly Reliable</em>. **viva focus**: What is hardware-software co-design? (Developing hardware and software concurrently to meet constraints). <strong>Memory Trick:</strong> Design Process = <strong>R.S.A.C.I.</strong> (<strong>R</strong>equirements, <strong>S</strong>pecification, <strong>A</strong>rchitecture, <strong>C</strong>omponent, <strong>I</strong>ntegration).</p>
+                <div class="badge badge-imp">Quick Revision</div>
+                <p>Embedded systems are single-purpose devices designed via a structured loop of requirements, specification, concurrent HW/SW development, and integration testing.</p>
+            </div>
+
+            <div class="topic-block" style="margin-top:40px;">
+                <h3>Topic 2: Characteristics, Constraints & Applications</h3>
+                <div class="badge badge-imp">Easy Explanation</div>
+                <p>Every embedded system is defined by its distinct operational traits. Because they are deployed in environments like cars, airplanes, or inside human bodies, they must behave reliably and react immediately to external inputs without delays.</p>
+                <div class="badge badge-imp">Important Points</div>
+                <ul>
+                    <li><strong>Single-Functioned:</strong> Runs a specific program repeatedly.</li>
+                    <li><strong>Tightly Constrained:</strong> Highly restricted in memory, processing power, battery capacity, and chip area.</li>
+                    <li><strong>Real-time Reactive:</strong> Must calculate outputs in response to external events within strict time windows (deadlines).</li>
+                    <li><strong>High Reliability & Safety:</strong> Must tolerate electrical noise, voltage fluctuations, and never crash (failures can be catastrophic).</li>
+                </ul>
+                <div class="badge badge-imp">Diagram Explanation</div>
+                <p><strong>General System Layout:</strong> Draw a block diagram showing input <em>Sensors</em> (temperature, pressure) feeding into the <em>Microcontroller/Processor Core</em>. The MCU reads from <em>Memory</em> (Flash/RAM) and sends commands to <em>Actuators/Drivers</em> (motors, displays) via <em>Interface Circuits</em>.</p>
+                <div class="badge badge-pyq">PYQs Asked</div>
+                <p>• <strong>SEE 2023(O) Q1(b):</strong> List the various characteristics of an Embedded system. Also, mention few applications of embedded systems. (6 Marks)</p>
+                <div class="badge badge-topic">Expected Questions</div>
+                <ul>
+                    <li>Differentiate between Hard Real-Time and Soft Real-Time embedded systems with examples.</li>
+                </ul>
+                <div class="badge badge-imp">Exam Writing Tips</div>
+                <p>Always classify applications into domains: <em>Automotive</em> (Airbags, ABS), <em>Medical</em> (Pacemakers), <em>Industrial</em> (PLCs, robotics), and <em>Consumer</em> (Smart watches, microwave ovens). <strong>Common mistake:</strong> Forgetting to list constraints (size, cost, power, time). <strong>Memory Trick:</strong> Acronym <strong>S.P.A.R.T.A.</strong> (<strong>S</strong>ingle-function, <strong>P</strong>ower-efficient, <strong>A</strong>ctuator-driven, <strong>R</strong>eal-time, <strong>T</strong>ime-constrained, <strong>A</strong>ccurate).</p>
+                <div class="badge badge-imp">Quick Revision</div>
+                <p>Embedded systems perform dedicated, real-time reactive tasks under physical and electrical constraints with high safety and reliability standards.</p>
+            </div>
+
+            <div class="topic-block" style="margin-top:40px;">
+                <h3>Topic 3: Embedded Processors & Hardware Categories</h3>
+                <div class="badge badge-imp">Easy Explanation</div>
+                <p>The processing core of an embedded system is selected based on performance, cost, and complexity requirements. There are five major categories:
+                <ul style="margin-left: 20px; margin-top: 5px;">
+                    <li><strong>General Purpose Microprocessor (MPU):</strong> An off-the-shelf CPU (like Intel x86) with no on-chip memory or peripherals; requires external RAM, ROM, and I/O chips on the PCB. High speed, high cost.</li>
+                    <li><strong>Microcontroller (MCU):</strong> A single-chip computer (like LPC2148, 8051) containing CPU, RAM, Flash, timers, and I/O on one silicon die. Highly integrated, low cost, low power.</li>
+                    <li><strong>Digital Signal Processor (DSP):</strong> A specialized processor optimized for real-time mathematical operations on analog signals (audio, video, radar). Features hardware multiply-accumulate (MAC) units.</li>
+                    <li><strong>Application Specific Integrated Circuit (ASIC):</strong> A custom silicon chip manufactured for a specific product. Ultra-fast, highly efficient, but extremely expensive to design and non-programmable once manufactured.</li>
+                    <li><strong>Field Programmable Gate Array (FPGA):</strong> A reconfigurable chip containing configurable logic blocks. Allows the designer to program hardware circuits using HDL (Verilog/VHDL), offering parallel hardware execution.</li>
+                </ul>
+                </p>
+                <div class="badge badge-imp">Important Points</div>
+                <ul>
+                    <li>MPUs are high-performance but need external memory; MCUs are compact and self-contained.</li>
+                    <li>DSPs use specialized Harvard architectures to process math in a single clock cycle.</li>
+                    <li>ASICs provide maximum efficiency but zero flexibility; FPGAs bridge hardware speed and software flexibility.</li>
+                </ul>
+                <div class="badge badge-pyq">Expected Questions</div>
+                <ul>
+                    <li>Classify embedded processors and explain the structural difference between MPU and MCU.</li>
+                    <li>Why are DSPs preferred for telecommunication systems over standard MCUs?</li>
+                </ul>
+                <div class="badge badge-imp">Exam Writing Tips</div>
+                <p>Use a structured table to compare MPU and MCU on parameters like: <em>On-chip Peripherals</em>, <em>Cost</em>, <em>Size</em>, <em>Power Consumption</em>, and <em>Target Applications</em>. <strong>viva question</strong>: What does MAC stand for in DSPs? (Multiply-Accumulate, performs A = B * C + D in 1 cycle).</p>
+                <div class="badge badge-imp">Quick Revision</div>
+                <p>Embedded hardware ranges from versatile MCUs (integrated on one chip) and MPUs (requires external chips), to math-specialized DSPs, custom ASICs, and reconfigurable FPGAs.</p>
+            </div>
+
+            <div class="topic-block" style="margin-top:40px;">
+                <h3>Topic 4: CISC vs RISC Design Philosophy</h3>
+                <div class="badge badge-imp">Easy Explanation</div>
+                <p>The core structural dispute in computer architecture is how instructions are executed:
+                - **CISC (Complex Instruction Set Computer)** focuses on reducing the number of instructions per program. It provides highly complex, variable-length instructions that perform multi-cycle operations directly on memory. This reduces program size but requires complex hardware decoders and microcode in the CPU.
+                - **RISC (Reduced Instruction Set Computer)** focuses on single-cycle execution of simple instructions. Instructions are uniform in length and act strictly on internal registers (load-store structure). This simplifies CPU hardware, increases clock frequency, and relies on the software compiler to optimize code efficiency.</p>
+                <div class="badge badge-imp">Important Points</div>
+                <ul>
+                    <li><strong>Instruction Format:</strong> CISC has variable widths (1 to 15 bytes); RISC has strictly fixed widths (e.g., 32-bit).</li>
+                    <li><strong>Execution Cycles:</strong> CISC instructions take multiple clock cycles; RISC instructions execute in a single cycle.</li>
+                    <li><strong>Addressing Modes:</strong> CISC features many complex modes; RISC provides few, highly simplified modes.</li>
+                    <li><strong>Reduced is Antiquated:</strong> The term "Reduced" is considered antiquated today because modern RISC instruction sets are actually very large (hundreds of instructions). The true meaning is **Reduced hardware complexity** achieved by simple, optimized instruction formats.</li>
+                </ul>
+                <div class="badge badge-pyq">PYQs Asked</div>
+                <p>• <strong>SEE 2025 Q1(a):</strong> List and explain the four major design rules behind RISC processors implementation. (8 Marks)<br>
+                • <strong>SEE 2024 Q1(a):</strong> Discuss the four major design rules that are taken into considerations in implementation of RISC systems. (8 Marks)<br>
+                • <strong>MAKEUP2023 Q1(a):</strong> List and analyze the features of RISC processors that broke with traditional design techniques used in CISC based processors. (8 Marks)<br>
+                • <strong>SEE 2023(O) Q1(c):</strong> Discuss the four major design rules implemented on RISC design. Justify how CISC emphasizes on hardware complexity and RISC emphasizes on compiler complexity. (8 Marks)</p>
+                <div class="badge badge-imp">Exam Writing Tips</div>
+                <p><strong>Golden Exam Topic!</strong> Memorize the 4 major RISC design rules: (1) <em>Single-cycle instruction execution</em>, (2) <em>Fixed 32-bit instruction format</em>, (3) <em>Load-Store architecture</em>, (4) <em>Large register bank</em>. Write a clean instruction example comparison (CISC memory-to-memory vs RISC register-to-register). <strong>Memory Trick:</strong> RISC rules = <strong>L.I.M.S.</strong> (<strong>L</strong>oad-store, <strong>I</strong>nstructions are fixed, <strong>M</strong>aximize registers, <strong>S</strong>ingle-cycle execution).</p>
+                <div class="badge badge-imp">Quick Revision</div>
+                <p>CISC uses complex, variable-width, multi-cycle instructions to save program memory. RISC uses simple, fixed-width, single-cycle, register-based instructions to simplify CPU hardware and increase clock speeds.</p>
+            </div>
+
+            <div class="topic-block" style="margin-top:40px;">
+                <h3>Topic 5: ARM Design Philosophy & Deviations</h3>
+                <div class="badge badge-imp">Easy Explanation</div>
+                <p>Although the ARM architecture is based on the RISC philosophy, it is not a pure RISC core. Pure RISC architectures require high clock frequencies and large program memories. In battery-powered, cost-sensitive embedded systems, memory is expensive and power is limited. Therefore, the **ARM Design Philosophy** introduces core hardware modifications to improve code density and execution efficiency without requiring huge program memories.</p>
+                <div class="badge badge-imp">Important Points</div>
+                <ul>
+                    <li><strong>Inline Barrel Shifter:</strong> A hardware shifter placed on the Operand 2 input path to the ALU. It pre-shifts/rotates a register in the same clock cycle as a data instruction, enabling fast mathematical scaling (e.g., multiplying a register by 5 in one instruction).</li>
+                    <li><strong>Thumb 16-Bit Instruction Set:</strong> A compressed instruction set. When in the Thumb state, the CPU executes 16-bit instructions, increasing program code density by ~30% in memory-restricted setups.</li>
+                    <li><strong>Conditional Execution:</strong> Every ARM instruction contains a 4-bit conditional suffix (e.g., <code>ADDEQ</code>). It only executes if the CPSR status flags match, avoiding branch instructions that flush the instruction pipeline.</li>
+                    <li><strong>Multi-register load/store (LDM/STM):</strong> Permits transferring up to 16 registers to/from memory in a single instruction, reducing stack overhead.</li>
+                </ul>
+                <div class="badge badge-pyq">PYQs Asked</div>
+                <p>• <strong>SEE 2025 Q1(c) / SEE 2023 Q1(c):</strong> Explain how the ARM instruction set differs from the pure RISC instruction set? (6 Marks)<br>
+                • <strong>SEE 2023(O) Q2(a):</strong> Discuss on how the ARM instruction set differs from the pure RISC definition in several ways that make the ARM instruction set suitable for embedded applications. (6 Marks)</p>
+                <div class="badge badge-imp">Exam Writing Tips</div>
+                <p>Highlight the **4 ARM Deviations** in bold bullet points: (1) <em>Barrel Shifter on ALU input</em>, (2) <em>Thumb 16-bit compressed state</em>, (3) <em>Conditional execution of all instructions</em>, (4) <em>LDM/STM instructions</em>. <strong>Common mistake:</strong> Forgetting to explain *why* ARM deviates (to fit embedded power, cost, and memory constraints). <strong>Memory Trick:</strong> ARM departs via: <strong>I.T.C.M.</strong> (<strong>I</strong>nline shifting, <strong>T</strong>humb set, <strong>C</strong>onditional suffixes, <strong>M</strong>ulti-register loads).</p>
+                <div class="badge badge-imp">Quick Revision</div>
+                <p>ARM modifies pure RISC by adding an inline barrel shifter, Thumb 16-bit state, conditional execution, and LDM/STM instructions to maximize code density and power efficiency.</p>
+            </div>
+
+            <div class="topic-block" style="margin-top:40px;">
+                <h3>Topic 6: System-on-Chip (SoC) Internal Components</h3>
+                <div class="badge badge-imp">Easy Explanation</div>
+                <p>A **System-on-Chip (SoC)** is the integration of an entire computer system onto a single piece of silicon die. Instead of assembling a CPU chip, RAM chips, and serial interface chips on a PCB, an SoC combines all of these modules on one microchip, reducing physical size, signal propagation delay, electrical noise, and power consumption.</p>
+                <div class="badge badge-imp">Important Points</div>
+                <ul>
+                    <li><strong>Core Processor:</strong> The microprocessor engine (e.g. ARM7TDMI-S).</li>
+                    <li><strong>On-chip Memories:</strong> Volatile SRAM for variables, and non-volatile Flash/ROM for program code.</li>
+                    <li><strong>Clock Generator (PLL):</strong> Phase-Locked Loop clock multiplier that scales external low-frequency crystals to high system speeds.</li>
+                    <li><strong>Watchdog Timer (WDT):</strong> A hardware safety timer that resets the system if code hangs.</li>
+                    <li><strong>System Bus:</strong> High-speed internal bus (like AMBA AHB) linking memories and CPU, and slow peripheral bus (like APB) for slow peripherals.</li>
+                </ul>
+                <div class="badge badge-pyq">PYQs Asked</div>
+                <p>• <strong>SEE 2025 Q2(a):</strong> Explain the internal components of system on chip. Write diagram. (8 Marks)<br>
+                • <strong>SEE 2023 Q1(b):</strong> With a neat diagram, explain the internal components of a typical Microcontroller unit. (6 Marks)<br>
+                • <strong>SEE 2023(O) Q2(b):</strong> Discuss with a neat diagram, the Internal components of a typical MCU that works on SOC. (8 Marks)</p>
+                <div class="badge badge-imp">Exam Writing Tips</div>
+                <p><strong>Always draw the block diagram!</strong> Show the CPU linked to high-speed system bus (AHB), linked to SRAM and Flash, with a bus bridge leading to a peripheral bus (APB) containing GPIO, Timers, UART, ADC, and DAC. Label every component block clearly to score full 8/8 marks! **viva question**: What is the benefit of a bus bridge? (It isolates slow peripheral operations from high-speed memory-CPU traffic, saving power).</p>
+                <div class="badge badge-imp">Quick Revision</div>
+                <p>An SoC integrates the CPU, RAM, Flash, PLL clock multipliers, timers, and peripherals onto a single silicon block linked via AMBA system buses.</p>
+            </div>
+
+            <div class="topic-block" style="margin-top:40px;">
+                <h3>Topic 7: Operating Systems & Connectivity</h3>
+                <div class="badge badge-imp">Easy Explanation</div>
+                <p>An embedded system can run either **bare-metal** (firmware runs directly on the CPU hardware in an infinite loop) or under an **Operating System (OS)**.
+                For complex devices, we use a **Real-Time Operating System (RTOS)** rather than a General Purpose OS (GPOS like Windows/Linux). An RTOS is designed to guarantee that critical tasks execute within strict, deterministic time limits (deadlines), utilizing highly predictive priority-based task scheduling.</p>
+                <p>Embedded systems connect to external networks using diverse **Connectivity Standards**:
+                - **USB:** High-speed point-to-point peripheral communication.
+                - **Ethernet:** standard wired TCP/IP network links.
+                - **CAN (Controller Area Network):** A robust, differential-signal vehicle bus standard designed for noise-heavy automotive environments.
+                - **Wireless:** Bluetooth, Wi-Fi, and ZigBee for low-power IoT networks.</p>
+                <div class="badge badge-imp">Important Points</div>
+                <ul>
+                    <li>GPOS focuses on high throughput and fair multitasking; RTOS focuses on **determinism and meeting deadlines**.</li>
+                    <li>The RTOS scheduler ensures the highest-priority ready task always preempts running tasks immediately.</li>
+                    <li>Automotive systems rely on CAN buses to let ECUs communicate without complex wiring harnesses.</li>
+                </ul>
+                <div class="badge badge-topic">Expected Questions</div>
+                <ul>
+                    <li>Differentiate between RTOS and GPOS based on scheduling, determinism, and latency.</li>
+                    <li>List and explain the main connectivity protocols used in modern System-on-Chip designs.</li>
+                </ul>
+                <div class="badge badge-imp">Quick Revision</div>
+                <p>RTOS guarantees deterministic task execution within deadlines, while protocols like USB, Ethernet, and CAN provide robust connectivity interfaces for embedded systems.</p>
+            </div>
+
+            <div class="topic-block" style="margin-top:40px;">
+                <h3>Topic 8: MCU Pin Diagram & Multi-Function Configurations</h3>
+                <div class="badge badge-imp">Easy Explanation</div>
+                <p>Microcontroller chips are physically housed in packages (like 64-pin LQFP) with limited physical pins. To pack maximum functionality into a tiny chip size, modern MCUs use **Pin Multiplexing**. This means a single physical pin can be configured to perform up to 4 different functions (e.g. general-purpose GPIO, serial UART Tx, PWM output, or analog ADC input). The active function of each pin is determined by programming specialized software registers called **PINSEL** (Pin Select) registers during system startup.</p>
+                <div class="badge badge-imp">Important Points</div>
+                <ul>
+                    <li>Multiplexing reduces physical chip pin count, keeping packages small and lowering manufacturing costs.</li>
+                    <li>Physical pin groups include: (1) <em>Power Pins</em> (VDD, VSS), (2) <em>Clock Pins</em> (XTAL), (3) <em>Reset Pin</em>, (4) <em>GPIO Pins</em>, (5) <em>Analog Input Pins</em>, (6) <em>Serial Interface Lines</em>.</li>
+                    <li>LPC2148 pins Port 0 and Port 1 are configured in blocks of 16 using <code>PINSEL0</code>, <code>PINSEL1</code>, and <code>PINSEL2</code>.</li>
+                </ul>
+                <div class="badge badge-pyq">PYQs Asked</div>
+                <p>• <strong>SEE 2024 Q1(b):</strong> With an appropriate diagram, discuss the PIN configuration of an MCU that shows the set of pins associated with each of the peripherals and its functionalities. (8 Marks)</p>
+                <div style="text-align: center; margin: 20px 0;">
+                    <img src="assets/pin_multiplexing.png" alt="PIN selection function multiplexer diagram" style="max-width: 90%; height: auto; border-radius: 8px; border: 1px solid var(--border-color); box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
+                    <div style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 8px; font-style: italic;">Figure: Pin Multiplexing Control using PINSEL Register Selection Bits</div>
+                </div>
+                <div class="badge badge-imp">Exam Writing Tips</div>
+                <p><strong>How to write:</strong> Draw a schematic block diagram representing the MCU package. Group the pins into conceptual clusters (Clock/XTAL, Reset, Port 0 pins P0.0-P0.31, Port 1 pins, Power/VSS, Analog VREF) with arrows, rather than trying to draw all 64 pins in order! This is highly legible and scores top marks! **viva question**: What is the default function of multiplexed pins upon reset? (All pins default to general-purpose digital input GPIO mode to ensure electrical safety).</p>
+                <div class="badge badge-imp">Quick Revision</div>
+                <p>Pin multiplexing allows a single pin to serve multiple roles, programmed via PINSEL registers to optimize package size and physical layouts.</p>
+            </div>
+
+            <div class="topic-block" style="margin-top:40px;">
+                <h3>Topic 9: Resets (POR, BOD, WDT)</h3>
+                <div class="badge badge-imp">Easy Explanation</div>
+                <p>Digital microchips are highly sensitive to voltage instability. When an embedded system powers up, the voltage rises slowly, which can cause logic gates to enter undefined states and execute random instructions. To secure hardware sanity, microcontrollers incorporate three reset modules:
+                - <strong>Power-On Reset (POR):</strong> A hardware delay circuit that holds the CPU RESET pin low (active reset state) when power is first applied, releasing it only after the main voltage rail has stabilized.
+                - <strong>Brown-Out Detector (BOD):</strong> Continuously monitors voltage levels. If the power supply drops below a safe operational limit (a brownout), the BOD triggers a reset to prevent memory data corruption.
+                - <strong>Watchdog Timer (WDT):</strong> A hardware timer initialized to a specific interval. The software must periodically clear (feed) the watchdog in a regular loop. If the software crashes or freezes, the feed sequence stops, the WDT timer overflows, and it triggers a hard reset to reboot the processor.</p>
+                <div class="badge badge-imp">Important Points</div>
+                <ul>
+                    <li>POR holds the processor dormant during power startup transitions.</li>
+                    <li>BOD protects RAM contents and flash writes from low-voltage glitches.</li>
+                    <li>WDT prevents permanent software lockup in unmanned, remote applications.</li>
+                </ul>
+                <div style="text-align: center; margin: 20px 0;">
+                    <img src="assets/wdt_reset.png" alt="Watchdog Timer CPU Reset Block Diagram" style="max-width: 90%; height: auto; border-radius: 8px; border: 1px solid var(--border-color); box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
+                    <div style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 8px; font-style: italic;">Figure: Watchdog Timer (WDT) Hardware Reset Loop connection to CPU</div>
+                </div>
+                <div class="badge badge-pyq">PYQs Asked</div>
+                <p>• <strong>SEE 2023 Q2(c):</strong> Describe the working of power on reset signal with a circuit diagram and waveform. (6 Marks)<br>
+                • <strong>MAKEUP2023 Q2(b):</strong> List and explain three types of Reset in a typical MCU. (7 Marks)</p>
+                <div class="badge badge-imp">Exam Writing Tips</div>
+                <p>Always draw the RC charging delay circuit and exponential wave curve for Power-On Reset. Write down the WDT "Feed Sequence" (kicking the dog) in bullet points: (1) Write 0xAA to WDFEED, (2) Write 0x55 to WDFEED in sequence. If this exact two-step byte sequence is violated, a reset is triggered instantly. <strong>Memory Trick:</strong> Resets protect systems from: <strong>P.B.W.</strong> (<strong>P</strong>ower startups, <strong>B</strong>rownout drops, <strong>W</strong>atchdog hangs).</p>
+                <div class="badge badge-imp">Quick Revision</div>
+                <p>SoC safety reset circuits (POR, BOD, WDT) ensure robust, safe execution, protecting the processor from startup rises, voltage brownouts, and infinite code hangs.</p>
+            </div>
+
+            <div class="topic-block" style="margin-top:40px;">
+                <h3>Topic 10: Timers, Counters & Pulse Width Modulation (PWM)</h3>
+                <div class="badge badge-imp">Easy Explanation</div>
+                <p>A **Timer/Counter** is a programmable counter register. If it increments on every clock cycle of the internal system clock, it behaves as a <strong>timer</strong> (measuring exact time delays). If it increments in response to pulses applied on an external input pin, it behaves as a <strong>counter</strong> (counting external events).</p>
+                <p>A **Pulse Width Modulator (PWM)** is a specialized timer module designed to control external analog loads (like motors or LEDs). Since digital microcontrollers can only output logic HIGH (3.3V) or logic LOW (0V), they cannot naturally output intermediate analog voltages. A PWM switches a digital output pin ON and OFF extremely fast. The average voltage delivered depends on the **Duty Cycle** (the percentage of time the signal is HIGH relative to the total period).</p>
+                <div style="text-align: center; margin: 20px 0;">
+                    <img src="assets/pwm_pulse_period.png" alt="PWM pulse width t and period T" style="max-width: 90%; height: auto; border-radius: 8px; border: 1px solid var(--border-color); box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
+                    <div style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 8px; font-style: italic;">Figure: PWM Square Wave Pulse Width (t) and Total Period (T)</div>
+                </div>
+                <div style="text-align: center; margin: 20px 0;">
+                    <img src="assets/pwm_duty_cycles.png" alt="PWM Duty Cycle shapes at 25%, 50%, and 75%" style="max-width: 90%; height: auto; border-radius: 8px; border: 1px solid var(--border-color); box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
+                    <div style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 8px; font-style: italic;">Figure: Duty Cycle Waveforms (25% Low Power, 50% Half Power, 75% High Power)</div>
+                </div>
+                <div class="badge badge-imp">Important Points</div>
+                <ul>
+                    <li><strong>Prescaler:</strong> A divider register that scales down high system clock speeds before it increments the Timer Counter register.</li>
+                    <li><strong>Match Registers:</strong> Programmable compare registers. When the Timer Counter equals the Match value, the timer can: (1) trigger an interrupt, (2) reset the counter, or (3) stop the timer.</li>
+                    <li><strong>Duty Cycle Formula:</strong> D(%) = (T_ON / T_Period) * 100. The average voltage is V_avg = D * V_max.</li>
+                    <li><strong>Single-edge vs Double-edge PWM:</strong> Single-edge aligns all pulses at the start of a period; double-edge shifts both edges, which minimizes electromagnetic interference and motor noise.</li>
+                </ul>
+                <div class="badge badge-pyq">PYQs Asked</div>
+                <p>• <strong>MAKEUP2023 Q1(b):</strong> List and explain the three types of timers in a microcontroller unit. (7 Marks)<br>
+                • <strong>SEE 2023(O) Q1(a):</strong> List out the steps involved in the working of an interval timer. (6 Marks)<br>
+                • <strong>SEE 2024 Q2(c):</strong> What is the relevance of duty cycle? Define the duty cycle to showcase for the 50% of its usage. (6 Marks)<br>
+                • <strong>SEE 2023(O) Q2(c):</strong> Briefly discuss on Pulse Width Modulator, a separate module by the virtue of its functionality that are used in most of the MCU’s. (6 Marks)</p>
+                <div class="badge badge-imp">Quick Revision</div>
+                <p>Timers use prescalers and match registers to measure time or count pulses. PWM varies the high pulse duration (Duty Cycle) to simulate variable analog outputs for motor or LED controls.</p>
+            </div>
+        
+    </div>
+    
+    <!-- MODE 2 -->
+    <div class="mode-content" id="mode-2">
+        
+            <div class="topic-block">
+                <h3>1. Phase-Locked Loop (PLL) Calculations</h3>
+                <p>The PLL in the LPC2148 takes an input crystal frequency (F_OSC) and multiplies it to produce the processor clock (cclk). To maintain physical stability, the internal Current Controlled Oscillator (FCCO) must run at a very high speed (156MHz to 320MHz). Thus, we use a multiplier M and a divider P:</p>
+                <div class="formula">
+                    cclk = M &times; F_OSC<br>
+                    FCCO = 2 &times; P &times; cclk
+                </div>
+                <p>Where:<br>
+                • M: PLL Multiplier (1 to 32), stored in PLLCON/PLLCFG registers as (M - 1).<br>
+                • P: PLL Divider (1, 2, 4, 8), stored in registers as encoded bits (00 for P=1, 01 for P=2, 10 for P=4, 11 for P=8).</p>
+                
+                <div class="final">
+                    <strong>Numerical Example (SEE 2024):</strong><br>
+                    Configure the PLL registers for F_OSC = 12MHz to generate a system clock cclk = 60MHz.<br>
+                    1. Calculate Multiplier (M):<br>
+                    M = cclk / F_OSC = 60MHz / 12MHz = 5<br>
+                    Register value MSEL = M - 1 = 5 - 1 = 4 (0x04).<br><br>
+                    2. Determine Divider (P) to satisfy 156MHz &le; FCCO &le; 320MHz:<br>
+                    • Let P = 1 &rArr; FCCO = 2 &times; 1 &times; 60 = 120MHz (Violates low boundary!)<br>
+                    • Let P = 2 &rArr; FCCO = 2 &times; 2 &times; 60 = 240MHz (Perfect! In 156-320MHz range).<br>
+                    Register value PSEL = 01 binary (0x01).
+                </div>
+            </div>
+            
+            <div class="topic-block" style="margin-top:30px;">
+                <h3>2. PWM Duty Cycle calculations</h3>
+                <p>For a single-edge PWM channel configured on LPC2148 Match registers:</p>
+                <ul>
+                    <li>PWMMR0 holds the total cycle period value (representing the frequency).</li>
+                    <li>PWMMR1 (or other match register) holds the ON-state threshold count.</li>
+                </ul>
+                <p>The PWM output pin remains HIGH at the start of a cycle, and toggles LOW when the timer match matches the value in the configured channel register. The duty cycle is calculated as:</p>
+                <div class="formula">
+                    Duty Cycle (%) = (PWMMR1 / PWMMR0) &times; 100
+                </div>
+                <div class="final">
+                    <strong>Practical Example:</strong><br>
+                    If the peripheral clock pclk = 15MHz, and we want a 10kHz PWM wave with a 60% duty cycle:<br>
+                    1. Calculate period count (PWMMR0):<br>
+                    Period Count = pclk / F_PWM = 15MHz / 10kHz = 1500<br>
+                    Set PWMMR0 = 1500.<br><br>
+                    2. Calculate match count (PWMMR1) for 60% duty cycle:<br>
+                    Match Count = Period &times; D = 1500 &times; 0.60 = 900<br>
+                    Set PWMMR1 = 900.
+                </div>
+            </div>
+
+            <div class="topic-block" style="margin-top:30px;">
+                <h3>3. Software Delay Calculations</h3>
+                <p>In bare-metal C programming, we use a delay loop to block execution. Let's calculate the exact loop limit for a 1ms delay on a 60MHz processor clock:</p>
+                <pre><code>void delay_1ms() {
+    unsigned int count = LIMIT;
+    while(count > 0) {
+        count--;
+    }
+}</code></pre>
+                <p>Each iteration of the loop (decrement and comparison check) takes approximately 4 CPU clock cycles on an ARM7 core:</p>
+                <div class="formula">
+                    Clock Speed = 60MHz (60 &times; 10<sup>6</sup> cycles/sec)<br>
+                    Clock Period = 1 / 60MHz &approx; 16.67 nanoseconds<br>
+                    1ms target delay = 1,000,000 nanoseconds<br>
+                    Required Clock Cycles = 1ms / 16.67ns = 60,000 cycles<br>
+                    Loop Limit (LIMIT) = 60,000 / 4 cycles = 15,000
+                </div>
+                <div class="final">
+                    Configure the software delay loop limit as <strong>15,000</strong> to achieve approximately 1 millisecond delay when running at 60MHz system clock.
+                </div>
+            </div>
+        
+    </div>
+    
+    <!-- MODE 3 -->
+    <div class="mode-content" id="mode-3">
+        
+            <div class="pyq-solved">
+                <h3>Q1. Compare RISC and CISC architectures with illustrative instruction code examples. [SEE 2025, SEE 2024, SEE 2023(O)] (8 Marks)</h3>
+                <p><strong>Answer:</strong></p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>RISC (Reduced Instruction Set)</th>
+                            <th>CISC (Complex Instruction Set)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Instruction Format</strong></td>
+                            <td>Fixed width (strictly 32-bit in ARM). Easy to decode.</td>
+                            <td>Variable width (1 to 15 bytes in x86). Highly complex decoding.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Execution Cycles</strong></td>
+                            <td>Single clock cycle per instruction (CPI = 1) due to rigid pipeline.</td>
+                            <td>Multi-clock cycles per instruction (CPI > 1) via microcode.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Memory Reference</strong></td>
+                            <td>Strict load-store architecture. Only LDR/STR access RAM.</td>
+                            <td>Instructions can perform direct ALU math on memory addresses.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Addressing Modes</strong></td>
+                            <td>Few, highly simplified modes.</td>
+                            <td>Large number of complex, direct and indirect modes.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Registers</strong></td>
+                            <td>Large general-purpose register bank (R0-R15).</td>
+                            <td>Few registers, highly dedicated to specific hardware roles.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Design Focus</strong></td>
+                            <td>Compiler complexity (software optimizes execution).</td>
+                            <td>Hardware complexity (microcode runs instruction internally).</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p style="margin-top: 15px;"><strong>Instruction Comparison (To add two integers stored in RAM locations):</strong></p>
+                <p>• <strong>CISC approach (single instruction):</strong>
+                <pre><code>ADD AX, [0x4000]   ; Directly fetches from RAM address 0x4000 and adds to AX</code></pre>
+                • <strong>RISC approach (requires separate load and store):</strong>
+                <pre><code>LDR R1, =0x4000    ; Load address 0x4000 into register R1
+LDR R2, [R1]       ; Load actual data from address in R1 into R2
+ADD R0, R0, R2     ; Add registers R0 and R2, store result in R0</code></pre>
+                </p>
+            </div>
+
+            <div class="pyq-solved" style="margin-top:30px;">
+                <h3>Q2. Explain how the ARM instruction set differs from the pure RISC instruction set to fit embedded applications. [SEE 2025, SEE 2023, SEE 2023(O)] (8 Marks)</h3>
+                <p><strong>Answer:</strong></p>
+                <p>Although ARM follows RISC principles, pure RISC requires large program memories due to simple instructions. ARM departs from pure RISC in four major ways to improve code density and performance:</p>
+                <ul>
+                    <li><strong>1. Inline Barrel Shifter on ALU Input:</strong> A hardware shifter is placed on the second input operand bus to the ALU. It can shift or rotate the register (LSL, LSR, ASR, ROR) *within the same clock cycle* as the main ALU operation. E.g., <code>ADD R0, R1, R2, LSL #2</code> (Multiplies R2 by 4 and adds to R1 in 1 instruction).</li>
+                    <li><strong>2. 16-Bit Thumb Instruction Set:</strong> Features a compressed, secondary instruction state called the Thumb state. The CPU executes 16-bit instructions that are unpacked in hardware during decoding, increasing program density by ~30% in memory-limited designs.</li>
+                    <li><strong>3. Conditional Execution of All Instructions:</strong> Every 32-bit ARM instruction carries a 4-bit conditional prefix. The instruction only executes if the CPSR flags match. E.g., <code>ADDEQ R0, R1, R2</code> only executes if the Zero flag is 1, avoiding branch instructions that would clear the pipeline.</li>
+                    <li><strong>4. Multiple Register Transfers (LDM/STM):</strong> Allows loading or storing a subset of R0-R15 in a single instruction, drastically reducing code overhead when saving context to the stack during function entries.</li>
                 </ul>
             </div>
 
-            <h3 style="margin-top:15px">Quick Summary of Core Concepts:</h3>
-            <ul>
-                <li><strong class="term">RISC Core Philosophy</strong>: Uses simple, single-cycle instructions, a load-store architecture, and a large register set.</li>
-                <li><strong class="term">ARM Optimizations</strong>: Supports variable-cycle block memory transfers (<code>LDM</code>/<code>STM</code>), inline barrel shifting, conditional execution, and the 16-bit Thumb instruction set.</li>
-                <li><strong class="term">Embedded System Constraints</strong>: Designed for dedicated functions and must meet strict limits on physical size, cost, power consumption, and response time.</li>
-                <li><strong class="term">Microcontroller Infrastructure</strong>: Integrates Phase-Locked Loops (PLL) for internal frequency multiplication, Power-On Reset (POR) for boot stability, and Watchdog Timers (WDT) for system reliability.</li>
-            </ul>
-        </div>
-    </details>
+            <div class="pyq-solved" style="margin-top:30px;">
+                <h3>Q3. Draw and explain the internal components of a System-on-Chip (SoC) microcontroller unit. [SEE 2025, SEE 2023, MAKEUP2023] (8 Marks)</h3>
+                <p><strong>Answer:</strong></p>
+                <p>A System-on-Chip (SoC) integrates all functional computer blocks onto a single piece of silicon die. Below is the block diagram and detailed explanation:</p>
+                <pre><code>
+    ┌─────────────────────────────────────────────────────────────┐
+    │ SoC Microcontroller Die                                     │
+    │                                                             │
+    │  ┌────────────┐        ┌────────────┐        ┌───────────┐  │
+    │  │  ARM7 CPU  │◄──────►│ SRAM (RAM) │◄──────►│ Flash Mem │  │
+    │  │  Core      │        │ Memory     │        │ (ROM)     │  │
+    │  └─────┬──────┘        └─────┬──────┘        └─────┬─────┘  │
+    │        │                     │                     │        │
+    │  ◄─────┴─────────────────────┴─────────────────────┴─────►  │
+    │                      System Bus (AHB)                       │
+    │                              ▲                              │
+    │                              │ (Bus Bridge)                 │
+    │                              ▼                              │
+    │  ◄─────┬──────────┬──────────┬──────────┬──────────┬─────►  │
+    │        │          │          │          │          │        │
+    │  ┌─────┴──┐ ┌─────┴──┐ ┌─────┴──┐ ┌─────┴──┐ ┌─────┴──┐     │
+    │  │ Timers │ │  PWM   │ │  GPIO  │ │  UART  │ │  ADC   │     │
+    │  └────────┘ └────────┘ └────────┘ └────────┘ └────────┘     │
+    └─────────────────────────────────────────────────────────────┘
+                </pre>
+                <p><strong>Internal Component Explanations:</strong></p>
+                <ul>
+                    <li><strong>CPU Core:</strong> The central execution engine (e.g. ARM7TDMI-S) that processes program instructions and manages calculations.</li>
+                    <li><strong>SRAM (Static RAM):</strong> Fast volatile memory that stores temporary variables, active stack contexts, and program buffers.</li>
+                    <li><strong>Flash Memory:</strong> Non-volatile memory containing the boot loader code and the primary compiled program firmware.</li>
+                    <li><strong>PLL (Phase-Locked Loop):</strong> Synthesizes a stable, high-speed system clock (cclk) by multiplying the frequency of a cheap, low-frequency external crystal.</li>
+                    <li><strong>Watchdog Timer (WDT):</strong> Protects systems from software freezes. If the program fails to regularly write feed sequence bytes, the WDT overflows and triggers a hard reset.</li>
+                    <li><strong>System & Peripheral Buses (AHB & APB):</strong> Split-level bus architecture. High-speed components communicate on the Advanced High-performance Bus (AHB), while slower peripherals connect to the low-power Advanced Peripheral Bus (APB) via a Bus Bridge.</li>
+                </ul>
+            </div>
+
+            <div class="pyq-solved" style="margin-top:30px;">
+                <h3>Q4. Describe the working of Power-On Reset (POR) signal with circuit diagram and waveform. [SEE 2023] (6 Marks)</h3>
+                <p><strong>Answer:</strong></p>
+                <p><strong>Purpose of POR:</strong> When a microcontroller powers up, the voltage supply (VDD) takes time to rise from 0V to its nominal operating level (e.g., 3.3V). During this transition, the internal logic gates are in undefined states. Power-On Reset keeps the microcontroller's internal CPU reset line in an active-low state until the voltage stabilizes, avoiding erratic instruction execution.</p>
+                <p><strong>RC Delay Circuit:</strong></p>
+                <pre><code>
+    VDD (3.3V)
+      │
+     [R]  Resistor
+      │
+      ├───o  RESET Pin (Active Low input to CPU)
+      │
+     [C]  Capacitor
+      │
+     === Ground
+                </code></pre>
+                <p><strong>Working Principle & Waveform:</strong></p>
+                <ul>
+                    <li>At t = 0, power is switched ON. VDD begins to rise towards 3.3V.</li>
+                    <li>The capacitor (C) acts as a short circuit initially, keeping the voltage at the RESET pin at 0V (Active Reset state).</li>
+                    <li>As time passes, the capacitor charges exponentially through resistor R with a time constant &tau; = R &times; C.</li>
+                    <li>The voltage across the capacitor rises according to the formula: V_C(t) = VDD * (1 - e<sup>-t/RC</sup>)</li>
+                    <li>Once the voltage on the RESET pin crosses the digital logic-high input threshold (V_IH), the CPU releases the RESET line, and the Program Counter (PC) loads the reset vector address (normally <code>0x00000000</code>) to begin executing firmware.</li>
+                </ul>
+            </div>
+
+            <div class="pyq-solved" style="margin-top:30px;">
+                <h3>Q5. List out the steps involved in the working of an interval timer. [SEE 2023(O)] (6 Marks)</h3>
+                <p><strong>Answer:</strong></p>
+                <p>An interval timer measures precise time delays by counting CPU system clock cycles. The complete sequence of operations is as follows:</p>
+                <ol>
+                    <li><strong>Initialization:</strong> The program configures the timer control registers. It programs the **Prescale Register (PR)** to establish the clock division ratio, and writes the desired target count to the **Match Register (MR)**.</li>
+                    <li><strong>Enabling the Timer:</strong> The program sets the enable bit in the **Timer Control Register (TCR)**. The internal System Clock (or peripheral clock pclk) starts feeding pulses to the Prescale Counter (PC).</li>
+                    <li><strong>Prescaling:</strong> The **Prescale Counter (PC)** increments on every peripheral clock tick. When the PC value equals the value programmed in the Prescale Register (PR):
+                        <ul>
+                            <li>The PC is automatically reset to 0.</li>
+                            <li>A single count pulse is sent to increment the primary **Timer Counter (TC)** register.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Match Detection:</strong> The Timer Counter (TC) increments on every PC overflow. The hardware comparator continually compares the active TC value against the pre-programmed value in the **Match Register (MR)**.</li>
+                    <li><strong>Action on Match:</strong> When TC == MR, the hardware queries the **Match Control Register (MCR)** to trigger configured actions:
+                        <ul>
+                            <li>Asserts a Timer Interrupt Flag to notify the CPU.</li>
+                            <li>Resets the Timer Counter (TC) to 0 (optional).</li>
+                            <li>Disables/Stops the timer (optional).</li>
+                        </ul>
+                    </li>
+                </ol>
+            </div>
+
+            <div class="pyq-solved" style="margin-top:30px;">
+                <h3>Q6. Define the duty cycle of a Pulse Width Modulator and showcase calculations for 50% and 75% power usage. [SEE 2024, SEE 2023(O)] (6 Marks)</h3>
+                <p><strong>Answer:</strong></p>
+                <p><strong>Definition of Duty Cycle:</strong> The Duty Cycle of a PWM signal is the ratio of the active HIGH duration (T_ON) to the total duration of one complete wave period (T_Period). It is expressed mathematically as a percentage:</p>
+                <div class="formula">
+                    Duty Cycle (D, %) = (T_ON / T_Period) * 100
+                </div>
+                <p><strong>Average Voltage Output:</strong> If the peak signal voltage is V_max, the average analog voltage delivered to the load is directly proportional to the duty cycle: V_avg = D &times; V_max</p>
+                
+                <div style="text-align: center; margin: 20px 0;">
+                    <img src="assets/pwm_duty_cycles.png" alt="PWM Duty Cycle shapes at 25%, 50%, and 75%" style="max-width: 90%; height: auto; border-radius: 8px; border: 1px solid var(--border-color); box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
+                    <div style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 8px; font-style: italic;">Figure: Comparative Duty Cycle Waveforms for Power Regulation</div>
+                </div>
+                <p><strong>1. Configuration for 50% Duty Cycle (Equal Power Balance):</strong></p>
+                <ul>
+                    <li>For 50% duty cycle, T_ON = T_OFF = 0.5 &times; T_Period.</li>
+                    <li>If the peak voltage V_max = 3.3V: V_avg = 0.50 &times; 3.3V = 1.65V</li>
+                    <li><strong>Match configuration:</strong> If the period match register PWMMR0 = 1000 counts, the threshold channel match register PWMMR1 is configured as: PWMMR1 = 0.50 &times; 1000 = 500</li>
+                </ul>
+
+                <p><strong>2. Configuration for 75% Duty Cycle (High Power Output):</strong></p>
+                <ul>
+                    <li>For 75% duty cycle, the signal remains HIGH for 75% of the period, and LOW for 25%.</li>
+                    <li>If the peak voltage V_max = 3.3V: V_avg = 0.75 &times; 3.3V = 2.475V</li>
+                    <li><strong>Match configuration:</strong> If PWMMR0 = 1000 counts, the channel match register is configured as: PWMMR1 = 0.75 &times; 1000 = 750</li>
+                </ul>
+            </div>
+
+            <div class="pyq-solved" style="margin-top:30px;">
+                <h3>Q7. List and explain the two modes of data transfer between MCU and peripherals. With a neat diagram, explain the general functioning of interrupts. [SEE 2025, SEE 2023, MAKEUP2023] (8 Marks)</h3>
+                <p><strong>Answer:</strong></p>
+                <p>There are two primary modes of data transfer between a Microcontroller Unit (MCU) and physical external peripherals:</p>
+                <ol style="margin-left: 20px; margin-top: 5px;">
+                    <li><strong>1. Polling Mode (Programmed I/O):</strong> The CPU continuously reads the peripheral's status register in an infinite software loop to check if data is ready. While simple to implement, it completely wastes CPU processing cycles during waiting, resulting in very low efficiency.</li>
+                    <li><strong>2. Interrupt Mode (Hardware-Driven I/O):</strong> The peripheral asserts a physical hardware signal on the CPU's interrupt pin when it needs attention. The CPU immediately suspends its current code execution, automatically branches to handle the request (runs the ISR), and then resumes its main program exactly where it left off. Highly efficient.</li>
+                </ol>
+                <p><strong>General Functioning & Transfer of Control Diagram:</strong></p>
+                <div style="text-align: center; margin: 20px 0;">
+                    <img src="assets/interrupt_control_transfer.png" alt="Transfer of control through interrupts diagram" style="max-width: 90%; height: auto; border-radius: 8px; border: 1px solid var(--border-color); box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
+                    <div style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 8px; font-style: italic;">Figure: Sequential CPU Control Transfer Flow during a Hardware Interrupt Assertion</div>
+                </div>
+                <p><strong>Steps of Interrupt Functioning:</strong></p>
+                <ol style="margin-left: 20px;">
+                    <li>The main program (e.g. Program 1 - COMPUTE routine) executes instruction-by-instruction.</li>
+                    <li>An external peripheral asserts an active interrupt line at instruction <em>i</em>.</li>
+                    <li>The CPU completes instruction <em>i</em>, saves the return address (address of instruction <em>i+1</em>) in the Link Register, and backs up the CPSR status.</li>
+                    <li>The CPU loads the PC with the target interrupt vector address, branching execution to Program 2 (the DISPLAY routine ISR).</li>
+                    <li>The ISR runs to completion and executes a return instruction, restoring the CPSR and reloading the Link Register back to the PC.</li>
+                    <li>Execution seamlessly resumes at instruction <em>i+1</em> in the COMPUTE routine.</li>
+                </ol>
+            </div>
+        
+    </div>
 </div>
+
+<script>
+    function switchMode(modeNum) {
+        // Deactivate all modes
+        document.querySelectorAll('.mode-content').forEach(c => {
+            c.classList.remove('active');
+        });
+        document.querySelectorAll('.mode-tab-btn').forEach(b => {
+            b.classList.remove('active');
+        });
+        
+        // Activate target mode
+        document.getElementById('mode-' + modeNum).classList.add('active');
+        
+        // Find active button
+        const btns = document.querySelectorAll('.mode-tab-btn');
+        if (btns[modeNum - 1]) {
+            btns[modeNum - 1].classList.add('active');
+        }
+    }
+</script>
 
 </body>
 </html>

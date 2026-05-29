@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unit 3: ARM7 Processor Architecture & Assembly Instruction Set</title>
+    <title>Unit 3: ARM7 Processor Architecture & Assembly Language</title>
     
     <!-- Google Fonts & MathJax -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,7 +12,6 @@
     <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
     
     <style>
-        /* CSS RESET & CUSTOM PROPERTY SYSTEM */
         * {
             margin: 0;
             padding: 0;
@@ -24,11 +23,10 @@
             --bg-panel: #0c1322;
             --bg-card: #131e33;
             --bg-card-hover: #192742;
-            --primary: #f59e0b;
-            --primary-hover: #d97706;
-            --primary-glow: rgba(245, 158, 11, 0.3);
+            --primary: #10b981;
+            --primary-glow: rgba(16, 185, 129, 0.3);
             --accent-cyan: #06b6d4;
-            --accent-emerald: #10b981;
+            --accent-amber: #f59e0b;
             --accent-rose: #f43f5e;
             --border-color: #1e293b;
             --text-primary: #f8fafc;
@@ -52,99 +50,197 @@
             max-width: 1200px;
             margin: 0 auto;
         }
+        
+        .header-section {
+            margin-bottom: 25px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 20px;
+        }
 
         h1 {
             font-family: var(--font-display);
             color: var(--text-primary);
-            font-size: 2.5rem;
+            font-size: 2.3rem;
             font-weight: 800;
             margin-bottom: 10px;
             background: linear-gradient(135deg, var(--primary) 0%, var(--accent-cyan) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             display: inline-block;
-            border-bottom: 2px solid var(--border-color);
-            padding-bottom: 8px;
         }
 
         .intro-p {
-            font-size: 1.1rem;
-            margin-bottom: 30px;
+            font-size: 1.05rem;
             color: var(--text-secondary);
         }
 
-        h2 {
-            font-family: var(--font-display);
-            color: var(--text-primary);
-            font-size: 1.6rem;
-            margin-top: 30px;
-            margin-bottom: 15px;
+        /* MODE TAB BAR */
+        .mode-tab-bar {
             display: flex;
-            align-items: center;
-            gap: 10px;
-            border-left: 4px solid var(--primary);
-            padding-left: 12px;
+            gap: 12px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 15px;
+            overflow-x: auto;
         }
 
-        /* PREMIUM DETAILS/SUMMARY ACCORDIONS */
-        details {
+        .mode-tab-btn {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .mode-tab-btn:hover {
+            color: var(--text-primary);
+            background-color: var(--bg-card-hover);
+            border-color: var(--text-muted);
+        }
+
+        .mode-tab-btn.active {
+            background-color: rgba(6, 182, 212, 0.15);
+            color: var(--accent-cyan);
+            border-color: var(--accent-cyan);
+            box-shadow: 0 4px 15px rgba(6, 182, 212, 0.2);
+        }
+
+        .mode-content {
+            display: none;
+        }
+
+        .mode-content.active {
+            display: block;
+            animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* BADGES */
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: 15px;
+            margin-bottom: 8px;
+        }
+
+        .badge-pyq {
+            background-color: rgba(244, 63, 94, 0.15);
+            color: var(--accent-rose);
+            border: 1px solid rgba(244, 63, 94, 0.3);
+        }
+
+        .badge-imp {
+            background-color: rgba(245, 158, 11, 0.15);
+            color: var(--accent-amber);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+
+        .badge-topic {
+            background-color: rgba(6, 182, 212, 0.15);
+            color: var(--accent-cyan);
+            border: 1px solid rgba(6, 182, 212, 0.3);
+        }
+
+        /* TOPIC CONTENT BLOCKS */
+        .topic-block {
             background-color: var(--bg-panel);
             border: 1px solid var(--border-color);
             border-radius: var(--radius);
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .topic-block h3 {
+            font-family: var(--font-display);
+            font-weight: 800;
+            color: var(--text-primary);
+            font-size: 1.4rem;
             margin-bottom: 15px;
-            overflow: hidden;
-            transition: all 0.3s ease;
+            border-left: 4px solid var(--accent-cyan);
+            padding-left: 12px;
         }
 
-        details[open] {
-            border-color: var(--primary);
-            box-shadow: 0 4px 20px var(--primary-glow);
+        .topic-block p {
+            margin-bottom: 12px;
+            text-align: justify;
         }
 
-        summary {
-            padding: 18px 24px;
+        .topic-block ul, .topic-block ol {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .topic-block li {
+            margin-bottom: 6px;
+        }
+
+        strong {
+            color: var(--text-primary);
+        }
+
+        /* PYQ SOLVED CONTAINER */
+        .pyq-solved {
+            background-color: var(--bg-panel);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .pyq-solved h3 {
             font-family: var(--font-display);
             font-weight: 700;
-            font-size: 1.1rem;
-            color: var(--text-primary);
-            cursor: pointer;
-            user-select: none;
-            background-color: var(--bg-card);
-            outline: none;
-            transition: background 0.2s ease;
-            list-style: none;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            color: var(--accent-amber);
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
         }
 
-        summary::after {
-            content: "▼";
-            font-size: 0.8rem;
+        /* FORMULAS & CODE */
+        .formula {
+            background-color: rgba(16, 185, 129, 0.05);
+            border-left: 4px solid var(--primary);
+            padding: 15px 20px;
+            border-radius: 4px;
             color: var(--primary);
-            transition: transform 0.3s ease;
+            font-family: var(--font-mono);
+            font-size: 0.95rem;
+            margin: 15px 0;
         }
 
-        details[open] summary::after {
-            transform: rotate(-180deg);
+        .final {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(6, 182, 212, 0.05) 100%);
+            border: 1px solid var(--primary);
+            padding: 16px 20px;
+            border-radius: 8px;
+            color: var(--text-primary);
+            margin-top: 15px;
+            display: block;
         }
 
-        summary:hover {
-            background-color: var(--bg-card-hover);
-        }
-
-        .details-content {
-            padding: 24px;
-            background-color: var(--bg-panel);
-            border-top: 1px solid var(--border-color);
-        }
-
-        /* CODE BLOCKS */
         pre {
             background-color: #0b111e;
             border: 1px solid var(--border-color);
-            padding: 18px;
-            border-radius: 8px;
+            border-radius: 6px;
+            padding: 16px;
             overflow-x: auto;
             margin: 15px 0;
         }
@@ -152,970 +248,615 @@
         code {
             font-family: var(--font-mono);
             font-size: 0.9rem;
-            color: #ffb86c;
+            color: var(--accent-cyan);
         }
 
-        /* TABLES */
         table {
             width: 100%;
             border-collapse: collapse;
             margin: 20px 0;
-            font-size: 0.95rem;
-            text-align: left;
-            background-color: var(--bg-card);
-            border-radius: 8px;
-            overflow: hidden;
+            font-size: 0.92rem;
             border: 1px solid var(--border-color);
         }
 
         th, td {
-            padding: 12px 16px;
+            padding: 10px 14px;
             border: 1px solid var(--border-color);
+            text-align: left;
         }
 
         th {
-            background-color: rgba(245, 158, 11, 0.15);
+            background-color: rgba(6, 182, 212, 0.1);
             color: var(--text-primary);
-            font-family: var(--font-display);
-            font-weight: 700;
-        }
-
-        tr:hover {
-            background-color: rgba(255, 255, 255, 0.02);
-        }
-
-        /* KEY TAKEAWAYS / BOXED CONCLUSIONS */
-        .final {
-            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(6, 182, 212, 0.05) 100%);
-            border: 1px solid var(--primary);
-            padding: 16px 20px;
-            border-radius: 8px;
-            color: #f59e0b;
-            font-weight: 600;
-            font-size: 1.05rem;
-            margin-top: 15px;
-            display: block;
-            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.15);
-        }
-
-        .final strong {
-            color: var(--text-primary);
-            display: block;
-            margin-bottom: 4px;
-            font-family: var(--font-display);
-            font-size: 1.1rem;
-            text-transform: uppercase;
-            letter-spacing: 0.03em;
-        }
-
-        .important-box {
-            background: linear-gradient(135deg, rgba(244, 63, 94, 0.1) 0%, rgba(245, 158, 11, 0.05) 100%);
-            border-left: 4px solid var(--accent-rose);
-            padding: 12px 16px;
-            border-radius: 4px;
-            color: #f43f5e;
-            margin: 15px 0;
-        }
-
-        /* BADGES */
-        .badge {
-            display: inline-block;
-            padding: 3px 10px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-right: 8px;
-            margin-bottom: 6px;
-        }
-
-        .badge-pyq {
-            background-color: rgba(244, 63, 94, 0.2);
-            color: var(--accent-rose);
-            border: 1px solid rgba(244, 63, 94, 0.3);
-        }
-
-        .badge-imp {
-            background-color: rgba(16, 185, 129, 0.2);
-            color: #10b981;
-            border: 1px solid rgba(16, 185, 129, 0.3);
-        }
-
-        .badge-topic {
-            background-color: rgba(6, 182, 212, 0.2);
-            color: var(--accent-cyan);
-            border: 1px solid rgba(6, 182, 212, 0.3);
-        }
-
-        /* DIAGRAM CONTAINERS */
-        .diagram-container {
-            background-color: #0b111e;
-            border: 1px dashed var(--border-color);
-            border-radius: 10px;
-            padding: 24px;
-            margin: 20px 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-        }
-
-        .diagram-title {
-            font-family: var(--font-display);
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            margin-top: 10px;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .pipeline-flex {
-            display: flex;
-            gap: 15px;
-            width: 100%;
-            max-width: 550px;
-            justify-content: center;
-            background-color: #111a2e;
-            padding: 20px;
-            border-radius: 8px;
-            border: 2px solid var(--border-color);
-        }
-
-        .pipeline-stage {
-            flex: 1;
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            padding: 15px;
-            text-align: center;
-            font-family: var(--font-display);
-            font-weight: 700;
-            color: var(--text-primary);
-        }
-
-        /* Bullets */
-        ul, ol {
-            padding-left: 20px;
-            margin: 10px 0;
-        }
-
-        li {
-            margin-bottom: 6px;
-        }
-
-        strong.term {
-            color: var(--text-primary);
-            font-family: var(--font-display);
-            font-weight: 600;
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>UNIT 3: ARM7 Processor Architecture & Assembly Instruction Set</h1>
-    <p class="intro-p">Complete, exam-oriented study notes matching VTU/MSRIT curriculum for the subject Microcontrollers (IS42/21IS44).</p>
-
-    <!-- ===================== SECTION 1: THEORY NOTES & CONCEPTS ===================== -->
-    <h2>📖 Core Theory & Syllabus Foundations</h2>
-
-    <details>
-        <summary>1. ARM7 TDMI Core Processor Architecture & Registers Organization</summary>
-        <div class="details-content">
-            <span class="badge badge-imp">Architectural Foundation</span>
-            <p style="margin-bottom:15px">The **ARM7TDMI** is one of the most widely used 32-bit embedded processor cores in the industry. Its design forms the basis for understanding modern ARM assembly and hardware exception sequences.</p>
-            
-            <h3>Understanding the letters in ARM7TDMI:</h3>
-            <ul>
-                <li><strong class="term">T (Thumb)</strong>: Supports the secondary 16-bit Thumb instruction set for high code density.</li>
-                <li><strong class="term">D (Debug)</strong>: Integrates on-chip JTAG debug support, allowing real-time register inspection.</li>
-                <li><strong class="term">M (Fast Multiplier)</strong>: Features enhanced hardware multiplication support (supporting 64-bit results).</li>
-                <li><strong class="term">I (EmbeddedICE)</strong>: Provides in-circuit hardware breakpoint emulation modules.</li>
-            </ul>
-
-            <h3 style="margin-top:15px">ARM7 Operational Modes & Registers Bank</h3>
-            <p>The ARM7TDMI has **37 total registers** (31 general-purpose and 6 status registers). However, only **16 general-purpose registers (R0-R15)** and **1 or 2 status registers** are visible to the programmer at any given moment in a specific operating mode.</p>
-            
-            <table>
-                <thead>
-                    <tr>
-                        <th>Register Name</th>
-                        <th>Alias</th>
-                        <th>Function and Usage Rules</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>R0 – R12</strong></td>
-                        <td>General Registers</td>
-                        <td>Used as high-speed scratchpads for general-purpose arithmetic, logical, and address computations.</td>
-                    </tr>
-                    <tr>
-                        <td><strong>R13</strong></td>
-                        <td>SP (Stack Pointer)</td>
-                        <td>Points to the top of the active stack in memory. Each operating mode has its own banked R13 to isolate its stack space.</td>
-                    </tr>
-                    <tr>
-                        <td><strong>R14</strong></td>
-                        <td>LR (Link Register)</td>
-                        <td>Stores the return address when executing a Subroutine Branch-with-Link (<code>BL</code>) or exception.</td>
-                    </tr>
-                    <tr>
-                        <td><strong>R15</strong></td>
-                        <td>PC (Program Counter)</td>
-                        <td>Points to the instruction currently being fetched. It is shared across all processor modes.</td>
-                    </tr>
-                    <tr>
-                        <td><strong>CPSR</strong></td>
-                        <td>Current Program Status Register</td>
-                        <td>Tracks the global CPU status: ALU flags (N, Z, C, V), interrupt masks, and operating mode bits.</td>
-                    </tr>
-                    <tr>
-                        <td><strong>SPSR</strong></td>
-                        <td>Saved Program Status Register</td>
-                        <td>A banked register in privileged modes that automatically saves the CPSR state when an exception occurs, allowing state recovery on return.</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </details>
-
-    <details>
-        <summary>2. The 7 Modes of Operation & Exception Handling Sequence</summary>
-        <div class="details-content">
-            <span class="badge badge-pyq">Repeated PYQ</span>
-            <p style="margin-bottom:15px">The ARM7TDMI supports **7 operating modes**, which are split into **1 User Mode** and **6 Privileged Modes** designed for operating systems and exception handling:</p>
-            
-            <table>
-                <thead>
-                    <tr>
-                        <th>Mode Name</th>
-                        <th>Type</th>
-                        <th>CPSR Mode Bits</th>
-                        <th>Trigger & Functional Usage</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>User (USR)</strong></td>
-                        <td>Non-Privileged</td>
-                        <td>`10000` (0x10)</td>
-                        <td>Normal application execution state. Cannot access protected peripheral registers directly.</td>
-                    </tr>
-                    <tr>
-                        <td><strong>System (SYS)</strong></td>
-                        <td>Privileged</td>
-                        <td>`11111` (0x1F)</td>
-                        <td>Runs tasks with privileged access while sharing the same register bank as User Mode.</td>
-                    </tr>
-                    <tr>
-                        <td><strong>FIQ (Fast Interrupt)</strong></td>
-                        <td>Privileged</td>
-                        <td>`10001` (0x11)</td>
-                        <td>Triggered by a fast, high-priority interrupt. Banked R8-R14 registers speed up execution by eliminating stack operations.</td>
-                    </tr>
-                    <tr>
-                        <td><strong>IRQ (Standard Interrupt)</strong></td>
-                        <td>Privileged</td>
-                        <td>`10010` (0x12)</td>
-                        <td>Triggered by general, low-priority interrupts (like timers or serial communications).</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Supervisor (SVC)</strong></td>
-                        <td>Privileged</td>
-                        <td>`10011` (0x13)</td>
-                        <td>Entered on hardware reset or when a software interrupt (<code>SWI</code>) is executed. Used to call OS services.</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Abort (ABT)</strong></td>
-                        <td>Privileged</td>
-                        <td>`10111` (0x17)</td>
-                        <td>Entered if a memory access violation occurs (e.g., trying to access invalid addresses or page faults).</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Undefined (UND)</strong></td>
-                        <td>Privileged</td>
-                        <td>`11011` (0x1B)</td>
-                        <td>Entered if the processor attempts to execute an unrecognized or invalid instruction.</td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <h3 style="margin-top:15px">Hardware Exception Handling Sequence (Critical Steps):</h3>
-            <p>When an exception (like an IRQ, Abort, or Reset) occurs, the ARM7 hardware executes the following sequence:</p>
-            <ol style="margin-left:20px; margin-top:8px">
-                <li><strong class="term">Save Return Address</strong>: The address of the next instruction is copied into the **Link Register (R14)** of the mode corresponding to the exception.</li>
-                <li><strong class="term">Save Processor State</strong>: The current status register (**CPSR**) is copied into the Saved Program Status Register (**SPSR**) of the exception mode.</li>
-                <li><strong class="term">Update CPSR</strong>:
-                    <ul>
-                        <li>The CPSR mode bits are updated to switch to the target exception mode.</li>
-                        <li>The Thumb state bit is cleared ($T=0$) to force 32-bit ARM instruction execution.</li>
-                        <li>Interrupt disable bits are set ($I=1$, and $F=1$ on Reset/FIQ) to prevent nested interrupts.</li>
-                    </ul>
-                </li>
-                <li><strong class="term">Load Program Counter</strong>: The PC is loaded with the fixed vector address of the exception from the **Vector Table**, causing the CPU to jump to the Interrupt Service Routine (ISR).</li>
-            </ol>
-        </div>
-    </details>
-
-    <details>
-        <summary>3. 3-Stage Pipeline Mechanics & Hazard Analysis</summary>
-        <div class="details-content">
-            <span class="badge badge-imp">Core Performance Concepts</span>
-            <p style="margin-bottom:15px">The ARM7 processor utilizes a **3-Stage Pipeline** to execute instructions in parallel, maximizing processing throughput:</p>
-            
-            <div class="diagram-container">
-                <div class="pipeline-flex">
-                    <div class="pipeline-stage">FETCH<br><span style="font-size:0.8rem; font-weight:normal; color:var(--text-secondary);">Instruction read from memory</span></div>
-                    <div class="pipeline-stage" style="border-color:var(--accent-cyan);">DECODE<br><span style="font-size:0.8rem; font-weight:normal; color:var(--text-secondary);">Determine control lines & shifts</span></div>
-                    <div class="pipeline-stage" style="border-color:var(--accent-emerald);">EXECUTE<br><span style="font-size:0.8rem; font-weight:normal; color:var(--text-secondary);">ALU Operation & Writeback</span></div>
-                </div>
-                <div class="diagram-title">ARM7 3-Stage Pipeline Structure</div>
-            </div>
-
-            <h3 style="margin-top:15px">How it works:</h3>
-            <ul>
-                <li>While instruction $N$ is executing in the ALU, instruction $N+1$ is being decoded by the control logic, and instruction $N+2$ is being fetched from program memory.</li>
-                <li>This allows the processor to complete one instruction per clock cycle under ideal execution conditions.</li>
-            </ul>
-
-            <h3 style="margin-top:15px">Pipeline Hazards and the Program Counter (PC) Rule</h3>
-            <p>Because the Program Counter (PC) always points to the instruction currently being fetched:
-            <br><span class="formula">$$\text{Program Counter (PC)} = \text{Address of Currently Executing Instruction} + 8\text{ bytes}$$</span>
-            If a **Branch (Jump)** instruction executes, the instructions currently in the fetch and decode stages become invalid. The pipeline must be **flushed (emptied)**, and the processor waits two clock cycles to refill the pipeline before execution can resume. This delay is known as a **Branch Penalty**.</p>
-        </div>
-    </details>
-
-    <!-- ===================== SECTION 2: SOLVED PREVIOUS YEAR QUESTIONS ===================== -->
-    <h2>✍️ Solved Previous Year University Questions (CIE & SEE)</h2>
-
-    <details>
-        <summary>Q1. List and explain the 8 exception vectors in the vector table of the ARM7 processor. [MAKEUP 2023, SEE 2023] (8 Marks)</summary>
-        <div class="details-content">
-            <span class="badge badge-pyq">Repeated PYQ</span>
-            <p><strong>Answer:</strong></p>
-            <p>The **Vector Table** is a reserved memory space starting at address <code>0x00000000</code>. It contains jump instructions (typically <code>LDR PC, [PC, #offset]</code>) that branch to the starting memory addresses of the respective Interrupt Service Routines (ISRs). The ARM7 processor supports the following vector allocations:</p>
-            
-            <table>
-                <thead>
-                    <tr>
-                        <th>Exception Type</th>
-                        <th>Fixed Vector Address</th>
-                        <th>Priority (1=Highest)</th>
-                        <th>Functional Trigger Details</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Reset</strong></td>
-                        <td>`0x00000000`</td>
-                        <td>1</td>
-                        <td>Triggered on power-up or when the external reset pin is asserted. Initializes system registers.</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Undefined Instruction</strong></td>
-                        <td>`0x00000004`</td>
-                        <td>6</td>
-                        <td>Entered if the CPU attempts to execute an instruction that is not recognized by the decoder.</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Software Interrupt (SWI)</strong></td>
-                        <td>`0x00000008`</td>
-                        <td>6</td>
-                        <td>Triggered by executing the <code>SWI</code> instruction. Switches to Supervisor mode to call OS services.</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Prefetch Abort</strong></td>
-                        <td>`0x0000000C`</td>
-                        <td>5</td>
-                        <td>Entered if the processor tries to fetch an instruction from an invalid memory address.</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Data Abort</strong></td>
-                        <td>`0x00000010`</td>
-                        <td>2</td>
-                        <td>Entered if a memory load or store instruction attempts to access an invalid or protected address.</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Reserved</strong></td>
-                        <td>`0x00000014`</td>
-                        <td>N/A</td>
-                        <td>Reserved for future expansion.</td>
-                    </tr>
-                    <tr>
-                        <td><strong>IRQ (Standard Interrupt)</strong></td>
-                        <td>`0x00000018`</td>
-                        <td>4</td>
-                        <td>Triggered by external hardware peripherals (timers, serial ports) to request data processing.</td>
-                    </tr>
-                    <tr>
-                        <td><strong>FIQ (Fast Interrupt)</strong></td>
-                        <td>`0x0000001C`</td>
-                        <td>3</td>
-                        <td>A high-priority interrupt designed for fast response. Placed at the end of the vector table so its ISR can start immediately at <code>0x0000001C</code>, saving a branch instruction.</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </details>
-
-    <details>
-        <summary>Q2. Tracing Instructions: Given register contents, find the results of the execution. [SEE 2023, 2024, 2025] (6 Marks)</summary>
-        <div class="details-content">
-            <span class="badge badge-pyq">Highly Analytical</span>
-            <p><strong>Problem Statement:</strong></p>
-            <p>Given the initial register contents:
-            <br><code>R0 = 0x12345678</code>, <code>R1 = 0x0089EF32</code>, <code>R2 = 0x80456730</code>, <code>R3 = 0x8</code>, <code>R6 = 0x00000000</code>.
-            <br>Trace the execution and find the final contents of the destination registers and the state of the relevant flags for the following operations:</p>
-            
-            <ol style="margin-left:20px; margin-top:8px">
-                <li><code>MOV R4, R2, LSR #4</code></li>
-                <li><code>MVN R5, R1, ASR R3</code></li>
-                <li><code>MVNS R6, R1</code></li>
-                <li><code>ADD R2, R1, R1, LSL #2</code></li>
-                <li><code>AND R4, R2, R3</code></li>
-                <li><code>BIC R5, R2, R3</code></li>
-            </ol>
-
-            <h3 style="margin-top:15px">Step-by-Step Tracing Solutions:</h3>
-            
-            <ol style="margin-left:20px;">
-                <li>
-                    <strong class="term"><code>MOV R4, R2, LSR #4</code></strong>
-                    <br>This instruction shifts the value of $R2$ right by 4 bits logically (filling with 0s on the left) and copies the result into $R4$.
-                    <br>$R2 = \text{0x80456730} = \text{1000 0000 0100 0101 0110 0111 0011 0000}_2$
-                    <br>Shifting right logically by 4 bits yields:
-                    <br>$\text{0000 1000 0000 0100 0101 0110 0111 0011}_2 = \text{0x08045673}$
-                    <br><span style="color:var(--accent-emerald);">Result: R4 = 0x08045673</span>
-                </li>
-                <br>
-                <li>
-                    <strong class="term"><code>MVN R5, R1, ASR R3</code></strong>
-                    <br>This instruction shifts the value of $R1$ right arithmetically by the value in $R3$ ($8$ bits), performs a bitwise NOT on the result, and writes it to $R5$.
-                    <br>$R1 = \text{0x0089EF32} = \text{0000 0000 1000 1001 1110 1111 0011 0010}_2$
-                    <br>Because the MSB of $R1$ is `0`, shifting right arithmetically by 8 bits is equivalent to a logical shift right:
-                    <br>$\text{0000 0000 0000 0000 1000 1001 1110 1111}_2 = \text{0x000089EF}$
-                    <br>Now perform a bitwise NOT (MVN) on the shifted result:
-                    <br>$\sim\text{0x000089EF} = \text{0xFFFF7610}$
-                    <br><span style="color:var(--accent-emerald);">Result: R5 = 0xFFFF7610</span>
-                </li>
-                <br>
-                <li>
-                    <strong class="term"><code>MVNS R6, R1</code></strong>
-                    <br>This instruction performs a bitwise NOT on $R1$, writes the result to $R6$, and updates the ALU status flags (indicated by the `S` suffix).
-                    <br>$R1 = \text{0x0089EF32} = \text{0000 0000 1000 1001 1110 1111 0011 0010}_2$
-                    <br>$\sim R1 = \text{1111 1111 0111 0110 0001 0000 1100 1101}_2 = \text{0xFF7610CD}$
-                    <br><span style="color:var(--accent-emerald);">Result: R6 = 0xFF7610CD</span>
-                    <br><strong>Flag Status:</strong>
-                    <ul>
-                        <li>**N (Negative Flag) = 1** (MSB of the result is 1).</li>
-                        <li>**Z (Zero Flag) = 0** (result is non-zero).</li>
-                    </ul>
-                </li>
-                <br>
-                <li>
-                    <strong class="term"><code>ADD R2, R1, R1, LSL #2</code></strong>
-                    <br>This instruction multiplies $R1$ by 4 (using a logical shift left by 2), adds the original value of $R1$ to it, and writes the sum to $R2$. This is equivalent to $R2 = R1 \times 5$.
-                    <br>$R1 = \text{0x0089EF32}$
-                    <br>$R1 \times 4 = \text{0x0089EF32} \ll 2 = \text{0x0227BCC8}$
-                    <br>Now perform the addition:
-                    <br>$\text{0x0089EF32} + \text{0x0227BCC8} = \text{0x02B1ACFA}$
-                    <br><span style="color:var(--accent-emerald);">Result: R2 = 0x02B1ACFA</span>
-                </li>
-                <br>
-                <li>
-                    <strong class="term"><code>AND R4, R2, R3</code></strong>
-                    <br>Performs a bitwise AND between $R2$ and $R3$.
-                    <br>Given: $R3 = \text{0x00000008}$ and $R2 = \text{0x02B1ACFA} = \text{... 1111 1010}_2$.
-                    <br>Bit 3 (representing $2^3 = 8$) of $R2$ is `1`.
-                    <br>$\text{0x02B1ACFA} \ \& \ \text{0x00000008} = \text{0x00000008}$.
-                    <br><span style="color:var(--accent-emerald);">Result: R4 = 0x00000008</span>
-                </li>
-                <br>
-                <li>
-                    <strong class="term"><code>BIC R5, R2, R3</code></strong>
-                    <br>BIC stands for **Bit Clear**. It performs a bitwise AND between the first operand ($R2$) and the bitwise NOT of the second operand ($R3$), clearing the bits in $R2$ that are set to 1 in $R3$ ($R2 \ \& \sim R3$).
-                    <br>$R3 = \text{0x00000008}$ (Bit 3 is set).
-                    <br>$\sim R3 = \text{0xFFFFFFF7}$ (All bits set except Bit 3).
-                    <br>$R2 = \text{0x02B1ACFA}$.
-                    <br>Performing the operation clears Bit 3 of $R2$:
-                    <br>$\text{0x02B1ACFA} \ \& \ \text{0xFFFFFFF7} = \text{0x02B1ACF2}$.
-                    <br><span style="color:var(--accent-emerald);">Result: R5 = 0x02B1ACF2</span>
-                </li>
-            </ol>
-        </div>
-    </details>
-
-    <details>
-        <summary>Q3. Find faults in the following instructions, if any, and suggest a remedy. [SEE 2023] (8 Marks)</summary>
-        <div class="details-content">
-            <span class="badge badge-pyq">Instruction Debugging</span>
-            <p><strong>Answer:</strong></p>
-            
-            <ol style="margin-left:20px;">
-                <li>
-                    <strong class="term">Instruction: <code>MOV R0, #300</code></strong>
-                    <ul>
-                        <li><strong>Fault</strong>: In ARM, immediate values in data-processing instructions must be represented as an **8-bit constant rotated right by an even number of bits**. The decimal value $300 = \text{0x12C} = \text{0000 0001 0010 1100}_2$ cannot be represented using this format because the significant bits span more than 8 bits. This triggers an assembler range error.</li>
-                        <li><strong>Remedy</strong>: Use the <code>LDR</code> pseudo-instruction to load the value from a literal pool:
-                            <br><code>LDR R0, =300</code>
-                        </li>
-                    </ul>
-                </li>
-                <br>
-                <li>
-                    <strong class="term">Instruction: <code>ROL R0, #4</code></strong>
-                    <ul>
-                        <li><strong>Fault</strong>: <code>ROL</code> (Rotate Left) is not a valid independent instruction mnemonic in the ARM7 assembly language. Rotation is supported only as a barrel shifter option, and only **Rotate Right (ROR)** is supported as a shift mnemonic.</li>
-                        <li><strong>Remedy</strong>: Use the <code>MOV</code> instruction with a <code>ROR</code> barrel shift. Rotating left by 4 bits is equivalent to rotating right by 28 bits in a 32-bit register:
-                            <br><code>MOV R0, R0, ROR #28</code>
-                        </li>
-                    </ul>
-                </li>
-                <br>
-                <li>
-                    <strong class="term">Instruction: <code>LDMH R0, {R1-R5}</code></strong>
-                    <ul>
-                        <li><strong>Fault</strong>: <code>LDMH</code> is an invalid mnemonic suffix for block data transfers. The valid suffixes are **IA** (Increment After), **IB** (Increment Before), **DA** (Decrement After), or **DB** (Decrement Before).</li>
-                        <li><strong>Remedy</strong>: Replace <code>H</code> with a valid block transfer suffix (e.g., <code>IA</code>):
-                            <br><code>LDMIA R0, {R1-R5}</code>
-                        </li>
-                    </ul>
-                </li>
-                <br>
-                <li>
-                    <strong class="term">Instruction: <code>MUL R0, R0, R15</code></strong>
-                    <ul>
-                        <li><strong>Fault</strong>: In the ARM7 TDMI core instruction set, the <code>MUL</code> (Multiply) instruction has two strict register constraints:
-                            <ol type="a" style="margin-left:20px; margin-top:4px">
-                                <li>The destination register ($Rd$) cannot be the same as the first operand register ($Rm$).</li>
-                                <li>The Program Counter (**R15**) cannot be used as a destination or operand in a multiplication instruction.</li>
-                            </ol>
-                        </li>
-                        <li><strong>Remedy</strong>: Use a different, general-purpose register (e.g., $R1$) as the intermediate operand:
-                            <br><code>MUL R0, R1, R2</code>
-                        </li>
-                    </ul>
-                </li>
-            </ol>
-        </div>
-    </details>
-
-    <details>
-        <summary>Q4. Discuss how the branch instructions B & BL give the power of decision making and subroutines in ARM7. [SEE(O) 2023] (6 Marks)</summary>
-        <div class="details-content">
-            <p><strong>Answer:</strong></p>
-            <p>In ARM7 assembly, branch instructions alter the sequential flow of program execution by loading a new target address directly into the Program Counter (R15).</p>
-            
-            <ol style="margin-top:10px">
-                <li>
-                    <strong class="term"><code>B</code> (Branch) Instruction</strong>:
-                    <ul>
-                        <li><strong>Mechanism</strong>: Performs a simple, unconditional jump to a target label ($PC = \text{Label Address}$).</li>
-                        <li><strong>Decision Making</strong>: When paired with conditional execution suffixes (e.g., <code>BEQ</code>, <code>BNE</code>, <code>BGT</code>), it allows the processor to implement conditional logic (like `if-else` blocks and loops). The branch is only executed if the status flags in the CPSR match the specified condition.
-                            <br><em>Example:</em>
-                            <pre><code>CMP R0, #10      ; Compare register R0 with 10
-BNE ELSE_LABEL   ; If R0 != 10, jump to ELSE_LABEL
-; ... code for IF block ...
-B END_LABEL
-ELSE_LABEL:
-; ... code for ELSE block ...
-END_LABEL:</code></pre>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <strong class="term"><code>BL</code> (Branch with Link) Instruction</strong>:
-                    <ul>
-                        <li><strong>Mechanism</strong>: Used to call subroutines (functions). Before branching to the target address, the processor automatically saves the address of the next sequential instruction (the return address) into the **Link Register (R14)**.</li>
-                        <li><strong>Subroutine Return</strong>: At the end of the subroutine, execution returns to the calling code by copying the return address stored in the Link Register back into the Program Counter:
-                            <br><code>MOV PC, LR</code> or <code>BX LR</code>
-                            <br><em>Example:</em>
-                            <pre><code>MAIN:
-  BL DELAY_SUB   ; Call the delay subroutine, saving return address in LR
-  ; ... CPU returns here after subroutine completes ...
-  B MAIN
-
-DELAY_SUB:
-  ; ... subroutine instructions ...
-  MOV PC, LR     ; Return to caller by copying LR to PC</code></pre>
-                        </li>
-                    </ul>
-                </li>
-            </ol>
-        </div>
-    </details>
-
+    <div class="header-section">
+        <h1>Unit 3: ARM7 Processor Architecture & Assembly Language</h1>
+        <p class="intro-p">🎓 <strong>MSRIT/VTU Expert Faculty Study Portal</strong> | Assembly programming learning skills and algorithm tracing</p>
+    </div>
     
-    <!-- ===================== SECTION 3: MSRIT LABORATORY SESSION PART A (Q1-5) ===================== -->
-    <h2>💻 MSRIT Laboratory Session: Part A Assembly Programs (Q1 - Q5)</h2>
-    <p style="margin-bottom: 20px;">Detailed Keil microVision V assembly scripts, line-by-line machine traces, and debugger register allocations.</p>
-
-    <details>
-        <summary>Program 1a: ALP to add first 10 odd numbers. Store sum in register.</summary>
-        <div class="details-content">
-            <p><strong>Objective:</strong> Compute the sum of the first 10 positive odd integers ($1, 3, 5, 7, 9, 11, 13, 15, 17, 19$) and store the final 32-bit accumulation in CPU Register <code>R1</code>.</p>
-            <pre><code>      AREA PROG3, CODE, READONLY
-      ENTRY
-      MOV R1, #1        ; R1 accumulates the sum (initial value = 1)
-      MOV R2, #9        ; R2 acts as the loop counter (10 terms total, 1 is stored, 9 left)
-      MOV R3, #1        ; R3 holds the active odd number (first odd number = 1)
-      
-BACKK ADD R3, R3, #2    ; Calculate next odd number: R3 = R3 + 2
-      ADD R1, R1, R3    ; Accumulate odd number: R1 = R1 + R3
-      SUBS R2, R2, #1   ; Decrement loop counter and update status flags
-      BNE BACKK         ; Repeat loop if counter R2 is not zero
-      
-GO    B GO              ; Infinite branch to halt CPU execution
-      END</code></pre>
-            
-            <h3 style="margin-top:15px">Line-by-Line Mechanical Trace:</h3>
-            <ul>
-                <li><strong><code>MOV R1, #1</code></strong>: Initializes the sum accumulator register <code>R1</code> with the first odd number, <code>1</code>.</li>
-                <li><strong><code>MOV R2, #9</code></strong>: Registers the remaining loop count to 9. Since the first term (1) is already loaded, we run the loop 9 times to sum the remaining 9 odd terms.</li>
-                <li><strong><code>ADD R3, R3, #2</code></strong>: Increments the odd sequence generator register <code>R3</code> by 2. On the first iteration, $R3$ goes from $1 	o 3$.</li>
-                <li><strong><code>ADD R1, R1, R3</code></strong>: Adds the newly generated odd number in $R3$ to the sum accumulator $R1$.</li>
-                <li><strong><code>SUBS R2, R2, #1</code></strong>: Subtracts 1 from the loop counter $R2$ and updates the CPSR status flags. When $R2$ reaches 0, the Zero flag (Z) is set to 1.</li>
-                <li><strong><code>BNE BACKK</code></strong>: Branches back to the <code>BACKK</code> label if the Zero flag is 0 (meaning $R2 
-eq 0$).</li>
-            </ul>
-
-            <div class="final">
-                <strong>Expected Output & Debugger Verification:</strong>
-                Sum: $1 + 3 + 5 + 7 + 9 + 11 + 13 + 15 + 17 + 19 = 100_{10} = 	ext{0x64}$<br>
-                After full execution, checking Keil Registers: <strong>R1 = 0x00000064</strong>.
-            </div>
-        </div>
-    </details>
-
-    <details>
-        <summary>Program 1b: ALP to compute sum of squares of 5 numbers starting from 1 using procedure SQU.</summary>
-        <div class="details-content">
-            <p><strong>Objective:</strong> Calculate $1^2 + 2^2 + 3^2 + 4^2 + 5^2$ using a modular subroutine (procedure) named <code>SQU</code> to compute individual squares, saving the final accumulated sum in register <code>R7</code>.</p>
-            <pre><code>      AREA PROG5, CODE, READONLY
-      ENTRY
-      MOV R7, #0        ; R7 accumulates the sum of squares (sum = 0)
-      MOV R2, #1        ; R2 acts as the base number counter (starts at 1)
-      
-LOOP  BL SQU            ; Branch with Link to square subroutine; LR stores return address
-      ADD R7, R7, R4    ; Accumulate square: R7 = R7 + R4 (squared result)
-      ADD R2, R2, #1    ; Increment base number: R2 = R2 + 1
-      CMP R2, #6        ; Compare base number R2 with 6
-      BNE LOOP          ; Loop back if R2 is not equal to 6 (runs for 1, 2, 3, 4, 5)
-      
-GO    B GO              ; Halt program execution
-      
-SQU   MUL R4, R2, R2    ; Subroutine: R4 = R2 * R2 (computes square)
-      BX LR             ; Return to caller using the Link Register (or MOV PC, LR)
-      END</code></pre>
-            
-            <h3 style="margin-top:15px">Line-by-Line Mechanical Trace:</h3>
-            <ul>
-                <li><strong><code>MOV R7, #0</code></strong>: Clears the accumulator register <code>R7</code>.</li>
-                <li><strong><code>BL SQU</code></strong>: Executes a Branch-with-Link to the <code>SQU</code> subroutine. The hardware automatically copies the address of the next instruction (<code>ADD R7, R7, R4</code>) into the Link Register (R14/LR).</li>
-                <li><strong><code>MUL R4, R2, R2</code></strong>: Multiplies the base number in <code>R2</code> by itself, saving the squared result in <code>R4</code>.</li>
-                <li><strong><code>BX LR</code></strong>: Branch Exchange to Link Register. Restores the Program Counter ($PC$) to the return address stored in $LR$, returning execution back to the loop.</li>
-                <li><strong><code>CMP R2, #6</code></strong>: Checks if we have processed all 5 numbers (up to 5). Once $R2 = 6$, the comparison triggers $Z=1$, terminating the loop.</li>
-            </ul>
-
-            <div class="final">
-                <strong>Expected Output & Debugger Verification:</strong>
-                Sum: $1^2 + 2^2 + 3^2 + 4^2 + 5^2 = 1 + 4 + 9 + 16 + 25 = 55_{10} = 	ext{0x37}$<br>
-                Checking Keil Registers after execution: <strong>R7 = 0x00000037</strong>.
-            </div>
-        </div>
-    </details>
-
-    <details>
-        <summary>Program 2a: ALP to add the first n even numbers. Store the result in a memory location.</summary>
-        <div class="details-content">
-            <p><strong>Objective:</strong> Sum the first $n$ even integers (e.g., $n=5 \implies 2, 4, 6, 8, 10$) and store the final 32-bit result in an external RAM memory address (<code>0x40000000</code>).</p>
-            <pre><code>      AREA PROG6, CODE, READONLY
-N           RN 1        ; Define register alias: R1 holds loop count n
-RESULT      RN 2        ; Define register alias: R2 accumulates the sum
-EVEN_NUMBER RN 3        ; Define register alias: R3 generates even numbers
-      
-      ENTRY
-      MOV N, #5               ; Set limit n = 5
-      MOV RESULT, #0          ; Clear accumulator
-      MOV EVEN_NUMBER, #2     ; First even number = 2
-      LDR R4, =0x40000000     ; Load destination RAM address in R4
-      
-LOOP  ADD RESULT, RESULT, EVEN_NUMBER ; RESULT = RESULT + EVEN_NUMBER
-      ADD EVEN_NUMBER, EVEN_NUMBER, #2 ; Generate next even number
-      SUBS N, N, #1           ; Decrement counter and update flags
-      BNE LOOP                ; Repeat if counter is not zero
-      
-      STR RESULT, [R4]        ; Store 32-bit sum to memory location 0x40000000
-STOP  B STOP                  ; Halt program
-      END</code></pre>
-
-            <div class="final">
-                <strong>Expected Output & Debugger Verification:</strong>
-                Sum: $2 + 4 + 6 + 8 + 10 = 30_{10} = 	ext{0x1E}$<br>
-                Checking Keil Memory Window at <code>0x40000000</code>: <strong>0x0000001E</strong>.
-            </div>
-        </div>
-    </details>
-
-    <details>
-        <summary>Program 2b: ALP to generate a geometric progression with a limit n. Display results in memory.</summary>
-        <div class="details-content">
-            <p><strong>Objective:</strong> Generate $n$ terms of a geometric progression (e.g., first term $a=1$, ratio $r=2 \implies 1, 2, 4, 8, 16...$) and display the sequential terms in memory starting at address <code>0x40000000</code>.</p>
-            <pre><code>      AREA PROG7, CODE, READONLY
-A     RN 1        ; R1 stores the active term (a)
-R     RN 2        ; R2 stores the common ratio (r)
-N     RN 3        ; R3 stores the number of terms to generate (n)
-      
-      ENTRY
-      MOV A, #1               ; First term = 1
-      MOV R, #2               ; Common ratio = 2
-      MOV N, #10              ; Generate 10 terms
-      LDR R5, =0x40000000     ; Load destination RAM address in R5
-      
-LOOP  STR A, [R5], #4         ; Store current term in memory and post-increment pointer by 4 bytes
-      MUL R6, A, R            ; Calculate next term: R6 = A * R
-      MOV A, R6               ; Update current term: A = R6
-      SUBS N, N, #1           ; Decrement counter
-      BNE LOOP                ; Repeat if counter is not zero
-      
-STOP  B STOP                  ; Halt program
-      END</code></pre>
-
-            <div class="final">
-                <strong>Expected Output & Debugger Verification:</strong>
-                Generated Terms: $1, 2, 4, 8, 16, 32, 64, 128, 256, 512$<br>
-                Keil Memory Window at <code>0x40000000</code>: <code>0x00000001</code>, <code>0x00000002</code>, <code>0x00000004</code>, <code>0x00000008</code>...
-            </div>
-        </div>
-    </details>
-
-    <details>
-        <summary>Program 3a: ALP to count the number of zeroes and ones in a binary number.</summary>
-        <div class="details-content">
-            <p><strong>Objective:</strong> Analyze a 32-bit binary integer (e.g., <code>0x0000000A = 1010_2</code>) and count the total number of logical `1` bits and logical `0` bits, storing the results in memory.</p>
-            <pre><code>      AREA PROG10, CODE, READONLY
-NUMBER      RN 1        ; R1 holds the binary number to analyze
-NUMONES     RN 10       ; R10 stores count of 1s
-NUMZEROES   RN 11       ; R11 stores count of 0s
-      
-      ENTRY
-      LDR R5, =0x40000000     ; Base memory address
-      LDR NUMBER, =0x0000000A ; Binary number: ...00001010
-      MOV NUMONES, #0         ; Clear 1s counter
-      MOV NUMZEROES, #0       ; Clear 0s counter
-      MOV R2, #32             ; Loop counter (32 bits to analyze)
-      
-LOOP  LSRS NUMBER, #1         ; Shift NUMBER right by 1 bit; LSB moves to Carry Flag (C)
-      ADDCS NUMONES, #1       ; Add 1 to NUMONES if Carry is 1 (CS = Carry Set)
-      ADDCC NUMZEROES, #1     ; Add 1 to NUMZEROES if Carry is 0 (CC = Carry Clear)
-      SUBS R2, R2, #1         ; Decrement bit counter
-      BNE LOOP                ; Repeat for all 32 bits
-      
-      STR NUMONES, [R5]       ; Store count of ones at 0x40000000
-      STR NUMZEROES, [R5, #4] ; Store count of zeroes at 0x40000004
-STOP  B STOP
-      END</code></pre>
-            
-            <h3 style="margin-top:15px">Line-by-Line Mechanical Trace:</h3>
-            <ul>
-                <li><strong><code>LSRS NUMBER, #1</code></strong>: Shifts the bits of the target number right by one. The `S` suffix ensures flags are updated. The rightmost bit (LSB) is shifted out into the Carry (C) flag.</li>
-                <li><strong><code>ADDCS NUMONES, #1</code></strong>: Conditional execution. If Carry flag is 1 (meaning the LSB was a 1), it increments the <code>NUMONES</code> counter.</li>
-                <li><strong><code>ADDCC NUMZEROES, #1</code></strong>: Conditional execution. If Carry flag is 0 (meaning the LSB was a 0), it increments the <code>NUMZEROES</code> counter.</li>
-            </ul>
-
-            <div class="final">
-                <strong>Expected Output & Debugger Verification:</strong>
-                For input <code>0x0000000A</code> (binary contains two 1s and thirty 0s):<br>
-                • Memory <code>0x40000000</code> (Ones Count): <strong>2</strong> (0x02)<br>
-                • Memory <code>0x40000004</code> (Zeroes Count): <strong>30</strong> (0x1E)
-            </div>
-        </div>
-    </details>
-
-    <details>
-        <summary>Program 3b: ALP to find the average of ten 16-bit numbers stored in memory.</summary>
-        <div class="details-content">
-            <p><strong>Objective:</strong> Retrieve ten 16-bit half-words pre-loaded in program memory, compute their arithmetic sum, divide the result by 10 using successive subtraction, and store the quotient (average) in a register.</p>
-            <pre><code>      AREA PROG11, CODE, READONLY
-      ENTRY
-      LDR R7, =TABLE          ; R7 points to the start of the 16-bit data table
-      MOV R0, #9              ; R0 set to 9 (10 numbers total, first loaded, 9 iterations left)
-      LDRH R1, [R7]           ; Load first 16-bit half-word into R1
-      
-BACKK LDRH R2, [R7, #2]!      ; Pre-increment pointer R7 by 2 bytes and load next half-word into R2
-      ADD R1, R1, R2          ; Accumulate sum in R1
-      SUBS R0, R0, #1         ; Decrement loop counter
-      BNE BACKK               ; Repeat
-      
-      ; Perform division by 10 (R1 / 10) using successive subtraction
-      MOV R3, #10             ; Divisor = 10
-      MOV R4, #0              ; R4 accumulates the quotient (Average = 0)
-      MOV R5, R1              ; Copy sum to R5 for subtraction
-      
-DIV   SUBS R5, R5, R3         ; R5 = R5 - 10
-      ADDPL R4, R4, #1        ; Increment quotient R4 if subtraction result is positive/zero (PL)
-      BPL DIV                 ; Repeat if positive or zero
-      
-STOP  B STOP
-      
-TABLE DCW 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000  ; Unsigned 16-bit constants
-      END</code></pre>
-
-            <div class="final">
-                <strong>Expected Output & Debugger Verification:</strong>
-                Sum: $100+200+300+400+500+600+700+800+900+1000 = 5500_{10}$<br>
-                Average: $5500 / 10 = 550_{10} = 	ext{0x0226}$<br>
-                Checking Keil Registers after division completes: <strong>R4 = 0x00000226</strong>.
-            </div>
-        </div>
-    </details>
-
-    <details>
-        <summary>Program 4a: ALP to find the factorial of a number.</summary>
-        <div class="details-content">
-            <p><strong>Objective:</strong> Calculate the factorial of a given number ($N!$, e.g., $5! = 5 	imes 4 	imes 3 	imes 2 	imes 1 = 120$) and save the result in a CPU register.</p>
-            <pre><code>      AREA PROG12, CODE, READONLY
-N     RN 1        ; R1 holds active number N
-FACT  RN 2        ; R2 accumulates factorial result
-      
-      ENTRY
-      MOV N, #5   ; Set input number = 5
-      MOV FACT, #1 ; Initialize factorial accumulator = 1
-      
-LOOP  MUL FACT, N, FACT   ; FACT = N * FACT
-      SUBS N, N, #1       ; Decrement N by 1
-      BNE LOOP            ; Repeat until N reaches 0
-      
-STOP  B STOP
-      END</code></pre>
-
-            <div class="final">
-                <strong>Expected Output & Debugger Verification:</strong>
-                For $N=5$, $5! = 120_{10} = 	ext{0x78}$<br>
-                Checking Keil Registers after program stops: <strong>R2 = 0x00000078</strong>.
-            </div>
-        </div>
-    </details>
-
-    <details>
-        <summary>Program 4b: ALP to generate the first n Fibonacci numbers.</summary>
-        <div class="details-content">
-            <p><strong>Objective:</strong> Compute the first $n$ terms of the Fibonacci sequence ($0, 1, 1, 2, 3, 5, 8, 13...$) and store them in RAM starting at address <code>0x40000000</code>.</p>
-            <pre><code>      AREA PROG13, CODE, READONLY
-      ENTRY
-      MOV R1, #0              ; F0 = 0
-      MOV R2, #1              ; F1 = 1
-      LDR R3, =NUMFIBONACCI   ; ROM address holding count of terms to generate
-      LDRB R6, [R3]           ; Load count n into R6 (e.g., 10 terms)
-      LDR R0, =0x40000000     ; RAM base memory address
-      
-      STRB R1, [R0], #1       ; Store first term (0) and post-increment pointer
-      STRB R2, [R0], #1       ; Store second term (1) and post-increment pointer
-      SUB R6, R6, #2          ; Already stored 2 terms; decrement counter by 2
-      
-LOOP  ADD R4, R1, R2          ; Calculate next term: Fn = Fn-1 + Fn-2
-      STRB R4, [R0], #1       ; Store Fn to memory and post-increment pointer
-      MOV R1, R2              ; Shift: Fn-2 becomes Fn-1
-      MOV R2, R4              ; Shift: Fn-1 becomes Fn
-      SUBS R6, R6, #1         ; Decrement counter
-      BNE LOOP                ; Repeat if not zero
-      
-STOP  B STOP
-NUMFIBONACCI DCB 0x0A         ; Variable defining count of terms (10)
-      END</code></pre>
-        </div>
-    </details>
-
-    <details>
-        <summary>Program 5: ALP to find the sum of digits of a number.</summary>
-        <div class="details-content">
-            <p><strong>Objective:</strong> Compute the sum of the individual digits of a decimal number (e.g., for number $12345$, the sum of digits is $1 + 2 + 3 + 4 + 5 = 15$).</p>
-            <pre><code>      AREA PROG14, CODE, READONLY
-DIVIDEND  RN 1        ; R1 holds the quotient/remaining dividend
-DIVISOR   RN 2        ; R2 holds the divisor (10)
-REMAINDER RN 4        ; R4 holds the remainder of division
-RESULT    RN 5        ; R5 accumulates the sum of digits
-      
-      ENTRY
-      LDR DIVIDEND, =12345    ; Input number = 12345
-      MOV DIVISOR, #10        ; Divisor = 10 to extract digits
-      MOV RESULT, #0          ; Clear accumulator
-      
-LOOP  BL DIV                  ; Call custom division subroutine (extracts LSB digit)
-      ADD RESULT, REMAINDER, RESULT ; RESULT = RESULT + REMAINDER (digit)
-      CMP R3, #0              ; Compare quotient (R3) with 0
-      MOVNE DIVIDEND, R3      ; If quotient != 0, update dividend with quotient
-      BNE LOOP                ; Repeat until no quotient remains
-      
-STOP  B STOP
-      
-DIV   MOV R3, #0              ; Clear quotient counter (R3)
-LOOP2 SUBS DIVIDEND, DIVIDEND, DIVISOR ; Successive subtraction
-      ADDPL R3, R3, #1        ; Increment quotient if positive/zero (PL)
-      BPL LOOP2               ; Repeat until negative
-      ADDMI REMAINDER, DIVIDEND, DIVISOR ; Restore remainder (last positive value)
-      BX LR                   ; Return to caller
-      END</code></pre>
-
-            <div class="final">
-                <strong>Expected Output & Debugger Verification:</strong>
-                Sum: $1 + 2 + 3 + 4 + 5 = 15_{10} = 	ext{0x0F}$<br>
-                Checking Keil Registers after halt: <strong>R5 = 0x0000000F</strong>.
-            </div>
-        </div>
-    </details>
-
-
-    <!-- ===================== SECTION 3: VIVA & PRACTICE QUESTIONS ===================== -->
-    <h2>❓ High-Yield Viva Voce Questions & Practice Hub</h2>
-
-    <details>
-        <summary>Unit 3 Viva Voce Q&A (Quick Revision)</summary>
-        <div class="details-content">
-            <p>Use these high-yield questions for oral assessments, lab evaluations, and quick exam review:</p>
-            <br>
-            <ol style="margin-left:20px;">
-                <li>
-                    <strong class="term">Q: What is the reset address of the ARM7 processor?</strong><br>
-                    A: **0x00000000**. When reset, the processor starts executing instructions from this address in the Vector Table.
-                </li>
-                <br>
-                <li>
-                    <strong class="term">Q: What is the difference between CPSR and SPSR?</strong><br>
-                    A: The **CPSR** (Current Program Status Register) stores the active status of the processor. The **SPSR** (Saved Program Status Register) is a banked register that automatically saves the CPSR state when an exception occurs, allowing the processor to restore its previous state upon returning.
-                </li>
-                <br>
-                <li>
-                    <strong class="term">Q: Why are there banked registers in exception modes?</strong><br>
-                    A: Banked registers are dedicated to specific modes, allowing the processor to handle exceptions without needing to save and restore the user's registers to the stack. This reduces context-switch times.
-                </li>
-                <br>
-                <li>
-                    <strong class="term">Q: Explain the instruction <code>BIC R0, R1, #0xFF</code>.</strong><br>
-                    A: It stands for **Bit Clear**. It performs a bitwise AND between $R1$ and the bitwise NOT of <code>0xFF</code>, clearing the lower 8 bits of $R1$ and saving the result in $R0$.
-                </li>
-            </ol>
-        </div>
-    </details>
-
-    <details>
-        <summary>🚀 Last-Minute Cheat Sheet & Quick Revision Notes</summary>
-        <div class="details-content">
-            <div class="important-box">
-                <strong>⚡ Key Instruction Encodings & Shifter Mnemonics:</strong>
+    <!-- MODE TAB SECTOR -->
+    <div class="mode-tab-bar">
+        <button class="mode-tab-btn active" onclick="switchMode(1)">📖 Mode 1: Topic & PYQ Integration</button>
+        <button class="mode-tab-btn" onclick="switchMode(2)">💻 Mode 2: Algorithm & Circuit Interfacing</button>
+        <button class="mode-tab-btn" onclick="switchMode(3)">📝 Mode 3: Solved CIE & SEE Exam Papers</button>
+    </div>
+    
+    <!-- MODE 1 -->
+    <div class="mode-content active" id="mode-1">
+        
+            <div class="topic-block">
+                <h3>Topic 1: ARM7TDMI Architecture & Operating Modes</h3>
+                <div class="badge badge-imp">Easy Explanation</div>
+                <p>The **ARM7TDMI** is a highly versatile 32-bit RISC core. The letters stand for: **T** (Thumb 16-bit compressed state), **D** (Debug support via JTAG), **M** (Fast 32-bit Multiplier), and **I** (EmbeddedICE logic module).
+                To handle normal user tasks and system exceptions securely, the processor operates in one of **7 Operating Modes**:
+                <ol style="margin-left: 20px; margin-top: 5px;">
+                    <li><strong>User Mode (usr):</strong> The only unprivileged mode. Runs standard application code. Cannot access protected hardware registers or alter the CPSR directly.</li>
+                    <li><strong>System Mode (sys):</strong> A privileged mode that shares the exact same register set as User mode. Used for running operating system tasks without causing exception traps.</li>
+                    <li><strong>Supervisor Mode (svc):</strong> Entered on power-up reset, or when software executes a Software Interrupt (<code>SVC/SWI</code>) instruction to request system services from the OS kernel.</li>
+                    <li><strong>Fast Interrupt Mode (fiq):</strong> Triggered when an external device asserts the FIQ pin. Optimized for high-speed, low-latency data transfers.</li>
+                    <li><strong>Interrupt Request Mode (irq):</strong> Triggered when an external device asserts the general-purpose IRQ pin. Used for general system interrupts.</li>
+                    <li><strong>Abort Mode (abt):</strong> Entered when a memory access violation occurs (Prefetch Abort when loading instruction, Data Abort when reading variables).</li>
+                    <li><strong>Undefined Mode (und):</strong> Entered if the instruction decoder encounters a coprocessor instruction it does not support, or an invalid opcode.</li>
+                </ol>
+                </p>
+                <div class="badge badge-imp">Important Points</div>
                 <ul>
-                    <li><code>LSL</code>: Logical Shift Left (multiplies by powers of 2, fills with 0s).</li>
-                    <li><code>LSR</code>: Logical Shift Right (divides by powers of 2, fills with 0s).</li>
-                    <li><code>ASR</code>: Arithmetic Shift Right (divides by powers of 2, preserves the sign bit).</li>
-                    <li><code>ROR</code>: Rotate Right (bits shifted out from the right wrap around to the left).</li>
+                    <li>The CPU has 1 unprivileged mode (User) and 6 privileged modes.</li>
+                    <li>Privileged modes can change the operating mode by writing directly to the mode bits in the CPSR.</li>
+                    <li>Context switches prevent user applications from corrupting hardware states.</li>
+                </ul>
+                <div class="badge badge-pyq">PYQs Asked</div>
+                <p>• <strong>SEE 2025 Q5(a):</strong> Write a block diagram of an ARM7 Processor. List the modes of operation in ARM7. (8 Marks)<br>
+                • <strong>SEE 2023(O) Q5(a):</strong> Discuss the various modes of operation on an ARM7TDMI processor. (6 Marks)</p>
+                <div class="badge badge-imp">Quick Revision</div>
+                <p>ARM7TDMI operates in 7 modes: 1 unprivileged (User) and 6 privileged. Exception states trigger hardware mode transitions to protect system registers.</p>
+            </div>
+
+            <div class="topic-block" style="margin-top:40px;">
+                <h3>Topic 2: Physical General-Purpose & Banked Registers</h3>
+                <div class="badge badge-imp">Easy Explanation</div>
+                <p>The ARM7 core has a total of **37 physical registers** (31 general-purpose 32-bit registers, and 6 status registers). However, at any single moment, only **18 registers** are visible to the programmer:
+                - **R0 to R12:** General-purpose registers.
+                - **R13:** Stack Pointer (SP), points to the active stack address.
+                - **R14:** Link Register (LR), holds the return address when calling a subroutine (using <code>BL</code>).
+                - **R15:** Program Counter (PC), holds the memory address of the instruction being fetched.
+                - **CPSR:** Current Program Status Register.
+                - **SPSR:** Saved Program Status Register.
+                To speed up exception handling, privileged modes map dedicated **banked registers** (shadow copies) that switch in automatically, replacing the User registers without saving them to the stack first.</p>
+                <div class="badge badge-imp">Important Points</div>
+                <ul>
+                    <li><strong>R0-R7 (Low Registers):</strong> Unbanked registers; shared across all operating modes.</li>
+                    <li><strong>R8-R12 (High Registers):</strong> Unbanked in all modes except FIQ. FIQ has banked shadow copies (R8_fiq to R12_fiq), allowing the Fast Interrupt handler to start immediately without pushing/popping registers.</li>
+                    <li><strong>R13 and R14:</strong> Banked in all privileged exception modes. Each exception mode has its own SP and LR (e.g., SP_irq, LR_svc).</li>
+                    <li><strong>SPSR backing:</strong> SPSR is banked in the 5 exception modes. It automatically backs up the CPSR when an exception is triggered, allowing seamless state recovery on exit. User/System modes do NOT have an SPSR.</li>
+                </ul>
+                <div class="badge badge-pyq">PYQs Asked</div>
+                <p>• <strong>SEE 2024 Q6(a):</strong> Discuss with an appropriate diagram for the register set working towards various modes of an ARM 32 bit processor. (8 Marks)<br>
+                • <strong>MAKEUP2023 Q5(b):</strong> Discuss the register set available in ARM architecture with necessary diagram. (8 Marks)</p>
+                <div class="badge badge-imp">Quick Revision</div>
+                <p>ARM7 has 37 registers, with 18 active at once. Banked registers in exception modes allow rapid context switching, while SPSRs automatically back up execution states during interrupts.</p>
+            </div>
+
+            <div class="topic-block" style="margin-top:40px;">
+                <h3>Topic 3: ARM7 3-Stage Pipeline & Hazards</h3>
+                <div class="badge badge-imp">Easy Explanation</div>
+                <p>To speed up instruction throughput, ARM7 processors execute instructions using a **3-stage Pipeline**:
+                1. <strong>Fetch:</strong> The processor retrieves the instruction byte from external memory.
+                2. <strong>Decode:</strong> The instruction decoder identifies the operation and control lines needed.
+                3. <strong>Execute:</strong> The ALU performs the mathematical calculation or register modification.
+                In a pipeline, these stages overlap: while Instruction 1 is executing, Instruction 2 is being decoded, and Instruction 3 is being fetched from memory. This achieves an average throughput of **1 instruction per clock cycle**.
+                However, if a **branch instruction** is taken, the pre-fetched and decoded instructions in the pipeline become invalid and must be flushed (**pipeline hazard**), causing a 2-cycle execution penalty.</p>
+                <div style="text-align: center; margin: 20px 0;">
+                    <img src="assets/arm7_pipeline.png" alt="ARM7 3-Stage Pipeline Diagrams" style="max-width: 95%; height: auto; border-radius: 8px; border: 1px solid var(--border-color); box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
+                    <div style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 8px; font-style: italic;">Figure: Three-Stage Pipeline Structure and Parallel Execution Trace over 5 Clock Cycles</div>
+                </div>
+                <div class="badge badge-imp">Important Points</div>
+                <ul>
+                    <li><strong>PC behavior:</strong> Because of the 3-stage pipeline, when an instruction is executing, the Program Counter (PC/R15) has already moved ahead to the fetch stage. Thus, PC = Execution Address + 8 bytes in ARM state (or +4 bytes in Thumb state).</li>
+                    <li><strong>Pipeline Hazards:</strong> Structural, Data, or Control (branching) hazards that halt pipeline flow.</li>
+                    <li><strong>Branch Flush:</strong> Branching redirects the PC, forcing the processor to clear the pipeline and reload the new instructions.</li>
+                </ul>
+                <div class="badge badge-imp">Quick Revision</div>
+                <p>ARM7 pipelines Fetch, Decode, and Execute stages to run 1 instruction per cycle. Branch operations break this flow, flushing the pipeline and costing a 2-cycle penalty.</p>
+            </div>
+
+            <div class="topic-block" style="margin-top:40px;">
+                <h3>Topic 4: Exceptions & Vector Table</h3>
+                <div class="badge badge-imp">Easy Explanation</div>
+                <p>When an **exception** (an interrupt, memory abort, or software reset) occurs, the ARM7 processor automatically suspends its normal program execution and jumps to a specific, hardcoded location in memory called the **Exception Vector Table**. The Vector Table contains branch instructions pointing to the respective **Interrupt Service Routines (ISRs)**.</p>
+                <p>The hardware performs a strict sequence of steps automatically upon entering an exception, and the software must execute a corresponding return sequence to restore the main program state.</p>
+                <div class="badge badge-imp">Important Points</div>
+                <ul>
+                    <li><strong>Vector Table Layout:</strong> Fixed memory addresses starting from 0x00000000:
+                        <ul>
+                            <li>Reset: 0x00 (highest priority)</li>
+                            <li>Undefined Instruction: 0x04</li>
+                            <li>Software Interrupt (SWI): 0x08</li>
+                            <li>Prefetch Abort: 0x0C</li>
+                            <li>Data Abort: 0x10</li>
+                            <li>Interrupt Request (IRQ): 0x18</li>
+                            <li>Fast Interrupt Request (FIQ): 0x1C (placed last so its ISR can start directly at 0x1C without a branch instruction, saving cycles).</li>
+                        </ul>
+                    </li>
+                    <li><strong>Hardware Exception Entry Sequence:</strong>
+                        <ol>
+                            <li>Saves the active CPSR into the SPSR of the exception mode.</li>
+                            <li>Sets CPSR bits: switches to the exception mode, disables interrupts (IRQ/FIQ), and sets ARM state.</li>
+                            <li>Saves the return address in the Link Register (LR).</li>
+                            <li>Forces the PC to jump to the respective vector address.</li>
+                        </ol>
+                    </li>
+                    <li><strong>Software Return Sequence:</strong> Handler restores the CPSR from the SPSR and loads the adjusted LR back into the PC (e.g., SUBS PC, R14, #4 for IRQ return).</li>
+                </ul>
+                <div class="badge badge-pyq">PYQs Asked</div>
+                <p>• <strong>SEE 2023 Q5(a):</strong> How does Arm processor handle Interrupts? List vectors of predefined interrupts. (8 Marks)<br>
+                • <strong>MAKEUP2023 Q6(a):</strong> List and explain 8 interrupts in the vector table of the processor. (8 Marks)<br>
+                • <strong>SEE 2023(O) Q6(a):</strong> List the steps involved in the way that the processor handles an exception. (8 Marks)</p>
+                <div class="badge badge-imp">Quick Revision</div>
+                <p>Exceptions trigger a hardware mode switch, backing up the CPSR in the SPSR, saving the return address in the LR, and branching to a dedicated address in the Vector Table.</p>
+            </div>
+
+            <div class="topic-block" style="margin-top:40px;">
+                <h3>Topic 5: Advanced Features & AMBA Bus Architecture (AHB & APB)</h3>
+                <div class="badge badge-imp">Easy Explanation</div>
+                <p>In highly integrated SoCs, connecting all peripherals directly to the processor's main bus would slow down execution. High-speed modules (like RAM and flash) need wide, fast, pipelined data paths, while slow peripherals (like UARTs and GPIOs) only need simple, low-power connections.
+                To solve this, ARM developed the **AMBA (Advanced Microcontroller Bus Architecture)** standard, which defines two distinct buses:
+                1. <strong>AHB (Advanced High-Performance Bus):</strong> A fast system bus that supports pipelining, wide transfers, and multi-master operations. It connects high-speed modules like the CPU core, SRAM, and DMA controller.
+                2. <strong>APB (Advanced Peripheral Bus):</strong> A slower, unpipelined, low-power bus designed for simple register-based configurations. It connects slower peripherals like timers, PWM, UART, and SPI.
+                An **AHB-to-APB Bridge** acts as a buffer between the two buses, matching data widths and clock speeds.</p>
+                <div style="text-align: center; margin: 20px 0;">
+                    <img src="assets/amba_bus_components.png" alt="AMBA Bus Architecture Diagram" style="max-width: 90%; height: auto; border-radius: 8px; border: 1px solid var(--border-color); box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
+                    <div style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 8px; font-style: italic;">Figure: AMBA Bus Topology splitting system modules (on AHB) and peripheral modules (on APB) via a Bridge</div>
+                </div>
+                <div class="badge badge-imp">Important Points</div>
+                <ul>
+                    <li><strong>AHB Features:</strong> High-bandwidth, single-cycle bus transfers, pipelined operations, split transactions.</li>
+                    <li><strong>APB Features:</strong> Low power, simple 2-phase non-pipelined interface, saves silicon area.</li>
+                    <li><strong>AMBA Bridge:</strong> Converts high-speed system bus transactions into slow peripheral access signals, isolating slow components.</li>
+                </ul>
+                <div class="badge badge-pyq">PYQs Asked</div>
+                <p>• <strong>SEE 2024 Q5(a):</strong> Discuss on how the AMBA processor specifies the use of AHB & APB bus components. (8 Marks)<br>
+                • <strong>SEE 2025 Q5(c):</strong> Discuss on how the AMBA processor specifies the use of AHB & APB bus components. (6 Marks)<br>
+                • <strong>MAKEUP2023 Q6(b):</strong> With a neat diagram, define components of AMBA bus. (7 Marks)<br>
+                • <strong>SEE 2023(O) Q5(b):</strong> Discuss on how the AMBA processor specifies the use of AHB & APB bus components. (6 Marks)</p>
+                <div class="badge badge-imp">Quick Revision</div>
+                <p>AMBA optimizes SoC traffic by splitting it between the high-speed AHB bus (for CPU, RAM, and DMA) and the low-power APB bus (for slower peripherals like UART and GPIO).</p>
+            </div>
+
+            <div class="topic-block" style="margin-top:40px;">
+                <h3>Topic 6: CPSR & SPSR Bitwise Layout</h3>
+                <div class="badge badge-imp">Easy Explanation</div>
+                <p>The CPSR (Current Program Status Register) is a highly critical 32-bit register. It tracks status flags, interrupt enabling masks, and the active operating mode. SPSR is the shadow copy used to back up CPSR during exceptions.</p>
+                <p><strong>CPSR Bit Allocation Regions:</strong>
+                <ul>
+                    <li><strong>Flags (Bits 31:28):</strong> N (Negative), Z (Zero), C (Carry), V (Overflow).</li>
+                    <li><strong>Interrupt Mask (Bits 7:6):</strong> I (Disable IRQ, when 1), F (Disable FIQ, when 1).</li>
+                    <li><strong>State (Bit 5):</strong> T-bit. If T=0, the processor is in ARM state (executing 32-bit instructions). If T=1, it is in Thumb state (16-bit instructions).</li>
+                    <li><strong>Mode (Bits 4:0):</strong> Encodes the active mode (e.g. 10000 for User, 10011 for SVC, 10010 for IRQ, 10001 for FIQ).</li>
+                </ul>
+                </p>
+                <div class="badge badge-pyq">PYQs Asked</div>
+                <p>• <strong>SEE 2023 Q4(b):</strong> Explain the current program state of an ARM7TDMI if the CPSR had the value 0xF00000D3. (7 Marks)</p>
+                <div class="badge badge-imp">Quick Revision</div>
+                <p>CPSR controls and monitors CPU execution status using distinct bit groups for math flags (N, Z, C, V), interrupt masks (I, F), state (T), and operating mode bits.</p>
+            </div>
+
+            <div class="topic-block" style="margin-top:40px;">
+                <h3>Topic 7: Multi-branching & Subroutines (B and BL)</h3>
+                <div class="badge badge-imp">Easy Explanation</div>
+                <p>To control the execution flow in assembly, we use branch instructions:
+                - <strong>Branch (B):</strong> Performs a simple jump to a target label. The PC is overwritten with the target address, flushes the pipeline, and continues execution. Equivalent to <code>goto</code> in high-level languages.
+                - <strong>Branch with Link (BL):</strong> Performs a subroutine call. Before jumping to the target label, the address of the next sequential instruction (return address) is automatically backed up in the <strong>Link Register (LR / R14)</strong>. To return, the subroutine ends with <code>MOV PC, LR</code> or <code>BX LR</code>.</p>
+                <div class="badge badge-pyq">PYQs Asked</div>
+                <p>• <strong>SEE 2023(O) Q6(b):</strong> Discuss how the instruction B & BL give the power of decision making in an ARM program operation. (6 Marks)</p>
+                <div class="badge badge-imp">Quick Revision</div>
+                <p>B instruction changes execution flow instantly. BL performs subroutine calls, automatically backing up the return address in the LR to permit structured function calls and returns.</p>
+            </div>
+
+            <div class="topic-block" style="margin-top:40px;">
+                <h3>Topic 8: Keil Assembler Conditional Codes</h3>
+                <div class="badge badge-imp">Easy Explanation</div>
+                <p>Almost all ARM7 data processing and branch instructions can be conditionally executed using a 2-character mnemonic suffix. These suffixes evaluate the state of the CPSR flags (N, Z, C, V) before running the instruction. If the flags do not match the condition, the instruction acts as a NOP (No Operation) and is skipped in 1 cycle, avoiding pipeline flushes.</p>
+                <p><strong>10 Common Conditional Codes Table:</strong>
+                <table>
+                    <thead>
+                        <tr style="background-color:rgba(6,182,212,0.15);">
+                            <th>Suffix</th>
+                            <th>Condition Name</th>
+                            <th>CPSR Flag State</th>
+                            <th>Meaning</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><code>EQ</code></td><td>Equal</td><td>Z == 1</td><td>Equal / Zero result</td></tr>
+                        <tr><td><code>NE</code></td><td>Not Equal</td><td>Z == 0</td><td>Not equal / Non-zero result</td></tr>
+                        <tr><td><code>CS / HS</code></td><td>Carry Set / High or Same</td><td>C == 1</td><td>Unsigned >= operation</td></tr>
+                        <tr><td><code>CC / LO</code></td><td>Carry Clear / Lower</td><td>C == 0</td><td>Unsigned < operation</td></tr>
+                        <tr><td><code>MI</code></td><td>Minus</td><td>N == 1</td><td>Negative result</td></tr>
+                        <tr><td><code>PL</code></td><td>Plus</td><td>N == 0</td><td>Positive or zero result</td></tr>
+                        <tr><td><code>VS</code></td><td>Overflow Set</td><td>V == 1</td><td>Signed arithmetic overflow occurred</td></tr>
+                        <tr><td><code>VC</code></td><td>Overflow Clear</td><td>V == 0</td><td>No signed arithmetic overflow</td></tr>
+                        <tr><td><code>HI</code></td><td>Higher</td><td>C == 1 AND Z == 0</td><td>Unsigned > operation</td></tr>
+                        <tr><td><code>LS</code></td><td>Lower or Same</td><td>C == 0 OR Z == 1</td><td>Unsigned <= operation</td></tr>
+                    </tbody>
+                </table>
+                </p>
+                <div class="badge badge-pyq">PYQs Asked</div>
+                <p>• <strong>MAKEUP2023 Q5(c):</strong> List any ten conditional codes with suffix, flags and meaning in assembly programming of ARM7. (5 Marks)</p>
+                <div class="badge badge-imp">Quick Revision</div>
+                <p>ARM instructions support conditional suffixes (EQ, NE, CS, CC, etc.) that inspect CPSR status bits, executing operations only if conditions are met to avoid branching overheads.</p>
+            </div>
+
+            <div class="topic-block" style="margin-top:40px;">
+                <h3>Topic 9: Optional & Additional Features of ARM Processors</h3>
+                <div class="badge badge-imp">Easy Explanation</div>
+                <p>ARM architectures can be integrated with optional hardware modules to serve diverse markets. Key extensions include:
+                - **T (Thumb 16-bit compressed state):** Decompresses 16-bit instructions on-the-fly, reducing program size.
+                - **D (JTAG Debugging):** Permits debugging hardware directly on the PCB.
+                - **M (High-speed Multiplier):** Specialized internal hardware multiplier.
+                - **I (EmbeddedICE):** Logic debugger module integrated onto the silicon.
+                - **E (Enhanced DSP Instructions):** Adds arithmetic commands to speed up calculations on audio/signals.
+                - **J (Jazelle):** Hardware execution acceleration of Java bytecode.</p>
+                <div style="text-align: center; margin: 20px 0;">
+                    <img src="assets/barrel_shifter.png" alt="ARM Inline Barrel Shifter in ALU" style="max-width: 90%; height: auto; border-radius: 8px; border: 1px solid var(--border-color); box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
+                    <div style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 8px; font-style: italic;">Figure: ARM Inline Barrel Shifter Architecture Pre-shifting Operand Rm into the ALU</div>
+                </div>
+                <div style="text-align: center; margin: 20px 0;">
+                    <img src="assets/arm_thumb_relationship.png" alt="ARM and THUMB Register Mapping diagram" style="max-width: 90%; height: auto; border-radius: 8px; border: 1px solid var(--border-color); box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
+                    <div style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 8px; font-style: italic;">Figure: Register Mapping and Visibility between 16-Bit Thumb and 32-Bit ARM Execution States</div>
+                </div>
+                <div class="badge badge-pyq">PYQs Asked</div>
+                <p>• <strong>SEE 2023 Q5(b):</strong> List and explain seven optional features of ARM processor. (7 Marks)<br>
+                • <strong>SEE 2024 Q6(b):</strong> Discuss the additional features of the ARM7 processor that are accepted in the embedded market. (6 Marks)</p>
+                <div class="badge badge-imp">Quick Revision</div>
+                <p>Optional ARM architectural tags (T, D, M, I, E, J) define targeted hardware modules like Thumb code compression, signal processing (DSP), or physical debugger logic.</p>
+            </div>
+
+            <div class="topic-block" style="margin-top:40px;">
+                <h3>Topic 10: Bitwise Logic and Instruction Faults</h3>
+                <div class="badge badge-imp">Easy Explanation</div>
+                <p>ARM assembly provides robust instructions to manipulate bit patterns:
+                - <code>AND</code>: Performs a bitwise logical AND operation.
+                - <code>BIC (Bit Clear)</code>: Performs a logical AND on the first operand with the **bitwise NOT** of the second operand, clearing bits.
+                - <code>ANDS</code>: Performs AND and updates N and Z condition flags.</p>
+                <p><strong>Instruction Constraints & Faults:</strong>
+                - **Immediate Range:** <code>MOV R0, #300</code> is invalid because ARM's 12-bit immediate field only permits values that can be formed by rotating an 8-bit value (0-255) by an even number of bits. 300 cannot be formed this way.
+                - **Illegal Shifts:** <code>ROL R0, #4</code> is invalid because ARM lacks a native circular shift right-to-left instruction (only ROR exists).
+                - **Illegal Registers:** <code>MUL R0, R0, R15</code> is invalid. In ARM7, the Program Counter (PC/R15) cannot act as a multiplier or multiplicand in multiplication instructions.</p>
+                <div style="text-align: center; margin: 20px 0;">
+                    <img src="assets/mul_instruction_format.png" alt="MUL instruction bit allocation format" style="max-width: 90%; height: auto; border-radius: 8px; border: 1px solid var(--border-color); box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
+                    <div style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 8px; font-style: italic;">Figure: 32-Bit Multiplication Instruction Binary Format illustrating Hardware Register Fields</div>
+                </div>
+                <div class="badge badge-pyq">PYQs Asked</div>
+                <p>• <strong>SEE 2023 Q6(c):</strong> Find faults in the following instructions, if any and suggest a remedy: i. MOV R0, #300 ii. ROL R0, #4 iii. LDMH R0, {R1-R5} iv. MUL R0, R0, R15. (8 Marks)<br>
+                • <strong>SEE 2024 Q5(b):</strong> Find the output of the following instructions given that R3= 0xFF, R2=0x14: i. AND R4,R2,R3 ii. ANDS R6,R2,R3 iii. BIC R5,R2,R3. (6 Marks)</p>
+                <div class="badge badge-imp">Quick Revision</div>
+                <p>Logic instructions (AND, BIC) perform bit manipulations, governed by ARM rules like immediate value ranges, multiplier operand limits (R15 prohibited), and shift limitations.</p>
+            </div>
+        
+    </div>
+    
+    <!-- MODE 2 -->
+    <div class="mode-content" id="mode-2">
+        
+            <div class="topic-block">
+                <h3>1. Pipeline Hazard Trace Tables</h3>
+                <p>Trace the instruction pipeline cycles showing a branch instruction flush. Consider the assembly snippet:</p>
+                <pre><code>0x0000: ADD R1, R2, R3
+0x0004: B   0x1000      ; Branch to 0x1000
+0x0008: SUB R4, R5, R6  ; Fetched but flushed!
+0x000C: AND R7, R8, R9  ; Fetched but flushed!</code></pre>
+                
+                <table style="width:100%; text-align:center;">
+                    <thead>
+                        <tr style="background-color:rgba(6,182,212,0.15);">
+                            <th>Clock Cycle</th>
+                            <th>Fetch Stage</th>
+                            <th>Decode Stage</th>
+                            <th>Execute Stage</th>
+                            <th>Action / Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>**Cycle 1**</td><td>ADD R1, R2, R3</td><td>-</td><td>-</td><td>First fetch</td></tr>
+                        <tr><td>**Cycle 2**</td><td>B 0x1000</td><td>ADD R1, R2, R3</td><td>-</td><td>Parallel fetch & decode</td></tr>
+                        <tr><td>**Cycle 3**</td><td>SUB R4, R5, R6</td><td>B 0x1000</td><td>ADD R1, R2, R3</td><td>ADD executes normally</td></tr>
+                        <tr><td>**Cycle 4**</td><td>AND R7, R8, R9</td><td>SUB R4, R5, R6</td><td>B 0x1000</td><td>**Branch executes! Pipeline Flushed!**</td></tr>
+                        <tr><td>**Cycle 5**</td><td>LDR R0, [R10] (at 0x1000)</td><td>-</td><td>-</td><td>Reloading pipeline (Bubble cycle 1)</td></tr>
+                        <tr><td>**Cycle 6**</td><td>Instruction 2 (at 0x1004)</td><td>LDR R0, [R10]</td><td>-</td><td>Reloading pipeline (Bubble cycle 2)</td></tr>
+                        <tr><td>**Cycle 7**</td><td>Instruction 3 (at 0x1008)</td><td>Instruction 2</td><td>LDR R0, [R10]</td><td>Execution resumes at target address!</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="topic-block" style="margin-top:30px;">
+                <h3>2. Assembly Code: Sum of N Even Numbers</h3>
+                <p>Write an assembly program to add the first N even numbers and store the result in memory (SEE 2025 PYQ):</p>
+                <pre><code>        AREA SumEven, CODE, READONLY
+        ENTRY
+        
+        MOV R0, #10         ; Let N = 10
+        MOV R1, #0          ; R1 will hold the running sum
+        MOV R2, #2          ; R2 is the first even number (2)
+        
+loop    ADD R1, R1, R2      ; Sum = Sum + even_number
+        ADD R2, R2, #2      ; Next even number = current + 2
+        SUBS R0, R0, #1     ; Decrement count N, set flags
+        BNE loop            ; Repeat until N = 0
+        
+        LDR R3, =RESULT     ; Load pointer to destination address
+        STR R1, [R3]        ; Store sum in memory
+        
+stop    B stop              ; Infinite loop to halt execution
+
+        AREA DataArea, DATA, READWRITE
+RESULT  DCD 0               ; Allocate 4 bytes in RAM
+        END</code></pre>
+            </div>
+
+            <div class="topic-block" style="margin-top:30px;">
+                <h3>3. Shift Instruction Tracing</h3>
+                <p>Calculate outputs for shift operations (SEE 2025/2023 Old Exam numericals):</p>
+                <div class="formula">
+                    Inputs:<br>
+                    R1 = 0x0089EF32 = 0000 0000 1000 1001 1110 1111 0011 0010 (binary)<br>
+                    R2 = 0x80456730 = 1000 0000 0100 0101 0110 0111 0011 0000 (binary)<br>
+                    R3 = 0x8 (Shift count = 8 bits)
+                </div>
+                
+                <div class="final" style="background:rgba(16, 185, 129, 0.05); border-color:var(--primary); color:var(--text-primary);">
+                    <strong>1. LSL R1, #8 (Logical Shift Left):</strong><br>
+                    Shifts R1 left by 8 bits, padding with 0s at the LSB.<br>
+                    Result = 0x89EF3200
+                </div>
+
+                <div class="final" style="background:rgba(6, 182, 212, 0.05); border-color:var(--accent-cyan); color:var(--text-primary); margin-top:15px;">
+                    <strong>2. LSR R1, #12 (Logical Shift Right):</strong><br>
+                    Shifts R1 right by 12 bits, padding with 0s at the MSB.<br>
+                    Result = 0x0000089E
+                </div>
+
+                <div class="final" style="background:rgba(245, 158, 11, 0.05); border-color:var(--accent-amber); color:var(--text-primary); margin-top:15px;">
+                    <strong>3. ASR R2, R3 (Arithmetic Shift Right):</strong><br>
+                    Shifts R2 right by R3 (8 bits). **Sign bit (Bit 31 = 1) is replicated** at the MSB.<br>
+                    Result = 0xFF804567
+                </div>
+            </div>
+        
+    </div>
+    
+    <!-- MODE 3 -->
+    <div class="mode-content" id="mode-3">
+        
+            <div class="pyq-solved">
+                <h3>Q1. Discuss with an appropriate diagram the register set working towards relationship between User, FIQ and IRQ modes in ARM7. [SEE 2024, MAKEUP2023] (8 Marks)</h3>
+                <p><strong>Answer:</strong></p>
+                <p>ARM7 contains 37 registers, organized in overlapping banks. Out of these, 31 are general-purpose 32-bit registers (R0-R15) and 6 are status registers (CPSR and 5 banked SPSRs). The physical registers switched during switches between User, FIQ, and IRQ modes are detailed below:</p>
+                
+                <ul>
+                    <li><strong>User Mode (Normal thread):</strong> R0-R12 are general-purpose registers. R13 is the Stack Pointer (SP), R14 is the Link Register (LR), R15 is the Program Counter (PC), and the CPSR holds the active status flags. SPSR is not available.</li>
+                    <li><strong>Fast Interrupt Mode (FIQ):</strong> Activated by the FIQ pin. To achieve extremely low interrupt latency, FIQ banks **7 physical registers (R8_fiq to R14_fiq)**. When the CPU switches to FIQ mode, these 7 banked registers automatically replace R8-R14, eliminating the need to save the User registers to the stack. It also has its own banked SPSR_fiq.</li>
+                    <li><strong>Interrupt Request Mode (IRQ):</strong> Activated by the general IRQ pin. Because IRQ is a general-purpose interrupt, it only banks **2 physical registers (R13_irq as SP and R14_irq as LR)**, alongside the SPSR_irq. This means that the ISR must manually push R0-R12 to the stack if it needs to use them, causing slightly higher latency than FIQ.</li>
+                </ul>
+                
+                <table style="width:100%; margin-top:15px;">
+                    <thead>
+                        <tr style="background-color:rgba(6,182,212,0.15);">
+                            <th>Registers</th>
+                            <th>User / System Mode</th>
+                            <th>FIQ Mode (Fast Interrupt)</th>
+                            <th>IRQ Mode (Standard Interrupt)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>R0 to R7</td><td>Unbanked (Shared)</td><td>Unbanked (Shared)</td><td>Unbanked (Shared)</td></tr>
+                        <tr><td>R8 to R12</td><td>R8 to R12</td><td><strong>R8_fiq to R12_fiq</strong> (Banked)</td><td>R8 to R12 (Shared)</td></tr>
+                        <tr><td>R13 (SP)</td><td>R13 (SP)</td><td><strong>R13_fiq</strong> (Banked SP)</td><td><strong>R13_irq</strong> (Banked SP)</td></tr>
+                        <tr><td>R14 (LR)</td><td>R14 (LR)</td><td><strong>R14_fiq</strong> (Banked LR)</td><td><strong>R14_irq</strong> (Banked LR)</td></tr>
+                        <tr><td>R15 (PC)</td><td>PC (Shared)</td><td>PC (Shared)</td><td>PC (Shared)</td></tr>
+                        <tr><td>CPSR</td><td>CPSR</td><td>CPSR</td><td>CPSR</td></tr>
+                        <tr><td>SPSR</td><td>None</td><td><strong>SPSR_fiq</strong> (Banked)</td><td><strong>SPSR_irq</strong> (Banked)</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="pyq-solved" style="margin-top:30px;">
+                <h3>Q2. Trace register and flag states: Given R0=0x12345678, R1=0xD5678007, find results after (i) MVN R7, R0, (ii) ADDS R6, R0, R1. [SEE 2025] (8 Marks)</h3>
+                <p><strong>Answer:</strong></p>
+                
+                <p><strong>(i) MVN R7, R0 (Move Not):</strong><br>
+                This instruction performs a bitwise logical NOT operation on R0 and stores the inverted bits in R7.
+                R0 = 0x12345678 = 0001 0010 0011 0100 0101 0110 0111 1000 binary<br>
+                Inverting every bit:
+                R7 = 1110 1101 1100 1011 1010 1001 1000 0111 binary = 0xEDCBA987<br>
+                *Flags:* CPSR flags are unchanged because the instruction lacks the 'S' suffix (it is <code>MVN</code>, not <code>MVNS</code>).</p>
+                
+                <p style="margin-top:15px;"><strong>(ii) ADDS R6, R0, R1 (Add and Update Flags):</strong><br>
+                This instruction adds R0 and R1, storing the result in R6 and updating the CPSR flags (N, Z, C, V) based on the result.
+                R0 = 0x12345678<br>
+                R1 = 0xD5678007<br>
+                Performing hexadecimal addition:
+                <pre>
+   0x 1 2 3 4 5 6 7 8
++  0x D 5 6 7 8 0 0 7
+──────────────────────
+   0x E 7 9 B D 6 7 F
+                </pre>
+                R6 = 0xE79BD67F<br>
+                Converting R6 to binary to evaluate status flags:
+                R6 = 1110 0111 1001 1011 1101 0110 0111 1111 binary
+                
+                <ul>
+                    <li><strong>N (Negative) = 1:</strong> The most significant bit (Bit 31) of the result is 1, indicating a negative signed value.</li>
+                    <li><strong>Z (Zero) = 0:</strong> The result is non-zero.</li>
+                    <li><strong>C (Carry) = 0:</strong> The addition did not generate an unsigned carry out of the 32nd bit.</li>
+                    <li><strong>V (Overflow) = 0:</strong> No signed overflow occurred. We added a positive number (R0, MSB=0) and a negative number (R1, MSB=1). Signed overflow can only occur when adding two numbers with the same sign.</li>
+                </ul>
+                </p>
+            </div>
+
+            <div class="pyq-solved" style="margin-top:30px;">
+                <h3>Q3. Detail the hardware sequence when an exception occurs in ARM7 and explain the return instruction offsets. [SEE 2023, SEE 2023(O)] (8 Marks)</h3>
+                <p><strong>Answer:</strong></p>
+                <p><strong>1. Hardware Exception Entry Sequence:</strong> When an exception (like an IRQ or Abort) is asserted, the ARM7 hardware executes these steps automatically:</p>
+                <ol>
+                    <li>Saves the current CPSR into the banked SPSR of the exception mode.</li>
+                    <li>Modifies CPSR bits: switches mode bits to target exception mode, sets the T-bit to 0 (forces ARM 32-bit execution state), and sets I/F bits to 1 to disable further interrupts (if safety-critical).</li>
+                    <li>Saves the return address in the banked Link Register (LR) of the exception mode.</li>
+                    <li>Forces the Program Counter (PC) to load the hardcoded address from the Vector Table (e.g. 0x00000018 for IRQ).</li>
+                </ol>
+                <p><strong>2. Software return adjustments:</strong> Depending on the exception type, the executing instruction might have already completed, or needs to be retried. The LR must be adjusted before being copied back into the PC:</p>
+                <ul>
+                    <li><strong>Software Interrupt (SWI / SVC):</strong> The SWI instruction is execution-based. Return requires executing the next instruction. PC = LR (Instruction: <code>MOVS PC, LR</code>)</li>
+                    <li><strong>IRQ / FIQ Interrupts:</strong> The interrupt occurs asynchronously. The pipeline must retry the instruction that was fetched but interrupted. PC = LR - 4 (Instruction: <code>SUBS PC, LR, #4</code>)</li>
+                    <li><strong>Data Abort:</strong> The load/store instruction caused a memory error and must be retried after the OS fixes the translation tables. PC = LR - 8 (Instruction: <code>SUBS PC, LR, #8</code>)</li>
                 </ul>
             </div>
-        </div>
-    </details>
+
+            <div class="pyq-solved" style="margin-top:30px;">
+                <h3>Q4. Discuss how the AMBA processor specifies the use of AHB and APB bus components. [SEE 2025, SEE 2024, SEE 2023(O)] (8 Marks)</h3>
+                <p><strong>Answer:</strong></p>
+                <p>The Advanced Microcontroller Bus Architecture (AMBA) standard defines two separate buses inside a System-on-Chip (SoC) to match diverse component speed and power requirements:</p>
+                <ol>
+                    <li><strong>AHB (Advanced High-Performance Bus):</strong> Designed for high-speed, high-bandwidth system components. Features include:
+                        <ul>
+                            <li>Supports multi-master operations (CPU, DMA controller).</li>
+                            <li>Pipelined address and data transfers to enable single-cycle memory reads.</li>
+                            <li>Connected to CPU Core, on-chip SRAM, and Flash memory.</li>
+                        </ul>
+                    </li>
+                    <li><strong>APB (Advanced Peripheral Bus):</strong> Designed for slow, low-power, simple peripheral registers. Features include:
+                        <ul>
+                            <li>Unpipelined, simple 2-phase control interface to minimize silicon area and gate count.</li>
+                            <li>Power-saving design (does not toggle signal lines unnecessarily).</li>
+                            <li>Connected to GPIO ports, Timers, UART, SPI, and ADC.</li>
+                        </ul>
+                    </li>
+                </ol>
+                <p><strong>AHB-to-APB Bridge:</strong> Slow peripherals cannot hook directly to the high-speed system bus. A bridge acts as an AHB slave, latching address/data from the CPU, translating the high-speed pipelined system protocols into simple, slow APB signals, and returning the results to the CPU. This isolates peripheral overhead from core memory operations.</p>
+            </div>
+
+            <div class="pyq-solved" style="margin-top:30px;">
+                <h3>Q5. Write an ARM assembly code to sort N bytes in ascending order using Bubble Sort technique. [SEE 2023] (8 Marks)</h3>
+                <p><strong>Answer:</strong></p>
+                <p>The bubble sort algorithm compares adjacent elements and swaps them if they are in the wrong order. This process is repeated (N-1) times for N elements. Below is the complete, working ARM assembly code:</p>
+                <pre><code>        AREA BubbleSort, CODE, READONLY
+        ENTRY
+        
+        LDR R0, =SIZE       ; Load address of array size
+        LDR R0, [R0]        ; R0 = N (array size)
+        SUB R0, R0, #1      ; Outer loop counter = N - 1
+        
+outer   LDR R1, =ARRAY      ; Load start address of array
+        MOV R2, R0          ; Inner loop counter = Outer count
+        MOV R5, #0          ; Flag to detect if swap occurred (0 = no swap)
+        
+inner   LDRB R3, [R1]       ; Load current element ARRAY[i]
+        LDRB R4, [R1, #1]   ; Load next element ARRAY[i+1]
+        
+        CMP R3, R4          ; Compare ARRAY[i] and ARRAY[i+1]
+        LSLE R1, R1, #0     ; Conditional delay / Dummy statement
+        STRBGT R4, [R1]     ; Swap: Store smaller in ARRAY[i]
+        STRBGT R3, [R1, #1] ; Swap: Store larger in ARRAY[i+1]
+        MOVGT R5, #1        ; Set swap flag to 1 if swap occurred
+        
+        ADD R1, R1, #1      ; Point to next element
+        SUBS R2, R2, #1     ; Decrement inner loop counter
+        BNE inner           ; Repeat inner loop
+        
+        CMP R5, #0          ; Check if swap occurred in this pass
+        BEQ stop            ; If no swap, array is sorted, halt!
+        
+        SUBS R0, R0, #1     ; Decrement outer loop counter
+        BNE outer           ; Repeat outer loop
+        
+stop    B stop              ; Infinite loop to halt
+
+        AREA DataArea, DATA, READWRITE
+SIZE    DCD 5               ; Size of array
+ARRAY   DCB 0x34, 0x12, 0xA5, 0x56, 0x02  ; Array of 5 bytes
+        END</code></pre>
+            </div>
+
+            <div class="pyq-solved" style="margin-top:30px;">
+                <h3>Q6. Suggest remedies for the following invalid assembly instructions: (i) MOV R0, #300, (ii) ROL R0, #4, (iii) LDMH R0, {R1-R5}, (iv) MUL R0, R0, R15. [SEE 2023] (8 Marks)</h3>
+                <p><strong>Answer:</strong></p>
+                <ol style="margin-left: 20px;">
+                    <li style="margin-bottom: 12px;"><strong>(i) <code>MOV R0, #300</code></strong><br>
+                    *Fault:* 300 (0x12C) cannot be represented as an 8-bit immediate value rotated by an even number of positions in the 12-bit ARM instruction field.<br>
+                    *Remedy:* Use the pseudo-instruction <code>LDR</code> to let the assembler load the constant from a literal pool:
+                    <pre><code>LDR R0, =300        ; Valid remedy</code></pre></li>
+                    
+                    <li style="margin-bottom: 12px;"><strong>(ii) <code>ROL R0, #4</code></strong><br>
+                    *Fault:* ARM7 does not have a native circular "Rotate Left" (ROL) instruction. Only Rotate Right (ROR) is supported.<br>
+                    *Remedy:* Rotating left by 4 bits in a 32-bit register is mathematically identical to rotating right by 28 bits (32 - 4):
+                    <pre><code>MOV R0, R0, ROR #28 ; Valid remedy</code></pre></li>
+                    
+                    <li style="margin-bottom: 12px;"><strong>(iii) <code>LDMH R0, {R1-R5}</code></strong><br>
+                    *Fault:* <code>LDMH</code> is an invalid mnemonic suffix. Block memory transfers (LDM/STM) only support IA, IB, DA, DB suffixes.<br>
+                    *Remedy:* Use <code>LDMIA</code> (Increment After) or another valid block transfer suffix:
+                    <pre><code>LDMIA R0, {R1-R5}   ; Valid remedy</code></pre></li>
+                    
+                    <li style="margin-bottom: 12px;"><strong>(iv) <code>MUL R0, R0, R15</code></strong><br>
+                    *Fault:* In ARM7, the Program Counter (PC / R15) cannot act as any of the operand registers in a multiply (MUL) instruction.<br>
+                    <div style="text-align: center; margin: 15px 0;">
+                        <img src="assets/mul_instruction_format.png" alt="MUL instruction bit allocation format" style="max-width: 85%; height: auto; border-radius: 8px; border: 1px solid var(--border-color); box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
+                        <div style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 6px; font-style: italic;">Figure: Multiplication Binary format specifying bit constraints on registers</div>
+                    </div>
+                    *Remedy:* Move the contents of R15 into a temporary general-purpose register (e.g. R4) first, then multiply:
+                    <pre><code>MOV R4, R15
+MUL R0, R0, R4      ; Valid remedy</code></pre></li>
+                </ol>
+            </div>
+
+            <div class="pyq-solved" style="margin-top:30px;">
+                <h3>Q7. Discuss with an appropriate diagram the register set working towards relationship between various modes of an ARM 32-bit and THUMB 16-bit state of the processor. [SEE 2025] (6 Marks)</h3>
+                <p><strong>Answer:</strong></p>
+                <p>The ARM7TDMI processor operates in two execution states: the 32-bit **ARM state** (executing standard 32-bit wide instructions) and the 16-bit **Thumb state** (executing compressed 16-bit instructions to maximize code density in restricted memories).</p>
+                <p><strong>ARM-Thumb Register Mapping Architecture:</strong></p>
+                <div style="text-align: center; margin: 20px 0;">
+                    <img src="assets/arm_thumb_relationship.png" alt="ARM and THUMB Register Mapping diagram" style="max-width: 90%; height: auto; border-radius: 8px; border: 1px solid var(--border-color); box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
+                    <div style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 8px; font-style: italic;">Figure: Physical Register Mapping and State Transition Scheme between ARM and Thumb execution modes</div>
+                </div>
+                <p><strong>Key Register Set Relationships:</strong></p>
+                <ul>
+                    <li><strong>Low Registers (R0-R7):</strong> Strictly mapped. R0-R7 in Thumb state correspond exactly to the physical registers R0-R7 in ARM state. They are fully visible and can be accessed by all instructions in both states.</li>
+                    <li><strong>High Registers (R8-R12):</strong> Hidden in Thumb state. While R8-R12 exist physically, most Thumb instructions cannot access them (except for a few special instructions like <code>ADD</code>, <code>CMP</code>, and <code>MOV</code>). This reduces the instruction encoding size.</li>
+                    <li><strong>Stack Pointer (SP / R13):</strong> Banked. Thumb R13 maps to active ARM SP (R13) based on the active operating mode.</li>
+                    <li><strong>Link Register (LR / R14):</strong> Mapped directly. Thumb LR corresponds to ARM LR (R14), holding subroutine return addresses.</li>
+                    <li><strong>Program Counter (PC / R15):</strong> Mapped directly. Thumb PC corresponds to ARM PC (R15), tracking execution.</li>
+                    <li><strong>CPSR and SPSR:</strong> Fully maintained. Status flags are shared across both states, allowing conditions to carry over seamlessly.</li>
+                </ul>
+            </div>
+        
+    </div>
 </div>
+
+<script>
+    function switchMode(modeNum) {
+        // Deactivate all modes
+        document.querySelectorAll('.mode-content').forEach(c => {
+            c.classList.remove('active');
+        });
+        document.querySelectorAll('.mode-tab-btn').forEach(b => {
+            b.classList.remove('active');
+        });
+        
+        // Activate target mode
+        document.getElementById('mode-' + modeNum).classList.add('active');
+        
+        // Find active button
+        const btns = document.querySelectorAll('.mode-tab-btn');
+        if (btns[modeNum - 1]) {
+            btns[modeNum - 1].classList.add('active');
+        }
+    }
+</script>
 
 </body>
 </html>
