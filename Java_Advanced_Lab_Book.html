@@ -580,81 +580,90 @@
             }
         }
 
-        /* ==================== ECLIPSE EDITOR STYLING ==================== */
+        /* ==================== SLEEK VS CODE DARK EDITOR STYLING ==================== */
         .eclipse-editor-wrapper {
             display: flex;
             flex-direction: column;
-            border: 1px solid #c5c5c5;
-            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--card-radius);
             overflow: hidden;
             margin-bottom: 25px;
-            background-color: #ffffff;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+            background-color: var(--bg-panel);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(248, 152, 32, 0.15);
         }
 
         .eclipse-editor-header {
-            background-color: #f3f3f3;
-            border-bottom: 1px solid #d0d0d0;
+            background-color: #070b13;
+            border-bottom: 1px solid var(--border-color);
             display: flex;
-            padding: 5px 8px 0;
+            padding: 6px 8px 0;
             gap: 4px;
             align-items: flex-end;
             user-select: none;
         }
 
         .eclipse-tab {
-            background-color: #e4e4e4;
-            border: 1px solid #c5c5c5;
+            background-color: #0d1322;
+            border: 1px solid var(--border-color);
             border-bottom: none;
-            color: #555555;
-            padding: 6px 14px;
+            color: var(--text-secondary);
+            padding: 8px 16px;
             font-family: var(--font-mono);
             font-size: 0.78rem;
-            border-radius: 4px 4px 0 0;
+            border-radius: 6px 6px 0 0;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
             font-weight: 500;
             position: relative;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .eclipse-tab:hover {
+            color: var(--text-primary);
+            background-color: rgba(255, 255, 255, 0.02);
         }
 
         .eclipse-tab.active {
-            background-color: #ffffff;
-            color: #000000;
+            background-color: var(--bg-panel);
+            color: var(--text-primary);
             font-weight: 600;
-            border-bottom: 1px solid #ffffff;
+            border-bottom: 1px solid var(--bg-panel);
             margin-bottom: -1px;
             z-index: 2;
+            border-top: 2px solid var(--primary);
         }
 
         .eclipse-tab-close {
-            font-size: 0.7rem;
-            color: #999;
+            font-size: 0.75rem;
+            color: var(--text-muted);
             margin-left: 6px;
             display: inline-block;
             transition: color 0.2s;
         }
 
         .eclipse-tab:hover .eclipse-tab-close {
-            color: #c23934;
+            color: var(--accent-rose);
         }
 
         .eclipse-editor-body {
             display: flex;
-            background-color: #ffffff;
+            background-color: var(--bg-panel);
             max-height: 520px;
             overflow-y: auto;
-            border-bottom: 1px solid #e5e7eb;
+            border-bottom: 1px solid var(--border-color);
             position: relative;
         }
 
         .line-numbers-gutter {
-            background-color: #f0f0f0;
-            border-right: 1px solid #d0d0d0;
+            background-color: #070b13;
+            border-right: 1px solid var(--border-color);
             padding: 20px 8px 20px 12px;
             font-family: var(--font-mono);
             font-size: 0.8rem;
-            color: #999999;
+            color: var(--text-muted);
             text-align: right;
             user-select: none;
             line-height: 1.65;
@@ -667,9 +676,9 @@
         }
 
         .eclipse-editor-code-pane pre {
-            background-color: #ffffff !important;
-            color: #000000 !important;
-            padding: 20px 15px !important;
+            background-color: var(--bg-panel) !important;
+            color: #e2e8f0 !important;
+            padding: 20px 18px !important;
             margin: 0 !important;
             line-height: 1.65 !important;
             white-space: pre !important;
@@ -678,11 +687,11 @@
             overflow: visible !important;
         }
 
-        /* Syntax colors */
-        .j-keyword { color: #7f0055 !important; font-weight: bold !important; }
-        .j-string { color: #2a00ff !important; }
-        .j-comment { color: #3f7f5f !important; font-style: italic !important; }
-        .j-annotation { color: #64748b !important; font-weight: bold !important; font-style: italic !important; }
+        /* Sleek VS Code Syntax Highlighting colors */
+        .j-keyword { color: #c678dd !important; font-weight: bold !important; } /* Soft Magenta Purple */
+        .j-string { color: #98c379 !important; } /* Warm Green */
+        .j-comment { color: #5c6370 !important; font-style: italic !important; } /* Muted Slate Gray-Green */
+        .j-annotation { color: #e5c07b !important; font-weight: bold !important; } /* Gold/Amber */
 
         /* Eclipse Styled Console Layout */
         .eclipse-console {
