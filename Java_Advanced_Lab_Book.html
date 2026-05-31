@@ -4155,20 +4155,9 @@ Query finished. 1 records returned.
             // 5. Annotations
             escaped = escaped.replace(/@[A-Za-z0-9_]+/g, '<span class="j-annotation">$&</span>');
 
-            // 6. Keywords
-            const keywords = [
-                "package", "import", "public", "private", "protected", "class", "interface", 
-                "extends", "implements", "new", "return", "this", "super", "void", 
-                "double", "int", "boolean", "char", "float", "throw", "throws", "try", 
-                "catch", "finally", "if", "else", "while", "for", "switch", "case", 
-                "break", "continue", "default", "static", "final", "instanceof", "null",
-                "true", "false"
-            ];
-
-            keywords.forEach(function(kw) {
-                let regex = new RegExp('\\b' + kw + '\\b', 'g');
-                escaped = escaped.replace(regex, '<span class="j-keyword">' + kw + '</span>');
-            });
+            // 6. Keywords (Single-pass combined regex to avoid replacing 'class' inside span tags)
+            const keywordRegex = /\b(package|import|public|private|protected|class|interface|extends|implements|new|return|this|super|void|double|int|boolean|char|float|throw|throws|try|catch|finally|if|else|while|for|switch|case|break|continue|default|static|final|instanceof|null|true|false)\b/g;
+            escaped = escaped.replace(keywordRegex, '<span class="j-keyword">$1</span>');
 
             // 7. Restore strings & comments
             for (let i = placeholders.length - 1; i >= 0; i--) {
@@ -4221,7 +4210,7 @@ Query finished. 1 records returned.
                     const iconChar = isInterface ? '🅸' : '🅲';
                     const iconColor = isInterface ? 'var(--accent-cyan)' : 'var(--primary)';
                     
-                    tab.innerHTML = `<span style="color:${iconColor}; font-weight:800; font-size:0.75rem; margin-right:2px;">${iconChar}</span> ${tabText} <span class="eclipse-tab-close">×</span>`;
+                    tab.innerHTML = `<span style="color:${iconColor}; font-weight:800; font-size:0.75rem; margin-right:2px;">${iconChar}</span> ${tabText}`;
                     
                     // Attach click behavior
                     tab.onclick = () => {
