@@ -1,0 +1,113 @@
+
+--- PAGE 1 ---
+ IS44 
+Page 1 of 2 
+ 
+ 
+ 
+ (Autonomous Institute, Affiliated to VTU) 
+(Approved by AICTE, New Delhi & Govt. of Karnataka)  
+Accredited by NBA & NAAC with ‘A+’ Grade 
+ 
+MAKE UP EXAMINATIONS –  OCTOBER 2023 
+Program : B.E. -  Information  Science  and 
+Engineering Semester : IV 
+Course Name : Microcontrollers Max. Marks : 100 
+Course Code : IS44 Duration : 3 Hrs 
+ 
+Instructions to the Candidates: 
+ Answer one full question from each unit. 
+ 
+ 
+  UNIT - I   
+1. a) List and analyze the features of RISC processors that broke with 
+traditional design techniques used in CISC based processors. 
+CO1 (08) 
+ b) List and explain the three types of timers in a microcontroller unit. CO1 (07) 
+ c) With a neat diagram, list the internal components of a typical Micro 
+Controller Unit (MCU). 
+CO1 (05) 
+     
+2. a) Which are the two modes of data transfer between MCU and peripherals? 
+Explain the general functioning of interrupts. 
+CO1 (08) 
+ b) List and explain three types of Reset in a typical MCU. CO1 (07) 
+ c) R in RISC is somewhat antiquated. Justify the statement. CO1 (05) 
+     
+  UNIT - II   
+3. a) Discuss with appropriate diagram that illustrates the use of DMA 
+controllers on most advanced MCUs. 
+CO2 (08) 
+ b)  Discuss on the use of memory banks for a 16- bit & 32 bit processor. CO2 (06) 
+ c) For the following operations, find out which flags will be set, (if any) for 
+a 16-bit processor? 
+i. Subtract 0xFE45 from 0x0978 
+ii. Compare A and B where A= 0x9987 and B= 0x9978. 
+CO2 (06) 
+     
+4. a) Illustrate with appropriate diagram for the working principle of 
+asynchronous read and write operation applied over a specific task for an 
+SRAM chip type. 
+CO2 (08) 
+ b) Discuss the various flags in embedded systems that  indicates the results 
+of each operation performed over a specific tasks. 
+CO2 (06) 
+ c) Discuss the Code editor, Cross compiler, Debugger and Graphical user 
+interface for an application program from the context of integrated 
+programming environment. 
+CO2 (06) 
+     
+  UNIT - III   
+5. a) Write a block diagram of a typical ARM7 Processor. Explain model 
+operation used in ARM7 processor. 
+CO3 (07) 
+ b) Discuss the register set available in ARM architecture with necessary 
+diagram. 
+CO3 (08) 
+ c) List any ten conditional codes with suffix, flags and meaning in assembly 
+programming of ARM7. 
+CO3 (05) 
+USN 1 M S        
+ 
+
+
+--- PAGE 2 ---
+ IS44 
+Page 2 of 2 
+ 
+     
+6. a) List and explain 8 interrupts in the vector table of the processor? CO3 (08) 
+ b) With a neat diagram, define components of AMBA bus. CO3 (07) 
+ c) List the features of ARMv4T instruction set architecture? CO3 (05) 
+     
+  UNIT- IV   
+7. a) Write an ARM C program to display the string ‘WEL COME TO ISE’ in the 
+serial window of UART1. 
+CO4 (10) 
+ b) Briefly discuss the internal BUS structure of the LPC 214x  family with 
+appropriate diagram. 
+CO4 (10) 
+     
+8. a) Write any SoC device architecture with its working principle and discuss 
+how it is suitable for specific application. 
+CO4 (10) 
+ b) Write an ALP to find the average of 10 numbers stored in memory, such 
+that the numbers are stored in Read Only memory in address starting 
+from “SOURCE”. 
+CO4 (10) 
+     
+  UNIT - V   
+9. a) Explain the memory model of Cortex -MO and explain types and 
+attributes of memory. 
+CO5 (08) 
+ b) How does NVIC take care of nesting of interrupts? CO5 (07) 
+ c) List general purpose registers and other special purpose registers of 
+Cortex-MO core. 
+CO5 (05) 
+     
+10. a) Discuss the advantages and architectural features of Cortex-MO+. CO5 (10) 
+ b) List and Explain the interrupts of Cortex-MO and different states that 
+each interrupts be in any time. 
+CO5 (10) 
+ 
+******************************** 

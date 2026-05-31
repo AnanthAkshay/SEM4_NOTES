@@ -1,0 +1,158 @@
+
+--- Page 1 ---
+ IS43 
+Page 1 of 3 
+ 
+ 
+ 
+ (Autonomous Institute, Affiliated to VTU) 
+(Approved by AICTE, New Delhi & Govt. of Karnataka)  
+Accredited by NBA & NAAC with ‘A+’ Grade 
+ 
+MAKE UP EXAMINATIONS – OCTOBER 2023 
+Program : B.E. -  Information Science and 
+Engineering Semester : IV 
+Course Name : Design  and  Analysis  of  Algorithms Max. Marks : 100 
+Course Code : IS43 Duration : 3 Hrs 
+ 
+Instructions to the Candidates: 
+ Answer one full question from each unit. 
+ 
+ 
+ 
+  UNIT - I   
+1. a) Describe the various asymptotic notations with an example for each. CO1 (09) 
+ b) Design an algorithm to search an element in an array using sequential 
+search. Derive the best case, worst case and average case efficiency of 
+this algorithm. 
+CO1 (07) 
+ c) Compare the orders of growth of n! and 2n. CO1 (04) 
+     
+2. a) Explain the general plan for analyzing the efficiency of a recursive 
+algorithm. Write the algorithm for solving the tower of Hanoi problem.  
+Derive its efficiency. 
+CO1 (09) 
+ b) Consider the following algorithm: 
+ 
+ALGORITHM Enigma(A[0..n − 1, 0..n − 1]) 
+for i ←0 to n − 2 do 
+   for j ←i + 1 to n − 1 do 
+     if A[i, j ] ≠ A[j, i] 
+        return false 
+return true 
+i. What does this algorithm compute? 
+ii. What is its basic operation? 
+iii. How many times is the basic operation executed? 
+iv. What is the efficiency class of this algorithm? 
+CO2 
+ 
+ 
+ 
+ 
+(06) 
+ c) Discuss why analysis of the best -case efficiency is not as important as 
+that of worst-case efficiency. 
+CO1 (05) 
+     
+  UNIT - II   
+3. a) Write Bubble sort algorithm and analyze its complexity.  CO2 (06) 
+ b) Develop a pseudocode to sort an array using Merge sort technique. 
+Apply the same to sort the list {P, A, N, D, E, M, I, C, S, O, N} in 
+alphabetical order. 
+CO2 (10) 
+ c) Analyse the efficiency of binary search algorithm.  CO2 (04) 
+     
+4. a) Define brute force. Apply the sequential search algorithm and Horspool 
+algorithm to determine the number of character comparisons made for 
+searching the pattern “INCREAS” in the text: 
+“THERE_IS_MORE_TO_LIFE_THAN_INCREASING_ITS_SPEED”.  
+CO2 (12) 
+USN 1 M S        
+ 
+
+--- Page 2 ---
+ IS43 
+Page 2 of 3 
+ 
+     
+ b) Write an algorithm to sort the elements using quick sort method. Trace 
+quick sort algorithm for the given array of numbers, also show the tree 
+calls and compute average time complexity. 2, 7, 8, 3, 1, 9, 5, 6, 3. 
+CO2 (08) 
+     
+  UNIT - III   
+5. a) Trace the below graph using Warshall’s algorithm. Write the algorithm 
+and indicate why is this an application of dynamic programming. 
+ 
+CO3 (08) 
+ b) What is greedy design technique? Explain the requirements to be 
+satisfied by a greedy choice. 
+CO3 (05) 
+ c) Write the Kruskal’s algorithm for finding the optimal solution for the 
+minimum spanning tree. 
+CO3 (07) 
+     
+6. a) Apply the dynamic programming algorithm to the following instance of 
+the knapsack problem. The capacity of the knapsack (W) is 5. 
+Item Weight Value ($) 
+1 2 12 
+2 1 20 
+3 3 15 
+4 2 15 
+Write an algorithm for constructing a table for solving the knapsack 
+problem using dynamic programming.  
+CO3 (10) 
+ b) Indicate the algorithm that can be used to find the shortest paths 
+between a source vertex to all of its other vertices. Write the algorithm 
+for the same. 
+CO3 (10) 
+     
+  UNIT- IV   
+7. a) Discuss the working of breadth first search approach with an example.  CO4 (06) 
+ b) Develop an algorithm to construct a heap using Bottom -up heap 
+construction. Apply the algorithm to construct a heap for the list         
+{12, 30, 37, 5, 2, 16, 4}. 
+CO4 (07) 
+ c) Starting at vertex “a” and resolving the ties by vertex alphabetical order, 
+traverse the  following graph shown in Fig.7(c)  below using depth first 
+search algorithm. Write the DFS forest and show the stack ordering. 
+Discuss its time complexity. 
+ 
+Fig. 7(c) 
+CO4 (07) 
+
+--- Page 3 ---
+ IS43 
+Page 3 of 3 
+ 
+     
+8. a) What do you understand by Topological  sorting? Explain any one method 
+to solve Topological sorting problem with an example. 
+CO4 (06) 
+ b) Perform heap sort on the list 9, 5, 8, 3, 2, 4, 7, 0, 1, 6 by showing every 
+step of heap construction and heap sort. 
+CO4 (08) 
+ c) Show the construction of  AVL trees for the list 5,6,8,3,2,4,7, by 
+successive insertions. 
+CO4 (06) 
+     
+  UNIT - V   
+9. a) What do you understand by the term backtracking? Discuss how 
+backtracking is used for solving 4 -Queen problem. Show the state space 
+tree for the same. 
+CO5 (12) 
+ b) Distinguish between backtracking and branch and bound algorithm? CO5 (08) 
+     
+10. a) Write short notes on P,NP and NP complete problems. CO5 (08) 
+ b) Consider the Travelling Sales person instance defined by the following 
+cost matrix. 
+∞ 3 1 5 8 
+3 ∞ 6 7 9 
+1 6 ∞ 4 2 
+5 7 4 ∞ 3 
+8 9 2 3 ∞ 
+Draw the state space tree and show the reduced matrices corresponding 
+to each of the node. 
+CO5 (12) 
+ 
+******************************** 

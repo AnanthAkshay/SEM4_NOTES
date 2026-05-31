@@ -1,0 +1,131 @@
+
+--- PAGE 1 ---
+IS46 
+Page 1 of 2 
+ 
+ 
+ 
+ (Autonomous Institute, Affiliated to VTU) 
+(Approved by AICTE, New Delhi & Govt. of Karnataka)  
+Accredited by NBA & NAAC with ‘A+’ Grade 
+ 
+SUPPLEMENTARY SEMESTER EXAMINATIONS – JULY 2023 
+Program : B.E :- Information Science and 
+Engineering   Semester : IV 
+Course Name : Microcontrollers  Max. Marks : 100 
+Course Code : IS46 Duration : 3 Hrs 
+ 
+Instructions to the Candidates: 
+ Answer one full question from each unit.  
+ 
+ UNIT – I   
+1. a) List out the steps involved in the working of an interval timer. CO1 (06) 
+ b) List the various characteristics of an Embedded system. Also, mention 
+few applications of embedded systems. 
+CO1 (06) 
+ c) Discuss the four major design rules implemented on RISC design. 
+Justify how CISC emphasizes on hardware complexity and RISC 
+emphasizes on compiler complexity. 
+CO1 (08) 
+     
+2. a) Discuss on how the ARM instruction set differs from the pure RISC 
+definition in several ways that make the ARM instruction set suitable 
+for embedded applications. 
+CO1 (06) 
+ b) Discuss with a neat diagram, the Internal components of a typical MCU 
+that works on SOC. 
+CO1 (08) 
+ c) Briefly discuss on Pulse Width Modulator, a separate module by the 
+virtue of its functionality that are used in most of the MCU’s. 
+CO1 (06) 
+     
+  UNIT – II   
+3. a) Discuss with appropriate diagram that shows the asynchronous read 
+and write operation for an SRAM chip type. 
+CO2 (08) 
+ b) Discuss with appropriate diagram that illustrates the use of DMA 
+controllers on most advanced MCUs. 
+CO2 (06) 
+ c) Write the following numbers in the big endian and little endian format 
+in the address 0x450011: 
+i) 0xDC67 ii) 0x1908DEF8. 
+CO2 (06) 
+     
+4. a) Discuss the various flags in embedded systems that indicate the result 
+of each arithmetic and logical operations. 
+CO2 (08) 
+ b) Discuss the use of memory banks for a 16- bit & 32 bit processor. CO2 (06) 
+ c) For the following operations, find out which flags will be set, (if any) 
+for a 16-bit processor. 
+i. Subtract 0xFE45 from 0x0978 
+ii. Compare A and B where A= 0x9987 and B= 0x9978. 
+CO2 (06) 
+     
+  UNIT – III   
+5. a) Discuss the various modes of operation on an ARM7TDMI processor. CO3 (06) 
+ b) Discuss on how the AMBA processor specifies the use of AHB & APB 
+bus components. 
+CO3 (06) 
+ c) Find out the results of the following operations given the contents of 
+R1 = 0x0089EF32, R2 = 0x80456730 and R3=0x8 
+i) LSL R1, #8 
+ii) LSR R1, #12 
+iii) ASR R2, R3 
+iv) ROR R2, R3 
+CO3 (08) 
+USN 1 M S        
+ 
+
+
+--- PAGE 2 ---
+IS46 
+Page 2 of 2 
+ 
+     
+6. a) List the steps involved in the way that the processor handles an 
+exception. 
+CO3 (08) 
+ b) Discuss how the instruction B & BL that gives the power of decision 
+making in an ARM program operation. 
+CO3 (06) 
+ c) Find out the results of the following instructions. 
+i. MOV R10,R10,LSL #2 
+ii. MOV R2,R2,LSR #2 
+iii. MOV R5,R5,ASR #2 
+iv. ADD R5,R5,R5,LSL #4 
+v. RSB R3,R4,R4,LSL #4 
+vi. SUB R1,R1,R1,LSL #3 
+CO3 (06) 
+     
+  UNIT – IV   
+7. a) Discuss the use of Load and Store instructions in an ARM programming 
+with appropriate examples for each. 
+CO4 (10) 
+ b) Write an ALP to find the average of 10 numbers stored in memory, 
+such that the numbers are stored in Read Only memory in address 
+starting from “TABLE”. 
+CO4 (10) 
+     
+8. a) Briefly discuss the internal BUS structure of the LPC 214x family with 
+appropriate diagram. 
+CO4 (10) 
+ b) Write an ARM C program to display the string ‘I LOVE ISE’ in the serial 
+window of UART1. 
+CO4 (10) 
+     
+  UNIT-V   
+9. a) Discuss the advantages of choosing Cortex M0 by the user for design 
+of a processor. 
+CO5 (08) 
+ b) Discuss on three -stage pipeline for Cortex -M0 and Two-stage pipeline 
+for cortex-M0+ with appropriate diagram for each. 
+CO5 (12) 
+     
+10. a) Discuss  with appropriate diagram for a memory map model for the          
+cortex-M0 processor. 
+CO5 (10) 
+ b) Briefly discuss the use of NVIC in the cortex processor. Also list some 
+of its features. 
+CO5 (10) 
+ 
+******************************** 

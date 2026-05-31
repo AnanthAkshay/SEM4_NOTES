@@ -1,0 +1,1475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DAA Unit 5 – Complete Exam Notes | MSRIT / VTU</title>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fdfcf8;--surface:#fff;--navy:#1a237e;--navy2:#283593;--red:#c62828;--green:#1b5e20;--green-s:#e8f5e9;--amber:#e65100;--amber-s:#fff3e0;--blue-s:#e8eaf6;--border:#c5cae9;--text:#1a1a2e;--muted:#546e7a;--code-bg:#0d1117;--code-fg:#a5d6a7;--pyq-bg:#fff8e1;--pyq-bd:#ffa000;--ex-bg:#f1f8e9;--ex-bd:#388e3c;--imp-bg:#fce4ec;--imp-bd:#c62828;--rev-bg:#e3f2fd;--rev-bd:#1565c0;}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.8}
+.wrap{max-width:970px;margin:0 auto;padding:0 24px}
+/* HEADER */
+.hdr{background:linear-gradient(135deg,#0d1b6e 0%,#1a237e 60%,#283593 100%);color:#fff;padding:48px 0 34px;border-bottom:5px solid var(--amber)}
+.hdr h1{font-family:'Crimson Pro',serif;font-size:2.7rem;font-weight:700;letter-spacing:-.5px}
+.hdr .sub{font-size:1.05rem;margin-top:8px;opacity:.85}
+.badges{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+.badge{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);padding:4px 14px;border-radius:20px;font-size:.8rem;font-weight:500}
+/* OVERVIEW */
+.overview{background:var(--blue-s);border-left:5px solid var(--navy);padding:26px 30px;margin:30px 0;border-radius:0 8px 8px 0}
+.overview h2{font-family:'Crimson Pro',serif;font-size:1.45rem;color:var(--navy);margin-bottom:10px}
+/* TOPIC CARD */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:10px;margin:34px 0;overflow:hidden;box-shadow:0 2px 14px rgba(26,35,126,.07)}
+.card-hdr{background:var(--navy);color:#fff;padding:17px 26px;display:flex;align-items:center;gap:14px}
+.num{background:var(--amber);color:#fff;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.9rem;flex-shrink:0}
+.card-hdr h2{font-family:'Crimson Pro',serif;font-size:1.5rem;font-weight:700}
+.card-body{padding:26px 30px}
+/* SUB-HEADINGS */
+.sh{display:flex;align-items:center;gap:10px;margin:26px 0 12px}
+.sh .tag{background:var(--navy);color:#fff;font-size:.7rem;font-weight:700;padding:3px 10px;border-radius:4px;text-transform:uppercase;letter-spacing:.8px;white-space:nowrap}
+.sh h3{font-family:'Crimson Pro',serif;font-size:1.22rem;color:var(--navy);font-weight:600}
+h4{font-size:.97rem;color:var(--navy2);margin:14px 0 7px;font-weight:700}
+p{margin:9px 0}
+/* BOXES */
+.pyq{background:var(--pyq-bg);border:1.5px solid var(--pyq-bd);border-radius:8px;padding:18px 22px;margin:18px 0}
+.pyq .lbl{display:flex;align-items:center;gap:8px;font-weight:700;color:var(--amber);font-size:.82rem;text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px}
+.ex{background:var(--ex-bg);border:1.5px solid var(--ex-bd);border-radius:8px;padding:18px 22px;margin:16px 0}
+.ex .lbl{font-weight:700;color:var(--green);font-size:.82rem;text-transform:uppercase;letter-spacing:.8px;margin-bottom:9px}
+.rev{background:var(--rev-bg);border:1.5px solid var(--rev-bd);border-radius:8px;padding:18px 22px;margin:22px 0}
+.rev h4{color:#1565c0;margin-top:0}
+.imp{background:var(--imp-bg);border-left:4px solid var(--red);padding:12px 16px;margin:12px 0;border-radius:0 6px 6px 0}
+.def{border-left:3px solid var(--navy);padding:10px 15px;background:#f5f5ff;margin:11px 0;border-radius:0 6px 6px 0}
+.def strong{color:var(--navy)}
+/* CODE */
+pre{background:var(--code-bg);color:var(--code-fg);padding:18px 22px;border-radius:8px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:.82rem;line-height:1.7;margin:12px 0}
+code{font-family:'JetBrains Mono',monospace;font-size:.84em;background:#e8eaf6;padding:2px 6px;border-radius:4px;color:var(--navy)}
+pre code{background:none;padding:0;color:inherit}
+.kw{color:#79c0ff;font-weight:600}
+.cmt{color:#8b949e;font-style:italic}
+.num{color:#ffcc80}
+.fn{color:#80cbc4}
+.str{color:#f8a261}
+/* TABLES */
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.89rem}
+th{background:var(--navy);color:#fff;padding:9px 13px;text-align:left;font-weight:600}
+td{padding:8px 13px;border:1px solid var(--border);vertical-align:top}
+tr:nth-child(even) td{background:#f5f5ff}
+/* LISTS */
+ul,ol{padding-left:20px;margin:9px 0}
+li{margin:4px 0}
+ul li::marker{color:var(--navy)}
+/* FORMULA */
+.formula{text-align:center;background:#e8eaf6;padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:.97rem;color:var(--navy);margin:12px 0;font-weight:600}
+/* COMPLEXITY GRID */
+.cgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0}
+.cc{border:1px solid var(--border);border-radius:8px;padding:12px;text-align:center}
+.cc .cl{font-size:.73rem;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:5px}
+.cc .cv{font-family:'JetBrains Mono',monospace;font-size:1.05rem;font-weight:600;color:var(--navy)}
+/* EXAM FORMAT */
+.efmt{background:#fff;border:1px solid var(--border);border-radius:8px;overflow:hidden;margin:14px 0}
+.efmt .eh{background:var(--navy2);color:#fff;padding:9px 15px;font-weight:700;font-size:.85rem;text-transform:uppercase;letter-spacing:.5px}
+.efmt .eb{padding:14px 16px}
+/* GRAPH DIAGRAM (ASCII art box) */
+.graph-box{background:#f8f9fa;border:1px solid #c5cae9;border-radius:8px;padding:16px 20px;margin:14px 0;font-family:'JetBrains Mono',monospace;font-size:.8rem;line-height:1.6;overflow-x:auto}
+/* STEPS */
+.step{display:flex;gap:11px;margin:10px 0;align-items:flex-start}
+.sn{background:var(--navy);color:#fff;width:25px;height:25px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.76rem;font-weight:700;flex-shrink:0;margin-top:3px}
+.sc{flex:1}
+/* DIVIDER */
+hr.dv{border:none;border-top:2px dashed var(--border);margin:24px 0}
+/* TOC */
+.toc{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:22px 26px;margin:26px 0}
+.toc h3{font-family:'Crimson Pro',serif;font-size:1.18rem;color:var(--navy);margin-bottom:12px}
+.toc a{color:var(--navy);text-decoration:none}
+.toc a:hover{text-decoration:underline}
+.toc li{margin:5px 0;font-size:.9rem}
+/* FOOTER */
+.footer{text-align:center;padding:38px 0;color:var(--muted);font-size:.83rem;border-top:1px solid var(--border);margin-top:56px}
+/* TRACE TABLE */
+.trace-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.82rem;font-family:'JetBrains Mono',monospace}
+.trace-table th{background:#1a237e;color:#fff;padding:7px 11px;text-align:center}
+.trace-table td{padding:6px 11px;border:1px solid #c5cae9;text-align:center}
+.trace-table tr:nth-child(even) td{background:#f0f4ff}
+.hl{background:#fff9c4!important;font-weight:700}
+@media print{.card{break-inside:avoid}.pyq,.ex{break-inside:avoid}pre{white-space:pre-wrap}}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+<div class="wrap">
+  <h1>🔗 DAA Unit 5: Graph Algorithms, Complexity & Flow</h1>
+  <div class="sub">Design & Analysis of Algorithms | MSRIT / VTU | IS43</div>
+  <div class="badges">
+    <span class="badge">Complete Exam Notes</span>
+    <span class="badge">PYQ 2023–2025 Integrated</span>
+    <span class="badge">All Algorithms Traced</span>
+    <span class="badge">5 &amp; 10 Mark Answers</span>
+    <span class="badge">P/NP/Complexity</span>
+  </div>
+</div>
+</div>
+
+<div class="wrap">
+
+<div class="overview">
+  <h2>Unit 5 Overview</h2>
+  <table>
+    <tr><th>Aspect</th><th>Details</th></tr>
+    <tr><td><strong>Unit Name</strong></td><td>Graph Algorithms, Shortest Paths, Max Flow &amp; Computational Complexity</td></tr>
+    <tr><td><strong>Marks Weightage</strong></td><td>~20 marks (Q9 &amp; Q10, answer one full question)</td></tr>
+    <tr><td><strong>Syllabus Topics</strong></td><td>BFS, DFS, Topological Sort, SCC, Bellman-Ford, Dijkstra, Floyd-Warshall, Johnson's, Ford-Fulkerson, Edmonds-Karp, P/NP/NP-Complete/NP-Hard, Approximation Algorithms</td></tr>
+    <tr><td><strong>🔥 Most Repeated</strong></td><td>P/NP/NP-Complete (every paper) | Backtracking + 4-Queens (every paper) | Branch &amp; Bound TSP | BFS/DFS traversal | Heap + HeapSort | Dijkstra/Floyd-Warshall</td></tr>
+    <tr><td><strong>Difficulty</strong></td><td>Moderate–High — mix of theory (P/NP) + numerical (graph algorithms)</td></tr>
+  </table>
+  <div style="margin-top:12px">
+    <strong>Key Insight on Paper Pattern:</strong> In the exam papers, Unit 5 heavily features <em>Backtracking (N-Queens)</em>, <em>Branch &amp; Bound (TSP)</em>, <em>P/NP/NP-Complete</em>, <em>Heaps &amp; HeapSort</em>, and <em>Approximation Algorithms</em>. BFS/DFS appear in Unit 4 of many papers. All are covered here fully.
+  </div>
+</div>
+
+<div class="toc">
+  <h3>📋 Table of Contents</h3>
+  <ol>
+    <li><a href="#t1">BFS — Breadth First Search</a></li>
+    <li><a href="#t2">DFS — Depth First Search</a></li>
+    <li><a href="#t3">Topological Sorting</a></li>
+    <li><a href="#t4">Strongly Connected Components (Kosaraju's)</a></li>
+    <li><a href="#t5">Bellman-Ford Algorithm</a></li>
+    <li><a href="#t6">Dijkstra's Algorithm (Revisited)</a></li>
+    <li><a href="#t7">Floyd-Warshall Algorithm</a></li>
+    <li><a href="#t8">Johnson's Algorithm</a></li>
+    <li><a href="#t9">Ford-Fulkerson &amp; Max Flow</a></li>
+    <li><a href="#t10">Edmonds-Karp Algorithm</a></li>
+    <li><a href="#t11">P, NP, NP-Completeness, NP-Hard</a></li>
+    <li><a href="#t12">Approximation Algorithms</a></li>
+    <li><a href="#t13">🔥 Backtracking — N-Queens (PYQ Favourite)</a></li>
+    <li><a href="#t14">🔥 Branch and Bound — TSP (PYQ Favourite)</a></li>
+  </ol>
+</div>
+<!-- ===================================================
+     TOPIC 1 : BFS
+     =================================================== -->
+<div class="card" id="t1">
+  <div class="card-hdr"><div class="num">1</div><h2>BFS — Breadth First Search</h2></div>
+  <div class="card-body">
+
+    <div class="pyq">
+      <div class="lbl">🔥 REPEATED IN EVERY PAPER</div>
+      <p><strong>SEE 2024 Q7(b)</strong> — "Design an algorithm for BFS. Determine the BFS for the given graph and write topological sorting using source removal." [12 marks]</p>
+      <p><strong>SEE 2023 Q7(a)</strong> — "Discuss the working of BFS approach with an example." [06 marks]</p>
+      <p><strong>SEE 2025 Q7(b)</strong> — "Perform DFS and BFS on the following graph starting from vertex 1." [06 marks]</p>
+    </div>
+
+    <div class="sh"><span class="tag">1. Concept</span><h3>What is BFS and Why Use It?</h3></div>
+    <p>BFS explores a graph <strong>level by level</strong> — first visiting all neighbors of the source, then neighbors of neighbors, and so on. Think of it like ripples in water: the source is the stone, and BFS visits all nodes at distance 1 before visiting distance 2.</p>
+    <p><strong>Real-world uses:</strong> Shortest path in unweighted graphs, social network friend suggestions (degrees of separation), web crawling, broadcasting in networks, GPS navigation (unweighted).</p>
+
+    <div class="sh"><span class="tag">2. Theory</span><h3>BFS Algorithm</h3></div>
+    <p>BFS uses a <strong>Queue (FIFO)</strong> to track nodes to visit. Each node is colored: <em>WHITE</em> (undiscovered), <em>GRAY</em> (discovered, in queue), <em>BLACK</em> (fully processed).</p>
+
+    <div class="sh"><span class="tag">3. Algorithm</span><h3>Pseudocode</h3></div>
+<pre><span class="kw">ALGORITHM</span> BFS(G, s)
+<span class="cmt">// G = graph, s = source vertex</span>
+<span class="kw">for</span> each vertex u ∈ G.V - {s}
+    color[u] = WHITE
+    d[u] = ∞             <span class="cmt">// distance from source</span>
+    π[u] = NIL           <span class="cmt">// parent pointer</span>
+color[s] = GRAY
+d[s] = 0
+π[s] = NIL
+Q = empty queue
+ENQUEUE(Q, s)
+<span class="kw">while</span> Q ≠ empty
+    u = DEQUEUE(Q)
+    <span class="kw">for</span> each v ∈ Adj[u]
+        <span class="kw">if</span> color[v] == WHITE
+            color[v] = GRAY
+            d[v] = d[u] + 1
+            π[v] = u
+            ENQUEUE(Q, v)
+    color[u] = BLACK      <span class="cmt">// done processing u</span></pre>
+
+    <div class="sh"><span class="tag">4. Solved Example</span><h3>Full BFS Trace</h3></div>
+    <div class="ex">
+      <div class="lbl">✅ BFS from vertex 'a' — Example Graph</div>
+      <div class="graph-box">Graph (Undirected):
+  a — b — c
+  |       |
+  d — e — f
+
+Adjacency: a:{b,d}, b:{a,c}, c:{b,f}, d:{a,e}, e:{d,f}, f:{c,e}</div>
+      <table class="trace-table">
+        <tr><th>Step</th><th>Dequeue</th><th>Queue After</th><th>Visited</th><th>Distance</th></tr>
+        <tr><td>0</td><td>—</td><td>[a]</td><td>{a}</td><td>d[a]=0</td></tr>
+        <tr><td>1</td><td>a</td><td>[b, d]</td><td>{a,b,d}</td><td>d[b]=1, d[d]=1</td></tr>
+        <tr><td>2</td><td>b</td><td>[d, c]</td><td>{a,b,d,c}</td><td>d[c]=2</td></tr>
+        <tr><td>3</td><td>d</td><td>[c, e]</td><td>{a,b,d,c,e}</td><td>d[e]=2</td></tr>
+        <tr><td>4</td><td>c</td><td>[e, f]</td><td>{a,b,d,c,e,f}</td><td>d[f]=3</td></tr>
+        <tr><td>5</td><td>e</td><td>[f]</td><td>{all}</td><td>f already discovered</td></tr>
+        <tr><td>6</td><td>f</td><td>[]</td><td>{all done}</td><td>—</td></tr>
+      </table>
+      <p><strong>BFS Order:</strong> a → b → d → c → e → f</p>
+      <p><strong>BFS Tree (shortest paths from a):</strong> d[a]=0, d[b]=1, d[d]=1, d[c]=2, d[e]=2, d[f]=3</p>
+    </div>
+
+    <div class="sh"><span class="tag">5. Complexity</span><h3>Time and Space Complexity</h3></div>
+    <div class="cgrid">
+      <div class="cc"><div class="cl">Time (Adjacency List)</div><div class="cv">Θ(V + E)</div></div>
+      <div class="cc"><div class="cl">Time (Adjacency Matrix)</div><div class="cv">Θ(V²)</div></div>
+      <div class="cc"><div class="cl">Space (Queue)</div><div class="cv">O(V)</div></div>
+    </div>
+    <p><strong>Why O(V+E)?</strong> Each vertex is enqueued/dequeued once → O(V). Each adjacency list is scanned once total → O(E). Total = O(V+E).</p>
+
+    <div class="sh"><span class="tag">7. Exam Format</span><h3>How to Write BFS in Exam</h3></div>
+    <div class="efmt">
+      <div class="eh">For 6 Marks (Short Question)</div>
+      <div class="eb">
+        <ol>
+          <li>Definition of BFS (2 lines) + Data structure used (Queue)</li>
+          <li>Write pseudocode (6–8 lines)</li>
+          <li>Trace on given graph showing queue states</li>
+          <li>State complexity O(V+E)</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="rev">
+      <h4>⚡ Quick Revision Box</h4>
+      <ul>
+        <li>✔ BFS uses <strong>Queue (FIFO)</strong> — explores level by level</li>
+        <li>✔ Finds <strong>shortest paths</strong> in <em>unweighted</em> graphs</li>
+        <li>✔ Time: O(V+E) with adjacency list</li>
+        <li>✔ Space: O(V) for queue + color/distance arrays</li>
+        <li>✔ BFS tree property: d[v] = shortest distance from source to v</li>
+        <li>✔ Common mistake: Using Stack instead of Queue (that's DFS!)</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ===================================================
+     TOPIC 2 : DFS
+     =================================================== -->
+<div class="card" id="t2">
+  <div class="card-hdr"><div class="num">2</div><h2>DFS — Depth First Search</h2></div>
+  <div class="card-body">
+
+    <div class="pyq">
+      <div class="lbl">🔥 VERY IMPORTANT — REPEATED EVERY PAPER</div>
+      <p><strong>SEE 2023 Q8(b) + Q8(c)</strong> — DFS algorithm + DFS traversal with topological order [06+09 marks]</p>
+      <p><strong>SEE 2024 Q8(a)</strong> — "Differentiate between DFS and BFS." [05 marks]</p>
+      <p><strong>SEE 2024 Q8(b)</strong> — "What is topological sorting? Arrange graph nodes using DFS." [05 marks]</p>
+      <p><strong>SEE 2025 Q7(b)</strong> — "Perform DFS and BFS on the graph." [06 marks]</p>
+      <p><strong>Makeup 2023 Q7(c)</strong> — "DFS traversal from vertex 'a', DFS forest, stack ordering, time complexity." [07 marks]</p>
+    </div>
+
+    <div class="sh"><span class="tag">1. Concept</span><h3>What is DFS?</h3></div>
+    <p>DFS explores as <strong>deep as possible</strong> along each branch before backtracking. Think of it like exploring a maze: always go forward until you hit a dead end, then backtrack to the last junction and try another path.</p>
+    <p><strong>Real-world uses:</strong> Cycle detection, topological sorting, finding strongly connected components, solving puzzles/mazes, scheduling problems, compiler dependency resolution.</p>
+
+    <div class="sh"><span class="tag">2. Theory</span><h3>Key DFS Concepts</h3></div>
+    <p>DFS maintains two timestamps for each vertex:</p>
+    <ul>
+      <li><strong>d[v] — Discovery time:</strong> when v is first encountered (colored GRAY)</li>
+      <li><strong>f[v] — Finish time:</strong> when all of v's adjacency list is processed (colored BLACK)</li>
+    </ul>
+    <p><strong>Parenthesis Theorem:</strong> For any two vertices u, v, their intervals [d[u], f[u]] and [d[v], f[v]] are either completely disjoint, or one is entirely nested inside the other. They never partially overlap.</p>
+    <p><strong>Edge Classification in DFS:</strong></p>
+    <table>
+      <tr><th>Edge Type</th><th>Definition</th><th>Significance</th></tr>
+      <tr><td><strong>Tree Edge</strong></td><td>Edge (u,v) where v was WHITE when discovered</td><td>Forms the DFS tree</td></tr>
+      <tr><td><strong>Back Edge</strong></td><td>Edge (u,v) where v is an ancestor of u in DFS tree</td><td>Indicates a cycle!</td></tr>
+      <tr><td><strong>Forward Edge</strong></td><td>Edge (u,v) where v is a non-tree descendant</td><td>Only in directed graphs</td></tr>
+      <tr><td><strong>Cross Edge</strong></td><td>All other edges (between different subtrees)</td><td>Only in directed graphs</td></tr>
+    </table>
+    <div class="imp"><strong>Key Theorem:</strong> A directed graph G is acyclic (DAG) if and only if DFS produces NO back edges.</div>
+
+    <div class="sh"><span class="tag">3. Algorithm</span><h3>Pseudocode</h3></div>
+<pre><span class="kw">ALGORITHM</span> DFS(G)
+    <span class="kw">for</span> each vertex u ∈ G.V
+        color[u] = WHITE
+        π[u] = NIL
+    time = 0
+    <span class="kw">for</span> each vertex u ∈ G.V
+        <span class="kw">if</span> color[u] == WHITE
+            DFS-VISIT(G, u)
+
+<span class="kw">ALGORITHM</span> DFS-VISIT(G, u)
+    time = time + 1
+    d[u] = time          <span class="cmt">// u is discovered</span>
+    color[u] = GRAY
+    <span class="kw">for</span> each v ∈ Adj[u]
+        <span class="kw">if</span> color[v] == WHITE
+            π[v] = u
+            DFS-VISIT(G, v)
+    color[u] = BLACK
+    time = time + 1
+    f[u] = time          <span class="cmt">// u is finished</span></pre>
+
+    <div class="sh"><span class="tag">4. Solved Example</span><h3>Full DFS Trace with Timestamps</h3></div>
+    <div class="ex">
+      <div class="lbl">✅ DFS on Directed Graph — Alphabetical Order</div>
+      <div class="graph-box">Graph (Directed):
+  a → b → c → d
+  ↓       ↑
+  e ———→ f
+Adjacency: a:{b,e}, b:{c}, c:{d}, d:{}, e:{c,f}, f:{}</div>
+      <p><strong>Trace (alphabetical order on ties):</strong></p>
+      <table class="trace-table">
+        <tr><th>Action</th><th>Vertex</th><th>d[v]</th><th>f[v]</th><th>Color</th></tr>
+        <tr><td>Visit</td><td>a</td><td>1</td><td>—</td><td>GRAY</td></tr>
+        <tr><td>Visit</td><td>b</td><td>2</td><td>—</td><td>GRAY</td></tr>
+        <tr><td>Visit</td><td>c</td><td>3</td><td>—</td><td>GRAY</td></tr>
+        <tr><td>Visit</td><td>d</td><td>4</td><td>5</td><td>BLACK</td></tr>
+        <tr><td>Finish</td><td>c</td><td>3</td><td>6</td><td>BLACK</td></tr>
+        <tr><td>Finish</td><td>b</td><td>2</td><td>7</td><td>BLACK</td></tr>
+        <tr><td>Visit</td><td>e</td><td>8</td><td>—</td><td>GRAY</td></tr>
+        <tr><td>c=BLACK, skip; Visit</td><td>f</td><td>9</td><td>10</td><td>BLACK</td></tr>
+        <tr><td>Finish</td><td>e</td><td>8</td><td>11</td><td>BLACK</td></tr>
+        <tr><td>Finish</td><td>a</td><td>1</td><td>12</td><td>BLACK</td></tr>
+      </table>
+      <p><strong>DFS Order:</strong> a, b, c, d, e, f</p>
+      <p><strong>Back edges:</strong> None → Graph is a DAG</p>
+    </div>
+
+    <div class="sh"><span class="tag">5. Complexity</span><h3>Complexity Analysis</h3></div>
+    <div class="cgrid">
+      <div class="cc"><div class="cl">Time</div><div class="cv">Θ(V + E)</div></div>
+      <div class="cc"><div class="cl">Space (Stack)</div><div class="cv">O(V)</div></div>
+      <div class="cc"><div class="cl">Timestamps</div><div class="cv">2|V| total</div></div>
+    </div>
+
+    <div class="sh"><span class="tag">6. PYQ</span><h3>BFS vs DFS Comparison (SEE 2024 Q8a)</h3></div>
+    <div class="pyq">
+      <div class="lbl">🔥 SEE 2024 Q8(a) — 5 Marks</div>
+      <table>
+        <tr><th>Property</th><th>BFS</th><th>DFS</th></tr>
+        <tr><td>Data Structure</td><td>Queue (FIFO)</td><td>Stack (LIFO) or Recursion</td></tr>
+        <tr><td>Traversal Order</td><td>Level by level (breadth)</td><td>Deep first, then backtrack</td></tr>
+        <tr><td>Shortest Path</td><td>Yes — in unweighted graphs</td><td>No</td></tr>
+        <tr><td>Cycle Detection</td><td>Yes (in both)</td><td>Yes — via back edges</td></tr>
+        <tr><td>Topological Sort</td><td>Using Kahn's (in-degree)</td><td>Using finish times</td></tr>
+        <tr><td>Memory</td><td>More (stores all frontier)</td><td>Less (stores current path)</td></tr>
+        <tr><td>Time Complexity</td><td>O(V + E)</td><td>O(V + E)</td></tr>
+        <tr><td>Applications</td><td>Shortest path, Broadcasting</td><td>SCC, Topological Sort, Cycle detection</td></tr>
+      </table>
+    </div>
+
+    <div class="rev">
+      <h4>⚡ Quick Revision Box</h4>
+      <ul>
+        <li>✔ DFS uses <strong>Stack (LIFO)</strong> or recursion — goes deep first</li>
+        <li>✔ Timestamps: d[v] = discovery, f[v] = finish time</li>
+        <li>✔ Back edge → cycle exists in directed graph</li>
+        <li>✔ Time: O(V+E), same as BFS</li>
+        <li>✔ DFS is used for: Topological sort, SCC, cycle detection, maze solving</li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- ===================================================
+     TOPIC 3 : TOPOLOGICAL SORT
+     =================================================== -->
+<div class="card" id="t3">
+  <div class="card-hdr"><div class="num">3</div><h2>Topological Sorting</h2></div>
+  <div class="card-body">
+
+    <div class="pyq">
+      <div class="lbl">🔥 REPEATED IN EVERY PAPER</div>
+      <p><strong>SEE 2023 Q8(a)</strong> — "What is topological sorting? Explain any one method with example." [06 marks]</p>
+      <p><strong>SEE 2023 Q8(c)</strong> — "Apply source elimination graph to represent vertices in topological order." [09 marks]</p>
+      <p><strong>SEE 2024 Q7(b)</strong> — "BFS traversal + topological sorting using source removal method." [12 marks combined]</p>
+      <p><strong>SEE 2024 Q8(b)</strong> — "Topological sorting using DFS." [05 marks]</p>
+      <p><strong>SEE 2025 Q8(c)</strong> — "Define Topological sorting. Perform topological sorting on given graph." [06 marks]</p>
+    </div>
+
+    <div class="sh"><span class="tag">1. Concept</span><h3>What is Topological Sort?</h3></div>
+    <div class="def">
+      <strong>Topological Sort:</strong> A linear ordering of vertices of a Directed Acyclic Graph (DAG) such that for every directed edge (u, v), vertex u appears before vertex v in the ordering.
+    </div>
+    <p><strong>Real-world intuition:</strong> Course prerequisites — if CS101 must be taken before CS201, a topological order lists CS101 before CS201. Task scheduling, build systems (Makefile), package dependencies (npm/pip) all use topological sort.</p>
+    <p><strong>Key restriction:</strong> Topological sort is only defined for <em>DAGs</em> (no cycles). If a cycle exists, no valid ordering is possible.</p>
+
+    <div class="sh"><span class="tag">2. Theory</span><h3>Method 1: DFS-Based Topological Sort</h3></div>
+    <p>Run DFS. When a vertex is finished (f[v] assigned), add it to the <em>front</em> of a linked list. The list gives topological order.</p>
+    <p><strong>Theorem:</strong> For every directed edge (u,v) in a DAG, f[u] &gt; f[v]. So decreasing finish times give topological order.</p>
+<pre><span class="kw">ALGORITHM</span> TopologicalSort-DFS(G)
+    Run DFS on G, computing finish times f[v]
+    When each vertex is finished, push it onto a Stack
+    Output vertices by popping the Stack
+    <span class="cmt">// Result: vertices in decreasing order of finish time = topological order</span></pre>
+
+    <div class="sh"><span class="tag">2. Theory</span><h3>Method 2: Kahn's Algorithm (Source Removal / In-degree)</h3></div>
+    <p>Repeatedly remove vertices with in-degree 0 (sources). Each removed vertex goes into the topological order.</p>
+<pre><span class="kw">ALGORITHM</span> KahnTopologicalSort(G)
+    Compute in-degree for all vertices
+    Enqueue all vertices with in-degree = 0 into queue Q
+    <span class="kw">while</span> Q is not empty
+        u = DEQUEUE(Q)
+        Add u to result
+        <span class="kw">for</span> each v ∈ Adj[u]
+            in-degree[v] = in-degree[v] - 1
+            <span class="kw">if</span> in-degree[v] == 0
+                ENQUEUE(Q, v)
+    <span class="kw">if</span> result contains all vertices: valid topological order
+    <span class="kw">else</span>: graph has a cycle (no valid ordering exists)</pre>
+
+    <div class="sh"><span class="tag">4. Solved Example</span><h3>Full Topological Sort Trace (Source Removal)</h3></div>
+    <div class="pyq">
+      <div class="lbl">🔥 SEE 2023 Q8(c) — Graph Topological Sort</div>
+      <div class="graph-box">Graph (Directed):
+  a → b,  a → c
+  b → d,  c → d,  d → e
+  b → e (skip if not)
+
+Adjacency: a→{b,c}, b→{d}, c→{d}, d→{e}, e→{}
+
+In-degrees: a=0, b=1, c=1, d=2, e=1</div>
+      <table class="trace-table">
+        <tr><th>Step</th><th>Queue</th><th>Remove (In-deg 0)</th><th>Update In-degrees</th><th>Order So Far</th></tr>
+        <tr><td>1</td><td>[a]</td><td>a</td><td>b:1→0, c:1→0</td><td>a</td></tr>
+        <tr><td>2</td><td>[b, c]</td><td>b</td><td>d:2→1</td><td>a, b</td></tr>
+        <tr><td>3</td><td>[c]</td><td>c</td><td>d:1→0</td><td>a, b, c</td></tr>
+        <tr><td>4</td><td>[d]</td><td>d</td><td>e:1→0</td><td>a, b, c, d</td></tr>
+        <tr><td>5</td><td>[e]</td><td>e</td><td>—</td><td>a, b, c, d, e</td></tr>
+      </table>
+      <p><strong>Topological Order:</strong> a → b → c → d → e</p>
+      <p>(Note: a → c → b → d → e is also a valid topological order — multiple valid orderings exist)</p>
+    </div>
+
+    <div class="sh"><span class="tag">5. Complexity</span><h3>Complexity</h3></div>
+    <div class="cgrid">
+      <div class="cc"><div class="cl">DFS-based</div><div class="cv">Θ(V + E)</div></div>
+      <div class="cc"><div class="cl">Kahn's (Queue)</div><div class="cv">Θ(V + E)</div></div>
+      <div class="cc"><div class="cl">Space</div><div class="cv">O(V)</div></div>
+    </div>
+
+    <div class="rev">
+      <h4>⚡ Quick Revision Box</h4>
+      <ul>
+        <li>✔ Topological sort: valid only for <strong>DAGs</strong> (directed acyclic graphs)</li>
+        <li>✔ DFS method: vertices ordered by <em>decreasing finish time</em></li>
+        <li>✔ Kahn's: repeatedly remove in-degree-0 vertices using a Queue</li>
+        <li>✔ Multiple valid topological orders may exist for a single DAG</li>
+        <li>✔ If Kahn's doesn't output all V vertices → cycle detected!</li>
+        <li>✔ Time: O(V+E) for both methods</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ===================================================
+     TOPIC 4 : SCC
+     =================================================== -->
+<div class="card" id="t4">
+  <div class="card-hdr"><div class="num">4</div><h2>Strongly Connected Components (Kosaraju's Algorithm)</h2></div>
+  <div class="card-body">
+
+    <div class="sh"><span class="tag">1. Concept</span><h3>What is a Strongly Connected Component?</h3></div>
+    <div class="def">
+      <strong>Strongly Connected Component (SCC):</strong> A maximal set of vertices C ⊆ V such that for every pair of vertices u, v ∈ C, there exist paths u ⇝ v and v ⇝ u (mutually reachable).
+    </div>
+    <p><strong>Real-world:</strong> Web pages linking to each other (mutual linking communities), road networks (areas where you can drive anywhere from anywhere), social networks (mutual follower clusters).</p>
+
+    <div class="sh"><span class="tag">2. Theory</span><h3>Kosaraju's Algorithm — 3 Steps</h3></div>
+<pre><span class="kw">ALGORITHM</span> Kosaraju_SCC(G)
+<span class="cmt">// Step 1: DFS on original graph G, record finish order</span>
+Run DFS on G; push each vertex onto Stack when it finishes
+
+<span class="cmt">// Step 2: Compute transpose G^T (reverse all edges)</span>
+G^T = TRANSPOSE(G)
+
+<span class="cmt">// Step 3: DFS on G^T in decreasing finish time order</span>
+<span class="kw">while</span> Stack is not empty
+    u = Stack.pop()
+    <span class="kw">if</span> color[u] == WHITE (in G^T DFS)
+        DFS-VISIT(G^T, u)
+        <span class="cmt">// All vertices visited in this DFS call form one SCC</span></pre>
+
+    <div class="sh"><span class="tag">4. Solved Example</span><h3>Finding SCCs</h3></div>
+    <div class="ex">
+      <div class="lbl">✅ Kosaraju's Algorithm Trace</div>
+      <div class="graph-box">Directed Graph:
+  a → b → c
+  ↑       ↓
+  d ←——— e ← f
+
+Edges: a→b, b→c, c→e, e→d, d→a, b→d, e→f
+(Note: a,b,c,d,e form a cycle; f is isolated)</div>
+      <p><strong>Step 1 — DFS on G, finish order (stack top = last finished):</strong></p>
+      <p>Start from a: a→b→c→e→d (finishes d), back to e→f (finishes f), back to e (finish), c (finish), b (finish), a (finish)</p>
+      <p>Stack (bottom→top): d, f, e, c, b, a &nbsp; (or similar — a finishes last)</p>
+      <p><strong>Step 2 — Transpose G^T:</strong> Reverse all edges.</p>
+      <p><strong>Step 3 — DFS on G^T in order a, b, c, e, f, d:</strong></p>
+      <p>Start DFS from a in G^T → reaches {a, b, c, d, e} → <strong>SCC 1: {a,b,c,d,e}</strong></p>
+      <p>Next unvisited from stack: f → DFS from f → only f → <strong>SCC 2: {f}</strong></p>
+      <p><strong>SCCs: {a,b,c,d,e} and {f}</strong></p>
+    </div>
+
+    <div class="sh"><span class="tag">5. Complexity</span><h3>Complexity</h3></div>
+    <div class="cgrid">
+      <div class="cc"><div class="cl">Step 1 DFS</div><div class="cv">O(V+E)</div></div>
+      <div class="cc"><div class="cl">Transpose</div><div class="cv">O(V+E)</div></div>
+      <div class="cc"><div class="cl">Total</div><div class="cv">Θ(V+E)</div></div>
+    </div>
+
+    <div class="rev">
+      <h4>⚡ Quick Revision Box</h4>
+      <ul>
+        <li>✔ SCC: maximal set of mutually reachable vertices</li>
+        <li>✔ Kosaraju: 3 steps — DFS(G), Transpose(G), DFS(G^T) in finish order</li>
+        <li>✔ Total time: O(V+E)</li>
+        <li>✔ Each DFS call on G^T discovers exactly one SCC</li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- ===================================================
+     TOPIC 5 : BELLMAN-FORD
+     =================================================== -->
+<div class="card" id="t5">
+  <div class="card-hdr"><div class="num">5</div><h2>Bellman-Ford Algorithm — Single Source Shortest Path</h2></div>
+  <div class="card-body">
+
+    <div class="sh"><span class="tag">1. Concept</span><h3>Why Bellman-Ford?</h3></div>
+    <p>Dijkstra's algorithm fails when a graph has <strong>negative-weight edges</strong>. Bellman-Ford handles negative weights and can even <strong>detect negative-weight cycles</strong> (cycles where the total weight is negative — these make the shortest path undefined because you can loop forever reducing the distance).</p>
+    <p><strong>Real-world uses:</strong> Currency exchange arbitrage detection (negative cycles = profit loop), network routing protocols (RIP — Routing Information Protocol), detecting pricing inconsistencies.</p>
+
+    <div class="sh"><span class="tag">2. Theory</span><h3>Key Idea — Relaxation</h3></div>
+    <div class="def">
+      <strong>Relaxation of edge (u,v,w):</strong> If d[v] &gt; d[u] + w(u,v), update d[v] = d[u] + w(u,v) and π[v] = u.
+    </div>
+    <p>Bellman-Ford performs |V|-1 rounds of relaxing ALL edges. After round k, it guarantees shortest paths using at most k edges are correct. Since shortest paths in a graph with no negative cycles have at most |V|-1 edges, |V|-1 rounds suffice.</p>
+    <p><strong>Negative cycle detection:</strong> After |V|-1 rounds, if any edge can still be relaxed → a negative cycle exists.</p>
+
+    <div class="sh"><span class="tag">3. Algorithm</span><h3>Pseudocode</h3></div>
+<pre><span class="kw">ALGORITHM</span> BellmanFord(G, w, s)
+<span class="cmt">// G=graph, w=weight function, s=source</span>
+<span class="kw">for</span> each vertex v ∈ G.V
+    d[v] = ∞
+    π[v] = NIL
+d[s] = 0
+
+<span class="cmt">// |V|-1 rounds of relaxation</span>
+<span class="kw">for</span> i = 1 <span class="kw">to</span> |V| - 1
+    <span class="kw">for</span> each edge (u, v) ∈ G.E
+        <span class="kw">if</span> d[v] > d[u] + w(u,v)       <span class="cmt">// Relax</span>
+            d[v] = d[u] + w(u,v)
+            π[v] = u
+
+<span class="cmt">// Check for negative-weight cycles</span>
+<span class="kw">for</span> each edge (u, v) ∈ G.E
+    <span class="kw">if</span> d[v] > d[u] + w(u,v)
+        <span class="kw">return</span> FALSE   <span class="cmt">// Negative cycle detected!</span>
+<span class="kw">return</span> TRUE</pre>
+
+    <div class="sh"><span class="tag">4. Solved Example</span><h3>Full Bellman-Ford Trace</h3></div>
+    <div class="ex">
+      <div class="lbl">✅ Bellman-Ford from Source s</div>
+      <div class="graph-box">Directed Graph with Negative Edges:
+  s → a: weight 6
+  s → b: weight 7
+  a → c: weight 5
+  a → b: weight 8  (but negative alternative exists)
+  b → c: weight -3
+  b → d: weight 9
+  c → d: weight 7
+  d → a: weight -4  ← negative edge
+  a → d: weight -4
+
+Vertices: s, a, b, c, d    (|V|=5, so 4 rounds needed)</div>
+
+      <p><strong>Initial:</strong> d[s]=0, d[a]=∞, d[b]=∞, d[c]=∞, d[d]=∞</p>
+      <table class="trace-table">
+        <tr><th>Round</th><th>d[s]</th><th>d[a]</th><th>d[b]</th><th>d[c]</th><th>d[d]</th></tr>
+        <tr><td>Initial</td><td>0</td><td>∞</td><td>∞</td><td>∞</td><td>∞</td></tr>
+        <tr><td>Round 1</td><td>0</td><td>6</td><td>7</td><td>∞</td><td>∞</td></tr>
+        <tr><td>Round 2</td><td>0</td><td>6</td><td>7</td><td>4</td><td>2</td></tr>
+        <tr><td>Round 3</td><td>0</td><td>2</td><td>7</td><td>4</td><td>2</td></tr>
+        <tr><td>Round 4</td><td>0</td><td>2</td><td>7</td><td>4</td><td>-2</td></tr>
+      </table>
+      <p><em>(Exact values depend on edge ordering; key idea shown)</em></p>
+      <p><strong>Shortest distances from s:</strong> d[a]=2, d[b]=7, d[c]=4, d[d]=-2</p>
+      <p><strong>After 4 rounds, check:</strong> If any d[v] can be reduced → negative cycle. Here: no.</p>
+    </div>
+
+    <div class="sh"><span class="tag">5. Complexity</span><h3>Complexity</h3></div>
+    <div class="cgrid">
+      <div class="cc"><div class="cl">Time</div><div class="cv">Θ(V · E)</div></div>
+      <div class="cc"><div class="cl">Space</div><div class="cv">O(V)</div></div>
+      <div class="cc"><div class="cl">Rounds</div><div class="cv">|V| − 1</div></div>
+    </div>
+    <p><strong>Why O(V·E)?</strong> |V|-1 rounds, each scanning all E edges → O(V·E). Slower than Dijkstra's O((V+E)log V) but handles negative weights.</p>
+
+    <div class="sh"><span class="tag">Comparison</span><h3>Bellman-Ford vs Dijkstra</h3></div>
+    <table>
+      <tr><th>Property</th><th>Bellman-Ford</th><th>Dijkstra</th></tr>
+      <tr><td>Negative edges</td><td>✅ Handles</td><td>❌ Fails</td></tr>
+      <tr><td>Negative cycles</td><td>✅ Detects</td><td>❌ Cannot detect</td></tr>
+      <tr><td>Time complexity</td><td>O(V·E)</td><td>O((V+E)log V)</td></tr>
+      <tr><td>Strategy</td><td>Dynamic Programming (relax all edges repeatedly)</td><td>Greedy (always pick min-distance unvisited)</td></tr>
+    </table>
+
+    <div class="rev">
+      <h4>⚡ Quick Revision Box</h4>
+      <ul>
+        <li>✔ Bellman-Ford handles <strong>negative edge weights</strong> (Dijkstra cannot)</li>
+        <li>✔ Performs exactly <strong>|V|-1</strong> rounds of relaxing ALL edges</li>
+        <li>✔ After |V|-1 rounds: one more relaxation possible → <strong>negative cycle detected</strong></li>
+        <li>✔ Time: <strong>O(V·E)</strong></li>
+        <li>✔ Correctness: after round k, d[v] = shortest path using ≤ k edges</li>
+        <li>✔ Basis for: RIP routing protocol, Johnson's Algorithm reweighting</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ===================================================
+     TOPIC 6 : DIJKSTRA'S ALGORITHM
+     =================================================== -->
+<div class="card" id="t6">
+  <div class="card-hdr"><div class="num">6</div><h2>Dijkstra's Algorithm — Single Source Shortest Path</h2></div>
+  <div class="card-body">
+
+    <div class="pyq">
+      <div class="lbl">🔥 EXTREMELY REPEATED — IN EVERY PAPER UNDER UNIT 3</div>
+      <p><strong>SEE 2023(O) Q5(b)</strong> — "State and explain Dijkstra's. Apply for given graph, source = a." [07 marks]</p>
+      <p><strong>SEE 2023 Q6(b)</strong> — "Apply Dijkstra's, source B, for given graph." [10 marks]</p>
+      <p><strong>SEE 2024 Q5(b)</strong> — "State and explain Dijkstra's. Apply for given graph, source = a." [08 marks]</p>
+      <p><strong>SEE 2025 Q6(a)</strong> — "Write Dijkstra's algorithm. Apply for given graph, source = a." [10 marks]</p>
+    </div>
+
+    <div class="sh"><span class="tag">1. Concept</span><h3>Dijkstra's — Greedy Shortest Path</h3></div>
+    <p>Dijkstra's finds the shortest path from a single source to all other vertices in a weighted graph with <strong>non-negative edge weights</strong>. It uses a greedy approach: always extend the shortest known path first.</p>
+    <p><strong>Intuition:</strong> Like water spreading from a source — water always finds the shortest path to any point because it flows outward uniformly.</p>
+
+    <div class="sh"><span class="tag">3. Algorithm</span><h3>Pseudocode</h3></div>
+<pre><span class="kw">ALGORITHM</span> Dijkstra(G, w, s)
+    <span class="kw">for</span> each vertex v ∈ G.V
+        d[v] = ∞
+        π[v] = NIL
+    d[s] = 0
+    S = ∅                    <span class="cmt">// Set of finalized vertices</span>
+    Q = G.V                  <span class="cmt">// Min-priority queue by d value</span>
+    <span class="kw">while</span> Q ≠ ∅
+        u = EXTRACT-MIN(Q)   <span class="cmt">// Vertex with smallest d[u]</span>
+        S = S ∪ {u}
+        <span class="kw">for</span> each v ∈ Adj[u]
+            <span class="kw">if</span> d[v] > d[u] + w(u,v)   <span class="cmt">// Relax edge</span>
+                d[v] = d[u] + w(u,v)
+                π[v] = u
+                DECREASE-KEY(Q, v, d[v])</pre>
+
+    <div class="sh"><span class="tag">4. Solved Example</span><h3>🔥 PYQ Trace — SEE 2024 Q5(b)</h3></div>
+    <div class="pyq">
+      <div class="lbl">🔥 SEE 2024/SEE 2023(O) Q5(b) — 8 Marks | Source = a</div>
+      <div class="graph-box">Graph (Undirected Weighted):
+       b ——4—— c
+      /|        |\
+     3 |        | 6
+    /  2        5  \
+   a    \      /    e
+    \    d    /    /
+     7——————7 ———4</div>
+
+<p>Edges: a-b:3, a-d:7, b-c:4, b-d:2, c-e:6, d-e:4, d-c:5 &nbsp;(Source: a)</p>
+
+      <table class="trace-table">
+        <tr><th>Iteration</th><th>d[a]</th><th>d[b]</th><th>d[c]</th><th>d[d]</th><th>d[e]</th><th>Extract Min</th><th>Relaxed Edges</th></tr>
+        <tr><td>Start</td><td class="hl">0</td><td>∞</td><td>∞</td><td>∞</td><td>∞</td><td>a (d=0)</td><td>b→3, d→7</td></tr>
+        <tr><td>1</td><td>0✓</td><td class="hl">3</td><td>∞</td><td>7</td><td>∞</td><td>b (d=3)</td><td>c→7, d→min(7,5)=5</td></tr>
+        <tr><td>2</td><td>0✓</td><td>3✓</td><td>7</td><td class="hl">5</td><td>∞</td><td>d (d=5)</td><td>c→min(7,10)=7, e→9</td></tr>
+        <tr><td>3</td><td>0✓</td><td>3✓</td><td class="hl">7</td><td>5✓</td><td>9</td><td>c (d=7)</td><td>e→min(9,13)=9</td></tr>
+        <tr><td>4</td><td>0✓</td><td>3✓</td><td>7✓</td><td>5✓</td><td class="hl">9</td><td>e (d=9)</td><td>done</td></tr>
+      </table>
+      <p><strong>Shortest Distances from a:</strong> a=0, b=3, c=7, d=5, e=9</p>
+      <p><strong>Shortest Path to e:</strong> a → b → d → e (cost 3+2+4=9)</p>
+    </div>
+
+    <div class="sh"><span class="tag">5. Complexity</span><h3>Complexity Analysis</h3></div>
+    <table>
+      <tr><th>Data Structure for Q</th><th>EXTRACT-MIN</th><th>DECREASE-KEY</th><th>Total Time</th></tr>
+      <tr><td>Array (simple)</td><td>O(V)</td><td>O(1)</td><td><strong>O(V²)</strong></td></tr>
+      <tr><td>Binary Heap (priority queue)</td><td>O(log V)</td><td>O(log V)</td><td><strong>O((V+E) log V)</strong></td></tr>
+      <tr><td>Fibonacci Heap</td><td>O(log V)</td><td>O(1) amortized</td><td><strong>O(V log V + E)</strong></td></tr>
+    </table>
+    <p>For most exam purposes, state: <strong>O(V²)</strong> for simple implementation, <strong>O((V+E) log V)</strong> with binary heap.</p>
+
+    <div class="sh"><span class="tag">7. Exam Writing Format</span></div>
+    <div class="efmt">
+      <div class="eh">For 8-10 Marks (Full Dijkstra Answer)</div>
+      <div class="eb">
+        <ol>
+          <li><strong>Statement:</strong> Dijkstra finds single-source shortest paths in non-negative weighted graphs</li>
+          <li><strong>Data structure:</strong> Min-priority queue; key = d[v] (current shortest distance)</li>
+          <li><strong>Pseudocode</strong> (7–10 lines as above)</li>
+          <li><strong>Iteration table</strong> (as shown — this is where you score marks)</li>
+          <li><strong>Final answer:</strong> List all shortest distances and paths</li>
+          <li><strong>Complexity:</strong> O(V²) or O((V+E)log V)</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="rev">
+      <h4>⚡ Quick Revision Box — Dijkstra</h4>
+      <ul>
+        <li>✔ Greedy: always extract vertex with minimum current distance</li>
+        <li>✔ Only works with <strong>non-negative</strong> edge weights</li>
+        <li>✔ Time: O(V²) simple / O((V+E)log V) with heap</li>
+        <li>✔ After extraction, d[u] is finalized — never changes again</li>
+        <li>✔ Relaxation: d[v] = min(d[v], d[u] + w(u,v))</li>
+        <li>✔ Common exam mistake: Not updating d[v] when a shorter path is found (missing relaxation)</li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- ===================================================
+     TOPIC 7 : FLOYD-WARSHALL
+     =================================================== -->
+<div class="card" id="t7">
+  <div class="card-hdr"><div class="num">7</div><h2>Floyd-Warshall — All-Pairs Shortest Paths</h2></div>
+  <div class="card-body">
+
+    <div class="pyq">
+      <div class="lbl">🔥 REPEATED IN EVERY PAPER</div>
+      <p><strong>SEE 2023 Q6(a)</strong> — "Define transitive closure. Apply Floyd's algorithm for given graph." [10 marks]</p>
+      <p><strong>SEE 2024 Q6(a)</strong> — "Explain Floyd-Warshall for all-pair shortest paths. Apply for given graph." [08 marks]</p>
+      <p><strong>SEE 2025 Q6(b)</strong> — "Describe dynamic programming. Write Warshall's algorithm. Apply for given adjacency matrix." [10 marks]</p>
+      <p><strong>Makeup 2023 Q5(a)</strong> — "Trace Warshall's algorithm on given graph. Why is it dynamic programming?" [08 marks]</p>
+      <p><strong>SEE 2023(O) Q6(a)</strong> — "Floyd's algorithm for all-pair shortest paths." [10 marks]</p>
+    </div>
+
+    <div class="sh"><span class="tag">1. Concept</span><h3>What is Floyd-Warshall?</h3></div>
+    <p>Floyd-Warshall computes <strong>shortest paths between ALL pairs of vertices</strong> simultaneously. While Dijkstra solves single-source, Floyd-Warshall solves all-pairs in one pass using dynamic programming.</p>
+    <p><strong>Key insight:</strong> The shortest path from i to j either goes through intermediate vertex k or it doesn't. Build up the solution by considering all possible intermediate vertices k = 1, 2, …, n.</p>
+
+    <div class="sh"><span class="tag">2. Theory</span><h3>Recurrence Relation</h3></div>
+    <div class="def">
+      <strong>D⁽ᵏ⁾[i][j]</strong> = shortest path from i to j using only vertices {1, 2, …, k} as intermediate vertices.
+    </div>
+    <div class="formula">D⁽⁰⁾[i][j] = w[i][j] &nbsp; (direct edge weight, ∞ if no edge, 0 if i=j)</div>
+    <div class="formula">D⁽ᵏ⁾[i][j] = min( D⁽ᵏ⁻¹⁾[i][j], &nbsp; D⁽ᵏ⁻¹⁾[i][k] + D⁽ᵏ⁻¹⁾[k][j] )</div>
+    <p>"Either don't use k as intermediate, or go through k."</p>
+
+    <div class="sh"><span class="tag">3. Algorithm</span><h3>Pseudocode</h3></div>
+<pre><span class="kw">ALGORITHM</span> FloydWarshall(W, n)
+<span class="cmt">// W is n×n weight matrix; W[i][j] = edge weight (∞ if none, 0 if i=j)</span>
+D = W                   <span class="cmt">// D⁽⁰⁾ = W</span>
+<span class="kw">for</span> k = 1 <span class="kw">to</span> n         <span class="cmt">// Consider each vertex as intermediate</span>
+    <span class="kw">for</span> i = 1 <span class="kw">to</span> n
+        <span class="kw">for</span> j = 1 <span class="kw">to</span> n
+            D[i][j] = min(D[i][j], D[i][k] + D[k][j])
+<span class="kw">return</span> D                <span class="cmt">// D[i][j] = shortest path i to j</span></pre>
+
+    <div class="sh"><span class="tag">4. Solved Example</span><h3>🔥 PYQ Full Trace — Warshall/Floyd</h3></div>
+    <div class="pyq">
+      <div class="lbl">🔥 SEE 2025 Q6(b) — 10 Marks | Warshall's Algorithm on Adjacency Matrix</div>
+      <p><strong>Given adjacency matrix (4×4):</strong></p>
+      <pre style="background:#f8f9fa;color:#1a1a2e;border:1px solid #c5cae9">
+      1  2  3  4
+  1 [ 0  1  0  0 ]
+  2 [ 0  0  1  0 ]
+  3 [ 0  0  0  1 ]
+  4 [ 0  1  0  0 ]</pre>
+      <p>(This is Warshall's for <em>transitive closure</em> — uses OR instead of min)</p>
+      <p><strong>Warshall's Algorithm (Transitive Closure):</strong></p>
+<pre><span class="kw">for</span> k = 1 <span class="kw">to</span> n
+    <span class="kw">for</span> i = 1 <span class="kw">to</span> n
+        <span class="kw">for</span> j = 1 <span class="kw">to</span> n
+            R[i][j] = R[i][j] OR (R[i][k] AND R[k][j])</pre>
+      <p><strong>Initial R⁽⁰⁾ = given matrix</strong></p>
+      <p><strong>k=1 (vertex 1 as intermediate):</strong></p>
+      <p>R[i][j] = R[i][j] OR (R[i][1] AND R[1][j])<br>
+      Check if going through vertex 1 creates new paths.<br>
+      R[1][1]=0, so col-1 of R[i][1] must be 1 to create new paths.<br>
+      No vertex has R[i][1]=1 except i=4: R[4][1]=0. → No changes.</p>
+      <p><strong>k=2 (vertex 2 as intermediate):</strong></p>
+      <p>R[i][2]=1 for i∈{1,4}: meaning vertices 1 and 4 can reach vertex 2.<br>
+      Via 2, they can reach j where R[2][j]=1: j=3.<br>
+      So R[1][3] = 0 OR (1 AND 1) = 1 (new!) — vertex 1 can reach 3 via 2<br>
+      R[4][3] = 0 OR (1 AND 1) = 1 (new!) — vertex 4 can reach 3 via 2</p>
+      <p><strong>k=3 (vertex 3 as intermediate):</strong></p>
+      <p>Via 3, reach j where R[3][j]=1: j=4.<br>
+      R[i][3]=1 for i∈{1,2,4}: → R[1][4]=1, R[2][4]=1, R[4][4]=1 (new paths)</p>
+      <p><strong>k=4 (vertex 4 as intermediate):</strong></p>
+      <p>Via 4, reach j where R[4][j]=1: j=2,3,4.<br>
+      R[i][4]=1 for i∈{1,2,3,4}: → R[1][2] already 1; R[2][2]=1, R[3][2]=1 (new!), R[3][3]=1, R[4][2] already 1...</p>
+      <p><strong>Final Transitive Closure R:</strong></p>
+      <pre style="background:#f8f9fa;color:#1a1a2e;border:1px solid #c5cae9">
+      1  2  3  4
+  1 [ 0  1  1  1 ]  (1 can reach 2,3,4)
+  2 [ 0  1  1  1 ]  (2 can reach itself via cycle, 3, 4)
+  3 [ 0  1  1  1 ]  (3 can reach 2,3,4 via cycle)
+  4 [ 0  1  1  1 ]  (4 can reach 2,3,4)</pre>
+      <p><strong>Why is this Dynamic Programming?</strong></p>
+      <ul>
+        <li>Overlapping subproblems: D⁽ᵏ⁾[i][j] is built from D⁽ᵏ⁻¹⁾ subproblems</li>
+        <li>Optimal substructure: shortest path through k uses shortest paths to/from k</li>
+        <li>Results stored in a table → no recomputation</li>
+      </ul>
+    </div>
+
+    <div class="sh"><span class="tag">5. Complexity</span><h3>Complexity</h3></div>
+    <div class="cgrid">
+      <div class="cc"><div class="cl">Time</div><div class="cv">Θ(n³)</div></div>
+      <div class="cc"><div class="cl">Space</div><div class="cv">Θ(n²)</div></div>
+      <div class="cc"><div class="cl">Negative Edges</div><div class="cv">✅ Yes</div></div>
+    </div>
+
+    <div class="rev">
+      <h4>⚡ Quick Revision Box — Floyd-Warshall</h4>
+      <ul>
+        <li>✔ Solves <strong>All-Pairs Shortest Path</strong> using Dynamic Programming</li>
+        <li>✔ Recurrence: D[i][j] = min(D[i][j], D[i][k] + D[k][j])</li>
+        <li>✔ 3 nested loops over k, i, j → Time: <strong>Θ(n³)</strong></li>
+        <li>✔ Handles negative edges ✅ but NOT negative cycles</li>
+        <li>✔ Warshall's (transitive closure): same structure but uses OR/AND instead of min/+</li>
+        <li>✔ Better than running Dijkstra n times for dense graphs</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ===================================================
+     TOPIC 8 : JOHNSON'S ALGORITHM
+     =================================================== -->
+<div class="card" id="t8">
+  <div class="card-hdr"><div class="num">8</div><h2>Johnson's Algorithm</h2></div>
+  <div class="card-body">
+
+    <div class="sh"><span class="tag">1. Concept</span><h3>Why Johnson's Algorithm?</h3></div>
+    <p>Floyd-Warshall runs in Θ(V³) — fine for dense graphs. But for <strong>sparse graphs</strong> (few edges), we can do better. Johnson's combines Bellman-Ford and Dijkstra:</p>
+    <ul>
+      <li>Uses Bellman-Ford to <strong>reweight</strong> all edges to be non-negative (eliminating negative weights)</li>
+      <li>Then runs Dijkstra <strong>from every vertex</strong> on the reweighted graph</li>
+    </ul>
+    <p><strong>Result:</strong> All-pairs shortest paths in O(V² log V + VE) — much faster than Floyd-Warshall for sparse graphs.</p>
+
+    <div class="sh"><span class="tag">2. Theory</span><h3>Reweighting: The Key Idea</h3></div>
+    <p>The trick is to add a new vertex s connected to every vertex with weight 0, then run Bellman-Ford from s to compute h[v] for each vertex. The reweighted edge weight is:</p>
+    <div class="formula">ŵ(u,v) = w(u,v) + h[u] − h[v]</div>
+    <p>This guarantees ŵ(u,v) ≥ 0 for all edges, without changing shortest paths.</p>
+    <p><strong>Why ŵ ≥ 0?</strong> By triangle inequality on shortest paths: h[v] ≤ h[u] + w(u,v) → w(u,v) + h[u] - h[v] ≥ 0.</p>
+
+    <div class="sh"><span class="tag">3. Algorithm</span><h3>Pseudocode</h3></div>
+<pre><span class="kw">ALGORITHM</span> Johnson(G, w)
+    <span class="cmt">// Step 1: Add new source s with zero-weight edges to all vertices</span>
+    G' = G with new vertex s; add edge (s,v,0) for all v ∈ V
+
+    <span class="cmt">// Step 2: Run Bellman-Ford from s</span>
+    <span class="kw">if</span> BellmanFord(G', w, s) == FALSE
+        <span class="kw">return</span> "Negative cycle detected"
+    h[v] = δ(s,v)  <span class="cmt">// shortest distance from s to v</span>
+
+    <span class="cmt">// Step 3: Reweight edges</span>
+    <span class="kw">for</span> each edge (u,v) ∈ G.E
+        ŵ(u,v) = w(u,v) + h[u] − h[v]
+
+    <span class="cmt">// Step 4: Run Dijkstra from every vertex on reweighted graph</span>
+    <span class="kw">for</span> each vertex u ∈ G.V
+        Run Dijkstra(G, ŵ, u) → get d̂[u][v] for all v
+        <span class="cmt">// Convert back to original weights:</span>
+        D[u][v] = d̂[u][v] − h[u] + h[v]
+    <span class="kw">return</span> D</pre>
+
+    <div class="sh"><span class="tag">5. Complexity</span><h3>Complexity Comparison</h3></div>
+    <table>
+      <tr><th>Algorithm</th><th>Negative Edges</th><th>Time</th><th>Best For</th></tr>
+      <tr><td>Floyd-Warshall</td><td>✅</td><td>Θ(V³)</td><td>Dense graphs (E ≈ V²)</td></tr>
+      <tr><td>Johnson's</td><td>✅</td><td>O(V² log V + VE)</td><td>Sparse graphs (E ≪ V²)</td></tr>
+      <tr><td>Dijkstra × V times</td><td>❌</td><td>O(V·(V+E)log V)</td><td>Non-negative, sparse</td></tr>
+    </table>
+
+    <div class="rev">
+      <h4>⚡ Quick Revision Box — Johnson's</h4>
+      <ul>
+        <li>✔ All-pairs shortest path — handles negative edges, not negative cycles</li>
+        <li>✔ Step 1: Add dummy source s, Bellman-Ford → h[v]</li>
+        <li>✔ Step 2: Reweight: ŵ(u,v) = w(u,v) + h[u] − h[v] ≥ 0</li>
+        <li>✔ Step 3: Run Dijkstra from every vertex</li>
+        <li>✔ Time: O(V² log V + VE) — better than Floyd for sparse graphs</li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- ===================================================
+     TOPIC 9 : FORD-FULKERSON / MAX FLOW
+     =================================================== -->
+<div class="card" id="t9">
+  <div class="card-hdr"><div class="num">9</div><h2>Ford-Fulkerson Algorithm — Maximum Flow</h2></div>
+  <div class="card-body">
+
+    <div class="sh"><span class="tag">1. Concept</span><h3>What is Maximum Flow?</h3></div>
+    <div class="def">
+      <strong>Maximum Flow Problem:</strong> Given a directed graph (flow network) with a source s, a sink t, and edge capacities c(u,v), find the maximum amount of flow that can be sent from s to t without exceeding edge capacities.
+    </div>
+    <p><strong>Real-world applications:</strong> Water/oil pipeline networks, Internet traffic routing, airline scheduling, bipartite matching, supply chain optimization, electrical circuit analysis.</p>
+
+    <div class="sh"><span class="tag">2. Theory</span><h3>Key Concepts</h3></div>
+    <table>
+      <tr><th>Concept</th><th>Definition</th></tr>
+      <tr><td><strong>Flow f(u,v)</strong></td><td>Amount flowing through edge (u,v); 0 ≤ f(u,v) ≤ c(u,v)</td></tr>
+      <tr><td><strong>Capacity constraint</strong></td><td>f(u,v) ≤ c(u,v) for all edges</td></tr>
+      <tr><td><strong>Skew symmetry</strong></td><td>f(u,v) = −f(v,u)</td></tr>
+      <tr><td><strong>Flow conservation</strong></td><td>∑ f(u,v) = 0 for all u ≠ s,t (in = out)</td></tr>
+      <tr><td><strong>Residual graph Gf</strong></td><td>Shows remaining capacity: cf(u,v) = c(u,v) − f(u,v)</td></tr>
+      <tr><td><strong>Augmenting path</strong></td><td>A path from s to t in residual graph with positive capacity</td></tr>
+      <tr><td><strong>Bottleneck</strong></td><td>Min capacity edge on an augmenting path</td></tr>
+    </table>
+
+    <div class="imp">
+      <strong>Max-Flow Min-Cut Theorem:</strong> The maximum flow from s to t equals the minimum capacity of an s-t cut (partition of vertices into two sets S ∋ s and T ∋ t).
+    </div>
+
+    <div class="sh"><span class="tag">3. Algorithm</span><h3>Ford-Fulkerson Pseudocode</h3></div>
+<pre><span class="kw">ALGORITHM</span> FordFulkerson(G, s, t)
+<span class="cmt">// Initialize flow on all edges to 0</span>
+<span class="kw">for</span> each edge (u,v) ∈ G.E
+    f(u,v) = 0
+
+<span class="kw">while</span> there exists an augmenting path p from s to t in residual graph Gf
+    cf(p) = min{ cf(u,v) : (u,v) on path p }   <span class="cmt">// bottleneck capacity</span>
+    <span class="kw">for</span> each edge (u,v) on path p
+        f(u,v) = f(u,v) + cf(p)   <span class="cmt">// forward edge: add flow</span>
+        f(v,u) = f(v,u) − cf(p)   <span class="cmt">// backward edge: reduce flow</span>
+
+<span class="kw">return</span> |f| = ∑ f(s,v) for v ∈ Adj[s]  <span class="cmt">// total flow out of source</span></pre>
+
+    <div class="sh"><span class="tag">4. Solved Example</span><h3>Ford-Fulkerson Full Trace</h3></div>
+    <div class="ex">
+      <div class="lbl">✅ Ford-Fulkerson Maximum Flow Trace</div>
+      <div class="graph-box">Flow Network:
+  Capacities (source=s, sink=t):
+       10          10
+  s ———→ a ———————→ t
+  |      ↑          ↑
+  10     |8         |10
+  |      |          |
+  ↓      b ————→ c ↗
+  v      (cap=8)  (cap=10)
+  (not connected further here — simplified)
+
+Simpler canonical example:
+         c(u,v):
+  s→a=10, s→b=10, a→b=2, a→t=10, b→t=10</div>
+
+      <p><strong>Step 1 — Augmenting path s→a→t, bottleneck = min(10,10) = 10</strong></p>
+      <p>Update: f(s,a)=10, f(a,t)=10. Residual: cf(a,s)=10 (reverse), cf(a,t)=0</p>
+
+      <p><strong>Step 2 — Augmenting path s→b→t, bottleneck = min(10,10) = 10</strong></p>
+      <p>Update: f(s,b)=10, f(b,t)=10.</p>
+
+      <p><strong>Step 3 — No more augmenting paths. Max flow = 20.</strong></p>
+
+      <table class="trace-table">
+        <tr><th>Augmenting Path</th><th>Bottleneck</th><th>Flow Added</th><th>Total |f|</th></tr>
+        <tr><td>s → a → t</td><td>10</td><td>10</td><td>10</td></tr>
+        <tr><td>s → b → t</td><td>10</td><td>10</td><td>20</td></tr>
+        <tr><td>No path</td><td>—</td><td>—</td><td>20 (max)</td></tr>
+      </table>
+      <p><strong>Min cut:</strong> {s} | {a,b,t} — cut capacity = c(s,a)+c(s,b) = 10+10 = 20 ✓</p>
+    </div>
+
+    <div class="sh"><span class="tag">5. Complexity</span><h3>Complexity Analysis</h3></div>
+    <table>
+      <tr><th>Method</th><th>Path Finding</th><th>Time Complexity</th></tr>
+      <tr><td>Ford-Fulkerson (DFS, integer caps)</td><td>DFS in residual</td><td>O(E · |f*|) — depends on max flow f*</td></tr>
+      <tr><td>Edmonds-Karp (BFS)</td><td>BFS in residual</td><td>O(V · E²) — independent of f*</td></tr>
+    </table>
+    <p><strong>Problem with Ford-Fulkerson:</strong> With DFS and irrational capacities, may not terminate! The augmenting path choice matters — this is why Edmonds-Karp (always use BFS = shortest path) was developed.</p>
+
+    <div class="rev">
+      <h4>⚡ Quick Revision Box — Ford-Fulkerson</h4>
+      <ul>
+        <li>✔ Finds maximum s-t flow in a flow network</li>
+        <li>✔ Repeatedly finds augmenting paths in residual graph, sends bottleneck flow</li>
+        <li>✔ Residual graph: cf(u,v) = c(u,v) − f(u,v) for forward; cf(v,u) = f(u,v) for backward</li>
+        <li>✔ Max-Flow = Min-Cut (key theorem)</li>
+        <li>✔ Time: O(E · |f*|) — can be slow for large flows</li>
+        <li>✔ Always update BOTH forward and backward edge flows</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ===================================================
+     TOPIC 10 : EDMONDS-KARP
+     =================================================== -->
+<div class="card" id="t10">
+  <div class="card-hdr"><div class="num">10</div><h2>Edmonds-Karp Algorithm</h2></div>
+  <div class="card-body">
+
+    <div class="sh"><span class="tag">1. Concept</span><h3>Edmonds-Karp: BFS-based Ford-Fulkerson</h3></div>
+    <p>Edmonds-Karp is Ford-Fulkerson but with one crucial change: always find the <strong>shortest augmenting path</strong> (fewest edges) using BFS in the residual graph. This guarantees polynomial time — O(VE²) — independent of the max flow value.</p>
+
+    <div class="sh"><span class="tag">2. Theory</span><h3>Why BFS Makes it Polynomial?</h3></div>
+    <ul>
+      <li>BFS finds shortest augmenting paths (in terms of number of edges)</li>
+      <li>Each edge can become critical (bottleneck) at most O(V) times</li>
+      <li>Total augmenting paths: O(V·E)</li>
+      <li>Each BFS: O(E)</li>
+      <li>Total: O(V·E²)</li>
+    </ul>
+
+    <div class="sh"><span class="tag">3. Algorithm</span><h3>Pseudocode</h3></div>
+<pre><span class="kw">ALGORITHM</span> EdmondsKarp(G, s, t)
+    Initialize all flows to 0
+    <span class="kw">while</span> true
+        <span class="cmt">// Find shortest path using BFS in residual graph</span>
+        p = BFS(Gf, s, t)
+        <span class="kw">if</span> no path found: <span class="kw">break</span>
+        <span class="cmt">// Augment along p</span>
+        cf(p) = min capacity on p
+        <span class="kw">for</span> each edge (u,v) on p
+            f(u,v) += cf(p)
+            f(v,u) -= cf(p)
+    <span class="kw">return</span> total flow</pre>
+
+    <div class="sh"><span class="tag">5. Complexity</span></div>
+    <div class="cgrid">
+      <div class="cc"><div class="cl">Time</div><div class="cv">O(VE²)</div></div>
+      <div class="cc"><div class="cl">Path Finding</div><div class="cv">BFS → O(E)</div></div>
+      <div class="cc"><div class="cl">Augmentations</div><div class="cv">O(VE)</div></div>
+    </div>
+
+    <div class="rev">
+      <h4>⚡ Quick Revision Box</h4>
+      <ul>
+        <li>✔ Edmonds-Karp = Ford-Fulkerson + <strong>BFS</strong> for augmenting paths</li>
+        <li>✔ BFS ensures shortest path → polynomial bound O(VE²)</li>
+        <li>✔ Ford-Fulkerson (DFS) can be O(E·f*) — exponential in worst case</li>
+        <li>✔ Edmonds-Karp is the standard practical max-flow algorithm</li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- ===================================================
+     TOPIC 11 : P, NP, NP-COMPLETE, NP-HARD
+     =================================================== -->
+<div class="card" id="t11">
+  <div class="card-hdr"><div class="num">11</div><h2>P, NP, NP-Completeness, NP-Hard</h2></div>
+  <div class="card-body">
+
+    <div class="pyq">
+      <div class="lbl">🔥 ASKED IN EVERY SINGLE PAPER — MUST PREPARE!</div>
+      <p><strong>SEE 2023 Q10(a)</strong> — "Write a brief note on P, NP, NP-Complete with one example each." [10 marks]</p>
+      <p><strong>SEE 2024 Q10(b)</strong> — "Explain P-Problem, NP-Problem, NP-Complete, NP-Hard with an example." [10 marks]</p>
+      <p><strong>SEE 2025 Q9(b)</strong> — "Define and differentiate between P, NP, NP-Complete problems with examples." [06 marks]</p>
+      <p><strong>SEE 2025 Q10(c)</strong> — "Why are NP-Complete problems hard? Discuss consequences for algorithm design." [04 marks]</p>
+      <p><strong>Makeup 2023 Q10(a)</strong> — "Write short notes on P, NP and NP complete problems." [08 marks]</p>
+    </div>
+
+    <div class="sh"><span class="tag">1. Concept</span><h3>Why Do We Need Complexity Classes?</h3></div>
+    <p>Not all problems are equally hard. Some have efficient algorithms (sorting, shortest path). Others seem to require examining every possible solution (n-Queens, TSP, Subset Sum). Complexity classes group problems by how hard they fundamentally are.</p>
+    <p><strong>The central question of CS:</strong> Does P = NP? — Are all problems whose solutions can be verified quickly, also solvable quickly? This is the most famous unsolved problem in mathematics.</p>
+
+    <div class="sh"><span class="tag">2. Theory</span><h3>Class P — Polynomial Time</h3></div>
+    <div class="def">
+      <strong>P (Polynomial time):</strong> The class of decision problems that can be <em>solved</em> by a deterministic algorithm in O(nᵏ) time for some constant k.
+    </div>
+    <p>"Efficiently solvable" problems. We can find the answer in polynomial time.</p>
+    <table>
+      <tr><th>Problem</th><th>Algorithm</th><th>Time</th></tr>
+      <tr><td>Sorting</td><td>Merge Sort</td><td>O(n log n)</td></tr>
+      <tr><td>Shortest Path (no neg. cycles)</td><td>Dijkstra / Bellman-Ford</td><td>O(V² or VE)</td></tr>
+      <tr><td>Primality Testing</td><td>AKS Algorithm</td><td>O(log⁶ n)</td></tr>
+      <tr><td>MST</td><td>Kruskal / Prim</td><td>O(E log V)</td></tr>
+      <tr><td>GCD</td><td>Euclidean Algorithm</td><td>O(log n)</td></tr>
+    </table>
+
+    <div class="sh"><span class="tag">2. Theory</span><h3>Class NP — Nondeterministic Polynomial</h3></div>
+    <div class="def">
+      <strong>NP (Nondeterministic Polynomial):</strong> The class of decision problems where a proposed solution (certificate) can be <em>verified</em> in polynomial time by a deterministic algorithm.
+    </div>
+    <p><strong>Intuition:</strong> Given a correct answer, you can quickly check it's right — but finding the answer might take exponential time.</p>
+    <div class="ex">
+      <div class="lbl">✅ Example: Hamiltonian Cycle</div>
+      <p>Finding a Hamiltonian cycle (visit every vertex exactly once) in a graph is NP.</p>
+      <p><strong>Verification (easy, polynomial):</strong> Given a proposed cycle, check that it visits every vertex exactly once and all edges exist → O(V) time.</p>
+      <p><strong>Finding (hard):</strong> No known polynomial algorithm. Brute force: O(V!) time.</p>
+    </div>
+    <p><strong>Note:</strong> P ⊆ NP (any problem solvable in polynomial time can also be verified in polynomial time). Whether P = NP or P ≠ NP is unsolved.</p>
+
+    <div class="sh"><span class="tag">2. Theory</span><h3>Polynomial Reduction</h3></div>
+    <div class="def">
+      <strong>Polynomial Reducibility (A ≤_P B):</strong> Problem A is polynomial-time reducible to B if any instance of A can be transformed into an instance of B in polynomial time, such that solving B also solves A.
+    </div>
+    <p>Intuition: "If we can solve B, we can solve A." So B is at least as hard as A.</p>
+
+    <div class="sh"><span class="tag">2. Theory</span><h3>Class NP-Complete</h3></div>
+    <div class="def">
+      <strong>NP-Complete:</strong> A problem X is NP-Complete if:<br>
+      (1) X ∈ NP (can be verified in polynomial time), AND<br>
+      (2) Every problem in NP is polynomial-time reducible to X (X is NP-Hard)
+    </div>
+    <p>NP-Complete problems are the <em>hardest problems in NP</em>. If any NP-Complete problem has a polynomial-time algorithm, then P = NP (all NP problems become polynomial).</p>
+
+    <div class="ex">
+      <div class="lbl">✅ NP-Complete Problem Examples (Must Memorize)</div>
+      <table>
+        <tr><th>NP-Complete Problem</th><th>Description</th></tr>
+        <tr><td><strong>SAT (Boolean Satisfiability)</strong></td><td>Given a boolean formula, is there an assignment making it true? First NP-Complete problem (Cook-Levin theorem, 1971)</td></tr>
+        <tr><td><strong>3-SAT</strong></td><td>SAT with clauses of exactly 3 literals</td></tr>
+        <tr><td><strong>Vertex Cover</strong></td><td>Is there a set of k vertices that covers all edges?</td></tr>
+        <tr><td><strong>Hamiltonian Cycle</strong></td><td>Visit every vertex exactly once and return to start</td></tr>
+        <tr><td><strong>TSP (decision version)</strong></td><td>Is there a tour of cost ≤ k?</td></tr>
+        <tr><td><strong>Clique</strong></td><td>Is there a clique of size k?</td></tr>
+        <tr><td><strong>Graph Coloring</strong></td><td>Can the graph be colored with k colors (no adjacent same color)?</td></tr>
+        <tr><td><strong>Subset Sum</strong></td><td>Does any subset sum to target T?</td></tr>
+        <tr><td><strong>0/1 Knapsack</strong></td><td>Maximize value subject to weight constraint (decision version)</td></tr>
+      </table>
+    </div>
+
+    <div class="sh"><span class="tag">2. Theory</span><h3>Class NP-Hard</h3></div>
+    <div class="def">
+      <strong>NP-Hard:</strong> A problem X is NP-Hard if every NP problem is polynomial-time reducible to X — but X itself may not be in NP (may not even be a decision problem or may be harder than NP).
+    </div>
+    <p>NP-Hard = "at least as hard as NP-Complete" — but not necessarily verifiable in polynomial time.</p>
+    <div class="ex">
+      <div class="lbl">✅ NP-Hard Examples</div>
+      <ul>
+        <li>TSP (optimization version — find the shortest tour): NP-Hard but not in NP (since output is a number, not a yes/no)</li>
+        <li>Halting problem: NP-Hard and undecidable (not even in NP)</li>
+        <li>Optimal scheduling: NP-Hard</li>
+      </ul>
+    </div>
+
+    <div class="sh"><span class="tag">2. Theory</span><h3>Relationship: Venn Diagram</h3></div>
+    <div class="graph-box">
+Assuming P ≠ NP (most likely scenario):
+
+  ┌─────────────────────────────────────────────────┐
+  │                   NP-HARD                        │
+  │  ┌──────────────────────────────────────────┐   │
+  │  │                  NP                       │   │
+  │  │   ┌─────────────────────────────────┐   │   │
+  │  │   │        NP-COMPLETE              │   │   │
+  │  │   │  (boundary of NP and NP-Hard)   │   │   │
+  │  │   └─────────────────────────────────┘   │   │
+  │  │   ┌──────────────┐                       │   │
+  │  │   │      P       │  (P ⊆ NP)             │   │
+  │  │   │  (Polynomial)│                       │   │
+  │  │   └──────────────┘                       │   │
+  │  └──────────────────────────────────────────┘   │
+  └─────────────────────────────────────────────────┘
+
+If P = NP: all three inner boxes collapse into one.
+NP-Complete = P ∩ NP-Hard</div>
+
+    <div class="sh"><span class="tag">2. Theory</span><h3>Why Are NP-Complete Problems Hard? (SEE 2025 Q10c)</h3></div>
+    <ul>
+      <li><strong>No known polynomial algorithm:</strong> All known algorithms for NP-Complete problems have exponential worst-case time</li>
+      <li><strong>All of NP reduces to them:</strong> Solving one NP-Complete problem polynomially would solve ALL of NP</li>
+      <li><strong>Consequences for algorithm design:</strong>
+        <ul>
+          <li>Use <em>approximation algorithms</em> (get near-optimal in polynomial time)</li>
+          <li>Use <em>heuristics</em> (genetic algorithms, simulated annealing — no guarantee)</li>
+          <li>Use <em>exact algorithms</em> for small inputs (backtracking, branch &amp; bound)</li>
+          <li>Exploit problem structure (special cases that are polynomial)</li>
+        </ul>
+      </li>
+    </ul>
+
+    <div class="sh"><span class="tag">6. PYQ</span><h3>Tractable vs Intractable Problems</h3></div>
+    <div class="pyq">
+      <div class="lbl">SEE 2023(O) Q10(c) — Definitions [05 marks]</div>
+      <table>
+        <tr><th>Term</th><th>Definition</th><th>Example</th></tr>
+        <tr><td><strong>Tractable Problem</strong></td><td>Solvable in polynomial time; practical for large inputs</td><td>Sorting, Shortest Path, MST</td></tr>
+        <tr><td><strong>Class P</strong></td><td>Decision problems solvable in O(nᵏ) time</td><td>Binary Search, Eulerian Circuit</td></tr>
+        <tr><td><strong>Class NP</strong></td><td>Decision problems where solutions verifiable in O(nᵏ)</td><td>Hamiltonian Path, SAT</td></tr>
+        <tr><td><strong>Polynomial Reduction (≤_P)</strong></td><td>Transform A into B in polynomial time; if B is easy, so is A</td><td>3-SAT ≤_P Vertex Cover</td></tr>
+        <tr><td><strong>NP-Complete</strong></td><td>In NP + every NP problem reduces to it</td><td>SAT, TSP, 3-SAT, Clique</td></tr>
+      </table>
+    </div>
+
+    <div class="sh"><span class="tag">7. Exam Format</span></div>
+    <div class="efmt">
+      <div class="eh">For 10-Mark P/NP/NP-Complete Answer</div>
+      <div class="eb">
+        <ol>
+          <li><strong>Intro (2 lines):</strong> Classification of problems by computational hardness</li>
+          <li><strong>P with example (3–4 lines):</strong> Solvable in polynomial time, solved efficiently</li>
+          <li><strong>NP with example (4–5 lines):</strong> Verified in polynomial time; include verification example</li>
+          <li><strong>NP-Hard (2–3 lines):</strong> At least as hard as NP-Complete; may not be in NP</li>
+          <li><strong>NP-Complete (4–5 lines):</strong> Both NP and NP-Hard; include Cook's theorem mention</li>
+          <li><strong>Venn Diagram</strong> (draw the nested circles as shown above)</li>
+          <li><strong>P vs NP question:</strong> Unsolved; if P=NP, cryptography breaks</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="rev">
+      <h4>⚡ Quick Revision Box — P, NP, NPC, NPH</h4>
+      <ul>
+        <li>✔ <strong>P</strong>: solvable in poly time | <strong>NP</strong>: verifiable in poly time</li>
+        <li>✔ <strong>P ⊆ NP</strong>; whether P = NP is the million-dollar unsolved question</li>
+        <li>✔ <strong>NP-Complete</strong> = NP ∩ NP-Hard (hardest in NP)</li>
+        <li>✔ <strong>NP-Hard</strong> = at least as hard as NP-Complete (may not be in NP)</li>
+        <li>✔ First NP-Complete: SAT (Cook-Levin theorem, 1971)</li>
+        <li>✔ NPC examples: SAT, 3-SAT, TSP, Knapsack, Clique, VertexCover, Hamilton Path</li>
+        <li>✔ Reduction ≤_P: A ≤_P B means "B is at least as hard as A"</li>
+        <li>✔ If ANY NP-Complete problem has poly algorithm → P = NP → all NP are easy</li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- ===================================================
+     TOPIC 12 : APPROXIMATION ALGORITHMS
+     =================================================== -->
+<div class="card" id="t12">
+  <div class="card-hdr"><div class="num">12</div><h2>Approximation Algorithms</h2></div>
+  <div class="card-body">
+
+    <div class="pyq">
+      <div class="lbl">🔥 REPEATED IN MULTIPLE PAPERS</div>
+      <p><strong>SEE 2023(O) Q10(b)</strong> — "What is the need of approximation algorithms? How do you quantify accuracy?" [05 marks]</p>
+      <p><strong>SEE 2023 Q10(c)</strong> — "Explain with examples, the need of approximation problems." [05 marks]</p>
+      <p><strong>SEE 2025 Q10(c)</strong> — "Why are NP-Complete problems hard? Consequences for algorithm design." [04 marks]</p>
+    </div>
+
+    <div class="sh"><span class="tag">1. Concept</span><h3>Why Approximation Algorithms?</h3></div>
+    <p>For NP-Hard optimization problems, finding the exact optimal solution may take exponential time. <strong>Approximation algorithms</strong> find a solution that is guaranteed to be <em>close to optimal</em> in polynomial time.</p>
+    <p><strong>Trade-off:</strong> We sacrifice a little optimality to gain massive speed improvements. In practice, a solution 5% above optimal found in seconds beats an exact solution found in days.</p>
+
+    <div class="sh"><span class="tag">2. Theory</span><h3>Approximation Ratio</h3></div>
+    <div class="def">
+      <strong>Approximation Ratio ρ(n):</strong> An algorithm has approximation ratio ρ(n) if for every input of size n, the cost C of the algorithm's solution and the optimal cost C* satisfy:<br>
+      max(C/C*, C*/C) ≤ ρ(n)
+    </div>
+    <ul>
+      <li>ρ(n) = 1 means exact optimal solution</li>
+      <li>ρ(n) = 2 means solution is at most twice the optimal</li>
+      <li>ρ(n) = 1.5 means solution is at most 50% above optimal</li>
+    </ul>
+    <p>A <strong>ρ(n)-approximation algorithm</strong> is called a ρ-approximation (or has approximation ratio ρ).</p>
+
+    <div class="sh"><span class="tag">2. Theory + Examples</span><h3>Key Approximation Algorithms</h3></div>
+
+    <h4>1. Vertex Cover (2-Approximation)</h4>
+    <div class="def">
+      <strong>Problem:</strong> Find the minimum set of vertices that covers all edges (every edge has at least one endpoint in the set).
+    </div>
+<pre><span class="kw">ALGORITHM</span> ApproxVertexCover(G)
+    C = ∅
+    E' = G.E
+    <span class="kw">while</span> E' ≠ ∅
+        Pick any edge (u,v) from E'
+        C = C ∪ {u, v}           <span class="cmt">// add BOTH endpoints</span>
+        Remove all edges incident to u or v from E'
+    <span class="kw">return</span> C                      <span class="cmt">// guaranteed ≤ 2 × optimal</span></pre>
+    <p><strong>Approximation ratio: 2</strong> — The selected edges form a matching; optimal cover needs at least one endpoint per matching edge. We pick 2 endpoints → at most 2× optimal.</p>
+    <p><strong>Time complexity:</strong> O(V + E)</p>
+
+    <h4>2. TSP with Triangle Inequality (1.5-Approximation — Christofides)</h4>
+    <div class="def">
+      <strong>Problem:</strong> Find shortest tour through all cities (each visited once). Assumes triangle inequality: dist(a,c) ≤ dist(a,b) + dist(b,c).
+    </div>
+    <p><strong>Simpler 2-approximation using MST:</strong></p>
+<pre><span class="kw">ALGORITHM</span> Approx-TSP-Tour(G, c)
+    Compute MST T of G              <span class="cmt">// using Prim/Kruskal</span>
+    List L = preorder DFS traversal of T
+    <span class="kw">return</span> Hamiltonian cycle from L (skip repeated vertices)</pre>
+    <p><strong>Why ≤ 2-approximation:</strong> Optimal TSP tour ≥ cost of MST. Full walk of MST = 2×MST. Shortcutting (triangle inequality) only reduces cost → tour ≤ 2×optimal.</p>
+
+    <h4>3. Set Cover (O(log n)-Approximation)</h4>
+    <p>Greedy: repeatedly pick the set that covers the most uncovered elements. Achieves O(log n)-approximation — best possible unless P=NP.</p>
+
+    <h4>4. Bin Packing (First-Fit Decreasing)</h4>
+    <p>Sort items by decreasing size, assign each to first bin that fits. Achieves ≤ (11/9)OPT + 6/9 approximation.</p>
+
+    <div class="sh"><span class="tag">2. Theory</span><h3>PTAS and FPTAS</h3></div>
+    <table>
+      <tr><th>Type</th><th>Stands For</th><th>Meaning</th><th>Example</th></tr>
+      <tr><td><strong>PTAS</strong></td><td>Polynomial Time Approximation Scheme</td><td>For any ε&gt;0, gives (1+ε)-approximation in poly time in n (but may be exponential in 1/ε)</td><td>Euclidean TSP</td></tr>
+      <tr><td><strong>FPTAS</strong></td><td>Fully Polynomial Time Approximation Scheme</td><td>Polynomial in both n AND 1/ε; the best type</td><td>Knapsack (0/1)</td></tr>
+    </table>
+
+    <div class="rev">
+      <h4>⚡ Quick Revision Box — Approximation Algorithms</h4>
+      <ul>
+        <li>✔ Needed because NP-Hard problems have no known poly-time exact algorithm</li>
+        <li>✔ Approximation ratio ρ: C ≤ ρ × C* (solution ≤ ρ times optimal)</li>
+        <li>✔ Vertex Cover: 2-approximation, O(V+E)</li>
+        <li>✔ TSP (triangle ineq.): 2-approximation using MST + DFS walk</li>
+        <li>✔ Christofides: 1.5-approximation for metric TSP (best known)</li>
+        <li>✔ PTAS: (1+ε)-approx for any ε; FPTAS: also poly in 1/ε</li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- ===================================================
+     TOPIC 13 : BACKTRACKING — N-QUEENS (🔥 EXAM FAVOURITE)
+     =================================================== -->
+<div class="card" id="t13">
+  <div class="card-hdr" style="background:#c62828"><div class="num" style="background:#ffd54f;color:#1a1a2e">★</div><h2>🔥 Backtracking — N-Queens Problem (Exam Favourite)</h2></div>
+  <div class="card-body">
+
+    <div class="pyq">
+      <div class="lbl">🔥🔥🔥 IN LITERALLY EVERY EXAM PAPER!</div>
+      <p><strong>Makeup 2023 Q9(a)</strong> — "4-Queen problem using backtracking. State space tree." [12 marks]</p>
+      <p><strong>SEE 2023 Q9(a)</strong> — "4-Queen problem using backtracking. State space tree." [10 marks]</p>
+      <p><strong>SEE 2024 Q9(b)</strong> — "4-Queen problem — one solution showing state space tree." [10 marks]</p>
+      <p><strong>SEE 2025 Q10(a)</strong> — "4-Queens using Backtracking. State space tree." [08 marks]</p>
+      <p><strong>Makeup 2023 Q9(b) / SEE 2023 Q10(b)</strong> — "Distinguish between backtracking and branch-and-bound." [08/05 marks]</p>
+    </div>
+
+    <div class="sh"><span class="tag">1. Concept</span><h3>What is Backtracking?</h3></div>
+    <div class="def">
+      <strong>Backtracking:</strong> A systematic method for solving problems by exploring all possible configurations and abandoning (pruning) configurations that cannot lead to a valid solution.
+    </div>
+    <p><strong>Strategy:</strong> Build the solution incrementally. At each step, try all possible choices. If a choice violates constraints, <em>backtrack</em> — undo it and try the next choice. Continue until a complete valid solution is found or all possibilities are exhausted.</p>
+    <p><strong>Think of it as:</strong> DFS on a state-space tree where we prune branches that are clearly invalid.</p>
+
+    <div class="sh"><span class="tag">2. Theory</span><h3>N-Queens Problem</h3></div>
+    <div class="def">
+      <strong>Problem:</strong> Place N queens on an N×N chessboard such that no two queens attack each other. Queens attack along the same row, column, or diagonal.
+    </div>
+    <p><strong>Constraints (for queen at row i, column j):</strong></p>
+    <ul>
+      <li>No two queens in the same <strong>column</strong>: col[i] ≠ col[k] for all k ≠ i</li>
+      <li>No two queens on same <strong>diagonal</strong>: |col[i] - col[k]| ≠ |i - k|</li>
+      <li>(Row constraint is automatically satisfied by placing one queen per row)</li>
+    </ul>
+
+    <div class="sh"><span class="tag">3. Algorithm</span><h3>Pseudocode</h3></div>
+<pre><span class="kw">ALGORITHM</span> NQueens(k, n)
+<span class="cmt">// Place queens in rows k to n; queens already placed in rows 1..k-1</span>
+<span class="kw">for</span> col = 1 <span class="kw">to</span> n
+    <span class="kw">if</span> Place(k, col) is valid   <span class="cmt">// No conflicts</span>
+        x[k] = col              <span class="cmt">// Place queen at row k, column col</span>
+        <span class="kw">if</span> k == n
+            Print solution x[]  <span class="cmt">// All n queens placed</span>
+        <span class="kw">else</span>
+            NQueens(k+1, n)     <span class="cmt">// Recurse for next row</span>
+
+<span class="kw">FUNCTION</span> Place(k, col)
+<span class="kw">for</span> i = 1 <span class="kw">to</span> k-1
+    <span class="kw">if</span> x[i] == col           <span class="cmt">// Same column</span>
+        <span class="kw">return</span> false
+    <span class="kw">if</span> |x[i] - col| == |i - k|  <span class="cmt">// Same diagonal</span>
+        <span class="kw">return</span> false
+<span class="kw">return</span> true</pre>
+
+    <div class="sh"><span class="tag">4. Solved Example</span><h3>🔥 Complete 4-Queens State Space Tree</h3></div>
+    <div class="ex">
+      <div class="lbl">✅ 4-Queens — Full State Space Tree with Pruning</div>
+      <p>Board: 4×4. Place queens row by row. x[i] = column of queen in row i.</p>
+      <div class="graph-box">
+STATE SPACE TREE for 4-Queens:
+(Column numbers 1,2,3,4 tried at each row)
+Legend: ✓ = valid placement, ✗ = conflict (prune)
+
+Start: x = []
+
+Row 1 tries col=1:
+  x=[1]. Row 2 tries:
+    col=1: CONFLICT (same col) ✗
+    col=2: CONFLICT (diagonal: |1-2|=|1-2|=1) ✗
+    col=3: VALID ✓. x=[1,3]. Row 3 tries:
+        col=1: CONFLICT (same col as row1) ✗
+        col=2: CONFLICT (diagonal: |3-2|=|2-3|=1) ✗
+        col=3: CONFLICT (same col as row2) ✗
+        col=4: CONFLICT (diagonal: |3-4|=|2-3|=1) ✗
+        BACKTRACK to row 2.
+    col=4: VALID ✓. x=[1,4]. Row 3 tries:
+        col=1: CONFLICT (same col as row1) ✗
+        col=2: VALID ✓. x=[1,4,2]. Row 4 tries:
+            col=1: CONFLICT (same col as row1) ✗
+            col=2: CONFLICT (same col as row3) ✗
+            col=3: CONFLICT (diagonal: |2-3|=|3-4|=1) ✗
+            col=4: CONFLICT (same col as row2) ✗
+            BACKTRACK to row 3.
+        col=3: CONFLICT (diagonal: |4-3|=|2-3|=1) ✗
+        col=4: CONFLICT (same col as row2) ✗
+        BACKTRACK to row 2.
+    BACKTRACK to row 1.
+
+Row 1 tries col=2:
+  x=[2]. Row 2 tries:
+    col=1: CONFLICT (diagonal: |2-1|=|1-2|=1) ✗
+    col=2: CONFLICT (same col) ✗
+    col=3: CONFLICT (diagonal: |2-3|=|1-2|=1) ✗
+    col=4: VALID ✓. x=[2,4]. Row 3 tries:
+        col=1: VALID ✓. x=[2,4,1]. Row 4 tries:
+            col=1: CONFLICT (same col as row3) ✗
+            col=2: CONFLICT (same col as row1) ✗
+            col=3: VALID ✓. x=[2,4,1,3] ← ✅ SOLUTION!
+
+  ╔═══╦═══╦═══╦═══╗
+  ║   ║ Q ║   ║   ║  Row 1: col=2
+  ╠═══╬═══╬═══╬═══╣
+  ║   ║   ║   ║ Q ║  Row 2: col=4
+  ╠═══╬═══╬═══╬═══╣
+  ║ Q ║   ║   ║   ║  Row 3: col=1
+  ╠═══╬═══╬═══╬═══╣
+  ║   ║   ║ Q ║   ║  Row 4: col=3
+  ╚═══╩═══╩═══╩═══╝
+  Solution: x = [2, 4, 1, 3] ✅</div>
+
+      <p><strong>Second solution</strong> (continue backtracking after first): x = [3, 1, 4, 2]</p>
+      <div class="graph-box">
+  ╔═══╦═══╦═══╦═══╗
+  ║   ║   ║ Q ║   ║  Row 1: col=3
+  ╠═══╬═══╬═══╬═══╣
+  ║ Q ║   ║   ║   ║  Row 2: col=1
+  ╠═══╬═══╬═══╬═══╣
+  ║   ║   ║   ║ Q ║  Row 3: col=4
+  ╠═══╬═══╬═══╬═══╣
+  ║   ║ Q ║   ║   ║  Row 4: col=2
+  ╚═══╩═══╩═══╩═══╝
+  Solution: x = [3, 1, 4, 2] ✅</div>
+      <p><strong>Total solutions for 4-Queens: 2</strong></p>
+    </div>
+
+    <div class="sh"><span class="tag">5. Complexity</span><h3>Complexity of N-Queens</h3></div>
+    <div class="cgrid">
+      <div class="cc"><div class="cl">Worst Case (no pruning)</div><div class="cv">O(n!)</div></div>
+      <div class="cc"><div class="cl">With Backtracking</div><div class="cv">Much less in practice</div></div>
+      <div class="cc"><div class="cl">Space</div><div class="cv">O(n)</div></div>
+    </div>
+    <p>Without pruning: n×(n-1)×(n-2)×…×1 = n! states. Backtracking prunes most branches early, making it feasible for moderate n.</p>
+
+    <div class="sh"><span class="tag">6. PYQ</span><h3>Backtracking vs Branch and Bound (SEE 2024, Makeup 2023)</h3></div>
+    <div class="pyq">
+      <div class="lbl">🔥 SEE 2023 Q10(b) / Makeup 2023 Q9(b) — 5–8 Marks</div>
+      <table>
+        <tr><th>Property</th><th>Backtracking</th><th>Branch and Bound</th></tr>
+        <tr><td>Goal</td><td>Find all/one feasible solution</td><td>Find optimal solution (minimization/maximization)</td></tr>
+        <tr><td>Pruning based on</td><td>Constraint violation (infeasibility)</td><td>Bound (lower/upper bound exceeds current best)</td></tr>
+        <tr><td>Search strategy</td><td>DFS on state space tree</td><td>BFS / Best-First on state space tree</td></tr>
+        <tr><td>When to prune</td><td>When current partial solution violates constraints</td><td>When bound shows no better solution possible</td></tr>
+        <tr><td>Typical problems</td><td>N-Queens, Graph Coloring, Hamiltonian path</td><td>TSP, 0/1 Knapsack, Job Scheduling</td></tr>
+        <tr><td>Objective function</td><td>Not needed (feasibility only)</td><td>Yes — minimize or maximize</td></tr>
+      </table>
+    </div>
+
+    <div class="sh"><span class="tag">7. Exam Writing Format</span></div>
+    <div class="efmt">
+      <div class="eh">For 10 Marks — 4-Queens Full Answer</div>
+      <div class="eb">
+        <ol>
+          <li><strong>Definition of Backtracking</strong> (3 lines)</li>
+          <li><strong>4-Queens problem statement</strong> (2 lines)</li>
+          <li><strong>Algorithm / pseudocode</strong> with Place() function</li>
+          <li><strong>State space tree</strong> showing at least one complete path to solution (critical for marks)</li>
+          <li><strong>Draw the board</strong> showing queen positions for both solutions</li>
+          <li><strong>State:</strong> "4-Queens has exactly 2 solutions: [2,4,1,3] and [3,1,4,2]"</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="rev">
+      <h4>⚡ Quick Revision Box — 4-Queens MUST KNOW</h4>
+      <ul>
+        <li>✔ 4-Queens solutions: x=[2,4,1,3] and x=[3,1,4,2]</li>
+        <li>✔ Conflict check: same col (x[i]=x[k]) OR same diagonal (|x[i]-x[k]|=|i-k|)</li>
+        <li>✔ Try columns 1 to n for each row; backtrack on conflict</li>
+        <li>✔ Backtracking = DFS + constraint pruning</li>
+        <li>✔ Draw state-space tree row by row; mark pruned branches with ✗</li>
+        <li>✔ Space complexity O(n) — only stores current path</li>
+      </ul>
+    </div>
+  </div>
+</div>

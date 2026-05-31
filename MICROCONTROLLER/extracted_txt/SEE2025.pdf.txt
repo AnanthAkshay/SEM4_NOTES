@@ -1,0 +1,131 @@
+
+--- PAGE 1 ---
+21IS44/22/23IS42 
+Page 1 of 2 
+ 
+ 
+ 
+ (Autonomous Institute, Affiliated to VTU) 
+(Approved by AICTE, New Delhi & Govt. of Karnataka)  
+Accredited by NBA & NAAC with ‘A+’ Grade 
+ 
+SEMESTER END / BACKLOG SUBJECT EXAMINATIONS – JULY / AUGUST 2025 
+Program : B.E. – Information  Science  and 
+Engineering Semester : IV 
+Course Name : Microcontrollers Max. Marks : 100 
+Course Code : 21IS44/ 22 / 23IS42 Duration : 3 Hrs 
+ 
+Instructions to the Candidates: 
+• Answer one full question from each unit. 
+ 
+ 
+  UNIT - I   
+1. a) List and explain the four major design rules behind RISC processors 
+implementation? 
+CO1 (08) 
+ b) With a neat diagram explain an MCU chip, explain the internal 
+components of a typical Microcontroller unit. 
+CO1 (06) 
+ c) Explain how the ARM instruction set differs from the pure RISC 
+instruction set?  
+CO1 (06) 
+     
+2. a) Explain the internal components of system on chip. Write diagram.  CO1 (08) 
+ b) Compare the RISC and CISC type of systems. CO1 (06) 
+ c) List the two modes of data transfer between MCU and peripherals? 
+Explain the general functioning of interrupts. 
+CO1 (06) 
+     
+  UNIT - II   
+3. a) Why data alignment is important? What are the consequences of 
+misaligned data access? 
+CO2 (05) 
+ b) With a diagram, explain Inter integrated circuit (I2C) on-board protocol. CO2 (08) 
+ c) Write the classification of semiconductor memory types. Explain memory 
+read and write cycle of SRAM chip. 
+CO2 (07) 
+     
+4. a) Briefly explain the purpose of the following condition flags: 
+    i. Zero (Z) 
+    ii. Negative (N) 
+    iii. Carry (C) 
+    iv. Overflow (V) 
+CO2 (08) 
+ b) Explain Load Store architecture used in RISC processors. CO2 (06) 
+ c) Discuss the operations of the descending stack in ARM7. CO2 (06) 
+     
+  UNIT - III   
+5. a) Write a block diagram of a ARM7 Processor. List the modes of operation 
+in ARM7. 
+CO3 (08) 
+ b) Find the results of the following operations given the contents of 
+R1=0x0089EF32, R2=0x80456730, R3=0x8 
+     i.  MOV R4, R2, LSR#4 
+     ii. MVN R5, R1, ASR R3 
+     iii. MVNS R6,R1 
+CO3 (06) 
+     
+USN 1 M S        
+ 
+
+
+--- PAGE 2 ---
+21IS44/22/23IS42 
+Page 2 of 2 
+ 
+     
+ c) Discuss with an appropriate diagram for the register set working towards 
+relationship between various modes of an ARM 32 bit and THUMB 16 bit 
+processor. 
+CO3 (06) 
+     
+6. a) Given R0=0x12345678, R1=0XD5678007 
+Find the contents of the destination registers, and the state of the 
+relevant flags after execution of following instructions 
+i. MVN R7, R0 
+ii. MOVN R5, R1 
+iii. ADDS R6, R0, R1 
+CO3 (08) 
+ b) Write an ALP to add the first n even numbers. Store the result in a 
+memory location. 
+CO3 (06) 
+ c) Discuss on how the AMBA processor specifies the use of AHB & APB bus 
+components. 
+CO3 (06) 
+     
+  UNIT- IV   
+7. a) Write an Assembly Language program to generate and print 10 Fibonacci 
+numbers, excluding the first one(i.e. 0) 
+CO4 (08) 
+ b) What is the content of R6 after execution of following instructions? Given 
+that R6=0x44001100 and R2=0x04 
+i. LDR R2, [R6, #0056]! 
+ii. STR R1, [R6, R2]! 
+iii. LDR R3, [R6,LSL #4] 
+Justify the results. 
+CO4 (06) 
+ c) Write a C program to display the string ‘MICROCONTROLLERS’ in the 
+serial window of UART1. 
+CO4 (06) 
+     
+8. a) List the steps involved in execution of the following Instructions 
+   i. STMDB R1!{R7,R2-R4} if R1=0X44000078 
+   ii. LDMIA  R7!{R0-R5} 
+CO4 (08) 
+ b) List the important features of LPC 214x series. CO4 (06) 
+ c) List and explain Registers used in timer/counter units in the polled 
+mode. 
+CO4 (06) 
+     
+  UNIT - V   
+9. a) Explain the memory model of Cortex -MO and explain types and 
+attributes of memory. 
+CO5 (10) 
+ b) Explain Modes and states of Cortex- M0 processor.  CO5 (10) 
+     
+10. a) Discuss the advantages and architectural features of Cortex-MO+. CO5 (10) 
+ b) List and Explain the interrupts of Cortex -MO and different states that 
+each interrupts be in any time. 
+CO5 (10) 
+ 
+******************************** 

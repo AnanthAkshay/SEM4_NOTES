@@ -1,0 +1,1596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 3 – Advanced Java Exam Notes | MSRIT ISE</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Sora:wght@400;500;600;700&display=swap');
+
+  :root {
+    --bg: #0f1117;
+    --bg2: #161b27;
+    --bg3: #1e2636;
+    --surface: #232d40;
+    --border: #2e3a52;
+    --accent: #f5a623;
+    --accent2: #4fc3f7;
+    --accent3: #69f0ae;
+    --accent4: #f48fb1;
+    --text: #e8eaf0;
+    --muted: #8892a4;
+    --code-bg: #111827;
+    --red: #f28b82;
+    --green: #69f0ae;
+    --yellow: #ffe082;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Sora', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.75;
+  }
+
+  /* HEADER */
+  .header {
+    background: linear-gradient(135deg, #161b27 0%, #1a2540 100%);
+    border-bottom: 2px solid var(--accent);
+    padding: 2rem 2rem 1.5rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .header-top { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem; }
+  .header h1 { font-size: 1.5rem; font-weight: 700; color: var(--accent); letter-spacing: -0.02em; }
+  .header p { font-size: 0.78rem; color: var(--muted); margin-top: 4px; }
+  .badge { display: inline-block; background: var(--accent); color: #0f1117; font-size: 0.68rem; font-weight: 700; padding: 3px 10px; border-radius: 20px; margin-left: 8px; }
+
+  /* NAV */
+  .toc-bar {
+    display: flex; flex-wrap: wrap; gap: 6px; margin-top: 1rem;
+  }
+  .toc-bar a {
+    font-size: 0.7rem; color: var(--muted); background: var(--surface);
+    border: 1px solid var(--border); border-radius: 4px; padding: 3px 9px;
+    text-decoration: none; transition: all 0.2s;
+  }
+  .toc-bar a:hover { color: var(--accent); border-color: var(--accent); }
+
+  /* MAIN LAYOUT */
+  .container { max-width: 1100px; margin: 0 auto; padding: 2rem; }
+
+  /* SECTIONS */
+  section { margin-bottom: 3rem; }
+  .section-title {
+    font-size: 1.1rem; font-weight: 700;
+    color: var(--accent); border-left: 4px solid var(--accent);
+    padding-left: 12px; margin-bottom: 1.25rem;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section-title .num {
+    background: var(--accent); color: #0f1117;
+    font-size: 0.7rem; font-weight: 700;
+    width: 22px; height: 22px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+
+  /* SUBSECTIONS */
+  .sub { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 1.25rem 1.5rem; margin-bottom: 1.25rem; }
+  .sub-title { font-size: 0.95rem; font-weight: 600; color: var(--accent2); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 8px; }
+  .sub-title::before { content: '▸'; color: var(--accent2); }
+
+  /* DEF BOX */
+  .def-box {
+    background: #0d1a2e; border-left: 3px solid var(--accent2);
+    border-radius: 6px; padding: 10px 14px; margin: 0.75rem 0;
+    font-size: 0.85rem;
+  }
+  .def-box .label { font-size: 0.68rem; font-weight: 700; color: var(--accent2); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+
+  /* NOTE BOX */
+  .note { background: #1a1500; border-left: 3px solid var(--yellow); border-radius: 6px; padding: 10px 14px; margin: 0.75rem 0; font-size: 0.83rem; color: var(--yellow); }
+  .tip { background: #0a1f15; border-left: 3px solid var(--green); border-radius: 6px; padding: 10px 14px; margin: 0.75rem 0; font-size: 0.83rem; color: var(--green); }
+  .warn { background: #1f0a0a; border-left: 3px solid var(--red); border-radius: 6px; padding: 10px 14px; margin: 0.75rem 0; font-size: 0.83rem; color: var(--red); }
+
+  /* CODE */
+  pre {
+    background: var(--code-bg);
+    border: 1px solid #1e2d45;
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    overflow-x: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    line-height: 1.65;
+    margin: 0.75rem 0;
+  }
+  code { font-family: 'JetBrains Mono', monospace; font-size: 0.82em; }
+  .inline-code { background: var(--code-bg); border: 1px solid #2a3a55; padding: 1px 6px; border-radius: 4px; color: var(--accent3); }
+
+  /* SYNTAX HIGHLIGHT COLORS */
+  .kw { color: #c792ea; }
+  .cl { color: #82aaff; }
+  .cm { color: #546e7a; font-style: italic; }
+  .st { color: #c3e88d; }
+  .nm { color: #f78c6c; }
+  .fn { color: #82aaff; }
+  .op { color: var(--accent); }
+  .out-box { background: #0a1208; border: 1px solid #1e3a1e; border-radius: 6px; padding: 0.75rem 1rem; font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: var(--green); margin: 0.5rem 0 0.75rem; }
+  .out-label { font-size: 0.65rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+
+  /* TABLES */
+  .tbl-wrap { overflow-x: auto; margin: 0.75rem 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+  thead tr { background: var(--surface); }
+  th { padding: 10px 14px; text-align: left; font-weight: 600; color: var(--accent); border-bottom: 2px solid var(--accent); white-space: nowrap; }
+  td { padding: 9px 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(255,255,255,0.02); }
+  .hl { color: var(--accent3); font-weight: 600; }
+  .hl2 { color: var(--accent4); font-weight: 600; }
+
+  /* BULLET LIST */
+  ul.bl { padding-left: 1.25rem; margin: 0.5rem 0; }
+  ul.bl li { margin-bottom: 5px; font-size: 0.85rem; }
+  ul.bl li::marker { color: var(--accent); }
+
+  /* GRID */
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
+  @media(max-width: 720px) { .grid2, .grid3 { grid-template-columns: 1fr; } }
+
+  /* CARD */
+  .card { background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; padding: 1rem; }
+  .card-title { font-size: 0.8rem; font-weight: 700; color: var(--accent); margin-bottom: 8px; }
+
+  /* VIVA */
+  .viva-q { background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; padding: 1rem 1.25rem; margin-bottom: 10px; }
+  .viva-q .q { font-weight: 600; color: var(--accent4); font-size: 0.85rem; margin-bottom: 5px; }
+  .viva-q .a { font-size: 0.83rem; color: var(--text); }
+
+  /* PYQ */
+  .pyq { background: #0d1a2e; border: 1px solid #1e3a60; border-radius: 8px; padding: 0.75rem 1rem; margin-bottom: 8px; font-size: 0.85rem; }
+  .pyq .marks { float: right; background: var(--accent); color: #0f1117; font-size: 0.65rem; font-weight: 700; padding: 2px 8px; border-radius: 12px; }
+  .pyq .tag { font-size: 0.65rem; background: var(--surface); color: var(--accent2); padding: 2px 7px; border-radius: 4px; margin-right: 5px; }
+
+  /* MEMORY TRICK */
+  .trick { background: #1a0a2e; border: 1px solid #4a1a8a; border-radius: 8px; padding: 10px 14px; margin: 0.75rem 0; font-size: 0.83rem; color: #ce93d8; }
+  .trick::before { content: '🧠 Memory: '; font-weight: 700; }
+
+  /* DIVIDER */
+  hr { border: none; border-top: 1px solid var(--border); margin: 1.5rem 0; }
+
+  /* FOOTER */
+  .footer { text-align: center; color: var(--muted); font-size: 0.75rem; padding: 2rem; border-top: 1px solid var(--border); }
+
+  /* SCROLL */
+  :target { scroll-margin-top: 120px; }
+  html { scroll-behavior: smooth; }
+
+  /* METHOD TABLE */
+  .method-tag { display: inline-block; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 7px; font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: var(--accent3); }
+</style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<div class="header">
+  <div class="header-top">
+    <div>
+      <h1>Unit 3 — Advanced Java <span class="badge">30M INTERNAL</span></h1>
+      <p>Collections · Iterator · Maps & Sets · Comparator · Comparable · Generics &nbsp;|&nbsp; MSRIT B.E. ISE — IS45</p>
+    </div>
+    <div style="font-size:0.75rem; color:var(--muted); text-align:right;">
+      Exam Pattern: 5M short + 6M programs<br>Pick 2 of 3 questions
+    </div>
+  </div>
+  <nav class="toc-bar">
+    <a href="#s1">1. Collection Framework</a>
+    <a href="#s2">2. Collection Interfaces</a>
+    <a href="#s3">3. Collection Classes</a>
+    <a href="#s4">4. Iterator vs Iterable</a>
+    <a href="#s5">5. Spliterator</a>
+    <a href="#s6">6. Maps & Sets</a>
+    <a href="#s7">7. Comparator</a>
+    <a href="#s8">8. Comparable</a>
+    <a href="#s9">9. Generics</a>
+    <a href="#s9b">9b. Bounded Wildcards</a>
+    <a href="#s10">10. Key Diff Tables</a>
+    <a href="#s11">11. Programs</a>
+    <a href="#s12">12. PYQs</a>
+    <a href="#s13">13. Viva</a>
+  </nav>
+</div>
+
+<!-- ===== CONTAINER ===== -->
+<div class="container">
+
+<!-- =================== SECTION 1 =================== -->
+<section id="s1">
+  <div class="section-title"><span class="num">1</span> Java Collection Framework Overview</div>
+
+  <div class="def-box">
+    <div class="label">Definition</div>
+    A <strong>Collection Framework</strong> is a unified architecture for representing and manipulating groups of objects. It provides ready-made classes and interfaces so you don't have to write data structures from scratch.
+  </div>
+
+  <div class="grid2" style="margin-top:1rem;">
+    <div class="card">
+      <div class="card-title">Why Collections?</div>
+      <ul class="bl">
+        <li>Arrays have fixed size — Collections are dynamic</li>
+        <li>Collections hold only Objects (reference types)</li>
+        <li>Provides sorting, searching, insertion, deletion</li>
+        <li>All Collection classes are in <code>java.util</code></li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">Hierarchy (Simplified)</div>
+      <pre style="margin:0; font-size:0.72rem;">Iterable
+  └── Collection
+        ├── List  → ArrayList, LinkedList, Vector
+        ├── Set   → HashSet, LinkedHashSet, TreeSet
+        └── Queue → PriorityQueue, Deque
+
+Map (separate)
+  ├── HashMap, LinkedHashMap
+  └── TreeMap</pre>
+    </div>
+  </div>
+
+  <div class="trick">List = Ordered + Duplicates allowed. Set = No duplicates. Map = Key-Value pairs.</div>
+</section>
+
+<!-- =================== SECTION 2 =================== -->
+<section id="s2">
+  <div class="section-title"><span class="num">2</span> Collection Interfaces</div>
+
+  <div class="sub">
+    <div class="sub-title">Collection Interface — Root of List/Set/Queue</div>
+    <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Method</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><span class="method-tag">add(E e)</span></td><td>Adds element; returns true if successful</td></tr>
+        <tr><td><span class="method-tag">remove(Object o)</span></td><td>Removes first occurrence</td></tr>
+        <tr><td><span class="method-tag">contains(Object o)</span></td><td>Returns true if element exists</td></tr>
+        <tr><td><span class="method-tag">size()</span></td><td>Returns number of elements</td></tr>
+        <tr><td><span class="method-tag">isEmpty()</span></td><td>Returns true if collection is empty</td></tr>
+        <tr><td><span class="method-tag">iterator()</span></td><td>Returns an Iterator for traversal</td></tr>
+        <tr><td><span class="method-tag">clear()</span></td><td>Removes all elements</td></tr>
+        <tr><td><span class="method-tag">addAll(Collection c)</span></td><td>Adds all elements from another collection</td></tr>
+        <tr><td><span class="method-tag">toArray()</span></td><td>Converts to array</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="note">⭐ "List 5 methods of Collection Interface" is a PYQ (SEE 6.a). These 5 are the most important to write.</div>
+  </div>
+
+  <div class="grid3">
+    <div class="card">
+      <div class="card-title">List Interface</div>
+      <ul class="bl">
+        <li>Ordered (maintains insertion order)</li>
+        <li>Allows <strong>duplicate</strong> elements</li>
+        <li>Index-based access: <code>get(i)</code>, <code>set(i, e)</code></li>
+        <li>Implementations: ArrayList, LinkedList</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">Set Interface</div>
+      <ul class="bl">
+        <li><strong>No duplicates</strong> allowed</li>
+        <li>No index-based access</li>
+        <li>HashSet: unordered</li>
+        <li>TreeSet: sorted order</li>
+        <li>LinkedHashSet: insertion order</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">Map Interface</div>
+      <ul class="bl">
+        <li>Stores <strong>key-value pairs</strong></li>
+        <li>Keys are unique, values can repeat</li>
+        <li><code>put(k,v)</code>, <code>get(k)</code>, <code>remove(k)</code></li>
+        <li>Implementations: HashMap, TreeMap</li>
+        <li><strong>Does NOT extend Collection</strong></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- =================== SECTION 3 =================== -->
+<section id="s3">
+  <div class="section-title"><span class="num">3</span> Collection Classes</div>
+
+  <div class="grid2">
+    <div class="sub">
+      <div class="sub-title">ArrayList (Dynamic Array Resizing)</div>
+      <ul class="bl">
+        <li>Backed by a contiguous <strong>dynamic array</strong> loaded on the Heap.</li>
+        <li>Provides incredibly fast <strong>random access in $O(1)$ time</strong> via element index bounds.</li>
+        <li><strong>Resizing Overhead:</strong> When capacity bounds are exceeded, the JVM reallocates a new array. The scaling formula is:
+            <code class="inline-code">newCapacity = oldCapacity + (oldCapacity &gt;&gt; 1)</code> (which is a <strong>1.5x increase</strong>). Old array elements are migrated via <code class="inline-code">Arrays.copyOf()</code>.
+        </li>
+        <li><strong>Performance:</strong> Inserting or removing elements in the middle requires shifting trailing elements ($O(n)$ time). Not synchronized (thread-unsafe).</li>
+      </ul>
+      <pre><span class="cl">ArrayList</span>&lt;<span class="cl">String</span>&gt; al = <span class="kw">new</span> <span class="cl">ArrayList</span>&lt;&gt;();
+al.<span class="fn">add</span>(<span class="st">"Apple"</span>); <span class="cm">// Append O(1)</span>
+al.<span class="fn">add</span>(<span class="st">"Banana"</span>);
+al.<span class="fn">add</span>(<span class="nm">0</span>, <span class="st">"Mango"</span>); <span class="cm">// Insert O(n) due to array shift</span>
+al.<span class="fn">remove</span>(<span class="st">"Banana"</span>);
+<span class="cl">System</span>.out.<span class="fn">println</span>(al);</pre>
+      <div class="out-label">Output</div>
+      <div class="out-box">[Mango, Apple]</div>
+    </div>
+    
+    <div class="sub">
+      <div class="sub-title">LinkedList (Node-Link Allocation)</div>
+      <ul class="bl">
+        <li>Backed by a <strong>doubly linked list</strong> hierarchy.</li>
+        <li><strong>Node Structure:</strong> Allocates separate small objects on the Heap. Each element is wrapped inside a private nested class <code class="inline-code">Node&lt;E&gt;</code> containing pointer references: <code class="inline-code">E item</code>, <code class="inline-code">Node&lt;E&gt; next</code>, and <code class="inline-code">Node&lt;E&gt; prev</code>.</li>
+        <li><strong>No Contiguous Constraints:</strong> Eliminates contiguous memory reallocation issues but introduces severe <strong>pointer reference memory overhead</strong> (24-32 bytes per node).</li>
+        <li><strong>Performance:</strong> Faster insertions/deletions at boundary points ($O(1)$). Slow random index access ($O(n)$) because it requires sequential pointer-hopping traversal.</li>
+      </ul>
+      <pre><span class="cl">LinkedList</span>&lt;<span class="cl">Integer</span>&gt; ll = <span class="kw">new</span> <span class="cl">LinkedList</span>&lt;&gt;();
+ll.<span class="fn">add</span>(<span class="nm">10</span>);
+ll.<span class="fn">addFirst</span>(<span class="nm">5</span>);   <span class="cm">// add at front O(1)</span>
+ll.<span class="fn">addLast</span>(<span class="nm">20</span>);   <span class="cm">// add at end O(1)</span>
+ll.<span class="fn">removeFirst</span>();
+<span class="cl">System</span>.out.<span class="fn">println</span>(ll);</pre>
+      <div class="out-label">Output</div>
+      <div class="out-box">[10, 20]</div>
+    </div>
+  </div>
+
+  <div class="sub" style="margin-top: 1.5rem;">
+    <div class="sub-title">Storing User-Defined Classes in Collections</div>
+    <div class="def-box">
+      <div class="label">⚠️ Critical Requirement: equals() and hashCode()</div>
+      When storing objects of custom (user-defined) classes in collections, especially hashing-based collections like <code>HashSet</code> or <code>HashMap</code>, you <strong>must override the <code>equals()</code> and <code>hashCode()</code> methods</strong>. If you don't, Java will use the default implementation from the <code>Object</code> class, which compares object memory addresses, leading to duplicate objects and retrieval failures.
+    </div>
+
+    <p style="margin-bottom:0.75rem;">Here is a complete, exam-ready program showing a custom <code>Student</code> class stored in a <code>HashSet</code>, overriding <code>equals()</code> and <code>hashCode()</code> to prevent duplicate entries:</p>
+
+<pre><span class="kw">import</span> java.util.*;
+
+<span class="kw">class</span> <span class="cl">Student</span> {
+    <span class="cl">String</span> USN;
+    <span class="cl">String</span> name;
+
+    <span class="cl">Student</span>(<span class="cl">String</span> USN, <span class="cl">String</span> name) {
+        <span class="kw">this</span>.USN = USN;
+        <span class="kw">this</span>.name = name;
+    }
+
+    <span class="cm">// Override hashCode() to compute hash based on unique USN</span>
+    <span class="annotation">@Override</span>
+    <span class="kw">public int</span> <span class="fn">hashCode</span>() {
+        <span class="kw">return</span> Objects.<span class="fn">hash</span>(USN);
+    }
+
+    <span class="cm">// Override equals() to compare Student objects based on unique USN</span>
+    <span class="annotation">@Override</span>
+    <span class="kw">public boolean</span> <span class="fn">equals</span>(Object obj) {
+        <span class="kw">if</span> (<span class="kw">this</span> == obj) <span class="kw">return true</span>;
+        <span class="kw">if</span> (obj == <span class="kw">null</span> || <span class="kw">getClass</span>() != obj.<span class="fn">getClass</span>()) <span class="kw">return false</span>;
+        <span class="cl">Student</span> student = (<span class="cl">Student</span>) obj;
+        <span class="kw">return</span> Objects.<span class="fn">equals</span>(USN, student.USN);
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="kw">public</span> <span class="cl">String</span> <span class="fn">toString</span>() {
+        <span class="kw">return</span> name + <span class="st">" ("</span> + USN + <span class="st">")"</span>;
+    }
+}
+
+<span class="kw">public class</span> <span class="cl">UserDefinedCollectionDemo</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cl">String</span>[] args) {
+        <span class="cl">Set</span>&lt;<span class="cl">Student</span>&gt; set = <span class="kw">new</span> <span class="cl">HashSet</span>&lt;&gt;();
+
+        <span class="cl">Student</span> s1 = <span class="kw">new</span> <span class="cl">Student</span>(<span class="st">"1MS22IS001"</span>, <span class="st">"Ananth"</span>);
+        <span class="cl">Student</span> s2 = <span class="kw">new</span> <span class="cl">Student</span>(<span class="st">"1MS22IS002"</span>, <span class="st">"Akshay"</span>);
+        <span class="cl">Student</span> s3 = <span class="kw">new</span> <span class="cl">Student</span>(<span class="st">"1MS22IS001"</span>, <span class="st">"Ananth Kumar"</span>); <span class="cm">// Duplicate USN!</span>
+
+        set.<span class="fn">add</span>(s1);
+        set.<span class="fn">add</span>(s2);
+        set.<span class="fn">add</span>(s3); <span class="cm">// Will be rejected because of duplicate USN</span>
+
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"Students in Set:"</span>);
+        <span class="kw">for</span> (<span class="cl">Student</span> s : set) {
+            <span class="cl">System</span>.out.<span class="fn">println</span>(s);
+        }
+    }
+}</pre>
+    <div class="out-label">Output</div>
+    <div class="out-box">Students in Set:
+Ananth (1MS22IS001)
+Akshay (1MS22IS002)</div>
+  </div>
+</section>
+
+<!-- =================== SECTION 4 =================== -->
+<section id="s4">
+  <div class="section-title"><span class="num">4</span> Iterator vs Iterable</div>
+
+  <div class="grid2">
+    <div class="def-box">
+      <div class="label">Iterable (Interface)</div>
+      <strong>Package:</strong> java.lang<br>
+      Any class that implements <code>Iterable</code> can be used in a <strong>for-each loop</strong>.<br>
+      <strong>Method:</strong> <code>iterator()</code> — returns an Iterator object.<br>
+      <em>Think: "Can I iterate over this collection?"</em>
+    </div>
+    <div class="def-box">
+      <div class="label">Iterator (Interface)</div>
+      <strong>Package:</strong> java.util<br>
+      Used to <strong>traverse</strong> (loop through) elements one by one. Can also <strong>remove</strong> elements during iteration safely.<br>
+      <strong>Methods:</strong> <code>hasNext()</code>, <code>next()</code>, <code>remove()</code><br>
+      <em>Think: "The cursor that moves through the collection."</em>
+    </div>
+  </div>
+
+  <div class="tbl-wrap" style="margin-top:1rem;">
+  <table>
+    <thead><tr><th>Feature</th><th>Iterable</th><th>Iterator</th></tr></thead>
+    <tbody>
+      <tr><td>Package</td><td>java.lang</td><td>java.util</td></tr>
+      <tr><td>Purpose</td><td>Makes a collection for-each capable</td><td>Actually traverses the collection</td></tr>
+      <tr><td>Method</td><td><code>iterator()</code></td><td><code>hasNext()</code>, <code>next()</code>, <code>remove()</code></td></tr>
+      <tr><td>Cursor</td><td>Does not have a cursor</td><td>Has a cursor that moves forward</td></tr>
+      <tr><td>Remove during loop?</td><td>No</td><td><span class="hl">Yes</span> — safely via <code>remove()</code></td></tr>
+      <tr><td>Used in for-each?</td><td><span class="hl">Yes</span></td><td>No (used manually)</td></tr>
+      <tr><td>Reset/reuse?</td><td>Call <code>iterator()</code> again</td><td>Cannot reset — create new one</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="sub" style="margin-top:1rem;">
+    <div class="sub-title">Iterator Program — 6 Mark</div>
+<pre><span class="kw">import</span> java.util.*;
+<span class="kw">public class</span> <span class="cl">IteratorDemo</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cl">String</span>[] args) {
+        <span class="cl">ArrayList</span>&lt;<span class="cl">String</span>&gt; list = <span class="kw">new</span> <span class="cl">ArrayList</span>&lt;&gt;();
+        list.<span class="fn">add</span>(<span class="st">"Java"</span>);
+        list.<span class="fn">add</span>(<span class="st">"Python"</span>);
+        list.<span class="fn">add</span>(<span class="st">"C++"</span>);
+        list.<span class="fn">add</span>(<span class="st">"Kotlin"</span>);
+
+        <span class="cm">// Get Iterator</span>
+        <span class="cl">Iterator</span>&lt;<span class="cl">String</span>&gt; it = list.<span class="fn">iterator</span>();
+
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"All elements:"</span>);
+        <span class="kw">while</span> (it.<span class="fn">hasNext</span>()) {
+            <span class="cl">String</span> s = it.<span class="fn">next</span>();
+            <span class="cl">System</span>.out.<span class="fn">println</span>(s);
+        }
+
+        <span class="cm">// Remove "Python" using iterator (safe removal)</span>
+        <span class="cl">Iterator</span>&lt;<span class="cl">String</span>&gt; it2 = list.<span class="fn">iterator</span>();
+        <span class="kw">while</span> (it2.<span class="fn">hasNext</span>()) {
+            <span class="kw">if</span> (it2.<span class="fn">next</span>().<span class="fn">equals</span>(<span class="st">"Python"</span>))
+                it2.<span class="fn">remove</span>();
+        }
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"After removal: "</span> + list);
+    }
+}</pre>
+    <div class="out-label">Output</div>
+    <div class="out-box">All elements:
+Java
+Python
+C++
+Kotlin
+After removal: [Java, C++, Kotlin]</div>
+    <div class="tip">✅ Key point: Never use list.remove() inside a for-each loop — it throws ConcurrentModificationException. Always use iterator.remove().</div>
+  </div>
+
+  <div class="sub" style="margin-top:1.25rem;">
+    <div class="sub-title">Fail-Fast vs. Fail-Safe Iterators & Structural Verification</div>
+    
+    <div class="def-box">
+      <div class="label">Structural Modification & modCount</div>
+      Java collections use an internal protected field called <code class="inline-code">modCount</code> (inherited from <code>AbstractList</code> / <code>AbstractMap</code>) that keeps track of the number of times the collection has been <strong>structurally modified</strong> (additions, removals, resizes, clear operations). Changes in elements themselves (like setting a new value using <code>set()</code>) do not affect <code>modCount</code>.
+    </div>
+
+    <p style="margin-bottom:0.75rem;">
+      When a <strong>Fail-Fast iterator</strong> is created, it initializes an internal field <code class="inline-code">expectedModCount = modCount</code>. During iteration, on every call to <code class="inline-code">next()</code> or <code class="inline-code">remove()</code>, the iterator verifies that:
+    </p>
+    <pre style="margin:0.5rem 0;"><span class="kw">if</span> (modCount != expectedModCount)
+    <span class="kw">throw new</span> <span class="cl">ConcurrentModificationException</span>();</pre>
+    <p style="margin-bottom:0.75rem;">
+      If any other thread (or the same thread, using a direct collection modification method) modifies the structure, the count mismatch triggers an immediate fail-fast termination to prevent silent data corruption or non-deterministic behaviors.
+    </p>
+
+    <div class="def-box" style="background:#1a0f0f; border-left:3px solid var(--red);">
+      <div class="label" style="color:var(--red);">Fail-Safe (Weakly Consistent) Iterators</div>
+      Unlike fail-fast, <strong>Fail-Safe</strong> (more accurately called <em>Weakly Consistent</em>) iterators do not throw <code>ConcurrentModificationException</code> because they operate on a <strong>clone/snapshot</strong> of the collection's data structure (like <code>CopyOnWriteArrayList</code>) or use lock-free/segment-level structural traversal (like <code>ConcurrentHashMap</code>). They allow modifications during traversal but might not reflect real-time updates made after iterator creation.
+    </div>
+
+    <div class="tbl-wrap" style="margin-top:1rem;">
+      <table>
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>Fail-Fast Iterators</th>
+            <th>Fail-Safe (Weakly Consistent) Iterators</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Throws Exception?</strong></td>
+            <td><span class="hl2">Yes</span> — <code>ConcurrentModificationException</code> if modified.</td>
+            <td><span class="hl">No</span> — safe from concurrent structural exceptions.</td>
+          </tr>
+          <tr>
+            <td><strong>Data View</strong></td>
+            <td>Works on the <strong>original</strong> collection directly.</td>
+            <td>Works on a <strong>clone/snapshot</strong> or segmented buffer.</td>
+          </tr>
+          <tr>
+            <td><strong>Memory Overhead</strong></td>
+            <td>Zero additional memory overhead.</td>
+            <td>High overhead for snapshots (e.g. <code>CopyOnWriteArrayList</code>).</td>
+          </tr>
+          <tr>
+            <td><strong>Examples</strong></td>
+            <td>Iterators of <code>ArrayList</code>, <code>HashSet</code>, <code>HashMap</code>, <code>Vector</code>.</td>
+            <td>Iterators of <code>CopyOnWriteArrayList</code>, <code>ConcurrentHashMap</code>.</td>
+          </tr>
+          <tr>
+            <td><strong>Modification during loop</strong></td>
+            <td>Must use <code>iterator.remove()</code>; list methods fail.</td>
+            <td>Can use collection's own modification methods safely.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- =================== SECTION 5 =================== -->
+<section id="s5">
+  <div class="section-title"><span class="num">5</span> Spliterator</div>
+
+  <div class="def-box">
+    <div class="label">Definition</div>
+    <strong>Spliterator</strong> (Splittable Iterator) was introduced in <strong>Java 8</strong>. It can iterate AND split a collection for <strong>parallel processing</strong>. Designed to work with Streams.
+  </div>
+
+  <div class="grid2" style="margin-top:0.75rem;">
+    <div class="card">
+      <div class="card-title">Key Methods</div>
+      <ul class="bl">
+        <li><code>tryAdvance(Consumer)</code> — process one element, return false if no more</li>
+        <li><code>forEachRemaining(Consumer)</code> — process all remaining elements</li>
+        <li><code>trySplit()</code> — splits into two spliterators for parallel use</li>
+        <li><code>estimateSize()</code> — estimates remaining elements</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">Iterator vs Spliterator</div>
+      <ul class="bl">
+        <li>Iterator: <strong>sequential</strong> traversal only</li>
+        <li>Spliterator: sequential <strong>OR parallel</strong></li>
+        <li>Iterator: for legacy Collections</li>
+        <li>Spliterator: for Java 8 Streams</li>
+        <li>Spliterator can estimate size</li>
+      </ul>
+    </div>
+  </div>
+
+  <pre style="margin-top:0.75rem;"><span class="kw">import</span> java.util.*;
+<span class="kw">public class</span> <span class="cl">SpliteratorDemo</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cl">String</span>[] args) {
+        <span class="cl">List</span>&lt;<span class="cl">String</span>&gt; list = <span class="cl">Arrays</span>.<span class="fn">asList</span>(<span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">"D"</span>);
+        <span class="cl">Spliterator</span>&lt;<span class="cl">String</span>&gt; sp = list.<span class="fn">spliterator</span>();
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"Size: "</span> + sp.<span class="fn">estimateSize</span>());
+        sp.<span class="fn">forEachRemaining</span>(<span class="cl">System</span>.out::<span class="fn">println</span>);
+    }
+}</pre>
+  <div class="out-label">Output</div>
+  <div class="out-box">Size: 4
+A
+B
+C
+D</div>
+</section>
+
+<!-- =================== SECTION 6 =================== -->
+<section id="s6">
+  <div class="section-title"><span class="num">6</span> Working with Maps & Sets</div>
+
+  <div class="grid3">
+    <div class="sub">
+      <div class="sub-title">HashSet</div>
+      <ul class="bl">
+        <li>Implements <code>Set</code> using a hash table</li>
+        <li>No duplicate elements</li>
+        <li><strong>Unordered</strong> — no guaranteed order</li>
+        <li>Allows one <code>null</code> value</li>
+        <li>O(1) for add, remove, contains</li>
+      </ul>
+<pre><span class="cl">HashSet</span>&lt;<span class="cl">String</span>&gt; hs = <span class="kw">new</span> <span class="cl">HashSet</span>&lt;&gt;();
+hs.<span class="fn">add</span>(<span class="st">"Cat"</span>); hs.<span class="fn">add</span>(<span class="st">"Dog"</span>); hs.<span class="fn">add</span>(<span class="st">"Cat"</span>);
+<span class="cl">System</span>.out.<span class="fn">println</span>(hs); <span class="cm">// [Cat, Dog] — no duplicate</span></pre>
+    </div>
+    <div class="sub">
+      <div class="sub-title">LinkedHashSet</div>
+      <ul class="bl">
+        <li>Implements <code>Set</code> using hash table + linked list</li>
+        <li>No duplicate elements</li>
+        <li><strong>Ordered</strong> — maintains <strong>insertion order</strong></li>
+        <li>Allows one <code>null</code> value</li>
+        <li>O(1) performance for operations</li>
+      </ul>
+<pre><span class="cl">LinkedHashSet</span>&lt;<span class="cl">String</span>&gt; lhs = <span class="kw">new</span> <span class="cl">LinkedHashSet</span>&lt;&gt;();
+lhs.<span class="fn">add</span>(<span class="st">"Cat"</span>); lhs.<span class="fn">add</span>(<span class="st">"Dog"</span>); lhs.<span class="fn">add</span>(<span class="st">"Cat"</span>);
+<span class="cl">System</span>.out.<span class="fn">println</span>(lhs); <span class="cm">// [Cat, Dog] — maintains order</span></pre>
+    </div>
+    <div class="sub">
+      <div class="sub-title">TreeSet</div>
+      <ul class="bl">
+        <li>Implements <code>NavigableSet</code></li>
+        <li>Elements stored in <strong>sorted (ascending) order</strong></li>
+        <li>No duplicates, No null values</li>
+        <li>Backed by TreeMap internally</li>
+        <li>O(log n) for add, remove, contains</li>
+      </ul>
+<pre><span class="cl">TreeSet</span>&lt;<span class="cl">Integer</span>&gt; ts = <span class="kw">new</span> <span class="cl">TreeSet</span>&lt;&gt;();
+ts.<span class="fn">add</span>(<span class="nm">30</span>); ts.<span class="fn">add</span>(<span class="nm">10</span>); ts.<span class="fn">add</span>(<span class="nm">20</span>);
+<span class="cl">System</span>.out.<span class="fn">println</span>(ts); <span class="cm">// [10, 20, 30]</span></pre>
+    </div>
+  </div>
+
+  <div class="grid2" style="margin-top:1rem;">
+    <div class="sub">
+      <div class="sub-title">HashMap</div>
+      <ul class="bl">
+        <li>Key-value pairs, <strong>unordered</strong></li>
+        <li>Keys are unique; values can repeat</li>
+        <li>Allows one null key, multiple null values</li>
+        <li>O(1) average for put/get</li>
+      </ul>
+<pre><span class="cl">HashMap</span>&lt;<span class="cl">String</span>, <span class="cl">Integer</span>&gt; hm = <span class="kw">new</span> <span class="cl">HashMap</span>&lt;&gt;();
+hm.<span class="fn">put</span>(<span class="st">"Alice"</span>, <span class="nm">90</span>);
+hm.<span class="fn">put</span>(<span class="st">"Bob"</span>, <span class="nm">85</span>);
+<span class="kw">for</span> (<span class="cl">Map.Entry</span>&lt;<span class="cl">String</span>,<span class="cl">Integer</span>&gt; e : hm.<span class="fn">entrySet</span>())
+    <span class="cl">System</span>.out.<span class="fn">println</span>(e.<span class="fn">getKey</span>() + <span class="st">": "</span> + e.<span class="fn">getValue</span>());</pre>
+    </div>
+    <div class="sub">
+      <div class="sub-title">TreeMap</div>
+      <ul class="bl">
+        <li>Key-value pairs, keys stored in <strong>sorted order</strong></li>
+        <li>Implements <code>NavigableMap</code></li>
+        <li>No null keys (throws NullPointerException)</li>
+        <li>O(log n) for put/get</li>
+        <li>Useful when sorted key traversal is needed</li>
+      </ul>
+<pre><span class="cl">TreeMap</span>&lt;<span class="cl">String</span>, <span class="cl">Double</span>&gt; tm = <span class="kw">new</span> <span class="cl">TreeMap</span>&lt;&gt;();
+tm.<span class="fn">put</span>(<span class="st">"Zara"</span>, <span class="nm">9.5</span>);
+tm.<span class="fn">put</span>(<span class="st">"Amit"</span>, <span class="nm">8.7</span>);
+<span class="cl">System</span>.out.<span class="fn">println</span>(tm); <span class="cm">// {Amit=8.7, Zara=9.5}</span></pre>
+    </div>
+  </div>
+
+  <div class="tbl-wrap" style="margin-top:1rem;">
+  <table>
+    <thead><tr><th>Feature</th><th>HashSet</th><th>TreeSet</th><th>HashMap</th><th>TreeMap</th></tr></thead>
+    <tbody>
+      <tr><td>Order</td><td>Unordered</td><td>Sorted ↑</td><td>Unordered</td><td>Sorted by key ↑</td></tr>
+      <tr><td>Null</td><td>1 null allowed</td><td>No null</td><td>1 null key</td><td>No null key</td></tr>
+      <tr><td>Performance</td><td>O(1)</td><td>O(log n)</td><td>O(1)</td><td>O(log n)</td></tr>
+      <tr><td>Backed by</td><td>HashMap</td><td>TreeMap</td><td>Hash table</td><td>Red-Black tree</td></tr>
+      <tr><td>Use when</td><td>Fast lookup, no order</td><td>Need sorted elements</td><td>Fast key lookup</td><td>Need sorted keys</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="sub" style="margin-top:1.5rem;">
+    <div class="sub-title">HashMap Internals, Hashing Mechanics & Treeification</div>
+    
+    <div class="def-box">
+      <div class="label">Step 1: The Supplemental Hash Function & XOR Bit-Shift</div>
+      When you call <code>put(key, value)</code>, HashMap computes a 32-bit integer hash code. To minimize collisions (especially when the hash codes differ only in constant upper bits), it applies a supplemental hashing function using an XOR bit-shift operation:
+      <pre style="margin:0.5rem 0;"><span class="kw">static final int</span> <span class="fn">hash</span>(Object key) {
+    <span class="kw">int</span> h;
+    <span class="kw">return</span> (key == <span class="kw">null</span>) ? <span class="nm">0</span> : (h = key.<span class="fn">hashCode</span>()) ^ (h &gt;&gt;&gt; <span class="nm">16</span>);
+}</pre>
+      Shifting the high 16 bits downward and XORing them ensures that high-entropy bits influence the lower index calculation range.
+    </div>
+
+    <div class="def-box" style="background:#0c1e28; border-left:3px solid var(--accent2);">
+      <div class="label">Step 2: Bucket Index Matching via (n - 1) & hash</div>
+      Rather than using the expensive modulo operator (<code>hash % n</code>), HashMap computes the bucket array index using a bitwise AND operation:
+      <div style="font-size: 0.82rem; margin: 4px 0; font-family: 'JetBrains Mono', monospace; color: var(--accent3);">
+        index = (n - 1) & hash
+      </div>
+      where <code>n</code> represents the current capacity of the internal bucket array (which is always a power of 2, e.g., 16, 32, 64). Bitwise AND on a power of two acts as a high-speed mask.
+    </div>
+
+    <div class="card" style="margin-top:0.75rem;">
+      <div class="card-title">Step 3: Hash Collisions & Java 8 Treeification Rules</div>
+      If multiple keys resolve to the same bucket index, they are stored in a linked chain (Singly Linked List of <code>Node&lt;K,V&gt;</code>).
+      <br>If a chain grows too long, performance degrades from $O(1)$ to $O(n)$. Java 8 introduced an optimization called <strong>Treeification</strong>:
+      <ul class="bl" style="margin-top: 0.5rem;">
+        <li>When a bucket's chain length exceeds <code class="inline-code">TREEIFY_THRESHOLD = 8</code> elements...</li>
+        <li>...AND the total HashMap capacity is at least <code class="inline-code">MIN_TREEIFY_CAPACITY = 64</code>...</li>
+        <li>The linked list is converted (treeified) into a self-balancing <strong>Red-Black Tree</strong> of <code>TreeNode&lt;K,V&gt;</code>, reducing lookup times to <span class="hl">$O(\log n)$</span>.</li>
+        <li>If the map is resized and elements in a bucket drop below <code class="inline-code">UNTREEIFY_THRESHOLD = 6</code>, the tree is converted back into a standard linked list.</li>
+        <li><strong>Resizing Threshold:</strong> When the number of active entries exceeds <code>capacity * loadFactor</code> (where standard <code>loadFactor = 0.75</code>), the array capacity doubles (e.g. 16 to 32) and all elements are rehashed.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sub">
+    <div class="sub-title">Self-Balancing Red-Black Trees in TreeSet & TreeMap</div>
+    <p style="margin-bottom:0.75rem;">
+      Both <code>TreeSet</code> and <code>TreeMap</code> are backed by an internal <strong>Red-Black Tree</strong> implementation. Unlike hashing-based structures that offer average $O(1)$ time but rely on complex hashing and array allocations, Red-Black Trees guarantee strict <span class="hl">$O(\log n)$</span> time complexity for fundamental operations (<code>add</code>, <code>remove</code>, <code>contains</code>).
+    </p>
+    <div class="trick">
+      <strong>Red-Black Tree Rules enforced on insert/delete:</strong>
+      <ol style="margin-left: 1.25rem; font-size: 0.8rem; margin-top: 4px;">
+        <li>Every node is either Red or Black.</li>
+        <li>The root node is always Black.</li>
+        <li>No two adjacent Red nodes are allowed (Red nodes cannot have Red children).</li>
+        <li>Every path from a node to any of its descendant NULL nodes must contain the same number of Black nodes (black height equality).</li>
+      </ol>
+      When elements are inserted, the tree preserves balance via <strong>left rotations, right rotations, and node recoloring</strong> algorithms.
+    </div>
+  </div>
+</section>
+
+<!-- =================== SECTION 7 =================== -->
+<section id="s7">
+  <div class="section-title"><span class="num">7</span> Comparator Interface</div>
+
+  <div class="def-box">
+    <div class="label">Definition</div>
+    <code>Comparator&lt;T&gt;</code> is a <strong>functional interface</strong> in <code>java.util</code> used to define <strong>custom sorting logic externally</strong> (outside the class being compared). It allows multiple sorting rules for the same class.
+  </div>
+
+  <div class="sub">
+    <div class="sub-title">Syntax</div>
+<pre><span class="kw">interface</span> <span class="cl">Comparator</span>&lt;T&gt; {
+    <span class="kw">int</span> <span class="fn">compare</span>(T obj1, T obj2);
+}
+<span class="cm">// Return: negative if obj1 &lt; obj2 | 0 if equal | positive if obj1 &gt; obj2</span></pre>
+  </div>
+
+  <div class="sub">
+    <div class="sub-title">Program: TreeSet with Reverse Order Comparator — 5M/6M</div>
+<pre><span class="kw">import</span> java.util.*;
+
+<span class="kw">class</span> <span class="cl">MyComp</span> <span class="kw">implements</span> <span class="cl">Comparator</span>&lt;<span class="cl">String</span>&gt; {
+    <span class="kw">public int</span> <span class="fn">compare</span>(<span class="cl">String</span> a, <span class="cl">String</span> b) {
+        <span class="kw">return</span> b.<span class="fn">compareTo</span>(a); <span class="cm">// b vs a → reverse order</span>
+    }
+}
+
+<span class="kw">public class</span> <span class="cl">CompDemo</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cl">String</span>[] args) {
+        <span class="cl">TreeSet</span>&lt;<span class="cl">String</span>&gt; ts = <span class="kw">new</span> <span class="cl">TreeSet</span>&lt;&gt;(<span class="kw">new</span> <span class="cl">MyComp</span>());
+        ts.<span class="fn">add</span>(<span class="st">"C"</span>); ts.<span class="fn">add</span>(<span class="st">"A"</span>); ts.<span class="fn">add</span>(<span class="st">"B"</span>);
+        ts.<span class="fn">add</span>(<span class="st">"E"</span>); ts.<span class="fn">add</span>(<span class="st">"F"</span>); ts.<span class="fn">add</span>(<span class="st">"D"</span>);
+        <span class="kw">for</span> (<span class="cl">String</span> s : ts)
+            <span class="cl">System</span>.out.<span class="fn">print</span>(s + <span class="st">" "</span>);
+    }
+}</pre>
+    <div class="out-label">Output</div>
+    <div class="out-box">F E D C B A</div>
+    <div class="note">⭐ PYQ: "Write Java code to insert integer objects into TreeSet where the sorting order is descending." (SEE 6.c)</div>
+  </div>
+
+  <div class="sub">
+    <div class="sub-title">Program: Sort ArrayList in Descending Order — PYQ SEE 6.b</div>
+<pre><span class="kw">import</span> java.util.*;
+<span class="kw">public class</span> <span class="cl">DescSort</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cl">String</span>[] args) {
+        <span class="cl">ArrayList</span>&lt;<span class="cl">Integer</span>&gt; list = <span class="kw">new</span> <span class="cl">ArrayList</span>&lt;&gt;();
+        list.<span class="fn">add</span>(<span class="nm">30</span>); list.<span class="fn">add</span>(<span class="nm">10</span>); list.<span class="fn">add</span>(<span class="nm">50</span>); list.<span class="fn">add</span>(<span class="nm">20</span>);
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"Before: "</span> + list);
+
+        <span class="cm">// Using Comparator lambda for descending sort</span>
+        <span class="cl">Collections</span>.<span class="fn">sort</span>(list, (a, b) -&gt; b - a);
+
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"After: "</span> + list);
+    }
+}</pre>
+    <div class="out-label">Output</div>
+    <div class="out-box">Before: [30, 10, 50, 20]
+After: [50, 30, 20, 10]</div>
+  </div>
+
+  <div class="sub">
+    <div class="sub-title">Program: Employee Sort by Salary using Comparator</div>
+<pre><span class="kw">import</span> java.util.*;
+
+<span class="kw">class</span> <span class="cl">Employee</span> {
+    <span class="cl">String</span> name;
+    <span class="kw">int</span> salary;
+    <span class="cl">Employee</span>(<span class="cl">String</span> name, <span class="kw">int</span> salary) {
+        <span class="kw">this</span>.name = name; <span class="kw">this</span>.salary = salary;
+    }
+    <span class="kw">public</span> <span class="cl">String</span> <span class="fn">toString</span>() { <span class="kw">return</span> name + <span class="st">" - "</span> + salary; }
+}
+
+<span class="kw">public class</span> <span class="cl">EmpSort</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cl">String</span>[] args) {
+        <span class="cl">List</span>&lt;<span class="cl">Employee</span>&gt; list = <span class="kw">new</span> <span class="cl">ArrayList</span>&lt;&gt;();
+        list.<span class="fn">add</span>(<span class="kw">new</span> <span class="cl">Employee</span>(<span class="st">"Alice"</span>, <span class="nm">60000</span>));
+        list.<span class="fn">add</span>(<span class="kw">new</span> <span class="cl">Employee</span>(<span class="st">"Bob"</span>, <span class="nm">45000</span>));
+        list.<span class="fn">add</span>(<span class="kw">new</span> <span class="cl">Employee</span>(<span class="st">"Charlie"</span>, <span class="nm">75000</span>));
+
+        <span class="cm">// Sort by salary ascending</span>
+        <span class="cl">Collections</span>.<span class="fn">sort</span>(list, (e1, e2) -&gt; e1.salary - e2.salary);
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"Sorted by Salary:"</span>);
+        <span class="kw">for</span> (<span class="cl">Employee</span> e : list)
+            <span class="cl">System</span>.out.<span class="fn">println</span>(e);
+    }
+}</pre>
+    <div class="out-label">Output</div>
+    <div class="out-box">Sorted by Salary:
+Bob - 45000
+Alice - 60000
+Charlie - 75000</div>
+  </div>
+</section>
+
+<!-- =================== SECTION 8 =================== -->
+<section id="s8">
+  <div class="section-title"><span class="num">8</span> Comparable Interface</div>
+
+  <div class="def-box">
+    <div class="label">Definition</div>
+    <code>Comparable&lt;T&gt;</code> is an interface in <code>java.lang</code>. It defines the <strong>natural ordering</strong> of objects. A class implements it to define how its objects compare to each other. Used by <code>Collections.sort()</code>, <code>TreeSet</code>, and <code>TreeMap</code> automatically.
+  </div>
+
+  <div class="sub">
+    <div class="sub-title">Syntax</div>
+<pre><span class="kw">interface</span> <span class="cl">Comparable</span>&lt;T&gt; {
+    <span class="kw">int</span> <span class="fn">compareTo</span>(T obj);
+}
+<span class="cm">// Return: negative → this &lt; obj | 0 → equal | positive → this &gt; obj</span></pre>
+  </div>
+
+  <div class="sub">
+    <div class="sub-title">Program: Employee Sorting by Age using Comparable — 5M/6M</div>
+<pre><span class="kw">import</span> java.util.*;
+
+<span class="kw">class</span> <span class="cl">Employee</span> <span class="kw">implements</span> <span class="cl">Comparable</span>&lt;<span class="cl">Employee</span>&gt; {
+    <span class="cl">String</span> name;
+    <span class="kw">int</span> age;
+
+    <span class="cl">Employee</span>(<span class="cl">String</span> name, <span class="kw">int</span> age) {
+        <span class="kw">this</span>.name = name;
+        <span class="kw">this</span>.age = age;
+    }
+
+    <span class="kw">public int</span> <span class="fn">compareTo</span>(<span class="cl">Employee</span> e) {
+        <span class="kw">return this</span>.age - e.age; <span class="cm">// natural sort: ascending by age</span>
+    }
+
+    <span class="kw">public</span> <span class="cl">String</span> <span class="fn">toString</span>() {
+        <span class="kw">return</span> name + <span class="st">" - "</span> + age;
+    }
+}
+
+<span class="kw">public class</span> <span class="cl">Test</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cl">String</span>[] args) {
+        <span class="cl">List</span>&lt;<span class="cl">Employee</span>&gt; list = <span class="kw">new</span> <span class="cl">ArrayList</span>&lt;&gt;();
+        list.<span class="fn">add</span>(<span class="kw">new</span> <span class="cl">Employee</span>(<span class="st">"John"</span>, <span class="nm">30</span>));
+        list.<span class="fn">add</span>(<span class="kw">new</span> <span class="cl">Employee</span>(<span class="st">"Alice"</span>, <span class="nm">25</span>));
+        list.<span class="fn">add</span>(<span class="kw">new</span> <span class="cl">Employee</span>(<span class="st">"Bob"</span>, <span class="nm">28</span>));
+
+        <span class="cl">Collections</span>.<span class="fn">sort</span>(list); <span class="cm">// uses compareTo() internally</span>
+        <span class="kw">for</span> (<span class="cl">Employee</span> e : list)
+            <span class="cl">System</span>.out.<span class="fn">println</span>(e);
+    }
+}</pre>
+    <div class="out-label">Output</div>
+    <div class="out-box">Alice - 25
+Bob - 28
+John - 30</div>
+  </div>
+
+  <div class="tbl-wrap" style="margin-top:1rem;">
+  <table>
+    <thead><tr><th>Feature</th><th class="hl">Comparable</th><th class="hl2">Comparator</th></tr></thead>
+    <tbody>
+      <tr><td>Purpose</td><td>Natural ordering of objects</td><td>Custom ordering of objects</td></tr>
+      <tr><td>Package</td><td>java.lang</td><td>java.util</td></tr>
+      <tr><td>Method</td><td><code>compareTo(T obj)</code></td><td><code>compare(T o1, T o2)</code></td></tr>
+      <tr><td>Where defined</td><td>Inside the class itself</td><td>Outside the class (separate class/lambda)</td></tr>
+      <tr><td>Class modification</td><td>Yes — must implement Comparable</td><td>No — original class unchanged</td></tr>
+      <tr><td>Sorting rules</td><td>Only ONE natural order</td><td>Multiple sorting orders possible</td></tr>
+      <tr><td>Flexibility</td><td>Less flexible</td><td>Highly flexible</td></tr>
+      <tr><td>Used by</td><td>Collections.sort(list)</td><td>Collections.sort(list, comparator)</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="trick">Comparable → "I compare myself" (compareTo). Comparator → "Someone else compares me" (compare).</div>
+</section>
+
+<!-- =================== SECTION 9 =================== -->
+<section id="s9">
+  <div class="section-title"><span class="num">9</span> Java Generics</div>
+
+  <div class="def-box">
+    <div class="label">Definition</div>
+    <strong>Generics</strong> = Parameterized Types. They allow a class, interface, or method to work with <strong>different data types safely</strong> — catching type errors at <strong>compile time</strong> instead of runtime. Introduced in Java 5.
+  </div>
+
+  <div class="grid2" style="margin-top:0.75rem;">
+    <div class="card">
+      <div class="card-title">Two Main Objectives of Generics</div>
+      <ul class="bl">
+        <li><strong>Type Safety</strong> — compiler catches type mismatches, no ClassCastException at runtime</li>
+        <li><strong>Code Reusability</strong> — write once, use with any type (Integer, String, Double, etc.)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">Key Rules</div>
+      <ul class="bl">
+        <li>Use <strong>wrapper classes</strong> — can't use primitives (<code>int</code>, <code>char</code>) directly</li>
+        <li><code>Gen&lt;Integer&gt;</code> and <code>Gen&lt;String&gt;</code> are different types</li>
+        <li>Type parameter names: T (Type), E (Element), K (Key), V (Value)</li>
+        <li>Generics are erased at runtime (type erasure)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sub" style="margin-top:1rem;">
+    <div class="sub-title">Generic Class — 6M Program</div>
+<pre><span class="kw">class</span> <span class="cl">Gen</span>&lt;T&gt; {               <span class="cm">// T = type parameter</span>
+    T ob;
+    <span class="cl">Gen</span>(T o) { ob = o; }
+    T <span class="fn">getob</span>() { <span class="kw">return</span> ob; }
+    <span class="kw">void</span> <span class="fn">showType</span>() {
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"Type: "</span> + ob.<span class="fn">getClass</span>().<span class="fn">getName</span>());
+    }
+}
+
+<span class="kw">public class</span> <span class="cl">GenDemo</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cl">String</span>[] args) {
+        <span class="cl">Gen</span>&lt;<span class="cl">Integer</span>&gt; iOb = <span class="kw">new</span> <span class="cl">Gen</span>&lt;&gt;(<span class="nm">88</span>);
+        iOb.<span class="fn">showType</span>();
+        <span class="kw">int</span> v = iOb.<span class="fn">getob</span>(); <span class="cm">// No cast needed!</span>
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"value: "</span> + v);
+
+        <span class="cl">Gen</span>&lt;<span class="cl">String</span>&gt; sOb = <span class="kw">new</span> <span class="cl">Gen</span>&lt;&gt;(<span class="st">"Generics"</span>);
+        sOb.<span class="fn">showType</span>();
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"value: "</span> + sOb.<span class="fn">getob</span>());
+
+        <span class="cm">// iOb = sOb;  ← Compile-time ERROR! Type mismatch</span>
+    }
+}</pre>
+    <div class="out-label">Output</div>
+    <div class="out-box">Type: java.lang.Integer
+value: 88
+Type: java.lang.String
+value: Generics</div>
+  </div>
+
+  <div class="sub">
+    <div class="sub-title">Generic Class with Two Type Parameters</div>
+<pre><span class="kw">class</span> <span class="cl">TwoGen</span>&lt;T, V&gt; {
+    T ob1; V ob2;
+    <span class="cl">TwoGen</span>(T o1, V o2) { ob1 = o1; ob2 = o2; }
+    <span class="kw">void</span> <span class="fn">showTypes</span>() {
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"T: "</span> + ob1.<span class="fn">getClass</span>().<span class="fn">getName</span>());
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"V: "</span> + ob2.<span class="fn">getClass</span>().<span class="fn">getName</span>());
+    }
+}
+
+<span class="kw">class</span> <span class="cl">SimpGen</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cl">String</span>[] args) {
+        <span class="cl">TwoGen</span>&lt;<span class="cl">Integer</span>, <span class="cl">String</span>&gt; tg = <span class="kw">new</span> <span class="cl">TwoGen</span>&lt;&gt;(<span class="nm">88</span>, <span class="st">"Generics"</span>);
+        tg.<span class="fn">showTypes</span>();
+        <span class="cl">System</span>.out.<span class="fn">println</span>(tg.ob1 + <span class="st">" | "</span> + tg.ob2);
+    }
+}</pre>
+    <div class="out-label">Output</div>
+    <div class="out-box">T: java.lang.Integer
+V: java.lang.String
+88 | Generics</div>
+  </div>
+
+  <div class="sub">
+    <div class="sub-title">Bounded Types — &lt;T extends Number&gt;</div>
+    <div class="def-box" style="margin-bottom:0.75rem;">
+      <div class="label">Bounded Type</div>
+      Restrict which types T can be. <code>&lt;T extends SomeClass&gt;</code> means T must be SomeClass or its subclass. Allows using methods of that class on T.
+    </div>
+<pre><span class="kw">class</span> <span class="cl">Stats</span>&lt;T <span class="kw">extends</span> <span class="cl">Number</span>&gt; {  <span class="cm">// T must be Number or subclass</span>
+    T[] nums;
+    <span class="cl">Stats</span>(T[] o) { nums = o; }
+    <span class="kw">double</span> <span class="fn">average</span>() {
+        <span class="kw">double</span> sum = <span class="nm">0.0</span>;
+        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="nm">0</span>; i &lt; nums.length; i++)
+            sum += nums[i].<span class="fn">doubleValue</span>(); <span class="cm">// valid because T extends Number</span>
+        <span class="kw">return</span> sum / nums.length;
+    }
+}
+
+<span class="kw">public class</span> <span class="cl">BoundsDemo</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cl">String</span>[] args) {
+        <span class="cl">Integer</span>[] a = {<span class="nm">1</span>, <span class="nm">2</span>, <span class="nm">3</span>, <span class="nm">4</span>, <span class="nm">5</span>};
+        <span class="cl">Stats</span>&lt;<span class="cl">Integer</span>&gt; si = <span class="kw">new</span> <span class="cl">Stats</span>&lt;&gt;(a);
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"Average: "</span> + si.<span class="fn">average</span>());
+        <span class="cm">// Stats&lt;String&gt; ss = new Stats&lt;&gt;(...); ← ERROR! String not a Number</span>
+    }
+}</pre>
+    <div class="out-label">Output</div>
+    <div class="out-box">Average: 3.0</div>
+  </div>
+
+  <div class="sub">
+    <div class="sub-title">Generic Method — 5M/6M Program</div>
+    <div class="def-box" style="margin-bottom:0.75rem;">
+      <div class="label">Generic Method</div>
+      A method that defines its <strong>own type parameter</strong>, independent of the class. Type parameter is declared before the return type.
+      <br>Syntax: <code>&lt;T&gt; returnType methodName(T param)</code>
+    </div>
+<pre><span class="kw">class</span> <span class="cl">GenMethDemo</span> {
+    <span class="cm">// Generic method: checks if x exists in array y</span>
+    <span class="kw">static</span> &lt;T, V <span class="kw">extends</span> T&gt; <span class="kw">boolean</span> <span class="fn">isIn</span>(T x, V[] y) {
+        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="nm">0</span>; i &lt; y.length; i++)
+            <span class="kw">if</span> (x.<span class="fn">equals</span>(y[i])) <span class="kw">return true</span>;
+        <span class="kw">return false</span>;
+    }
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cl">String</span>[] args) {
+        <span class="cl">Integer</span>[] nums = {<span class="nm">1</span>, <span class="nm">2</span>, <span class="nm">3</span>, <span class="nm">4</span>, <span class="nm">5</span>};
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="fn">isIn</span>(<span class="nm">2</span>, nums));     <span class="cm">// true</span>
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="fn">isIn</span>(<span class="nm">7</span>, nums));     <span class="cm">// false</span>
+
+        <span class="cl">String</span>[] words = {<span class="st">"apple"</span>, <span class="st">"banana"</span>};
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="fn">isIn</span>(<span class="st">"banana"</span>, words)); <span class="cm">// true</span>
+    }
+}</pre>
+    <div class="out-label">Output</div>
+    <div class="out-box">true
+false
+true</div>
+  </div>
+
+  <div class="sub">
+    <div class="sub-title">Generic Interface — 5M</div>
+<pre><span class="kw">interface</span> <span class="cl">Printer</span>&lt;T&gt; {
+    <span class="kw">void</span> <span class="fn">print</span>(T data);
+}
+
+<span class="kw">class</span> <span class="cl">StringPrinter</span> <span class="kw">implements</span> <span class="cl">Printer</span>&lt;<span class="cl">String</span>&gt; {
+    <span class="kw">public void</span> <span class="fn">print</span>(<span class="cl">String</span> data) {
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"String: "</span> + data);
+    }
+}
+
+<span class="kw">class</span> <span class="cl">IntPrinter</span> <span class="kw">implements</span> <span class="cl">Printer</span>&lt;<span class="cl">Integer</span>&gt; {
+    <span class="kw">public void</span> <span class="fn">print</span>(<span class="cl">Integer</span> data) {
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"Integer: "</span> + data);
+    }
+}
+
+<span class="kw">public class</span> <span class="cl">Demo</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cl">String</span>[] args) {
+        <span class="cl">Printer</span>&lt;<span class="cl">String</span>&gt; p1 = <span class="kw">new</span> <span class="cl">StringPrinter</span>();
+        p1.<span class="fn">print</span>(<span class="st">"Hello"</span>);
+        <span class="cl">Printer</span>&lt;<span class="cl">Integer</span>&gt; p2 = <span class="kw">new</span> <span class="cl">IntPrinter</span>();
+        p2.<span class="fn">print</span>(<span class="nm">100</span>);
+    }
+}</pre>
+    <div class="out-label">Output</div>
+    <div class="out-box">String: Hello
+Integer: 100</div>
+  </div>
+
+  <div class="tbl-wrap" style="margin-top:0.75rem;">
+  <table>
+    <thead><tr><th>Feature</th><th>Generic Class</th><th>Generic Method</th></tr></thead>
+    <tbody>
+      <tr><td>Type param declared at</td><td>Class level: <code>class Gen&lt;T&gt;</code></td><td>Method level: <code>&lt;T&gt; void method()</code></td></tr>
+      <tr><td>Scope of T</td><td>Entire class</td><td>Only within that method</td></tr>
+      <tr><td>When to use</td><td>When multiple methods use same T</td><td>When only one method needs generics</td></tr>
+      <tr><td>Class needs to be generic?</td><td>Yes</td><td>No — can be in a non-generic class</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="sub" style="margin-top:1.5rem;">
+    <div class="sub-title">Generic Type Erasure & Bridge Methods</div>
+    
+    <div class="def-box">
+      <div class="label">What is Type Erasure?</div>
+      Java implemented Generics using <strong>Type Erasure</strong> to maintain backward compatibility with older pre-Generic Java versions (legacy code). 
+      The compiler strips away all generic type parameters during compilation, meaning <strong>generic type parameters only exist at compile time</strong>. At runtime, the JVM knows nothing about the generic types; all classes are compiled into raw types.
+    </div>
+
+    <div class="card" style="margin-top:0.75rem;">
+      <div class="card-title">Three Core Compiler Rules of Type Erasure</div>
+      <ul class="bl">
+        <li><strong>Replacing Type Parameters:</strong> The compiler replaces all type parameters in generic types with their <strong>bounds</strong> if they are bounded (e.g., <code>&lt;T extends Number&gt;</code> becomes <code>Number</code>), or with <code class="inline-code">Object</code> if they are unbounded (e.g., <code>&lt;T&gt;</code> becomes <code>Object</code>).</li>
+        <li><strong>Inserting Explicit Casts:</strong> Wherever the generic return type is assigned to a specific reference, the compiler automatically inserts an explicit type cast in the bytecode (e.g., <code>String s = list.get(0)</code> becomes compiled as <code>String s = (String) list.get(0)</code>).</li>
+        <li><strong>Generating Bridge Methods:</strong> The compiler generates synthetic helper methods (called <strong>Bridge Methods</strong>) in subclass implementations to preserve polymorphism in inheritance hierarchies.</li>
+      </ul>
+    </div>
+
+    <div class="sub-title" style="font-size:0.88rem; color:var(--accent4); margin-top:1rem; margin-bottom:0.25rem;">Before vs. After Type Erasure (Bytecode level)</div>
+    <div class="grid2">
+      <div class="card" style="background:#111827;">
+        <div class="card-title" style="color:var(--accent2); font-size:0.72rem;">1. Generic Code (Written by Developer)</div>
+        <pre style="margin:0; padding:6px; font-size:0.7rem;"><span class="kw">public class</span> <span class="cl">Node</span>&lt;T&gt; {
+    <span class="kw">private</span> T data;
+    <span class="kw">public</span> <span class="cl">Node</span>(T data) { <span class="kw">this</span>.data = data; }
+    <span class="kw">public</span> T <span class="fn">getData</span>() { <span class="kw">return</span> data; }
+}</pre>
+      </div>
+      <div class="card" style="background:#111827;">
+        <div class="card-title" style="color:var(--accent3); font-size:0.72rem;">2. Compiled Code (What the JVM executes)</div>
+        <pre style="margin:0; padding:6px; font-size:0.7rem;"><span class="kw">public class</span> <span class="cl">Node</span> {
+    <span class="kw">private</span> <span class="cl">Object</span> data; <span class="cm">// Unbounded -> Object</span>
+    <span class="kw">public</span> <span class="cl">Node</span>(<span class="cl">Object</span> data) { <span class="kw">this</span>.data = data; }
+    <span class="kw">public</span> <span class="cl">Object</span> <span class="fn">getData</span>() { <span class="kw">return</span> data; }
+}</pre>
+      </div>
+    </div>
+
+    <div class="def-box" style="background:#1a0f2e; border-left:3px solid var(--accent4); margin-top:1rem;">
+      <div class="label" style="color:var(--accent4);">Polymorphic Bridge Methods Explained</div>
+      Consider this inheritance structure:
+      <pre style="margin:0.5rem 0; font-size:0.72rem;"><span class="kw">public class</span> <span class="cl">MyNode</span> <span class="kw">extends</span> <span class="cl">Node</span>&lt;<span class="cl">Integer</span>&gt; {
+    <span class="kw">public</span> <span class="cl">MyNode</span>(<span class="cl">Integer</span> data) { <span class="kw">super</span>(data); }
+    <span class="kw">public void</span> <span class="fn">setData</span>(<span class="cl">Integer</span> data) { ... } <span class="cm">// Overriding!</span>
+}</pre>
+      After type erasure, <code>Node</code>'s method becomes <code>setData(Object data)</code>, but <code>MyNode</code> has a method <code>setData(Integer data)</code>. 
+      <br>Since their signatures differ (<code>Object</code> vs <code>Integer</code>), <code>MyNode</code> <strong>no longer overrides</strong> <code>Node</code>'s method at the JVM bytecode level. To fix this and preserve runtime polymorphism, the compiler automatically generates a synthetic <strong>Bridge Method</strong> in <code>MyNode</code>:
+      <pre style="margin:0.5rem 0; font-size:0.72rem;"><span class="cm">// Synthetic bridge method generated behind-the-scenes by compiler:</span>
+<span class="kw">public void</span> <span class="fn">setData</span>(<span class="cl">Object</span> data) {
+    <span class="kw">this</span>.<span class="fn">setData</span>((<span class="cl">Integer</span>) data); <span class="cm">// Delegates to type-specific method</span>
+}</pre>
+    </div>
+  </div>
+</section>
+
+<!-- =================== SECTION 9b =================== -->
+<section id="s9b">
+  <div class="section-title"><span class="num">9b</span> Bounded &amp; Unbounded Wildcards</div>
+
+  <div class="def-box">
+    <div class="label">Definition</div>
+    A <strong>Wildcard Argument</strong> (represented by the question mark <code>?</code>) is used in Generics to represent an <strong>unknown type</strong>. It is primarily used as parameter types in methods, allowing them to accept arguments of varied generic classifications.
+  </div>
+
+  <div class="grid3">
+    <div class="card">
+      <div class="card-title">1. Unbounded Wildcard (&lt;?&gt;)</div>
+      <p>Represents any completely unknown type. Acceptable when a method only performs operations defined in the <code>Object</code> class.</p>
+      <pre style="margin:6px 0; padding:6px 10px; font-size:0.7rem;"><span class="kw">void</span> <span class="fn">printList</span>(<span class="cl">List</span>&lt;?&gt; list) {
+    <span class="kw">for</span> (Object obj : list)
+        System.out.println(obj);
+}</pre>
+    </div>
+    <div class="card">
+      <div class="card-title">2. Upper-Bounded Wildcard (&lt;? extends T&gt;)</div>
+      <p>Restricts the unknown type to be **T or any subclass of T**. Ideal for **reading** data from a generic structure safely.</p>
+      <pre style="margin:6px 0; padding:6px 10px; font-size:0.7rem;"><span class="kw">double</span> <span class="fn">sum</span>(<span class="cl">List</span>&lt;? <span class="kw">extends</span> <span class="cl">Number</span>&gt; list) {
+    <span class="kw">double</span> s = <span class="nm">0.0</span>;
+    <span class="kw">for</span> (Number n : list)
+        s += n.doubleValue();
+    <span class="kw">return</span> s;
+}</pre>
+    </div>
+    <div class="card">
+      <div class="card-title">3. Lower-Bounded Wildcard (&lt;? super T&gt;)</div>
+      <p>Restricts the unknown type to be **T or any superclass of T**. Ideal for **writing** or adding elements to a generic structure safely.</p>
+      <pre style="margin:6px 0; padding:6px 10px; font-size:0.7rem;"><span class="kw">void</span> <span class="fn">addInt</span>(<span class="cl">List</span>&lt;? <span class="kw">super</span> <span class="cl">Integer</span>&gt; list) {
+    list.<span class="fn">add</span>(<span class="nm">10</span>); <span class="cm">// Safe to write Integer</span>
+}</pre>
+    </div>
+  </div>
+
+  <div class="sub" style="margin-top:1.25rem;">
+    <div class="sub-title">Bounded Wildcards vs Bounded Types</div>
+    <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>Bounded Wildcard (<code>&lt;? extends T&gt;</code>)</th>
+          <th>Bounded Type Parameter (<code>&lt;T extends Number&gt;</code>)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Declaration Location</strong></td>
+          <td>Inside **method arguments** only (used as method parameters).</td>
+          <td>At **class/interface declarations** or **generic method signatures**.</td>
+        </tr>
+        <tr>
+          <td><strong>Naming</strong></td>
+          <td>Type reference is anonymous (uses <code>?</code>).</td>
+          <td>Type reference is named (uses <code>T</code>, which can be reused inside the class/method).</td>
+        </tr>
+        <tr>
+          <td><strong>Relationship Capabilities</strong></td>
+          <td>Supports both **upper bounds** (extends) and **lower bounds** (super).</td>
+          <td>Only supports **upper bounds** (extends). Lower bounds are not supported.</td>
+        </tr>
+        <tr>
+          <td><strong>Best For</strong></td>
+          <td>Providing flexible arguments for method invocation.</td>
+          <td>Designing classes/methods that declare internal fields or return types of type T.</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="sub">
+    <div class="sub-title">Bounded Wildcard Program — 6 Mark PYQ</div>
+<pre><span class="kw">import</span> java.util.*;
+
+<span class="kw">public class</span> <span class="cl">WildcardDemo</span> {
+    <span class="cm">// Upper-Bounded Wildcard: reads and sums any Number sub-list</span>
+    <span class="kw">public static double</span> <span class="fn">sumOfList</span>(<span class="cl">List</span>&lt;? <span class="kw">extends</span> <span class="cl">Number</span>&gt; list) {
+        <span class="kw">double</span> sum = <span class="nm">0.0</span>;
+        <span class="kw">for</span> (<span class="cl">Number</span> n : list) {
+            sum += n.<span class="fn">doubleValue</span>();
+        }
+        <span class="kw">return</span> sum;
+    }
+
+    <span class="cm">// Lower-Bounded Wildcard: appends integer values safely</span>
+    <span class="kw">public static void</span> <span class="fn">addNumbers</span>(<span class="cl">List</span>&lt;? <span class="kw">super</span> <span class="cl">Integer</span>&gt; list) {
+        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="nm">1</span>; i &lt;= <span class="nm">3</span>; i++) {
+            list.<span class="fn">add</span>(i);
+        }
+    }
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cl">String</span>[] args) {
+        <span class="cm">// Testing Upper Bound</span>
+        <span class="cl">List</span>&lt;<span class="cl">Integer</span>&gt; li = <span class="cl">Arrays</span>.<span class="fn">asList</span>(<span class="nm">1</span>, <span class="nm">2</span>, <span class="nm">3</span>);
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"Sum of Integers = "</span> + <span class="fn">sumOfList</span>(li));
+
+        <span class="cl">List</span>&lt;<span class="cl">Double</span>&gt; ld = <span class="cl">Arrays</span>.<span class="fn">asList</span>(<span class="nm">1.2</span>, <span class="nm">2.3</span>, <span class="nm">3.5</span>);
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"Sum of Doubles = "</span> + <span class="fn">sumOfList</span>(ld));
+
+        <span class="cm">// Testing Lower Bound</span>
+        <span class="cl">List</span>&lt;<span class="cl">Number</span>&gt; ln = <span class="kw">new</span> <span class="cl">ArrayList</span>&lt;&gt;();
+        <span class="fn">addNumbers</span>(ln);
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="st">"List after lower-bound addition: "</span> + ln);
+    }
+}</pre>
+    <div class="out-label">Output</div>
+    <div class="out-box">Sum of Integers = 6.0
+Sum of Doubles = 7.0
+List after lower-bound addition: [1, 2, 3]</div>
+  </div>
+</section>
+
+<!-- =================== SECTION 10 =================== -->
+<section id="s10">
+  <div class="section-title"><span class="num">10</span> Key Comparison Tables — Write Directly in Exam</div>
+
+  <div class="sub">
+    <div class="sub-title">List vs Set vs Map</div>
+    <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Feature</th><th>List</th><th>Set</th><th>Map</th></tr></thead>
+      <tbody>
+        <tr><td>Duplicates</td><td>✅ Allowed</td><td>❌ Not allowed</td><td>Keys: ❌ Values: ✅</td></tr>
+        <tr><td>Order</td><td>Insertion order</td><td>Depends on impl</td><td>Depends on impl</td></tr>
+        <tr><td>Null</td><td>Multiple nulls</td><td>One null (HashSet)</td><td>One null key (HashMap)</td></tr>
+        <tr><td>Index-based access</td><td>✅ Yes</td><td>❌ No</td><td>By key</td></tr>
+        <tr><td>Implementations</td><td>ArrayList, LinkedList</td><td>HashSet, TreeSet</td><td>HashMap, TreeMap</td></tr>
+        <tr><td>Extends</td><td>Collection</td><td>Collection</td><td>Does NOT extend Collection</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="sub">
+    <div class="sub-title">Array vs Collections</div>
+    <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Feature</th><th>Array</th><th>Collections</th></tr></thead>
+      <tbody>
+        <tr><td>Size</td><td>Fixed at creation</td><td>Dynamic — grows/shrinks</td></tr>
+        <tr><td>Type</td><td>Primitives + Objects</td><td>Only Objects (reference types)</td></tr>
+        <tr><td>Type safety</td><td>Not type-safe by default</td><td>Generics enforce type safety</td></tr>
+        <tr><td>Performance</td><td>Faster (no overhead)</td><td>Slightly slower (generics, boxing)</td></tr>
+        <tr><td>Utility methods</td><td>Limited (Arrays class)</td><td>Rich API (Collections class)</td></tr>
+        <tr><td>Multi-dimensional</td><td>Supported</td><td>Not directly supported</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="sub">
+    <div class="sub-title">TreeSet vs HashSet</div>
+    <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Feature</th><th>HashSet</th><th>TreeSet</th></tr></thead>
+      <tbody>
+        <tr><td>Order</td><td>No guaranteed order</td><td>Ascending sorted order</td></tr>
+        <tr><td>Null</td><td>One null allowed</td><td>Null NOT allowed</td></tr>
+        <tr><td>Performance</td><td>O(1) — faster</td><td>O(log n) — slower</td></tr>
+        <tr><td>Internal structure</td><td>Hash table</td><td>Red-Black tree</td></tr>
+        <tr><td>Custom sorting?</td><td>No</td><td>Yes — via Comparator</td></tr>
+        <tr><td>Use case</td><td>Fast lookup, order doesn't matter</td><td>Need sorted unique elements</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="sub">
+    <div class="sub-title">HashMap vs TreeMap</div>
+    <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Feature</th><th>HashMap</th><th>TreeMap</th></tr></thead>
+      <tbody>
+        <tr><td>Key Order</td><td>Unordered</td><td>Ascending sorted by key</td></tr>
+        <tr><td>Null key</td><td>One null key allowed</td><td>Null key NOT allowed</td></tr>
+        <tr><td>Performance</td><td>O(1) average</td><td>O(log n)</td></tr>
+        <tr><td>Internal</td><td>Hash table</td><td>Red-Black tree</td></tr>
+        <tr><td>Custom order?</td><td>No</td><td>Yes — via Comparator</td></tr>
+        <tr><td>Implements</td><td>Map</td><td>NavigableMap, SortedMap</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+</section>
+
+<!-- =================== SECTION 11 =================== -->
+<section id="s11">
+  <div class="section-title"><span class="num">11</span> Ready-to-Write Programs (Complete with Output)</div>
+
+  <div class="sub">
+    <div class="sub-title">TreeMap with Custom Comparator — Sort by Last Name (From Notes)</div>
+<pre><span class="kw">import</span> java.util.*;
+
+<span class="kw">class</span> <span class="cl">TComp</span> <span class="kw">implements</span> <span class="cl">Comparator</span>&lt;<span class="cl">String</span>&gt; {
+    <span class="kw">public int</span> <span class="fn">compare</span>(<span class="cl">String</span> a, <span class="cl">String</span> b) {
+        <span class="kw">int</span> i = a.<span class="fn">lastIndexOf</span>(<span class="st">' '</span>);
+        <span class="kw">int</span> j = b.<span class="fn">lastIndexOf</span>(<span class="st">' '</span>);
+        <span class="kw">int</span> k = a.<span class="fn">substring</span>(i).<span class="fn">compareTo</span>(b.<span class="fn">substring</span>(j));
+        <span class="kw">return</span> (k == <span class="nm">0</span>) ? a.<span class="fn">compareTo</span>(b) : k;
+    }
+}
+
+<span class="kw">class</span> <span class="cl">TreeMapDemo2</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cl">String</span>[] args) {
+        <span class="cl">TreeMap</span>&lt;<span class="cl">String</span>, <span class="cl">Double</span>&gt; tm = <span class="kw">new</span> <span class="cl">TreeMap</span>&lt;&gt;(<span class="kw">new</span> <span class="cl">TComp</span>());
+        tm.<span class="fn">put</span>(<span class="st">"John Doe"</span>, <span class="nm">3434.34</span>);
+        tm.<span class="fn">put</span>(<span class="st">"Tom Smith"</span>, <span class="nm">123.22</span>);
+        tm.<span class="fn">put</span>(<span class="st">"Jane Baker"</span>, <span class="nm">1378.00</span>);
+        tm.<span class="fn">put</span>(<span class="st">"Tod Hall"</span>, <span class="nm">99.22</span>);
+        tm.<span class="fn">put</span>(<span class="st">"Ralph Smith"</span>, -<span class="nm">19.08</span>);
+
+        <span class="kw">for</span> (<span class="cl">Map.Entry</span>&lt;<span class="cl">String</span>, <span class="cl">Double</span>&gt; me : tm.<span class="fn">entrySet</span>())
+            <span class="cl">System</span>.out.<span class="fn">println</span>(me.<span class="fn">getKey</span>() + <span class="st">": "</span> + me.<span class="fn">getValue</span>());
+    }
+}</pre>
+    <div class="out-label">Output</div>
+    <div class="out-box">Jane Baker: 1378.0
+John Doe: 3434.34
+Tod Hall: 99.22
+Ralph Smith: -19.08
+Tom Smith: 123.22</div>
+    <div class="note">Note: Sorted by last name (Baker, Doe, Hall, Smith, Smith). For same last names, full name comparison used.</div>
+  </div>
+
+  <div class="sub">
+    <div class="sub-title">Generics — max() Generic Method with Comparable Bound</div>
+<pre><span class="kw">public class</span> <span class="cl">Util</span> {
+    <span class="kw">public static</span> &lt;T <span class="kw">extends</span> <span class="cl">Comparable</span>&lt;T&gt;&gt; T <span class="fn">max</span>(T a, T b, T c) {
+        T m = a;
+        <span class="kw">if</span> (b.<span class="fn">compareTo</span>(m) &gt; <span class="nm">0</span>) m = b;
+        <span class="kw">if</span> (c.<span class="fn">compareTo</span>(m) &gt; <span class="nm">0</span>) m = c;
+        <span class="kw">return</span> m;
+    }
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cl">String</span>[] args) {
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="fn">max</span>(<span class="nm">3</span>, <span class="nm">7</span>, <span class="nm">5</span>));
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="fn">max</span>(<span class="st">"apple"</span>, <span class="st">"banana"</span>, <span class="st">"kiwi"</span>));
+    }
+}</pre>
+    <div class="out-label">Output</div>
+    <div class="out-box">7
+kiwi</div>
+  </div>
+
+  <div class="sub">
+    <div class="sub-title">Generic Class — Box&lt;T&gt; Simple (Quick 5M)</div>
+<pre><span class="kw">class</span> <span class="cl">Box</span>&lt;T&gt; {
+    <span class="kw">private</span> T value;
+    <span class="cl">Box</span>(T value) { <span class="kw">this</span>.value = value; }
+    T <span class="fn">getValue</span>() { <span class="kw">return</span> value; }
+}
+
+<span class="kw">public class</span> <span class="cl">Main</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cl">String</span>[] args) {
+        <span class="cl">Box</span>&lt;<span class="cl">Integer</span>&gt; i = <span class="kw">new</span> <span class="cl">Box</span>&lt;&gt;(<span class="nm">42</span>);
+        <span class="cl">Box</span>&lt;<span class="cl">String</span>&gt;  s = <span class="kw">new</span> <span class="cl">Box</span>&lt;&gt;(<span class="st">"Hello"</span>);
+        <span class="cl">Box</span>&lt;<span class="cl">Double</span>&gt;  d = <span class="kw">new</span> <span class="cl">Box</span>&lt;&gt;(<span class="nm">3.14</span>);
+        <span class="cl">System</span>.out.<span class="fn">println</span>(i.<span class="fn">getValue</span>());
+        <span class="cl">System</span>.out.<span class="fn">println</span>(s.<span class="fn">getValue</span>());
+        <span class="cl">System</span>.out.<span class="fn">println</span>(d.<span class="fn">getValue</span>());
+    }
+}</pre>
+    <div class="out-label">Output</div>
+    <div class="out-box">42
+Hello
+3.14</div>
+  </div>
+</section>
+
+<!-- =================== SECTION 12 =================== -->
+<section id="s12">
+  <div class="section-title"><span class="num">12</span> PYQ — Previous Year Questions (from uploaded papers)</div>
+
+  <div style="margin-bottom:0.75rem; font-size:0.8rem; color:var(--muted);">Questions from SEE (Semester End Exam) + Internal question papers.</div>
+
+  <div class="pyq">
+    <span class="marks">6M</span>
+    <span class="tag">SEE Q6.a</span>
+    List five methods of Collection Interface. Write Java code demonstrating their usage.
+  </div>
+  <div class="pyq">
+    <span class="marks">5M</span>
+    <span class="tag">SEE Q6.b</span>
+    Write Java program to sort the given ArrayList in Descending order.
+  </div>
+  <div class="pyq">
+    <span class="marks">5M</span>
+    <span class="tag">SEE Q6.c</span>
+    Write Java code to insert integer objects into TreeSet where the sorting order is descending.
+  </div>
+  <div class="pyq">
+    <span class="marks">6M</span>
+    <span class="tag">SEE Q4.a</span>
+    Define an iterator in Java, and how does it facilitate traversal of collections? Provide an example.
+  </div>
+  <div class="pyq">
+    <span class="marks">5M</span>
+    <span class="tag">Internal Q2.a</span>
+    Compare and contrast Iterator and Iterable.
+  </div>
+  <div class="pyq">
+    <span class="marks">5M</span>
+    <span class="tag">Internal Q3.a</span>
+    How do you use a Comparator interface to compare two objects? Give a simple java code to illustrate the same.
+  </div>
+  <div class="pyq">
+    <span class="marks">5M</span>
+    <span class="tag">Internal 2 Q2.b</span>
+    Write a java program to create a functional interface PalindromeChecker with a method boolean isPalindrome(String s). Implement it using a lambda expression.
+  </div>
+  <div class="pyq">
+    <span class="marks">6M</span>
+    <span class="tag">Internal 2 Q3.c</span>
+    Explain how generics helps to improve type safety in Java programs with an example.
+  </div>
+  <div class="pyq">
+    <span class="marks">5M</span>
+    <span class="tag">SEE Q1.a</span>
+    What are the two main objectives of Generics? Give example for each objective.
+  </div>
+  <div class="pyq">
+    <span class="marks">5M</span>
+    <span class="tag">Internal 2 Q3.b</span>
+    Write a Java program using JDBC to insert a new product into the products table. (Unit 4 — but generics may be combined)
+  </div>
+
+  <div class="note" style="margin-top:1rem;">
+    ⭐ Most repeated topics: Iterator + Comparator + Collections sort + Generic class/method. If you can write these 4 programs cleanly, you cover ~20/30 marks.
+  </div>
+</section>
+
+<!-- =================== SECTION 13 =================== -->
+<section id="s13">
+  <div class="section-title"><span class="num">13</span> Viva Questions &amp; Quick Answers</div>
+
+  <div class="viva-q">
+    <div class="q">Q: What is the difference between Iterator and ListIterator?</div>
+    <div class="a">Iterator can traverse only forward; ListIterator (for List only) can traverse both forward and backward, and also add/set elements during traversal.</div>
+  </div>
+  <div class="viva-q">
+    <div class="q">Q: Why can't we use primitive types with Generics?</div>
+    <div class="a">Generics require reference types. Primitives (int, char) are not objects. Use wrapper classes: Integer, Character, Double, etc. Java does autoboxing automatically.</div>
+  </div>
+  <div class="viva-q">
+    <div class="q">Q: What is type erasure in Generics?</div>
+    <div class="a">At runtime, all generic type information is removed by the compiler. Gen&lt;Integer&gt; and Gen&lt;String&gt; both become Gen at runtime. This is called type erasure — generics are a compile-time feature only.</div>
+  </div>
+  <div class="viva-q">
+    <div class="q">Q: What happens if you try to add null to a TreeSet?</div>
+    <div class="a">It throws NullPointerException because TreeSet uses compareTo() to sort, and null cannot be compared.</div>
+  </div>
+  <div class="viva-q">
+    <div class="q">Q: What is the difference between Comparable and Comparator?</div>
+    <div class="a">Comparable defines natural ordering inside the class (compareTo method). Comparator defines custom ordering outside the class (compare method). Comparable = one sort order; Comparator = multiple sort orders possible.</div>
+  </div>
+  <div class="viva-q">
+    <div class="q">Q: Can we sort a HashSet? How?</div>
+    <div class="a">HashSet itself doesn't maintain order. To sort, either: (1) use TreeSet instead, or (2) copy HashSet to ArrayList and use Collections.sort().</div>
+  </div>
+  <div class="viva-q">
+    <div class="q">Q: What is the difference between Collection and Collections?</div>
+    <div class="a">Collection (with lowercase 'c' after) is an interface — root of List, Set, Queue. Collections (with 's') is a utility class with static methods like sort(), reverse(), shuffle(), min(), max().</div>
+  </div>
+  <div class="viva-q">
+    <div class="q">Q: What is a bounded wildcard in generics?</div>
+    <div class="a">&lt;T extends Number&gt; is an upper-bounded type — T can be Number or any of its subclasses. &lt;? super Integer&gt; is lower-bounded — anything that is a superclass of Integer.</div>
+  </div>
+  <div class="viva-q">
+    <div class="q">Q: Why does Map not extend Collection?</div>
+    <div class="a">Because Map stores key-value pairs, not single elements. The Collection interface is designed for individual elements. Map has a completely different API (put, get, entrySet, etc.).</div>
+  </div>
+  <div class="viva-q">
+    <div class="q">Q: What is ConcurrentModificationException?</div>
+    <div class="a">Thrown when you modify a collection (e.g., remove elements using list.remove()) while iterating over it with a for-each loop. Solution: use iterator.remove() instead.</div>
+  </div>
+  <div class="viva-q">
+    <div class="q">Q: What are the advantages of using Spliterator over Iterator?</div>
+    <div class="a">Spliterator supports parallel processing (trySplit() method), can estimate size, and is designed for Java 8 Streams. Iterator only supports sequential, single-threaded traversal.</div>
+  </div>
+  <div class="viva-q">
+    <div class="q">Q: What is a generic interface?</div>
+    <div class="a">An interface that accepts a type parameter: interface MyInterface&lt;T&gt; { void show(T data); }. A class implementing it specifies the type: class A implements MyInterface&lt;String&gt;. This allows the interface to work with multiple types while maintaining type safety.</div>
+  </div>
+</section>
+
+<hr>
+
+<!-- QUICK REFERENCE BOX -->
+<section>
+  <div class="section-title" style="font-size:1rem;">⚡ Last-Minute Quick Reference</div>
+  <div class="grid3">
+    <div class="card">
+      <div class="card-title">5-Mark Template</div>
+      <ul class="bl">
+        <li>Definition (2–3 lines)</li>
+        <li>Syntax / Interface declaration</li>
+        <li>Short example with output</li>
+        <li>1 important note / use case</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">6-Mark Template</div>
+      <ul class="bl">
+        <li>Definition (2–3 lines)</li>
+        <li>Full program with class + main</li>
+        <li>Output block</li>
+        <li>Brief explanation of output</li>
+        <li>Note/advantage</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">Return Value Tricks</div>
+      <ul class="bl">
+        <li>compareTo / compare: <strong>neg → &lt;</strong>, <strong>0 → =</strong>, <strong>pos → &gt;</strong></li>
+        <li>Reverse sort: return <code>b.compareTo(a)</code></li>
+        <li>Ascending int sort: <code>a - b</code></li>
+        <li>Descending int sort: <code>b - a</code></li>
+      </ul>
+    </div>
+  </div>
+  <div class="tip" style="margin-top:1rem;">
+    ✅ For TreeSet/TreeMap with custom order: pass the Comparator in the constructor — <code>new TreeSet&lt;&gt;(new MyComp())</code><br>
+    ✅ For Collections.sort with custom order: <code>Collections.sort(list, new MyComp())</code> or lambda <code>(a,b) -&gt; b-a</code><br>
+    ✅ Iterator safe remove: always use <code>iterator.remove()</code>, never <code>list.remove()</code> inside a loop
+  </div>
+</section>
+
+<div class="footer">
+  MSRIT B.E. ISE — Advanced Java (IS45) · Unit 3 Exam Notes · Based on SEE PYQs + Internal Papers + Course Notes
+</div>
+
+</div><!-- end container -->
+</body>
+</html>

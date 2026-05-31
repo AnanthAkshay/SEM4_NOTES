@@ -1,0 +1,1885 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DAA Unit 3 — Amortized Analysis & Advanced Data Structures | MSRIT IS43</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:        #0d1117;
+  --bg2:       #161b22;
+  --bg3:       #1c2333;
+  --border:    #30363d;
+  --text:      #e6edf3;
+  --muted:     #8b949e;
+  --accent:    #00d4aa;
+  --accent2:   #f0883e;
+  --accent3:   #58a6ff;
+  --danger:    #ff7b72;
+  --green:     #3fb950;
+  --purple:    #d2a8ff;
+  --yellow:    #e3b341;
+  --code-bg:   #161b22;
+  --shadow:    0 4px 32px rgba(0,0,0,0.5);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Lora',Georgia,serif;
+  font-size:16px;
+  line-height:1.75;
+}
+
+/* ─── LAYOUT ─── */
+.page-wrap{max-width:1100px;margin:0 auto;padding:0 24px 80px;}
+
+/* ─── HERO BANNER ─── */
+.hero{
+  background:linear-gradient(135deg,#0d1117 0%,#1a2744 40%,#0d2b2b 100%);
+  border-bottom:2px solid var(--accent);
+  padding:56px 24px 44px;
+  position:relative;
+  overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 60% 80% at 80% 20%,rgba(0,212,170,0.12),transparent);
+}
+.hero-inner{max-width:1100px;margin:0 auto;position:relative;}
+.hero-badge{
+  display:inline-block;
+  background:rgba(0,212,170,0.15);
+  border:1px solid rgba(0,212,170,0.4);
+  color:var(--accent);
+  font-family:'Syne',sans-serif;
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  padding:4px 14px;
+  border-radius:20px;
+  margin-bottom:16px;
+}
+.hero h1{
+  font-family:'Syne',sans-serif;
+  font-size:clamp(28px,5vw,52px);
+  font-weight:800;
+  line-height:1.1;
+  color:#fff;
+  margin-bottom:12px;
+}
+.hero h1 span{color:var(--accent);}
+.hero-sub{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:13px;
+  color:var(--muted);
+  letter-spacing:1px;
+}
+.hero-meta{
+  display:flex;gap:24px;flex-wrap:wrap;margin-top:28px;
+}
+.hero-pill{
+  background:rgba(255,255,255,0.06);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:8px 16px;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:12px;
+  color:var(--muted);
+}
+.hero-pill strong{color:var(--text);}
+
+/* ─── TOC ─── */
+.toc-card{
+  background:var(--bg2);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:28px 32px;
+  margin:40px 0;
+  position:relative;
+  overflow:hidden;
+}
+.toc-card::before{
+  content:'';position:absolute;top:0;left:0;width:4px;height:100%;
+  background:linear-gradient(180deg,var(--accent),var(--accent3));
+}
+.toc-title{
+  font-family:'Syne',sans-serif;
+  font-size:13px;
+  font-weight:700;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:16px;
+}
+.toc-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:8px;
+}
+.toc-item{
+  display:flex;align-items:flex-start;gap:10px;
+  padding:8px 10px;
+  border-radius:6px;
+  text-decoration:none;
+  color:var(--text);
+  font-family:'IBM Plex Mono',monospace;
+  font-size:13px;
+  transition:background .15s,color .15s;
+}
+.toc-item:hover{background:rgba(0,212,170,0.1);color:var(--accent);}
+.toc-num{
+  color:var(--accent);font-weight:600;min-width:28px;
+}
+
+/* ─── SECTION HEADERS ─── */
+.unit-section{margin-top:72px;}
+.section-label{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:8px;
+}
+.section-title{
+  font-family:'Syne',sans-serif;
+  font-size:clamp(22px,4vw,34px);
+  font-weight:800;
+  color:#fff;
+  line-height:1.15;
+  border-bottom:2px solid var(--border);
+  padding-bottom:16px;
+  margin-bottom:28px;
+}
+.section-title .accent{color:var(--accent);}
+
+/* ─── TOPIC CARDS ─── */
+.topic-block{
+  background:var(--bg2);
+  border:1px solid var(--border);
+  border-radius:14px;
+  margin-bottom:40px;
+  overflow:hidden;
+}
+.topic-header{
+  background:linear-gradient(90deg,var(--bg3),var(--bg2));
+  border-bottom:1px solid var(--border);
+  padding:20px 28px;
+  display:flex;align-items:center;gap:14px;
+}
+.topic-num{
+  background:var(--accent);
+  color:#000;
+  font-family:'Syne',sans-serif;
+  font-size:13px;
+  font-weight:800;
+  width:36px;height:36px;
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.topic-name{
+  font-family:'Syne',sans-serif;
+  font-size:20px;
+  font-weight:700;
+  color:#fff;
+}
+.topic-body{padding:28px;}
+
+/* ─── SUB-SECTIONS ─── */
+.sub-section{margin-bottom:28px;}
+.sub-title{
+  font-family:'Syne',sans-serif;
+  font-size:15px;
+  font-weight:700;
+  color:var(--accent3);
+  margin-bottom:10px;
+  display:flex;align-items:center;gap:8px;
+}
+.sub-title::before{
+  content:'';
+  display:inline-block;
+  width:3px;height:18px;
+  background:var(--accent3);
+  border-radius:2px;
+}
+
+/* ─── CALLOUT BOXES ─── */
+.callout{
+  border-radius:10px;
+  padding:16px 20px;
+  margin:16px 0;
+  border-left:4px solid;
+  font-size:15px;
+}
+.callout.info{background:rgba(88,166,255,0.08);border-color:var(--accent3);}
+.callout.warning{background:rgba(240,136,62,0.08);border-color:var(--accent2);}
+.callout.success{background:rgba(63,185,80,0.08);border-color:var(--green);}
+.callout.danger{background:rgba(255,123,114,0.08);border-color:var(--danger);}
+.callout.formula{background:rgba(0,212,170,0.08);border-color:var(--accent);}
+.callout-title{
+  font-family:'Syne',sans-serif;
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
+.callout.info .callout-title{color:var(--accent3);}
+.callout.warning .callout-title{color:var(--accent2);}
+.callout.success .callout-title{color:var(--green);}
+.callout.danger .callout-title{color:var(--danger);}
+.callout.formula .callout-title{color:var(--accent);}
+
+/* ─── CODE BLOCKS ─── */
+pre{
+  background:var(--code-bg);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:20px;
+  overflow-x:auto;
+  margin:14px 0;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:13px;
+  line-height:1.65;
+  color:#cdd9e5;
+}
+code{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:13px;
+  background:rgba(110,118,129,0.2);
+  border-radius:4px;
+  padding:1px 6px;
+  color:var(--accent);
+}
+pre code{background:none;padding:0;color:#cdd9e5;}
+.kw{color:var(--purple);}
+.fn{color:var(--accent3);}
+.cm{color:var(--muted);font-style:italic;}
+.num{color:var(--accent2);}
+.str{color:var(--green);}
+.op{color:var(--accent);}
+
+/* ─── TABLES ─── */
+.table-wrap{overflow-x:auto;margin:16px 0;}
+table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:14px;
+  font-family:'IBM Plex Mono',monospace;
+}
+th{
+  background:var(--bg3);
+  color:var(--accent);
+  font-weight:700;
+  padding:10px 14px;
+  text-align:left;
+  border:1px solid var(--border);
+  font-size:12px;
+  letter-spacing:0.5px;
+  text-transform:uppercase;
+}
+td{
+  padding:9px 14px;
+  border:1px solid var(--border);
+  color:var(--text);
+  vertical-align:top;
+}
+tr:nth-child(even) td{background:rgba(255,255,255,0.02);}
+tr:hover td{background:rgba(0,212,170,0.05);}
+.td-hi{color:var(--accent);font-weight:600;}
+.td-num{color:var(--accent2);}
+
+/* ─── PYQ BOXES ─── */
+.pyq-box{
+  background:rgba(240,136,62,0.06);
+  border:1px solid rgba(240,136,62,0.3);
+  border-radius:12px;
+  padding:20px 24px;
+  margin:20px 0;
+}
+.pyq-header{
+  display:flex;align-items:center;gap:10px;
+  margin-bottom:12px;
+}
+.pyq-badge{
+  background:var(--accent2);
+  color:#000;
+  font-family:'Syne',sans-serif;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  padding:2px 10px;
+  border-radius:4px;
+}
+.pyq-source{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:12px;
+  color:var(--muted);
+}
+.pyq-q{
+  font-style:italic;
+  color:var(--text);
+  margin-bottom:12px;
+  font-size:15px;
+}
+.pyq-solution{margin-top:12px;}
+.hot{
+  background:linear-gradient(90deg,#ff4444,#ff8800);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  font-weight:700;
+}
+
+/* ─── EXAM FORMAT ─── */
+.exam-format{
+  background:var(--bg3);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:20px;
+  margin:16px 0;
+}
+.exam-format h5{
+  font-family:'Syne',sans-serif;
+  font-size:13px;
+  font-weight:700;
+  color:var(--yellow);
+  letter-spacing:1px;
+  text-transform:uppercase;
+  margin-bottom:10px;
+}
+.exam-format ul{padding-left:20px;}
+.exam-format li{margin-bottom:4px;font-size:14px;color:var(--muted);}
+.exam-format li strong{color:var(--text);}
+
+/* ─── QUICK REVISION BOX ─── */
+.qr-box{
+  background:linear-gradient(135deg,rgba(0,212,170,0.06),rgba(88,166,255,0.06));
+  border:1px solid rgba(0,212,170,0.25);
+  border-radius:12px;
+  padding:22px;
+  margin-top:24px;
+}
+.qr-title{
+  font-family:'Syne',sans-serif;
+  font-size:14px;
+  font-weight:800;
+  color:var(--accent);
+  letter-spacing:1px;
+  text-transform:uppercase;
+  margin-bottom:14px;
+  display:flex;align-items:center;gap:8px;
+}
+.qr-title::before{content:'⚡';}
+.qr-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;}
+.qr-item{
+  display:flex;gap:8px;align-items:flex-start;
+  font-size:14px;color:var(--text);
+}
+.qr-item::before{
+  content:'✔';color:var(--green);font-weight:700;flex-shrink:0;margin-top:2px;
+}
+
+/* ─── COMPLEXITY TABLE ─── */
+.complexity-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+  gap:12px;
+  margin:16px 0;
+}
+.complexity-card{
+  background:var(--bg3);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:14px 16px;
+  text-align:center;
+}
+.complexity-case{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
+.complexity-card.best .complexity-case{color:var(--green);}
+.complexity-card.avg .complexity-case{color:var(--yellow);}
+.complexity-card.worst .complexity-case{color:var(--danger);}
+.complexity-card.space .complexity-case{color:var(--accent3);}
+.complexity-card.amort .complexity-case{color:var(--accent);}
+.complexity-val{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:22px;
+  font-weight:700;
+  color:#fff;
+}
+.complexity-desc{
+  font-size:11px;
+  color:var(--muted);
+  margin-top:4px;
+}
+
+/* ─── STEPS / ALGORITHM ─── */
+.algo-steps{
+  counter-reset:step;
+  list-style:none;
+  padding:0;
+}
+.algo-steps li{
+  counter-increment:step;
+  display:flex;gap:14px;
+  padding:10px 0;
+  border-bottom:1px solid var(--border);
+  font-size:15px;
+}
+.algo-steps li:last-child{border-bottom:none;}
+.algo-steps li::before{
+  content:counter(step);
+  background:var(--bg3);
+  border:1px solid var(--accent);
+  color:var(--accent);
+  font-family:'IBM Plex Mono',monospace;
+  font-size:12px;
+  font-weight:700;
+  width:26px;height:26px;
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+  margin-top:2px;
+}
+
+/* ─── MATH ─── */
+.math{
+  font-family:'IBM Plex Mono',monospace;
+  background:rgba(0,212,170,0.08);
+  border:1px solid rgba(0,212,170,0.2);
+  border-radius:6px;
+  padding:12px 16px;
+  display:block;
+  margin:12px 0;
+  color:var(--accent);
+  font-size:14px;
+  text-align:center;
+}
+.math.left{text-align:left;}
+.inline-math{
+  font-family:'IBM Plex Mono',monospace;
+  color:var(--accent);
+  font-size:13px;
+  background:rgba(0,212,170,0.08);
+  border-radius:3px;
+  padding:1px 5px;
+}
+
+/* ─── DIVIDER ─── */
+.divider{
+  border:none;
+  border-top:1px solid var(--border);
+  margin:32px 0;
+}
+
+/* ─── COMPARISON TABLE ─── */
+.compare-table td:first-child{
+  font-weight:600;color:var(--accent3);
+}
+
+/* ─── FLOAT LABELS ─── */
+.float-label{
+  float:right;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11px;
+  color:var(--muted);
+  background:var(--bg3);
+  border-radius:4px;
+  padding:2px 8px;
+  margin-left:10px;
+  border:1px solid var(--border);
+}
+
+/* ─── ANIMATION ─── */
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(16px);}
+  to{opacity:1;transform:translateY(0);}
+}
+.topic-block{animation:fadeUp .4s ease both;}
+.topic-block:nth-child(1){animation-delay:.05s;}
+.topic-block:nth-child(2){animation-delay:.1s;}
+.topic-block:nth-child(3){animation-delay:.15s;}
+.topic-block:nth-child(4){animation-delay:.2s;}
+.topic-block:nth-child(5){animation-delay:.25s;}
+
+/* ─── PRINT ─── */
+@media print{
+  body{background:#fff;color:#000;}
+  .topic-block,.toc-card,.callout,.pyq-box{break-inside:avoid;}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════ HERO ═══════════════════════════════ -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">MSRIT IS43 · Sem IV · CLRS-Based</div>
+    <h1>Unit 3: <span>Amortized Analysis</span><br>&amp; Advanced Data Structures</h1>
+    <p class="hero-sub">// Design and Analysis of Algorithms — Complete Exam Notes</p>
+    <div class="hero-meta">
+      <div class="hero-pill"><strong>Topics:</strong> Amortized Analysis · Disjoint Sets · Fibonacci Heaps</div>
+      <div class="hero-pill"><strong>Methods:</strong> Aggregate · Accounting · Potential</div>
+      <div class="hero-pill"><strong>Ref:</strong> CLRS Ch. 17, 19, 21</div>
+      <div class="hero-pill"><strong>Expected Marks:</strong> 20 / 100</div>
+    </div>
+  </div>
+</div>
+
+<div class="page-wrap">
+
+<!-- ═══════════════════════════════ UNIT OVERVIEW ═══════════════════════════════ -->
+<div class="toc-card">
+  <div class="toc-title">📋 Unit Overview & Navigation</div>
+  <div class="toc-grid">
+    <a href="#t1" class="toc-item"><span class="toc-num">01</span>What is Amortized Analysis?</a>
+    <a href="#t2" class="toc-item"><span class="toc-num">02</span>Aggregate Method</a>
+    <a href="#t3" class="toc-item"><span class="toc-num">03</span>Accounting Method</a>
+    <a href="#t4" class="toc-item"><span class="toc-num">04</span>Potential Method</a>
+    <a href="#t5" class="toc-item"><span class="toc-num">05</span>Disjoint Sets — Introduction</a>
+    <a href="#t6" class="toc-item"><span class="toc-num">06</span>Union by Rank</a>
+    <a href="#t7" class="toc-item"><span class="toc-num">07</span>Path Compression</a>
+    <a href="#t8" class="toc-item"><span class="toc-num">08</span>Fibonacci Heaps</a>
+    <a href="#t9" class="toc-item"><span class="toc-num">09</span>Applications &amp; Comparison</a>
+  </div>
+
+  <div style="margin-top:20px;">
+    <div class="callout warning">
+      <div class="callout-title">⚠ PYQ Note for MSRIT IS43</div>
+      The uploaded SEE papers (2023–2025) test Unit 3 on <strong>DP, Greedy, MST, Shortest Paths</strong> (Levitin textbook-based exam pattern). 
+      Amortized Analysis, Disjoint Sets, and Fibonacci Heaps are from the <strong>CLRS-based syllabus</strong> listed in your course document. 
+      These are <em>important theory topics</em> for CIE/internal exams and could appear in backlog/special SEEs. 
+      Treat these as <strong>high-value 5–10 mark questions</strong> if asked in CIE.
+    </div>
+  </div>
+
+  <div style="margin-top:16px;">
+    <div class="table-wrap">
+      <table>
+        <thead><tr>
+          <th>Topic</th><th>Marks Weightage</th><th>Difficulty</th><th>Most Asked Form</th>
+        </tr></thead>
+        <tbody>
+          <tr><td>Amortized Analysis — Concepts</td><td class="td-num">5–10</td><td style="color:var(--green)">Medium</td><td>Explain + compare methods</td></tr>
+          <tr><td>Aggregate Method (Stack, Binary Counter)</td><td class="td-num">5–8</td><td style="color:var(--green)">Medium</td><td>Trace + derive cost</td></tr>
+          <tr><td>Accounting Method</td><td class="td-num">5–8</td><td style="color:var(--yellow)">Medium-Hard</td><td>Assign credits, prove bound</td></tr>
+          <tr><td>Potential Method</td><td class="td-num">8–10</td><td style="color:var(--danger)">Hard</td><td>Define Φ, compute amortized cost</td></tr>
+          <tr><td>Disjoint Sets / Union-Find</td><td class="td-num">8–10</td><td style="color:var(--green)">Medium</td><td>Algorithm + trace</td></tr>
+          <tr><td>Union by Rank + Path Compression</td><td class="td-num">5–8</td><td style="color:var(--yellow)">Medium</td><td>Explain + complexity</td></tr>
+          <tr><td>Fibonacci Heaps</td><td class="td-num">8–10</td><td style="color:var(--danger)">Hard</td><td>Operations + complexity table</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ TOPIC 1: AMORTIZED ANALYSIS INTRO ═══════════════════════════════ -->
+<div class="unit-section" id="t1">
+  <div class="section-label">Topic 01</div>
+  <div class="section-title">What is <span class="accent">Amortized Analysis?</span></div>
+
+  <div class="topic-block">
+    <div class="topic-header">
+      <div class="topic-num">1</div>
+      <div class="topic-name">Concept Introduction &amp; Motivation</div>
+    </div>
+    <div class="topic-body">
+
+      <div class="sub-section">
+        <div class="sub-title">What is it?</div>
+        <p>Amortized analysis is a method for <strong>analyzing the average performance of a sequence of operations</strong> on a data structure, guaranteeing the <em>average cost per operation over the worst case</em>.</p>
+        <br>
+        <p>It is <strong>different from average-case analysis</strong>: there is no probability involved — it analyses the worst-case performance of a sequence of operations, not a single operation in isolation.</p>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">Why do we need it?</div>
+        <div class="callout info">
+          <div class="callout-title">The Core Problem</div>
+          Consider a dynamic array (like Java's ArrayList). Normally, <code>push</code> is O(1). But occasionally (when the array is full), it costs O(n) to resize. If you only look at the worst-case per operation, you'd say push is O(n) — which is misleading! <br><br>
+          Amortized analysis shows the <em>true</em> average cost across many operations is O(1) per push, even accounting for occasional O(n) resizes.
+        </div>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">Key Intuition — The "Amortization" Analogy</div>
+        <p>Think of it like a <strong>gym membership</strong>: you pay ₹5000 upfront but visit 100 times. The amortized cost per visit = ₹50/visit. Some visits "cost" more (first visit: registration paperwork) but averaged out, each visit is cheap.</p>
+        <br>
+        <p>In algorithms: <em>expensive operations happen rarely, but you "spread" their cost over many cheap operations</em>.</p>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">Formal Definition</div>
+        <div class="callout formula">
+          <div class="callout-title">Definition</div>
+          Let <span class="inline-math">T(n)</span> = total actual cost of <span class="inline-math">n</span> operations on a data structure.<br>
+          The <strong>amortized cost per operation</strong> = <span class="inline-math">T(n) / n</span>.<br><br>
+          If the amortized cost per operation is <span class="inline-math">O(f(n))</span>, then the total cost of <span class="inline-math">n</span> operations is <span class="inline-math">O(n · f(n))</span>.
+        </div>
+        <span class="math">Amortized Cost = Total Cost of n operations / n</span>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">When to use Amortized Analysis?</div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Use When</th><th>Example</th></tr></thead>
+            <tbody>
+              <tr><td>Some operations are occasionally very expensive</td><td>Dynamic array resize</td></tr>
+              <tr><td>Expensive operations cannot happen too frequently</td><td>Stack MULTIPOP</td></tr>
+              <tr><td>You need a tighter bound than worst-case per op</td><td>Binary counter increment</td></tr>
+              <tr><td>Proving amortized O(log n) for Fibonacci Heap ops</td><td>Decrease-Key in Dijkstra</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">Three Techniques (Overview)</div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr>
+              <th>Method</th><th>Core Idea</th><th>Tool Used</th><th>Best For</th>
+            </tr></thead>
+            <tbody>
+              <tr>
+                <td class="td-hi">Aggregate</td>
+                <td>Compute total cost of n ops, divide by n</td>
+                <td>Summation / counting</td>
+                <td>Simple sequences</td>
+              </tr>
+              <tr>
+                <td class="td-hi">Accounting</td>
+                <td>Assign different "charges" to each operation; save credit for later</td>
+                <td>Credit/debit system</td>
+                <td>Proving upper bounds</td>
+              </tr>
+              <tr>
+                <td class="td-hi">Potential</td>
+                <td>Define a potential function Φ representing "stored energy"</td>
+                <td>Potential function Φ</td>
+                <td>Complex data structures</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="qr-box">
+        <div class="qr-title">Quick Revision — Amortized Analysis</div>
+        <div class="qr-grid">
+          <div class="qr-item">Amortized ≠ Average-case (no probability!)</div>
+          <div class="qr-item">Worst-case over a SEQUENCE of operations</div>
+          <div class="qr-item">Three methods: Aggregate, Accounting, Potential</div>
+          <div class="qr-item">All three methods give same amortized bound</div>
+          <div class="qr-item">Used for: dynamic arrays, stacks, heaps, DSU</div>
+          <div class="qr-item">Formula: Â = T(n)/n per operation</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ TOPIC 2: AGGREGATE METHOD ═══════════════════════════════ -->
+<div class="unit-section" id="t2">
+  <div class="section-label">Topic 02</div>
+  <div class="section-title">The <span class="accent">Aggregate Method</span></div>
+
+  <div class="topic-block">
+    <div class="topic-header">
+      <div class="topic-num">2</div>
+      <div class="topic-name">Aggregate Method — Theory &amp; Examples</div>
+    </div>
+    <div class="topic-body">
+
+      <div class="sub-section">
+        <div class="sub-title">Core Idea</div>
+        <p>In the aggregate method, you <strong>compute the total cost T(n) of n operations</strong>, then divide by n to get the amortized cost per operation.</p>
+        <span class="math left">Amortized cost per op = T(n) / n</span>
+        <p>If T(n) = O(n·g(n)), then each operation has amortized cost O(g(n)).</p>
+      </div>
+
+      <hr class="divider">
+
+      <div class="sub-section">
+        <div class="sub-title">Example 1: Stack with MULTIPOP</div>
+        <p>Consider a stack that supports three operations:</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Operation</th><th>Actual Cost</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>PUSH(S, x)</code></td><td class="td-num">1</td><td>Push element onto stack</td></tr>
+              <tr><td><code>POP(S)</code></td><td class="td-num">1</td><td>Pop top element</td></tr>
+              <tr><td><code>MULTIPOP(S, k)</code></td><td class="td-num">min(s, k)</td><td>Pop min(stack_size, k) elements</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <br>
+        <p><strong>Worst case naively:</strong> MULTIPOP costs O(n), so n operations → O(n²) — but this is <em>too pessimistic</em>!</p>
+
+        <div class="callout success">
+          <div class="callout-title">Aggregate Argument</div>
+          Each element can be pushed at most <strong>once</strong> and popped at most <strong>once</strong>.<br>
+          Total number of PUSH operations ≤ n (out of all n operations).<br>
+          Total number of POP operations (including via MULTIPOP) ≤ Total PUSH operations ≤ n.<br><br>
+          Therefore: <strong>T(n) ≤ 2n = O(n)</strong><br>
+          Amortized cost per operation = O(n)/n = <strong>O(1)</strong>
+        </div>
+
+        <span class="math">T(n) ≤ 2n ⟹ Amortized cost per op = O(1)</span>
+      </div>
+
+      <hr class="divider">
+
+      <div class="sub-section">
+        <div class="sub-title">Example 2: Binary Counter Increment</div>
+        <p>Consider a k-bit binary counter starting at 0. The <code>INCREMENT</code> operation adds 1 to the counter. Cost = number of bits flipped.</p>
+
+        <div class="callout warning">
+          <div class="callout-title">Observation</div>
+          If bit i flips, bit i+1 might also flip (carry propagation). In the worst case (e.g., counter = 0111...1), INCREMENT flips all k bits → O(k). But is every INCREMENT that expensive? No!
+        </div>
+
+        <p><strong>How often does each bit flip?</strong></p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Bit Position</th><th>Flips per n Increments</th></tr></thead>
+            <tbody>
+              <tr><td>Bit 0 (LSB)</td><td class="td-num">⌊n/1⌋ = n</td></tr>
+              <tr><td>Bit 1</td><td class="td-num">⌊n/2⌋</td></tr>
+              <tr><td>Bit 2</td><td class="td-num">⌊n/4⌋</td></tr>
+              <tr><td>Bit i</td><td class="td-num">⌊n/2ⁱ⌋</td></tr>
+              <tr><td>Bit k-1 (MSB)</td><td class="td-num">⌊n/2^(k-1)⌋</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <br>
+        <p><strong>Total flips across n increments:</strong></p>
+        <span class="math">T(n) = Σᵢ₌₀ᵏ⁻¹ ⌊n/2ⁱ⌋ &lt; n · Σᵢ₌₀^∞ 1/2ⁱ = n · 2 = 2n = O(n)</span>
+        <p>Therefore: Amortized cost per INCREMENT = O(n)/n = <strong>O(1)</strong></p>
+      </div>
+
+      <hr class="divider">
+
+      <div class="sub-section">
+        <div class="sub-title">Solved Trace: Binary Counter (n = 8 increments)</div>
+
+        <div class="table-wrap">
+          <table>
+            <thead><tr>
+              <th>After increment #</th>
+              <th>Bit 7</th><th>Bit 6</th><th>Bit 5</th><th>Bit 4</th>
+              <th>Bit 3</th><th>Bit 2</th><th>Bit 1</th><th>Bit 0</th>
+              <th>Bits Flipped (Cost)</th>
+            </tr></thead>
+            <tbody>
+              <tr><td>Init</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td class="td-num">—</td></tr>
+              <tr><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td class="td-hi">1</td><td class="td-num">1</td></tr>
+              <tr><td>2</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td class="td-hi">1</td><td>0</td><td class="td-num">2</td></tr>
+              <tr><td>3</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td class="td-hi">1</td><td class="td-hi">1</td><td class="td-num">1</td></tr>
+              <tr><td>4</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td class="td-hi">1</td><td>0</td><td>0</td><td class="td-num">3</td></tr>
+              <tr><td>5</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td class="td-hi">1</td><td>0</td><td class="td-hi">1</td><td class="td-num">1</td></tr>
+              <tr><td>6</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td class="td-hi">1</td><td class="td-hi">1</td><td>0</td><td class="td-num">2</td></tr>
+              <tr><td>7</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td class="td-hi">1</td><td class="td-hi">1</td><td class="td-hi">1</td><td class="td-num">1</td></tr>
+              <tr><td>8</td><td>0</td><td>0</td><td>0</td><td>0</td><td class="td-hi">1</td><td>0</td><td>0</td><td>0</td><td class="td-num">4</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p><strong>Total flips</strong> = 1+2+1+3+1+2+1+4 = <strong>15</strong> across 8 increments.</p>
+        <p>Amortized = 15/8 ≈ 1.875 ≈ <strong>O(1) per operation</strong>. ✔</p>
+      </div>
+
+      <div class="exam-format">
+        <h5>📝 Exam Writing Guide</h5>
+        <ul>
+          <li><strong>For 5 marks:</strong> Explain aggregate method + one example (stack or binary counter) with cost table.</li>
+          <li><strong>For 8–10 marks:</strong> Both examples, full trace of binary counter, summation proof, and final amortized cost.</li>
+          <li><strong>Key phrase to write:</strong> "Each element is pushed at most once and popped at most once, so total cost ≤ 2n."</li>
+        </ul>
+      </div>
+
+      <div class="qr-box">
+        <div class="qr-title">Quick Revision — Aggregate Method</div>
+        <div class="qr-grid">
+          <div class="qr-item">Calculate TOTAL cost of n operations</div>
+          <div class="qr-item">Divide by n for amortized per-op cost</div>
+          <div class="qr-item">Stack MULTIPOP: T(n) = O(n) → O(1) amortized</div>
+          <div class="qr-item">Binary counter: T(n) = O(n) → O(1) amortized</div>
+          <div class="qr-item">Bit i flips ⌊n/2ⁱ⌋ times out of n increments</div>
+          <div class="qr-item">Geometric series: Σ 1/2ⁱ = 2, so total = 2n</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ TOPIC 3: ACCOUNTING METHOD ═══════════════════════════════ -->
+<div class="unit-section" id="t3">
+  <div class="section-label">Topic 03</div>
+  <div class="section-title">The <span class="accent">Accounting Method</span></div>
+
+  <div class="topic-block">
+    <div class="topic-header">
+      <div class="topic-num">3</div>
+      <div class="topic-name">Accounting Method — Theory &amp; Examples</div>
+    </div>
+    <div class="topic-body">
+
+      <div class="sub-section">
+        <div class="sub-title">Core Idea</div>
+        <p>In the accounting method, we <strong>assign different "charges" (amortized costs) to different operations</strong>. Some operations are charged <em>more</em> than their actual cost (saving "credit"); others are charged <em>less</em> (spending saved credit).</p>
+        <br>
+        <p>Let:</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Symbol</th><th>Meaning</th></tr></thead>
+            <tbody>
+              <tr><td><code>cᵢ</code></td><td>Actual cost of operation i</td></tr>
+              <tr><td><code>ĉᵢ</code></td><td>Amortized (charged) cost of operation i</td></tr>
+              <tr><td>Credit</td><td>ĉᵢ − cᵢ ≥ 0 (stored on data structure)</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout formula">
+          <div class="callout-title">Key Constraint</div>
+          For all n operations, the total stored credit must be ≥ 0 at all times:
+          <span class="math">Σᵢ₌₁ⁿ ĉᵢ ≥ Σᵢ₌₁ⁿ cᵢ</span>
+          This ensures we never "overdraw" the credit account.
+        </div>
+      </div>
+
+      <hr class="divider">
+
+      <div class="sub-section">
+        <div class="sub-title">Stack with MULTIPOP — Accounting Method</div>
+        <p>Assign amortized costs:</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Operation</th><th>Actual Cost</th><th>Amortized (Charged) Cost</th><th>Credit Stored</th></tr></thead>
+            <tbody>
+              <tr><td><code>PUSH(S, x)</code></td><td class="td-num">1</td><td class="td-num">2</td><td class="td-num">+1 (stored on element x)</td></tr>
+              <tr><td><code>POP(S)</code></td><td class="td-num">1</td><td class="td-num">0</td><td class="td-num">Use 1 credit from popped element</td></tr>
+              <tr><td><code>MULTIPOP(S,k)</code></td><td class="td-num">min(s,k)</td><td class="td-num">0</td><td class="td-num">Each pop uses 1 stored credit</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout success">
+          <div class="callout-title">Proof of Validity</div>
+          When an element is PUSHed, we charge 2 instead of 1 → extra 1 credit stored on the element.<br>
+          When it is POPped (directly or via MULTIPOP), we charge 0 → pay using the stored credit.<br>
+          Since each element pays for its own removal, credit never goes negative. ✔<br><br>
+          Total amortized cost for n ops = O(n) → <strong>Amortized O(1) per operation</strong>.
+        </div>
+      </div>
+
+      <hr class="divider">
+
+      <div class="sub-section">
+        <div class="sub-title">Binary Counter — Accounting Method</div>
+        <p>Assign amortized costs:</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Bit Flip Type</th><th>Actual Cost</th><th>Amortized Cost</th><th>Credit Effect</th></tr></thead>
+            <tbody>
+              <tr><td>0 → 1 (set to 1)</td><td class="td-num">1</td><td class="td-num">2</td><td class="td-num">+1 credit stored on this bit</td></tr>
+              <tr><td>1 → 0 (reset to 0)</td><td class="td-num">1</td><td class="td-num">0</td><td class="td-num">Use stored credit to pay</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <br>
+        <p>Each INCREMENT sets exactly one bit from 0→1 (amortized cost 2) and resets some bits from 1→0 (amortized cost 0 each, paid by stored credits).</p>
+        <p><strong>Total amortized cost per INCREMENT = 2 = O(1)</strong>.</p>
+
+        <div class="callout info">
+          <div class="callout-title">Insight</div>
+          The "2" charge works because: 1 unit pays for the actual 0→1 flip, and 1 unit is saved as credit on that bit to pay for the future 1→0 flip when the bit gets reset.
+        </div>
+      </div>
+
+      <div class="exam-format">
+        <h5>📝 Exam Writing Guide</h5>
+        <ul>
+          <li><strong>For 5 marks:</strong> Definition + table of amortized charges + constraint statement.</li>
+          <li><strong>For 8–10 marks:</strong> Both examples, clearly show credit stored on objects, prove credit ≥ 0 always.</li>
+          <li><strong>Key phrase:</strong> "The amortized cost charged is always sufficient to cover the actual cost, and the total credit (ĉ − c) never goes negative."</li>
+        </ul>
+      </div>
+
+      <div class="qr-box">
+        <div class="qr-title">Quick Revision — Accounting Method</div>
+        <div class="qr-grid">
+          <div class="qr-item">Charge ĉᵢ ≥ actual cost → save credit</div>
+          <div class="qr-item">Charge ĉᵢ &lt; actual cost → spend stored credit</div>
+          <div class="qr-item">Total stored credit must always be ≥ 0</div>
+          <div class="qr-item">PUSH: charge 2 (1 for push + 1 stored for future pop)</div>
+          <div class="qr-item">POP / MULTIPOP: charge 0, use stored credit</div>
+          <div class="qr-item">Bit 0→1: charge 2; Bit 1→0: charge 0</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ TOPIC 4: POTENTIAL METHOD ═══════════════════════════════ -->
+<div class="unit-section" id="t4">
+  <div class="section-label">Topic 04</div>
+  <div class="section-title">The <span class="accent">Potential Method</span></div>
+
+  <div class="topic-block">
+    <div class="topic-header">
+      <div class="topic-num">4</div>
+      <div class="topic-name">Potential Method — Theory &amp; Examples</div>
+    </div>
+    <div class="topic-body">
+
+      <div class="sub-section">
+        <div class="sub-title">Core Idea</div>
+        <p>Instead of associating credit with individual objects, the potential method defines a <strong>potential function Φ</strong> over the entire data structure state. Think of Φ as a "bank balance" of stored energy.</p>
+
+        <div class="callout formula">
+          <div class="callout-title">Potential Method Formula</div>
+          Let <span class="inline-math">Dᵢ</span> = state of data structure after operation i, and <span class="inline-math">Φ(Dᵢ)</span> = potential at that state.<br><br>
+          <span class="math">Amortized cost: ĉᵢ = cᵢ + Φ(Dᵢ) − Φ(Dᵢ₋₁)</span>
+          Where:
+          <ul style="margin-top:8px;padding-left:20px;">
+            <li><span class="inline-math">ĉᵢ</span> = amortized cost of operation i</li>
+            <li><span class="inline-math">cᵢ</span> = actual cost of operation i</li>
+            <li><span class="inline-math">Φ(Dᵢ) − Φ(Dᵢ₋₁)</span> = change in potential (positive = energy stored, negative = energy released)</li>
+          </ul>
+        </div>
+
+        <p>Summing over n operations:</p>
+        <span class="math">Σĉᵢ = Σcᵢ + Φ(Dₙ) − Φ(D₀)</span>
+        <p>If <span class="inline-math">Φ(Dₙ) ≥ Φ(D₀)</span> always, then <span class="inline-math">Σcᵢ ≤ Σĉᵢ</span>, proving the amortized bound.</p>
+      </div>
+
+      <hr class="divider">
+
+      <div class="sub-section">
+        <div class="sub-title">Stack with MULTIPOP — Potential Method</div>
+        <p><strong>Define:</strong> Φ(D) = number of elements currently on the stack (stack size s).</p>
+        <br>
+        <p>Initial state: Φ(D₀) = 0 (empty stack). Always Φ ≥ 0, so Φ(Dₙ) ≥ Φ(D₀). ✔</p>
+
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Operation</th><th>Actual cost cᵢ</th><th>ΔΦ = Φ(Dᵢ)−Φ(Dᵢ₋₁)</th><th>Amortized ĉᵢ = cᵢ + ΔΦ</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><code>PUSH</code></td>
+                <td class="td-num">1</td>
+                <td class="td-num">+1 (size increases)</td>
+                <td class="td-hi">1 + 1 = 2 = O(1)</td>
+              </tr>
+              <tr>
+                <td><code>POP</code></td>
+                <td class="td-num">1</td>
+                <td class="td-num">−1 (size decreases)</td>
+                <td class="td-hi">1 + (−1) = 0 ... wait, 0?</td>
+              </tr>
+              <tr>
+                <td><code>MULTIPOP(k)</code></td>
+                <td class="td-num">k' = min(s,k)</td>
+                <td class="td-num">−k' (size decreases)</td>
+                <td class="td-hi">k' + (−k') = 0 = O(1)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout success">
+          <div class="callout-title">Result</div>
+          All three operations have amortized cost O(1).<br>
+          Total cost of n operations ≤ Σĉᵢ + Φ(D₀) − Φ(Dₙ) ≤ O(n) + 0 − 0 = <strong>O(n)</strong><br>
+          Amortized cost per operation = <strong>O(1)</strong>
+        </div>
+      </div>
+
+      <hr class="divider">
+
+      <div class="sub-section">
+        <div class="sub-title">Binary Counter — Potential Method</div>
+        <p><strong>Define:</strong> Φ(D) = number of 1-bits in the counter = b₁ (number of ones).</p>
+        <br>
+        <p>Suppose at some point there are b₁ ones, and INCREMENT resets the last t consecutive 1-bits to 0 and sets the next bit from 0 to 1.</p>
+        <br>
+        <p>Actual cost: <span class="inline-math">cᵢ = t + 1</span> (flip t zeros→ones + 1 one→zero)</p>
+        <p>ΔΦ = (b₁ − t + 1) − b₁ = 1 − t</p>
+        <span class="math">ĉᵢ = (t + 1) + (1 − t) = 2 = O(1)</span>
+        <p>Again, amortized cost per INCREMENT = <strong>O(1)</strong>.</p>
+      </div>
+
+      <hr class="divider">
+
+      <div class="sub-section">
+        <div class="sub-title">Choosing a Good Potential Function Φ</div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Property of Φ</th><th>Why It Matters</th></tr></thead>
+            <tbody>
+              <tr><td>Φ(D₀) = 0 (initial state)</td><td>Simplifies calculation</td></tr>
+              <tr><td>Φ(Dᵢ) ≥ 0 for all i</td><td>Ensures total amortized ≥ actual total</td></tr>
+              <tr><td>Rises slowly for cheap ops</td><td>Stores potential for later release</td></tr>
+              <tr><td>Falls sharply for expensive ops</td><td>Releases potential to pay for the expensive op</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="exam-format">
+        <h5>📝 Exam Writing Guide</h5>
+        <ul>
+          <li><strong>For 5 marks:</strong> Define Φ, write formula ĉᵢ = cᵢ + ΔΦ, one worked example.</li>
+          <li><strong>For 10 marks:</strong> Full derivation for stack or binary counter — define Φ, compute cᵢ, ΔΦ, ĉᵢ for each operation, show Φ(Dₙ) ≥ Φ(D₀), conclude amortized bound.</li>
+        </ul>
+      </div>
+
+      <div class="qr-box">
+        <div class="qr-title">Quick Revision — Potential Method</div>
+        <div class="qr-grid">
+          <div class="qr-item">Φ = "potential energy" of data structure</div>
+          <div class="qr-item">Formula: ĉᵢ = cᵢ + Φ(Dᵢ) − Φ(Dᵢ₋₁)</div>
+          <div class="qr-item">Requires: Φ ≥ 0 and Φ(D₀) = 0</div>
+          <div class="qr-item">Stack: Φ = stack size s</div>
+          <div class="qr-item">Binary counter: Φ = number of 1-bits</div>
+          <div class="qr-item">Expensive op: ΔΦ drops sharply → amortized cheap</div>
+        </div>
+      </div>
+
+      <div class="pyq-box" style="margin-top:24px;">
+        <div class="pyq-header">
+          <span class="pyq-badge">Expected PYQ</span>
+          <span class="pyq-source">Likely 8–10 marks (CIE / Future SEE)</span>
+        </div>
+        <div class="pyq-q">"Explain the three methods of amortized analysis. Apply any one method to prove that n operations on a stack (PUSH, POP, MULTIPOP) have O(n) total cost."</div>
+        <div class="pyq-solution">
+          <p><strong>Approach:</strong> Briefly define all 3 methods (3 marks), then fully work out the accounting or potential method for the stack (7 marks): assign charges, prove credit ≥ 0, state total cost O(n), conclude amortized O(1) per op.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ TOPIC 5: DISJOINT SETS ═══════════════════════════════ -->
+<div class="unit-section" id="t5">
+  <div class="section-label">Topic 05</div>
+  <div class="section-title"><span class="accent">Disjoint Sets</span> — Union-Find Data Structure</div>
+
+  <div class="topic-block">
+    <div class="topic-header">
+      <div class="topic-num">5</div>
+      <div class="topic-name">Introduction to Disjoint-Set / Union-Find</div>
+    </div>
+    <div class="topic-body">
+
+      <div class="sub-section">
+        <div class="sub-title">What is a Disjoint-Set Data Structure?</div>
+        <p>A <strong>Disjoint-Set</strong> (also called <strong>Union-Find</strong>) maintains a collection of disjoint (non-overlapping) sets. It supports three operations:</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Operation</th><th>Description</th><th>Real-world use</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><code>MAKE-SET(x)</code></td>
+                <td>Create a new set containing only x</td>
+                <td>Initialize each element as its own component</td>
+              </tr>
+              <tr>
+                <td><code>FIND-SET(x)</code></td>
+                <td>Return the representative (root) of x's set</td>
+                <td>Check if two elements are in the same set</td>
+              </tr>
+              <tr>
+                <td><code>UNION(x, y)</code></td>
+                <td>Merge the sets containing x and y</td>
+                <td>Connect two components/elements</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">Real-World Applications</div>
+        <div class="callout info">
+          <div class="callout-title">Where is Disjoint-Set Used?</div>
+          <ul style="padding-left:20px;">
+            <li><strong>Kruskal's MST Algorithm:</strong> Check if adding an edge creates a cycle (are u and v in the same set?)</li>
+            <li><strong>Network connectivity:</strong> Are computers A and B connected?</li>
+            <li><strong>Image segmentation:</strong> Group pixels of the same region</li>
+            <li><strong>Percolation:</strong> Physical grid connectivity problems</li>
+            <li><strong>Maze generation:</strong> Remove walls while ensuring connectivity</li>
+          </ul>
+        </div>
+      </div>
+
+      <hr class="divider">
+
+      <div class="sub-section">
+        <div class="sub-title">Representation 1: Linked List (Simple)</div>
+        <p>Each set is represented as a linked list. The <em>first element</em> (head) is the representative.</p>
+        <br>
+        <p><strong>UNION:</strong> Append one list to the end of another and update representative pointers for all elements in the appended list.</p>
+
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Operation</th><th>Linked List Cost</th></tr></thead>
+            <tbody>
+              <tr><td><code>MAKE-SET</code></td><td class="td-num">O(1)</td></tr>
+              <tr><td><code>FIND-SET</code></td><td class="td-num">O(1) — follow rep pointer</td></tr>
+              <tr><td><code>UNION</code></td><td class="td-num">O(n) worst case — update all pointers in shorter list</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout warning">
+          <div class="callout-title">Problem with Naive Union</div>
+          Worst case: always UNION the larger set into smaller → pointers of n/2 elements updated each time → O(n²) for n-1 unions. Too slow!
+        </div>
+
+        <p><strong>Weighted-union heuristic:</strong> Always append shorter list onto longer. Each element's representative pointer can be updated at most O(log n) times → total cost O(n log n) for n UNIONs.</p>
+      </div>
+
+      <hr class="divider">
+
+      <div class="sub-section">
+        <div class="sub-title">Representation 2: Rooted Forest (Preferred)</div>
+        <p>Each set is represented as a rooted tree. The <strong>root</strong> is the representative. Each node stores only its parent pointer.</p>
+
+<pre><code><span class="cm">// Initial state: MAKE-SET(1), MAKE-SET(2), ..., MAKE-SET(n)</span>
+<span class="cm">// Each node is root of its own tree: parent[x] = x</span>
+
+parent[1]=1, parent[2]=2, parent[3]=3 ...
+
+<span class="cm">// FIND-SET: chase parent pointers to root</span>
+<span class="fn">FIND-SET</span>(x):
+  <span class="kw">while</span> parent[x] ≠ x:
+    x = parent[x]
+  <span class="kw">return</span> x
+
+<span class="cm">// UNION: attach root of one tree under root of other</span>
+<span class="fn">UNION</span>(x, y):
+  rootX = <span class="fn">FIND-SET</span>(x)
+  rootY = <span class="fn">FIND-SET</span>(y)
+  <span class="kw">if</span> rootX ≠ rootY:
+    parent[rootX] = rootY</code></pre>
+
+        <div class="callout warning">
+          <div class="callout-title">Problem with Naive Forest</div>
+          Without any heuristic, the tree can become a long chain (O(n) height) → FIND-SET costs O(n) → n operations cost O(n²).
+        </div>
+      </div>
+
+      <div class="qr-box">
+        <div class="qr-title">Quick Revision — Disjoint Sets Basics</div>
+        <div class="qr-grid">
+          <div class="qr-item">3 operations: MAKE-SET, FIND-SET, UNION</div>
+          <div class="qr-item">Linked list: FIND O(1), UNION O(n) naive</div>
+          <div class="qr-item">Forest: each node stores parent pointer only</div>
+          <div class="qr-item">Root = representative of the set</div>
+          <div class="qr-item">Naïve forest: can degenerate to O(n) chain</div>
+          <div class="qr-item">Two heuristics fix this: Union by Rank + Path Compression</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ TOPIC 6: UNION BY RANK ═══════════════════════════════ -->
+<div class="unit-section" id="t6">
+  <div class="section-label">Topic 06</div>
+  <div class="section-title"><span class="accent">Union by Rank</span></div>
+
+  <div class="topic-block">
+    <div class="topic-header">
+      <div class="topic-num">6</div>
+      <div class="topic-name">Union by Rank — Heuristic 1</div>
+    </div>
+    <div class="topic-body">
+
+      <div class="sub-section">
+        <div class="sub-title">The Idea</div>
+        <p>Maintain a <strong>rank</strong> for each node — an upper bound on the height of the subtree rooted at that node. When performing UNION, always make the <strong>root of the shorter tree</strong> (lower rank) point to the root of the taller tree (higher rank).</p>
+
+        <div class="callout info">
+          <div class="callout-title">Why "Rank"?</div>
+          We use "rank" not "height" because after applying path compression, the actual tree height may be less than the rank. Rank tracks an upper bound.
+        </div>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">Algorithm</div>
+<pre><code><span class="cm">// MAKE-SET: initially rank = 0</span>
+<span class="fn">MAKE-SET</span>(x):
+  parent[x] = x
+  rank[x] = <span class="num">0</span>
+
+<span class="fn">FIND-SET</span>(x):
+  <span class="kw">if</span> x ≠ parent[x]:
+    <span class="kw">return</span> <span class="fn">FIND-SET</span>(parent[x])
+  <span class="kw">return</span> x
+
+<span class="fn">UNION</span>(x, y):
+  <span class="fn">LINK</span>(<span class="fn">FIND-SET</span>(x), <span class="fn">FIND-SET</span>(y))
+
+<span class="fn">LINK</span>(x, y):   <span class="cm">// x, y are roots</span>
+  <span class="kw">if</span> rank[x] > rank[y]:
+    parent[y] = x            <span class="cm">// y becomes child of x</span>
+  <span class="kw">else</span>:
+    parent[x] = y            <span class="cm">// x becomes child of y</span>
+    <span class="kw">if</span> rank[x] == rank[y]:
+      rank[y] = rank[y] + <span class="num">1</span> <span class="cm">// only increment if ranks equal</span></code></pre>
+
+        <p><strong>Rank only increases</strong> when two trees of equal rank are merged.</p>
+      </div>
+
+      <hr class="divider">
+
+      <div class="sub-section">
+        <div class="sub-title">Key Property</div>
+        <div class="callout formula">
+          <div class="callout-title">Lemma (CLRS)</div>
+          With union by rank only (no path compression), any root with rank r has at least <strong>2ʳ</strong> nodes in its tree.
+          <span class="math">|tree(x)| ≥ 2^rank(x)</span>
+          Since the tree has at most n nodes: rank ≤ ⌊log₂ n⌋, so tree height ≤ log₂ n.
+        </div>
+        <p>This gives <strong>FIND-SET: O(log n)</strong> and total for n operations: <strong>O(n log n)</strong>.</p>
+      </div>
+
+      <hr class="divider">
+
+      <div class="sub-section">
+        <div class="sub-title">Solved Trace: Union by Rank</div>
+        <p><strong>Perform:</strong> UNION(1,2), UNION(3,4), UNION(5,6), UNION(1,3), UNION(5,1)</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Step</th><th>Operation</th><th>Roots</th><th>Rank Comparison</th><th>Result Tree</th></tr></thead>
+            <tbody>
+              <tr><td>Init</td><td>MAKE-SET(1..6)</td><td>All self-roots</td><td>rank all = 0</td><td>6 singletons</td></tr>
+              <tr><td>1</td><td>UNION(1,2)</td><td>root(1)=1, root(2)=2</td><td>rank[1]=rank[2]=0 → rank[1]++</td><td>2→1, rank[1]=1</td></tr>
+              <tr><td>2</td><td>UNION(3,4)</td><td>root(3)=3, root(4)=4</td><td>rank[3]=rank[4]=0 → rank[3]++</td><td>4→3, rank[3]=1</td></tr>
+              <tr><td>3</td><td>UNION(5,6)</td><td>root(5)=5, root(6)=6</td><td>equal → rank[5]++</td><td>6→5, rank[5]=1</td></tr>
+              <tr><td>4</td><td>UNION(1,3)</td><td>root(1)=1, root(3)=3</td><td>rank[1]=rank[3]=1 → rank[1]++</td><td>3→1, rank[1]=2</td></tr>
+              <tr><td>5</td><td>UNION(5,1)</td><td>root(5)=5, root(1)=1</td><td>rank[5]=1 &lt; rank[1]=2</td><td>5→1, rank[1] stays 2</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p><strong>Final tree rooted at 1:</strong> Height = 2 (maximum). FIND-SET for any element ≤ 2 steps.</p>
+      </div>
+
+      <div class="complexity-grid">
+        <div class="complexity-card worst">
+          <div class="complexity-case">FIND-SET (rank only)</div>
+          <div class="complexity-val">O(log n)</div>
+          <div class="complexity-desc">Height ≤ log n due to rank bound</div>
+        </div>
+        <div class="complexity-card avg">
+          <div class="complexity-case">UNION (rank only)</div>
+          <div class="complexity-val">O(log n)</div>
+          <div class="complexity-desc">Includes FIND-SET cost</div>
+        </div>
+        <div class="complexity-card space">
+          <div class="complexity-case">Space</div>
+          <div class="complexity-val">O(n)</div>
+          <div class="complexity-desc">parent[] and rank[] arrays</div>
+        </div>
+      </div>
+
+      <div class="qr-box">
+        <div class="qr-title">Quick Revision — Union by Rank</div>
+        <div class="qr-grid">
+          <div class="qr-item">Attach smaller-rank root under larger-rank root</div>
+          <div class="qr-item">Rank increases only when two equal-rank trees merge</div>
+          <div class="qr-item">Tree height ≤ log n (since |tree(x)| ≥ 2^rank(x))</div>
+          <div class="qr-item">FIND-SET: O(log n) with union by rank alone</div>
+          <div class="qr-item">Rank is NOT the same as actual height after path compression</div>
+          <div class="qr-item">Rank once set never decreases</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ TOPIC 7: PATH COMPRESSION ═══════════════════════════════ -->
+<div class="unit-section" id="t7">
+  <div class="section-label">Topic 07</div>
+  <div class="section-title"><span class="accent">Path Compression</span> &amp; Combined Analysis</div>
+
+  <div class="topic-block">
+    <div class="topic-header">
+      <div class="topic-num">7</div>
+      <div class="topic-name">Path Compression — Heuristic 2</div>
+    </div>
+    <div class="topic-body">
+
+      <div class="sub-section">
+        <div class="sub-title">The Idea</div>
+        <p>During FIND-SET, after finding the root, <strong>make every node on the path point directly to the root</strong>. This "flattens" the tree so future FIND-SET operations are faster.</p>
+
+        <div class="callout success">
+          <div class="callout-title">Two-Pass Technique</div>
+          Pass 1 (going up): Follow parent pointers to find the root.<br>
+          Pass 2 (coming back): Set every node's parent directly to the root.
+        </div>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">Algorithm</div>
+<pre><code><span class="cm">// Recursive version (two-pass)</span>
+<span class="fn">FIND-SET</span>(x):
+  <span class="kw">if</span> x ≠ parent[x]:
+    parent[x] = <span class="fn">FIND-SET</span>(parent[x])  <span class="cm">// recursively set parent to root</span>
+  <span class="kw">return</span> parent[x]
+
+<span class="cm">// Iterative version (one-pass, "path splitting")</span>
+<span class="fn">FIND-SET-ITER</span>(x):
+  root = x
+  <span class="kw">while</span> parent[root] ≠ root:
+    root = parent[root]          <span class="cm">// find root</span>
+  <span class="kw">while</span> parent[x] ≠ root:      <span class="cm">// path compression</span>
+    next = parent[x]
+    parent[x] = root
+    x = next
+  <span class="kw">return</span> root</code></pre>
+      </div>
+
+      <hr class="divider">
+
+      <div class="sub-section">
+        <div class="sub-title">Solved Trace: Path Compression</div>
+        <p>Suppose we have a chain: 1 → 2 → 3 → 4 → 5 (5 is root).</p>
+        <br>
+        <p><strong>Before FIND-SET(1):</strong></p>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:13px;background:var(--code-bg);border:1px solid var(--border);border-radius:8px;padding:16px;margin:8px 0;">
+          parent[1]=2, parent[2]=3, parent[3]=4, parent[4]=5, parent[5]=5
+        </div>
+        <p><strong>FIND-SET(1) recursion:</strong> FIND-SET(1) → FIND-SET(2) → FIND-SET(3) → FIND-SET(4) → returns 5</p>
+        <p>On unwind: parent[4]=5, parent[3]=5, parent[2]=5, parent[1]=5</p>
+        <br>
+        <p><strong>After FIND-SET(1):</strong></p>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:13px;background:var(--code-bg);border:1px solid var(--border);border-radius:8px;padding:16px;margin:8px 0;color:var(--accent);">
+          parent[1]=5, parent[2]=5, parent[3]=5, parent[4]=5, parent[5]=5
+        </div>
+        <p>Now every node directly points to root 5 — all future FIND-SET calls take O(1)!</p>
+      </div>
+
+      <hr class="divider">
+
+      <div class="sub-section">
+        <div class="sub-title">Combined: Union by Rank + Path Compression</div>
+        <p>Together, these two heuristics give an <em>almost linear</em> total cost — the best possible for this problem.</p>
+
+        <div class="callout formula">
+          <div class="callout-title">🏆 Theorem (Tarjan, 1975)</div>
+          A sequence of m MAKE-SET, UNION, and FIND-SET operations on n elements, using both union by rank and path compression, has total time:
+          <span class="math">O(m · α(n))</span>
+          Where <strong>α(n)</strong> is the inverse Ackermann function — a function that grows INCREDIBLY slowly (α(n) ≤ 4 for all practical n). Effectively <strong>O(1) amortized per operation</strong>.
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>n</th><th>α(n)</th><th>Meaning</th></tr></thead>
+            <tbody>
+              <tr><td class="td-num">1</td><td class="td-hi">1</td><td>Trivial</td></tr>
+              <tr><td class="td-num">up to 3</td><td class="td-hi">1</td><td>—</td></tr>
+              <tr><td class="td-num">up to 7</td><td class="td-hi">2</td><td>—</td></tr>
+              <tr><td class="td-num">up to 2047</td><td class="td-hi">3</td><td>—</td></tr>
+              <tr><td class="td-num">up to 2^(2^65536)</td><td class="td-hi">4</td><td>≫ number of atoms in universe</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>For all practical purposes, α(n) ≤ 4, so the operations are essentially <strong>O(1) amortized</strong>.</p>
+      </div>
+
+      <hr class="divider">
+
+      <div class="sub-section">
+        <div class="sub-title">Full Summary: Complexity Comparison</div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr>
+              <th>Implementation</th>
+              <th>MAKE-SET</th>
+              <th>FIND-SET</th>
+              <th>UNION</th>
+              <th>Total (m ops)</th>
+            </tr></thead>
+            <tbody>
+              <tr>
+                <td>Linked list (naive)</td>
+                <td class="td-num">O(1)</td><td class="td-num">O(1)</td><td class="td-num">O(n)</td><td class="td-num">O(mn)</td>
+              </tr>
+              <tr>
+                <td>Linked list (weighted union)</td>
+                <td class="td-num">O(1)</td><td class="td-num">O(1)</td><td class="td-num">O(n) wc</td><td class="td-num">O(m + n log n)</td>
+              </tr>
+              <tr>
+                <td>Forest (naive)</td>
+                <td class="td-num">O(1)</td><td class="td-num">O(n)</td><td class="td-num">O(n)</td><td class="td-num">O(mn)</td>
+              </tr>
+              <tr>
+                <td>Forest + Union by Rank</td>
+                <td class="td-num">O(1)</td><td class="td-num">O(log n)</td><td class="td-num">O(log n)</td><td class="td-num">O(m log n)</td>
+              </tr>
+              <tr>
+                <td>Forest + Path Compression only</td>
+                <td class="td-num">O(1)</td><td class="td-num">O(log n) amort.</td><td class="td-num">O(log n)</td><td class="td-num">O(m log n)</td>
+              </tr>
+              <tr style="background:rgba(0,212,170,0.08);">
+                <td><strong>Forest + Both (optimal)</strong></td>
+                <td class="td-hi">O(1)</td><td class="td-hi">O(α(n)) ≈ O(1)</td><td class="td-hi">O(α(n))</td><td class="td-hi">O(m · α(n))</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">Application: Kruskal's MST</div>
+        <p>Union-Find directly enables Kruskal's algorithm:</p>
+        <ol class="algo-steps">
+          <li>MAKE-SET(v) for all vertices v: O(V)</li>
+          <li>Sort edges by weight: O(E log E)</li>
+          <li>For each edge (u,v) in sorted order:<br>
+              If FIND-SET(u) ≠ FIND-SET(v) → add edge, UNION(u,v)</li>
+          <li>Repeat until V−1 edges added</li>
+        </ol>
+        <p><strong>Total with DSU:</strong> O(E log E + E · α(V)) = <strong>O(E log E)</strong></p>
+      </div>
+
+      <div class="pyq-box">
+        <div class="pyq-header">
+          <span class="pyq-badge">Related PYQ</span>
+          <span class="pyq-source">SEE 2023 (IS43) Q5(b) — Kruskal's MST uses DSU</span>
+        </div>
+        <div class="pyq-q">"Implement Kruskal's algorithm for the given graph and find the minimum spanning tree."</div>
+        <div class="pyq-solution">
+          <p><strong>Connection:</strong> When answering Kruskal's, mention that the cycle detection step uses a <em>Disjoint Set Union (Union-Find)</em> data structure with FIND-SET to check if two vertices are in the same component and UNION to merge them. This earns extra marks!</p>
+        </div>
+      </div>
+
+      <div class="qr-box">
+        <div class="qr-title">Quick Revision — Path Compression</div>
+        <div class="qr-grid">
+          <div class="qr-item">During FIND-SET, point all nodes directly to root</div>
+          <div class="qr-item">Two passes: find root, then update all parents</div>
+          <div class="qr-item">Flattens tree — next FIND-SET is O(1)</div>
+          <div class="qr-item">Combined with union by rank: O(α(n)) amortized</div>
+          <div class="qr-item">α(n) = inverse Ackermann, practically ≤ 4</div>
+          <div class="qr-item">Used in Kruskal's MST for cycle detection</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ TOPIC 8: FIBONACCI HEAP ═══════════════════════════════ -->
+<div class="unit-section" id="t8">
+  <div class="section-label">Topic 08</div>
+  <div class="section-title"><span class="accent">Fibonacci Heaps</span></div>
+
+  <div class="topic-block">
+    <div class="topic-header">
+      <div class="topic-num">8</div>
+      <div class="topic-name">Fibonacci Heap — Structure &amp; Operations</div>
+    </div>
+    <div class="topic-body">
+
+      <div class="sub-section">
+        <div class="sub-title">Why Fibonacci Heap?</div>
+        <div class="callout warning">
+          <div class="callout-title">Problem with Binary Heaps in Dijkstra/Prim</div>
+          In Dijkstra's algorithm using a binary min-heap, DECREASE-KEY costs O(log n). For a dense graph with E edges, total cost = O((V + E) log V).<br><br>
+          Fibonacci Heaps reduce DECREASE-KEY to <strong>O(1) amortized</strong> — making Dijkstra/Prim run in <strong>O(E + V log V)</strong> — significantly faster for dense graphs!
+        </div>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">What is a Fibonacci Heap?</div>
+        <p>A Fibonacci heap is a collection of <strong>heap-ordered trees</strong> with the following properties:</p>
+        <ul style="padding-left:20px;margin-top:8px;">
+          <li>A <strong>doubly-linked circular list</strong> of tree roots (root list)</li>
+          <li>Each tree satisfies the <strong>min-heap property</strong> (parent ≤ children)</li>
+          <li>A pointer <code>min[H]</code> points to the node with minimum key</li>
+          <li>Trees are <strong>not necessarily binomial trees</strong> — they become more structured lazily</li>
+          <li>Each node stores: key, degree, mark (boolean), parent, child, left, right pointers</li>
+        </ul>
+      </div>
+
+      <hr class="divider">
+
+      <div class="sub-section">
+        <div class="sub-title">Operations &amp; Amortized Complexity</div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr>
+              <th>Operation</th>
+              <th>Actual Worst Case</th>
+              <th>Amortized Cost</th>
+              <th>Key Idea</th>
+            </tr></thead>
+            <tbody>
+              <tr>
+                <td><code>INSERT(H, x)</code></td>
+                <td class="td-num">O(1)</td>
+                <td class="td-hi">O(1)</td>
+                <td>Just add to root list; update min if needed</td>
+              </tr>
+              <tr>
+                <td><code>MINIMUM(H)</code></td>
+                <td class="td-num">O(1)</td>
+                <td class="td-hi">O(1)</td>
+                <td>Return min[H] pointer directly</td>
+              </tr>
+              <tr>
+                <td><code>UNION(H1, H2)</code></td>
+                <td class="td-num">O(1)</td>
+                <td class="td-hi">O(1)</td>
+                <td>Concatenate root lists, update min</td>
+              </tr>
+              <tr>
+                <td><code>EXTRACT-MIN(H)</code></td>
+                <td class="td-num">O(n)</td>
+                <td class="td-hi">O(log n)</td>
+                <td>Remove min, add children to root list, CONSOLIDATE</td>
+              </tr>
+              <tr>
+                <td><code>DECREASE-KEY(H,x,k)</code></td>
+                <td class="td-num">O(n)</td>
+                <td class="td-hi">O(1)</td>
+                <td>Cut node if heap property violated; cascading cut</td>
+              </tr>
+              <tr>
+                <td><code>DELETE(H, x)</code></td>
+                <td class="td-num">O(n)</td>
+                <td class="td-hi">O(log n)</td>
+                <td>DECREASE-KEY to −∞, then EXTRACT-MIN</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout info">
+          <div class="callout-title">Potential Function Used for Fibonacci Heap Analysis</div>
+          Define: <span class="inline-math">Φ(H) = t(H) + 2·m(H)</span><br>
+          where <span class="inline-math">t(H)</span> = number of trees in root list, <span class="inline-math">m(H)</span> = number of marked nodes.<br><br>
+          This potential function is used to prove all amortized bounds above.
+        </div>
+      </div>
+
+      <hr class="divider">
+
+      <div class="sub-section">
+        <div class="sub-title">INSERT Operation</div>
+<pre><code><span class="fn">FIB-HEAP-INSERT</span>(H, x):
+  x.degree = <span class="num">0</span>
+  x.parent = NIL
+  x.child = NIL
+  x.mark = FALSE
+  <span class="cm">// Add x to the root list of H</span>
+  <span class="kw">if</span> H.min == NIL:
+    create root list containing just x
+    H.min = x
+  <span class="kw">else</span>:
+    insert x into H's root list
+    <span class="kw">if</span> x.key &lt; H.min.key:
+      H.min = x
+  H.n = H.n + <span class="num">1</span></code></pre>
+        <p><strong>Amortized cost:</strong> ΔΦ = +1 (one more tree). ĉᵢ = O(1) + 1 = O(1). ✔</p>
+      </div>
+
+      <hr class="divider">
+
+      <div class="sub-section">
+        <div class="sub-title">EXTRACT-MIN Operation (key operation)</div>
+<pre><code><span class="fn">FIB-HEAP-EXTRACT-MIN</span>(H):
+  z = H.min
+  <span class="kw">if</span> z ≠ NIL:
+    <span class="cm">// Add each child of z to root list</span>
+    <span class="kw">for each</span> child x <span class="kw">of</span> z:
+      add x to H's root list
+      x.parent = NIL
+    remove z from H's root list
+    <span class="kw">if</span> z == z.right:       <span class="cm">// z was the only node</span>
+      H.min = NIL
+    <span class="kw">else</span>:
+      H.min = z.right      <span class="cm">// temporary assignment</span>
+      <span class="fn">CONSOLIDATE</span>(H)       <span class="cm">// key step!</span>
+    H.n = H.n - <span class="num">1</span>
+  <span class="kw">return</span> z</code></pre>
+
+        <div class="callout info">
+          <div class="callout-title">CONSOLIDATE: Making Trees Binomial-like</div>
+          After removing the min, CONSOLIDATE ensures no two trees in the root list have the same degree. It uses a array A[0..D(n)] where D(n) = ⌊log_φ n⌋ (φ = golden ratio).<br><br>
+          For each root node, if A[degree] already has a tree of same degree, link the larger-key root under the smaller-key root, increment degree, repeat.
+        </div>
+      </div>
+
+      <hr class="divider">
+
+      <div class="sub-section">
+        <div class="sub-title">DECREASE-KEY (most important for graph algorithms)</div>
+<pre><code><span class="fn">FIB-HEAP-DECREASE-KEY</span>(H, x, k):
+  <span class="kw">if</span> k > x.key:
+    error "new key is greater than current key"
+  x.key = k
+  y = x.parent
+  <span class="kw">if</span> y ≠ NIL <span class="kw">and</span> x.key &lt; y.key:
+    <span class="fn">CUT</span>(H, x, y)          <span class="cm">// remove x from y's child list</span>
+    <span class="fn">CASCADING-CUT</span>(H, y)   <span class="cm">// propagate cuts upward</span>
+  <span class="kw">if</span> x.key &lt; H.min.key:
+    H.min = x
+
+<span class="fn">CUT</span>(H, x, y):
+  remove x from y's child list
+  y.degree = y.degree - <span class="num">1</span>
+  add x to H's root list
+  x.parent = NIL
+  x.mark = FALSE
+
+<span class="fn">CASCADING-CUT</span>(H, y):
+  z = y.parent
+  <span class="kw">if</span> z ≠ NIL:
+    <span class="kw">if</span> y.mark == FALSE:
+      y.mark = TRUE          <span class="cm">// first cut: just mark</span>
+    <span class="kw">else</span>:
+      <span class="fn">CUT</span>(H, y, z)           <span class="cm">// second cut: cut and propagate</span>
+      <span class="fn">CASCADING-CUT</span>(H, z)</code></pre>
+
+        <div class="callout success">
+          <div class="callout-title">Why is DECREASE-KEY O(1) amortized?</div>
+          <strong>Marking mechanism:</strong> A node is "marked" when one of its children is cut. When a second child is cut, the node itself is cut (cascading cut).<br><br>
+          The potential function Φ = t + 2m absorbs the cost of cascading cuts. Each cascading cut converts a marked node to an unmarked root (ΔΦ ≤ −1 per additional cut). The amortized cost remains O(1).
+        </div>
+      </div>
+
+      <hr class="divider">
+
+      <div class="sub-section">
+        <div class="sub-title">Degree Bound — Why O(log n) for EXTRACT-MIN</div>
+        <div class="callout formula">
+          <div class="callout-title">Degree Bound Lemma</div>
+          In a Fibonacci heap with n nodes, the maximum degree of any node is D(n) = O(log n).<br><br>
+          Specifically: D(n) ≤ ⌊log_φ n⌋ where φ = (1+√5)/2 ≈ 1.618 (golden ratio).<br><br>
+          The sizes of Fibonacci trees grow as Fibonacci numbers — hence the name!
+        </div>
+        <p>Since D(n) = O(log n), CONSOLIDATE visits at most O(D(n)) = O(log n) trees → EXTRACT-MIN amortized O(log n).</p>
+      </div>
+
+      <hr class="divider">
+
+      <div class="sub-section">
+        <div class="sub-title">Comparison: Fibonacci Heap vs Binary Heap vs Binomial Heap</div>
+        <div class="table-wrap">
+          <table class="compare-table">
+            <thead><tr>
+              <th>Operation</th>
+              <th>Binary Heap</th>
+              <th>Binomial Heap</th>
+              <th>Fibonacci Heap</th>
+            </tr></thead>
+            <tbody>
+              <tr><td>INSERT</td><td>O(log n)</td><td>O(log n)</td><td class="td-hi">O(1) amort.</td></tr>
+              <tr><td>MINIMUM</td><td>O(1)</td><td>O(log n)</td><td class="td-hi">O(1)</td></tr>
+              <tr><td>EXTRACT-MIN</td><td>O(log n)</td><td>O(log n)</td><td class="td-hi">O(log n) amort.</td></tr>
+              <tr><td>UNION</td><td>O(n)</td><td>O(log n)</td><td class="td-hi">O(1)</td></tr>
+              <tr><td>DECREASE-KEY</td><td>O(log n)</td><td>O(log n)</td><td class="td-hi">O(1) amort.</td></tr>
+              <tr><td>DELETE</td><td>O(log n)</td><td>O(log n)</td><td class="td-hi">O(log n) amort.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="exam-format">
+        <h5>📝 Exam Writing Guide</h5>
+        <ul>
+          <li><strong>For 5 marks:</strong> Structure description + complexity table (most important).</li>
+          <li><strong>For 10 marks:</strong> Structure + INSERT + DECREASE-KEY pseudocode + explanation of cascading cut + complexity proof using potential function + application in Dijkstra.</li>
+          <li><strong>Must mention:</strong> Φ = t + 2m, degree bound O(log n), why DECREASE-KEY is O(1) amortized.</li>
+        </ul>
+      </div>
+
+      <div class="qr-box">
+        <div class="qr-title">Quick Revision — Fibonacci Heap</div>
+        <div class="qr-grid">
+          <div class="qr-item">Collection of heap-ordered trees (root list)</div>
+          <div class="qr-item">Potential: Φ = t(H) + 2·m(H)</div>
+          <div class="qr-item">INSERT, UNION, FIND-MIN: all O(1) amortized</div>
+          <div class="qr-item">EXTRACT-MIN: O(log n) amortized via CONSOLIDATE</div>
+          <div class="qr-item">DECREASE-KEY: O(1) amortized via cascading cut</div>
+          <div class="qr-item">Degree bound: D(n) ≤ log_φ n (Fibonacci numbers)</div>
+          <div class="qr-item">Key advantage over binary heap: DECREASE-KEY O(1)</div>
+          <div class="qr-item">Enables Dijkstra in O(E + V log V) vs O(E log V)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ TOPIC 9: APPLICATIONS ═══════════════════════════════ -->
+<div class="unit-section" id="t9">
+  <div class="section-label">Topic 09</div>
+  <div class="section-title"><span class="accent">Applications</span> &amp; Synthesis</div>
+
+  <div class="topic-block">
+    <div class="topic-header">
+      <div class="topic-num">9</div>
+      <div class="topic-name">Applications, Comparisons &amp; Expected Questions</div>
+    </div>
+    <div class="topic-body">
+
+      <div class="sub-section">
+        <div class="sub-title">Dijkstra's Algorithm — Fibonacci Heap vs Binary Heap</div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Implementation</th><th>DECREASE-KEY</th><th>EXTRACT-MIN</th><th>Total Time</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>Binary min-heap</td>
+                <td>O(log V)</td>
+                <td>O(log V)</td>
+                <td><strong>O((V + E) log V)</strong></td>
+              </tr>
+              <tr style="background:rgba(0,212,170,0.05);">
+                <td>Fibonacci heap</td>
+                <td class="td-hi">O(1) amort.</td>
+                <td class="td-hi">O(log V) amort.</td>
+                <td class="td-hi"><strong>O(E + V log V)</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>For <strong>dense graphs</strong> (E = Θ(V²)), Fibonacci heap gives O(V²) vs O(V² log V) — a log V speedup.</p>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">Prim's MST Algorithm — Fibonacci Heap</div>
+        <p>Prim's algorithm also uses DECREASE-KEY heavily (once per edge). With Fibonacci heap:</p>
+        <span class="math">Prim with Fibonacci Heap: O(E + V log V)</span>
+        <p>vs O(E log V) with binary heap. Again faster for dense graphs.</p>
+      </div>
+
+      <hr class="divider">
+
+      <div class="sub-section">
+        <div class="sub-title">Summary: Amortized Analysis in Data Structures</div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Data Structure</th><th>Operation</th><th>Worst/Op</th><th>Amortized/Op</th><th>Method Used</th></tr></thead>
+            <tbody>
+              <tr><td>Stack (MULTIPOP)</td><td>Any op</td><td>O(n)</td><td class="td-hi">O(1)</td><td>Aggregate / Accounting / Potential</td></tr>
+              <tr><td>k-bit binary counter</td><td>INCREMENT</td><td>O(k)</td><td class="td-hi">O(1)</td><td>All three</td></tr>
+              <tr><td>Dynamic array</td><td>PUSH</td><td>O(n)</td><td class="td-hi">O(1)</td><td>Potential (Φ = capacity − size)</td></tr>
+              <tr><td>Fibonacci Heap</td><td>DECREASE-KEY</td><td>O(n)</td><td class="td-hi">O(1)</td><td>Potential (Φ = t + 2m)</td></tr>
+              <tr><td>Union-Find (DSU)</td><td>FIND-SET</td><td>O(n)</td><td class="td-hi">O(α(n))</td><td>Amortized analysis (inverse Ackermann)</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <hr class="divider">
+
+      <div class="sub-section">
+        <div class="sub-title">Expected CIE Questions with Marks</div>
+
+        <div class="pyq-box">
+          <div class="pyq-header">
+            <span class="pyq-badge">10 Marks</span>
+            <span class="pyq-source">High likelihood — CIE</span>
+          </div>
+          <div class="pyq-q">Q: "Explain the three methods of amortized analysis. Apply the potential method to analyse the cost of MULTIPOP on a stack."</div>
+          <div class="pyq-solution">
+            <strong>Answer structure:</strong>
+            <ol style="padding-left:20px;margin-top:8px;">
+              <li>Define amortized analysis (2 marks)</li>
+              <li>Aggregate method: T(n)/n, binary counter example (2 marks)</li>
+              <li>Accounting method: charges, credit (2 marks)</li>
+              <li>Potential method: Φ formula, apply to stack (4 marks)</li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="pyq-box">
+          <div class="pyq-header">
+            <span class="pyq-badge">10 Marks</span>
+            <span class="pyq-source">High likelihood — CIE</span>
+          </div>
+          <div class="pyq-q">Q: "Explain Union-Find data structure with Union by Rank and Path Compression. Analyse the time complexity."</div>
+          <div class="pyq-solution">
+            <strong>Answer structure:</strong>
+            <ol style="padding-left:20px;margin-top:8px;">
+              <li>Introduction: what, why, 3 operations (2 marks)</li>
+              <li>Union by Rank algorithm + trace (3 marks)</li>
+              <li>Path Compression algorithm + trace (3 marks)</li>
+              <li>Combined complexity: O(m · α(n)) (2 marks)</li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="pyq-box">
+          <div class="pyq-header">
+            <span class="pyq-badge">8–10 Marks</span>
+            <span class="pyq-source">Medium likelihood — CIE</span>
+          </div>
+          <div class="pyq-q">Q: "Describe the structure and operations of a Fibonacci Heap. How does it improve Dijkstra's algorithm?"</div>
+          <div class="pyq-solution">
+            <strong>Answer structure:</strong>
+            <ol style="padding-left:20px;margin-top:8px;">
+              <li>Structure: collection of trees, root list, min pointer (2 marks)</li>
+              <li>INSERT and UNION: O(1) — how they work (2 marks)</li>
+              <li>DECREASE-KEY: cascading cut mechanism + O(1) amort. (3 marks)</li>
+              <li>EXTRACT-MIN: CONSOLIDATE + O(log n) amort. (1 mark)</li>
+              <li>Dijkstra comparison: O(E + V log V) vs O(E log V) (2 marks)</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+
+      <div class="qr-box">
+        <div class="qr-title">Unit 3 Final Quick Revision</div>
+        <div class="qr-grid">
+          <div class="qr-item">Amortized ≠ average-case; no probability needed</div>
+          <div class="qr-item">Aggregate: total cost / n operations</div>
+          <div class="qr-item">Accounting: store credits on objects, Σĉ ≥ Σc always</div>
+          <div class="qr-item">Potential: ĉ = c + ΔΦ; Φ ≥ 0 always</div>
+          <div class="qr-item">Stack MULTIPOP: O(1) amortized (all 3 methods)</div>
+          <div class="qr-item">Binary counter INCREMENT: O(1) amortized</div>
+          <div class="qr-item">DSU naive forest: O(n) per FIND-SET (chain)</div>
+          <div class="qr-item">Union by Rank: FIND-SET O(log n)</div>
+          <div class="qr-item">Path Compression: flattens path to root</div>
+          <div class="qr-item">Both together: O(α(n)) ≈ O(1) amortized</div>
+          <div class="qr-item">Fibonacci Heap: DECREASE-KEY O(1) amortized</div>
+          <div class="qr-item">Fib Heap potential: Φ = t(H) + 2·m(H)</div>
+          <div class="qr-item">Dijkstra + Fib Heap: O(E + V log V)</div>
+          <div class="qr-item">Kruskal uses DSU for cycle detection</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ FOOTER ═══════════════════════════════ -->
+<div style="margin-top:60px;text-align:center;padding:32px;border-top:1px solid var(--border);">
+  <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);">
+    MSRIT IS43 · Design and Analysis of Algorithms · Unit 3 Complete Notes<br>
+    Amortized Analysis · Disjoint Sets · Fibonacci Heaps<br>
+    <span style="color:var(--accent);margin-top:6px;display:block;">Reference: CLRS (Introduction to Algorithms) Chapters 17, 19, 21</span>
+  </div>
+</div>
+
+</div><!-- end page-wrap -->
+</body>
+</html>

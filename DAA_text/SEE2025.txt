@@ -1,0 +1,161 @@
+
+--- Page 1 ---
+21/22/23IS43 
+Page 1 of 3 
+ 
+ 
+ 
+ (Autonomous Institute, Affiliated to VTU) 
+(Approved by AICTE, New Delhi & Govt. of Karnataka)  
+Accredited by NBA & NAAC with ‘A+’ Grade 
+ 
+SEMESTER END / BACKLOG SUBJECT EXAMINATIONS – JULY / AUGUST 2025 
+Program : B.E. – Information  Science  and 
+Engineering Semester : IV 
+Course Name : Design and Analysis of Algorithms Max. Marks : 100 
+Course Code : 21 / 22 / 23IS43 Duration : 3 Hrs 
+ 
+Instructions to the Candidates: 
+• Answer one full question from each unit. 
+ 
+ 
+  UNIT - I   
+1. a) Describe various asymptotic notations used in analyzing an algorithm. 
+Give example for each.  
+CO1 (09) 
+ b) With a neat diagram explain the fundamental steps involved in design 
+and analysis of algorithms. 
+CO1 (07) 
+ c) Analyze the following algorithm. 
+ALGORITHM sum(int n) 
+{ 
+if(n==1) 
+return n; 
+else 
+return n* n+ sum(n-1); 
+} 
+i. What does this algorithm compute? 
+ii. What is its basic operation? 
+iii. How many times basic operation is executed? 
+iv. What is the efficiency class of this algorithm? 
+CO1 (04) 
+     
+2. a) Give the general plan for analyzing time efficiency of recursive 
+algorithms. Design  a recursive algorithm for Tower of Hanoi and analyze 
+the complexity of the algorithm. 
+CO1 (07) 
+ b) Solve the given Recurrence relations-  
+i. F(n)=F(n−1) +F(n−2), F(0) = 0,F(1) = 1 
+ii. T(n)=T(n/2)+c where c is constant work per step 
+CO1 (08) 
+ c) Derive the time complexity of Linear Search algorithm for  best case, 
+average case and worst case efficiency . 
+CO1 (05) 
+     
+  UNIT - II   
+3. a) Describe Selection Sort and Bubble Sort algorithms. Provide their time 
+complexity. 
+CO2 (08) 
+ b) Write an algorithm for merge sort. Prove that the time complexity of all 
+the three cases (Best, Average and Worst) remains same. 
+CO2 (06) 
+ c) Analyze the time complexity of Binary Search algorithm applied on a 
+given array [ 12, 22, 45, 67, 74, 81]. Show steps.  
+CO2 (06) 
+     
+4. a) Write the Quick Sort algorithm. Sort the array [15, 3, 2, 1, 9, 5, 7, 8, 6] 
+in ascending order using  Quick Sort and show steps. 
+CO2 (08) 
+USN 1 M S        
+ 
+
+--- Page 2 ---
+21/22/23IS43 
+Page 2 of 3 
+ 
+ b) Give the in -order, pre -order, and post -order traversal of the following 
+binary tree: 
+ 
+ 
+CO2 (06) 
+ c) Apply Horspool’s string matching algorithm to find the pattern "ARMY" in 
+the text "SALUTE TO INDIAN ARMY". Show the shift table and steps. 
+CO2 (06) 
+     
+  UNIT - III   
+5. a) Using Kruskal’s algorithm, determine the minimum cost spanning tree 
+for the graph given: 
+ 
+CO3 (10) 
+ b) What is Greedy Technique? Construct a Huffman code for the following 
+data: 
+character A B C D E _ 
+probability 0.5 0.35 0.5 0.1 0.4 0.2 
+i) Encode the text DAD_BE using the code. 
+i) Decode the text whose encoding is 1100110110. 
+CO3 (10) 
+     
+6. a) Write Dijkstras algorithm. Apply the same to find shortest paths from 
+vertex ‘a’ to all other vertices of given graph.  
+ 
+CO3 (10) 
+ b) Describe dynamic programing technique. Write a Warshall’s algorithm to 
+find transitive closure for given adjacency matri x. Apply Warshall’s 
+algorithm to the following adjacency matrix: 
+0 1 0 0 
+0 0 1 0 
+0 0 0 1 
+0 1 0 0 
+ 
+CO3 (10) 
+
+--- Page 3 ---
+21/22/23IS43 
+Page 3 of 3 
+ 
+     
+  UNIT- IV   
+7. a) Explain Decrease and Conquer strategy using Insertion Sort. Sort                      
+[5, 2, 4, 6, 1, 3] step-by-step using insertion sort. 
+CO4 (08) 
+ b) Perform DFS and BFS on the following graph starting from vertex 1: 
+ 
+ 
+CO4 (06) 
+ c) Compare AVL Trees and 2 -3 Trees in terms of balancing operations and 
+use cases. 
+CO4 (06) 
+     
+8. a) Explain AVL Tree rotations with example. Perform insertion of values 
+[10, 20, 30, 40, 50, 25] in an AVL tree and show rotations. 
+CO4 (08) 
+ b) Construct a 2-3 Tree by inserting the keys: [10, 20, 5, 6, 12, 30, 7, 17].  CO4 (06) 
+ c) Define Topological sorting. Perform topological sorting on the below 
+given graph: 
+ 
+ 
+ 
+CO4 (06) 
+     
+  UNIT - V   
+9. a) Build a max -heap from the array: [4, 10, 3, 5, 1]. Perform heapify 
+operations. Then perform Heap Sort on the array. 
+CO5 (08) 
+ b) Define and differentiate between P, NP, and NP -Complete problems with 
+examples. 
+CO5 (06) 
+ c) Compare Backtracking and Branch -and-Bound in terms of space 
+efficiency and problem types. 
+CO5 (06) 
+     
+10. a) Solve the 4 -Queens problem using Backtracking. Construct the state 
+space tree for the same. 
+CO5 (08) 
+ b) Apply Branch-and-Bound method to solve the following 0/1 Knapsack 
+problem: Weights = [2, 3, 4, 5], Values = [3, 4, 5, 6], Capacity = 5. 
+CO5 (08) 
+ c) Why are NP -Complete problems hard? Discuss consequences for 
+algorithm design. 
+CO5 (04) 
+ 
+******************************** 

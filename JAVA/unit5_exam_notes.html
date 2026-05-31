@@ -1,0 +1,2772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit 5 — Java Servlets & JSP Exam Notes</title>
+    <meta name="description" content="Complete internal exam notes for Advanced Java Unit 5: Java Servlets, Servlet API, Life Cycle, JSP">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-primary: #0a0e1a;
+            --bg-secondary: #111827;
+            --bg-card: #1a2234;
+            --bg-code: #0d1117;
+            --bg-inlinecode: #1e293b;
+            --text-primary: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --accent-blue: #3b82f6;
+            --accent-purple: #8b5cf6;
+            --accent-cyan: #06b6d4;
+            --accent-green: #10b981;
+            --accent-orange: #f59e0b;
+            --accent-red: #ef4444;
+            --accent-pink: #ec4899;
+            --accent-teal: #14b8a6;
+            --border-color: #1e293b;
+            --border-accent: #2d3a52;
+            --gradient-1: linear-gradient(135deg, #8b5cf6, #ec4899);
+            --gradient-2: linear-gradient(135deg, #06b6d4, #3b82f6);
+            --gradient-3: linear-gradient(135deg, #10b981, #06b6d4);
+            --gradient-4: linear-gradient(135deg, #f59e0b, #ef4444);
+            --shadow-md: 0 4px 14px rgba(0,0,0,0.4);
+            --shadow-lg: 0 10px 40px rgba(0,0,0,0.5);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 15px;
+            overflow-x: hidden;
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-primary); }
+        ::-webkit-scrollbar-thumb { background: var(--border-accent); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent-purple); }
+
+        .bg-glow {
+            position: fixed; top: -200px; right: -200px;
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(139,92,246,0.08) 0%, transparent 70%);
+            pointer-events: none; z-index: 0;
+            animation: floatGlow 20s ease-in-out infinite;
+        }
+        .bg-glow-2 {
+            position: fixed; bottom: -200px; left: -200px;
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(236,72,153,0.06) 0%, transparent 70%);
+            pointer-events: none; z-index: 0;
+            animation: floatGlow 25s ease-in-out infinite reverse;
+        }
+        @keyframes floatGlow {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(50px, 30px); }
+        }
+
+        /* ===== SIDEBAR ===== */
+        .sidebar {
+            position: fixed; top: 0; left: 0;
+            width: 290px; height: 100vh;
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border-color);
+            padding: 24px 0; overflow-y: auto; z-index: 100;
+            transition: transform 0.3s ease;
+        }
+        .sidebar-header {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 12px;
+        }
+        .sidebar-header h2 {
+            font-size: 16px; font-weight: 700;
+            background: var(--gradient-1);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .sidebar-header p { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+        .nav-section {
+            padding: 10px 16px 4px;
+            font-size: 10px; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 1.5px;
+            color: var(--text-muted);
+        }
+        .nav-link {
+            display: block; padding: 7px 20px 7px 24px;
+            font-size: 13px; color: var(--text-secondary);
+            text-decoration: none; transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+        }
+        .nav-link:hover {
+            color: var(--accent-purple); background: rgba(139,92,246,0.05);
+            border-left-color: var(--accent-purple);
+        }
+        .nav-link.active {
+            color: var(--accent-purple); background: rgba(139,92,246,0.08);
+            border-left-color: var(--accent-purple); font-weight: 500;
+        }
+        .badge {
+            display: inline-block; font-size: 9px; padding: 1px 6px;
+            border-radius: 10px; margin-left: 6px; font-weight: 600; vertical-align: middle;
+        }
+        .badge-pyq { background: rgba(239,68,68,0.15); color: var(--accent-red); }
+        .badge-imp { background: rgba(245,158,11,0.15); color: var(--accent-orange); }
+
+        .sidebar-toggle {
+            display: none; position: fixed; top: 16px; left: 16px; z-index: 200;
+            background: var(--bg-card); border: 1px solid var(--border-accent);
+            color: var(--text-primary); width: 42px; height: 42px;
+            border-radius: var(--radius-sm); font-size: 20px; cursor: pointer;
+            align-items: center; justify-content: center;
+        }
+
+        /* ===== MAIN ===== */
+        .main {
+            margin-left: 290px; padding: 40px 48px 100px;
+            max-width: 960px; position: relative; z-index: 1;
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            text-align: center; padding: 56px 32px;
+            background: linear-gradient(135deg, rgba(139,92,246,0.1), rgba(236,72,153,0.1));
+            border: 1px solid var(--border-accent);
+            border-radius: var(--radius-xl); margin-bottom: 48px;
+            position: relative; overflow: hidden;
+        }
+        .hero::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0;
+            height: 3px; background: var(--gradient-1);
+        }
+        .hero .unit-badge {
+            display: inline-block; font-size: 12px; font-weight: 700;
+            letter-spacing: 2px; text-transform: uppercase;
+            color: var(--accent-pink); background: rgba(236,72,153,0.1);
+            padding: 6px 16px; border-radius: 20px;
+            border: 1px solid rgba(236,72,153,0.2); margin-bottom: 16px;
+        }
+        .hero h1 {
+            font-size: 36px; font-weight: 900; letter-spacing: -1px;
+            background: var(--gradient-1);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+            margin-bottom: 12px;
+        }
+        .hero p { color: var(--text-secondary); font-size: 16px; max-width: 520px; margin: 0 auto; }
+
+        /* ===== PART DIVIDER ===== */
+        .part-divider {
+            text-align: center; margin: 64px 0 40px; position: relative;
+        }
+        .part-divider::before {
+            content: ''; position: absolute; top: 50%;
+            left: 0; right: 0; height: 1px; background: var(--border-accent);
+        }
+        .part-divider span {
+            position: relative; display: inline-block;
+            background: var(--bg-primary); padding: 8px 28px;
+            font-size: 13px; font-weight: 800;
+            letter-spacing: 3px; text-transform: uppercase;
+            border: 1px solid var(--border-accent); border-radius: 30px;
+        }
+        .part-divider .servlet { color: var(--accent-purple); border-color: rgba(139,92,246,0.3); }
+        .part-divider .programs { color: var(--accent-cyan); border-color: rgba(6,182,212,0.3); }
+        .part-divider .revision { color: var(--accent-orange); border-color: rgba(245,158,11,0.3); }
+        .part-divider .viva { color: var(--accent-green); border-color: rgba(16,185,129,0.3); }
+
+        /* ===== SECTION ===== */
+        .section { margin-bottom: 48px; scroll-margin-top: 24px; }
+        .section-header { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; }
+        .section-number {
+            flex-shrink: 0; width: 38px; height: 38px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 15px; font-weight: 800; border-radius: 10px; color: #fff;
+        }
+        .num-purple { background: var(--gradient-1); }
+        .num-blue { background: var(--gradient-2); }
+        .num-green { background: var(--gradient-3); }
+        .num-orange { background: var(--gradient-4); }
+        .section-header h2 { font-size: 24px; font-weight: 800; letter-spacing: -0.5px; }
+
+        /* ===== CARDS ===== */
+        .card {
+            background: var(--bg-card); border: 1px solid var(--border-color);
+            border-radius: var(--radius-md); padding: 24px; margin-bottom: 20px;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .card:hover { border-color: var(--border-accent); box-shadow: var(--shadow-md); }
+        .card h3 {
+            font-size: 16px; font-weight: 700; margin-bottom: 12px;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .card h3 .icon { font-size: 18px; }
+        .card p, .card li { color: var(--text-secondary); margin-bottom: 6px; }
+        .card ul { padding-left: 20px; list-style: none; }
+        .card ul li::before { content: '▸'; color: var(--accent-purple); font-weight: bold; margin-right: 8px; }
+        .card ol { padding-left: 20px; }
+        .card ol li { color: var(--text-secondary); margin-bottom: 4px; }
+
+        /* ===== SPECIAL BOXES ===== */
+        .def-box {
+            background: linear-gradient(135deg, rgba(139,92,246,0.06), rgba(236,72,153,0.06));
+            border: 1px solid rgba(139,92,246,0.15); border-radius: var(--radius-md);
+            padding: 20px 24px; margin-bottom: 20px; border-left: 4px solid var(--accent-purple);
+        }
+        .def-box .label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--accent-purple); margin-bottom: 6px; }
+        .def-box p { color: var(--text-primary); font-size: 15px; }
+
+        .tip-box {
+            background: rgba(16,185,129,0.06); border: 1px solid rgba(16,185,129,0.15);
+            border-radius: var(--radius-md); padding: 16px 20px; margin-bottom: 16px;
+            border-left: 4px solid var(--accent-green);
+        }
+        .tip-box .label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--accent-green); margin-bottom: 4px; }
+        .tip-box p { color: var(--text-secondary); font-size: 14px; }
+
+        .warn-box {
+            background: rgba(245,158,11,0.06); border: 1px solid rgba(245,158,11,0.15);
+            border-radius: var(--radius-md); padding: 16px 20px; margin-bottom: 16px;
+            border-left: 4px solid var(--accent-orange);
+        }
+        .warn-box .label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--accent-orange); margin-bottom: 4px; }
+        .warn-box p { color: var(--text-secondary); font-size: 14px; }
+
+        .danger-box {
+            background: rgba(239,68,68,0.06); border: 1px solid rgba(239,68,68,0.15);
+            border-radius: var(--radius-md); padding: 16px 20px; margin-bottom: 16px;
+            border-left: 4px solid var(--accent-red);
+        }
+        .danger-box .label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--accent-red); margin-bottom: 4px; }
+        .danger-box p { color: var(--text-secondary); font-size: 14px; }
+
+        .pyq-tag {
+            display: inline-flex; align-items: center; gap: 4px;
+            font-size: 11px; font-weight: 700; color: var(--accent-red);
+            background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.2);
+            padding: 3px 10px; border-radius: 20px; margin-left: 8px;
+        }
+
+        /* ===== TABLES ===== */
+        .table-wrap {
+            overflow-x: auto; margin-bottom: 20px;
+            border-radius: var(--radius-md); border: 1px solid var(--border-color);
+        }
+        table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+        thead th {
+            background: var(--bg-card); padding: 12px 16px; text-align: left;
+            font-weight: 700; font-size: 12px; text-transform: uppercase;
+            letter-spacing: 0.8px; color: var(--text-secondary);
+            border-bottom: 2px solid var(--border-accent);
+        }
+        tbody td {
+            padding: 10px 16px; border-bottom: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+        tbody tr:hover { background: rgba(139,92,246,0.03); }
+        tbody tr:last-child td { border-bottom: none; }
+        td code, th code {
+            background: var(--bg-inlinecode); padding: 2px 6px;
+            border-radius: 4px; font-size: 12px;
+        }
+
+        .diff-table {
+            border: 2px solid var(--accent-purple); border-radius: var(--radius-md);
+            overflow: hidden; margin-bottom: 20px;
+        }
+        .diff-table-header {
+            background: linear-gradient(135deg, rgba(139,92,246,0.15), rgba(236,72,153,0.1));
+            padding: 12px 16px; font-weight: 800; font-size: 14px;
+            display: flex; align-items: center; gap: 8px;
+            border-bottom: 1px solid rgba(139,92,246,0.2);
+        }
+        .diff-table thead th { background: rgba(139,92,246,0.08); }
+
+        /* ===== CODE ===== */
+        pre {
+            background: var(--bg-code); border: 1px solid var(--border-color);
+            border-radius: var(--radius-md); padding: 20px 24px;
+            margin-bottom: 16px; overflow-x: auto; position: relative;
+        }
+        pre code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px; line-height: 1.65; color: var(--text-primary);
+        }
+        code {
+            font-family: 'JetBrains Mono', monospace; font-size: 13px;
+            background: var(--bg-inlinecode); padding: 2px 7px;
+            border-radius: 5px; color: var(--accent-cyan);
+        }
+        .kw { color: #c678dd; }
+        .str { color: #98c379; }
+        .cm { color: #5c6370; font-style: italic; }
+        .fn { color: #61afef; }
+        .cls { color: #e5c07b; }
+        .num { color: #d19a66; }
+        .ann { color: #e06c75; }
+        .op { color: #56b6c2; }
+        .tag { color: #e06c75; }
+        .attr { color: #d19a66; }
+        .val { color: #98c379; }
+
+        /* ===== PROGRAM CARD ===== */
+        .program-card {
+            background: var(--bg-card); border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg); overflow: hidden;
+            margin-bottom: 32px; box-shadow: var(--shadow-md);
+        }
+        .program-header {
+            padding: 20px 24px; display: flex; align-items: center;
+            justify-content: space-between; border-bottom: 1px solid var(--border-color);
+        }
+        .program-header h3 { font-size: 17px; font-weight: 800; }
+        .program-body { padding: 24px; }
+        .program-body pre {
+            margin: 16px -24px; border-radius: 0;
+            border-left: none; border-right: none;
+        }
+        .output-box {
+            background: rgba(16,185,129,0.06); border: 1px solid rgba(16,185,129,0.15);
+            border-radius: var(--radius-sm); padding: 14px 18px; margin-top: 12px;
+        }
+        .output-box .label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--accent-green); margin-bottom: 6px; }
+        .output-box pre { background: transparent; border: none; padding: 0; margin: 0; }
+        .output-box pre code { color: var(--accent-green); font-size: 13px; }
+
+        .viva-box {
+            background: rgba(139,92,246,0.06); border: 1px solid rgba(139,92,246,0.15);
+            border-radius: var(--radius-sm); padding: 14px 18px; margin-top: 12px;
+        }
+        .viva-box .label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--accent-purple); margin-bottom: 8px; }
+        .viva-box ol { padding-left: 18px; }
+        .viva-box li { color: var(--text-secondary); font-size: 13px; margin-bottom: 4px; }
+        .viva-box strong { color: var(--text-primary); }
+
+        .diagram-box {
+            background: var(--bg-code); border: 1px solid var(--border-color);
+            border-radius: var(--radius-md); padding: 24px; margin-bottom: 16px;
+            text-align: center;
+        }
+        .diagram-box pre { background: transparent; border: none; padding: 0; margin: 0; text-align: left; display: inline-block; }
+
+        /* ===== REVISION SHEET ===== */
+        .revision-sheet {
+            background: linear-gradient(135deg, rgba(245,158,11,0.06), rgba(239,68,68,0.04));
+            border: 2px solid rgba(245,158,11,0.25);
+            border-radius: var(--radius-xl); padding: 32px; margin-top: 48px;
+        }
+        .revision-sheet h2 { text-align: center; font-size: 28px; font-weight: 900; margin-bottom: 8px; }
+        .revision-sheet .subtitle { text-align: center; color: var(--text-muted); font-size: 14px; margin-bottom: 32px; }
+        .rev-section { margin-bottom: 24px; }
+        .rev-section h4 {
+            font-size: 14px; font-weight: 700; color: var(--accent-orange);
+            margin-bottom: 10px; display: flex; align-items: center; gap: 6px;
+        }
+        .checklist { list-style: none; padding: 0; }
+        .checklist li {
+            padding: 6px 0; color: var(--text-secondary); font-size: 14px;
+            display: flex; align-items: flex-start; gap: 8px;
+        }
+        .checklist li::before { content: '✅'; flex-shrink: 0; }
+
+        /* ===== VIVA NUMBERED ===== */
+        .viva-list { counter-reset: viva-counter; list-style: none; padding: 0; }
+        .viva-list li {
+            counter-increment: viva-counter; padding: 12px 16px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-secondary); font-size: 14px;
+        }
+        .viva-list li:last-child { border-bottom: none; }
+        .viva-list li::before {
+            content: counter(viva-counter); display: inline-flex;
+            align-items: center; justify-content: center;
+            width: 24px; height: 24px; background: rgba(139,92,246,0.15);
+            color: var(--accent-purple); font-size: 11px; font-weight: 700;
+            border-radius: 6px; margin-right: 12px; flex-shrink: 0;
+        }
+        .viva-list li strong { color: var(--text-primary); }
+
+        /* ===== BACK TO TOP ===== */
+        .back-to-top {
+            position: fixed; bottom: 28px; right: 28px;
+            width: 44px; height: 44px; background: var(--gradient-1);
+            border: none; border-radius: 50%; color: #fff; font-size: 20px;
+            cursor: pointer; opacity: 0; transform: translateY(20px);
+            transition: all 0.3s ease; z-index: 200; box-shadow: var(--shadow-lg);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .back-to-top.visible { opacity: 1; transform: translateY(0); }
+        .back-to-top:hover { transform: translateY(-3px); }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 900px) {
+            .sidebar { transform: translateX(-100%); }
+            .sidebar.open { transform: translateX(0); box-shadow: var(--shadow-lg); }
+            .sidebar-toggle { display: flex; }
+            .main { margin-left: 0; padding: 24px 20px 80px; }
+            .hero h1 { font-size: 26px; }
+            .program-body pre { margin: 16px -16px; }
+        }
+        @media (max-width: 600px) {
+            .hero { padding: 36px 20px; }
+            .hero h1 { font-size: 22px; }
+            table { font-size: 12px; }
+            thead th, tbody td { padding: 8px 10px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="bg-glow"></div>
+<div class="bg-glow-2"></div>
+
+<button class="sidebar-toggle" id="sidebarToggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰</button>
+
+<!-- ===== SIDEBAR ===== -->
+<nav class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+        <h2>📗 Unit 5 Notes</h2>
+        <p>Java Servlets & JSP • Exam Ready</p>
+    </div>
+
+    <div class="nav-section">Servlet Fundamentals</div>
+    <a class="nav-link" href="#servlets">Java Servlets</a>
+    <a class="nav-link" href="#servlet-api">Servlet API</a>
+    <a class="nav-link" href="#lifecycle">Servlet Life Cycle <span class="badge badge-imp">IMP</span></a>
+    <a class="nav-link" href="#container">Servlet Container</a>
+    <a class="nav-link" href="#cgi-vs-servlet">CGI vs Servlet <span class="badge badge-imp">TABLE</span></a>
+    <a class="nav-link" href="#static-dynamic">Static vs Dynamic <span class="badge badge-imp">TABLE</span></a>
+
+    <div class="nav-section">Servlet Classes</div>
+    <a class="nav-link" href="#generic-servlet">GenericServlet</a>
+    <a class="nav-link" href="#http-servlet">HttpServlet <span class="badge badge-pyq">PYQ</span></a>
+    <a class="nav-link" href="#generic-vs-http">Generic vs Http <span class="badge badge-imp">TABLE</span></a>
+    <a class="nav-link" href="#get-vs-post">GET vs POST <span class="badge badge-imp">TABLE</span></a>
+
+    <div class="nav-section">Config & Context</div>
+    <a class="nav-link" href="#servlet-config">ServletConfig <span class="badge badge-pyq">PYQ</span></a>
+    <a class="nav-link" href="#servlet-context">ServletContext</a>
+    <a class="nav-link" href="#config-vs-context">Config vs Context <span class="badge badge-imp">TABLE</span></a>
+
+    <div class="nav-section">Request & Response</div>
+    <a class="nav-link" href="#request">ServletRequest</a>
+    <a class="nav-link" href="#response">ServletResponse</a>
+    <a class="nav-link" href="#session-tracking">Session Tracking <span class="badge badge-imp">IMP</span></a>
+
+    <div class="nav-section">JSP Fundamentals</div>
+    <a class="nav-link" href="#jsp-intro">What is JSP?</a>
+    <a class="nav-link" href="#jsp-lifecycle">JSP Life Cycle <span class="badge badge-imp">IMP</span></a>
+    <a class="nav-link" href="#jsp-scripting">Scripting Elements</a>
+    <a class="nav-link" href="#jsp-implicit">Implicit Objects <span class="badge badge-pyq">PYQ</span></a>
+
+    <div class="nav-section">Mandatory Programs</div>
+    <a class="nav-link" href="#prog-hello">Hello World Servlet <span class="badge badge-pyq">PYQ</span></a>
+    <a class="nav-link" href="#prog-lifecycle">Life Cycle Program</a>
+    <a class="nav-link" href="#prog-addition">Addition Servlet <span class="badge badge-pyq">PYQ</span></a>
+    <a class="nav-link" href="#prog-doget">doGet() Example</a>
+    <a class="nav-link" href="#prog-dopost">doPost() Example</a>
+    <a class="nav-link" href="#prog-session">Session Tracking Demo <span class="badge badge-imp">IMP</span></a>
+
+    <div class="nav-section">Exam Preparation</div>
+    <a class="nav-link" href="#mistakes">Common Mistakes ⚠️</a>
+    <a class="nav-link" href="#viva25">Top 25 Viva Qs</a>
+    <a class="nav-link" href="#pyqs">Most Repeated PYQs</a>
+    <a class="nav-link" href="#definitions">2-Mark Definitions</a>
+    <a class="nav-link" href="#revision">🔥 Revision Sheet</a>
+</nav>
+
+<!-- ===== MAIN ===== -->
+<div class="main">
+
+    <!-- HERO -->
+    <header class="hero" id="top">
+        <div class="unit-badge">Unit V — Advanced Java</div>
+        <h1>Java Servlets Exam Notes</h1>
+        <p>Complete internal exam notes — Servlet API, Life Cycle, GenericServlet, HttpServlet, Config, Context, Request, Response & JSP basics.</p>
+    </header>
+
+    <!-- ================================= -->
+    <!-- PART A: SERVLET FUNDAMENTALS      -->
+    <!-- ================================= -->
+    <div class="part-divider"><span class="servlet">Part A — Servlet Fundamentals</span></div>
+
+    <!-- 1. JAVA SERVLETS -->
+    <section class="section" id="servlets">
+        <div class="section-header">
+            <div class="section-number num-purple">1</div>
+            <h2>Java Servlets — Introduction</h2>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definition</div>
+            <p>A <strong>Servlet</strong> is a <strong>Java class</strong> that runs on a <strong>web server</strong> (server-side) and is used to handle <strong>HTTP requests</strong> and generate <strong>dynamic web content</strong> (HTML responses). It extends the capabilities of a web server.</p>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🔑</span> Key Points</h3>
+            <ul>
+                <li>Servlets are <strong>server-side Java programs</strong> that run inside a <strong>Servlet Container</strong> (e.g., Apache Tomcat)</li>
+                <li>They follow the <strong>Request-Response model</strong> — client sends request, servlet sends response</li>
+                <li>Servlets are part of <strong>Java EE</strong> (Enterprise Edition)</li>
+                <li>Package: <code>javax.servlet</code> and <code>javax.servlet.http</code></li>
+                <li>They are <strong>platform independent</strong> (written in Java)</li>
+                <li>They are <strong>faster than CGI</strong> because they use threads instead of processes</li>
+                <li>Servlet lifecycle is managed by the <strong>Servlet Container</strong></li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">✅</span> Advantages of Servlets</h3>
+            <ol>
+                <li><strong>Performance</strong> — Uses threads (lightweight) instead of processes</li>
+                <li><strong>Portability</strong> — Written in Java, runs on any platform</li>
+                <li><strong>Security</strong> — Java's security manager + type safety</li>
+                <li><strong>Robustness</strong> — JVM manages memory, garbage collection</li>
+                <li><strong>Persistence</strong> — Stays in memory, doesn't restart per request</li>
+                <li><strong>Java API</strong> — Access to full Java API (JDBC, Collections, etc.)</li>
+                <li><strong>Scalability</strong> — Can handle multiple requests concurrently</li>
+            </ol>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🔄</span> Request-Response Paradigm</h3>
+            <div class="diagram-box">
+<pre><code>┌──────────┐         HTTP Request          ┌──────────────────┐
+│          │  ──────────────────────────▶  │                  │
+│  Client  │     (GET/POST + data)         │   Web Server     │
+│ (Browser)│                               │  + Servlet       │
+│          │  ◀──────────────────────────  │   Container      │
+└──────────┘         HTTP Response         └──────────────────┘
+                  (HTML page)
+
+<span class="cm">Flow:</span>
+<span class="num">1.</span> Client (browser) sends HTTP request to web server
+<span class="num">2.</span> Web server forwards request to Servlet Container (Tomcat)
+<span class="num">3.</span> Container finds the appropriate servlet
+<span class="num">4.</span> Servlet processes request (business logic, DB access)
+<span class="num">5.</span> Servlet generates dynamic HTML response
+<span class="num">6.</span> Container sends response back to client</code></pre>
+            </div>
+        </div>
+
+        <div class="tip-box">
+            <div class="label">💡 Exam One-liner</div>
+            <p>"A Servlet is a server-side Java program that handles client requests and generates dynamic web content, running inside a Servlet Container like Apache Tomcat."</p>
+        </div>
+    </section>
+
+    <!-- CGI vs SERVLET -->
+    <section class="section" id="cgi-vs-servlet">
+        <div class="diff-table">
+            <div class="diff-table-header">⭐ Mandatory — CGI vs Servlet</div>
+            <div class="table-wrap" style="border:none;border-radius:0;">
+                <table>
+                    <thead><tr><th>Feature</th><th>CGI (Common Gateway Interface)</th><th>Servlet</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Language</strong></td><td>Perl, C, C++</td><td>Java</td></tr>
+                        <tr><td><strong>Process Model</strong></td><td>Creates <strong>new process</strong> per request ❌</td><td>Creates <strong>new thread</strong> per request ✅</td></tr>
+                        <tr><td><strong>Performance</strong></td><td>Slow (heavy process creation)</td><td><strong>Fast</strong> (lightweight threads)</td></tr>
+                        <tr><td><strong>Platform</strong></td><td>Platform dependent</td><td>Platform independent</td></tr>
+                        <tr><td><strong>Memory</strong></td><td>More (separate process per request)</td><td>Less (shared memory, threads)</td></tr>
+                        <tr><td><strong>Persistence</strong></td><td>No (destroyed after each request)</td><td>Yes (stays in memory)</td></tr>
+                        <tr><td><strong>Scalability</strong></td><td>Poor</td><td>Excellent</td></tr>
+                        <tr><td><strong>Security</strong></td><td>Less secure</td><td>More secure (Java security)</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="tip-box">
+            <div class="label">💡 Why Servlets are better than CGI — OS Context-Switching & Process Overhead</div>
+            <p><strong>Under the Hood Mechanics:</strong> When a request hits a CGI script, the operating system must allocate a brand-new **isolated address space (process)**, load the executable, and initialize it. Processes do not share memory; communicating or context-switching between them requires expensive kernel-level operations. If 1,000 concurrent requests arrive, the OS spawns 1,000 separate processes, rapidly exhausting RAM and CPU cycles.</p>
+            <p style="margin-top: 6px;">In contrast, when a request hits a Servlet, the container spawns a lightweight **Thread** within the single JVM process. Threads share the same Heap memory space and resources, making thread creation and context-switching orders of magnitude faster and extremely light on memory.</p>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🧵</span> Servlet Multithreading & Thread Safety Rules</h3>
+            <p>Because the Servlet Container maintains only **a single instance of each Servlet** (singleton lifecycle) to serve all incoming requests, understanding thread safety is highly critical for the exam:</p>
+            
+            <div class="def-box" style="border-left-color: var(--accent-red); background: rgba(239, 68, 68, 0.05); margin-top: 10px;">
+                <div class="label" style="color: var(--accent-red);">The Stack vs. Heap Thread-Safety Contract</div>
+                <ul style="margin-top: 6px; list-style-type: none; padding-left: 0;">
+                    <li style="margin-bottom: 8px;"><strong>1. Instance Variables (Class Fields) are NOT Thread-Safe:</strong> Fields declared at the class level are stored on the **shared Heap** inside the single servlet instance. If multiple request threads modify these fields concurrently, race conditions and data corruption will occur. <em>Rule: Do not store request-specific state in instance fields!</em></li>
+                    <li><strong>2. Local Variables (Inside Methods) are 100% Thread-Safe:</strong> Variables declared inside `doGet()`, `doPost()`, or local helper methods are allocated on each thread's individual **isolated Thread Stack**. No other thread can see or modify these variables.</li>
+                </ul>
+            </div>
+
+            <div class="warn-box" style="margin-top: 12px;">
+                <div class="label">⚠️ Deprecated: SingleThreadModel Interface</div>
+                <p>In early Java EE versions, developers could implement the <code>SingleThreadModel</code> tag interface to guarantee that only one thread executed a servlet's service method at a time (either by queuing requests or instantiating a pool of servlet objects). This was **deprecated** because it severely bottle-necked application scalability and did not solve all shared-state session synchronization issues. Thread-safety should always be achieved by writing stateless servlet code or synchronizing specific blocks.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- STATIC vs DYNAMIC -->
+    <section class="section" id="static-dynamic">
+        <div class="diff-table">
+            <div class="diff-table-header">⭐ Mandatory — Static vs Dynamic Web Pages</div>
+            <div class="table-wrap" style="border:none;border-radius:0;">
+                <table>
+                    <thead><tr><th>Feature</th><th>Static Web Page</th><th>Dynamic Web Page</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Content</strong></td><td>Fixed, same for all users</td><td>Changes based on user/request</td></tr>
+                        <tr><td><strong>Technology</strong></td><td>HTML, CSS only</td><td>Servlets, JSP, PHP, etc.</td></tr>
+                        <tr><td><strong>Server Processing</strong></td><td>No processing needed</td><td>Server processes and generates</td></tr>
+                        <tr><td><strong>Database</strong></td><td>No database interaction</td><td>Can interact with database</td></tr>
+                        <tr><td><strong>Example</strong></td><td>About Us page, Contact page</td><td>Login page, Search results</td></tr>
+                        <tr><td><strong>Extension</strong></td><td>.html, .htm</td><td>.jsp, .php, .aspx</td></tr>
+                        <tr><td><strong>Speed</strong></td><td>Faster (no processing)</td><td>Slower (processing required)</td></tr>
+                        <tr><td><strong>Interactivity</strong></td><td>Low</td><td>High</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. SERVLET API -->
+    <section class="section" id="servlet-api">
+        <div class="section-header">
+            <div class="section-number num-purple">2</div>
+            <h2>Servlet API</h2>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definition</div>
+            <p>The Servlet API is a set of <strong>interfaces and classes</strong> provided in <code>javax.servlet</code> and <code>javax.servlet.http</code> packages that define the contract between a servlet and the servlet container.</p>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">📦</span> Two Main Packages</h3>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>Package</th><th>Description</th></tr></thead>
+                    <tbody>
+                        <tr><td><code>javax.servlet</code></td><td>Protocol-independent interfaces and classes (Servlet, GenericServlet, ServletRequest, ServletResponse, ServletConfig, ServletContext)</td></tr>
+                        <tr><td><code>javax.servlet.http</code></td><td>HTTP-specific classes (HttpServlet, HttpServletRequest, HttpServletResponse, HttpSession, Cookie)</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🏗️</span> Servlet API Hierarchy</h3>
+            <div class="diagram-box">
+<pre><code>                    ┌──────────────────────┐
+                    │   <span class="op">«interface»</span>        │
+                    │   <span class="cls">Servlet</span>             │
+                    │   ─────────────────  │
+                    │   <span class="fn">init()</span>             │
+                    │   <span class="fn">service()</span>          │
+                    │   <span class="fn">destroy()</span>          │
+                    │   <span class="fn">getServletConfig()</span> │
+                    │   <span class="fn">getServletInfo()</span>   │
+                    └──────────┬───────────┘
+                               │ <span class="cm">implements</span>
+                               ▼
+                    ┌──────────────────────┐
+                    │   <span class="kw">abstract class</span>     │
+                    │   <span class="cls">GenericServlet</span>      │
+                    │   ─────────────────  │
+                    │   Protocol-independent│
+                    │   Implements Servlet  │
+                    │   + ServletConfig     │
+                    └──────────┬───────────┘
+                               │ <span class="cm">extends</span>
+                               ▼
+                    ┌──────────────────────┐
+                    │   <span class="kw">abstract class</span>     │
+                    │   <span class="cls">HttpServlet</span>         │
+                    │   ─────────────────  │
+                    │   HTTP-specific       │
+                    │   <span class="fn">doGet()</span>            │
+                    │   <span class="fn">doPost()</span>           │
+                    │   <span class="fn">doPut()</span>            │
+                    │   <span class="fn">doDelete()</span>         │
+                    └──────────┬───────────┘
+                               │ <span class="cm">extends</span>
+                               ▼
+                    ┌──────────────────────┐
+                    │   <span class="cls">YourServlet</span>         │
+                    │   (Your own class)   │
+                    └──────────────────────┘</code></pre>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">📋</span> Key Interfaces in Servlet API</h3>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>Interface</th><th>Package</th><th>Description</th></tr></thead>
+                    <tbody>
+                        <tr><td><code>Servlet</code></td><td><code>javax.servlet</code></td><td>Core interface — all servlets must implement this</td></tr>
+                        <tr><td><code>ServletRequest</code></td><td><code>javax.servlet</code></td><td>Provides client request information</td></tr>
+                        <tr><td><code>ServletResponse</code></td><td><code>javax.servlet</code></td><td>Used to send response to client</td></tr>
+                        <tr><td><code>ServletConfig</code></td><td><code>javax.servlet</code></td><td>Configuration info for a specific servlet</td></tr>
+                        <tr><td><code>ServletContext</code></td><td><code>javax.servlet</code></td><td>Information about entire web application</td></tr>
+                        <tr><td><code>HttpServletRequest</code></td><td><code>javax.servlet.http</code></td><td>HTTP-specific request info</td></tr>
+                        <tr><td><code>HttpServletResponse</code></td><td><code>javax.servlet.http</code></td><td>HTTP-specific response methods</td></tr>
+                        <tr><td><code>HttpSession</code></td><td><code>javax.servlet.http</code></td><td>Session tracking</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. SERVLET LIFE CYCLE -->
+    <section class="section" id="lifecycle">
+        <div class="section-header">
+            <div class="section-number num-purple">3</div>
+            <h2>Servlet Life Cycle</h2>
+            <span class="pyq-tag">⭐ Most Important Topic</span>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definition</div>
+            <p>The Servlet Life Cycle defines the <strong>entire process</strong> from creation to destruction of a servlet. It is <strong>managed by the Servlet Container</strong> (not the programmer). The lifecycle has <strong>3 main phases</strong> controlled by 3 methods: <code>init()</code>, <code>service()</code>, and <code>destroy()</code>.</p>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🔄</span> Life Cycle Diagram</h3>
+            <div class="diagram-box">
+<pre><code>                    ┌─────────────────────────────────┐
+                    │      <span class="kw">Servlet Container (Tomcat)</span>    │
+                    │         manages everything        │
+                    └─────────────────────────────────┘
+
+   ┌──────────────┐
+   │ <span class="num">Step 1:</span>       │    Servlet class is <span class="fn">loaded</span> into memory
+   │ <span class="cls">Class Loading</span> │    when first request arrives
+   └──────┬───────┘    (or at server startup if load-on-startup)
+          │
+          ▼
+   ┌──────────────┐
+   │ <span class="num">Step 2:</span>       │    Servlet <span class="fn">object is created</span>
+   │ <span class="cls">Instantiation</span>│    (constructor is called)
+   └──────┬───────┘    Only <span class="kw">ONE instance</span> is created!
+          │
+          ▼
+   ┌──────────────┐
+   │ <span class="num">Step 3:</span>       │    <span class="fn">init(ServletConfig)</span> is called
+   │ <span class="cls">Initialization</span>│   Called <span class="kw">only ONCE</span> in servlet's lifetime
+   │  <span class="fn">init()</span>      │    Used for one-time setup (DB connection, etc.)
+   └──────┬───────┘
+          │
+          ▼
+   ┌──────────────┐    <span class="fn">service(request, response)</span> is called
+   │ <span class="num">Step 4:</span>       │    Called for <span class="kw">EVERY client request</span>
+   │ <span class="cls">Request</span>      │    For HttpServlet: dispatches to
+   │ <span class="cls">Handling</span>     │    <span class="fn">doGet()</span> or <span class="fn">doPost()</span> based on HTTP method
+   │ <span class="fn">service()</span>    │    ← This is where your logic goes!
+   └──────┬───────┘    Can be called <span class="kw">multiple times</span>
+          │             (concurrent threads)
+          ▼
+   ┌──────────────┐
+   │ <span class="num">Step 5:</span>       │    <span class="fn">destroy()</span> is called
+   │ <span class="cls">Destruction</span>  │    Called <span class="kw">only ONCE</span> before servlet is
+   │ <span class="fn">destroy()</span>    │    removed from memory
+   └──────┬───────┘    Used for cleanup (close DB, release resources)
+          │
+          ▼
+   ┌──────────────┐
+   │ <span class="num">Step 6:</span>       │    Servlet object is garbage collected
+   │ <span class="cls">Garbage</span>      │    by JVM
+   │ <span class="cls">Collection</span>   │
+   └──────────────┘</code></pre>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">📋</span> 3 Life Cycle Methods</h3>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>Method</th><th>Called</th><th>Purpose</th></tr></thead>
+                    <tbody>
+                        <tr><td><code>init(ServletConfig config)</code></td><td><strong>Once</strong> — when servlet is first loaded</td><td>Initialization (setup DB connection, read config)</td></tr>
+                        <tr><td><code>service(ServletRequest, ServletResponse)</code></td><td><strong>Every request</strong> — for each client request</td><td>Handles request, generates response</td></tr>
+                        <tr><td><code>destroy()</code></td><td><strong>Once</strong> — when servlet is being removed</td><td>Cleanup (close DB, release resources)</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="warn-box">
+            <div class="label">⚠️ Key Points to Remember</div>
+            <p><strong>1.</strong> Only <strong>ONE instance</strong> of a servlet is created (singleton pattern).<br>
+            <strong>2.</strong> <code>init()</code> and <code>destroy()</code> are called <strong>only once</strong>.<br>
+            <strong>3.</strong> <code>service()</code> is called <strong>for every request</strong> — multiple times.<br>
+            <strong>4.</strong> The <strong>container manages</strong> the entire lifecycle, not the programmer.<br>
+            <strong>5.</strong> Multiple threads can call <code>service()</code> simultaneously.</p>
+        </div>
+    </section>
+
+    <!-- SERVLET CONTAINER -->
+    <section class="section" id="container">
+        <div class="section-header">
+            <div class="section-number num-purple">⚙</div>
+            <h2>Servlet Container (Web Container)</h2>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definition</div>
+            <p>A <strong>Servlet Container</strong> (also called Web Container) is a component of a web server that <strong>manages the lifecycle of servlets</strong>, maps URLs to servlets, and handles request/response communication. Example: <strong>Apache Tomcat</strong>.</p>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">📋</span> Responsibilities of Servlet Container</h3>
+            <ul>
+                <li><strong>Lifecycle management</strong> — calls init(), service(), destroy()</li>
+                <li><strong>Multithreading</strong> — creates threads for concurrent requests</li>
+                <li><strong>Security</strong> — manages access control</li>
+                <li><strong>URL mapping</strong> — maps URL patterns to servlets (via web.xml)</li>
+                <li><strong>JSP support</strong> — compiles JSP into servlets</li>
+                <li><strong>Communication</strong> — provides request/response objects</li>
+            </ul>
+        </div>
+
+        <div class="card" style="margin-top: 1rem;">
+            <h3><span class="icon">⚙️</span> Web Container Socket Listening & Worker Thread Pool</h3>
+            <p>Under the hood, the Servlet Container (like Apache Tomcat) acts as a high-performance network server:</p>
+            <ol style="margin-left: 20px; margin-top: 8px;">
+                <li><strong>Socket Connection:</strong> The container runs a network listener loop on a specific TCP port (default: <code>8080</code>). When a request socket connection is accepted, the container avoids the expensive overhead of creating a new OS thread on-the-fly by leveraging a pre-allocated <strong>Worker Thread Pool</strong>.</li>
+                <li><strong>Request Wrapping:</strong> An active worker thread is fetched from the pool. It reads the raw HTTP TCP byte stream and parses it, instantiating the typed objects: <code>HttpServletRequest</code> (containing headers, parameters, URI) and <code>HttpServletResponse</code> (holding socket output buffers).</li>
+                <li><strong>Servlet Lookup & Invocation:</strong> The worker thread matches the request URI against the container's URL mapping index. Once matched, it locates the single Servlet instance on the heap and calls its `service(request, response)` method.</li>
+                <li><strong>Resource Recycle:</strong> Once the servlet method completes, the socket response buffer is flushed back to the client, the request/response objects are nullified for garbage collection, and the worker thread is returned to the pool.</li>
+            </ol>
+        </div>
+
+        <div class="card" style="margin-top: 1.25rem;">
+            <h3><span class="icon">🏷️</span> URL Mapping: web.xml vs. @WebServlet Annotation</h3>
+            <p>Servlet 3.0 introduced annotation-based configurations to eliminate massive XML deployment descriptors. Today, you can configure mapping in two ways:</p>
+            
+            <div class="grid2" style="margin-top: 12px; margin-bottom: 12px;">
+                <div class="card" style="background:#111827; border: 1px solid var(--border-accent);">
+                    <div class="card-title" style="color:var(--accent-purple); font-size:0.75rem;">1. Traditional XML Mapping (web.xml)</div>
+                    <pre style="margin:0; padding:6px; font-size:0.7rem;"><span class="tag">&lt;servlet&gt;</span>
+  <span class="tag">&lt;servlet-name&gt;</span>Demo<span class="tag">&lt;/servlet-name&gt;</span>
+  <span class="tag">&lt;servlet-class&gt;</span>com.pkg.DemoServlet<span class="tag">&lt;/servlet-class&gt;</span>
+<span class="tag">&lt;/servlet&gt;</span>
+<span class="tag">&lt;servlet-mapping&gt;</span>
+  <span class="tag">&lt;servlet-name&gt;</span>Demo<span class="tag">&lt;/servlet-name&gt;</span>
+  <span class="tag">&lt;url-pattern&gt;</span>/demo<span class="tag">&lt;/url-pattern&gt;</span>
+<span class="tag">&lt;/servlet-mapping&gt;</span></pre>
+                </div>
+                <div class="card" style="background:#111827; border: 1px solid var(--border-accent);">
+                    <div class="card-title" style="color:var(--accent-pink); font-size:0.75rem;">2. Annotation Mapping (@WebServlet)</div>
+                    <pre style="margin:0; padding:6px; font-size:0.7rem;"><span class="kw">import</span> javax.servlet.annotation.*;
+ 
+<span class="ann">@WebServlet</span>(
+    name = <span class="str">"Demo"</span>, 
+    urlPatterns = {<span class="str">"/demo"</span>},
+    initParams = {
+        <span class="ann">@WebInitParam</span>(name=<span class="str">"k"</span>, value=<span class="str">"v"</span>)
+    }
+)
+<span class="kw">public class</span> <span class="cls">DemoServlet</span> <span class="kw">extends</span> <span class="cls">HttpServlet</span> {
+    ...
+}</pre>
+                </div>
+            </div>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Deployment Descriptor (web.xml)</th>
+                            <th>@WebServlet Annotation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Location</strong></td>
+                            <td>Centralized XML file: <code>/WEB-INF/web.xml</code>.</td>
+                            <td>Directly on top of the Java class declaration.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Ease of Dev</strong></td>
+                            <td>Tedious; requires matching names across elements.</td>
+                            <td>Very fast; declared inline in code.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Modification</strong></td>
+                            <td>Allows modifying mappings without recompiling code.</td>
+                            <td>Requires recompiling the class if mapping changes.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Ordering control</strong></td>
+                            <td>Supported via XML declaration order.</td>
+                            <td>Difficult to enforce strict loading sequences.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. GENERIC SERVLET -->
+    <section class="section" id="generic-servlet">
+        <div class="section-header">
+            <div class="section-number num-blue">4</div>
+            <h2>GenericServlet Class</h2>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definition</div>
+            <p><code>GenericServlet</code> is an <strong>abstract class</strong> in <code>javax.servlet</code> package that implements the <code>Servlet</code> and <code>ServletConfig</code> interfaces. It is <strong>protocol-independent</strong> — not tied to HTTP. It provides default implementations for all lifecycle methods except <code>service()</code>.</p>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">📋</span> Important Methods</h3>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>Method</th><th>Description</th></tr></thead>
+                    <tbody>
+                        <tr><td><code>init(ServletConfig config)</code></td><td>Called once to initialize the servlet</td></tr>
+                        <tr><td><code>init()</code></td><td>Convenience method (no-arg), override this for custom init</td></tr>
+                        <tr><td><code>abstract service(ServletRequest, ServletResponse)</code></td><td><strong>Must override</strong> — handles requests</td></tr>
+                        <tr><td><code>destroy()</code></td><td>Called before servlet is destroyed</td></tr>
+                        <tr><td><code>getServletConfig()</code></td><td>Returns ServletConfig object</td></tr>
+                        <tr><td><code>getServletContext()</code></td><td>Returns ServletContext object</td></tr>
+                        <tr><td><code>getServletInfo()</code></td><td>Returns info string about servlet</td></tr>
+                        <tr><td><code>getInitParameter(String name)</code></td><td>Gets init parameter value</td></tr>
+                        <tr><td><code>log(String msg)</code></td><td>Writes to servlet log</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">📝</span> GenericServlet Example</h3>
+<pre><code><span class="kw">import</span> javax.servlet.*;
+<span class="kw">import</span> java.io.*;
+
+<span class="kw">public class</span> <span class="cls">MyGenericServlet</span> <span class="kw">extends</span> <span class="cls">GenericServlet</span> {
+
+    <span class="kw">public void</span> <span class="fn">service</span>(<span class="cls">ServletRequest</span> req, <span class="cls">ServletResponse</span> res)
+            <span class="kw">throws</span> <span class="cls">ServletException</span>, <span class="cls">IOException</span> {
+
+        res.<span class="fn">setContentType</span>(<span class="str">"text/html"</span>);
+        <span class="cls">PrintWriter</span> out = res.<span class="fn">getWriter</span>();
+        out.<span class="fn">println</span>(<span class="str">"&lt;h1&gt;Hello from GenericServlet!&lt;/h1&gt;"</span>);
+        out.<span class="fn">close</span>();
+    }
+}</code></pre>
+        </div>
+
+        <div class="tip-box">
+            <div class="label">💡 Key Point</div>
+            <p>You <strong>must override</strong> <code>service()</code> method in GenericServlet — it is abstract. GenericServlet is rarely used directly; we mostly use <strong>HttpServlet</strong> for web applications.</p>
+        </div>
+    </section>
+
+    <!-- 5. HTTP SERVLET -->
+    <section class="section" id="http-servlet">
+        <div class="section-header">
+            <div class="section-number num-blue">5</div>
+            <h2>HttpServlet Class</h2>
+            <span class="pyq-tag">⭐ PYQ Topic</span>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definition</div>
+            <p><code>HttpServlet</code> is an <strong>abstract class</strong> in <code>javax.servlet.http</code> package that extends <code>GenericServlet</code>. It is specifically designed for <strong>HTTP protocol</strong>. It provides methods like <code>doGet()</code>, <code>doPost()</code>, <code>doPut()</code>, <code>doDelete()</code> to handle different HTTP methods.</p>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">📋</span> HttpServlet Methods (PYQ: List any 5 methods)</h3>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>Method</th><th>HTTP Method</th><th>Description</th></tr></thead>
+                    <tbody>
+                        <tr><td><code>doGet(HttpServletRequest, HttpServletResponse)</code></td><td>GET</td><td>Handles GET requests (data in URL)</td></tr>
+                        <tr><td><code>doPost(HttpServletRequest, HttpServletResponse)</code></td><td>POST</td><td>Handles POST requests (data in body)</td></tr>
+                        <tr><td><code>doPut(HttpServletRequest, HttpServletResponse)</code></td><td>PUT</td><td>Handles PUT requests (update resource)</td></tr>
+                        <tr><td><code>doDelete(HttpServletRequest, HttpServletResponse)</code></td><td>DELETE</td><td>Handles DELETE requests</td></tr>
+                        <tr><td><code>doHead(HttpServletRequest, HttpServletResponse)</code></td><td>HEAD</td><td>Handles HEAD requests (headers only)</td></tr>
+                        <tr><td><code>service(HttpServletRequest, HttpServletResponse)</code></td><td>ALL</td><td>Dispatches to doGet/doPost etc. automatically</td></tr>
+                        <tr><td><code>init()</code></td><td>—</td><td>Initialization</td></tr>
+                        <tr><td><code>destroy()</code></td><td>—</td><td>Cleanup</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🔄</span> How HttpServlet Works Internally</h3>
+            <div class="diagram-box">
+<pre><code>Client Request (GET/POST)
+        │
+        ▼
+<span class="fn">service</span>(HttpServletRequest, HttpServletResponse)
+        │
+        ├── if GET  request  →  <span class="fn">doGet</span>(req, res)
+        ├── if POST request  →  <span class="fn">doPost</span>(req, res)
+        ├── if PUT  request  →  <span class="fn">doPut</span>(req, res)
+        └── if DELETE request → <span class="fn">doDelete</span>(req, res)
+
+<span class="cm">→ You DON'T override service() in HttpServlet</span>
+<span class="cm">→ You override doGet() or doPost() instead!</span></code></pre>
+            </div>
+        </div>
+
+        <div class="danger-box">
+            <div class="label">🚨 Important</div>
+            <p>In HttpServlet, <strong>DON'T override <code>service()</code></strong>. Override <code>doGet()</code> or <code>doPost()</code> instead. The <code>service()</code> method automatically dispatches to the correct doXxx() method.</p>
+        </div>
+    </section>
+
+    <!-- GENERIC vs HTTP -->
+    <section class="section" id="generic-vs-http">
+        <div class="diff-table">
+            <div class="diff-table-header">⭐ Mandatory — GenericServlet vs HttpServlet</div>
+            <div class="table-wrap" style="border:none;border-radius:0;">
+                <table>
+                    <thead><tr><th>Feature</th><th>GenericServlet</th><th>HttpServlet</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Package</strong></td><td><code>javax.servlet</code></td><td><code>javax.servlet.http</code></td></tr>
+                        <tr><td><strong>Protocol</strong></td><td>Protocol-<strong>independent</strong></td><td><strong>HTTP</strong>-specific</td></tr>
+                        <tr><td><strong>Class Type</strong></td><td>Abstract class</td><td>Abstract class (extends GenericServlet)</td></tr>
+                        <tr><td><strong>Method to Override</strong></td><td><code>service()</code></td><td><code>doGet()</code> / <code>doPost()</code></td></tr>
+                        <tr><td><strong>Request/Response</strong></td><td><code>ServletRequest</code>, <code>ServletResponse</code></td><td><code>HttpServletRequest</code>, <code>HttpServletResponse</code></td></tr>
+                        <tr><td><strong>HTTP Methods</strong></td><td>No support for GET/POST</td><td>Supports GET, POST, PUT, DELETE, etc.</td></tr>
+                        <tr><td><strong>Usage</strong></td><td>Rarely used</td><td><strong>Most commonly used</strong> ✅</td></tr>
+                        <tr><td><strong>Session Support</strong></td><td>No built-in session</td><td>Supports HttpSession</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- GET vs POST -->
+    <section class="section" id="get-vs-post">
+        <div class="diff-table">
+            <div class="diff-table-header">⭐ Mandatory — GET vs POST</div>
+            <div class="table-wrap" style="border:none;border-radius:0;">
+                <table>
+                    <thead><tr><th>Feature</th><th>GET</th><th>POST</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Data Location</strong></td><td>Appended to <strong>URL</strong> (query string)</td><td>Sent in <strong>request body</strong></td></tr>
+                        <tr><td><strong>Data Visibility</strong></td><td>Visible in URL bar ⚠️</td><td>Not visible in URL ✅</td></tr>
+                        <tr><td><strong>Security</strong></td><td>Less secure (data in URL)</td><td>More secure (data in body)</td></tr>
+                        <tr><td><strong>Data Size</strong></td><td>Limited (~2048 chars)</td><td>Unlimited</td></tr>
+                        <tr><td><strong>Bookmarking</strong></td><td>Can be bookmarked</td><td>Cannot be bookmarked</td></tr>
+                        <tr><td><strong>Caching</strong></td><td>Can be cached</td><td>Not cached</td></tr>
+                        <tr><td><strong>Idempotent</strong></td><td>Yes (same result every time)</td><td>No</td></tr>
+                        <tr><td><strong>Usage</strong></td><td>Fetching data (search, view)</td><td>Submitting data (login, form)</td></tr>
+                        <tr><td><strong>Servlet Method</strong></td><td><code>doGet()</code></td><td><code>doPost()</code></td></tr>
+                        <tr><td><strong>HTML Form</strong></td><td><code>method="GET"</code></td><td><code>method="POST"</code></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="tip-box">
+            <div class="label">💡 Easy Remember</div>
+            <p><strong>GET = Get/Read data</strong> (like Google search) → data in URL<br>
+            <strong>POST = Post/Send data</strong> (like login form) → data in body (hidden)</p>
+        </div>
+    </section>
+
+    <!-- 6. SERVLET CONFIG -->
+    <section class="section" id="servlet-config">
+        <div class="section-header">
+            <div class="section-number num-green">6</div>
+            <h2>ServletConfig Interface</h2>
+            <span class="pyq-tag">PYQ — 4 marks</span>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definition</div>
+            <p><code>ServletConfig</code> is an interface in <code>javax.servlet</code> package. It is created by the <strong>Servlet Container for each servlet</strong>. It contains <strong>initialization parameters</strong> specific to a <strong>single servlet</strong>, defined in <code>web.xml</code>.</p>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">📋</span> Important Methods</h3>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>Method</th><th>Description</th></tr></thead>
+                    <tbody>
+                        <tr><td><code>getServletName()</code></td><td>Returns the name of the servlet</td></tr>
+                        <tr><td><code>getInitParameter(String name)</code></td><td>Returns value of init parameter by name</td></tr>
+                        <tr><td><code>getInitParameterNames()</code></td><td>Returns Enumeration of all param names</td></tr>
+                        <tr><td><code>getServletContext()</code></td><td>Returns the ServletContext object</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">📝</span> web.xml Configuration</h3>
+<pre><code><span class="tag">&lt;servlet&gt;</span>
+    <span class="tag">&lt;servlet-name&gt;</span>MyServlet<span class="tag">&lt;/servlet-name&gt;</span>
+    <span class="tag">&lt;servlet-class&gt;</span>com.example.MyServlet<span class="tag">&lt;/servlet-class&gt;</span>
+    <span class="tag">&lt;init-param&gt;</span>
+        <span class="tag">&lt;param-name&gt;</span>dbURL<span class="tag">&lt;/param-name&gt;</span>
+        <span class="tag">&lt;param-value&gt;</span>jdbc:mysql://localhost/mydb<span class="tag">&lt;/param-value&gt;</span>
+    <span class="tag">&lt;/init-param&gt;</span>
+<span class="tag">&lt;/servlet&gt;</span></code></pre>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">📝</span> Usage in Servlet</h3>
+<pre><code><span class="kw">public void</span> <span class="fn">init</span>(<span class="cls">ServletConfig</span> config) <span class="kw">throws</span> <span class="cls">ServletException</span> {
+    <span class="kw">super</span>.<span class="fn">init</span>(config);
+    <span class="cls">String</span> dbURL = config.<span class="fn">getInitParameter</span>(<span class="str">"dbURL"</span>);
+    System.out.<span class="fn">println</span>(<span class="str">"DB URL: "</span> + dbURL);
+}</code></pre>
+        </div>
+    </section>
+
+    <!-- 7. SERVLET CONTEXT -->
+    <section class="section" id="servlet-context">
+        <div class="section-header">
+            <div class="section-number num-green">7</div>
+            <h2>ServletContext Interface</h2>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definition</div>
+            <p><code>ServletContext</code> is an interface in <code>javax.servlet</code> package. There is <strong>only ONE ServletContext per web application</strong>. It is shared among <strong>ALL servlets</strong> in the same application. Used to store <strong>application-level</strong> information.</p>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">📋</span> Important Methods</h3>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>Method</th><th>Description</th></tr></thead>
+                    <tbody>
+                        <tr><td><code>getInitParameter(String name)</code></td><td>Returns context-level init parameter</td></tr>
+                        <tr><td><code>getInitParameterNames()</code></td><td>Returns all context param names</td></tr>
+                        <tr><td><code>setAttribute(String, Object)</code></td><td>Stores an attribute (shared across servlets)</td></tr>
+                        <tr><td><code>getAttribute(String name)</code></td><td>Gets a stored attribute</td></tr>
+                        <tr><td><code>removeAttribute(String name)</code></td><td>Removes an attribute</td></tr>
+                        <tr><td><code>getRealPath(String path)</code></td><td>Returns absolute path on server</td></tr>
+                        <tr><td><code>getServerInfo()</code></td><td>Returns server name and version</td></tr>
+                        <tr><td><code>log(String msg)</code></td><td>Writes to server log</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">📝</span> web.xml — Context Parameters</h3>
+<pre><code><span class="tag">&lt;context-param&gt;</span>
+    <span class="tag">&lt;param-name&gt;</span>appName<span class="tag">&lt;/param-name&gt;</span>
+    <span class="tag">&lt;param-value&gt;</span>Student Portal<span class="tag">&lt;/param-value&gt;</span>
+<span class="tag">&lt;/context-param&gt;</span></code></pre>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">📝</span> How to Get ServletContext</h3>
+<pre><code><span class="cm">// Way 1: From ServletConfig</span>
+<span class="cls">ServletContext</span> ctx = <span class="fn">getServletConfig</span>().<span class="fn">getServletContext</span>();
+
+<span class="cm">// Way 2: Directly (in GenericServlet / HttpServlet)</span>
+<span class="cls">ServletContext</span> ctx = <span class="fn">getServletContext</span>();
+
+<span class="cm">// Way 3: From HttpServletRequest</span>
+<span class="cls">ServletContext</span> ctx = request.<span class="fn">getServletContext</span>();
+
+<span class="cm">// Usage:</span>
+<span class="cls">String</span> appName = ctx.<span class="fn">getInitParameter</span>(<span class="str">"appName"</span>);
+ctx.<span class="fn">setAttribute</span>(<span class="str">"counter"</span>, <span class="num">100</span>);  <span class="cm">// shared data</span></code></pre>
+        </div>
+    </section>
+
+    <!-- CONFIG vs CONTEXT -->
+    <section class="section" id="config-vs-context">
+        <div class="diff-table">
+            <div class="diff-table-header">⭐ Mandatory — ServletConfig vs ServletContext (PYQ — 4 marks)</div>
+            <div class="table-wrap" style="border:none;border-radius:0;">
+                <table>
+                    <thead><tr><th>Feature</th><th>ServletConfig</th><th>ServletContext</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Scope</strong></td><td>Specific to <strong>one servlet</strong></td><td>Shared across <strong>entire application</strong></td></tr>
+                        <tr><td><strong>Instances</strong></td><td>One per servlet</td><td><strong>One per application</strong></td></tr>
+                        <tr><td><strong>Parameters</strong></td><td><code>&lt;init-param&gt;</code> inside <code>&lt;servlet&gt;</code></td><td><code>&lt;context-param&gt;</code> (top-level)</td></tr>
+                        <tr><td><strong>Access</strong></td><td>Only by that specific servlet</td><td>By all servlets in the app</td></tr>
+                        <tr><td><strong>Get Object</strong></td><td><code>getServletConfig()</code></td><td><code>getServletContext()</code></td></tr>
+                        <tr><td><strong>Set Attribute</strong></td><td>Cannot set attributes</td><td>Can set/get/remove attributes</td></tr>
+                        <tr><td><strong>Use Case</strong></td><td>Servlet-specific config (e.g., DB URL for one servlet)</td><td>App-wide config (e.g., app name, shared counters)</td></tr>
+                        <tr><td><strong>Package</strong></td><td><code>javax.servlet</code></td><td><code>javax.servlet</code></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. REQUEST & RESPONSE -->
+    <section class="section" id="request">
+        <div class="section-header">
+            <div class="section-number num-green">8</div>
+            <h2>ServletRequest & HttpServletRequest</h2>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definition</div>
+            <p><code>ServletRequest</code> is an interface that provides <strong>client request information</strong> to a servlet. <code>HttpServletRequest</code> extends it with <strong>HTTP-specific</strong> methods. The <strong>container creates</strong> these objects and passes them to <code>service()</code>/<code>doGet()</code>/<code>doPost()</code>.</p>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">📋</span> HttpServletRequest Important Methods</h3>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>Method</th><th>Description</th></tr></thead>
+                    <tbody>
+                        <tr><td><code>getParameter(String name)</code></td><td>Get form/query parameter value</td></tr>
+                        <tr><td><code>getParameterValues(String name)</code></td><td>Get multiple values (checkboxes)</td></tr>
+                        <tr><td><code>getParameterNames()</code></td><td>Get all parameter names</td></tr>
+                        <tr><td><code>getAttribute(String name)</code></td><td>Get request attribute</td></tr>
+                        <tr><td><code>setAttribute(String, Object)</code></td><td>Set request attribute</td></tr>
+                        <tr><td><code>getMethod()</code></td><td>Returns HTTP method (GET/POST)</td></tr>
+                        <tr><td><code>getRequestURI()</code></td><td>Returns the URI</td></tr>
+                        <tr><td><code>getSession()</code></td><td>Returns HttpSession object</td></tr>
+                        <tr><td><code>getCookies()</code></td><td>Returns array of cookies</td></tr>
+                        <tr><td><code>getHeader(String name)</code></td><td>Returns HTTP header value</td></tr>
+                        <tr><td><code>getRemoteAddr()</code></td><td>Returns client IP address</td></tr>
+                        <tr><td><code>getContentType()</code></td><td>Returns MIME type of request</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="response">
+        <div class="section-header">
+            <div class="section-number num-green">⇨</div>
+            <h2>ServletResponse & HttpServletResponse</h2>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definition</div>
+            <p><code>ServletResponse</code> is an interface used to <strong>send response</strong> (HTML content) back to the client. <code>HttpServletResponse</code> extends it with HTTP-specific features like status codes, headers, cookies, and redirects.</p>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">📋</span> HttpServletResponse Important Methods</h3>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>Method</th><th>Description</th></tr></thead>
+                    <tbody>
+                        <tr><td><code>getWriter()</code></td><td>Returns <code>PrintWriter</code> to send text/HTML</td></tr>
+                        <tr><td><code>getOutputStream()</code></td><td>Returns output stream for binary data</td></tr>
+                        <tr><td><code>setContentType(String type)</code></td><td>Set MIME type (e.g., "text/html")</td></tr>
+                        <tr><td><code>sendRedirect(String url)</code></td><td>Redirect to another URL</td></tr>
+                        <tr><td><code>setStatus(int code)</code></td><td>Set HTTP status code</td></tr>
+                        <tr><td><code>addCookie(Cookie c)</code></td><td>Add a cookie to response</td></tr>
+                        <tr><td><code>setHeader(String name, String value)</code></td><td>Set response header</td></tr>
+                        <tr><td><code>sendError(int code, String msg)</code></td><td>Send error response</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="tip-box">
+            <div class="label">💡 Most Used Pattern</div>
+            <p>Almost every servlet program uses this pattern:<br>
+            <code>response.setContentType("text/html");</code><br>
+            <code>PrintWriter out = response.getWriter();</code><br>
+            <code>out.println("&lt;html&gt;...");</code></p>
+        </div>
+    </section>
+
+    <!-- 9. SESSION TRACKING -->
+    <section class="section" id="session-tracking">
+        <div class="section-header">
+            <div class="section-number num-purple">9</div>
+            <h2>Session Tracking in Servlets</h2>
+            <span class="pyq-tag">MSRIT SEE '24 / '25</span>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definition</div>
+            <p><strong>Session Tracking</strong> is the mechanism of <strong>maintaining the state (conversational state)</strong> of a user across multiple requests sent to a web application. Since HTTP is a <strong>stateless protocol</strong> (each request is treated as a brand new independent transaction), session tracking is mandatory to build shopping carts, user logins, and multi-step forms.</p>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🔑</span> Why HTTP is Stateless</h3>
+            <p>Under the HTTP protocol, once the server sends a response back to the client browser, the <strong>connection is closed</strong>, and the server <strong>forgets all details</strong> about the client. In a multi-page checkout flow, the server wouldn't know that the request for "Page 3 (payment)" is from the same user who added items on "Page 2 (cart)". Session tracking acts as the cohesive link.</p>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">⚙️</span> The Four Core Session Tracking Mechanisms</h3>
+            <p>Java Servlet technology provides four standard approaches to track sessions:</p>
+            
+            <div style="margin-top: 15px;">
+                <h4 style="font-size: 14.5px; color: var(--accent-purple); margin-bottom: 6px;">1. Cookies</h4>
+                <p>Cookies are small text-based key-value files sent by the server and stored locally on the client's web browser. For subsequent requests, the browser automatically attaches these cookies, allowing the server to recognize the client.</p>
+                <pre><code><span class="cm">// Writing a Cookie</span>
+<span class="cls">Cookie</span> userCookie = <span class="kw">new</span> <span class="cls">Cookie</span>(<span class="str">"username"</span>, <span class="str">"Akshay"</span>);
+userCookie.<span class="fn">setMaxAge</span>(<span class="num">24</span> * <span class="num">60</span> * <span class="num">60</span>); <span class="cm">// Expires in 24 hours</span>
+response.<span class="fn">addCookie</span>(userCookie);
+
+<span class="cm">// Reading Cookies</span>
+<span class="cls">Cookie</span>[] cookies = request.<span class="fn">getCookies</span>();
+<span class="kw">if</span> (cookies != <span class="kw">null</span>) {
+    <span class="kw">for</span> (<span class="cls">Cookie</span> c : cookies) {
+        <span class="kw">if</span> (c.<span class="fn">getName</span>().<span class="fn">equals</span>(<span class="str">"username"</span>)) {
+            <span class="cls">String</span> val = c.<span class="fn">getValue</span>();
+        }
+    }
+}</code></pre>
+            </div>
+
+            <div style="margin-top: 20px;">
+                <h4 style="font-size: 14.5px; color: var(--accent-purple); margin-bottom: 6px;">2. HttpSession (Recommended ✅)</h4>
+                <p>An interface that stores user-specific data **on the server heap**. The container automatically creates a unique session identifier called <code>JSESSIONID</code> and sends it to the client browser via a temporary cookie. The client sends this ID back, and Tomcat links it to their server-side session object.</p>
+                <pre><code><span class="cm">// Accessing/Creating the Session</span>
+<span class="cls">HttpSession</span> session = request.<span class="fn">getSession</span>(); <span class="cm">// true by default (creates if absent)</span>
+
+<span class="cm">// Storing an attribute</span>
+session.<span class="fn">setAttribute</span>(<span class="str">"cartItems"</span>, list);
+
+<span class="cm">// Retrieving an attribute</span>
+<span class="cls">ArrayList</span> items = (<span class="cls">ArrayList</span>) session.<span class="fn">getAttribute</span>(<span class="str">"cartItems"</span>);
+
+<span class="cm">// Terminating the Session (Logout)</span>
+session.<span class="fn">invalidate</span>();</code></pre>
+            </div>
+
+            <div style="margin-top: 20px;">
+                <h4 style="font-size: 14.5px; color: var(--accent-purple); margin-bottom: 6px;">3. URL Rewriting</h4>
+                <p>Used as a backup when cookies are disabled on the client browser. The server appends the session identifier (<code>;jsessionid=12345</code>) directly to every internal hyperlink or action URL in the application. When the user clicks the link, the server parses the session ID from the URL.</p>
+                <pre><code><span class="cm">// Rewriting a URL in HTML anchor tag</span>
+<span class="cls">String</span> rawUrl = <span class="str">"profile.jsp"</span>;
+<span class="cls">String</span> encodedUrl = response.<span class="fn">encodeURL</span>(rawUrl);
+out.<span class="fn">println</span>(<span class="str">"&lt;a href='"</span> + encodedUrl + <span class="str">"'&gt;View Profile&lt;/a&gt;"</span>);
+<span class="cm">// Renders as: &lt;a href='profile.jsp;jsessionid=abc123xyz'&gt;View Profile&lt;/a&gt;</span></code></pre>
+            </div>
+
+            <div style="margin-top: 20px;">
+                <h4 style="font-size: 14.5px; color: var(--accent-purple); margin-bottom: 6px;">4. Hidden Form Fields</h4>
+                <p>Stores the session identifier inside an invisible text field of an HTML form. When the form is submitted, the field value is sent along with other POST parameter values. Only works for form-based requests.</p>
+                <pre><code><span class="tag">&lt;form</span> <span class="attr">action=</span><span class="val">"CheckoutServlet"</span> <span class="attr">method=</span><span class="val">"POST"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;input</span> <span class="attr">type=</span><span class="val">"hidden"</span> <span class="attr">name=</span><span class="val">"sessionID"</span> <span class="attr">value=</span><span class="val">"98765"</span> <span class="tag">/&gt;</span>
+    <span class="tag">&lt;input</span> <span class="attr">type=</span><span class="val">"submit"</span> <span class="attr">value=</span><span class="val">"Pay Now"</span> <span class="tag">/&gt;</span>
+<span class="tag">&lt;/form&gt;</span></code></pre>
+            </div>
+        </div>
+
+        <div class="diff-table">
+            <div class="diff-table-header">⭐ Session Tracking Methods Comparison</div>
+            <div class="table-wrap" style="border:none;border-radius:0;margin-bottom:0;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Cookies</th>
+                            <th>HttpSession</th>
+                            <th>URL Rewriting</th>
+                            <th>Hidden Fields</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Data Storage Location</strong></td>
+                            <td>Client Browser (Local text file)</td>
+                            <td><strong>Server Heap memory</strong></td>
+                            <td>Client browser URL bar</td>
+                            <td>Client browser HTML source</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Security</strong></td>
+                            <td>Low (can be easily intercepted/modified)</td>
+                            <td><strong>Highest</strong> (data never leaves server)</td>
+                            <td>Low (visible to anyone looking at URL)</td>
+                            <td>Medium (visible in page source)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Client Cookie Requirement</strong></td>
+                            <td>Must be enabled</td>
+                            <td>Used by default, falls back to URL rewriting</td>
+                            <td><strong>No cookie required</strong></td>
+                            <td><strong>No cookie required</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Supported Data Types</strong></td>
+                            <td>Strings only (text values)</td>
+                            <td><strong>Any Java Object</strong></td>
+                            <td>Strings only (URL query text)</td>
+                            <td>Strings only</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Life Span</strong></td>
+                            <td>Persistent or Session based</td>
+                            <td>Configurable (session timeout/invalidation)</td>
+                            <td>Expires when window/link is lost</td>
+                            <td>Expires when form context changes</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top:1rem;">
+            <h3><span class="icon">🤝</span> HttpSession Under the Hood: JSESSIONID Handshake</h3>
+            <p>When you call <code>request.getSession()</code>, the container executes a state management handshake behind the scenes:</p>
+            <ol style="margin-left: 20px; margin-top: 8px;">
+                <li><strong>Session Creation:</strong> The container allocates a new <code>StandardSession</code> object on the server heap and generates a cryptographically secure, random 32-character string known as the <strong>Session ID</strong> (e.g. <code>JSESSIONID</code>).</li>
+                <li><strong>Cookie Handshake:</strong> The container writes the Session ID to the HTTP response header: <code>Set-Cookie: JSESSIONID=abc123xyz; Path=/; HttpOnly</code>.</li>
+                <li><strong>Subsequent Requests:</strong> For every future request, the client browser reads this cookie and automatically appends it to the request header: <code>Cookie: JSESSIONID=abc123xyz</code>. Tomcat extracts this ID and maps the incoming thread context to the stored Heap session object.</li>
+            </ol>
+
+            <div class="def-box" style="border-left-color: var(--accent-teal); background: rgba(20, 184, 166, 0.05); margin-top: 12px;">
+                <div class="label" style="color: var(--accent-teal);">Session State Serialization Requirement</div>
+                Any user-defined object stored inside the <code>HttpSession</code> (e.g., a custom <code>Cart</code> class) <strong>must implement the <code>java.io.Serializable</code> interface</strong>. This allows the web server to write session states to disk when saving memory (session passivation) or replicate them across clusters of servers for high availability. If a non-serializable object is placed in a session, the JVM throws a <code>NotSerializableException</code> during server restarts.
+            </div>
+
+            <div class="warn-box" style="margin-top: 12px;">
+                <div class="label">⚠️ Session Timeout Boundaries & Lifespans</div>
+                A session occupies Heap memory on the server. If a user closes their browser without logging out, the session stays alive until a timeout threshold is exceeded. You can configure timeouts in two ways:
+                <ul style="margin-top: 6px; list-style-type: none; padding-left: 0;">
+                    <li style="margin-bottom: 4px;"><strong>1. Globally in web.xml:</strong> (Configured in minutes)
+                        <pre style="margin: 4px 0; padding: 4px 8px; font-size: 0.72rem;"><span class="tag">&lt;session-config&gt;</span>
+    <span class="tag">&lt;session-timeout&gt;</span>30<span class="tag">&lt;/session-timeout&gt;</span> <span class="cm">&lt;!-- 30 minutes --&gt;</span>
+<span class="tag">&lt;/session-config&gt;</span></pre>
+                    </li>
+                    <li><strong>2. Programmatically in Java:</strong> (Configured in seconds)
+                        <pre style="margin: 4px 0; padding: 4px 8px; font-size: 0.72rem;">session.<span class="fn">setMaxInactiveInterval</span>(<span class="num">1800</span>); <span class="cm">// 1800 seconds = 30 minutes</span></pre>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top: 1.5rem;">
+            <h3><span class="icon">📊</span> The Four Sharing Scopes in Java EE</h3>
+            <p>To share objects across different parts of a web application, Java EE defines four distinct data scopes with clear boundaries and lifespans:</p>
+            <div class="table-wrap" style="margin-top: 10px;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Scope</th>
+                            <th>Implicit Object & API Type</th>
+                            <th>Lifespan (When does it die?)</th>
+                            <th>Visibility (Who can see it?)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Page Scope</strong></td>
+                            <td><code>pageContext</code><br><code>javax.servlet.jsp.PageContext</code></td>
+                            <td>Destroyed when the current JSP page finishes rendering.</td>
+                            <td>Only visible within the current translated JSP page.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Request Scope</strong></td>
+                            <td><code>request</code><br><code>javax.servlet.ServletRequest</code></td>
+                            <td>Destroyed when the HTTP response is sent back to the browser.</td>
+                            <td>Visible to the current servlet/JSP and any forwarded resources (using <code>RequestDispatcher</code>).</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Session Scope</strong></td>
+                            <td><code>session</code><br><code>javax.servlet.http.HttpSession</code></td>
+                            <td>Destroyed when the session times out or is invalidated (logout).</td>
+                            <td>Visible to all HTTP requests sent by the same specific user/browser.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Application Scope</strong></td>
+                            <td><code>application</code><br><code>javax.servlet.ServletContext</code></td>
+                            <td>Stays alive until the web application is shut down or undeployed.</td>
+                            <td>Global visibility to all users, all sessions, and all servlets/JSPs in the app.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================================= -->
+    <!-- PART B: JAVASERVER PAGES (JSP)     -->
+    <!-- ================================= -->
+    <div class="part-divider"><span class="servlet" style="color:var(--accent-pink); border-color:rgba(236,72,153,0.3);">Part B — JavaServer Pages (JSP)</span></div>
+
+    <!-- 10. WHAT IS JSP -->
+    <section class="section" id="jsp-intro">
+        <div class="section-header">
+            <div class="section-number num-purple" style="background:var(--gradient-3);">10</div>
+            <h2>What is a JSP Page?</h2>
+        </div>
+
+        <div class="def-box" style="border-left-color: var(--accent-pink);">
+            <div class="label" style="color: var(--accent-pink);">📖 Definition</div>
+            <p><strong>JavaServer Pages (JSP)</strong> is a server-side technology used to create dynamic, platform-independent web applications. It allows developers to embed standard Java code and expression tags directly within static HTML content, simplifying the creation of user interfaces.</p>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🚀</span> Key Advantages of JSP over Servlets</h3>
+            <ul>
+                <li><strong>No Tedious output writing:</strong> Unlike Servlets which require wrapping every single HTML tag inside <code>out.println()</code> statements, JSP allows you to write clean, standard HTML code directly.</li>
+                <li><strong>Separation of Concerns:</strong> Web designers can work on the layout (HTML/CSS) while Java programmers build backend logic without stepping on each other's toes.</li>
+                <li><strong>Auto-Compilation & Deployment:</strong> If you modify a JSP page, the container automatically detects the change, recompiles it, and redeploys it in the background. Servlets require manual compiling, server restarts, or redeploying.</li>
+                <li><strong>Built-in Implicit Objects:</strong> Common objects like <code>request</code>, <code>response</code>, and <code>session</code> are automatically available in JSP without needing instantiation.</li>
+            </ul>
+        </div>
+
+        <div class="diff-table">
+            <div class="diff-table-header" style="background:linear-gradient(135deg, rgba(236,72,153,0.15), rgba(139,92,246,0.15)); border-bottom-color: rgba(236,72,153,0.2);">⭐ Servlets vs JSP Comparison</div>
+            <div class="table-wrap" style="border:none;border-radius:0;margin-bottom:0;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Servlet</th>
+                            <th>JSP</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Nature</strong></td>
+                            <td>A Java class that can contain HTML tags inside it. (Java-dominant)</td>
+                            <td>An HTML page that can contain Java code blocks inside it. (HTML-dominant)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Target Audience</strong></td>
+                            <td>Java backend programmers.</td>
+                            <td>Web designers and frontend UI engineers.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Compilation</strong></td>
+                            <td>Compiled manually before deployment.</td>
+                            <td>Compiled automatically by the container upon the first request.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Separation of Logic</strong></td>
+                            <td>Poor — mixing presentation and logic is common.</td>
+                            <td>Excellent — clean separation using custom tags and Expression Language (EL).</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Performance</strong></td>
+                            <td>Slightly faster (pre-compiled).</td>
+                            <td>Has a minor delay on the very first request (compilation phase), then runs at identical speeds.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">📄</span> Creating Static Content in JSP</h3>
+            <p>Static content refers to the fixed parts of a JSP page that do not change based on user requests, business logic, or databases. In JSP, creating static content is extremely easy and natural:</p>
+            <ul>
+                <li><strong>Plain text and Markup:</strong> Any HTML, CSS, JavaScript, plain text, or images written directly in a <code>.jsp</code> file are treated as static content.</li>
+                <li><strong>Behind the Scenes Translation:</strong> The JSP container automatically translates all static HTML blocks into implicit <code>out.write()</code> statements inside the generated servlet's <code>_jspService()</code> method.</li>
+                <li><strong>Example:</strong>
+                    <pre><code><span class="tag">&lt;!DOCTYPE html&gt;</span>
+<span class="tag">&lt;html&gt;</span>
+<span class="tag">&lt;head&gt;</span>
+    <span class="tag">&lt;title&gt;</span>Static Content Demo<span class="tag">&lt;/title&gt;</span>
+<span class="tag">&lt;/head&gt;</span>
+<span class="tag">&lt;body&gt;</span>
+    <span class="tag">&lt;h1&gt;</span>Welcome to My College Portal!<span class="tag">&lt;/h1&gt;</span>
+    <span class="tag">&lt;p&gt;</span>This paragraph and heading are 100% static HTML content.<span class="tag">&lt;/p&gt;</span>
+<span class="tag">&lt;/body&gt;</span>
+<span class="tag">&lt;/html&gt;</span></code></pre>
+                </li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">⚙️</span> Creating Dynamic Content in JSP</h3>
+            <p>Dynamic content refers to web content that is generated on-the-fly by the server at runtime. It changes based on the user's action, input, session state, or backend database values. In JSP, dynamic content is created using scripting elements, actions, or Expression Language (EL):</p>
+            <ul>
+                <li><strong>Using Scripting Elements:</strong> Developers embed Java expressions, statements, and declarations to compute values dynamically.</li>
+                <li><strong>Rendering on the Browser:</strong> The calculated dynamic values are sent as character text to the client's browser, which renders it seamlessly.</li>
+                <li><strong>Example: A JSP page that prints the current server date and time along with a dynamic greeting:</strong>
+                    <pre><code><span class="tag">&lt;!DOCTYPE html&gt;</span>
+<span class="tag">&lt;html&gt;</span>
+<span class="tag">&lt;head&gt;</span>
+    <span class="tag">&lt;title&gt;</span>Dynamic Content Demo<span class="tag">&lt;/title&gt;</span>
+<span class="tag">&lt;/head&gt;</span>
+<span class="tag">&lt;body&gt;</span>
+    <span class="tag">&lt;h2&gt;</span>Dynamic Greeting App<span class="tag">&lt;/h2&gt;</span>
+    
+    <span class="cm">&lt;%-- JSP Scriptlet to calculate dynamic greeting --%&gt;</span>
+    <span class="kw">&lt;%</span>
+        java.util.Date d = <span class="kw">new</span> java.util.Date();
+        int hour = d.getHours();
+        String greeting = "";
+        if (hour &lt; 12) greeting = "Good Morning!";
+        else if (hour &lt; 16) greeting = "Good Afternoon!";
+        else greeting = "Good Evening!";
+    <span class="kw">%&gt;</span>
+    
+    <span class="tag">&lt;h3&gt;</span>Greeting: <span class="val">&lt;%= greeting %&gt;</span><span class="tag">&lt;/h3&gt;</span>
+    <span class="tag">&lt;p&gt;</span>Current Server Time: <span class="val">&lt;%= d.toString() %&gt;</span><span class="tag">&lt;/p&gt;</span>
+<span class="tag">&lt;/body&gt;</span>
+<span class="tag">&lt;/html&gt;</span></code></pre>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- 11. JSP LIFE CYCLE -->
+    <section class="section" id="jsp-lifecycle">
+        <div class="section-header">
+            <div class="section-number num-purple" style="background:var(--gradient-3);">11</div>
+            <h2>The Lifecycle of a JSP Page</h2>
+            <span class="pyq-tag">⭐ Highly Critical</span>
+        </div>
+
+        <div class="def-box" style="border-left-color: var(--accent-pink);">
+            <div class="label" style="color: var(--accent-pink);">🔄 Architecture & Execution Phases</div>
+            <p>JSP pages are translated into standard Java Servlets by the web container before execution. The lifecycle consists of these strict sequential phases:</p>
+        </div>
+
+        <div class="card">
+            <div class="diagram-box">
+<pre><code> [JSP Code] (.jsp)
+     │
+     ▼ (Phase 1: Translation)
+ [Servlet Source Code] (.java)
+     │
+     ▼ (Phase 2: Compilation)
+ [Compiled Bytecode] (.class)
+     │
+     ▼ (Phase 3: Loading & Instantiation)
+ [Servlet Instance on Heap]
+     │
+     ▼ (Phase 4: Initialization)
+ [jspInit() called]
+     │
+     ▼ (Phase 5: Request Processing)
+ [_jspService() called]  ◀── (Repeated for every client request)
+     │
+     ▼ (Phase 6: Destruction)
+ [jspDestroy() called]</code></pre>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>📝 Detailed Lifecycle Steps</h3>
+            <ol>
+                <li><strong>Translation Phase:</strong> The Servlet Container (e.g. Tomcat) parses the JSP file and translates it into standard Java Servlet source code (extending HttpJspBase). Static HTML text is translated into <code>out.write()</code> statements inside the generated service method.</li>
+                <li><strong>Compilation Phase:</strong> The generated <code>.java</code> servlet source file is compiled into a high-performance bytecode <code>.class</code> file by the standard Java compiler.</li>
+                <li><strong>Loading & Instantiation:</strong> The container loads the compiled servlet class into memory and creates an instance of it on the heap.</li>
+                <li><strong>Initialization (<code>jspInit()</code>):</strong> The container calls the <code>jspInit()</code> method once. Developers can override this to perform one-time setups (like initializing database connections or reading configuration details).</li>
+                <li><strong>Request Service (<code>_jspService()</code>):</strong> For every client HTTP request, the container spawns a new thread and calls the <code>_jspService(HttpServletRequest, HttpServletResponse)</code> method. This executes dynamically and generates the output HTML. <strong>Note:</strong> You cannot override this method directly.</li>
+                <li><strong>Destruction (<code>jspDestroy()</code>):</strong> Called once by the container when the application is shut down or unloaded, allowing resources to be cleanly closed (closing files, releasing database connections).</li>
+            </ol>
+        </div>
+    </section>
+
+    <!-- 12. JSP SCRIPTING ELEMENTS -->
+    <section class="section" id="jsp-scripting">
+        <div class="section-header">
+            <div class="section-number num-purple" style="background:var(--gradient-3);">12</div>
+            <h2>Scripting in JSP Pages</h2>
+            <span class="pyq-tag">MSRIT SEE '24</span>
+        </div>
+
+        <div class="def-box" style="border-left-color: var(--accent-pink);">
+            <div class="label" style="color: var(--accent-pink);">📖 Scripting Elements</div>
+            <p>Scripting elements permit you to embed custom Java code directly into the HTML body. There are exactly <strong>three main scripting elements</strong>: Declarations, Scriptlets, and Expressions.</p>
+        </div>
+
+        <!-- 1. DECLARATIONS -->
+        <div class="card">
+            <h3>1. JSP Declarations (<code>&lt;%! ... %&gt;</code>)</h3>
+            <p>Used to declare **class-level variables and methods**. These variables are initialized when the JSP page is initialized and are shared globally among all client requests.</p>
+            <ul>
+                <li><strong>Translation:</strong> Placed **outside** the generated <code>_jspService()</code> method, directly as instance fields and methods in the generated servlet class.</li>
+                <li><strong>Syntax:</strong> <code>&lt;%! int count = 0; %&gt;</code> or <code>&lt;%! int square(int n) { return n*n; } %&gt;</code></li>
+            </ul>
+        </div>
+
+        <!-- 2. SCRIPTLETS -->
+        <div class="card">
+            <h3>2. JSP Scriptlets (<code>&lt;% ... %&gt;</code>)</h3>
+            <p>Used to embed **any block of standard Java statements**. You can write variables, control flow loops (`if`, `for`, `while`), or local calculations inside them.</p>
+            <ul>
+                <li><strong>Translation:</strong> Copied **directly inside** the <code>_jspService()</code> method body by the translator.</li>
+                <li><strong>Syntax:</strong> <code>&lt;% int x = 10; if (x > 5) { out.println("Greater"); } %&gt;</code></li>
+            </ul>
+        </div>
+
+        <!-- 3. EXPRESSIONS -->
+        <div class="card">
+            <h3>3. JSP Expressions (<code>&lt;%= ... %&gt;</code>)</h3>
+            <p>Used to **evaluate a Java expression and print its value** directly onto the output HTML page. It acts as an inline print block.</p>
+            <ul>
+                <li><strong>Translation:</strong> Translated into an implicit <code>out.print(...)</code> statement inside the generated <code>_jspService()</code> method.</li>
+                <li><strong>Crucial Rule:</strong> Do **not** write a semicolon (`;`) at the end of a JSP expression! It will result in a translation error.</li>
+                <li><strong>Syntax:</strong> <code>&lt;%= x %&gt;</code> or <code>&lt;%= "Welcome, " + name %&gt;</code></li>
+            </ul>
+        </div>
+
+        <!-- JSP-TO-SERVLET COMPILATION MAPPING -->
+        <div class="card" style="margin-top: 1.5rem;">
+            <h3><span class="icon">🔄</span> JSP-to-Servlet Compilation Mapping</h3>
+            <p>During the <strong>Translation phase</strong>, the JSP container parses the <code>.jsp</code> file and generates a full Java class extending <code>HttpJspBase</code>. Here is exactly how each JSP tag maps inside and outside the compiled servlet's class body:</p>
+            
+            <div class="table-wrap" style="margin-top: 15px;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 45%;">JSP Source Tag (Page.jsp)</th>
+                            <th style="width: 55%;">Translated Java Servlet Code (Page_jsp.java)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <strong>1. Directive Tag (<code>&lt;%@ ... %&gt;</code>)</strong>
+                                <pre style="margin-top: 8px; font-size: 12.5px;"><code><span class="tag">&lt;%@ page</span> <span class="attr">import=</span><span class="val">"java.util.List"</span> <span class="tag">%&gt;</span></code></pre>
+                            </td>
+                            <td>
+                                <strong>Placed at the top of the file (Imports)</strong>
+                                <pre style="margin-top: 8px; font-size: 12.5px;"><code><span class="kw">import</span> java.util.List;</code></pre>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>2. Declaration Tag (<code>&lt;%! ... %&gt;</code>)</strong>
+                                <pre style="margin-top: 8px; font-size: 12.5px;"><code><span class="kw">&lt;%!</span>
+    <span class="kw">int</span> visitCount = <span class="num">0</span>;
+    <span class="kw">public int</span> <span class="fn">getSquare</span>(<span class="kw">int</span> x) {
+        <span class="kw">return</span> x * x;
+    }
+<span class="kw">%&gt;</span></code></pre>
+                            </td>
+                            <td>
+                                <strong>Placed as class-level instance fields & methods (Outside <code>_jspService()</code>)</strong>
+                                <pre style="margin-top: 8px; font-size: 12.5px;"><code><span class="kw">public class</span> <span class="cls">_jsp_page</span> <span class="kw">extends</span> <span class="cls">HttpJspBase</span> {
+    <span class="kw">int</span> visitCount = <span class="num">0</span>;
+    <span class="kw">public int</span> <span class="fn">getSquare</span>(<span class="kw">int</span> x) {
+        <span class="kw">return</span> x * x;
+    }
+    <span class="cm">// ... _jspService() method follows ...</span>
+}</code></pre>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>3. Scriptlet Tag (<code>&lt;% ... %&gt;</code>)</strong>
+                                <pre style="margin-top: 8px; font-size: 12.5px;"><code><span class="kw">&lt;%</span>
+    visitCount++;
+    <span class="cls">String</span> user = request.<span class="fn">getParameter</span>(<span class="str">"name"</span>);
+<span class="kw">%&gt;</span></code></pre>
+                            </td>
+                            <td>
+                                <strong>Placed as statements inside <code>_jspService()</code> method</strong>
+                                <pre style="margin-top: 8px; font-size: 12.5px;"><code><span class="kw">public void</span> <span class="fn">_jspService</span>(<span class="cls">HttpServletRequest</span> request,
+                         <span class="cls">HttpServletResponse</span> response) {
+    <span class="cm">// ... local variables ...</span>
+    visitCount++;
+    <span class="cls">String</span> user = request.<span class="fn">getParameter</span>(<span class="str">"name"</span>);
+    <span class="cm">// ...</span>
+}</code></pre>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>4. Expression Tag (<code>&lt;%= ... %&gt;</code>)</strong>
+                                <pre style="margin-top: 8px; font-size: 12.5px;"><code><span class="tag">&lt;p&gt;</span>Welcome, <span class="val">&lt;%= user %&gt;</span><span class="tag">&lt;/p&gt;</span></code></pre>
+                            </td>
+                            <td>
+                                <strong>Translated to implicit <code>out.print()</code> statements inside <code>_jspService()</code></strong>
+                                <pre style="margin-top: 8px; font-size: 12.5px;"><code>out.<span class="fn">write</span>(<span class="str">"&lt;p&gt;Welcome, "</span>);
+out.<span class="fn">print</span>(user);
+out.<span class="fn">write</span>(<span class="str">"&lt;/p&gt;\n"</span>);</code></pre>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="tip-box" style="margin-top: 15px; margin-bottom: 0;">
+                <div class="label">💡 Critical Thread-Safety Note (Declarations vs. Scriptlets)</div>
+                <p>Because variables declared in a **Declaration Tag** (<code>&lt;%! %&gt;</code>) are translated into instance variables of the servlet class, they are stored on the **Heap** and shared among all users. They are **NOT thread-safe**.</p>
+                <p style="margin-top: 6px;">Conversely, variables declared inside a **Scriptlet Tag** (<code>&lt;% %&gt;</code>) are compiled as local variables inside the <code>_jspService()</code> method. They are stored on each thread's private **Stack** and are **100% thread-safe**.</p>
+            </div>
+        </div>
+
+        <!-- JSP DIRECTIVES -->
+        <div class="card" style="margin-top: 1.5rem;">
+            <h3><span class="icon">🏷️</span> JSP Directives Syntax & Types</h3>
+            <p><strong>JSP Directives</strong> are instructions sent to the JSP container during the translation phase, guiding how the page should be compiled. Directives do not produce direct output in the response.</p>
+            
+            <ul style="margin-top: 10px;">
+                <li style="margin-bottom: 12px;"><strong>1. Page Directive (<code>&lt;%@ page ... %&gt;</code>):</strong> Defines page-specific properties such as language, imports, session configuration, error pages, and buffer size.
+                    <pre style="margin-top: 6px; font-size: 12.5px;"><code><span class="tag">&lt;%@ page</span> <span class="attr">language=</span><span class="val">"java"</span> <span class="attr">contentType=</span><span class="val">"text/html; charset=UTF-8"</span> <span class="attr">import=</span><span class="val">"java.sql.*"</span> <span class="attr">isErrorPage=</span><span class="val">"false"</span> <span class="tag">%&gt;</span></code></pre>
+                </li>
+                <li style="margin-bottom: 12px;"><strong>2. Include Directive (<code>&lt;%@ include ... %&gt;</code>):</strong> Statically merges the content of another raw file (HTML, JSP, text) into the current page <strong>during the translation phase</strong> (before compilation).
+                    <pre style="margin-top: 6px; font-size: 12.5px;"><code><span class="tag">&lt;%@ include</span> <span class="attr">file=</span><span class="val">"header.jsp"</span> <span class="tag">%&gt;</span></code></pre>
+                </li>
+                <li><strong>3. Taglib Directive (<code>&lt;%@ taglib ... %&gt;</code>):</strong> Declares a custom tag library (such as JSTL) with a custom prefix, allowing the page to use custom XML-like tags instead of raw Java scriptlets.
+                    <pre style="margin-top: 6px; font-size: 12.5px;"><code><span class="tag">&lt;%@ taglib</span> <span class="attr">uri=</span><span class="val">"http://java.sun.com/jsp/jstl/core"</span> <span class="attr">prefix=</span><span class="val">"c"</span> <span class="tag">%&gt;</span></code></pre>
+                </li>
+            </ul>
+        </div>
+
+        <!-- STATIC VS DYNAMIC INCLUDE -->
+        <div class="diff-table" style="margin-top: 1.5rem; margin-bottom: 0;">
+            <div class="diff-table-header" style="background:linear-gradient(135deg, rgba(236,72,153,0.15), rgba(139,92,246,0.15)); border-bottom-color: rgba(236,72,153,0.2);">⭐ Static Include vs Dynamic Include</div>
+            <div class="table-wrap" style="border:none;border-radius:0;margin-bottom:0;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Static Include (<code>&lt;%@ include %&gt;</code>)</th>
+                            <th>Dynamic Include (<code>&lt;jsp:include /&gt;</code>)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Syntax</strong></td>
+                            <td><code>&lt;%@ include file="filename.jsp" %&gt;</code></td>
+                            <td><code>&lt;jsp:include page="filename.jsp" /&gt;</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Phase of Action</strong></td>
+                            <td><strong>Translation / Compilation Phase</strong> (Design time)</td>
+                            <td><strong>Request Runtime Phase</strong> (Execution time)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>How it Works</strong></td>
+                            <td>The container copies the raw source code of the included file directly into the parent file. They are compiled into a **single Servlet class**.</td>
+                            <td>The container processes the included page independently, compiles it to a **separate servlet**, and forwards the request dispatcher at runtime to merge the generated HTML output.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Runtime Performance</strong></td>
+                            <td><strong>Faster</strong> — No runtime request forwarding overhead. Runs as a single contiguous servlet.</td>
+                            <td>Slightly slower — Incurs overhead from runtime context-switching and request dispatcher delegation.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Variable & Scope Sharing</strong></td>
+                            <td><strong>Shared</strong> — The parent page and included page share local variables because they compile into the same method.</td>
+                            <td><strong>Isolated</strong> — Local variables cannot be shared directly. Communication must happen via Request attributes.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dynamic Changes</strong></td>
+                            <td>If the included file is modified, the change might not be reflected unless the parent JSP is touched or recompiled.</td>
+                            <td>Changes to the included file are **instantly updated** and reflected at runtime without touching the parent page.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Use Cases</strong></td>
+                            <td>Best for static, unchanging template parts like **global CSS imports, headers, or footers**.</td>
+                            <td>Best for **dynamic elements, database-driven sidebars, or interactive content blocks** that require separate processing.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- 13. JSP IMPLICIT OBJECTS -->
+    <section class="section" id="jsp-implicit">
+        <div class="section-header">
+            <div class="section-number num-purple" style="background:var(--gradient-3);">13</div>
+            <h2>JSP Implicit Objects</h2>
+            <span class="pyq-tag">MSRIT SEE '25</span>
+        </div>
+
+        <div class="def-box" style="border-left-color: var(--accent-pink);">
+            <div class="label" style="color: var(--accent-pink);">📖 Definition</div>
+            <p><strong>JSP Implicit Objects</strong> are pre-defined Java objects that are created by the container and automatically made available inside the JSP page. You can use them directly inside scriptlets or expressions without declaring or instantiating them.</p>
+        </div>
+
+        <div class="card">
+            <h3>📋 The 9 Core Implicit Objects</h3>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Implicit Object</th>
+                            <th>Class / Interface type</th>
+                            <th>Purpose & Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>request</code></td>
+                            <td><code>javax.servlet.http.HttpServletRequest</code></td>
+                            <td>Accesses incoming client request parameters, headers, cookies, and scopes.</td>
+                        </tr>
+                        <tr>
+                            <td><code>response</code></td>
+                            <td><code>javax.servlet.http.HttpServletResponse</code></td>
+                            <td>Sends HTTP response attributes, redirects, content types, or cookies to client.</td>
+                        </tr>
+                        <tr>
+                            <td><code>out</code></td>
+                            <td><code>javax.servlet.jsp.JspWriter</code></td>
+                            <td>An output stream writer used to write dynamic HTML character content to the client browser.</td>
+                        </tr>
+                        <tr>
+                            <td><code>session</code></td>
+                            <td><code>javax.servlet.http.HttpSession</code></td>
+                            <td>Used to store user-specific state attributes across multiple page visits.</td>
+                        </tr>
+                        <tr>
+                            <td><code>application</code></td>
+                            <td><code>javax.servlet.ServletContext</code></td>
+                            <td>Used to get initialization parameters and share objects globally across the entire application.</td>
+                        </tr>
+                        <tr>
+                            <td><code>config</code></td>
+                            <td><code>javax.servlet.ServletConfig</code></td>
+                            <td>Provides initialization parameters specific to this single translated JSP page.</td>
+                        </tr>
+                        <tr>
+                            <td><code>pageContext</code></td>
+                            <td><code>javax.servlet.jsp.PageContext</code></td>
+                            <td>Represents the execution context. Can get, set, and find attributes in different scopes.</td>
+                        </tr>
+                        <tr>
+                            <td><code>page</code></td>
+                            <td><code>java.lang.Object</code></td>
+                            <td>A synonym for <code>this</code>. Refers to the translated servlet class instance itself.</td>
+                        </tr>
+                        <tr>
+                            <td><code>exception</code></td>
+                            <td><code>java.lang.Throwable</code></td>
+                            <td>Only available on JSP pages configured as error pages (i.e. <code>&lt;%@ page isErrorPage="true" %&gt;</code>). Used to inspect error root causes.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- BEHIND THE SCENES: INITIALIZATION -->
+            <div class="def-box" style="border-left-color: var(--accent-teal); background: rgba(20, 184, 166, 0.05); margin-top: 15px; margin-bottom: 0;">
+                <div class="label" style="color: var(--accent-teal);">Behind the Scenes: Local Initialization in <code>_jspService()</code></div>
+                <p>When the JSP container translates a JSP page, it generates a class whose <code>_jspService()</code> method begins by declaring and initializing all 9 implicit objects as local variables. For example:</p>
+                <pre style="margin-top: 10px; font-size: 12.5px; background: rgba(13, 17, 23, 0.8);"><code><span class="kw">public void</span> <span class="fn">_jspService</span>(<span class="cls">HttpServletRequest</span> request, <span class="cls">HttpServletResponse</span> response)
+        <span class="kw">throws</span> <span class="cls">ServletException</span>, <span class="cls">IOException</span> {
+
+    <span class="cls">PageContext</span> pageContext = <span class="kw">null</span>;
+    <span class="cls">HttpSession</span> session = <span class="kw">null</span>;
+    <span class="cls">ServletContext</span> application = <span class="kw">null</span>;
+    <span class="cls">ServletConfig</span> config = <span class="kw">null</span>;
+    <span class="cls">JspWriter</span> out = <span class="kw">null</span>;
+    <span class="cls">Object</span> page = <span class="kw">this</span>;
+    <span class="cls">Throwable</span> exception = <span class="kw">null</span>; <span class="cm">// only if page directive isErrorPage="true"</span>
+
+    <span class="kw">try</span> {
+        <span class="cm">// 1. Retrieve the custom PageContext for this thread's execution</span>
+        pageContext = <span class="cls">JspFactory</span>.<span class="fn">getDefaultFactory</span>().<span class="fn">getPageContext</span>(
+            <span class="kw">this</span>, request, response, <span class="str">""</span>, <span class="kw">true</span>, <span class="num">8192</span>, <span class="kw">true</span>);
+        
+        <span class="cm">// 2. Extract references from PageContext to populate all other implicit variables</span>
+        application = pageContext.<span class="fn">getServletContext</span>();
+        config = pageContext.<span class="fn">getServletConfig</span>();
+        session = pageContext.<span class="fn">getSession</span>();
+        out = pageContext.<span class="fn">getOut</span>();
+        
+        <span class="cm">// 3. JSP dynamic content/scriptlet actions execution start here...</span>
+        out.<span class="fn">write</span>(<span class="str">"&lt;html&gt;&lt;body&gt;"</span>);
+        
+    } <span class="kw">catch</span> (<span class="cls">Throwable</span> t) {
+        <span class="kw">if</span> (exception == <span class="kw">null</span>) {
+            <span class="cm">// Forward to configured errorPage...</span>
+        }
+    } <span class="kw">finally</span> {
+        <span class="cm">// 4. Clean up allocations and release thread resources back to factory</span>
+        <span class="cls">JspFactory</span>.<span class="fn">getDefaultFactory</span>().<span class="fn">releasePageContext</span>(pageContext);
+    }
+}</code></pre>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================================= -->
+    <!-- MANDATORY PROGRAMS               -->
+    <!-- ================================= -->
+    <div class="part-divider"><span class="programs">Part C — Mandatory Programs</span></div>
+
+    <!-- PROGRAM 1: HELLO WORLD SERVLET -->
+    <section class="section" id="prog-hello">
+        <div class="program-card">
+            <div class="program-header">
+                <h3>⭐ Program 1: Hello World Servlet</h3>
+                <span class="pyq-tag">🔴 PYQ — 6 marks</span>
+            </div>
+            <div class="program-body">
+                <p style="color:var(--text-secondary);margin-bottom:12px;"><strong>Logic:</strong> Create a simple servlet that displays "Hello, World!" in the browser.</p>
+                <p style="color:var(--text-muted);font-size:13px;"><strong>Imports:</strong> <code>javax.servlet.*</code>, <code>javax.servlet.http.*</code>, <code>java.io.*</code></p>
+
+                <h4 style="color:var(--accent-cyan);margin: 16px 0 8px;font-size:13px;">📄 HelloServlet.java</h4>
+<pre><code><span class="kw">import</span> javax.servlet.*;
+<span class="kw">import</span> javax.servlet.http.*;
+<span class="kw">import</span> java.io.*;
+
+<span class="kw">public class</span> <span class="cls">HelloServlet</span> <span class="kw">extends</span> <span class="cls">HttpServlet</span> {
+
+    <span class="kw">public void</span> <span class="fn">doGet</span>(<span class="cls">HttpServletRequest</span> request,
+                      <span class="cls">HttpServletResponse</span> response)
+            <span class="kw">throws</span> <span class="cls">ServletException</span>, <span class="cls">IOException</span> {
+
+        <span class="cm">// Step 1: Set content type</span>
+        response.<span class="fn">setContentType</span>(<span class="str">"text/html"</span>);
+
+        <span class="cm">// Step 2: Get PrintWriter</span>
+        <span class="cls">PrintWriter</span> out = response.<span class="fn">getWriter</span>();
+
+        <span class="cm">// Step 3: Write HTML response</span>
+        out.<span class="fn">println</span>(<span class="str">"&lt;html&gt;"</span>);
+        out.<span class="fn">println</span>(<span class="str">"&lt;head&gt;&lt;title&gt;Hello Servlet&lt;/title&gt;&lt;/head&gt;"</span>);
+        out.<span class="fn">println</span>(<span class="str">"&lt;body&gt;"</span>);
+        out.<span class="fn">println</span>(<span class="str">"&lt;h1&gt;Hello, World!&lt;/h1&gt;"</span>);
+        out.<span class="fn">println</span>(<span class="str">"&lt;/body&gt;&lt;/html&gt;"</span>);
+
+        out.<span class="fn">close</span>();
+    }
+}</code></pre>
+
+                <h4 style="color:var(--accent-cyan);margin: 16px 0 8px;font-size:13px;">📄 web.xml (Deployment Descriptor)</h4>
+<pre><code><span class="tag">&lt;web-app&gt;</span>
+    <span class="tag">&lt;servlet&gt;</span>
+        <span class="tag">&lt;servlet-name&gt;</span>HelloServlet<span class="tag">&lt;/servlet-name&gt;</span>
+        <span class="tag">&lt;servlet-class&gt;</span>HelloServlet<span class="tag">&lt;/servlet-class&gt;</span>
+    <span class="tag">&lt;/servlet&gt;</span>
+    <span class="tag">&lt;servlet-mapping&gt;</span>
+        <span class="tag">&lt;servlet-name&gt;</span>HelloServlet<span class="tag">&lt;/servlet-name&gt;</span>
+        <span class="tag">&lt;url-pattern&gt;</span>/hello<span class="tag">&lt;/url-pattern&gt;</span>
+    <span class="tag">&lt;/servlet-mapping&gt;</span>
+<span class="tag">&lt;/web-app&gt;</span></code></pre>
+
+                <div class="output-box">
+                    <div class="label">📤 Output (in Browser)</div>
+<pre><code>URL: http://localhost:8080/myapp/hello
+
+Displays:
+┌───────────────────────────────┐
+│  Hello, World!                │
+└───────────────────────────────┘</code></pre>
+                </div>
+
+                <div class="viva-box">
+                    <div class="label">🎤 Expected Viva Questions</div>
+                    <ol>
+                        <li><strong>What is web.xml?</strong> → Deployment Descriptor — XML file that maps URLs to servlets</li>
+                        <li><strong>What does <code>setContentType()</code> do?</strong> → Tells browser the response type (HTML, JSON, etc.)</li>
+                        <li><strong>Why <code>extends HttpServlet</code>?</strong> → To handle HTTP requests (GET/POST)</li>
+                        <li><strong>What if you use doPost() but form uses GET?</strong> → 405 Method Not Allowed error</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROGRAM 2: LIFE CYCLE -->
+    <section class="section" id="prog-lifecycle">
+        <div class="program-card">
+            <div class="program-header">
+                <h3>⭐ Program 2: Servlet Life Cycle Demo</h3>
+                <span class="pyq-tag">⭐ Frequently Asked</span>
+            </div>
+            <div class="program-body">
+                <p style="color:var(--text-secondary);margin-bottom:12px;"><strong>Logic:</strong> Demonstrate all 3 lifecycle methods — init(), service()/doGet(), destroy().</p>
+<pre><code><span class="kw">import</span> javax.servlet.*;
+<span class="kw">import</span> javax.servlet.http.*;
+<span class="kw">import</span> java.io.*;
+
+<span class="kw">public class</span> <span class="cls">LifeCycleServlet</span> <span class="kw">extends</span> <span class="cls">HttpServlet</span> {
+
+    <span class="cm">// Called ONCE — when servlet is first loaded</span>
+    <span class="kw">public void</span> <span class="fn">init</span>() <span class="kw">throws</span> <span class="cls">ServletException</span> {
+        System.out.<span class="fn">println</span>(<span class="str">"init() called — Servlet initialized"</span>);
+    }
+
+    <span class="cm">// Called for EVERY request</span>
+    <span class="kw">public void</span> <span class="fn">doGet</span>(<span class="cls">HttpServletRequest</span> req, <span class="cls">HttpServletResponse</span> res)
+            <span class="kw">throws</span> <span class="cls">ServletException</span>, <span class="cls">IOException</span> {
+
+        System.out.<span class="fn">println</span>(<span class="str">"doGet() called — Handling request"</span>);
+
+        res.<span class="fn">setContentType</span>(<span class="str">"text/html"</span>);
+        <span class="cls">PrintWriter</span> out = res.<span class="fn">getWriter</span>();
+        out.<span class="fn">println</span>(<span class="str">"&lt;h1&gt;Servlet Life Cycle Demo&lt;/h1&gt;"</span>);
+        out.<span class="fn">println</span>(<span class="str">"&lt;p&gt;Check server console for lifecycle messages.&lt;/p&gt;"</span>);
+        out.<span class="fn">close</span>();
+    }
+
+    <span class="cm">// Called ONCE — when servlet is being destroyed</span>
+    <span class="kw">public void</span> <span class="fn">destroy</span>() {
+        System.out.<span class="fn">println</span>(<span class="str">"destroy() called — Servlet destroyed"</span>);
+    }
+}</code></pre>
+
+                <div class="output-box">
+                    <div class="label">📤 Server Console Output</div>
+<pre><code>init() called — Servlet initialized        ← First request only
+doGet() called — Handling request          ← Every request
+doGet() called — Handling request          ← Second request
+doGet() called — Handling request          ← Third request
+destroy() called — Servlet destroyed       ← Server shutdown</code></pre>
+                </div>
+
+                <div class="viva-box">
+                    <div class="label">🎤 Viva Questions</div>
+                    <ol>
+                        <li><strong>How many times is init() called?</strong> → Only ONCE</li>
+                        <li><strong>When is destroy() called?</strong> → When server shuts down or servlet is unloaded</li>
+                        <li><strong>Can service() be called concurrently?</strong> → Yes, by multiple threads</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROGRAM 3: ADDITION SERVLET -->
+    <section class="section" id="prog-addition">
+        <div class="program-card">
+            <div class="program-header">
+                <h3>⭐ Program 3: Addition Servlet using HTML Form</h3>
+                <span class="pyq-tag">🔴 PYQ — 5 marks</span>
+            </div>
+            <div class="program-body">
+                <p style="color:var(--text-secondary);margin-bottom:12px;"><strong>Logic:</strong> HTML form sends two numbers → Servlet receives them → Calculates sum → Displays result.</p>
+
+                <h4 style="color:var(--accent-cyan);margin: 16px 0 8px;font-size:13px;">📄 addition.html</h4>
+<pre><code><span class="tag">&lt;!DOCTYPE html&gt;</span>
+<span class="tag">&lt;html&gt;</span>
+<span class="tag">&lt;head&gt;&lt;title&gt;</span>Addition Form<span class="tag">&lt;/title&gt;&lt;/head&gt;</span>
+<span class="tag">&lt;body&gt;</span>
+    <span class="tag">&lt;h2&gt;</span>Enter Two Numbers<span class="tag">&lt;/h2&gt;</span>
+    <span class="tag">&lt;form</span> <span class="attr">action</span>=<span class="val">"AddServlet"</span> <span class="attr">method</span>=<span class="val">"GET"</span><span class="tag">&gt;</span>
+        Number 1: <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="val">"text"</span> <span class="attr">name</span>=<span class="val">"num1"</span><span class="tag">&gt;&lt;br&gt;&lt;br&gt;</span>
+        Number 2: <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="val">"text"</span> <span class="attr">name</span>=<span class="val">"num2"</span><span class="tag">&gt;&lt;br&gt;&lt;br&gt;</span>
+        <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="val">"submit"</span> <span class="attr">value</span>=<span class="val">"Add"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;/form&gt;</span>
+<span class="tag">&lt;/body&gt;</span>
+<span class="tag">&lt;/html&gt;</span></code></pre>
+
+                <h4 style="color:var(--accent-cyan);margin: 16px 0 8px;font-size:13px;">📄 AddServlet.java</h4>
+<pre><code><span class="kw">import</span> javax.servlet.*;
+<span class="kw">import</span> javax.servlet.http.*;
+<span class="kw">import</span> java.io.*;
+
+<span class="kw">public class</span> <span class="cls">AddServlet</span> <span class="kw">extends</span> <span class="cls">HttpServlet</span> {
+
+    <span class="kw">public void</span> <span class="fn">doGet</span>(<span class="cls">HttpServletRequest</span> request,
+                      <span class="cls">HttpServletResponse</span> response)
+            <span class="kw">throws</span> <span class="cls">ServletException</span>, <span class="cls">IOException</span> {
+
+        <span class="cm">// Step 1: Get parameters from HTML form</span>
+        <span class="cls">String</span> s1 = request.<span class="fn">getParameter</span>(<span class="str">"num1"</span>);
+        <span class="cls">String</span> s2 = request.<span class="fn">getParameter</span>(<span class="str">"num2"</span>);
+
+        <span class="cm">// Step 2: Convert to integers and add</span>
+        <span class="kw">int</span> num1 = <span class="cls">Integer</span>.<span class="fn">parseInt</span>(s1);
+        <span class="kw">int</span> num2 = <span class="cls">Integer</span>.<span class="fn">parseInt</span>(s2);
+        <span class="kw">int</span> sum = num1 + num2;
+
+        <span class="cm">// Step 3: Send response</span>
+        response.<span class="fn">setContentType</span>(<span class="str">"text/html"</span>);
+        <span class="cls">PrintWriter</span> out = response.<span class="fn">getWriter</span>();
+
+        out.<span class="fn">println</span>(<span class="str">"&lt;html&gt;&lt;body&gt;"</span>);
+        out.<span class="fn">println</span>(<span class="str">"&lt;h2&gt;Addition Result&lt;/h2&gt;"</span>);
+        out.<span class="fn">println</span>(<span class="str">"&lt;p&gt;Number 1: "</span> + num1 + <span class="str">"&lt;/p&gt;"</span>);
+        out.<span class="fn">println</span>(<span class="str">"&lt;p&gt;Number 2: "</span> + num2 + <span class="str">"&lt;/p&gt;"</span>);
+        out.<span class="fn">println</span>(<span class="str">"&lt;h3&gt;Sum = "</span> + sum + <span class="str">"&lt;/h3&gt;"</span>);
+        out.<span class="fn">println</span>(<span class="str">"&lt;/body&gt;&lt;/html&gt;"</span>);
+
+        out.<span class="fn">close</span>();
+    }
+}</code></pre>
+
+                <h4 style="color:var(--accent-cyan);margin: 16px 0 8px;font-size:13px;">📄 web.xml</h4>
+<pre><code><span class="tag">&lt;servlet&gt;</span>
+    <span class="tag">&lt;servlet-name&gt;</span>AddServlet<span class="tag">&lt;/servlet-name&gt;</span>
+    <span class="tag">&lt;servlet-class&gt;</span>AddServlet<span class="tag">&lt;/servlet-class&gt;</span>
+<span class="tag">&lt;/servlet&gt;</span>
+<span class="tag">&lt;servlet-mapping&gt;</span>
+    <span class="tag">&lt;servlet-name&gt;</span>AddServlet<span class="tag">&lt;/servlet-name&gt;</span>
+    <span class="tag">&lt;url-pattern&gt;</span>/AddServlet<span class="tag">&lt;/url-pattern&gt;</span>
+<span class="tag">&lt;/servlet-mapping&gt;</span></code></pre>
+
+                <div class="output-box">
+                    <div class="label">📤 Output</div>
+<pre><code>Enter 10 and 20 in the form, click "Add"
+
+Browser shows:
+┌───────────────────────────────┐
+│  Addition Result              │
+│  Number 1: 10                 │
+│  Number 2: 20                 │
+│  Sum = 30                     │
+└───────────────────────────────┘</code></pre>
+                </div>
+
+                <div class="viva-box">
+                    <div class="label">🎤 Viva Questions</div>
+                    <ol>
+                        <li><strong>What does <code>getParameter()</code> return?</strong> → String value of the form field</li>
+                        <li><strong>Why <code>Integer.parseInt()</code>?</strong> → Parameters are always Strings, need to convert</li>
+                        <li><strong>What is <code>action="AddServlet"</code>?</strong> → URL pattern mapped in web.xml</li>
+                        <li><strong>What if method is POST but doGet() is used?</strong> → HTTP 405 error</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROGRAM 4: doGet() -->
+    <section class="section" id="prog-doget">
+        <div class="program-card">
+            <div class="program-header">
+                <h3>⭐ Program 4: doGet() Example — Display User Info</h3>
+            </div>
+            <div class="program-body">
+                <p style="color:var(--text-secondary);margin-bottom:12px;"><strong>Logic:</strong> HTML form sends name and age via GET → Servlet displays greeting.</p>
+
+                <h4 style="color:var(--accent-cyan);margin: 16px 0 8px;font-size:13px;">📄 userform.html</h4>
+<pre><code><span class="tag">&lt;form</span> <span class="attr">action</span>=<span class="val">"UserServlet"</span> <span class="attr">method</span>=<span class="val">"GET"</span><span class="tag">&gt;</span>
+    Name: <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="val">"text"</span> <span class="attr">name</span>=<span class="val">"uname"</span><span class="tag">&gt;&lt;br&gt;&lt;br&gt;</span>
+    Age:  <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="val">"text"</span> <span class="attr">name</span>=<span class="val">"uage"</span><span class="tag">&gt;&lt;br&gt;&lt;br&gt;</span>
+    <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="val">"submit"</span> <span class="attr">value</span>=<span class="val">"Submit"</span><span class="tag">&gt;</span>
+<span class="tag">&lt;/form&gt;</span></code></pre>
+
+                <h4 style="color:var(--accent-cyan);margin: 16px 0 8px;font-size:13px;">📄 UserServlet.java</h4>
+<pre><code><span class="kw">import</span> javax.servlet.*;
+<span class="kw">import</span> javax.servlet.http.*;
+<span class="kw">import</span> java.io.*;
+
+<span class="kw">public class</span> <span class="cls">UserServlet</span> <span class="kw">extends</span> <span class="cls">HttpServlet</span> {
+
+    <span class="kw">public void</span> <span class="fn">doGet</span>(<span class="cls">HttpServletRequest</span> req, <span class="cls">HttpServletResponse</span> res)
+            <span class="kw">throws</span> <span class="cls">ServletException</span>, <span class="cls">IOException</span> {
+
+        <span class="cls">String</span> name = req.<span class="fn">getParameter</span>(<span class="str">"uname"</span>);
+        <span class="cls">String</span> age = req.<span class="fn">getParameter</span>(<span class="str">"uage"</span>);
+
+        res.<span class="fn">setContentType</span>(<span class="str">"text/html"</span>);
+        <span class="cls">PrintWriter</span> out = res.<span class="fn">getWriter</span>();
+
+        out.<span class="fn">println</span>(<span class="str">"&lt;h2&gt;Welcome, "</span> + name + <span class="str">"!&lt;/h2&gt;"</span>);
+        out.<span class="fn">println</span>(<span class="str">"&lt;p&gt;Your age is: "</span> + age + <span class="str">"&lt;/p&gt;"</span>);
+        out.<span class="fn">close</span>();
+    }
+}</code></pre>
+                <div class="output-box">
+                    <div class="label">📤 Output</div>
+<pre><code>URL: http://localhost:8080/app/UserServlet?uname=Akshay&uage=20
+         ↑ data visible in URL (GET method)
+
+Browser: "Welcome, Akshay! Your age is: 20"</code></pre>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROGRAM 5: doPost() -->
+    <section class="section" id="prog-dopost">
+        <div class="program-card">
+            <div class="program-header">
+                <h3>⭐ Program 5: doPost() Example — Login Form</h3>
+            </div>
+            <div class="program-body">
+                <p style="color:var(--text-secondary);margin-bottom:12px;"><strong>Logic:</strong> HTML login form sends credentials via POST → Servlet validates and responds.</p>
+
+                <h4 style="color:var(--accent-cyan);margin: 16px 0 8px;font-size:13px;">📄 login.html</h4>
+<pre><code><span class="tag">&lt;html&gt;&lt;body&gt;</span>
+<span class="tag">&lt;h2&gt;</span>Login Form<span class="tag">&lt;/h2&gt;</span>
+<span class="tag">&lt;form</span> <span class="attr">action</span>=<span class="val">"LoginServlet"</span> <span class="attr">method</span>=<span class="val">"POST"</span><span class="tag">&gt;</span>
+    Username: <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="val">"text"</span> <span class="attr">name</span>=<span class="val">"username"</span><span class="tag">&gt;&lt;br&gt;&lt;br&gt;</span>
+    Password: <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="val">"password"</span> <span class="attr">name</span>=<span class="val">"password"</span><span class="tag">&gt;&lt;br&gt;&lt;br&gt;</span>
+    <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="val">"submit"</span> <span class="attr">value</span>=<span class="val">"Login"</span><span class="tag">&gt;</span>
+<span class="tag">&lt;/form&gt;</span>
+<span class="tag">&lt;/body&gt;&lt;/html&gt;</span></code></pre>
+
+                <h4 style="color:var(--accent-cyan);margin: 16px 0 8px;font-size:13px;">📄 LoginServlet.java</h4>
+<pre><code><span class="kw">import</span> javax.servlet.*;
+<span class="kw">import</span> javax.servlet.http.*;
+<span class="kw">import</span> java.io.*;
+
+<span class="kw">public class</span> <span class="cls">LoginServlet</span> <span class="kw">extends</span> <span class="cls">HttpServlet</span> {
+
+    <span class="kw">public void</span> <span class="fn">doPost</span>(<span class="cls">HttpServletRequest</span> request,
+                       <span class="cls">HttpServletResponse</span> response)
+            <span class="kw">throws</span> <span class="cls">ServletException</span>, <span class="cls">IOException</span> {
+
+        <span class="cls">String</span> user = request.<span class="fn">getParameter</span>(<span class="str">"username"</span>);
+        <span class="cls">String</span> pass = request.<span class="fn">getParameter</span>(<span class="str">"password"</span>);
+
+        response.<span class="fn">setContentType</span>(<span class="str">"text/html"</span>);
+        <span class="cls">PrintWriter</span> out = response.<span class="fn">getWriter</span>();
+
+        <span class="kw">if</span> (user.<span class="fn">equals</span>(<span class="str">"admin"</span>) && pass.<span class="fn">equals</span>(<span class="str">"1234"</span>)) {
+            out.<span class="fn">println</span>(<span class="str">"&lt;h2&gt;Login Successful!&lt;/h2&gt;"</span>);
+            out.<span class="fn">println</span>(<span class="str">"&lt;p&gt;Welcome, "</span> + user + <span class="str">"&lt;/p&gt;"</span>);
+        } <span class="kw">else</span> {
+            out.<span class="fn">println</span>(<span class="str">"&lt;h2 style='color:red'&gt;Login Failed!&lt;/h2&gt;"</span>);
+            out.<span class="fn">println</span>(<span class="str">"&lt;p&gt;Invalid username or password.&lt;/p&gt;"</span>);
+        }
+        out.<span class="fn">close</span>();
+    }
+}</code></pre>
+                <div class="output-box">
+                    <div class="label">📤 Output</div>
+<pre><code>Enter admin / 1234 → "Login Successful! Welcome, admin"
+Enter wrong data   → "Login Failed! Invalid username or password."
+
+Note: URL stays clean (no data visible) — POST method!</code></pre>
+                </div>
+
+                <div class="viva-box">
+                    <div class="label">🎤 Viva Questions</div>
+                    <ol>
+                        <li><strong>Why POST for login?</strong> → Password should NOT be visible in URL</li>
+                        <li><strong>Difference if method="GET" is used?</strong> → Password visible in URL: <code>?username=admin&password=1234</code></li>
+                        <li><strong>Can one servlet handle both GET and POST?</strong> → Yes, override both doGet() and doPost()</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROGRAM 6: SESSION TRACKING -->
+    <section class="section" id="prog-session">
+        <div class="program-card">
+            <div class="program-header">
+                <h3>⭐ Program 6: Servlet Session Tracking using Cookies & HttpSession</h3>
+                <span class="pyq-tag">MSRIT SEE '24</span>
+            </div>
+            <div class="program-body">
+                <p style="color:var(--text-secondary);margin-bottom:12px;"><strong>Logic:</strong> User enters name in an HTML form → <code>SessionServlet</code> receives it, stores it in <code>HttpSession</code>, sets a persistent <code>Cookie</code>, and provides a redirection link → <code>WelcomeServlet</code> reads and prints the session attribute and cookie values.</p>
+                <p style="color:var(--text-muted);font-size:13px;"><strong>Imports:</strong> <code>javax.servlet.*</code>, <code>javax.servlet.http.*</code>, <code>java.io.*</code></p>
+
+                <h4 style="color:var(--accent-cyan);margin: 16px 0 8px;font-size:13px;">📄 login.html</h4>
+<pre><code><span class="tag">&lt;!DOCTYPE html&gt;</span>
+<span class="tag">&lt;html&gt;</span>
+<span class="tag">&lt;head&gt;&lt;title&gt;</span>Login Form<span class="tag">&lt;/title&gt;&lt;/head&gt;</span>
+<span class="tag">&lt;body&gt;</span>
+    <span class="tag">&lt;h2&gt;</span>Session Tracking Login<span class="tag">&lt;/h2&gt;</span>
+    <span class="tag">&lt;form</span> <span class="attr">action</span>=<span class="val">"SessionServlet"</span> <span class="attr">method</span>=<span class="val">"POST"</span><span class="tag">&gt;</span>
+        Enter Name: <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="val">"text"</span> <span class="attr">name</span>=<span class="val">"username"</span><span class="tag">&gt;&lt;br&gt;&lt;br&gt;</span>
+        <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="val">"submit"</span> <span class="attr">value</span>=<span class="val">"Start Session"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;/form&gt;</span>
+<span class="tag">&lt;/body&gt;</span>
+<span class="tag">&lt;/html&gt;</span></code></pre>
+
+                <h4 style="color:var(--accent-cyan);margin: 16px 0 8px;font-size:13px;">📄 SessionServlet.java</h4>
+<pre><code><span class="kw">import</span> javax.servlet.*;
+<span class="kw">import</span> javax.servlet.http.*;
+<span class="kw">import</span> java.io.*;
+
+<span class="kw">public class</span> <span class="cls">SessionServlet</span> <span class="kw">extends</span> <span class="cls">HttpServlet</span> {
+    <span class="kw">public void</span> <span class="fn">doPost</span>(<span class="cls">HttpServletRequest</span> request, <span class="cls">HttpServletResponse</span> response)
+            <span class="kw">throws</span> <span class="cls">ServletException</span>, <span class="cls">IOException</span> {
+        
+        <span class="cls">String</span> name = request.<span class="fn">getParameter</span>(<span class="str">"username"</span>);
+        
+        <span class="cm">// 1. Using HttpSession to store username on Server Heap</span>
+        <span class="cls">HttpSession</span> session = request.<span class="fn">getSession</span>();
+        session.<span class="fn">setAttribute</span>(<span class="str">"sessionUser"</span>, name);
+        
+        <span class="cm">// 2. Using Cookies to store username on Client Browser</span>
+        <span class="cls">Cookie</span> userCookie = <span class="kw">new</span> <span class="cls">Cookie</span>(<span class="str">"cookieUser"</span>, name);
+        userCookie.<span class="fn">setMaxAge</span>(<span class="num">30</span> * <span class="num">60</span>); <span class="cm">// Active for 30 minutes</span>
+        response.<span class="fn">addCookie</span>(userCookie);
+        
+        response.<span class="fn">setContentType</span>(<span class="str">"text/html"</span>);
+        <span class="cls">PrintWriter</span> out = response.<span class="fn">getWriter</span>();
+        out.<span class="fn">println</span>(<span class="str">"&lt;html&gt;&lt;body&gt;"</span>);
+        out.<span class="fn">println</span>(<span class="str">"&lt;h2&gt;Session and Cookie Initialized!&lt;/h2&gt;"</span>);
+        out.<span class="fn">println</span>(<span class="str">"&lt;p&gt;Session username: &lt;b&gt;"</span> + name + <span class="str">"&lt;/b&gt; (stored on server)&lt;/p&gt;"</span>);
+        out.<span class="fn">println</span>(<span class="str">"&lt;p&gt;Cookie 'cookieUser': &lt;b&gt;"</span> + name + <span class="str">"&lt;/b&gt; (stored on client browser)&lt;/p&gt;"</span>);
+        out.<span class="fn">println</span>(<span class="str">"&lt;br&gt;&lt;a href='WelcomeServlet'&gt;Proceed to WelcomeServlet&lt;/a&gt;"</span>);
+        out.<span class="fn">println</span>(<span class="str">"&lt;/body&gt;&lt;/html&gt;"</span>);
+        out.<span class="fn">close</span>();
+    }
+}</code></pre>
+
+                <h4 style="color:var(--accent-cyan);margin: 16px 0 8px;font-size:13px;">📄 WelcomeServlet.java</h4>
+<pre><code><span class="kw">import</span> javax.servlet.*;
+<span class="kw">import</span> javax.servlet.http.*;
+<span class="kw">import</span> java.io.*;
+
+<span class="kw">public class</span> <span class="cls">WelcomeServlet</span> <span class="kw">extends</span> <span class="cls">HttpServlet</span> {
+    <span class="kw">public void</span> <span class="fn">doGet</span>(<span class="cls">HttpServletRequest</span> request, <span class="cls">HttpServletResponse</span> response)
+            throws <span class="cls">ServletException</span>, <span class="cls">IOException</span> {
+        
+        response.<span class="fn">setContentType</span>(<span class="str">"text/html"</span>);
+        <span class="cls">PrintWriter</span> out = response.<span class="fn">getWriter</span>();
+        out.<span class="fn">println</span>(<span class="str">"&lt;html&gt;&lt;body&gt;"</span>);
+        out.<span class="fn">println</span>(<span class="str">"&lt;h2&gt;Welcome back! Session Data Retrieval&lt;/h2&gt;"</span>);
+        
+        <span class="cm">// 1. Reading attribute from HttpSession (does not create a new session)</span>
+        <span class="cls">HttpSession</span> session = request.<span class="fn">getSession</span>(<span class="kw">false</span>);
+        <span class="cls">String</span> sUser = <span class="kw">null</span>;
+        <span class="kw">if</span> (session != <span class="kw">null</span>) {
+            sUser = (<span class="cls">String</span>) session.<span class="fn">getAttribute</span>(<span class="str">"sessionUser"</span>);
+        }
+        out.<span class="fn">println</span>(<span class="str">"&lt;p&gt;Retrieved HttpSession Attribute: &lt;b&gt;"</span> + (sUser != <span class="kw">null</span> ? sUser : <span class="str">"No session data found!"</span>) + <span class="str">"&lt;/b&gt;&lt;/p&gt;"</span>);
+        
+        <span class="cm">// 2. Reading value from Cookies</span>
+        <span class="cls">String</span> cUser = <span class="str">"No cookie found!"</span>;
+        <span class="cls">Cookie</span>[] cookies = request.<span class="fn">getCookies</span>();
+        <span class="kw">if</span> (cookies != <span class="kw">null</span>) {
+            <span class="kw">for</span> (<span class="cls">Cookie</span> c : cookies) {
+                <span class="kw">if</span> (c.<span class="fn">getName</span>().<span class="fn">equals</span>(<span class="str">"cookieUser"</span>)) {
+                    cUser = c.<span class="fn">getValue</span>();
+                    <span class="kw">break</span>;
+                }
+            }
+        }
+        out.<span class="fn">println</span>(<span class="str">"&lt;p&gt;Retrieved Cookie Value: &lt;b&gt;"</span> + cUser + <span class="str">"&lt;/b&gt;&lt;/p&gt;"</span>);
+        
+        out.<span class="fn">println</span>(<span class="str">"&lt;br&gt;&lt;a href='login.html'&gt;Restart Demo&lt;/a&gt;"</span>);
+        out.<span class="fn">println</span>(<span class="str">"&lt;/body&gt;&lt;/html&gt;"</span>);
+        out.<span class="fn">close</span>();
+    }
+}</code></pre>
+
+                <div class="output-box">
+                    <div class="label">📤 Output</div>
+<pre><code>1. Open "login.html" → Enter "Akshay" → Click "Start Session"
+2. Page displays:
+   "Session username: Akshay (stored on server)
+    Cookie 'cookieUser': Akshay (stored on client browser)"
+3. Click "Proceed to WelcomeServlet"
+4. Displays:
+   "Retrieved HttpSession Attribute: Akshay
+    Retrieved Cookie Value: Akshay"</code></pre>
+                </div>
+
+                <div class="viva-box">
+                    <div class="label">🎤 Expected Viva Questions</div>
+                    <ol>
+                        <li><strong>What does <code>request.getSession(false)</code> do?</strong> → It returns the current session if it exists, but returns <code>null</code> instead of creating a brand new one if it doesn't.</li>
+                        <li><strong>What is default persistent duration of a Cookie if `setMaxAge()` is not called?</strong> → Session-based cookie (expires as soon as the client browser is closed).</li>
+                        <li><strong>What is JSESSIONID?</strong> → A unique identifier generated automatically by the servlet container and stored in a temporary cookie on the client browser to map requests to the server's session instance.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================================= -->
+    <!-- COMMON MISTAKES                   -->
+    <!-- ================================= -->
+    <section class="section" id="mistakes">
+        <div class="section-header">
+            <div class="section-number num-orange">⚠</div>
+            <h2>Common Mistakes in Exams</h2>
+        </div>
+
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>❌ Mistake</th><th>✅ Correct Way</th></tr></thead>
+                <tbody>
+                    <tr><td>Writing <code>import java.servlet.*</code></td><td><code>import javax.servlet.*</code> (with 'x')</td></tr>
+                    <tr><td>Forgetting <code>throws ServletException, IOException</code></td><td>Always add to doGet()/doPost() signature</td></tr>
+                    <tr><td>Not calling <code>response.setContentType("text/html")</code></td><td>Browser may not render HTML properly</td></tr>
+                    <tr><td>Overriding <code>service()</code> in HttpServlet</td><td>Override <code>doGet()</code>/<code>doPost()</code> instead</td></tr>
+                    <tr><td>Using <code>doGet()</code> but form says <code>method="POST"</code></td><td>Match form method with servlet method</td></tr>
+                    <tr><td>Forgetting <code>web.xml</code> mapping</td><td>Always include servlet + servlet-mapping</td></tr>
+                    <tr><td>Writing <code>getparameter()</code> (lowercase)</td><td><code>getParameter()</code> (capital P)</td></tr>
+                    <tr><td>Not closing <code>PrintWriter</code></td><td>Always call <code>out.close()</code></td></tr>
+                    <tr><td>Confusing ServletConfig with ServletContext</td><td>Config = per servlet, Context = per app</td></tr>
+                    <tr><td>Writing <code>extends Servlet</code></td><td><code>extends HttpServlet</code> (Servlet is an interface, can't extend)</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- ================================= -->
+    <!-- VIVA & EXAM PREP                  -->
+    <!-- ================================= -->
+    <div class="part-divider"><span class="viva">Part C — Exam Preparation</span></div>
+
+    <!-- TOP 25 VIVA QUESTIONS -->
+    <section class="section" id="viva25">
+        <div class="section-header">
+            <div class="section-number num-green">🎤</div>
+            <h2>Top 25 Expected Viva Questions</h2>
+        </div>
+
+        <div class="card">
+            <ol class="viva-list">
+                <li><strong>What is a Servlet?</strong> → A server-side Java program that handles HTTP requests and generates dynamic web content.</li>
+                <li><strong>What package contains Servlet classes?</strong> → <code>javax.servlet</code> and <code>javax.servlet.http</code></li>
+                <li><strong>Name the 3 lifecycle methods.</strong> → <code>init()</code>, <code>service()</code>, <code>destroy()</code></li>
+                <li><strong>How many times is init() called?</strong> → Only ONCE, when servlet is first loaded.</li>
+                <li><strong>What is a Servlet Container?</strong> → Software that manages servlet lifecycle and request/response (e.g., Tomcat).</li>
+                <li><strong>What is web.xml?</strong> → Deployment Descriptor — XML configuration file for mapping URLs to servlets.</li>
+                <li><strong>Difference between GenericServlet and HttpServlet?</strong> → GenericServlet is protocol-independent; HttpServlet is HTTP-specific.</li>
+                <li><strong>What method to override in HttpServlet?</strong> → <code>doGet()</code> or <code>doPost()</code> (NOT <code>service()</code>).</li>
+                <li><strong>Difference between GET and POST?</strong> → GET sends data in URL; POST sends in request body (hidden).</li>
+                <li><strong>What does getParameter() return?</strong> → String value of the request parameter.</li>
+                <li><strong>How to get PrintWriter?</strong> → <code>PrintWriter out = response.getWriter();</code></li>
+                <li><strong>What is setContentType()?</strong> → Sets the MIME type of the response (e.g., "text/html").</li>
+                <li><strong>Difference between ServletConfig and ServletContext?</strong> → Config is per-servlet; Context is per-application.</li>
+                <li><strong>How many instances of a servlet are created?</strong> → Only ONE (singleton).</li>
+                <li><strong>What is the Delegation Event Model in servlets?</strong> → Container delegates request to appropriate servlet based on URL mapping.</li>
+                <li><strong>Can a servlet handle both GET and POST?</strong> → Yes, override both doGet() and doPost().</li>
+                <li><strong>Why are servlets better than CGI?</strong> → Threads vs processes, persistent, platform-independent, more secure.</li>
+                <li><strong>What happens if you don't map in web.xml?</strong> → 404 Not Found error.</li>
+                <li><strong>Is HttpServlet abstract?</strong> → Yes, it's an abstract class.</li>
+                <li><strong>What is PrintWriter?</strong> → A class from java.io used to write text (HTML) to the response output stream.</li>
+                <li><strong>What is the default HTTP method?</strong> → GET (when you type URL in browser).</li>
+                <li><strong>What exception does a servlet throw?</strong> → <code>ServletException</code> and <code>IOException</code>.</li>
+                <li><strong>What is the Servlet interface?</strong> → Root interface that all servlets must implement (directly or indirectly).</li>
+                <li><strong>What is load-on-startup in web.xml?</strong> → Forces servlet initialization at server startup instead of first request.</li>
+                <li><strong>What port does Tomcat use?</strong> → Default: <strong>8080</strong>.</li>
+            </ol>
+        </div>
+    </section>
+
+    <!-- MOST REPEATED PYQS -->
+    <section class="section" id="pyqs">
+        <div class="section-header">
+            <div class="section-number num-orange">📝</div>
+            <h2>Most Repeated PYQs</h2>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🔴</span> High Frequency Questions (Appeared 2+ times)</h3>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>Question</th><th>Marks</th><th>Type</th></tr></thead>
+                    <tbody>
+                        <tr><td>List all phases of servlet life cycle. Write a servlet that displays "Hello, World!"</td><td>6</td><td>Theory + Program</td></tr>
+                        <tr><td>Write a servlet to accept two parameters from web page, find sum, display result. Give HTML.</td><td>5</td><td>Program</td></tr>
+                        <tr><td>Differences between ServletConfig and ServletContext with example</td><td>4</td><td>Table + Code</td></tr>
+                        <tr><td>Explain GenericServlet and HttpServlet class</td><td>4</td><td>Theory</td></tr>
+                        <tr><td>List and define any 5 methods of HttpServlet class</td><td>5</td><td>Theory</td></tr>
+                        <tr><td>What is servlet? Explain life cycle of servlets.</td><td>5</td><td>Theory + Diagram</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="warn-box">
+            <div class="label">⚠️ High Alert</div>
+            <p>The <strong>Addition Servlet (HTML form + Servlet)</strong> and <strong>Hello World Servlet with lifecycle</strong> are the most repeated programs. Make sure you can write them completely from memory including <strong>web.xml</strong>!</p>
+        </div>
+    </section>
+
+    <!-- 2-MARK DEFINITIONS -->
+    <section class="section" id="definitions">
+        <div class="section-header">
+            <div class="section-number num-blue">📖</div>
+            <h2>2-Mark Important Definitions</h2>
+        </div>
+
+        <div class="card">
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>Term</th><th>Definition (Write exactly this)</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Servlet</strong></td><td>A server-side Java program that runs inside a Servlet Container to handle HTTP requests and generate dynamic web content.</td></tr>
+                        <tr><td><strong>Servlet Container</strong></td><td>A component of a web server that manages the lifecycle of servlets, maps URLs, and handles request-response communication. Example: Apache Tomcat.</td></tr>
+                        <tr><td><strong>Servlet API</strong></td><td>A set of interfaces and classes in javax.servlet and javax.servlet.http packages that define the contract between servlets and the container.</td></tr>
+                        <tr><td><strong>GenericServlet</strong></td><td>An abstract class in javax.servlet that implements Servlet interface and provides protocol-independent servlet functionality.</td></tr>
+                        <tr><td><strong>HttpServlet</strong></td><td>An abstract class in javax.servlet.http that extends GenericServlet and provides HTTP-specific methods like doGet() and doPost().</td></tr>
+                        <tr><td><strong>ServletConfig</strong></td><td>An interface that provides configuration information specific to a single servlet, created by the container during initialization.</td></tr>
+                        <tr><td><strong>ServletContext</strong></td><td>An interface that provides information about the entire web application, shared among all servlets. Only one per application.</td></tr>
+                        <tr><td><strong>web.xml</strong></td><td>Deployment Descriptor — an XML configuration file that maps URL patterns to servlet classes and defines initialization parameters.</td></tr>
+                        <tr><td><strong>PrintWriter</strong></td><td>A class from java.io package used to write character-based output (HTML text) to the servlet response.</td></tr>
+                        <tr><td><strong>CGI</strong></td><td>Common Gateway Interface — an older protocol for generating dynamic content by creating a new OS process per request (slower than servlets).</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================================= -->
+    <!-- REVISION SHEET                    -->
+    <!-- ================================= -->
+    <div class="part-divider"><span class="revision">🔥 Last Minute Revision</span></div>
+
+    <section class="section" id="revision">
+        <div class="revision-sheet">
+            <h2>🔥 RAPID REVISION SHEET 🔥</h2>
+            <p class="subtitle">Syntax, methods, and key facts — nothing else</p>
+
+            <div class="rev-section">
+                <h4>📌 Key Imports</h4>
+<pre><code><span class="kw">import</span> javax.servlet.*;         <span class="cm">// GenericServlet, ServletConfig, etc.</span>
+<span class="kw">import</span> javax.servlet.http.*;    <span class="cm">// HttpServlet, HttpServletRequest, etc.</span>
+<span class="kw">import</span> java.io.*;               <span class="cm">// PrintWriter, IOException</span></code></pre>
+            </div>
+
+            <div class="rev-section">
+                <h4>📌 Servlet Template (Memorize!)</h4>
+<pre><code><span class="kw">import</span> javax.servlet.*;
+<span class="kw">import</span> javax.servlet.http.*;
+<span class="kw">import</span> java.io.*;
+
+<span class="kw">public class</span> <span class="cls">MyServlet</span> <span class="kw">extends</span> <span class="cls">HttpServlet</span> {
+    <span class="kw">public void</span> <span class="fn">doGet</span>(<span class="cls">HttpServletRequest</span> req, <span class="cls">HttpServletResponse</span> res)
+            <span class="kw">throws</span> <span class="cls">ServletException</span>, <span class="cls">IOException</span> {
+
+        res.<span class="fn">setContentType</span>(<span class="str">"text/html"</span>);
+        <span class="cls">PrintWriter</span> out = res.<span class="fn">getWriter</span>();
+        out.<span class="fn">println</span>(<span class="str">"&lt;h1&gt;Hello!&lt;/h1&gt;"</span>);
+        out.<span class="fn">close</span>();
+    }
+}</code></pre>
+            </div>
+
+            <div class="rev-section">
+                <h4>📌 web.xml Template (Memorize!)</h4>
+<pre><code><span class="tag">&lt;web-app&gt;</span>
+  <span class="tag">&lt;servlet&gt;</span>
+    <span class="tag">&lt;servlet-name&gt;</span>XYZ<span class="tag">&lt;/servlet-name&gt;</span>
+    <span class="tag">&lt;servlet-class&gt;</span>XYZServlet<span class="tag">&lt;/servlet-class&gt;</span>
+  <span class="tag">&lt;/servlet&gt;</span>
+  <span class="tag">&lt;servlet-mapping&gt;</span>
+    <span class="tag">&lt;servlet-name&gt;</span>XYZ<span class="tag">&lt;/servlet-name&gt;</span>
+    <span class="tag">&lt;url-pattern&gt;</span>/xyz<span class="tag">&lt;/url-pattern&gt;</span>
+  <span class="tag">&lt;/servlet-mapping&gt;</span>
+<span class="tag">&lt;/web-app&gt;</span></code></pre>
+            </div>
+
+            <div class="rev-section">
+                <h4>📌 HTML Form Template</h4>
+<pre><code><span class="tag">&lt;form</span> <span class="attr">action</span>=<span class="val">"ServletName"</span> <span class="attr">method</span>=<span class="val">"GET"</span><span class="tag">&gt;</span>  <span class="cm">&lt;!-- or POST --&gt;</span>
+    <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="val">"text"</span> <span class="attr">name</span>=<span class="val">"paramName"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="val">"submit"</span> <span class="attr">value</span>=<span class="val">"Submit"</span><span class="tag">&gt;</span>
+<span class="tag">&lt;/form&gt;</span></code></pre>
+            </div>
+
+            <div class="rev-section">
+                <h4>📌 Getting Form Data in Servlet</h4>
+<pre><code><span class="cls">String</span> val = request.<span class="fn">getParameter</span>(<span class="str">"paramName"</span>);  <span class="cm">// always returns String</span>
+<span class="kw">int</span> num = <span class="cls">Integer</span>.<span class="fn">parseInt</span>(val);                   <span class="cm">// convert if needed</span></code></pre>
+            </div>
+
+            <div class="rev-section">
+                <h4>📌 Lifecycle — Quick Recall</h4>
+<pre><code><span class="fn">init()</span>      → called <span class="kw">ONCE</span>  → setup
+<span class="fn">service()</span>   → called <span class="kw">EVERY</span> request → dispatches to doGet/doPost
+<span class="fn">destroy()</span>   → called <span class="kw">ONCE</span>  → cleanup</code></pre>
+            </div>
+
+            <div class="rev-section">
+                <h4>📌 Quick Difference Tables</h4>
+                <div class="table-wrap">
+                    <table>
+                        <thead><tr><th>GenericServlet</th><th>HttpServlet</th></tr></thead>
+                        <tbody>
+                            <tr><td><code>javax.servlet</code></td><td><code>javax.servlet.http</code></td></tr>
+                            <tr><td>Protocol-independent</td><td>HTTP-specific</td></tr>
+                            <tr><td>Override <code>service()</code></td><td>Override <code>doGet()</code>/<code>doPost()</code></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="table-wrap" style="margin-top:12px;">
+                    <table>
+                        <thead><tr><th>ServletConfig</th><th>ServletContext</th></tr></thead>
+                        <tbody>
+                            <tr><td>Per <strong>servlet</strong></td><td>Per <strong>application</strong></td></tr>
+                            <tr><td><code>&lt;init-param&gt;</code></td><td><code>&lt;context-param&gt;</code></td></tr>
+                            <tr><td>Can't set attributes</td><td>Can set/get attributes</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="table-wrap" style="margin-top:12px;">
+                    <table>
+                        <thead><tr><th>GET</th><th>POST</th></tr></thead>
+                        <tbody>
+                            <tr><td>Data in URL</td><td>Data in body</td></tr>
+                            <tr><td>Less secure</td><td>More secure</td></tr>
+                            <tr><td>Limited data</td><td>Unlimited</td></tr>
+                            <tr><td><code>doGet()</code></td><td><code>doPost()</code></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="table-wrap" style="margin-top:12px;">
+                    <table>
+                        <thead><tr><th>CGI</th><th>Servlet</th></tr></thead>
+                        <tbody>
+                            <tr><td>New <strong>process</strong> per request</td><td>New <strong>thread</strong> per request</td></tr>
+                            <tr><td>Slow, heavy</td><td>Fast, lightweight</td></tr>
+                            <tr><td>Platform dependent</td><td>Platform independent</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="rev-section">
+                <h4>📌 Must-Remember Facts</h4>
+                <div class="table-wrap">
+                    <table>
+                        <thead><tr><th>Fact</th><th>Answer</th></tr></thead>
+                        <tbody>
+                            <tr><td>Package for HttpServlet</td><td><code>javax.servlet.http</code></td></tr>
+                            <tr><td>Servlet instances created</td><td><strong>One</strong> (singleton)</td></tr>
+                            <tr><td>init() called</td><td><strong>Once</strong></td></tr>
+                            <tr><td>service() called</td><td><strong>Every request</strong></td></tr>
+                            <tr><td>destroy() called</td><td><strong>Once</strong> (server shutdown)</td></tr>
+                            <tr><td>Tomcat default port</td><td><strong>8080</strong></td></tr>
+                            <tr><td>Config file</td><td><strong>web.xml</strong></td></tr>
+                            <tr><td>Servlet API type</td><td>Set of <strong>interfaces</strong> + classes</td></tr>
+                            <tr><td>HttpServlet is</td><td><strong>Abstract class</strong></td></tr>
+                            <tr><td>Servlet is</td><td><strong>Interface</strong></td></tr>
+                            <tr><td>getParameter() returns</td><td><strong>String</strong></td></tr>
+                            <tr><td>setContentType for HTML</td><td><code>"text/html"</code></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="danger-box" style="margin-top: 24px;">
+                <div class="label">🚨 Final Checklist Before Exam</div>
+                <ul class="checklist">
+                    <li>Can you write Hello World servlet + web.xml from memory?</li>
+                    <li>Can you write Addition servlet with HTML form?</li>
+                    <li>Know all 3 lifecycle methods and when they're called?</li>
+                    <li>Know 5 differences — ServletConfig vs ServletContext?</li>
+                    <li>Know 5 differences — GET vs POST?</li>
+                    <li>Know 5 differences — CGI vs Servlet?</li>
+                    <li>Can list 5 methods of HttpServlet class?</li>
+                    <li>Remember: <code>javax.servlet</code> NOT <code>java.servlet</code></li>
+                    <li>Remember: doGet/doPost, NOT override service() in HttpServlet</li>
+                    <li>Remember: <code>getParameter()</code> returns <strong>String</strong> always</li>
+                </ul>
+            </div>
+
+            <p style="text-align:center;margin-top:32px;font-size:22px;font-weight:900;">
+                ALL THE BEST! 🎯 You've got this! 💪
+            </p>
+        </div>
+    </section>
+
+</div>
+
+<!-- Back to Top -->
+<button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+    // Back to top
+    window.addEventListener('scroll', () => {
+        const btn = document.getElementById('backToTop');
+        btn.classList.toggle('visible', window.scrollY > 400);
+    });
+
+    // Active nav highlighting
+    const sections = document.querySelectorAll('.section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                navLinks.forEach(l => l.classList.remove('active'));
+                const activeLink = document.querySelector(`.nav-link[href="#${entry.target.id}"]`);
+                if (activeLink) activeLink.classList.add('active');
+            }
+        });
+    }, { rootMargin: '-20% 0px -70% 0px' });
+    sections.forEach(s => observer.observe(s));
+
+    // Mobile sidebar close
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            if (window.innerWidth <= 900) document.getElementById('sidebar').classList.remove('open');
+        });
+    });
+</script>
+
+</body>
+</html>

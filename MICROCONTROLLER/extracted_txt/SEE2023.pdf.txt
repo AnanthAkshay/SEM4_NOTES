@@ -1,0 +1,130 @@
+
+--- PAGE 1 ---
+ IS44 
+Page 1 of 2 
+ 
+ 
+ 
+ (Autonomous Institute, Affiliated to VTU) 
+(Approved by AICTE, New Delhi & Govt. of Karnataka)  
+Accredited by NBA & NAAC with ‘A+’ Grade 
+ 
+SEMESTER END EXAMINATIONS – AUGUST / SEPTEMBER 2023 
+Program : B.E. -  Information Science and 
+Engineering Semester : IV 
+Course Name : Microcontrollers Max. Marks : 100 
+Course Code : IS44 Duration : 3 Hrs 
+ 
+Instructions to the Candidates: 
+ Answer one full question from each unit. 
+ 
+ 
+  UNIT - I   
+1. a) List and explain the four major design rules in implementation of RISC 
+processors. 
+CO1 (08) 
+ b) With a neat diagram, explain the internal components of a typical 
+Microcontroller unit. 
+CO1 (06) 
+ c) Explain how the ARM instruction set differs from the pure RISC 
+instruction set?  
+CO1 (06) 
+     
+2. a) With a block diagram explain the characteristics of an embedded system. CO1 (08) 
+ b) List the two modes of data transfer between MCU and peripherals? 
+Explain the general functioning of interrupts. 
+CO1 (06) 
+ c) Describe the working of power on reset signal with a circuit diagram and 
+waveform. 
+CO1 (06) 
+     
+  UNIT - II   
+3. a) With the timing diagram, explain memory read and write cycles of an 
+SRAM chip. 
+CO2 (08) 
+ b) How is power management taken care at design stage? Explain Thermal 
+Design Power (TDP). 
+CO2 (07) 
+ c) What is Direct Memory Access? Explain the typical setting of a DMA with 
+neat diagram. 
+CO2 (05) 
+     
+4. a) Differentiate between Inter Integrated Circuit (I2C) bus and Serial 
+Peripheral Interface (SPI) Bus. 
+CO2 (08) 
+ b) Explain the current program state of an ARM7TDMI if the CPSR had the  
+value 0xF00000D3. 
+CO2 (07) 
+ c) What is an Instruction Set Architecture (ISA)? Illustrate the structure of 
+a typical ISA. 
+CO2 (05) 
+     
+  UNIT - III   
+5. a) How does Arm processor handle Interrupts? List vectors of predefined 
+interrupts. 
+CO3 (08) 
+ b) List and explain seven optional features of ARM processor. CO3 (07) 
+ c) Write an ARM assembly code to sort n bytes using bubble sort technique.  CO3 (05) 
+     
+USN 1 M S        
+ 
+
+
+--- PAGE 2 ---
+ IS44 
+Page 2 of 2 
+ 
+     
+6. a) With a block diagram, explain the various components of an ARM 
+processor. 
+CO3 (05) 
+ b) AREA Prog1, CODE, READONLY 
+ENTRY 
+    MOV R0, #0x11  
+    LSL R1,R0, #1  
+    LSL R2, R1, #1  
+stop B stop  
+END 
+i. What are the contents of R1 and R2 after the execution of the code? 
+ii. Replace the last LSL instruction by ADD R2, R1, R1, LSL #2 
+What is the value of R2 after the new execution? 
+CO3 (07) 
+ c) Find faults in the following instructions, if any and suggest a remedy: 
+i. MOV R0, #300 
+ii. ROL R0, #4 
+iii. LDMH R0, {R1-R5} 
+iv. MUL R0, R0, R15. 
+CO3 (08) 
+     
+  UNIT- IV   
+7. a) Write an ALP to compute sum of squares of 5 numbers starting from 1. 
+Write and use procedure SQU. Store sum in register. 
+CO4 (10) 
+ b) Explain the internal BUS structure of the LPC 214X families with 
+appropriate diagram. 
+CO4 (10) 
+     
+8. a) Write an ALP to count the number of times a substring is repeated in the 
+string. 
+CO4 (08) 
+ b) Write a C program to display the string ‘I LOVE ISE’ in the serial window 
+of UART1. 
+CO4 (08) 
+ c) Define Load and Store instructions in ARM programming with example. CO4 (04) 
+     
+  UNIT - V   
+9. a) Discuss with appropriate diagram for a m emory map model for the 
+cortex-M0 processor. 
+CO5 (10) 
+ b) Discuss the advantages of choosing Cortex M0 by the user for design of 
+a processor. 
+CO5 (10) 
+     
+10. a) Briefly discuss on the use of NVIC in the cortex processor, also list its 
+features. 
+CO5 (10) 
+ b) Discuss on three-stage pipeline for Cortex -M0 & Two -stage pipeline for 
+cortex-M0+ with appropriate diagram for each. 
+CO5 (10) 
+ 
+******************************** 

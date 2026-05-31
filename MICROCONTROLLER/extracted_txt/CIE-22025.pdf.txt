@@ -1,0 +1,41 @@
+
+--- PAGE 1 ---
+Q. NO 1.a) 
+b) c) 2.a) 
+b) 
+b) 
+c) 
+Programme: BE-Information Science & Engineering TERM 3rd March to 21 June 2025 DATE :16-06-2026 MAN MARKS: 30 Mobile Phones are banned 
+Internal Assessment -I| TIME: 915 to 10.15am 
+Instructions to Candidates: Answer any TWO full questions. 
+AND R3, R1, R2 
+COURSE NAME: 
+Questions 
+ANDS R3, R1, R2 
+COURSE CODE 
+Write the block diagram of a typical ARM7 Processor. 
+BIC R5. R1, R2 
+PORTIONS 
+Write a C program to display the string 'ISE Dept' in the serial window of UARTI. Discuss the special registers of cortex-M0. Find the output of the following instructions given that R2=0x0F, R1-0xF0. 
+Explain the important features of the LPC214x series. 
+S-4) Explain any 2 ARM7 Assembler directives. Explain Modes and States of Cortex M0 with suitable diagram Write a C program to generate an asymmetrIC Square wave of 120Hz and have a duty cycle of 25% using the Timer) module. Discuss the various interrupts supported by he Cortex-MO processor. 
+Microcontrollers IS42 L20-LA2 
+Marks: 1512-30 Blooms Levels (LI to L6) LI L3 L2 
+L3 
+L2 L2 
+L3 
+CO Marks 
+L2 
+CO3 03 
+L2 CO4 
+CO4 06 COs 
+CO3 
+COS CO3 CO4 
+COS 
+* LI -Remember, L2 -Understand, L3-Apply, L4-Analyze. L5-Evaluate, L6-Create 
+06 
+03 
+06 
+03 
+06 
+06 

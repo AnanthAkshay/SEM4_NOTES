@@ -1,0 +1,130 @@
+
+--- PAGE 1 ---
+IS42/IS46 
+Page 2 of 2 
+ 
+ 
+ 
+ (Autonomous Institute, Affiliated to VTU) 
+(Approved by AICTE, New Delhi & Govt. of Karnataka)  
+Accredited by NBA & NAAC with ‘A+’ Grade 
+ 
+SEMESTER END EXAMINATIONS – AUGUST 2024 
+Program : B.E. – Information Science and 
+Engineering  Semester : IV 
+Course Name : Microcontrollers  Max. Marks : 100 
+Course Code : IS42 / IS46 Duration : 3 Hrs 
+ 
+Instructions to the Candidates: 
+ Answer one full question from each unit. 
+ 
+  UNIT - I   
+1. a) Discuss the four major design rules that are taken into considerations 
+in implementation of RISC systems. 
+CO1 (08) 
+ b) With an appropriate diagram, discuss the PIN configuration of an MCU 
+that shows the set of pins associated with each of the peripherals and 
+its functionalities. 
+CO1 (08) 
+ c) Why does the clock use PLL? Justify. CO1 (04) 
+     
+2. a) Discuss the characteristics of an embedded systems, also describe the 
+applications of embedded systems. 
+CO1 (08) 
+ b) Compare the RISC and CISC type of systems. CO1 (06) 
+ c) What is the relevance of duty cycle? Define the duty cycle to showcase 
+for the 50% of its usage. 
+CO1 (06) 
+     
+  UNIT - II   
+3. a) Mention the positive aspects of I2C protocol. CO2 (07) 
+ b) With a diagram, explain Serial peripheral interface (SPI) on -board 
+protocol. 
+CO2 (06) 
+ c) With a neat diagram , show the classification of semiconductor memory 
+types. Explain memory read and write cycle of SRAM chip. 
+CO2 (07) 
+     
+4. a) For the following operations, find out which flags will be set, (if any) for 
+a 16-bit processor? 
+i. Add 0×6789 and 0x1234  
+ii. Subtract 0×FE45 from 0×0978  
+iii. Compare A and B where A = 0×78 and B = 0x78  
+iv. Add 0×EF39 and 0×CD34. 
+CO2 (08) 
+ b) Explain Load Store architecture used in RISC processors. CO2 (06) 
+ c) Discuss aligned and misaligned data in ARM7 processor. CO2 (06) 
+     
+  UNIT - III   
+5. a) Discuss on how the AMBA processor specifies the use of AHB & APB bus 
+components. 
+CO3 (08) 
+ b) Find the output of the following instructions given that R3= 0xFF, 
+R2=0x14. 
+i. AND R4,R2,R3 
+ii. ANDS R6,R2,R3 
+iii. BIC R5,R2,R3. 
+CO3 (06) 
+ c) Write an ALP to add the first 5 natural numbers, result to be stored in a 
+register. 
+CO3 (06) 
+     
+USN 1 M S        
+ 
+
+
+--- PAGE 2 ---
+IS42/IS46 
+Page 2 of 2 
+ 
+     
+6. a) Discuss with an appropriate diagram for the register set working 
+towards various modes of an ARM 32 bit processor. 
+CO3 (08) 
+ b) Discuss the additional features of the ARM7 processor that are accepted 
+in the embedded market. 
+CO3 (06) 
+ c) Write an assembly program to find the arithmetic progression of a 
+given number. 
+CO3 (06) 
+     
+  UNIT- IV   
+7. a) Write an Assembly language program to add first 10 odd numbers 
+starting from 1. 
+CO4 (06) 
+ b) Discuss the following Assembler directives: 
+i. AREA 
+ii. DCD, DCW 
+iii. ENTRY 
+iv. EQU 
+CO4 (08) 
+ c) What is the content of the following register R6 after the execution of 
+each of the following instructions, given that R6=0x44001100 and 
+R2=0x 02. 
+i. LDR R2, [R6, #0x0056]! 
+ii. STR R1, [R6, R2]! 
+iii. LDR R3, [R6, LSL #4] 
+CO4 (06) 
+     
+8. a) Write an assembly language program to find 10 Fibonacci numbers 
+excluding the first one. 
+CO4 (10) 
+ b) List the important features of LPC 214x series.  CO4 (05) 
+ c) Write a C program to display the string ‘I LOVE ISE’ in the serial 
+window of UART1. 
+CO4 (05) 
+     
+  UNIT- V   
+9. a) Draw a block diagram showing the mandatory functional blocks in the 
+cortex-M0. 
+CO5 (10) 
+ b) Discuss how priority assignment is done for all interrupts happening for 
+the internal, external and system exceptions. 
+CO5 (10) 
+     
+10. a) How has cortex-M0+ achieved the lower power levels than the contex -
+M0? Justify. 
+CO5 (10) 
+ b) Discuss the memory model of cortex-M0. CO5 (10) 
+ 
+******************************** 

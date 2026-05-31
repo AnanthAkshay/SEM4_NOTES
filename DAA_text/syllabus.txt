@@ -1,0 +1,3585 @@
+
+--- Page 1 ---
+ 
+     
+ 
+ 
+ 
+ 
+CURRICULUM 
+ 
+Academic Year 2025– 2026 
+INFORMATION SCIENCE AND ENGINEERING 
+ 
+ 
+Batch-2024 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+RAMAIAH INSTITUTE OF TECHNOLOGY 
+                       (Autonomous Institute, Affiliated to VTU) 
+           (Approved by AICTE, New Delhi & Govt. of Karnataka) 
+Accredited by NBA & NAAC with A+ Grade 
+ 
+ 
+ III & IV Semester B. E. 
+--- Page 2 ---
+ 
+ 
+ 
+About the Institute: 
+Dr. M. S. Ramaiah a philanthropist, founded ‘Gokula  Education Foundation’ in 1962 with an 
+objective of serving the society. M S Ramaiah Institute of Technology (MSRIT) was established 
+under the aegis of this foundation in the same year, creating a landmark in technical education in 
+India. MSRIT offers 18 U G programs and 15 PG programs. All these programs are approved by 
+AICTE. All eligible UG and PG programs are accredited by National Board of Accreditation (NBA). 
+The institute is accredited with ‘A+’ grade by NAAC in March 2021 for 5 years. University Grants 
+Commission (UGC) & Visvesvaraya Technological University (VTU) have conferred Autonomous 
+Status to MSRIT for both UG and PG Programs since 2007. The institute has also been conferred 
+autonomous status for Ph.D. program since 2021. The institute is a participant to the Technical 
+Education Quality Improvement Program (TEQIP), an initiative of the Government of India. The 
+institute has 380 competent faculty out of which 70% are doctorates. Some of the distinguished 
+features of MS RIT are: State of the art laboratories, individual computing facility for all faculty 
+members, all research departments active with sponsored funded projects and more than 300 scholars 
+pursuing Ph.D. To promote research culture, the institute has establish ed Centre of Excellence for 
+Imaging Technologies, Centre for Advanced Materials Technology, Centre for Antennas and Radio 
+Frequency systems (CARFS), Center for Cyber Physical Systems, Schneider Centre of Excellence & 
+Centre for Bio and Energy Materials Innovation.  
+The Entrepreneurship Development Cell (EDC) and “Ramaiah Evolute” have been set up on campus 
+to incubate startups. MSRIT has a strong Placement and Training department with a committed team, 
+a good Mentoring/Proctorial system, a fully equipped Sports department, large air-conditioned library 
+with good collection of book volumes and subscription to International and National Journals. The 
+Digital Library subscribes to online e-journals from Elsevier Science Direct, IEEE, Taylor & Francis, 
+Springer Link, etc. The Institute is a member of DELNET, CMTI and VTU E -Library Consortium. 
+The Institute has a modern auditorium, recording studio, and several hi -tech conference halls with 
+video conferencing facilities. The institute has excellent hostel faciliti es for boys and girls. MSRIT 
+Alumni have distinguished themselves by occupying high positions in India and abroad and are in 
+touch with the institute through an active Alumni Association.                  
+As per the National Institutional Ranking Framework (NIRF), MoE, Government of India, M 
+S Ramaiah Institute of Technology has achieved 75 th rank among 1584 top  Engineering 
+Institutions & 31st Rank among 131 Schools of Architecture in India for the year 2025. 
+ 
+ 
+ 
+ 
+ 
+--- Page 3 ---
+ 
+3 
+About the Department: 
+The Department of Information Science and Engineering (ISE) was established in the year 1992 with 
+an objective of producing high quality professionals to meet the demands of the emerging field of 
+Information Technology. Department offers Bachelor’s program in Information Science and 
+Engineering (B. E), Master’s program in Data Science (MTech) and Doctoral program (Ph.D.). The 
+Department of Information Science and En gineering, is a progressive department that has made 
+significant contributions to Academics, Research and Innovation. Under Graduate (UG) is accredited 
+by the National Board of Accreditation in 2001, 2004, 2010, 2015, 2018 and reaccredited in 2022 
+under Ti er-1 till 2028. The department has highly qualified and competent faculty members 
+committed to innovative teaching learning and quality research. Department has 8 well-equipped state 
+of the art laboratories which meets the requirement of curriculum, innova tion and research. 
+Collaboration with industries such as Apple, Unisys, Mindtree, Intel, Google, SECO, IBM, NVIDIA 
+etc, has a significant impact on the curriculum, computing infrastructure, teaching & learning and 
+research. The curriculum is centered aroun d Data Science, Artificial Intelligence, IOT, Cloud & 
+Distributed Computing, System Programming, Computer Security and Software development. 
+Curriculum and the teaching learning process ensure that the students demonstrate technical 
+competence, ethical reasoning, creativity in identification & formulation of the problems and develop 
+solutions by using appropriate tools & techniques. Department has established technical clubs/ 
+professional student chapters to provide collaborative learning platform for the students. Echo system 
+has been built to initiate start -ups/Innovation at the department level along with the mentorship 
+program. The activities of the Department led to high profile placements, motivation to become an 
+entrepreneur, and encouragement for higher learning. 
+--- Page 4 ---
+ 
+4 
+VISION OF THE INSTITUTE 
+To be an Institution of International Eminence, renowned for imparting quality technical education, 
+cutting edge research and innovation to meet global socio-economic needs 
+ 
+MISSION OF THE INSTITUTE 
+MSRIT shall meet the global socio-economic needs through 
+1. Imparting quality technical education by nurturing a conducive learning environment through 
+continuous improvement and customization 
+2. Establishing research clusters in emerging areas  in collaboration with globally reputed 
+organizations 
+3. Establishing innovative skills development, techno -entrepreneurial activities and consultancy 
+for socio-economic needs 
+ 
+QUALITY POLICY 
+We at MS Ramaiah  Institute of Technology strive to deliver comprehensive, continually enhanced, 
+global quality technical and management education through an established Quality Management 
+System complemented by the synergistic interaction of the stake holders concerned 
+ 
+VISION OF THE DEPARTMENT 
+To evolve as an outstanding education and research center of Information Technology to create high 
+quality Engineering Professionals for the betterment of Society 
+ 
+MISSION OF THE DEPARTMENT 
+Department of Information Science and Engineering shall create high quality IT Engineering 
+Professionals for the betterment of society by: 
+1. Providing education through an ever improving curriculum and effective pedagogy 
+techniques. 
+2. Encouraging extra and co-curricular activities to develop their overall personality along with 
+technical skills. 
+3. Collaborating with industry and academia for strengthening research, innovation and 
+entrepreneurship ecosystem.
+--- Page 5 ---
+ 
+5 
+PROGRAM EDUCATIONAL OBJECTIVES (PEOs): 
+PEO1: Become competent Information Tec hnology professionals with continuous progress in career or 
+learning. 
+PEO2: Productively engage with society by practicing research or entrepreneurship. 
+PEO3: Function effectively as professionals in a team environment or individually. 
+ 
+KNOWLEDGE AND ATTITUDE PROFILE (WK) 
+WK1: A systematic, theory-based understanding of the natural sciences applicable to the discipline 
+and awareness of relevant social sciences. 
+WK2: Conceptually-based mathematics, numerical analysis, data analysis, statistics and forma l 
+aspects of computer and information science to support detailed analysis and modelling applicable 
+to the discipline. 
+WK3: A systematic, theory -based formulation of engineering fundamentals required in the 
+engineering discipline. 
+WK4: Engineering speciali st knowledge that provides theoretical frameworks and bodies of 
+knowledge for the accepted practice areas in the engineering discipline; much is at the forefront of 
+the discipline. 
+WK5: Knowledge, including efficient resource use, environmental impacts, whole-life cost, reuse 
+of resources, net zero carbon, and similar concepts, that supports engineering design and operations 
+in a practice area. 
+WK6: Knowledge of engineering practice (technology) in the practice areas in the engineering 
+discipline. 
+WK7: Knowledge of the role of engineering in society and identified issues in engineering practice 
+in the discipline, such as the professional responsibility of an engineer to public safety and 
+sustainable development. 
+WK8: Engagement with selected knowledge in the  current research literature of the discipline, 
+awareness of the power of critical thinking and creative approaches to evaluate emerging issues. 
+WK9: Ethics, inclusive behaviour and conduct. Knowledge of professional ethics, responsibilities, 
+and norms of engineering practice. Awareness of the need for diversity by reason of ethnicity, 
+gender, age, physical ability etc. with mutual understanding and respect, and of inclusive attitudes. 
+ 
+ 
+PROGRAM OUTCOMES (POs): 
+PO1: Engineering Knowledge:  Apply knowledge of mathematics, natural science, computing          
+engineering fundamentals and an engineering specialization as specified in WK1 to WK4 
+respectively to develop to the solution of complex engineering problems. 
+PO2: Problem Analysis: Identify, formulate, review research literature and analyze complex engineering 
+problems reaching substantiated conclusions with consideration for sustainable development. 
+(WK1 to WK4) 
+PO3: Design/Development of Solutions:  Design creative solutions for co mplex engineering problems 
+and design/develop systems/components/processes to meet identified needs with consideration for 
+the public health and safety, whole-life cost, net zero carbon, culture, society and environment as 
+required. (WKS) 
+--- Page 6 ---
+ 
+6 
+PO4: Conduct Inve stigations of Complex Problems:  Conduct investigations of complex engineering 
+problems using research-based knowledge including design of experiments, modelling, analysis 
+& interpretation of data to provide valid conclusions. (WK8). 
+PO5: Engineering Tool U sage: Create, select and apply appropriate techniques, resources and modern 
+engineering & IT tools, including prediction and modelling recognizing their limitations to solve 
+complex engineering problems. (WK2 and WK6) 
+ 
+PO6: The Engineer and The World:  Analyze and evaluate societal and environmental aspects while 
+solving complex engineering problems for its impact on sustainability with reference to economy, 
+health, safety, legal framework, culture and environment. (WK1, WK5, and WK7). 
+PO7: Ethics: Apply ethical principles and commit to professional ethics, human values, diversity and 
+inclusion; adhere to national & international laws. (WK9) 
+PO8: Individual and Collaborative Team work: Function effectively as an individual, and as a member 
+or leader in diverse/multi-disciplinary teams. 
+PO9: Communication: Communicate effectively and inclusively within the engineering community and 
+society at large, such as being able to comprehend and write effective reports and design 
+documentation, make effective presentatio ns considering cultural, language, and learning 
+differences 
+ 
+PO10: Project Management and Finance:  Apply knowledge and understanding of engineering 
+management principles and economic decision -making and apply these to one's own work, as a 
+member and leader in a team, and to manage projects and in multidisciplinary environments. 
+ 
+PO11: Life -Long Learnin g: Recognize the need for, and have the preparation and ability for i) 
+independent and life -long learning ii) adaptability to new and emerging technologies and iii) 
+critical thinking in the broadest context of technological change. (WK8) 
+ 
+ 
+PROGRAM SPECIFIC OUTCOMES (PSOs): 
+PSO1: Apply Mathematical models, programming paradigms and software development practices to solve 
+real world problems 
+ 
+PSO2: Adopt computing and communication models for developing IT solutions. 
+ 
+PSO3: Acquire data engineering skills to develop intelligent systems in a multidisciplinary environment. 
+--- Page 7 ---
+ 
+7 
+Semester wise Credit Breakdown for B.E Degree Curriculum 
+Batch 2024-28 
+                        Semester                                                                       
+                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+Course Category 
+First Second Third Fourth Fifth Sixth Seventh Eighth Total 
+Credits 
+Applied Science Course (ASC) 08 08 03 03  -- --   -- -- 22 
+Engineering Science Course (ESC) 09 11  -- --   -- --   -- -- 20 
+Humanities, Social Sciences and Management 
+(HSMC)  02 - -- -- 03 03   -- -- 08 
+Ability Enhancement Course (AEC) 01 01 01 01 01  01 02 -- 08 
+Universal Human Values (UHV)  -- --  02  -- --   -- --  -- 02 
+Professional Core Courses (PCC)  -- --  11 12 12 06 04 -- 45 
+Professional Core Course (IC)  -- --  04 04 03 -- 04 -- 15 
+Professional Elective Course (PEC)  -- --   -- --  03 06 03 -- 12 
+Open Elective Course (OEC)  -- --   --  -- --  03 03 -- 06 
+ Internship (INT)  -- --   -- 00  -- --  -- 05 05 
+Mini Project / Project Work (PW)  -- --   --  -- --  04 -- 13 17 
+Non Credit Mandatory Courses (NCMC)  -- --  Yes Yes Yes  -- --  -- -- 
+Total Credits 20 20 21 20 22 23 16 18 160 
+--- Page 8 ---
+ 
+8 
+ 
+ 
+ 
+ 
+B.E. in Information Science and Engineering 
+SCHEME OF TEACHING III SEMESTER Batch:2024 
+III SEMESTER 
+Sl. 
+No. 
+Course Code Course Name Teaching 
+Department 
+Category Credits Total  
+contact  
+hours /week 
+L T P Total L T P S 
+1.  IS31 Laplace Transforms & Vector Space Maths ASC 2 1 0 3 2 2 0 2 
+2.  IS32 Digital Design and Computer Organization ISE PCC(IC) 3 0 1 4 3 0 2 3 
+3.  IS33 Data Structures ISE PCC 3 0 0 3 3 0 0 3 
+4.  IS34 Operating Systems ISE PCC 3 0 0 3 3 0 0 3 
+5.  IS35 Discrete Mathematical Structures ISE PCC 2 1 0 3 2 2 0 2 
+6.  ISL36 Data Structures Lab ISE PCC 0 0 1 1 0 0 2 0 
+7.  ISL37 Unix System Programming Lab ISE PCC 0 0 1 1 0 0 2 0 
+8.  UHV38 Universal Human Values ISE UHV 2 0 0 2 2 0 0 2 
+9.  ISAEC39X Ability Enhancement Course- III ISE AEC 1 0 0 1 1 0 0 1 
+Total 16 2 3 21 16 4 6 16 
+10. 1
+0 
+PE69 Physical Education  
+NCMC 
+All students have to register compulsorily for any one of 
+the courses with the concerned coordinator (Yoga Teacher/ 
+Physical Education Director/ NSS Coordinator) in the 
+beginning of the III semester. Attending the registered 
+course from III to VI semesters.  Successful completion of 
+the registered course and requisite CIE score is mandatory 
+for the award of the degree. 
+YO69 Yoga  
+NS69 NSS  
+11. 1
+2 
+AM31 Additional Mathematics - I * Maths NCMC 0 0 0 0 3 
+--- Page 9 ---
+ 
+9 
+Ability Enhancement Course- III 
+S.No. Course Code Course Name 
+1.  ISAEC391 Green IT and sustainability 
+2.  ISAEC392 Capacity Planning for IT 
+3.  ISAEC393 Numerical analysis with python 
+ 
+Nomenclature: ASC: Applied Science Course, IC: Integrated Course (Practical Integrated with Theory Course), PCC: Professional Core Course,  UHV: 
+Universal Human Value Course,  AEC: Ability Enhancement Course, NCMC: Non-credit Mandatory Course 
+Credit Definition: 
+ 1 credit = 1 hour/week of lecture (L)  
+ 1 credit = 2 hours/week of tutorial (T) 
+ 1 credit = 2 hours/week of practical(P) 
+ 1 credit = 1 hour/week of Self Learning Hours (S) 
+The Program Core Course(IC) is an Integrated course, combining theory with practical components. 
+ Theory sessions shall be conducted for 3 hours per week, while the practical sessions shall be conducted for 2 hours per week . 
+ Theory components shall be evaluated through both Continuous Internal Evaluation (CIE) and Semester End Examination (SEE). 
+ The practical component shall be assessed only through CIE (No SEE). 
+ However, questions from the practical component of the Integrated course (IC) can be included in the SEE question paper. 
+The Non Credit Mandatory Course, Physical Education (Sport and Athletics)/Yoga/National Service Scheme (NSS):  
+1. Student shall select any one of the NCMC’s namely, Physical Education (Sport and Athletics)/Yoga/ NSS prescribed for four sem esters and shall attend the course from the III 
+semester to VI semester to complete all the formalities of the course and earn requ isite CIE score. The Pass/Fail shall be reflected in the VI semester grade card.  
+2. The above mentioned NCMC’s shall not be considered for vertical progression as well as for the calculation of SGPA/CGPA but c ompletion of the courses shall be mandatory for 
+the award of degree. 
+3. CIE marks will be allotted by the concerned course teacher based on attendance and performance in the practice sessions/field  every semester (III to VI) for 100 marks and marks 
+scored by the student are scaled down to 100 in the VI semester. 
+4. In case, any student fails to secure the minimum 40% of the prescribed marks, he/she shall be deemed to have secured ‘F’ grad e. 
+* Lateral Entry Students: 
+The Non-Credit Mandatory Course, Additional Mathematics I: is prescribed for III Semester Lateral Entry Diploma students admitted to III Semester of 
+BE Program. The student shall register for this course along with other III semester courses. The students shall attend classes for the course during the 
+semester and complete all formalities of attendance and CIE. In case, any student fails to secure the minimum 40% of the prescribed CIE marks, he/she shall 
+be deemed to have secured ‘F’ grade. In such a case, the student has to fulfill the requirements during subsequent semester/s to appear for CIE. Incase 
+student fails to register for the said course/ falls short of attendance, he/she will repeat the course whenever it is offered next. Additional Mathematics I shall 
+--- Page 10 ---
+ 
+10 
+have CIE component only and no SEE component. This Course shall not be considered for vertical progression, but completion of the course shall be 
+mandatory for the award of the degree.   
+Lateral Entry Students: 
+The Non-Credit Mandatory Course, Inter/Intra Institutional Internship : All the students admitted  under lateral entry category shall have to undergo a 
+mandatory Internship of 02 weeks during the intervening vacation of III and IV semesters. Summer Internship shall include Inter / Intra Institutional activities. 
+A Viva-voce examination shall be conducted during IV semester based on which a student will be declared pass or fail. The internship shall be considered as 
+a head of passing for the award of degree. Those, who do not take up / complete the internship shall be declared fail and sha ll have to comp lete internship 
+requirements during subsequent semesters. 
+Lateral Entry Students: 
+AICTE Activity Points Requirement for BE Programs: As per AICTE guidelines (refer Chapter 6 – AICTE Activity Point Program, Model Internship 
+Guidelines), in addition to acad emic requirements, students must earn a specified number of Activity Points to be eligible for the award of the degree. The 
+points to be earned is: 
+1. Regular students admitted to a 4-year degree program must earn 100 Activity Points. 
+2. Lateral entry students (joining from the second year) must earn 75 Activity Points. 
+3. Students transferred from other universities directly into the V semester must earn 50 Activity Points from the date of entry into VTU. 
+These Activity Points are non-credit and will not be considered for the SGPA/CGPA or be used for vertical progression. However, earning Activity Points is 
+mandatory for the award of the degree , and the points earned will be reflected on the eighth semester Grade Card . If a student completes all the semesters 
+(eight or six) at the end of the program but fails to earn the required Activity Points, the VIII semester Grade Card will be  withheld until the requirement is 
+fulfilled. Also, the degree will be awarded only after the Grade Card has been release d. The hours spent earning the activity points will not be counted for 
+regular attendance requirements. Students can accumulate these points at any time during their program period, including weekends, holidays, and vacations, 
+starting from the year of admission, provided they meet the minimum hours of engagement prescribed for each activity by AICTE. 
+ 
+ 
+  
+--- Page 11 ---
+ 
+11 
+ 
+Ability Enhancement Course- IV 
+S.No. Course Code Course Name 
+1.  ISAEC491 UI/UX 
+2.  ISAEC492 Data Analytics with R Programming 
+ 
+ 
+ 
+ 
+ 
+B.E. in Information Science and Engineering 
+SCHEME OF TEACHING III SEMESTER Batch:2024 
+IV SEMESTER 
+Sl. 
+No. Course Code Course Name Teaching 
+Department 
+Category Credits Total  
+contact  
+hours /week 
+L T P Total L T P S* 
+1.  IS41 Statistics, Probability and Linear Programming Maths ASC 2 1 0 3 2 2 0 2 
+2.  IS42 Microcontrollers ISE PCC(IC) 3 0 1 4 3 0 2 3 
+3.  IS43 Design and Analysis of Algorithms ISE PCC 3 0 0 3 3 0 0 3 
+4.  IS44 Database Management Systems ISE PCC 3 0 0 3 3 0 0 3 
+5.  IS45 Advanced Java ISE PCC 3 0 0 3 3 0 0 3 
+6.  ISL46 Design and Analysis of Algorithms Lab ISE PCC 0 0 1 1 0 0 2 0 
+7.  ISL47 Database Management Systems Lab ISE PCC 0 0 1 1 0 0 2 0 
+8.  ISL48 Advanced Java Lab ISE PCC 0 0 1 1 0 0 2 0 
+9.  ISAEC49X Ability Enhancement Course - IV ISE        AEC 1 0 0 1 1 0 0 1 
+ Total 15 1 4 20 15 2 6 15 
+10.  INT410  Inter/ Intra Institutional Internship ISE NCMC 0 0 0 0     
+11.  AM41 Additional Mathematics II * Maths NCMC 0 0 0 0 3 
+--- Page 12 ---
+ 
+12 
+Nomenclature: ASC: Applied Science Course, IC: Integrated Course (Practical Integrated with Theory Course), PCC: Professional Core Course,  
+AEC: Ability Enhancement Course, NCMC: Non-credit Mandatory Course 
+Credit Definition: 
+ 1 credit = 1 hour/week of lecture (L)  
+ 1 credit = 2 hours/week of tutorial (T) 
+ 1 credit = 2 hours/week of practical(P) 
+ 1 credit = 1 hour/week of Self Learning Hours (S) 
+The Program Core Course(IC) is an Integrated course, combining theory with practical components. 
+ Theory sessions shall be conducted for 3 hours per week, while the practical sessions shall be conducted for 2 hours per week. 
+ Theory components shall be evaluated through both Continuous Internal Evaluation (CIE) and Semester End Examination (SEE).  
+ The practical component shall be assessed only through CIE (No SEE). 
+ However, questions from the practical component of the Integrated course (IC) can be included in the SEE question paper. 
+* Lateral Entry Students: 
+The Non-Credit Mandatory Course, Additional Mathematics I I: is prescribed for I V Semester Lateral Entry Diploma students admitted to III 
+Semester of BE Program. The student shall register for this course along with other I V semester courses. The students shall attend classes for the 
+course during the semester and complete all formalities of attendance and CIE. In case, any student fails to secure the minimum 40% of the prescribed 
+CIE marks, he/she shall be deemed to have secured ‘F’ grade. In such a case, the student has to fulfill the requirements during subsequent semester/s 
+to appear for CIE. Incase student fails to register for the said course/ falls short of attendance, he/she will repeat the course whe never it is offered 
+next. Additional Mathematics II shall have CIE component only and no SEE component. This Course shall not be considered for vertical progression, 
+but completion of the course shall be mandatory for the award of the degree.   
+Lateral Entry Students: 
+The Non-Credit Mandatory Course, Inter/Intra Institutional Internship: All the students admitted under lateral entry category shall have to 
+undergo a mandatory Internship of 02 weeks during the intervening vacation of III and IV semesters. Summer Internship shall include Inter / Intra 
+Institutional activities. A Viva-voce examination shall be conducted during IV semester based on which a student will be declared pass or fail. The 
+internship shall be considered as a head of passing for the award of degree. Those, who do not take up / complete the internship shall be declared 
+fail and shall have to complete internship requirements during subsequent semesters. 
+Lateral Entry Students: 
+AICTE Activity Points Requirement for BE Programs: As per AICTE guidelines (refer Chapter 6 – AICTE Activity Point Program, Model 
+Internship Guidelines), in addition to academic requirements, students must earn a specified number of Activity Points to be eligible for the award 
+of the degree. The points to be earned is: 
+1. Regular students admitted to a 4-year degree program must earn 100 Activity Points. 
+--- Page 13 ---
+ 
+13 
+2. Lateral entry students (joining from the second year) must earn 75 Activity Point.3. Students transferred from other universities directly into 
+the V semester must earn 50 Activity Points from the date of entry into VTU. 
+These Activity Points are non-credit and will not be considered for the SGPA/CGPA or be used for vertical progression. However, earning Activity 
+Points is mandatory for the award of the degree, and the points earned will be reflected on the eighth semester Grade Card. If a student completes 
+all the semesters (eight or six) at the end of the program but fails to earn the required Activity Points, the VIII semester Grade Card will be withheld 
+until the requirement is fulfilled. Also, the degree will be awarded only after the Grade Card has been released. The hours spent earning the activity 
+points will not be counted for regular attendance requirements. Students can accumulate these points at any time during their program period, 
+including weekends, holidays, and vacations, starting from the year of admission, provided they meet the minimum hours of engagement prescribed 
+for each activity by AICTE. 
+  
+--- Page 14 ---
+ 
+13 
+III SEMESTER 
+ 
+Laplace Transforms & Vector Space 
+Course Code: IS31                                                                                 Credits: 2:1:0     
+Pre-requisites: Calculus and Basics of Linear Algebra Contact Hours: 30L+30T+30S                                    
+Course Coordinator: Dr. Govindaraju M V  
+ 
+Course Content 
+Unit I 
+Laplace Transforms: Definition, transforms of elementary functions, properties of Laplace transforms, 
+existence conditions, transform of derivatives, integrals, multiplication by t n, division by t, evaluation of 
+integrals by Laplace transforms, transform of periodic function. 
+ Pedagogy/Course 
+delivery tools: 
+ Chalk and talk, PowerPoint Presentation, Videos 
+ Links:  https://nptel.ac.in/courses/111/105/111105134/ 
+ https://nptel.ac.in/courses/111/105/111105035/ 
+ Impartus recording:    https://a.impartus.com/ilc/#/course/119640/593 
+ https://a.impartus.com/ilc/#/course/59742/295 
+Unit II 
+Application of Laplace Transforms: Unit –step function, unit –impulse function. inverse transforms, 
+convolution theorem, solution of linea r differential equations and simultaneous linear differential 
+equations using Laplace transforms, engineering applications. 
+ Pedagogy/Course 
+delivery tools: 
+ Chalk and talk, Power Point Presentation, Videos 
+ Links:  https://nptel.ac.in/courses/111/105/111105134/ 
+ https://nptel.ac.in/courses/111/105/111105035/ 
+ Impartus recording:    https://a.impartus.com/ilc/#/course/119640/593 
+ https://a.impartus.com/ilc/#/course/59742/295 
+Unit III 
+Vector space and Linear Transformation: Vector space, linear combination and span, linearly independent 
+and dependent vectors, basis and dimension, linear transformations, matrix of transformations, rotation 
+about the origin, dilation, contraction and reflection, compositi on of matrix transformations, kernel and 
+range, change of basis.  
+ Pedagogy/Course 
+delivery tools: 
+ Chalk and  talk, Power Point Presentation, Videos 
+ Links:  https://nptel.ac.in/courses/111/105/111105035/ 
+ https://nptel.ac.in/courses/111/102/111102152/ 
+--- Page 15 ---
+ 
+14 
+ Impartus recording:    https://a.impartus.com/ilc/#/course/621524/1030 
+ https://a.impartus.com/ilc/#/course/619570/1030 
+Unit IV 
+Orthogonal Projections: The null space of A, solving Ax = 0 and Rx = 0, the complete solution to Ax = b, 
+dimensions of the four subspaces, orthogonality of the four subspaces, projections. orthonormal bases and 
+Gram-Schmidt method, QR-factorization, least-squares approximations. 
+ Pedagogy/Course 
+delivery tools: 
+ Chalk and talk, Power Point Presentation, Videos 
+ 
+ Links:  https://nptel.ac.in/courses/111/105/111105035/ 
+ https://nptel.ac.in/courses/111/102/111102152/ 
+ Impartus recording:    https://a.impartus.com/ilc/#/course/621524/1030 
+ https://a.impartus.com/ilc/#/course/619570/1030 
+Unit V 
+Applications of Eigenvalue Decomposition: Introduction to eigenvalues and eigenvectors, similarity and 
+diagonalization. symmetric matrices, complex matrices, Hermitian and unitary matrices, positive definite 
+matrices, the singular value decomposition (SVD), principal component analysis (PCA), applications to 
+linear recurrence relations, quadratic forms and conic sections. 
+ Pedagogy/Course 
+delivery tools: 
+ Chalk and talk, PowerPoint Presentation, Videos 
+ Links:  https://nptel.ac.in/courses/111/105/111105035/ 
+ https://nptel.ac.in/courses/111/102/111102152/ 
+ Impartus recording:    https://a.impartus.com/ilc/#/course/621524/1030 
+ https://a.impartus.com/ilc/#/course/619570/1030 
+ 
+Text Books: 
+1. B.S.Grewal - Higher Engineering Mathematics - Khanna Publishers – 44th edition-2017. 
+2. David C. Lay, Steven R. Lay and Judi J. Mc. Donald – Linear Algebra and its Applications – 
+Pearson – 5th edition – 2015. 
+3. Gilbert Strang, Linear Algebra and its Applications, 5th Edition (2016). 
+Reference Books: 
+1. Peter V. O’Neil – Advanced Engineering Mathematics – Cengage learning – 7th edition – 2011. 
+2. Gareth Williams – Linear Algebra with Applications, Jones and Bartlett Press – 9th edition – 2017. 
+3. Erwin Kreyszig-Advanced Engineering Mathematics-Wiley-India publishers- 10th edition-2015. 
+ 
+Self-learning: 
+Problem solving and Quiz. 
+--- Page 16 ---
+ 
+15 
+Course Outcomes(COs): 
+At the end of the course, students will be able to: 
+1. Evaluate Laplace Transforms of given function and understand their properties (PO-1, 2 & PSO-1, 3) 
+2. Obtain inverse Laplace transforms and use it to solve system of ODE’s (PO-1, 2 & PSO-1, 3) 
+3. Obtain matrix of linear transformation. (PO-1, 2 & PSO-1, 3) 
+4. Solve the system of equations by Least-Squares method. (PO-1, 2 & PSO-1, 3) 
+5. Obtain eigenvalue decomposition of a matrix and use it to study the concepts of SVD and PCA. (PO-
+1, 2 & PSO-1, 3) 
+ 
+ 
+Course Assessment and Evaluation: 
+Continuous Internal Evaluation: 50 Marks 
+Assessment Tool Marks Course outcomes addressed 
+Internal test-I 30 CO1, CO2, CO3 
+Internal test-II 30 CO3, CO4, CO5 
+Average of the two internal tests shall be taken for  30 marks. 
+Other components Marks Course outcomes addressed 
+Quiz 10 CO1, CO2, CO3 
+Assignment 10 CO3, CO4, CO5 
+ 
+Semester End Examination: 100 CO1, CO2, CO3, CO4, CO5 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+--- Page 17 ---
+ 
+16 
+ 
+Course Content 
+Unit I 
+Introduction to Digital Design: Introduction to binary logic, basic theorems, Boolean functions and 
+simplification. The Map Method for simplifying Boolean expressions, Two, Three and Four-Variable Map, 
+Don’t-Care Conditions, NAND and NOR Implementation, Exclusive-OR Function, Hardware Description 
+Language – Verilog code for simple circuits. 
+ Pedagogy/Course Delivery tools: Chalk and talk, Power Point Presentation  
+ Link: https://onlinecourses.nptel.ac.in/noc24_cs61 
+ Lab Session: Verilog codes for combinational logic circuits 
+  
+Unit II 
+Combinational Logic: Introduction, Design Procedure, Binary Adders -subtractor, Decoders, Encoders, 
+Multiplexers and Demultiplexers. HDL for Combinational Circuits.   
+Sequential Logic: Introduction, Sequential Circuits, Storage Elements: SR, JK, D and T Flip -Flops (only 
+block diagram approach), Function tables and Characteristics equation of all 4 FFs.  Mod-8 Asynchronous 
+counter using T FF and Mod-5 Synchronous Counter with design. HDL for Sequential logic Circuits. 
+ Pedagogy/Course Delivery tools: Chalk and talk, Power Point Presentation  
+ Link: https://edurev.in/p/155137/Combinational-Circuits 
+ Link: https://dec-iitkgp.vlabs.ac.in/exp/sequential-circuits/theory.html 
+ Lab Session: Verilog program for Adder and Subtractor. 
+                      Verilog program for Decoders and Encoders. 
+ 
+Unit III 
+Basic Structure of Computers: Functional Units, Basic Operational Concepts, Bus structure, Performance 
+– Processor Clock, Basic Performance Equation, Clock Rate, Performance Measurement. Machine 
+Instructions and Programs: Memory Location and Addresses, Memory Operations, Instructions and 
+Instruction sequencing, Addressing Modes. 
+ Pedagogy/Course Delivery tools: Chalk and talk, Power Point Presentation  
+ Link: https://onlinecourses.nptel.ac.in/noc20_cs64 
+ Lab Session: Instruction Execution using Marie Simulator. 
+                     ALU design using Logisim simulator. 
+ 
+ 
+Unit IV 
+Input/output Organization: Accessing I/O Devices, Interrupts – Interrupt Hardware, Enabling and 
+Disabling Interrupts, Handling Multiple Devices, Direct Memory Access: Bus Arbitration, The memory 
+System: Basic Concepts, Speed, size and Cost of memory systems. Cache Memories – Mapping Functions. 
+ 
+ Pedagogy/Course Delivery tools: Chalk and talk, Power Point Presentation 
+ Link: https://onlinecourses.nptel.ac.in/noc20_cs64 
+ Lab Session: Memory operation using Logisim simulator. 
+  
+Digital Design and Computer Organization 
+Course Code: IS32 Credits: 3:0:1 
+Pre – requisite: Basic Electronics                                           Contact Hours: 45L+30P+45S 
+Course Coordinator: Dr. Anitha K 
+--- Page 18 ---
+ 
+17 
+Unit V 
+Basic Processing Unit: Some Fundamental Concepts: Register Transfers, Performing ALU operations, 
+fetching a word from Memory, Storing a word in memory. Execution of a Complete Instruction. Pipelining: 
+Basic concepts, Role of Cache memory, Pipeline Performance. 
+ Pedagogy/Course Delivery tools: Chalk and talk, Power Point Presentation  
+ Link: https://onlinecourses.nptel.ac.in/noc20_cs64 
+ Lab Session: Pipelining demonstration using CPU-OS simulator. 
+ 
+ 
+List of Simulation Programs: 
+1. Verilog codes for combinational logic circuits. 
+2. Verilog program for Adder and Subtractor. 
+3. Verilog program for Decoders and Encoders. 
+4. Verilog program for Multiplexer and Demultiplexer. 
+5. Verilog program for flip flops. 
+6. Instruction Execution using Marie Simulator. 
+7. ALU design using Logisim simulator. 
+8. Memory operation using Logisim simulator. 
+9. Pipelining demonstration using CPU-OS simulator. 
+Text Books: 
+1. M. Morris Mano & Michael D. Ciletti, Digital Design with an I ntroduction to Verilog  Design, 6e, 
+Pearson Education,2018. 
+2. Carl Hamacher, ZvonkoVranesic, SafwatZaky, Computer Organization, 5th Edition, Tata McGraw 
+Hill. 2002 
+Reference Books: 
+1. Donald P Leach, Albert paulMalvino and Goutam Saha, Digital Prin ciples and Applications, 8 th  
+Edition, 2024, Tata McGraw Hill. 
+2. Stephen Brown,ZvonkoVranesic, Digit al Logic Design with VHDL, Third  Edition, 2008,Tata 
+McGraw Hill. 
+Course outcomes (COs): 
+At the end of the course, the student will be able to: 
+1. Apply various simplification techniques to realize digital circuits using basic and universal gates. 
+(PO1,2,3,5,9,10 & PSO2) 
+2. Design different types of combinational and sequential circuits to develop digital system. 
+(PO1,2,3,4,5,9,10,PSO2) 
+3. Describe the fundamentals of machine instructions, addressing modes to evaluate Processor performance. (PO1 
+& PSO2) 
+4. Understand the various methods used for communication between processor and  I/O devices for data 
+and control flow. (PO1 & PSO2) 
+5. Analyse internal Organization of Main Memory/Cache to evaluate Processor Performance. (PO1,2 & PSO2) 
+ 
+  
+Web links and Video Lectures (e-Resources):  
+ https://nptel.ac.in/courses/106105185 
+ 
+Activity Based Learning (Suggested Activities in Class)/ Practical Based learning 
+--- Page 19 ---
+ 
+18 
+ Coding Demo 
+ S* Self-learning-S 
+Unit No. Assignment Problems 
+ 
+I For the following scenarios build the logic circuits (Separately) 
+1. An AI chatbot adjusts its response tone based on user mood and time of day.  
+2. An AI sensor system monitors four safe conditions 
+3. Build an alert system using NOR gates 
+4. An AI compares two 4 bit patterns for image recognition 
+ 
+II For the following scenarios build the logic circuits (Separately) 
+1. An AI selects one of the AI decision model based on weather conditions  
+2. An AI robot receives 3 bit code input to select any one of its 6 actions 
+3. An AI system generates compact binary code for multiple signal inputs 
+4. Build a digital system that samples a data every 8 seconds 
+5. AI scheduler rotates between its 5 tasks in cycle 
+III Calculate performance 
+1. An edge device runs a ML model for real-time object detection 
+2. Two processors run the same ML model but have different clock rates 
+IV Design a block diagram 
+1. An embedded AI device receives inputs from camera and microphone at the same  time 
+2. An LLM deployed on a multi-level memory accesses matrix data and user input data frequently 
+from the memory (Hint use Cache memory) 
+V Write the register transfer sequence when: 
+A CPU executes a matrix multiplication for a single layer of a neural network. 
+Course Assessment and Evaluation: 
+Continuous Internal Evaluation: 50 Marks 
+Assessment Tool Marks Course Outcomes addressed 
+ Internal test-I 30 CO1, CO2, CO3 
+ Internal test-II 30 CO3, CO4, CO5 
+Average of the two internal tests shall be taken for  30 marks. 
+Other components Marks Course Outcomes addressed 
+ Lab programs, Weekly 
+Evaluation and Record 
+10 CO1, CO2, CO3, CO4, CO5 
+ Lab test 10 CO1, CO2, CO3, CO4, CO5 
+ 
+Semester End Examination 100 CO1, CO2, CO3, CO4, CO5 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+--- Page 20 ---
+ 
+19 
+ 
+Data Structures 
+Course Code: IS33 Credits: 3:0:0 
+Pre – requisites: Fundamentals of Computing Contact Hours: 45L+45S 
+Course Coordinator: Dr. Kusuma S 
+ 
+Course Content 
+Unit I 
+Introduction to Data Structu res: Definition, Classification , Pointers and Dynamic memory allocation, 
+Arrays, Dynamic Allocated Arrays, Structures, Polynomial. 
+The Stack: Definition, Representation, ADT, Basic operations of Stack and its implementation, Stacks using 
+Dynamic Arrays. Applications of stack: Conversion from Infix to Postfix, Evaluation of Postfix expression. 
+ 
+ Pedagogy/Course Delivery tools:  Chalk-and-talk and Multimedia presentations, and Code walk -
+through sessions.  
+ Links: https://nptel.ac.in/courses/106106133,  
+https://nptel.ac.in/courses/106102064 
+https://nptel.ac.in/courses/106106127 
+ Impartus recording: https://a.impartus.com/ilc/#/course/82972/295 
+Unit II 
+Recursion: Definition, Process and programming examples (Tower of Hanoi, Factorial, binary search), Role 
+of Stack in recursion(factorial and Fibonacci). 
+Queues: Definition, Representation, ADT, Primitive operations of queue and its implementation; Circular  
+queues using Dynamic Arrays, Single and Double-Ended Priority queues, Multiple Stacks and Queues. 
+ Pedagogy/Course Delivery tools: Chalk-and-talk and Multimedia presentations, and Code walk-
+through sessions.  
+ Links: https://nptel.ac.in/courses/106106133,  
+https://nptel.ac.in/courses/106102064 
+https://nptel.ac.in/courses/106106127 
+ Impartus recording: https://a.impartus.com/ilc/#/course/82972/295 
+Unit III 
+Linked List: Singly Linked Lists and chains, Representing Chains in C, Linked List Stacks and Queues, 
+Polynomial representation and adding polynomials, operations for chain, Circular Linked List , operations for 
+circular linked list, Doubly Linked Lists. 
+ Pedagogy/Course Delivery tools: Chalk-and-talk and Multimedia presentations, and Code walk-
+through sessions.  
+ Links: https://nptel.ac.in/courses/106106133,  
+https://nptel.ac.in/courses/106102064 
+https://nptel.ac.in/courses/106106127 
+ Impartus recording: https://a.impartus.com/ilc/#/course/82972/295 
+Unit IV 
+Trees: Introduction, Binary Trees, Binary Tree Traversals, Binary Search Tree - Definition, searching, 
+insertion, deletion, joining and splitting, height of a binary search tree 
+Graphs: Introduction, Definition and Graph Representations. 
+--- Page 21 ---
+ 
+20 
+ Pedagogy/Course Delivery tools: Chalk-and-talk and Multimedia presentations, and Code walk-
+through sessions.  
+ Links: https://nptel.ac.in/courses/106106133,  
+https://nptel.ac.in/courses/106102064 
+https://nptel.ac.in/courses/106106127 
+ Impartus recording: https://a.impartus.com/ilc/#/course/82972/295 
+Unit V 
+Hashing: Introduction, Static Hashing, Dynamic Hashing 
+Multiway Search Trees: B-Trees :Definition, properties, number of elemtnets in B-Tree, insertion and 
+deletion. B+ Trees: Definition, searching, insertion and deletion 
+ Pedagogy/Course Delivery tools: Chalk-and-talk and Multimedia presentations, and Code walk-
+through sessions.  
+ Links: https://nptel.ac.in/courses/106106133,  
+https://nptel.ac.in/courses/106102064 
+https://nptel.ac.in/courses/106106127 
+ Impartus recording: https://a.impartus.com/ilc/#/course/82972/295 
+ 
+Text Book: 
+1.Fundamentals of Data Structures in C by Ellis Horowitz, Sartaj Sahni, and Susan Anderson-Freed, 2nd 
+Edition, Universities Press, 2023, ISBN: 9788173716058 
+Reference Books: 
+1. Aaron M. Tanenbaum, Yedidyah Langsam and Moshe J. Augenstein, “Data Structures Using C”, 2nd 
+Edition, PHI, 2009. 
+2. Michael J. Folk, Bill Zoellick and Greg Riccardi, “File Structures-An Object Oriented Approach with 
+C++”, Pearson Education, 2004 
+3. Seymour Lipschutz, Data Structures Schaum's Outlines, Revised 1st Ed, McGraw Hill, 2014.  
+4. Gilberg & Forouzan, Data Structures: A Pseudo -code approach with C, 2nd Ed, Cengage 
+Learning,2014.  
+5. Reema Thareja, “Data Structures using C”, 3rd Ed, Oxford press, 2012.  
+6. Jean-Paul Tremblay & Paul G. Sorenson, An Introduction to Data Structures with Applications, 2nd 
+Ed, McGraw Hill, 2013  
+Self-Learning - GATE oriented aptitude test, Programming Assignment  
+Course Outcomes(COs): 
+At the end of the course, the student will be able to: 
+1. Apply LIFO principle for stack related problems (PO1, PO2, PO3, PO9, PO10 & PSO1) 
+2. Analyse the importance of queue data structure and its types for solving real-world problems. 
+(PO1, PO2, PO3, PO9, PO10 & PSO1) 
+3. Design an effective solution for a given problem using linked list. ( PO1, PO2, PO3, PO 8, PO9, 
+PO10, PO11 & PSO1) 
+4. Apply nonlinear data structures to perform various operations on data (PO1, PO2, PO3, PO8, PO9, 
+PO10, PO11 & PSO1) 
+5. Apply hashing techniques for efficient storage and retrieval of data. ( PO1, PO2, PO3, PO8, PO9, 
+PO10, PO11& PSO1) 
+--- Page 22 ---
+ 
+21 
+Course Assessment and Evaluation : 
+ 
+Continuous Internal Evaluation (CIE): 50 Marks 
+Assessment tool Marks Course outcomes attained 
+Internal Test 20 CO1, CO2, CO3 
+Internal Test-II 30 CO3, CO4, CO5 
+Average of the two internal tests shall be taken for 30 marks. 
+Other Components     
+Gate Based Aptitude Test 10 CO1, CO2, CO3, CO4, 
+CO5 
+              Programming Assignment 10 CO1, CO2, CO3, CO4, 
+CO5 
+  
+Semester-End Examination 
+(SEE) 
+100 
+(Scale down to 50 Marks)             CO1, CO2, CO3, CO4, CO5 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+--- Page 23 ---
+ 
+22 
+Operating System 
+Course Code: IS34 Credits: 3:0:0 
+Pre – requisites: NIL Contact Hours: 45L+45S 
+Course Coordinator: Dr.Jagadeesh Sai D 
+ 
+Course Contents 
+Unit 1 
+Operating Systems Overview: Operating System Structure, Operating System Operations, Process 
+Management, Memory Management, Storage Management, Protection and Security. Process Concept, 
+Process Scheduling, Operations on Processes, Inter-process Communication, Process Scheduling: Basic 
+Concepts, Scheduling Criteria -Scheduling Algorithms, Threads. 
+Pedagogy: Conceptual Learning using NPTEL video lectures and problem-solving sessions 
+Links:   https://archive.nptel.ac.in/courses/106/105/106105214/. 
+Unit 2 
+Synchronization: Background, The Critical-Section Problem and its solutions, Synchronization Scheduling 
+Algorithms, Semaphores Classic Problems of Synchronization, Deadlocks: System Model, Deadlock 
+Characterization, Methods for Handling Deadlocks, Deadlock Prevention, Deadlock Avoidance, Deadlock 
+detection, Recovery from deadlock. 
+Pedagogy: Analytical Learning through NPTEL videos, illustrative case problems, and algorithm tracing  
+Links: https://archive.nptel.ac.in/courses/106/105/106105214/ 
+Unit 3 
+Memory-Management Strategies: Background, Swapping, Contiguous Memory Allocation, 
+Segmentation, Paging, Structure of the Page Table. Virtual-Memory Management: Background, 
+Demand Paging, Copy-on-Write, Page Replacement, Allocation of Frames. 
+Pedagogy: Visualization-based Learning with animated NPTEL videos and hands-on paging examples. 
+Links: https://archive.nptel.ac.in/courses/106/105/106105214/ 
+Unit 4 
+File System: File Concept, Access Methods, Directory and Disk Structure, File System Mounting, File 
+Sharing, Implementing File Systems: File, System Structure, File -System Implementation, Allocation 
+Methods, Free space Management. 
+Pedagogy: Visualization-based Learning with animated NPTEL videos and hands-on paging examples  
+Links: https://archive.nptel.ac.in/courses/106/105/106105214/ 
+Unit 5 
+Mass Storage Structure: Overview, Disk Structure, Disk Attachment, Disk Scheduling. System 
+Protection: Goals of Protection, Principles of Protection, Domain of Protection, Access Matrix, 
+Implementation of Access Matrix, Access Control. 
+Pedagogy: Real-world Case -based Learning  with NPTEL content and practical protection scenario 
+discussions  
+Links:  https://archive.nptel.ac.in/courses/106/102/106102132/ 
+ 
+Text Books: 
+1.Operating System Concepts, 10th Edition by Abraham Silberschatz, Greg Gagne, Peter B. Galvin. 2022 
+Wiley Publications. 
+Reference Books: 
+1. Modern Operating Systems, 4th Edition by Andrew S. Tanenbaum, Herbert Bos. 2021, Pearson. 
+2.Operating Systems: Internals and Design Principles, 9th Edition by William Stallings. 2021, Pearson. 
+--- Page 24 ---
+ 
+23 
+Self-Learning: Case Study on Linux 
+Linux Architecture – Kernel vs Shell, System Boot Process 
+Process Management in Linux – ps, top, nice, kill, process creation using fork, exec 
+Synchronization in Linux – Semaphores, inter-process communication (ipcs, ipcrm), race conditions 
+Memory Management – Use of free, vmstat, /proc/meminfo, paging, virtual memory 
+File System Structure – Linux file hierarchy, df, du, permissions (chmod, chown, setfacl) 
+Storage Management – Disk scheduling via iostat, partitioning with fdisk, filesystem mounting 
+Security & Protection – User/group management, access control via ACLs (getfacl, setfacl). 
+Course Outcomes: 
+ 
+CO1: Understand the structure and functionality of the operating system and apply CPU scheduling 
+algorithms for the given problem. (PO1, PO2, PO3, PO9, PO10, PO11, PSO2) 
+CO2. Analyze the various algorithms for process synchronization and deadlock handling. (PO1, PO2, PSO2) 
+CO3. Apply the various techniques for memory management. (PO1, PO2, PO3, PO9, PO10, PO11, PSO2) 
+CO4. Understand file and secondary storage management strategies. (PO1, PO2, PO9, PO10, PO11, PSO2) 
+CO5. Describe the need for information protection mechanisms and the working of modern operating system 
+(PO1, PSO2) 
+ 
+Continuous Internal Evaluation (CIE): 50 Marks 
+Assessment tool Marks Course outcomes attained 
+Internal Test-I 30 CO1, CO2, CO3 
+Internal Test-II 30 CO3, CO4, CO5 
+Average of the two internal tests shall be taken for 30 marks. 
+Other Components     
+Quiz 20 CO1, CO2, CO3, CO4,CO5 
+  
+Semester-End Examination (SEE) 
+100 
+(Scale down 
+to 50 Marks) 
+CO1, CO2, CO3, CO4, CO5 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+--- Page 25 ---
+ 
+24 
+Discrete Mathematical Structures 
+Course Code: IS35 Credits: 2:1:0 
+Pre – requisites: Nil Contact Hours: 30L + 30T+30S 
+Course Coordinator: Mrs. Prathima M. N. 
+ 
+Course Content 
+Unit I  
+Fundamentals: Sets and subsets, operations on sets, Sequences. Logic: Propositions and Logical 
+Operations, Conditional statements, Methods of proof. 
+ Pedagogy/Course Delivery tools: Chalk and talk, Power Point Presentation 
+ Recommended Resources / Links: 
+             https://nptel.ac.in/courses/106106094  
+             https://a.impartus.com/ilc/#/course/107790/533 
+ 
+Unit II 
+Relations and Digraphs:  Product sets and partitions, Relations and digraphs, Paths in relations and 
+digraphs, Properties of relations, Equivalence relations, Operations on relations, Transitive closure and 
+Warshall’s algorithm. 
+ Pedagogy/Course Delivery tools: Chalk and talk, Power Point Presentation 
+ Recommended Resources / Links: 
+             https://nptel.ac.in/courses/106106094  
+             https://a.impartus.com/ilc/#/course/107790/533 
+ 
+Unit III 
+Functions: Types of Functions, Functions for computer science, Permutation functions, POSETS: Order 
+relations and structures:  Extremal elements of partially ordered sets, Lattices. 
+ Pedagogy/Course Delivery tools: Chalk and talk, Power Point Presentation 
+ Recommended Resources / Links: 
+             https://nptel.ac.in/courses/106106094  
+             https://a.impartus.com/ilc/#/course/107790/533 
+ 
+Unit IV 
+Graphs: Graphs, Graph terminology and special types of graphs, Representing graphs and graph 
+isomorphism, connectivity, Euler and Hamilton paths. 
+ Pedagogy/Course Delivery tools: Chalk and talk, Power Point Presentation 
+ Recommended Resources / Links: 
+             https://nptel.ac.in/courses/106106094  
+             https://a.impartus.com/ilc/#/course/107790/533 
+Unit V 
+Semigroups and Groups: Binary operations revisited: Tables, Semigroups: Sub semigroup, Sub monoid, 
+Isomorphism, Homomorphism, Groups.  
+ Pedagogy/Course Delivery tools: Chalk and talk, Power Point Presentation 
+ Recommended Resources / Links: 
+             https://nptel.ac.in/courses/106106094  
+           https://a.impartus.com/ilc/#/course/107790/533 
+ 
+ 
+ 
+--- Page 26 ---
+ 
+25 
+ 
+ 
+Tutorial Sessions: (Problems will be solved on the following topics) 
+ 
+1. Sets and set operations. 
+2. Sequence formulas and recognition of regular expressions. 
+3. Logical operator’s application and verification through proof techniques.  
+4. Relations and their digraph representations. 
+5. Problems involving operations on relations  
+6. Symmetric closures, transitive closure, and Warshall’s algorithm. 
+7. Functions and exploring their applications in Computer Science. 
+8. Partially ordered sets, constructing Hasse diagrams, and topological sorting. 
+9. Lattices through Hasse diagram methods and their types. 
+10. Graph terminologies and graphical models. 
+11. Eulerian and Hamiltonian paths/circuits.  
+12. Verification of group properties.  
+13. Semigroups, sub-semigroups and sub-monoids. 
+14. Isomorphisms and homomorphisms 
+Text Books: 
+1. Bernard Kolman, Robert C. Busby, Sharon Cutler Ross, Discrete Mathematical Structures, 6th 
+edition, PHI, 2015. 
+2. Kenneth H Rosen, Discrete Mathematics and its applications, 8th Edition, Tata   McGraw-Hill.2021 
+Reference Books: 
+1. Ralph P.Grimaldi, B.V Ramana, Discrete and Combinatorial Mathematics, Fifth edition. 
+2. J.P.Trembly, R. Manohar, Discrete mathematical structures with applications to Computer Science, 
+McGraw Hill 
+ 
+Self-Learning: Problem Solving and Quiz. 
+ 
+ 
+Course Outcomes(COs): 
+At the end of the course, students will be able to:  
+1. Apply the concepts of set theory and logical reasoning to verify the correctness of math ematical 
+statements (PO-1,2,9,11 & PSO-1) 
+2. Analyze the properties and operations of relations in solving various problems. (PO-1,2,9,11 & PSO-
+1) 
+3. Understanding the concepts of functions and partially ordered sets for solving the given problem. (PO-
+1,2,9,11 & PSO-1) 
+4. Apply the graph theory concepts in solving computational problems. (PO-1,2,9,11 & PSO-1) 
+5. Apply the concepts of groups for binary operations. (PO-1,2,9,11 & PSO-1) 
+ 
+Course Assessment and Evaluation: 
+ 
+--- Page 27 ---
+ 
+26 
+Continuous Internal Evaluation (CIE): 50 Marks 
+Assessment tool Marks Course outcomes attained 
+Internal Test-I 30 CO1, CO2, CO3 
+Internal Test-II 30 CO3, CO4, CO5 
+Average of the two internal tests shall be taken for 30 marks. 
+Other Components     
+Quiz/Case Study 10 CO1, CO2, CO3, CO4, 
+CO5 
+ Tutorial 10 CO1, CO2, CO3, CO4, 
+CO5 
+  
+  Semester-End Examination (SEE) 
+100 
+(Scale down to 50 Marks) CO1, CO2, CO3, CO4, CO5 
+ 
+ 
+ 
+--- Page 28 ---
+ 
+27 
+DATA STRUCTURES LAB 
+Course Code: ISL36 Credits: 0:0:1 
+Pre – requisites: Fundamentals of Computing Contact Hours: 30P 
+Course Coordinator:  Dr. Kusuma S 
+Course Contents 
+Unit 1 
+List of Experiments: 
+1. Write a C program to store and manage a list of records (e.g., patients, students, or employees) 
+using structures, pointers, and dynamic memory allocation. Allow the user to add, view, and search 
+records. Use malloc(), realloc(), and free() for memory management.. 
+2. Write a program to illustrate forward and backward surfing in the web browser using stack(Array 
+implementation). Display the appropriate messages in case of exceptions. 
+3. Write a program to convert and print a given valid parenthesized infix arithme tic expression to 
+postfix expression. The expression consists of single character operands and binary operators + - 
+* /. Apply the concept of stack data structure to solve this problem. 
+4. Write a program to evaluate a valid postfix expression using stack. As sume that the postfix 
+expression is read as a single line consisting of non -negative single digit operands and binary 
+operators. The operators are + - * and /. 
+5. A call center phone system has to hold the phone calls from customers and provide service based 
+on the arrival time of the calls. Write a C program to simulate this system using queue data 
+structure. Program should have options to add and remove the phone calls in appropriate order 
+for their service. 
+6. Write a program to demonstrate round robin process or scheduling using circular queue (array 
+Implementation) with suitable inputs. Program should have options to add, remove and display 
+Elements of the queue. 
+7. Write a program to illustrate memory allocation to files based on their size using singly linked list. 
+Program must support the following operations on a singly linked list. a. Inserting a node b. 
+Deleting a node c. Display 
+8. Design, Develop and Implement a Program in C for the following operations on Singly Circular 
+Linked List (SCLL) with header nodes 
+a. Represent and Evaluate a Polynomial P(x,y,z) = 6x2y2z-4yz5+3x3yz+2xy5z-2xyz3 
+b. Find the sum of two polynomials POLY1(x,y,z) and POLY2(x,y,z) and store the result 
+in POLYSUM(x,y,z). Support the program with appropriate functions for each of the above 
+operations 
+9. Write a program to illustrate memory allocation to files based on their size using doubly linked 
+list. Program must support the following operations on a doubly linked list. a. Inserting a node b. 
+Deleting a node c. Display 
+10. Write a program to illustrate forward and backward surfing in the web browser using stack (Linked 
+List implementation). Display the appropriate messages in case of exceptions. 
+--- Page 29 ---
+ 
+28 
+11. Write a program to implement Queue Data Structure (Linked List implementation). Display the 
+appropriate messages in case of exceptions. 
+12. A hospital database consists of CT images of patients. The physician wants to query the image 
+database and retrieve most similar images which are referred as numbers. In order to support this 
+facility implement database indexing using binary search tree and preorder traversal method. 
+Text Books: 
+1. Reema Thareja , “Data Structures Using C” 2nd Edition, Oxford University Press, 2014, ISBN: 
+9780198099307. 
+2. Yashavant Kanetkar , ”Data Structures Through C”, 4th Edition (Revised & Updated), BPB 
+Publications, 2022, ISBN: 9789355511898. 
+Reference Books: 
+1. Aaron M. Tanenbaum, Yedidyah Langsam and Moshe J. Augenstein, “Data Structures Using C”, 
+2nd Edition, PHI, 2009. 
+2. Michael J. Folk, Bill Zoellick and Greg Riccardi, “File Structures -An Object Oriented Approach 
+with C++”, Pearson Education, 2004 
+3. Semour Lipschutz, Data Structures Schaum's Outlines, Revised 1st Ed, McGraw Hill, 2014.  
+4. Gilberg & Forouzan, Data Structures: A Pseudo -code approach with C, 2nd Ed, Cengage 
+Learning,2014.  
+5. Jean-Paul Tremblay & Paul G. Sorenson, An Introduction to Data Structures with Applications, 
+2nd Ed, McGraw Hill, 2013 
+Course Outcomes: 
+At the end of the course, the student will be able to: 
+ At the end of the course the student will be able to: 
+1. Design the experiment for the given problem using Data Structures concepts. (PO1, PO2, PO3, 
+PO8, PO9, PSO1) 
+2. Develop the solution for the given real world problem. (PO1, PO2, PO3, PO4, PO8, PO9, 
+PSO1) 
+3. Analyze the results and produce substantial written documentation (PO1, PO2, PO4, PO8, 
+PO9, PSO1) 
+Self-Learning  
+ Programming assignment through LEET code. 
+Course Assessment and Evaluation: 
+ 
+Continuous Internal Evaluation (CIE): 50 Marks 
+Assessment tool Marks Course outcomes attained 
+Internal Test 20 CO1, CO2, CO3 
+Other Components     
+Conduction,  Record  and 
+              Viva 30 CO1, CO2, CO3 
+ 
+  
+Semester-End Examination 
+(SEE) 
+ 
+50 
+ 
+                       CO1, CO2, CO3 
+ 
+--- Page 30 ---
+ 
+29 
+ 
+ 
+ 
+ 
+Unix System Programming Lab 
+Course Code: ISL37 Credits: 0:0:1 
+Pre – requisites: Nil Contact Hours: 30P 
+Course Coordinator: Dr. Yogish H K 
+Course Content 
+Part – A 
+ 
+1. Write a shell program that creates a student database file sdb.txt, which consists of sid, sname, ssem, dept. 
+Display only Student Name, Department, and frequency of occurrences of students belonging to respective 
+departments. 
+2. Write a shell program which takes two file names as command line arguments, if their contents are the same 
+then remove the second file. 
+3. Write a shell program that takes a filename as a command line argument and reports whether it is a directory, 
+a regular, a character device, a block device, a link or a pipe file.   
+4. Write a shell program that accepts one or more file names as arguments and converts all of them to 
+uppercase, provided they exist in the current directory. 
+5. Write a shell script that accepts two file names as command line arguments, checks if the permissions for 
+these files are identical and if the permissions are identical, output common permission and otherwise output 
+each file name followed by its permissions. 
+6. Write a shell program to do the followings on strings, find length of a string, whether string is NULL, and 
+two strings are equal or not. 
+7. Write a shell program to print the command line arguments in reverse order. 
+8. Write a shell program to print the given number in reversed order. 
+9. Write a shell program to print the first 25 Fibonacci numbers. 
+10.Write a shell program to print the prime numbers between the specified range. 
+11.Write a shell program to search the given key element using linear search. 
+12.Write a shell program to find the largest of three numbers using a user defined function. 
+Recommended Resources / Links: 
+1.  NPTEL playlist - Linux Programming & Scripting by Anand Iyer(IIT Madras)        
+        https://www.youtube.com/playlist?list=PLbMVogVj5nJRa3VKt_eyZdJ_DitCz1cvQ 
+2.  NPTEL playlist – Basics of Shell Programming IIT Bombay 
+       https://www.youtube.com/watch?v=h5Labe97yWM 
+https://www.youtube.com/watch?v=rRGCGZ6OHw8&list=PLbMVogVj5nJRa3VKt_eyZdJ_DitCz1cvQ&inde
+x=2 
+3.  NPTEL playlist – IISc UNIX and Shell Scripting                        
+--- Page 31 ---
+ 
+30 
+      https://archive.nptel.ac.in/courses/106/108/106108101/ 
+ 
+ 
+ 
+PART- B  
+1. Write a C/C++ program to implement UNIX commands ln, mv, rm commands using APIs.   
+2. Write a program in C/C++ to display the contents of a  named file on the standard output device and write to 
+another file.    
+3. Write a C/C++ program that reads every 100th byte from the named file, where the file name is given as a 
+command-line argument.  
+4. Write a C/C++ program to display information of a given file which determines type of file and Inode number, 
+where the file name is given as command line argument.  
+5. Write a C/C++ program to create a process by using fork ( ) and vfork( ) system call.   
+6. Write a C/C++ program to demonstrate the process is Zombie and to avoid the Zombie process.   
+7. Write a C/C++ program to create and demonstrate Orphan Process.  
+8. Write a C/C++ program to demonstrate a parent process that uses wait () system call to catch the child’s exit code. 
+9. Write a C/C++Program to demonstrate race condition.  
+10. Write a C/C++ program to implement UNIX system ( ) Function, using APIs.  
+11. Write a C/C++ program to catch, ignore and accept the signal - SIGINT.  
+12. Write a C/C++ program to create a pipe from the parent to child and send data down the pipe.          
+ 
+Recommended Resources / Links: 
+https://archive.nptel.ac.in/courses/106/106/106106144/ 
+Text Books: 
+1. Sumitabha Das., Unix Concepts and Applications., 4th Edition., Tata McGraw Hill , 2017 
+2. W. Richard Stevens: Advanced Programming in the UNIX Environment, 2nd Edition, Pearson 
+Education. 
+Reference Books: 
+1. Unix System Programming Using C++ - Terrence Chan, PHI,  
+2. M.G. Venkatesh Murthy: UNIX & Shell Programming, Pearson. 
+Course Outcomes (COs):  
+ 
+At the end of the course the student will be able to: 
+ 
+1. Design Shell Scripts to solve given real word modules. (PO1, PO2, PO3, PO9, PO10, PSO1) 
+2. Apply an appropriate APIs to handle various file related operations. (PO1, PO2, PO3, PO4, PO5, PSO1) 
+3. Apply an appropriate APIs to manage and control the processes. (PO1, PO2, PO3, PO4, PO5, PSO1) 
+ 
+ 
+Course Assessment and Evaluation: 
+ 
+Continuous Internal Evaluation (CIE): 50 Marks 
+Assessment tool Marks Course outcomes attained 
+Internal Test 20 CO1, CO2, CO3 
+Other Components    
+Conduction, Calculation, Record and Viva 30 CO1, CO2, CO3 
+   
+Semester-End Examination (SEE) 50 CO1, CO2, CO3 
+--- Page 32 ---
+ 
+31 
+ 
+ 
+Universal Human Values 
+Course Code: UHV38 Credits: 2:0:0 
+Pre – requisites: Nil Contact Hours: 30L+30S 
+Course Coordinator: Mr. Mushtaq Ahmed D M 
+ 
+ 
+Course Content Unit I 
+Course Introduction - Need, Basic Guidelines, Content and Process for Value Education 
+1. Understanding the need, basic guidelines, content and process for Value Education 
+2. Self-Exploration–what is it? - its content and process; ‘Natural Acceptance’ and Experiential Validation- 
+as the mechanism for self-exploration 
+3. Continuous Happiness and Prosperity- A look at basic Human Aspirations 
+4. Right understanding, Relationship and Physical Facilities - the basic requirements for fulfillment of 
+aspirations of every human being with their correct priority 
+5. Understanding Happiness and Prosperity correctly- A critical appraisal of the current scenario 
+6. Method to fulfill the above human aspirations: understanding and living in harmony at various levels  
+• Pedagogy / Course delivery tools: Chalk and talk, Power point presentation, Videos. 
+• Lab component / Practical Topics: Survey/polls for self-exploration 
+• Links: Holistic Development and Role of Education https://youtu.be/sGZtTPe- lhQ 
+ 
+Unit II 
+Understanding Harmony in the Human Being - Harmony in Myself! 
+• Understanding human being as a co-existence of the sentient ‘I’ and the material ‘Body’ 
+• Understanding the needs of Self (‘I’) and ‘Body’ - Sukh and Suvidha 
+• Understanding the Body as an instrument of ‘I’ (I being the doer, seer and enjoyer) 
+• Understanding the characteristics and activities of ‘I’ and harmony in ‘I’ 
+• Understanding the harmony of I with the Body: Sanyam and Swasthya; correct appraisal of Physical 
+needs, meaning of Prosperity in detail 
+• Programs to ensure Sanyam and Swasthya 
+Practice Exercises and Case Studies will be taken up in Practice Sessions. 
+• Pedagogy / Course delivery tools: Chalk and talk, Power point presentation, Videos. 
+• Lab component / Practical Topics: Survey/polls for self-exploration 
+• Links: Harmony in Human Being- Self and Body 
+https://youtu.be/0ERSMkRPQBM 
+• Links: Harmony in Human Being- Self https://youtu.be/83oGJ4oDeIg 
+• Links: Harmony between Self and Body Prosperity 
+https://youtu.be/aJ_BU2OgpKs 
+ 
+Unit III 
+Understanding Harmony in the Family and Society- Harmony in Human- Human Relationship 
+1. Understanding Harmony in the family – the basic unit of human interaction 
+2. Understanding values in human-human relationship; meaning of Nyaya and program for its 
+fulfillment to ensure Ubhay-tripti; 
+3. Trust (Vishwas) and Respect (Samman) as the foundational values of relationship 
+4. Understanding the meaning of Vishwas; Difference between intention and competence 
+5. Understanding the meaning of Samman, Difference between respect and differentiation; the other 
+--- Page 33 ---
+ 
+32 
+salient values in relationship 
+6. Understanding the harmony in the society (society being an extension of family): 
+7. Samadhan, Samridhi, Abhay, Sah-astitva as comprehensive Human Goals 
+8. Visualizing a universal harmonious order in society- Undivided Society (Akhand Samaj), Universal Order 
+(Sarvabhaum Vyawastha )- from family to world family! 
+Practice Exercises and Case Studies will be taken up in Practice Sessions. 
+• Pedagogy / Course delivery tools: Chalk and talk, Power point presentation, Videos. 
+• Lab component / Practical Topics: Survey/polls for self-exploration 
+• Links: Harmony in Family- Trust https://youtu.be/F2KVW4WNnS8 
+• Links: Harmony in family- Respecthttps://youtu.be/iLqNRPuv0_8 
+• Links: Harmony in family- Other Feeling Justice 
+https://youtu.be/TcYJB7reKnM 
+• Links: Harmony in the Society https://youtu.be/BkWgFinrnPw 
+ 
+Unit IV 
+Understanding Harmony in the Nature and Existence - Whole existence as Co- existence 
+1. Understanding the harmony in the Nature 
+2. Interconnectedness and mutual fulfillment among the four orders of nature- recyclability and self-
+regulation in nature 
+3. Understanding Existence as Co-existence (Sah-astitva) of mutually interacting units in all-pervasive 
+space 
+4. Holistic perception of harmony at all levels of existence 
+Practice Exercises and Case Studies will be taken up in Practice Sessions. 
+• Pedagogy / Course delivery tools: Chalk and talk, Power point presentation, Videos. 
+• Lab component / Practical Topics: Survey/polls for self-exploration 
+• Links: Harmony in Nature https://youtu.be/K1Jpd_ojydw 
+• Links: Harmony in Existence https://youtu.be/mormUeZ_RUE 
+ 
+Unit V 
+Implications of the above Holistic Understanding of Harmony on Professional Ethics 
+• Natural acceptance of human values 
+• Definitiveness of Ethical Human Conduct 
+• Basis for Humanistic Education, Humanistic Constitution and Humanistic Universal Order 
+• Competence in professional ethics: 
+a. Ability to utilize the professional competence for augmenting universal human order 
+b. Ability to identify the scope and characteristics of people-friendly and eco- friendly production 
+systems, 
+c. Ability to identify and develop appropriate technologies and management patterns for above 
+production systems. 
+• Case studies of typical holistic technologies, management models and production systems 
+• Strategy for transition from the present state to Universal Human Order: 
+a. At the level of individual: as socially and ecologically responsible engineers, technologists 
+and managers 
+b. At the level of society: as mutually enriching institutions and organizations 
+ 
+Suggested Learning Resources: 
+• Pedagogy / Course delivery tools: Chalk and talk, Power point presentation, Videos. 
+• Lab component / Practical Topics: Survey/polls for self-exploration 
+ 
+Text Books: 
+--- Page 34 ---
+ 
+33 
+1. R.R Gaur, R Sangal, G P Bagaria, A foundation course in Human Values and professional Ethics, Excel 
+books, New Delhi, 2010, ISBN 978-8-174-46781-2 
+ 
+Reference Books: 
+1. B L Bajpai, 2004, Indian Ethos and Modern Management, New Royal Book Co., Lucknow. Reprinted 
+2008. 
+2. PL Dhar, RR Gaur, 1990, Science and Humanism, Commonwealth Publishers. 
+3. Sussan George, 1976, How the Other Half Dies, Penguin Press. Reprinted 1986, 1991 
+4. Ivan Illich, 1974, Energy & Equity, The Trinity Press, Worcester, and HarperCollins, USA 
+5. Donella H. Meadows, Dennis L. Meadows, Jorgen Randers, William W. Behrens III, 1972, limits 
+to Growth, Club of Rome’s Report, Universe Books. 
+6. Subhas Palekar, 2000, How to practice Natural Farming, Pracheen(Vaidik) Krishi Tantra Shodh, 
+Amravati. 
+7. A Nagraj, 1998, Jeevan Vidya ek Parichay, Divya Path Sansthan, Amarkantak. 
+8. E.F. Schumacher, 1973, Small is Beautiful: a study of economics as if people mattered, Blond & Briggs, 
+Britain. 
+9. A.N. Tripathy, 2003, Human Values, New Age International Publishers. 
+Web links and Video Lectures (e-Resources): 
+1. https://www.youtube.com/channel/UCQxWr5QB_eZUnwxSwxXEkQw 
+2. https://www.youtube.com/watch?v=P4vjfE- 
+YnVk&list=PLWDeKF97v9SP7wSlapZcQRrT7OH0ZlGC4 
+3. Course handouts: https://drive.google.com/drive/folders/1zioX_4L2fCNX4Agw282PN86pcZZT 
+3Osr?usp=sharing 
+4. Presentation slides: https://drive.google.com/drive/folders/1rMUKh1s0HPRBlpp_b1mpS- 
+duNRcwS6YH?usp=sharing 
+ 
+Course Outcomes (COs): 
+At the end of the course, Students will be able to: 
+1. Apprehend the need of Value Education over Human aspirations (PO-6) 
+2. Assimilate Harmony over the physical needs and to overcome the self- needs for a prosperous life. (PO-6) 
+3. Recognize the need of Harmony in the Family and Society for a better World. (PO-6) 
+4. Explain the need of mutual understanding for Holistic Harmony in all the Levels of Human Existence. 
+(PO-6) 
+5. Explain the Holistic understanding of Harmony and Professional Ethics at Individual Level and 
+Society. (PO-6,8) 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+--- Page 35 ---
+ 
+34 
+Course Assessment and Evaluation : 
+ 
+Continuous Internal Evaluation (CIE) 
+Assessment Tool Marks Course outcomes addressed 
+Internal test-I 30 CO1, CO2, CO3 
+Internal test-II 30 CO3, CO4, CO5 
+Average of the two internal tests will be taken for 30 marks. 
+Other components   
+ Assignment 
+ Quiz 
+ Presentation 
+ Model / mini project 
+ Any other 
+ 
+ 
+20 (10 + 10) 
+ 
+ 
+CO1, CO2, CO3, CO4, CO5 
+Semester End Examination 
+(SEE) 
+100 (Scale 
+down to 50 
+Marks) 
+ 
+CO1, CO2, CO3, CO4, CO5 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+--- Page 36 ---
+ 
+35 
+ 
+ 
+Green IT and Sustainability 
+Course Code: ISAEC391 Credits: 1:0:0 
+Pre – requisites: Nil Contact Hours: 15L+15S 
+Course Coordinator: Dr. Krishna Raj P M 
+ 
+Course Contents 
+Unit 1 
+Introduction: Foundations of  sustainable design and HCI, sustainability and usability concerns, scope and 
+objectives of sustainable interaction design. 
+Pedagogy: Conceptual Learning using NPTEL video lectures and problem-solving sessions 
+Recommended Resources / Links:  https://nptel.ac.in/courses/106101060 
+ 
+Unit 2 
+Usability and Human–Computer Interaction (HCI): Usability principles, evaluation of usability, role of HCI 
+in sustainable design, challenges in achieving usable and sustainable systems. 
+Pedagogy: Analytical Learning through NPTEL videos, illustrative case problems, and algorithm tracing 
+Recommended Resources / Links: https://nptel.ac.in/courses/107103081 
+ 
+Unit 3 
+User Participation in the System Development Process: Importance of user involvement, participatory design, 
+sustainability through user-centered design approaches. 
+Pedagogy: Visualization-based Learning with animated NPTEL videos and examples 
+Recommended Resources / Links: https://nptel.ac.in/courses/107103081 
+ 
+Unit 4 
+Physical, Cognitive and Affective Engineering; Color, Prototyping and Navigation; Principles and Guidelines, 
+Design Evaluation and Testing; Task Analysis. 
+ 
+Pedagogy: Structure-oriented Learning using NPTEL lectures and implementation exercises 
+Recommended Resources / Links: https://nptel.ac.in/courses/107103081 
+ 
+Unit 5 
+Models and Methodologies; New Participative Methodology for Sustainable Design (NPMSD); Future ICTs—
+Present Trends for Future Developments. 
+ 
+Pedagogy: Real-world Case-based Learning with NPTEL content and practical scenario discussions 
+Recommended Resources / Links: https://nptel.ac.in/courses/107103081 
+ 
+Self-Learning: 
+Case Study: Analyze a company's green IT initiatives, focusing on data center efficiency and e -waste 
+management. 
+Mini-Project: Propose a "Green Campus" plan by conducting an IT energy audit and suggesting solutions 
+Text Books: 
+1. Sustainable Design: HCI, Usability and Environmental Concerns, Tomayess Issa, Pedro Isaias, 2nd Edition, 
+Springer, 2022. 
+Reference Books: 
+--- Page 37 ---
+ 
+36 
+1. Green Information Technology – A Sustainable Approach, M ohammad Dastbaz, Colin Pattinson, Babak 
+Akhgar, Elsevier, 2015 Inc. 
+Course Outcomes: 
+At the end of the course, the student will be able to: 
+1. Understand the foundational concepts of Green IT and its importance in addressing global environmental 
+challenges.(PO6, PO7, PO8, PSO2) 
+2. Analyze the environmental impact of IT infrastructure, including data centers, and propose strategies for 
+energy efficiency and resource optimization.. (PO1, PO2, PO4, PSO2)  
+3. Evaluate sustainable computing practices to minimize  the carbon footprint of IT operations. (PO1, PO3, 
+PO5, PSO1)  
+4.  Develop and implement policies for responsible e -waste management and sustainable IT procurement. 
+(PO6, PO8, PO11, PSO3)  
+5. Apply sustainable software development principles to create ener gy-efficient and eco -friendly 
+applications.(PO1, PO3, PO5, PSO1) 
+ 
+ 
+Course Assessment and Evaluation: 
+Continuous Internal Evaluation (CIE): 50 Marks 
+Assessment tool Marks Course outcomes attained 
+Internal Test-I 30 CO1, CO2 
+Internal Test-II 30 CO3, CO4, CO5 
+Average of the two internal tests shall be taken for 30 marks. 
+Other Components     
+Case Study Presentation 15 CO1, CO2, CO3, CO4, CO5 
+MCQ Test 05 CO1, CO2, CO3, CO4, CO5 
+  
+Semester-End Examination (SEE) 
+100 
+(Scale down 
+to 50 Marks) 
+CO1, CO2, CO3, CO4, CO5 
+ 
+ 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+--- Page 38 ---
+ 
+37 
+ 
+ 
+Capacity Planning for IT 
+Course Code: ISAEC392 Credits: 1:0:0 
+Pre – requisites: Nil Contact Hours: 15L+15S 
+Course Coordinator: Dr. Krishna Raj P M 
+ 
+Course Content 
+Unit I 
+Goals, Issues, and Processes: capacity planning, Quick and Dirty Math, Predicting When Your Systems 
+Will Fail , Make Your System Stats Tell Stories, Buying Stuff: Procurement Is a Process, Performance and 
+Capacity: Two Different Animals, The Effects of Social Websites and Open APIs 
+Setting Goals for Capacity: Different Kinds of Requirements and Measurements, Architecture Decisions. 
+Pedagogy/Course Delivery tools: Chalk and talk, Power Point Presentation 
+Links: https://www.youtube.com/watch?v=w0cD26CLBA0 
+ https://www.youtube.com/watch?v=5-hhfBXykec 
+ 
+ 
+Unit II 
+Measurement: Units of Capacity: Aspects of Capacity Tracking Tools, Applications of Monitoring. 
+Pedagogy/Course Delivery tools: Chalk and talk, Power Point Presentation 
+Link: https://www.youtube.com/watch?v=9e4IohiFmZ8&t=63s 
+ 
+Unit III 
+Measurement: API Usage and Its Effect on Capacity, Examples and Reality, 
+Predicting Trends: Riding Your Waves. 
+Pedagogy/Course Delivery tools: Chalk and talk, Power Point Presentation 
+ 
+Link: https://www.youtube.com/watch?v=qj4ziswxupE 
+ 
+ 
+Unit IV 
+Predicting Trends: Procurem`ent, The Effects of Increasing Capacity ,  Long-Term Trends, Iteration 
+and Calibration 
+Deployment: Automated Deployment Philosophies, Automated Installation Tools , Automated Configuration. 
+Pedagogy/Course Delivery tools: Chalk and talk, Power Point Presentation. 
+Link:  https://www.youtube.com/watch?v=jTW79ofC6Go 
+ 
+ 
+Unit V 
+Virtualization and Cloud Computing: Virtualization, Cloud Computing, Computing Resource Evolutions, 
+Mixed Definitions, Cloud Capacity, Use it or lose it (your wallet),Measuring the clouds, 
+Cloud Case Studies,Cloud Use Case: Anonymous Desktop Software Company. 
+--- Page 39 ---
+ 
+38 
+Pedagogy/Course Delivery tools: Chalk and talk, Power Point Presentation 
+Link: https://www.youtube.com/watch?v=_pPlanX5wQY 
+ 
+Self Learning: Tool demonstration 
+Text Books: 
+1. John Allspaw, The Art of Capacity Planning, 2008, O'Reilly 
+ 
+Course Outcomes (COs): 
+At the end of the course, the student will be able to: 
+1. Analyze the requirement and measurements for capacity planning by considerin g the goal, issues, 
+and processes (PO-1,2 ,7,9,10,11,12 & PSO-2) 
+2. describe capacity measurement and monitoring (PO-1,2,7,9,10,11,12 & PSO-2) 
+3. Analysis the measurement data for prediction towards overall planning process. (PO - 
+1,2,5,7,9,10,11,12 & PSO-2) 
+4. understand the concepts related to deployment, installation, configuration, and management. (PO -
+1,2,5,7,9,10,11,12 & PSO-2) 
+5. Evaluate how the virtualization and cloud services fit into a capacity plan. (PO- 1,2,7,9,10,11,12 & 
+PSO-2) 
+ 
+ 
+Course Assessment and Evaluation: 
+  
+Continuous Internal Evaluation (CIE): 50 Marks 
+Assessment tool Marks Course 
+outcomes 
+attained 
+Internal Test-I 30 CO1, CO2, CO3 
+Internal Test-II 30 CO3, CO4, CO5 
+Average of the two internal tests shall be taken for 30 marks.  
+Other Components     
+Quiz 10 CO1, CO2, CO3, CO4, 
+CO5 
+Case Study 10 CO1, CO2, CO3, CO4, 
+CO5 
+  
+Semester-End Examination (SEE) 
+100 
+(Scale down to 50 Marks) CO1, CO2, CO3, 
+CO4, CO5 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+--- Page 40 ---
+ 
+39 
+ 
+ 
+Numerical Analysis with Python 
+Course Code: ISAEC393 Credits: 1:0:0 
+Pre – requisites: Nil Contact Hours: 15L+15S 
+Course Coordinator: Dr. Krishnaraj P M 
+ 
+Course Content 
+ 
+Unit I 
+Introduction to Python:  Overview of Python, basic syntax, Variables, data types, and operators, Control 
+structures (if statements, loops) and functions. 
+ Pedagogy: Conceptual Learning using NPTEL video lectures and problem-solving sessions 
+ Recommended Resources / Links:  https://nptel.ac.in/courses/106106212 
+ 
+Unit II 
+Numpy: Creating Arrays, Indexing and Slicing, Data Type Objects, dtype. 
+ Pedagogy: Analytical Learning through NPTEL videos, illustrative case problems, and algorithm 
+tracing 
+ Recommended Resources / Links: https://nptel.ac.in/courses/106106212 
+ 
+Unit III 
+Numpy Arrays: Numerical Operations on Numpy, Arrays Concatenating, Flattening and Adding Dimensions 
+Boolean Indexing. 
+ Pedagogy: Visualization-based Learning with animated NPTEL videos and hands -on paging 
+examples 
+ Recommended Resources / Links: https://nptel.ac.in/courses/106106212 
+ 
+Unit IV 
+Matplotlib : Line plot, bar plot , histograms, scatter plots, label on axes, multiple plots Pandas: Series Data 
+Structure – Introduction , Indexing, Pandas.Series.Apply 
+ Pedagogy: Structure-oriented Learning using NPTEL lectures and whiteboard implementation 
+exercises 
+ Recommended Resources / Links: https://nptel.ac.in/courses/106106212 
+ 
+Unit V 
+Pandas: Filtering, creating series from dictionaries, Dataframe: need of Dataframes, Dataframes from 
+dictionaries, accessing rows , accessing columns, rearranging, sorting, adding rows and columns. 
+ Pedagogy: Real-world Case-based Learning with NPTEL content and practical scenario discussions 
+ Recommended Resources / Links: https://nptel.ac.in/courses/106106212 
+Self-Learning: 
+Case Study: Analyze a real-world dataset using Pandas to demonstrate data filtering and analysis techniques. 
+Mini-Project: Develop a Python script to perform a numerical analysis task, such as plotting a function or 
+solving a system of equations, and visualize the results using Matplotlib. 
+Text Book: 
+1. Data Analysis: Numpy, Matplotlib and Pandas, Bernd Klein, 2024. 
+ 
+Reference Book: 
+1. Automate the boring stuff with python: Practical programming for total beginners, Al Sweigart, 2015. 
+--- Page 41 ---
+ 
+40 
+ 
+ 
+Course Outcomes (COs): 
+ 
+At the end of the course, the student will be able to: 
+1. Understand the fundamental concepts of Python programming, including syntax, data types, and control 
+structures, for numerical problem-solving. (PO1, PO2, PO4, PSO1) 
+2. Apply the NumPy library to perform efficient numerical operations and manipulations on multi-
+dimensional arrays. (PO1, PO2, PO5, PSO1)  
+3. Utilize the Matplotlib library to visualize data and the results of numerical analyses through various plot 
+types. (PO1, PO3, PO5, PSO3)  
+4. Master the Pandas library for effective data handling, filtering, and analysis of structured data. (PO1, 
+PO3, PO5, PSO3)  
+5. Integrate Python's libraries to solve complex numerical problems and present the findings through clear 
+data visualizations. (PO1, PO3, PO5, PSO1) 
+ 
+ 
+ 
+ 
+Course Assessment and Evaluation: 
+  
+Continuous Internal Evaluation (CIE): 50 Marks 
+Assessment tool Marks Course outcomes 
+attained 
+Internal Test-I 30 CO1, CO2, CO3 
+Internal Test-II 30 CO3, CO4, CO5 
+Average of the two internal tests shall be taken for 30 marks. 
+Other Components     
+Course Project 10 CO1, CO2, CO3, CO4, 
+CO5 
+Report 10 CO1, CO2, CO3, CO4, 
+CO5 
+  
+Semester-End Examination (SEE) 
+100 
+(Scale down to 50 Marks) CO1, CO2, CO3, CO4, 
+CO5 
+ 
+ 
+  
+--- Page 42 ---
+ 
+41 
+ 
+PHYSICAL EDUCATION 
+Course Code: PE69 Credits: NCMC 
+Pre – requisites: Nil  
+Course Coordinator: Dr. Kiran Kumar H K 
+ 
+Course Content 
+Course Learning Objectives: 
+1. To introduce students to the importance of physical fitness for success in any career. 
+2. To instill in them concepts of team spirit and team building 
+3. To develop positive thinking, goal setting, and decision-making abilities under duress. 
+4. To harness values and skills like leadership, communication, and sacrifice. 
+5. To inculcate in students, the ability to handle success and failures with equanimity. 
+ 
+Selection Process: A Student shall select any one of the following Sports based on his/her interest and 
+the facility available. The details of Sports Facilities available (both indoor and outdoor) at the 
+institute campus are as below: 
+ 
+ 
+ 
+ 
+Outdoor Games Indoor Games Athletics 
+Games No. of 
+Students Games No. of 
+Students Events No. of 
+Students 
+Volleyball 12 x 4 = 48 Badminton 30 Sprint - 100mt, 
+200mt, 400mt 
+ 
+ 
+ 
+60 Basketball 12 x 4 = 48 Table 
+Tennis 30 
+Middle distance 
+running – 800mt, 
+1,500mt 
+Kabaddi 12 x 4 = 48 Chess 30 
+Long distance running 
+5,000mt, 
+10,000mt 
+Kho Kho 12 x 4 = 48 
+Weight 
+Training 
+[Gym] 
+35 
+Jumping Events – Long 
+Jump Triple 
+JumpHigh Jump 
+30 
+Throw ball 12 x 4 = 48 
+  Throwing Events 
+Shot Put Discuss 
+Javelin 
+30 
+Football 16 x 4 = 64  
+Note: Students should bring their own sports attires 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+--- Page 43 ---
+ 
+42 
+ 
+Contact Sessions: A student shall abide by the following during the sessions scheduled in the semester. 
+Session 1 
+Fundamentals of Physical Education, value addition to personality through fitness education, discipline 
+and team building activities, Orientation towards particular sports and skill training 
+Session 2 
+Formation of teams based on student’s orientation and preference.  Team practice and skill 
+enhancement. 
+Session 3 
+Conduction of matches in all sporting events registered by Students. Evaluation of each student shall be 
+based on their performance either in team or individual. The student representing the Institute at 
+University/State/National/International Level will be awarded additional marks during evaluation. 
+ 
+Course Outcomes (COs): 
+1. Develop interest and skill in playing particular sports. 
+2. Understand the process of organizing sporting events. 
+3. Appreciate the role of fitness for a better lifestyle. 
+4. Derive lessons from sports activities for effective planning and discipline in Life. 
+5. Analyze situations and optimize end results. 
+ 
+Course Assessment & Evaluation: 
+1. A committee consisting of Sports Director and Coaches of respective Sports will be formed to 
+observe and evaluate the students for CIE in each semester. 
+2. Students shall follow the schedules, rules and regulations as prescribed by the Committee. 
+3. Students shall mandatorily have 85% attendance to be eligible for evaluation. 
+4. All the Sessions and evaluation process will be common for all semesters of the academic year. 
+5. The final result will be reflected on the grade card of 8th Semester. 
+6. The final marks shall be calculated after scaling down CIE to 50 marks & combining with 
+50 marks for SEE. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+--- Page 44 ---
+ 
+43 
+YOGA 
+Course Code: YO69 Credits: NCMC 
+Pre – requisites: Nil  
+Course Coordinator: Dr. Hari Chandra B P & Dr. Parimala P 
+Course Content 
+Course Learning Objectives: 
+1. To introduce to the students, the fundamental theoretical aspects of yoga. 
+2. To inculcate in students a habit of practicing yoga. 
+3. To be able to demonstrate basic yoga asanas. 
+4. To be able to practice fundamental breathing practices and mudras. 
+5. To understand the relevance of yoga and research in modern times. 
+ 
+Introduction: Definition of yoga, benefits, astangas of yoga, Relevance of yoga and yoga-research in 
+modern times. 
+Asanas: Kriyathmakachalanas, Suryanamaskar, Superbrain yoga, Vrikshasana, Trikonasana, 
+Veerabhadrasana, Paschimotasana, Purvothanasana, Bharadwajasana, Amruthasana, Parivruttha 
+Trikonasana, Parsvakonasana, Ustrasana, Padmasana, Jaaanushirshasana, Navasana, Ardhachakrasana, 
+Ardhakatichakrasana, Jataraparivarthanasana, Sethubandasana, Sarvangasana, Mathyasana, 
+Dhanurasana, Shirshasana. Pranayamas: Anuloma-Viloma, Suryanuloma, Chandranuloma, Brahmari, 
+Suryanbedhana, Chandrabedhana, Sheetali, Seethkari, Sadantha, bastrika. 
+Mudras: Chinmudra-Jnanamudra, Praana mudra, panchaprana mudras, panchabhoota mudras, Pruthvi 
+mudra, Shoonya mudra, Surya mudra, Jalodharanashaka mudra, Kundalini mudra, shoonyavaayu 
+mudra, shakti mudra, sandhi mudra, vajra mudra and garuda mudra. 
+Course Outcomes (COs): 
+At the end of the course, a student will 
+1. Understand the fundamental and theoretical aspects of yoga. 
+2. Develop a habit of practicing yoga. 
+3. Demonstrate basic yoga asanas. 
+4. Demonstrate fundamental breathing practices. 
+5. Understand the relevance of yoga and its research in modern times. 
+Reference Books: 
+1. Light on yoga, B K S Iyengar, Publisher -Thorsons, UK, 2006 
+2. Light on pranayama, B K S Iyengar, Publisher - Element; First Edition 
+3. The Essential Yoga Mudras for Healing, Dr. Aasoori K. Rangaraja Iyengar, Saranga 
+Publishing; First Edition 2021 
+ 
+Pedagogy: 
+Chalk and talk, demonstration, videos, ppt. 
+ 
+Contact Sessions: 
+There would be one introduction class, and five contact classes in each semester. 
+The candidates shall practice yoga on a daily basis, or in the worst case on alternate days at their place 
+of residence and maintain a short diary in the format provided by yoga teacher.  The same shall be 
+brought to the classes. 
+ 
+--- Page 45 ---
+ 
+44 
+Online Reference Sources: 
+• Yoga for beginners part 1: https://www.youtube.com/watch?v=VwPeThpwfWI 
+• Yoga for beginners part 2: https://www.youtube.com/watch?v=s_pnJTcOp8A 
+• Suryanamaskar: https://www.youtube.com/watch?v=nUdlucNd6go&t=133s 
+• Yoga for anxiety and stress: https://www.youtube.com/watch?v=hJbRpHZr_d0 
+• Common yoga protocol: https://www.youtube.com/watch?v=Av5ib_XRKT4 
+• Relevance of yoga in modern times: 
+www.youtube.com/watch?v=HUzBCts7BTo 
+ 
+Course Assessment and Evaluation: 
+1. A committee consisting of Yoga Instructors will be formed to observe and evaluate the 
+students for CIE in each semester. 
+2. Students shall follow the schedules, rules, and regulations as prescribed by the Committee. 
+3. Students shall mandatorily have 85% attendance to be eligible for evaluation. 
+4. All the Sessions and evaluation processes will be common for all semesters of the academic 
+year. 
+5. The final result will be reflected on the grade card of 8th Semester. 
+6. The final marks shall be calculated after scaling down CIE to 50 marks & combining it 
+with 50 marks for SEE. 
+ 
+Scheme of SEE 
+ 
+ 
+Practical Demonstration 30 marks 
+Write-up 10 marks 
+Viva 10 marks 
+Total 50 marks 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+--- Page 46 ---
+ 
+45 
+ 
+ 
+NATIONAL SERVICE SCHEME 
+Course Code: NS69 Credits: NCMC 
+Pre – requisites: Nil  
+Course Coordinator: Dr. Puttabore Gowda & Dr. Siddaraju C 
+ 
+Course Content 
+Course Learning Objectives: 
+1. To introduce students to the importance of national service 
+2. To harness values and skills like leadership, teamwork and sacrifice. 
+3. To serve society through educational services and health 
+4. To work towards rural and local development through technological services 
+5. To inculcate in students, the ability to handle socially relevant projects. 
+ 
+Students shall involve in activities related to national and regional technical and non-technical services, 
+as listed below. 
+• Serving society by bringing awareness on education and cleanliness. 
+• Blood donation camps 
+• Developing technologies for rural masses. 
+• Conduction and participation in camps for a social cause. 
+• Educating towards health and well-being of individuals/society. 
+• Cultural and educational programs for society. 
+• Contributing towards the improvement of civil services and bringing certain shortcomings to 
+the notice of higher authorities for suitable remedial actions. 
+• Contribution towards traffic management and other public services. 
+• Clean up and development of water sources around public places. 
+• Services during a disaster or other needy situations. 
+• Camps for the rejuvenation of lakes and water bodies. 
+• Serving nature and agriculture. 
+• Awareness programs on health and food adulteration. 
+• Presenting papers/talks in various fora on the above topics. 
+• Developing technologies for rural masses beyond academic requirements. 
+• Plantation programs. 
+• Conducting programs for self-sustainability, and human and national development. 
+• Contribution towards orphans and challenged individuals through well- recognized 
+organizations. 
+• Carrying out designated activities in villages. 
+• Development and implementation of strategies for solid waste, E-waste etc. 
+• Education towards pollution control and traffic management. 
+• Production of documentaries and short films/videos for motivating people on any of the above 
+causes. 
+ 
+Course Outcomes (COs): 
+At the end of the course, a student will be able to 
+--- Page 47 ---
+ 
+46 
+1. Understand the importance of national service. 
+2. Gain skills like leadership and teamwork. 
+3. Volunteer towards educational services and health. 
+4. Contribute to rural and local development through technical services. 
+5. Comprehend socially relevant projects 
+ 
+Contact Sessions: 
+The students shall attend the review and contact sessions as scheduled by the course coordinator. 
+ 
+Course Assessment and Evaluation: 
+1. The candidates shall maintain a record of activities in a Diary, and get them endorsed during 
+the contact sessions at least 3 times in a semester. 
+2. A detailed project report should be submitted during the last fortnight of the semester. 
+3. Evaluation will be done during each semester based on the nature of the contribution. 
+4. The final marks shall be calculated after scaling down CIE to 50 marks & combining with 
+50 marks for SEE 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+--- Page 48 ---
+ 
+47 
+III Semester 
+(For Lateral Entry Diploma Students) 
+ 
+ADDITIONAL MATHEMATICS – I 
+Course Code: AM31                                                                                                                               
+Credits: 0:0:0                                                                     Pre-requisites: Nil                                                                                                                           
+Contact Hours: 42 
+Course coordinators: Dr. Shashi Prabha Gogate S 
+ 
+Unit I  
+Differential Calculus: Successive differentiation, nth derivatives of some standard functions, Leibnitz 
+theorem, Polar curves.  Angle between the radius vector and the tangent, angle between curves, length of 
+the perpendicular from pole to the tangent, pedal equations.  Taylor’s and Maclaurin’s expansions.  
+ 
+ Pedagogy / Course delivery 
+tools: 
+ Chalk and talk 
+ Links:  https://nptel.ac.in/courses/111/105/111105121/ 
+ Impartus recording:    https://a.impartus.com/ilc/#/course/107625/1030 
+ 
+Unit II 
+Integral Calculus: Introduction, Reduction formula, Reduction formula for
+ dxxSinn , 
+ dxxCos n  and 
+ dxxCosxSin mn
+.  Evaluation of double and triple integrals. 
+ 
+ Pedagogy / Course delivery 
+tools: 
+ Chalk and talk 
+ Links  https://nptel.ac.in/courses/111/105/111105121/ 
+ Impartus recording:    https://a.impartus.com/ilc/#/course/107625/1030 
+ 
+Unit III 
+Vector Algebra: Scalar and vectors. Vector addition and subtraction. Multiplication of vectors (Dot and 
+Cross products). Scalar and vector triple product -simple problems. Vector functions of a single variable.  
+Derivative of a vector function, geometrical interpretation.  Velocity and acceleration.   
+ 
+ Pedagogy / Course delivery 
+tools: 
+ Chalk and talk 
+ Links:  https://nptel.ac.in/courses/111/105/111105134 
+ Impartus recording:    https://a.impartus.com/ilc/#/course/107625/1030 
+ 
+Unit IV 
+Vector Differentiation: Scalar and vector fields, gradient of a scalar field, directional derivative, 
+divergence of a vector field, solenoidal vector, curl of a vector field, irrotational vector.  Laplace’s operator.  
+Vector identities connected with gradient, divergence and curl.  
+ 
+ 
+ Pedagogy / Course delivery 
+tools: 
+ Chalk and talk 
+ Links:  https://nptel.ac.in/courses/111/105/111105134 
+ Impartus recording:    https://a.impartus.com/ilc/#/course/107625/1030 
+  
+--- Page 49 ---
+ 
+48 
+Unit V 
+First Order Differential Equations: Solution of first order and first degree differential equations, variable 
+separable methods, homogeneous equations, linear and Bernoulli’s equations, exact differential equations. 
+ 
+ Pedagogy / Course delivery 
+tools: 
+ Chalk and talk, Power Point Presentation 
+ Links:  https://nptel.ac.in/courses/111/105/111105121/ 
+ Impartus recording:    https://a.impartus.com/ilc/#/course/59742/295 
+ 
+Self-learning: 
+Problem solving and Quiz. 
+Text Books: 
+1. B.S. Grewal – Higher Engineering Mathematics, Khanna Publishers, 44th edition, 2017. 
+2. Erwin Kreyszig – Advanced Engineering Mathematics – Wiley Publication, 10th Edition, 2015. 
+ 
+Reference Books: 
+1. H. K. Dass – Higher Engineering Mathematics – S Chand Publications, 1998. 
+2. B. V. Ramana – Engineering Mathematics – Tata McGraw-Hill Publishing Co. Ltd., New Delhi, 
+2008. 
+ 
+Course Outcomes  
+At the end of the course the student will be able to  
+1. Solve problems related to nth derivative to some standard functions, polar curves and power series 
+expansions. (PO-1,2) 
+2. Apply the concept of reduction formula to determine the length, area, volume of revolution of an arc of the 
+curve. (PO-1,2) 
+3. Solve the problems related to velocity and acceleration. (PO-1,2) 
+4. Apply vector differentiation to identify solenoidal and irrotational vectors. (PO-1,2) 
+5. Apply the concept of various methods to solve first order first degree differential equations. (PO-1,2) 
+ 
+ 
+Course Assessment and Evaluation: 
+Continuous Internal Evaluation: 50 Marks 
+Assessment Tool Marks Course outcomes addressed 
+Internal test-I 30 CO1, CO2, CO3 
+Internal test-II 30 CO3, CO4, CO5 
+Average of the two internal tests shall be taken for 30 marks. 
+Other components Marks Course outcomes addressed 
+Quiz 10 CO1, CO2, CO3 
+Assignment 10 CO3, CO4, CO5 
+ 
+ 
+ 
+ 
+--- Page 50 ---
+ 
+49 
+ 
+IV Semester 
+ 
+Statistics, Probability and Linear Programming  
+Course Code: IS41                                                                                            Credits: 2:1:0             
+Pre-requisites:  Basic Probability                                                             Contact Hours: 30L+30T+30S                                   
+Course Coordinators: Dr. Govindaraju M V  
+ 
+                                                                         
+                                                                                Unit I 
+Statistics: Curve fitting by the method of least squares, fitting linear, quadratic and geometric curves, 
+correlation, regression and multiple regression. 
+Probability Distributions: Random variables, Binomial distribution, Poisson distribution. 
+ 
+ Pedagogy/Course delivery 
+tools: 
+ Chalk and talk, Power Point Presentation, Videos 
+ 
+ Links  https://nptel.ac.in/courses/111/105/111105035/ 
+ 
+ Impartus recording:    https://a.impartus.com/ilc/#/course/96127/452 
+ https://a.impartus.com/ilc/#/course/132243/636 
+ https://a.impartus.com/ilc/#/course/119635/593 
+ 
+Unit II 
+Probability Distributions : Uniform distribution, Exponential distribution, Gamma distribution and 
+Normal distribution. 
+Joint probability distribution: Joint probability distribution (both discrete and continuous), conditional 
+probability, conditional expectation.  
+ 
+ Pedagogy/Course delivery 
+tools: 
+ Chalk and talk, PowerPoint Presentation, Videos 
+ Links:  https://nptel.ac.in/courses/111/105/111105035/ 
+ https://nptel.ac.in/courses/111/107/111107119/ 
+ 
+ Impartus recording:    https://a.impartus.com/ilc/#/course/96127/452 
+ https://a.impartus.com/ilc/#/course/119635/593 
+ 
+Unit III 
+Markov Chain: Introduction to stochastic process,  probability vectors, stochastic matrices, regular 
+stochastic matrices, Markov chains, higher transition probabilities, stationary distribution of regular 
+Markov chains and absorbing states, Markov and Poisson processes.  
+Queuing theory: Introduction, symbolic representation of a queuing model, single server Poisson queuing 
+model with infinite capacity (M/M/1 :
+ /FIFO), single server Poisson queuing model with finite capacity 
+(M/M/S : N/FIFO), multiple server Poisson queuing model with infinite capacity (M/M/S :
+ /FIFO), 
+Multiple server Poisson queuing model with finite capacity (M/M/S : N/FIFO), introduction to M/G/1 
+queuing model. 
+ 
+ Pedagogy/Course delivery 
+tools: 
+ Chalk and talk, Power Point Presentation, Videos 
+ 
+ Links:  https://nptel.ac.in/courses/111103022 
+ 
+ Impartus recording:    https://a.impartus.com/ilc/#/course/96127/452 
+--- Page 51 ---
+ 
+50 
+ https://a.impartus.com/ilc/#/course/119635/593 
+ 
+Unit IV 
+Sampling and Statistical Inference: Sampling distributions, central limit theorem, concepts of standard 
+error and confidence interval, level of significance, type I and type II errors, one tailed and two tailed tests, 
+Z-test: for single mean, for single proportion and for difference between means, Student’s t –test: for single 
+mean and for difference between two means, F – test for equality of two variances, Chi -square test: for 
+goodness of fit and for independence of attributes. 
+ 
+ Pedagogy/Course delivery 
+tools: 
+ Chalk and talk, Power Point Presentation, Videos 
+ Links:  https://nptel.ac.in/courses/111/105/111105035/ 
+ https://nptel.ac.in/courses/111/107/111107119/ 
+ 
+ 
+                                                                               Unit V 
+Linear Programming: Introduction to linear programming problem (LPP), formulation of the problem, 
+graphical method, general, canonical and standard forms of LPP, simplex  method, big-M method, two -
+phase simplex method and duality in linear programming. 
+ Pedagogy/Course delivery tools:  Chalk and talk, Power Point Presentation, 
+Videos 
+ Links:  https://nptel.ac.in/courses/111104027 
+ 
+Self Learning:  
+Problem solving and Quiz. 
+ 
+Text Books: 
+ 
+1. R.E. Walpole, R. H. Myers, R. S. L. Myers and K. Ye – Probability and Statistics for Engineers and 
+Scientists – Pearson Education – Delhi – 9th edition – 2012. 
+2. B.S.Grewal - Higher Engineering Mathematics - Khanna Publishers – 44th edition-2017. 
+3. T. Veerarajan- Probability, Statistics and Random processes – Tata McGraw-Hill Education – 3rd  
+edition -2017. 
+1. Kanti Swarup, P.K. Gupta and Man Mohan -Operations Research-Sultan Chand & Sons Publishers–
+2014.  
+ 
+ 
+Reference Books: 
+1. Erwin Kreyszig - Advanced Engineering Mathematics-Wiley-India publishers- 10th edition-2015. 
+2. Sheldon M. Ross – Probability models for Computer Science – Academic Press, Elsevier– 2009. 
+3. Murray R Spiegel, John Schiller & R. Alu Srinivasan – Probability and Statistics – Schaum’s outlines 
+-4nd edition-2012. 
+4. Kishore S. Trivedi – Probability & Statistics with Reliability, Queuing and Computer Science 
+Applications – John Wiley & Sons – 2nd edition – 2008. 
+5. Johnson/Miller: Miller & Freund's Probability and Statistics for Engineers , Eighth Edition, Pearson 
+Education India -2015 
+ 
+Course Outcomes 
+At the end of the course, students will be able to  
+1. Fit a least squares curve to the given data  and analyze the given random data and its probability 
+distributions. (PO-1, 2 & PSO -1, 3)  
+--- Page 52 ---
+ 
+51 
+2. Find parameters of Continuous Probability distributions and calculate the marginal and 
+conditional distributions of bivariate random variables. (PO-1, 2 & PSO -1, 3)  
+3. Predict future events using Markov chain and in queuing models. (PO-1, 2 & PSO -1, 3)  
+4. Choose an appropriate test of significance and make inference about the population from a sample. 
+(PO-1, 2 & PSO -1, 3)  
+5. Formulate and solve a simple linear programming problem. (PO -1, 2 & PSO -1, 3)  
+ 
+ 
+ 
+Course Assessment and Evaluation: 
+Continuous Internal Evaluation: 50 Marks 
+Assessment Tool Marks Course outcomes addressed 
+Internal test-I 30 CO1, CO2, CO3 
+Internal test-II 30 CO3, CO4, CO5 
+Average of the two internal tests shall be taken for  30 marks. 
+Other components Marks Course outcomes addressed 
+Quiz 10 CO1, CO2, CO3 
+Assignment 10 CO3, CO4, CO5 
+ 
+Semester End Examination: 100 CO1, CO2, CO3, CO4, CO5 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+--- Page 53 ---
+ 
+52 
+MICROCONTROLLERS 
+Course Code: IS42 Credits: 3:0:1 
+Pre – requisites: Computer Organization and Architecture Contact Hours: 45L + 30P+45S 
+Course Coordinator: Mr. Prashanth Kambli 
+ 
+ 
+Course Contents 
+Unit 1 
+ARM Embedded Systems, RISC design philosophy, ARM design philosophy, Introduction to Embedded 
+systems, Design of Embedded Systems, Applications, Embedded processors, Operating System, 
+Connectivity. Internal Components of System-on-chip, General Microprocessor unit, MCU PIN diagram, 
+Timers and Counters, Pulse width modulator. 
+Pedagogy:  Conceptual Learning using NPTEL video lectures and problem-solving sessions 
+Recommended Resources / Links: 
+1. Introduction to Embedded System Design - Course  
+2. https://a.impartus.com/ilc/#/video/id/3404203  
+ 
+Unit 2 
+Serial Communication, Direct Memory Access, Semiconductor Memory, Designing Low power systems, 
+BUS architecture. Embedded Systems – the Software, Endian-ness, Data Alignment and Memory Banks, 
+Peripheral I/O and Memory Mapped I/O, Load Store Architecture, Stack, FLAGS. 
+Pedagogy: Analytical Learning through NPTEL videos, illustrative case problems 
+Recommended Resources / Links:  
+1. DMA Introduction: Master – Slave Communication | Free Video Tutorial | Udemy 
+2. https://a.impartus.com/ilc/#/video/id/3510844 
+ 
+Unit 3 
+The Architecture of ARM 7, ARM 7 architecture, Interrupts and Exceptions, ARM7 pipeline, Advanced 
+Features. Assembly Programming of ARM7, Embedded program development, ARM7 Instruction set. 
+Pedagogy: Assembly programming learning skills and algorithm tracing 
+Recommended Resources / Links: 
+1. https://www.udemy.com/course/armv8-exception-level1/ 
+2. https://a.impartus.com/ilc/#/video/id/3542117 
+Laboratory Session:  Part A 1-5 programs.  
+Unit 4 
+Assembly Language Programming, Accessing Memory, Programming of ARM7 using C, ARM7 
+SOC. 
+--- Page 54 ---
+ 
+53 
+Pedagogy: Assembly programming in high level language learning skills for embedded systems 
+Recommended Resources / Links: 
+1. Microcontroller Embedded C Programming: Absolute Beginners | Udemy 
+2. https://a.impartus.com/ilc/#/course/1259590/1112 
+ 
+Laboratory Session: Part A 6-12 Programs and Part B 1-5 Programs 
+Unit 5 
+Architecture of ARM Cortex-M, Cortex-M Processors, Cortex-M0, Modes and States, Programming 
+Model, Memory Model, Nested Vetor Interrupt Controller, Power management using sleep modes. 
+Pedagogy: Conceptual Learning using NPTEL video lectures for cortex systems 
+Recommended Resources / Links:   
+1. Microprocessors and Microcontrollers: Arm Cortex-M0+ (using RP2040) – NPTEL+ 
+2. https://a.impartus.com/ilc/#/course/1259590/1112 
+ 
+Laboratory Session: Part B 6-9 Programs 
+Self-Learning: 
+Course-Project: Develop and Embedded system application using Raspberry Pi OR Aurdino OR Nuvuton 
+boards for to showcase real time working principle. 
+ 
+MICROCONTROLLER LAB 
+Part A 
+1. a. ALP to add first 10 odd numbers. Store sum in register.  
+    b. ALP to compute sum of squares of 5 numbers starting from 1. Write and use procedure SQU. Store sum 
+in register. 
+   2. a. ALP to add the first n even numbers. Store the result in a memory location.  
+       b. ALP to generate a geometric progression with a limit n. Display the results in memory. 
+   3. a. ALP to count the number of zeroes and ones in a binary number.  
+       b. ALP to find the average of ten 16-bit numbers stored in memory. 
+   4. a. ALP to find the factorial of a number.  
+       b. ALP to generate the first n Fibonacci numbers. 
+   5. ALP to find the sum of digits of a number. 
+   6. ALP to convert BCD number to binary. 
+   7. ALP to select a set of r objects from a set of n objects without considering the order of elements 
+        in a selection using combination method. 
+--- Page 55 ---
+ 
+54 
+   8. ALP to select a set of r objects from a set of n objects considering the order of elements in an 
+        arrangement using permutation method. 
+   9. ALP to implement Bubble Sort on an array of integers. 
+  10. ALP to implement Binary Search on an array of integers. 
+  11. ALP to check whether the given number is palindrome. 
+  12. ALP to count the number of times a substring is repeated in the string. 
+Part B 
+1. C program to toggle the lowest pin of Port 0 with a delay between the two states. Observe and 
+     record the waveform obtained using the Logic Analyzer in the Keil simulator. 
+2. C program to generate an asymmetric square wave of 120Hz and having a duty cycle of 25% 
+    using the Timer0 module. 
+3. C program to generate a square wave using Timer0 in the interrupt mode. 
+4. C program to make a LED glow at different brightness levels (low to high) with brightness 
+    levels varying over duration of 2s. Demonstrate using logic analyzer window. 
+5. C program to display the string ‘I LOVE ISE’ in the serial window of UART1 
+Text Books: 
+1. Andrew Sloss, Dominic Symes, Chris Wright, “ARM System Developer's Guide – Designing and 
+Optimizing System Software”, Elsevier Publication 2012. 
+2. Lyla B Das, “Architecture, Programming, and Interfacing of Low-power Processors – ARM7, 
+       Cortex-M”, Cengage Learning India Pvt. Ltd. 2017. 
+Reference Books: 
+1. F. Vahid and T. Givargis, “Embedded System Design: A Unified Hardware/Software Introduction”, Wiley 
+India Pvt. Ltd., 2002. 
+2. A.N. Sloss, D. Symes and C. Wright, “ARM System Developer’s Guide: Design and Optimizing System 
+Software”, Morgan Kaufman Publishers, 2004. 
+ 
+Course Outcomes: 
+1. Understand the basics of embedded processors and operating system for different application 
+    scenarios (PO1, PSO2) 
+2. Describe the building blocks that contribute to the software aspects of embedded system design. 
+    (PO1, PO2, PO3, PSO1, PSO2) 
+3. Design ARM7 programs that includes interrupt structure and pipeline. (PO1, PO2, PO3, PO5, PSO1, 
+PSO2) 
+4. Develop ARM7 assembly code for a given problem (PO1, PO2, PO3, PO5, PSO1, PSO2) 
+--- Page 56 ---
+ 
+55 
+5. Compare Cortex-M processors in terms of architecture, memory model and interrupt structure  
+   (PO1, PO2, PO3, PO5, PSO-2) 
+Course Assessment and Evaluation: 
+ 
+Continuous Internal Evaluation: 50 Marks 
+Assessment Tool Marks Course Outcomes addressed 
+ Internal test-I 30 CO1, CO2, CO3 
+ Internal test-II 30 CO3, CO4, CO5 
+Average of the two internal tests shall be taken for  30 marks. 
+Other components Marks Course Outcomes addressed 
+ Course project 10 CO1, CO2, CO3, CO4, CO5 
+ Lab test and Record 10 CO1, CO2, CO3, CO4, CO5 
+ 
+Semester End Examination 100 CO1, CO2, CO3, CO4, CO5 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+--- Page 57 ---
+ 
+56 
+Design and Analysis of Algorithms 
+Course Code: IS43  
+ 
+Credits: 3:0:0 
+Pre – requisites: NIL Contact Hours: 45L+45S  
+ 
+Course Coordinator: Krishna Raj PM  
+ 
+ 
+ 
+Course Contents 
+Unit 1 
+Foundations of Algorithms: Role of Algorithms in Computing, Growth of Functions, Asymptotic 
+Notation, Analyzing Algorithms, Standard Notations and Common Functions. Divide-and-Conquer: 
+Recurrences, Substitution Method, Recursion-Tree Method, Master Method. Probabilistic Analysis and 
+Randomized Algorithms: Indicator Random Variables, Randomized QuickSort, Randomized Algorithms 
+for Matrix Operations.  
+Pedagogy: Conceptual Learning using NPTEL video lectures and problem-solving sessions 
+Recommended Resources / Links:  https://nptel.ac.in/courses/106101060 
+ 
+Unit 2 
+Sorting and Order Statistics: Heaps and HeapSort, Priority Queues, QuickSort, Sorting  in Linear Time - 
+Counting Sort, Radix Sort, Bucket Sort. Medians and Order Statistics: Selection Algorithms and their 
+Analysis. 
+Pedagogy: Analytical Learning through NPTEL videos, illustrative case problems, and algorithm tracing 
+Recommended Resources / Links: https://nptel.ac.in/courses/106101060 
+ 
+Unit 3 
+Amortized Analysis and Advanced Algorithmic Techniques: Aggregate Analysis, Accounting Method, 
+Potential Method. Union-Find / Disjoint Set Union with Path Compression and Union by Rank. Fibonacci 
+Heaps and their applications in graph algorithms. Applications of Amortized Analysis to data structure 
+operations and network optimization problems. 
+Pedagogy: Visualization-based Learning with animated NPTEL videos and hands-on paging examples 
+Recommended Resources / Links: https://nptel.ac.in/courses/106101060 
+ 
+Unit 4 
+Dynamic Programming: Matrix Chain Multiplication, Longest Common Subsequence, Optimal Binary 
+Search Trees. Greedy Algorithms: Activity Selection, Huffman Codes, Minimum Spanning Trees using 
+Kruskal and Prim, Dijkstra’s Algorithm. 
+Pedagogy: Structure-oriented Learning using NPTEL lectures and whiteboard implementation exercises 
+Recommended Resources / Links: https://nptel.ac.in/courses/106101060 
+ 
+Unit 5 
+Graph Traversals: BFS, DFS, Topological Sort, Strongly Connected Components. Shortest Paths: 
+Bellman-Ford, Dijkstra revisited, Floyd-Warshall, Johnson’s Algorithm. Maximum Flow: Ford–
+Fulkerson, Edmonds-Karp. Computational Complexity: Introduction to P, NP, NP-Completeness, 
+Approximation Algorithms. 
+--- Page 58 ---
+ 
+57 
+ 
+Pedagogy: Real-world Case-based Learning with NPTEL content and practical scenario discussions 
+Recommended Resources / Links: https://nptel.ac.in/courses/106101060 
+ 
+Self-Learning: 
+Case Study: Analyze the use of a greedy algorithm in a real-world application like GPS navigation. 
+Examine a scenario where an inefficient algorithm caused problems and propose a better solution. 
+Project Based Learning: Create a visualizer tool to demonstrate how sorting algorithms work. Build a 
+simple recommendation engine using graph algorithms like BFS or DFS. 
+ 
+Simulation: Simulate Kruskal's Algorithm to find a minimum spanning tree in a network. Use a simulation 
+to visualize the execution of a backtracking algorithm like the N-Queens Problem. 
+Text Books: 
+1. Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest, Clifford Stein, “Introduction to 
+Algorithms,” Fourth Edition, MIT Press, 2022. 
+ 
+Reference Books: 
+1. Jon Kleinberg, Éva Tardos, “Algorithm Design,” 2nd Edition, Pearson, 2022. 
+2. Alfred V. Aho, John E. Hopcroft and Jeffrey D. Ullman, “Data Structures and Algorithms”, Pearson 
+Education, Reprint 2006. 
+Course Outcomes: 
+At the end of the course, the student will be able to: 
+1. Analyze algorithms using asymptotic notation, recurrences, and probabilistic tools. (PO1, PO2, 
+PO4, PSO1) 
+2. Apply sorting, selection, and searching techniques efficiently. (PO1, PO3, PO5, PSO1) 
+3. Employ advanced data structures and amortized analysis to optimize algorithms. (PO1, PO3, PO5, 
+PSO1) 
+4. Implement algorithmic design paradigms such as dynamic programming and greedy methods. 
+(PO1, PO3, PO5, PSO1) 
+5. Apply graph algorithms, flow techniques, and complexity concepts to real-world computational 
+problems. (PO2, PO4, PO11, PSO1) 
+ 
+Course Assessment and Evaluation: 
+  
+Continuous Internal Evaluation (CIE): 50 Marks 
+Assessment tool Marks Course outcomes attained 
+Internal Test-I 30 CO1, CO2, CO3 
+Internal Test-II 30 CO3, CO4, CO5 
+Average of the two internal tests shall be taken for 30 marks. 
+Other Components     
+Quiz 10 
+CO1, CO2, CO3, CO4, 
+CO5 
+Simulation 10 CO1, CO2, CO3, CO4, 
+CO5 
+  
+Semester-End Examination (SEE) 
+100 
+(Scale down to 50 Marks) CO1, CO2, CO3, CO4, CO5 
+ 
+ 
+--- Page 59 ---
+ 
+58 
+DATABASE MANAGEMENT SYSTEMS 
+Course Code: IS44 Credits: 3:0:0 
+Pre – requisites: Nil Contact Hours: 45L+45S 
+Course Coordinator: Dr. Savita K Shetty 
+Course Contents 
+Unit 1 
+Introduction to DBMS: Introduction, Characteristics of database approach, Actors on the scene, Workers behind the 
+scene. Advantages of using DBMS approach. When not to use DBMS.  
+Database System Concepts: Data Models, Schemas and Instances, Three-schema architecture and data independence. 
+Database languages and interfaces; Classification of Database Management systems.  
+Entity Relationship Model: Using High Level conceptual data for database design, an example database application. 
+Entity Types, Entity Sets, Attributes and Keys; Relationship types, Relationship Sets, Roles and Structural Constraints; 
+Weak Entity Types. Refining the ER Design; ER Diagrams, naming conventions and design issues. 
+Pedagogy/Course delivery tools: Chalk and talk, Power Point Presentation. 
+Recommended Resources / Links: 
+1.https://www.youtube.com/watch?v=OWX4RvijwLw&list=PLIwC9bZ0rmjSkm1VRJROX4vP2YMIf4Ebh&index= 
+2.https://www.youtube.com/watch?v=rrG7azSlyWI&list=PLIwC9bZ0rmjSkm1VRJROX4vP2YMIf4Ebh&index=4 
+Unit 2 
+Relational Model and Relational Algebra: Relational Model Constraints and Relational Database Schemas; Update 
+Operations, Transactions and dealing with constraint violations.  
+Unary relational Operations select and project. Relational algebra operations fr om set theory. Binary relational 
+operations, join and division. Additional relational operations example of queries in relational algebra. Relational 
+Database Design using ER- to-Relational Mapping. 
+Pedagogy/Course delivery tools: Chalk and talk, Power Point Presentation. 
+Recommended Resources / Links:   
+https://www.youtube.com/watch?v=DRSog3SA4Y&list=PLIwC9bZ0rmjSkm1VRJROX4vP2YMIf4Ebh&index=5 
+Unit 3 
+SQL Data Definition and Data Types : The create table command in SQL, attribute data types and domains.  
+Specifying basic attribute constraints and defaults in SQL; Specifying key and referential integrity constraints. Schema 
+change statements in SQL; DROP command and Alter Command. Basic queries in SQL: The select from where 
+structure of basic SQL queries, Unspecified where clause and use of the asterisk, Aliasing, Substring Pattern Matching 
+and arithmetic Operators, Ordering of query results. Complex SQL Queries: Comparisons Involving null and three 
+valued logics, nested queries, the exists and unique functions in SQL. Joined tables in SQL. Aggregate functions, Group 
+by and having clauses. Insert, Delete and Update statements in SQL. 
+Pedagogy/Course delivery tools: Chalk and talk, Power Point Presentation. 
+Recommended Resources / Links:   
+ 
+1. https://www.youtube.com/watch?v=w1XdPholzWY&list=PLIwC9bZ0rmjSkm1VRJROX4vP2YMIf4Ebh&index
+=6 
+2. https://www.youtube.com/watch?v=ywUn5qNmxNo&list=PLIwC9bZ0rmjSkm1VRJROX4vP2YMIf4Ebh&index
+=7 
+Unit 4 
+Database Design: Informal Design Guidelines for Relation Schemas, reducing the null values in tuples, disallowing 
+the possibility of generating the spurious tuples. Definition of Functional Dependencies, inference rules for functional 
+dependencies. Normal Forms Based on Primary Keys-1NF, 2NF, 3NF, BCNF with examples. Codd rules. 
+Pedagogy/Course delivery tools: Chalk and talk, Power Point Presentation. 
+Recommended Resources / Links:   
+--- Page 60 ---
+ 
+59 
+1. https://www.youtube.com/watch?v=K5jqNjnE-
+pE&list=PLIwC9bZ0rmjSkm1VRJROX4vP2YMIf4Ebh&index=16 
+2. https://www.youtube.com/watch?v=9-
+uqoJK6KPc&list=PLIwC9bZ0rmjSkm1VRJROX4vP2YMIf4Ebh&index=17 
+Unit 5 
+Introduction to Transaction Processing: Single user versus multi user transactions, Read and Write operations. 
+Transaction and System Concepts, Desirable properties of Transactions, Transaction Support in SQL, Need of 
+concurrency control and recovery. Two-phase Locking Techniques for Concurrency Control, Recovery techniques 
+based on Deferred Update, Recovery techniques based on Immediate Update. 
+Introduction to NoSQL: Why NoSQL? characteristics and types of NoSQL database. Use of NoSQL in industry, 
+SQL versus NOSQL. 
+Introduction to MongoDB: What is MongoDB? Why? Data Types and introduction to MongoDB Query Language. 
+Pedagogy/Course delivery tools: Chalk and talk, Power Point Presentation. 
+ 
+1. Recommended Resources / Links:  
+https://www.youtube.com/watch?v=TyT_MuPHG3g&list=PLIwC9bZ0rmjSkm1VRJROX4vP2YMIf4Ebh&index
+=31 
+2. https://www.mongodb.com/resources/basics/databases/nosql-explained 
+Text Books: 
+ 
+1.Ramez Elmasri and Shamkant B.Navathe: Fundamentals of Database Systems, 7th Edition, Addison-Wesley, 2016.  
+2. Benjamin Rosenzweig, Elena Silvestrova Rakhimov: Oracle PL/SQL by Example, ,6th edition, 2023.  
+Reference Books: 
+ 
+1.Silberschatz, Korth and Sudharshan: “Data base System Concepts, Seventh Edition, Mc-GrawHill, 2019”.  
+2. Raghu Ramakrishnan, Johannes Gehrke, “Database Management Systems, Third Edition”, McGraw-Hill, 2003.  
+3.  Arek Borucki “MongoDB 8.0 in Action 3rd Edition” 2025 
+Self-Learning (Case Study/ Project Based Learning): Students are required to work in teams of up to four members 
+to complete a team-based project. The project must include both the development of a working database application 
+and the submission of a project report for demonstration and evaluation purposes. 
+Each team should select a case study and follow the steps below to design and implement their application: 
+1. Collect Data Requirements 
+2. Gather Functional Requirements 
+3. Design the Entity-Relationship (ER) Model 
+4. Convert the ER Model to a Relational Schema and Normalize the Design 
+Course Outcomes: 
+At the end the course students will be able to: 
+1. Design Entity Relationship model for the given database problem. (PO1, PO2, PO3, PO9, PO10, PO11, PSO1, 
+PSO-3)  
+2. Develop relational model from the given Entity Relationship diagram. (PO1, PO2, PO3, PO9, PO10, PO11, PSO1, 
+PSO3)  
+3. Design the relational database schema by applying normalization techniques. (PO1, PO2, PO3, PO9, PO10, PO11, 
+PSO1, PSO3)  
+4. Apply query language to perform database operations. (PO1, PO2, PO3, PO5, PO9, PO10, PO11, PSO1, PSO3)  
+5. Understand the concepts of transaction processing, concurrency control and recovery techniques. (PO1, PO11, 
+PSO1, PSO3) 
+ 
+ 
+--- Page 61 ---
+ 
+60 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Course Assessment and Evaluation: 
+Continuous Internal Evaluation (CIE): 50 Marks 
+Assessment tool Marks Course outcomes attained 
+Internal Test-I 30 CO1, CO2, CO3 
+Internal Test-II 30 CO3, CO4, CO5 
+Average of the two internal tests shall be taken for 30 marks. 
+Other Components     
+Mini Project –Phase-1-Demo/Quiz 10 CO1, CO2, CO3,  
+ 
+Mini Project –Phase-2-Demo/Quiz 10           CO4, CO5 
+  
+Semester-End Examination (SEE) 
+100 
+(Scale down 
+to 50 Marks) 
+CO1, CO2, CO3, CO4, CO5 
+ 
+--- Page 62 ---
+ 
+61 
+ADVANCED JAVA 
+Course Code: IS45 Credits: 3:0:0 
+Pre – requisites: Principles of Programming using C Contact Hours: 45L+45S 
+Course Coordinator: Mrs Evangeline D 
+ 
+Course Content 
+Unit I 
+Java Basics :  Classes, Object, Constructors, Method overloading, Understanding Static, final, Inheritance - 
+Super, Method Overriding, Dynamic Method Dispatch, Abstract Classes, Using Final. Packages and 
+Interfaces- Defining, Implementing . Access Protection. Exception Handling- try-catch, throw, throws, finally. 
+Built-in Exceptions, Creating Exception classes and Chained Exceptions 
+Pedagogy: Demo, Chalk and Talk. 
+Links: 
+1.https://www.youtube.com/watch?v=VksxhzfD8kQ 
+2.https://www.youtube.com/watch?v=4wZ_3oLoYiY 
+ 
+Unit II 
+String Handling: String Constructors, String Length, String Operations, changing case of characters, joining 
+strings, string methods, Character Extraction, Searching Strings, Modifying Strings, Data conversions, 
+StringBuffer. Type wrappers, Autoboxing 
+Lambda Expressions: Fundamentals, Functional Interfaces, block lambda expressions. 
+Multithreaded Programming :  The Java Thread Model, The main thread, Creating a thread, Creating 
+multiple threads, Using isAlive() and join() 
+ 
+Pedagogy: Demo, Chalk and Talk. 
+Links: 
+1.https://www.youtube.com/watch?v=5NOLuoG6fcQ 
+2.https://www.youtube.com/watch?v=lYuj9nn0PBU&list=PLfn3cNtmZdPOe3R_wO_h540QNfMkCQ0ho&
+index=30 
+Unit III 
+Collections: Collection Interfaces, Collection classes, Accessing a collection via an Iterator, Spliterator 
+Storing user defined classes in Collections, Working with Maps, Sets, Comparators and Comparable 
+Generics<T>: Introduction to Java Generics, Implementing Generics, Generic Methods and Interfaces 
+ 
+Pedagogy: Demo, Chalk and Talk.  
+Links:1.https://www.youtube.com/watch?v=6rYOyIGfy3w&list=PLfn3cNtmZdPOe3R_wO_h540QNfMkC
+Q0ho&index=27 
+2. https://www.youtube.com/watch?v=K1iu1kXkVoA 
+Unit IV 
+ 
+Introducing Swing – The Swing packages, Event handling, Exploring Swing. Working with Databases – 
+JDBC Drivers and Architecture, Accessing Databases, 
+ 
+Pedagogy:  Demo, Chalk and Talk.  
+Links: 
+--- Page 63 ---
+ 
+62 
+1.https://www.youtube.com/watch?v=ajhWv31oN1k&list=PLfn3cNtmZdPOe3R_wO_h540QNfMkCQ0ho&
+index=50 
+2.https://www.youtube.com/watch?v=mQj34vUhpts&list=PLfn3cNtmZdPOe3R_wO_h540QNfMkCQ0ho&
+index=43 
+Unit V 
+Java Servlets – Introduction, Servlet API and Life Cycle, JavaServer Pages Technology - What Is a JSP 
+Page? The Life Cycle of a JSP Page, Creating Static Content, Creating Dynamic Content, Scripting in JSP 
+Pages - Declarations, Scriptlets, Expressions 
+ 
+Pedagogy:  Demo, Chalk and Talk.  
+Links: 
+1. https://www.youtube.com/watch?v=7AIjcZMo-V4 
+2. https://www.youtube.com/watch?v=OuBUUkQfBYM 
+ 
+Text Books: 
+1. Herbert Schildt, Java:the Complete Reference, 12th edition, McGrawHill, , 2023. 
+2. Sharanam Shah, Vaishali Shah, JavaEE 7 for Beginners, Shroff Publishers, 2018. 
+3. Eric Armstrong, Jennifer Ball. Stephanie Bodoff, Debbie Bode Carson, Ian Evans, Dale Green, Kim Haase 
+Eric Jendrock, J2EE 1.4 Tutorial, O’Reilly, 2005. 
+Reference Books: 
+1.  Christian Ullenboom, Java: The Comprehensive Guide, Shroff Publishers, October, 2022 
+Self-Learning: Programming Test and GATE oriented aptitude test. 
+Course Outcomes: 
+At the end of the course, the student will be able to: 
+CO1: Apply basic Java concepts for various applications. (PO - 1, 2, 3, 4, 5 & PSO - 3) 
+CO2: Identify methods of Strings, type wrappers and Collection classes for applications (PO - 1, 2, 3, 4, 5 & 
+PSO - 3) 
+CO3: Implement applications using Maps, Generics, Lambda and multithreading concepts (PO 1, 
+2, 3, 4, 5- & PSO - 3) 
+CO4: Develop programs using Swing and JDBC (PO 1, 2, 3, 4, 5 & PSO - 3) 
+CO5: Develop dynamic web pages using Servlets or JSP (PO -1, 2, 3, 4,5 & PSO - 3) 
+ 
+Course Assessment and Evaluation: 
+ 
+ 
+Continuous Internal Evaluation (CIE) : 50 Marks 
+Assessment tool Marks Course outcomes attained 
+Internal Test-I 30 CO1, CO2, CO3 
+Internal Test-II 30 CO3, CO4, CO5 
+Average of the two internal tests shall be taken for 30 marks. 
+Other Components 
+MCQ Test 10 CO1, CO2, CO3, CO4, 
+CO5 
+Programming Test 10 CO1, CO2, CO3, CO4, 
+CO5 
+  
+Semester-End Examination (SEE) 
+100 
+(Scale down to 50 Marks) 
+CO1, CO2, CO3, CO4, CO5 
+ 
+--- Page 64 ---
+ 
+63 
+Design and Analysis of Algorithms Laboratory 
+Course Code: ISL46 Credits: 0:0:1 
+Pre – requisites: NIL Contact Hours: 30P 
+Course Coordinator: Krishna Raj 
+Course Contents 
+ 
+General Instruction: 
+For each experiment, students are required to design and implement the algorithm, demonstrate the working 
+through step-by-step tracing on sample input and evaluate its performance by analyzing the time complexity. 
+1. An online retail platform must arrange thousands of  customer orders by order ID before shipping. Design an 
+efficient sorting approach using arrays, ensuring stable ordering for large datasets. 
+2.  A courier service wants to optimize package sorting for delivery by randomizing the partitioning step to avoid 
+worst-case delays. Use array-based random partitioning to achieve efficient average performance. 
+3. An airline system maintains passenger boarding priorities based on ticket class and time of check-in. Implement 
+a priority queue using a binary heap to order passengers for boarding efficiently. 
+4. An exam evaluation system needs to quickly sort thousands of student marks, all within the fixed range of 0 to 
+100. Apply a linear-time counting technique using arrays to produce the sorted list. 
+5. A hospital analytics dashb oard requires finding the median patient waiting time from thousands of entries 
+recorded daily. Use a selection procedure on an unsorted array to determine the median in guaranteed linear 
+time. 
+6. A social networking platform must efficiently track friend gro ups as users form new connections. Implement 
+a disjoint-set data structure with union by rank and path compression to dynamically manage merging groups. 
+7. A city navigation system computes the shortest routes between intersections for thousands of vehicles. 
+Implement a graph representation with adjacency lists and use a heap -based priority queue optimized by 
+Fibonacci heaps to improve shortest path calculations. 
+8. A video processing engine must determine the most efficient sequence for multiplying a chain of ma trices 
+representing video transformations. Use dynamic programming with a tabular approach to minimize the total 
+number of scalar multiplications. 
+9. A plagiarism detection system compares two student essays to find the longest matching sequence of words. 
+Use dynamic programming with a two -dimensional table to compute the longest common subsequence 
+between the two text strings. 
+10. A telecom service provider compresses text messages to reduce transmission costs. Construct a binary tree 
+based on character frequencies and apply a greedy encoding strategy to generate efficient prefix codes for the 
+text. 
+11. A file management system must explore all files and folders in a directory structure to build dependency maps. 
+Model the directory as a graph and traverse it using depth-first search to record discovery and finishing times. 
+12. A city water supply network distributes water from a main reservoir to multiple zones through pipelines of 
+limited capacity. Model the network as a directed flow graph and compute the maximum possibl e water flow 
+from source to sink. 
+ 
+Pedagogy: The reasoning-based, structured, and problem-oriented, aiming to build a deep conceptual understanding 
+of algorithms rather than surface-level. 
+Links:  https://www.youtube.com/playlist?list=PLyqSpQzTE6M9DKhN7z2fOpKTJWu-639_P  
+ 
+--- Page 65 ---
+ 
+64 
+ 
+ 
+Course Assessment and Evaluation: 
+  
+Continuous Internal Evaluation (CIE): 50 Marks 
+Assessment tool Marks Course outcomes attained 
+Internal Test 20 CO1, CO2, CO3 
+Other Components     
+Conduction,  Calculation,  Record  and 
+Viva 30 CO1, CO2, CO3 
+Semester-End Examination (SEE) 50 CO1, CO2, CO3 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Text Books: 
+1. Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest, Clifford Stein, “Introduction to Algorithms,” Fourth 
+Edition, MIT Press, 2022. 
+Reference Books: 
+1.   Jon Kleinberg, Éva Tardos, “Algorithm Design,” 2nd Edition, Pearson, 2022. 
+2. Alfred V. Aho, John E. Hopcroft and Jeffrey D. Ullman, “Data Structures and Algorithms”, Pearson Education, 
+Reprint 2006. 
+ 
+Course Outcomes: At the end of the course, the student will be able to: 
+1. Design the experiment for the given problem using various standard algorithmic techniques. (PO1, PO2, PO3, 
+PO9, PO10, PSO-1) 
+2. Develop the solution for the given real world problem. (PO1, PO2, PO3, PO4, PO9, PO10, PSO1) 
+3. Analyze the results and produce substantial written documentation (PO1, PO2, PO4, PO9, PO10, PSO1) 
+ 
+--- Page 66 ---
+ 
+65 
+DATABASE MANAGEMENT SYSTEMS LAB 
+Course Code: ISL47  Credits: 0:0:1 
+Pre – requisites: Nil Contact Hours:30P 
+Course Coordinator: Dr. Savita K. Shetty 
+List of Experiments: 
+Part A 
+1.  
+ 
+Consider an Employee with a social security number (SSN) working on multiple projects with definite hours 
+for each. Each Employee belongs to a Department. Each project is associated with some domain areas such as 
+Database, Cloud and so on. Each Employee will be assigned to some project. Assume the attributes for 
+Employee and Project relations.  
+a) Mention the constraints neatly.  
+b) Design the ER diagram for the problem statement  
+c) State the schema diagram for the ER diagram.  
+d) Create the tables, insert suitable tuples and perform the following operations in SQL i. Obtain the details 
+of employees assigned to “Database” project.  
+ii. Find the number of employees working in each department with department details.  
+iii. Update the Project details of Employee bearing SSN = #SSN to ProjectNo = #Project_No and display 
+the same.  
+  
+2  
+ 
+Consider the relations: PART, SUPPLIER and SUPPLY. The Supplier relation holds information about 
+suppliers. The attributes SID, SNAME, SADDR describes the supplier. The Part relation holds the attributes 
+such as PID, PNAME and PCOLOR. The Shipment relation holds information about shipments that include 
+SID and PID attributes identifying the supplier of the shipment and the part shipped, respectively. The 
+Shipment relation should contain information on the number of parts shipped.  
+a) Mention the constraints neatly.  
+b) Design the ER diagram for the problem statement  
+c) State the schema diagram for the ER diagram.  
+d) Create the above tables, insert suitable tuples and perform the following operations in Oracle SQL:  
+i. Obtain the details of parts supplied by supplier #SNAME.  
+ii. Obtain the Names of suppliers who supply #PNAME.  
+iii. Delete the parts which are in #PCOLOR.  
+ 
+3  
+ 
+Consider the relations BOAT, SAILOR and RESERVES. The relation BOAT identifies the features of a boat 
+such as unique identifier, color and a name. The list of sailors with attributes such as SailorID, name, age etc., 
+are stored in the relation SAILOR. The sailors are allowed to reserve any number of boats on any day of the 
+week and the records are to be updated in the RESERVES table.  
+a) Mention the constraints neatly.  
+b) Design the ER diagram for the problem statement  
+c) State the schema diagram for the ER diagram.  
+d) Create the tables, insert suitable tuples and perform the following operations in SQL: 
+i. Obtain the details of the boats reserved by ‘#Sailor_Name’.  
+ii. Retrieve the BID of the boats reserved necessarily by all the sailors.  
+iii. Find the number of boats reserved by each sailor. Display the Sailor_Name along with the number of 
+boats reserved.  
+ 
+4 Consider the Banking database – CUSTOMER, BRANCH, ACCOUNT and TRANSACTION. An account can 
+be a savings account or a current account. Customer can have both types of accounts. The transactions can be a 
+deposit or a withdrawal.  
+a) Mention the constraints neatly.  
+b) Design the ER diagram for the problem statement  
+c) State the schema diagram for the ER diagram.  
+d) Create the above tables, insert suitable tuples and perform the following operations in SQL:  
+i. Obtain the details of customers who have both Savings and Current Account. 
+ii. Retrieve the details of branches and the number of accounts in each branch.  
+--- Page 67 ---
+ 
+66 
+iii. Obtain the details of customers who have performed at least 3 transactions.  
+iv. List the details of branches where the number of accounts is less than the average number of accounts in 
+all branches.  
+ 
+  
+ 5 Consider the Book Lending system from the library- BOOKS, STUDENT, BORROWS. The students are 
+allowed to borrow any number of books on a given date from the library. The details of the book should 
+include ISBN, Title of the Book, author, and publisher. All students need not compulsorily borrow books.  
+a) Mention the constraints neatly.  
+b) Design the ER diagram for the problem statement  
+c) State the schema diagram for the ER diagram.  
+d) Create the above tables, insert suitable tuples and perform the following operations in SQL: 
+i. Obtain the names of the student who has borrowed either book bearing ISBN ‘123’ or ISBN ‘124’.  
+ii. Obtain the Names of female students who have borrowed “Database” books.  
+iii. Find the number of books borrowed by each student. Display the student details along with the number of 
+books. 
+6 Consider the Hospital management system with Patient, Doctor and Appointment. Patient relation holds the 
+Patient ID, Name, Age, Gender. Doctor relation describes with Doctor ID, Name, Specialization Each patient 
+has given appointment with some doctor on specific date. 
+a) Mention the constraints neatly.  
+b) Design the ER diagram for the problem statement  
+c) State the schema diagram for the ER diagram.  
+d) Create the above tables, insert suitable tuples and perform the following operations in Oracle SQL:  
+i. Retrieve the details of doctors consulted by ‘#Patient_Name’. 
+ii. Find the DoctorIDs of doctors consulted by all patients. 
+iii. For each patient, find the number of doctors consulted. Display Patient_Name with the count. 
+7 a) Create an Employee and Department tables, insert suitable tuples and perform the following operations 
+using MongoDB  
+i. List all the employees of Department named #Dept_name 
+ii. Name the employees working on Project Number :#Project_No  
+b) Write a program that gives all employees in Department #number a 15% pay increase. Display a message 
+displaying how many employees were awarded the increase. 
+8 a) Create Patient and Doctor collections, insert suitable documents, and perform the following operations using 
+MongoDB: 
+i. List all the patients treated by the doctor named #Doctor_Name. 
+ii. Display the names of patients who have an appointment on date #Appointment_Date. 
+b) Write a program that increases the consultation fee of all doctors in specialization #Specialization by 20%. 
+Display a message showing how many doctors were updated. 
+9 a)Create the table, insert suitable tuples and perform the following operations using MongoDB  
+i. Update the details of parts for a given part identifier: #PID. 
+ii. Display all suppliers who supply the part with part identifier: #PID.  
+b) Write a PL/SQL program to copy the contents of the Shipment table to another table for maintaining records 
+for specific part number. 
+10 
+ 
+a)Create the table, insert suitable tuples and perform the following operations using MongoDB.  
+i. Obtain the number of boats obtained by sailor :#Sailor_Name 
+ii. Retrieve boats of color :”#color”  
+b)    Consider the following relation schema. 
+EMPLOYEE (SSN, Name, sal, DeptNo) 
+Write a trigger to raise an error if the table is modified on a specific day (Eg., 
+Saturday or Sunday) of the week. 
+--- Page 68 ---
+ 
+67 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 11 a)Create the tables Customer and Branch, insert suitable tuples and perform the following operations using 
+MongoDB  
+i. Find the branch name for a given Branch_ID. 
+ii. List the total number of accounts for each customer.  
+b) Using cursors demonstrates the process of copying the contents of one table to a new table. 
+ 12 a)Create the table, insert suitable tuples and perform the following operations using MongoDB  
+i. Obtain the book details authored by “author_name”. 
+ii. Obtain the Names of students who have borrowed “Database” books.  
+b) Create a program that accepts two numbers. If the first is larger than the second 
+raise an exception called e_bigger and display an appropriate message. 
+Part B 
+ 
+Mini Project 
+Students are required to work in teams of up to four members to complete a team-based project. The project must 
+include both the development of a working database application and the submission of a project report for 
+demonstration and evaluation purposes. 
+Each team should select a case study and follow the steps below to design and implement their application: 
+5. Use SQL for Data Definition: 
+o Create tables based on the relational schema 
+o Populate the tables with sample data 
+6. Use SQL for Data Manipulation 
+7. Create Views and Triggers using SQL 
+8. Execute Basic SQL Queries 
+9. Write and Execute Complex SQL Queries 
+10. Design and Implement a Front-End Interface for the application 
+Text Books: 
+1.Ramez Elmasri and Shamkant B.Navathe: Fundamentals of Database Systems, 7th Edition, Addison-Wesley, 2016.  
+2. Benjamin Rosenzweig, Elena Silvestrova Rakhimov: Oracle PL/SQL by Example, ,6th edition, 2023. 
+Reference Books:  
+1. SQL/PLSQL –The programming Language of Oracle by Evan Byross 4TH Edition BPB publication 2009 
+ 
+Course Outcomes: 
+ 
+At the end of the course the student will be able to:  
+1. Develop relational database schema by using data definition language utilities. (PO1, PO2, PO3, PO4, PO5, 
+PO9, PO10, P11, PSO1, PSO3)  
+2. Develop solutions to the broad range of query and data update problems using SQL/MongoDB, (PO1, PO2, 
+PO3, PO4, PO5, PO9, PO10, P11, PSO1, PSO3)  
+3. Implement programmatic components for a database using PLSQL (PO1, PO2, PO3, PO4, PO5, PO9, PO10, 
+PO11, PSO1, PSO3) 
+--- Page 69 ---
+ 
+68 
+Course Assessment and Evaluation: 
+Continuous Internal Evaluation (CIE): 50 Marks 
+Assessment tool Marks Course outcomes attained 
+Internal Test  20 CO1, CO2, CO3 
+Other Components     
+Conduction,  
+Project Work, Record and 
+Viva 
+30 CO1, CO2, CO3 
+ 
+  
+Semester-End Examination (SEE) 
+50 CO1, CO2, CO3 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+--- Page 70 ---
+ 
+69 
+ADVANCED JAVA LAB 
+Course Code: IS48 Credits: 0:0:1 
+Pre – requisites: Nil Contact Hours: 30P 
+Course Coordinator: Mrs. Evangeline D 
+ 
+Course Content 
+List of Experiments 
+1. Write a Java Program for the following Payroll System. Create a package called 
+PayrollManagement. Define an interface Payable with a method calculate(). Create a super class 
+called Employee with the following data members name, age, salary and designation. Use a 
+parameterised constructor to initialize all the data members. The Employee class is inherited in three 
+sub-classes namely FullTime, PartTime and Intern and these subclasses implement the Payable 
+interface. Full-Time Employee receives monthly salary and Part-Time Employee receives hourly 
+wages. Intern takes a fixed stipend. Create another package “Company” and import these classes to 
+complete the payroll system. Create an array of Employee objects. 
+2. Create a Queue class and implement enqueue, dequeue and display operations. Create Custom 
+Exceptions to handle Queue Overflow and Queue Underflow. 
+3. Define a package named stringoperations to encapsulate the string processing functionality. 
+Create an interface named StringManipulator with at least eight methods for string operations: 
+• String reverse(String input): Reverses the given string. 
+• String toUpperCase(String input): Converts the string to uppercase. 
+• String toLowerCase(String input): Converts the string to lowercase. 
+• String concatenate(String str1, String str2): Concatenates two strings. 
+• int countVowels(String input): Counts the number of vowels in the string. 
+• int wordCount(String input): Counts the number of words in the string. 
+Implement the interface in a class named StringProcessor within the stringoperations package, 
+providing concrete implementations for all methods. 
+Create a main class in a separate package application, where: 
+• An object of StringProcessor is created. 
+• The user is prompted to enter a string. 
+• Each method of the interface is tested and its output is displayed. 
+        4. Create a Palindrome Checker program using StringBuffer that verifies if a given string is a 
+palindrome. The program should implement user-defined exception handling for the following: 
+If the input string contains non-alphabetical characters, throw a custom exception InvalidInputException. 
+If the string length is less than 3 characters, throw a custom exception ShortStringException. 
+If the string is a palindrome (irrespective of the case), print a message indicating that it is a palindrome. 
+ If the string is not a palindrome, print a message indicating that it is not a palindrome. 
+ 
+     5.  Create a Password Security Application in Java that takes a user's password as input and performs 
+the following operations . 
+• Check if the password contains at least one uppercase letter, one lowercase letter, and 
+one digit. 
+• Count the number of special characters in the password. 
+• Mask the password by replacing all characters with * (except the first and last character). 
+• Reverse the password and display it (for security encryption demonstration). 
+• Append a random security token (e.g., "@123!") to the password. 
+• Replace all vowels (a, e, i, o, u) with # to make it difficult to read. 
+--- Page 71 ---
+ 
+70 
+ 
+6. Write a Program that simulates a telephone that records missed incoming calls. For each missed call, 
+store the time of call, telephone number of origin, and name of the caller if the name is available. For 
+unlisted numbers, set the name to “private caller”. Choose or extend the most appropriate collection class 
+and provide the following features. 
+a. Numbers are recalled in the order they arrive 
+b. Up to 3 numbers are recorded. When the fourth call comes in, it is stored and the oldest call is 
+deleted so that no more than 3 numbers are ever recorded. 
+c. After each number display, the user can  
+i. Identify whether the number has to be deleted or not 
+ii. To display the call details (number, caller name and time). 
+Delete the list of numbers specified by the user as in i.  
+Write a helper class to represent an incoming call with fields to hold the number, name of the caller, and time 
+of the call. Write a tester call that stores the several numbers, simulate the user pressing the missed-calls 
+button, and finally prints the entire collection of stored calls. 
+7. Write a Java program using user-defined storage classes to create a book database and store it in a 
+Collection List. 
+a. Books collection should include title, author, publisher and price. 
+b. Write a method to sort the books in ascending order of price and store it in 
+another List. Maintain the book details with respect to a unique book id. 
+c. Prompt for an author name and list all the books with the same author name. Create a new list holding all 
+the book details with price greater than a user specified price. 
+8. Write a program to create generic Stack class with push(), pop(), clear(), isEmpty() and display() 
+methods. Demonstrate creating Stack of String and Integer objects. 
+9. Create a desktop java application using swings to enable a user to enter student 
+information such as name, usn, age, address, sgpa of 4 semesters, category. 
+a. Perform validations on all the fields. Display appropriate messages in pop 
+up boxes to indicate wrong entries. 
+b. On clicking of the “compute” button, find the cgpa (Average of sgpas) . On clicking of the “done” button, 
+place the student details ( name, usn, age, address,cgpa, category) in a collection. 
+c. Display the collection in a textarea on the click of a “complete” button. Enable / Disable the visibility of 
+“compute” and “done” buttons. 
+ 
+10. Write a java program using Swing to validate user login information using dialog 
+boxes. 
+a. Once validated, allow the user to enter the customer id, if the person is a new 
+customer, else check whether the customer exists in a collection and obtain 
+the customer id. 
+b. The customer id can be obtained given a mobile number. Allow the user to enter the item purchased by 
+giving the item id and quantity purchased. 
+c. On clicking of a button, the item name and the total cost should appear in the corresponding GUI 
+components. 
+d. Using option dialog box, indicate the types of discount available for the customer. On clicking on the print 
+button, print the details in information dialog box. 
+11. Write a program that uses Java Swing and JDBC to create a stand-alone application: 
+a. Create two tables namely, Representative (RepNo, RepName, State, 
+Comission, Rate) and Customer (CustNo, CustName, State, Credit_Limit, RepNo) in MySQL database. Use 
+appropriate Swing components to insert values in a form. 
+b. Use another form to display Representative’s information when Credit_Limit is above 15,000. 
+12. Create a JSP based web application for purchasing a type of shirt from a list of shirts. Display a table 
+giving the type of shirts and cost. With a drop down menu, select the type of shirt. Use radio-buttons to select 
+the neck type of shirt (Round neck, V neck and collar).  
+--- Page 72 ---
+ 
+71 
+In a textbox, enter the quantity. Include “compute” button that calculates the total cost of purchase done and 
+displays the purchase details. Include appropriate labels. 
+Text Books: 
+1. Herbert Schildt, Java:the Complete Reference, 12th edition, McGrawHill, , 2023. 
+2. Sharanam Shah, Vaishali Shah, JavaEE 7 for Beginners, Shroff Publishers, 2018. 
+3. Eric Armstrong, Jennifer Ball. Stephanie Bodoff, Debbie Bode Carson, Ian Evans, Dale Green, Kim Haase 
+Eric Jendrock, J2EE 1.4 Tutorial, O’Reilly, 2005. 
+Reference Books: 
+1.  Christian Ullenboom, Java: The Comprehensive Guide, Shroff Publishers, October, 2022 
+Course Outcomes: 
+At the end of the course the student will be able to: 
+CO1: Apply Collection Framework Generics & Swings to solve given problem (PO - 1, 2, 3, 4, 5, 
+& PSO - 3) 
+CO2: Apply JDBC concepts to work with structured data (PO - 1, 2, 3, 4, 5 & PSO - 3) 
+CO3: Apply JSP and Servlet to develop web applications (PO - 1, 2, 3, 4, 5 & PSO - 3) 
+ 
+ 
+Course Assessment and Evaluation: 
+ 
+ 
+Continuous Internal Evaluation (CIE): 50 Marks 
+Assessment tool Marks Course outcomes attained 
+Internal Test 20 CO1, CO2, CO3 
+Other Components     
+Conduction, Execution, Record a n d 
+Viva 30 CO1, CO2, CO3 
+Semester-End Examination (SEE) 50 CO1, CO2, CO3 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+--- Page 73 ---
+ 
+72 
+UI/UX 
+Course Code: ISAEC491 Credits: 1:0:0 
+Pre – requisites: Nil Contact Hours: 15L+15S 
+Course Coordinator: Dr. Anitha K 
+ 
+Course Content 
+Unit I 
+The importance of the user interface: Defining the user interface, the importance of good design, the 
+benefits of good design. Characteristics of graphical and web user interfaces: interaction styles, the 
+graphical user interface, the concept of direct manipulation, graphical system : advantages and 
+disadvantages, characteristics of the graphical user interface, the web interface, the merging of graphical 
+business system, principles of user interface design 
+ Pedagogy/Course Delivery tools: Chalk and talk, Power Point Presentation  
+ Link:1.  https://www.youtube.com/watch?v=cYVkbo_OIFQ&t=461s 
+2. https://www.youtube.com/watch?v=c9Wg6Cb_YlU 
+ 
+Unit II 
+The user interface design process :  usability, Know your user or client:  important human characteristic 
+in design, Understand the principles of good interface and screen design:  navigation flow, Visually 
+pleasing composition, application and page size, application screen elements. 
+ Pedagogy/Course Delivery tools: Chalk and talk, Power Point Presentation 
+ Link: https://www.youtube.com/watch?v=_6Tl2_eM0DE 
+ 
+Unit III 
+Develop system menus and navigation schemes : Structures of Menus, Functions of Menus, Content of 
+Menus, Phrasing the Menu, Formatting of Menus, Selecting Menu Choices, Web Site Navigation, and Kinds 
+of Graphical Menus select the proper kinds of windows: Window Characteristics, components of windows, 
+Window Presentation Styles, Types of Windows, Organizing Window Functions, The Web and the Browser. 
+ Pedagogy/Course Delivery tools: Chalk and talk, Power Point Presentation 
+ Links: https://www.youtube.com/watch?v=jmexGpXLtVc 
+ 
+Unit IV 
+Interactive devices: Input Devices, output devices. Choose the proper screen – based controls: Operable 
+Controls, Text Entry/Read-Only Controls, Selection Controls, Combination Entry/Selection Controls, Custom 
+Controls, Presentation Controls, Selecting the Proper Controls. 
+ Pedagogy/Course Delivery tools: Chalk and talk, Power Point Presentation 
+ Links:1. https://www.youtube.com/watch?v=E-Lzclhyx4c 
+                                    2. https://www.youtube.com/watch?v=uABgEB0EILI 
+ 
+Unit V 
+Organize and layout windows and pages:  Organizing and Laying Out Screens. Test, test and retest :  
+Usability, Prototypes, Kinds of Tests, Developing and Conducting a Test. 
+ Pedagogy/Course Delivery tools: Chalk and talk, Power Point Presentation. 
+ Links: 1. https://www.youtube.com/watch?v=ZcJsd-3Yi7g 
+3. https://www.youtube.com/watch?v=OlbdIXLunt4 
+Self Learning-  Practical Based learning 
+• Design UI for web or mobile app. 
+ 
+--- Page 74 ---
+ 
+73 
+Suggested Learning Resources: 
+Text Books: 
+1.The essential guide to user interface design, third edition, Wilbert O Galitz, 2007 
+Reference Book: 
+1.Rex Hartson, Pardha S Pyla, The UX Book, Process and Guidelines for Ensuring a Quality User 
+Experience, Morgan Kauffman, 2012 
+ 
+Course Outcomes (COs): 
+At the end of the course, the student will be able to: 
+CO1: understand the importance of User Experience and User Interface design in application development 
+(PO - 2, 3, 5, 9, 10 & PSO - 1) 
+CO2:  Select and use appropriate interactive devices and screen-based controls in the design of a user interface, 
+based on the needs and goals of the user. (PO - 2, 3, 5, 9, 10 & PSO - 1) 
+CO3:  Design system menus and navigation schemes that are intuitive and user-friendly. (PO - 2, 3, 5, 9, 10 & 
+PSO - 1) 
+CO4: Select appropriate types of windows, interactive devices, and screen -based controls to enhance user 
+interaction and improve overall user experience. (PO - 2, 3, 5, 9, 10 & PSO - 1) 
+CO5: Applying feedback to iterative testing processes, refine and improve the UI design continuously. (PO - 
+2, 3, 5, 9, 10 & PSO - 1) 
+ 
+ 
+ 
+ 
+Course Assessment and Evaluation: 
+Continuous Internal Evaluation: 50 Marks 
+Assessment Tool Marks Course outcomes addressed 
+Internal test-I 30 CO1, CO2, CO3 
+Internal test-II 30 CO3, CO4, CO5 
+Average of the two internal tests shall be taken for 30 marks. 
+Other components Marks Course outcomes addressed 
+Practical Based learning 20 CO1,CO2,CO3, CO4, CO5 
+ 
+ 
+--- Page 75 ---
+ 
+74 
+Data Analytics using R Programming  
+Course Code:  ISAEC492 Credits: 1:0:0 
+Pre – requisites: NIL Contact Hours:15L+15S 
+Course Coordinator: Dr. Pushpalatha M N 
+Course Contents 
+Unit 1 
+Introduction to R- Introduction, Downloading and Installing R, IDEs and Text Editors, Handling Packages 
+in R, Getting Started with R- Introduction, Working with Directory, Data Types in R,Few Commands for 
+Data Exploration.   
+Pedagogy: Demo, Chalk and Talk   
+Links: 1. https://www.youtube.com/watch?v=3iSKFCKLUsI 2.  
+https://www.youtube.com/watch?v=GM4D2Z-5TU4 
+3.  https://www.youtube.com/watch?v=pJj1T35kaGo  
+ 
+Unit 2 
+Loading and Handling Data in R - Introduction, Challenges of Analytical Data Processing, Expression, 
+Variables and Functions, Missing Values Treatment in R, Using the ‘as’ Operator to Change the Structure 
+of Data, Vectors, Matrices, Factors, List, Few Common Analytical Tasks.  
+Pedagogy: Demo, Chalk and Talk 
+Links: 1.  http://www.digimat.in/nptel/courses/video/106106179/L09.html 
+2.  https://www.youtube.com/watch?v=vwMltOwTPBA 
+ 
+Unit 3 
+Aggregating and Group Processing of a Variable, Simple Analysis Using R, Methods for Reading Data, 
+Comparison of R GUIs for Data Input, Using R with Databases and Business Intelligence Systems .  
+Pedagogy: Demo, Chalk and Talk 
+Links: https://www.youtube.com/playlist?list=PLeIwGZPgtiz5bZmBWNN1GwVo2Ly1SdWEg 
+ 
+Unit 4 
+ 
+Exploring Data in R -  Introduction, Data Frames, R Functions for Understanding Data in Data Frames, 
+Load Data Frames, Exploring  Data, Data  Summary, Finding  the Missing Values, Invalid  Values and 
+Outliers, Descriptive Statistics.  
+Pedagogy: Demo, Chalk and Talk 
+Links:1. https://www.youtube.com/watch?v=t4bTmlZLfaw 
+ 
+Unit 5 
+Spotting problems using graphics and visualization- Visually checking distributions for a single variable, 
+visually checking relationships between two variables, Data visualization in R Basic graphics- Scatter, Bar 
+and Line. Managing data:   Cleaning data-  Treating missing values (NAs), Data transformations, Sampling 
+for modeling and validation 
+Pedagogy: Demo, Chalk and Talk 
+Link:https://www.youtube.com/watch?v=dJyzJRFQj90 
+--- Page 76 ---
+ 
+75 
+ 
+ 
+ 
+ 
+ 
+ 
+Course Assessment and Evaluation: 
+Continuous Internal Evaluation: 50 Marks 
+Assessment Tool Marks Course outcomes addressed 
+Internal test-I 30 CO1, CO2, CO3 
+Internal test-II 30 CO3, CO4, CO5 
+Average of the two internal tests shall be taken for 30 marks. 
+Other components Marks Course outcomes addressed 
+Programming Assignment 20 CO1,CO2,CO3, CO4, CO5 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Text Books: 
+1. Data analytics using R, Seema Acharya, McGraw Hill Education (India) Private Limited.2018. 
+2. Practical Data Science with R, Nina Zumel and John Mount, Manning Publication. 2014. 
+Reference Books: 
+1.  R for Data Science: Import, Tidy, Transform, Visualize, and Model Data 1st Edition,  Hadley Wickham 
+and Garrett Grolemund,  2017 
+Self-Learning- Programming Assignment 
+Course Outcomes: 
+CO1: Understand and apply basic concepts of R programming, including variables, data types, and data 
+frames. 
+CO2: Apply logical and matrix operations, and develop programs in R using functions and control 
+structures. 
+CO3:  Load, explore, and summarize data from files or URLs in R to identify issues such as missing 
+values, invalid entries, and outliers. 
+CO4:  Use graphical techniques in R to visualize data distributions, explore relationships between 
+variables, and identify potential data issues using basic plots like scatter, bar, and line charts. 
+CO5: Manage and clean data in R by handling missing values, performing transformations, and applying 
+sampling techniques for modeling and validation. 
+--- Page 77 ---
+ 
+76 
+ 
+ 
+IV Semester 
+(For Lateral Entry Diploma Students) 
+ADDITIONAL MATHEMATICS – II 
+Course Code: AM41                                                                                                                               
+Credits: 0:0:0                                                                     Pre-requisites: Nil                                                                                                                           
+Contact Hours: 42 
+Course coordinators: Dr. Veena B N 
+ 
+Unit I  
+Differential Calculus - I: Partial differentiation, Euler’s theorem, total differential coefficient, 
+differentiation of composite and implicit functions. 
+ 
+ 
+ Pedagogy / Course delivery 
+tools: 
+ Chalk and talk 
+ Links:  https://nptel.ac.in/courses/111/105/111105121/ 
+ Impartus recording:    https://a.impartus.com/ilc/#/course/107625/1030 
+ 
+Unit II 
+Differential Calculus - II: Jacobian and Properties.  Taylor’s theorem for function of two variables, 
+maxima and minima for functions of two variables. 
+ 
+ Pedagogy / Course delivery 
+tools: 
+ Chalk and talk 
+ Links  https://nptel.ac.in/courses/111/105/111105121/ 
+ Impartus recording:    https://a.impartus.com/ilc/#/course/107625/1030 
+ https://a.impartus.com/ilc/#/course/59742/295 
+ 
+Unit III 
+Vector Integration: Line integrals, surface integrals and volume integrals.  Green’s theorem, Stokes’ and 
+Gauss divergence theorem (without proof) and problems, orthogonal curvilinear coordinates.  
+ 
+ Pedagogy / Course delivery 
+tools: 
+ Chalk and talk 
+ Links:  https://nptel.ac.in/courses/111/105/111105134/ 
+ Impartus recording:    https://a.impartus.com/ilc/#/course/107625/1030 
+ 
+Unit IV 
+Higher Order Differential Equations: Higher order linear differential equations, method of variation of 
+parameters, Cauchy’s and Legendre’s homogeneous differential equations.  
+ 
+ Pedagogy / Course delivery 
+tools: 
+ Chalk and talk 
+ Links:  https://nptel.ac.in/courses/111/105/111105121/ 
+ Impartus recording:    https://a.impartus.com/ilc/#/course/96127/452 
+ https://a.impartus.com/ilc/#/course/59742/295 
+  
+--- Page 78 ---
+ 
+77 
+Unit V 
+Probability: Introduction. Sample space and events. Axioms of probability. Addition and multiplication 
+theorems. Conditional probability- illustrative examples. Bayes theorem – examples. 
+ 
+ Pedagogy / Course delivery 
+tools: 
+ Chalk and talk 
+ Links:  https://nptel.ac.in/courses/111/107/111107119/ 
+ Impartus recording:    https://a.impartus.com/ilc/#/course/283623/703 
+ 
+Self Learning:  
+Problem solving and Quiz. 
+Text Books: 
+1. B.S. Grewal – Higher Engineering Mathematics, Khanna Publishers, 44th edition, 2017. 
+2. Erwin Kreyszig – Advanced Engineering Mathematics – Wiley Publication, 10th Edition, 2015. 
+ 
+Reference Books: 
+1. H. K. Dass – Higher Engineering Mathematics – S Chand Publications, 1998 
+2. B. V. Ramana – Engineering Mathematics – Tata McGraw-Hill Publishing Co. Ltd., New Delhi, 
+2008. 
+ 
+Course Outcomes  
+At the end of the course the student will be able to  
+1. To carryout differentiation of function of several variables. (PO-1,2) 
+2. Solve the problems related to Jacobians, the extreme values of a function and Taylors series. (PO-1,2) 
+3. Exhibit the interdependence of line, surface and volume integrals using integral theorems. (PO-1,2) 
+4. Find the solution of second and higher order ODEs with constant and variable coefficients. (PO-1,2) 
+5. Solve the problems on conditional probability and Baye’s theorem. (PO-1,2) 
+ 
+ 
+ 
+ 
+Course Assessment and Evaluation: 
+Continuous Internal Evaluation: 50 Marks 
+Assessment Tool Marks Course outcomes addressed 
+Internal test-I 30 CO1, CO2, CO3 
+Internal test-II 30 CO3, CO4, CO5 
+Average of the two internal tests shall be taken for 30 marks. 
+Other components Marks Course outcomes addressed 
+Quiz 10 CO1, CO2, CO3 
+Assignment 10 CO3, CO4, CO5 
+ 

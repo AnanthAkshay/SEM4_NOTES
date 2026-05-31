@@ -1,0 +1,1743 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DAA Unit 1 – Complete Exam Notes | MSRIT / VTU</title>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #fdfcf8;
+  --surface: #ffffff;
+  --navy: #1a237e;
+  --navy-light: #283593;
+  --red: #c62828;
+  --green: #1b5e20;
+  --green-soft: #e8f5e9;
+  --amber: #e65100;
+  --amber-soft: #fff3e0;
+  --blue-soft: #e8eaf6;
+  --border: #c5cae9;
+  --text: #1a1a2e;
+  --text-muted: #546e7a;
+  --code-bg: #1a1a2e;
+  --code-text: #a5d6a7;
+  --pyq-bg: #fff8e1;
+  --pyq-border: #ffa000;
+  --example-bg: #f1f8e9;
+  --example-border: #388e3c;
+  --important-bg: #fce4ec;
+  --important-border: #c62828;
+  --revision-bg: #e3f2fd;
+  --revision-border: #1565c0;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  line-height: 1.8;
+}
+/* ============ LAYOUT ============ */
+.container { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+/* ============ HEADER ============ */
+.main-header {
+  background: var(--navy);
+  color: white;
+  padding: 48px 0 36px;
+  border-bottom: 5px solid var(--amber);
+}
+.main-header h1 {
+  font-family: 'Crimson Pro', serif;
+  font-size: 2.8rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+.main-header .subtitle {
+  font-size: 1.1rem;
+  margin-top: 8px;
+  opacity: 0.85;
+}
+.badge-row { display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
+.badge {
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.3);
+  padding: 4px 14px;
+  border-radius: 20px;
+  font-size: 0.82rem;
+  font-weight: 500;
+}
+/* ============ UNIT OVERVIEW ============ */
+.unit-overview {
+  background: var(--blue-soft);
+  border-left: 5px solid var(--navy);
+  padding: 28px 32px;
+  margin: 32px 0;
+  border-radius: 0 8px 8px 0;
+}
+.unit-overview h2 {
+  font-family: 'Crimson Pro', serif;
+  font-size: 1.5rem;
+  color: var(--navy);
+  margin-bottom: 12px;
+}
+/* ============ TOPIC SECTIONS ============ */
+.topic-section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  margin: 36px 0;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(26,35,126,0.07);
+}
+.topic-header {
+  background: var(--navy);
+  color: white;
+  padding: 18px 28px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.topic-num {
+  background: var(--amber);
+  color: white;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex; align-items:center; justify-content:center;
+  font-weight: 700;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+.topic-header h2 {
+  font-family: 'Crimson Pro', serif;
+  font-size: 1.55rem;
+  font-weight: 700;
+}
+.topic-body { padding: 28px 32px; }
+/* ============ SUBSECTION HEADINGS ============ */
+.sub-heading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 28px 0 14px;
+}
+.sub-heading .tag {
+  background: var(--navy);
+  color: white;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  white-space: nowrap;
+}
+.sub-heading h3 {
+  font-family: 'Crimson Pro', serif;
+  font-size: 1.25rem;
+  color: var(--navy);
+  font-weight: 600;
+}
+h4 {
+  font-size: 1rem;
+  color: var(--navy-light);
+  margin: 16px 0 8px;
+  font-weight: 700;
+}
+p { margin: 10px 0; }
+/* ============ BOXES ============ */
+.pyq-box {
+  background: var(--pyq-bg);
+  border: 1.5px solid var(--pyq-border);
+  border-radius: 8px;
+  padding: 20px 24px;
+  margin: 20px 0;
+}
+.pyq-box .pyq-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  color: var(--amber);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 12px;
+}
+.pyq-box .fire { font-size: 1.1rem; }
+.example-box {
+  background: var(--example-bg);
+  border: 1.5px solid var(--example-border);
+  border-radius: 8px;
+  padding: 20px 24px;
+  margin: 18px 0;
+}
+.example-box .ex-label {
+  font-weight: 700;
+  color: var(--green);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 10px;
+}
+.revision-box {
+  background: var(--revision-bg);
+  border: 1.5px solid var(--revision-border);
+  border-radius: 8px;
+  padding: 20px 24px;
+  margin: 24px 0;
+}
+.revision-box h4 {
+  color: #1565c0;
+  margin-top: 0;
+}
+.important-box {
+  background: var(--important-bg);
+  border-left: 4px solid var(--red);
+  padding: 14px 18px;
+  margin: 14px 0;
+  border-radius: 0 6px 6px 0;
+}
+/* ============ CODE BLOCKS ============ */
+pre {
+  background: var(--code-bg);
+  color: var(--code-text);
+  padding: 20px 24px;
+  border-radius: 8px;
+  overflow-x: auto;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.84rem;
+  line-height: 1.7;
+  margin: 14px 0;
+}
+code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85em;
+  background: #e8eaf6;
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: var(--navy);
+}
+pre code { background: none; padding: 0; color: inherit; }
+.kw { color: #80cbc4; font-weight: 600; }
+.cmt { color: #78909c; font-style: italic; }
+.num { color: #ffcc80; }
+.fn { color: #80cbc4; }
+/* ============ TABLES ============ */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 14px 0;
+  font-size: 0.9rem;
+}
+th {
+  background: var(--navy);
+  color: white;
+  padding: 10px 14px;
+  text-align: left;
+  font-weight: 600;
+}
+td {
+  padding: 9px 14px;
+  border: 1px solid var(--border);
+  vertical-align: top;
+}
+tr:nth-child(even) td { background: #f5f5ff; }
+/* ============ LISTS ============ */
+ul, ol { padding-left: 22px; margin: 10px 0; }
+li { margin: 5px 0; }
+ul li::marker { color: var(--navy); }
+/* ============ DEFINITION TERMS ============ */
+.def {
+  border-left: 3px solid var(--navy);
+  padding: 10px 16px;
+  background: #f5f5ff;
+  margin: 12px 0;
+  border-radius: 0 6px 6px 0;
+}
+.def strong { color: var(--navy); }
+/* ============ COMPLEXITY GRID ============ */
+.complexity-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin: 14px 0;
+}
+.comp-card {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px;
+  text-align: center;
+}
+.comp-card .label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+.comp-card .val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--navy);
+}
+/* ============ FORMULA BOX ============ */
+.formula {
+  text-align: center;
+  background: #e8eaf6;
+  padding: 16px;
+  border-radius: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1rem;
+  color: var(--navy);
+  margin: 14px 0;
+  font-weight: 600;
+}
+/* ============ STEP BOX ============ */
+.steps { counter-reset: step; }
+.step {
+  display: flex;
+  gap: 12px;
+  margin: 12px 0;
+  align-items: flex-start;
+}
+.step-num {
+  counter-increment: step;
+  background: var(--navy);
+  color: white;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: flex; align-items:center; justify-content:center;
+  font-size: 0.78rem;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.step-content { flex: 1; }
+/* ============ DIVIDER ============ */
+.section-divider {
+  border: none;
+  border-top: 2px dashed var(--border);
+  margin: 28px 0;
+}
+/* ============ EXAM FORMAT ============ */
+.exam-format {
+  background: #fff;
+  border: 1px solid #c5cae9;
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 16px 0;
+}
+.exam-format .ef-header {
+  background: var(--navy-light);
+  color: white;
+  padding: 10px 16px;
+  font-weight: 700;
+  font-size: 0.88rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.exam-format .ef-body { padding: 16px 18px; }
+/* ============ TOC ============ */
+.toc {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 24px 28px;
+  margin: 28px 0;
+}
+.toc h3 {
+  font-family: 'Crimson Pro', serif;
+  font-size: 1.2rem;
+  color: var(--navy);
+  margin-bottom: 14px;
+}
+.toc ol { padding-left: 18px; }
+.toc li {
+  margin: 6px 0;
+  font-size: 0.92rem;
+}
+.toc a { color: var(--navy); text-decoration: none; }
+.toc a:hover { text-decoration: underline; }
+/* ============ MARKS BADGE ============ */
+.marks-badge {
+  display: inline-block;
+  background: var(--amber);
+  color: white;
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-weight: 700;
+  margin-left: 6px;
+}
+/* ============ FOOTER ============ */
+.footer {
+  text-align: center;
+  padding: 40px 0;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  border-top: 1px solid var(--border);
+  margin-top: 60px;
+}
+@media print {
+  .topic-section { break-inside: avoid; }
+  .pyq-box, .example-box { break-inside: avoid; }
+  pre { white-space: pre-wrap; }
+}
+</style>
+</head>
+<body>
+
+<div class="main-header">
+<div class="container">
+  <h1>📐 DAA Unit 1: Foundations of Algorithms</h1>
+  <div class="subtitle">Design & Analysis of Algorithms | MSRIT / VTU | IS43</div>
+  <div class="badge-row">
+    <span class="badge">Complete Exam Notes</span>
+    <span class="badge">PYQ 2023–2025 Integrated</span>
+    <span class="badge">5 & 10 Mark Answers</span>
+    <span class="badge">Solved Examples</span>
+  </div>
+</div>
+</div>
+
+<div class="container">
+
+<!-- UNIT OVERVIEW -->
+<div class="unit-overview" id="overview">
+  <h2>Unit 1 Overview</h2>
+  <table>
+    <tr><th style="width:200px">Aspect</th><th>Details</th></tr>
+    <tr><td><strong>Unit Name</strong></td><td>Foundations of Algorithms</td></tr>
+    <tr><td><strong>Marks Weightage</strong></td><td>~20 marks in SEE (2 questions × 10 marks each)</td></tr>
+    <tr><td><strong>Key Syllabus Topics</strong></td><td>Role of algorithms, Growth of functions, Asymptotic notations (O, Ω, Θ), Algorithm analysis, Recurrence relations, Substitution method, Recursion tree, Master method, Probabilistic analysis, Indicator random variables, Randomized algorithms, Randomized QuickSort</td></tr>
+    <tr><td><strong>Most Repeated Areas</strong></td><td>🔥 Asymptotic Notations (every paper) &nbsp; 🔥 Tower of Hanoi (every paper) &nbsp; 🔥 4-part algorithm analysis (every paper)</td></tr>
+    <tr><td><strong>Difficulty Level</strong></td><td>Moderate — conceptual + numerical</td></tr>
+  </table>
+  <div style="margin-top:14px">
+    <strong>Most Repeated PYQ Areas (ranked):</strong>
+    <ol style="margin-top:8px">
+      <li>Asymptotic Notations with formal definitions and examples — asked in <em>every single paper</em></li>
+      <li>Tower of Hanoi — recurrence relation and solving — asked in every paper</li>
+      <li>4-part algorithm analysis questions (basic operation, count, efficiency class) — every paper</li>
+      <li>General plan for analyzing recursive / non-recursive algorithms</li>
+      <li>Orders of growth comparison table</li>
+      <li>Master Method / Recurrence solving</li>
+    </ol>
+  </div>
+</div>
+
+<!-- TOC -->
+<div class="toc">
+  <h3>📋 Table of Contents</h3>
+  <ol>
+    <li><a href="#t1">Role of Algorithms in Computing</a></li>
+    <li><a href="#t2">Fundamental Steps in Algorithm Design & Analysis</a></li>
+    <li><a href="#t3">Growth of Functions & Orders of Growth</a></li>
+    <li><a href="#t4">Asymptotic Notations — Big-O, Omega, Theta</a></li>
+    <li><a href="#t5">Analyzing Non-Recursive Algorithms</a></li>
+    <li><a href="#t6">Analyzing Recursive Algorithms</a></li>
+    <li><a href="#t7">Recurrence Relations & Substitution Method</a></li>
+    <li><a href="#t8">Recursion Tree Method</a></li>
+    <li><a href="#t9">Master Method</a></li>
+    <li><a href="#t10">Probabilistic Analysis & Indicator Random Variables</a></li>
+    <li><a href="#t11">Randomized Algorithms & Randomized QuickSort</a></li>
+  </ol>
+</div>
+<!-- ================================================================
+     TOPIC 1: ROLE OF ALGORITHMS
+     ================================================================ -->
+<div class="topic-section" id="t1">
+  <div class="topic-header">
+    <div class="topic-num">1</div>
+    <h2>Role of Algorithms in Computing</h2>
+  </div>
+  <div class="topic-body">
+
+    <div class="sub-heading"><span class="tag">1. Concept</span><h3>What is an Algorithm?</h3></div>
+    <p>Before your computer can solve any problem — sort numbers, find a path on a map, or compress a file — it needs a precise recipe. That recipe is called an <strong>algorithm</strong>.</p>
+    <div class="def">
+      <strong>Algorithm:</strong> A finite sequence of well-defined, unambiguous instructions that takes some value(s) as input, executes a series of steps, and produces some value(s) as output — guaranteed to terminate in finite time.
+    </div>
+    <p>The word comes from the 9th-century Persian mathematician <em>Muhammad ibn Musa al-Khwarizmi</em> whose work on arithmetic introduced systematic step-by-step methods to Europe.</p>
+
+    <div class="sub-heading"><span class="tag">2. Theory</span><h3>Properties / Characteristics of an Algorithm</h3></div>
+    <table>
+      <tr><th>Property</th><th>Meaning</th><th>Example</th></tr>
+      <tr><td><strong>Finiteness</strong></td><td>Must terminate after a finite number of steps</td><td>Sorting 10 numbers takes finite steps</td></tr>
+      <tr><td><strong>Definiteness</strong></td><td>Every step must be precisely defined — no ambiguity</td><td>"Add 1 to i" is definite; "do something" is not</td></tr>
+      <tr><td><strong>Input</strong></td><td>Zero or more inputs provided from outside</td><td>Array to be sorted is the input</td></tr>
+      <tr><td><strong>Output</strong></td><td>One or more outputs produced</td><td>Sorted array is the output</td></tr>
+      <tr><td><strong>Effectiveness</strong></td><td>Every step must be basic enough to be executable</td><td>Elementary arithmetic operations</td></tr>
+    </table>
+
+    <div class="sub-heading"><span class="tag">Theory</span><h3>Algorithm vs Program</h3></div>
+    <table>
+      <tr><th>Algorithm</th><th>Program</th></tr>
+      <tr><td>Design-level description</td><td>Implementation in a programming language</td></tr>
+      <tr><td>Language-independent</td><td>Language-specific (C, Python, Java…)</td></tr>
+      <tr><td>Can be written in pseudocode or natural language</td><td>Must follow strict syntax</td></tr>
+      <tr><td>Finite by definition</td><td>May have infinite loops</td></tr>
+      <tr><td>Analyzed for correctness and efficiency</td><td>Compiled/interpreted and tested</td></tr>
+    </table>
+
+    <div class="sub-heading"><span class="tag">Theory</span><h3>Why Study Algorithms?</h3></div>
+    <ul>
+      <li><strong>Efficiency matters at scale:</strong> A bad algorithm can take years; a good one, seconds — on the same hardware.</li>
+      <li><strong>Foundation of CS:</strong> Sorting, searching, graph problems, encryption — all rely on algorithmic thinking.</li>
+      <li><strong>Resource optimization:</strong> Algorithms determine how much CPU time and memory a program uses.</li>
+      <li><strong>Problem abstraction:</strong> Learning algorithms teaches you to decompose complex problems into solvable steps.</li>
+    </ul>
+
+    <div class="sub-heading"><span class="tag">Theory</span><h3>Important Problem Types in Algorithms</h3></div>
+    <table>
+      <tr><th>Problem Type</th><th>Example</th></tr>
+      <tr><td>Sorting</td><td>Merge sort, Quick sort, Heap sort</td></tr>
+      <tr><td>Searching</td><td>Binary search, Linear search</td></tr>
+      <tr><td>String processing</td><td>Pattern matching (Horspool, KMP)</td></tr>
+      <tr><td>Graph problems</td><td>Shortest path, MST, Topological sort</td></tr>
+      <tr><td>Combinatorial problems</td><td>TSP, 0/1 Knapsack, N-Queens</td></tr>
+      <tr><td>Geometric problems</td><td>Convex hull, Closest pair</td></tr>
+      <tr><td>Numerical problems</td><td>Matrix multiplication, GCD</td></tr>
+    </table>
+
+    <div class="revision-box">
+      <h4>⚡ Quick Revision Box</h4>
+      <ul>
+        <li>✔ Algorithm = finite, definite, input→output, effective, terminates</li>
+        <li>✔ Five properties: Finiteness, Definiteness, Input, Output, Effectiveness</li>
+        <li>✔ Algorithm ≠ Program (design vs implementation)</li>
+        <li>✔ Common mistake: Confusing algorithm efficiency with code correctness</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================
+     TOPIC 2: FUNDAMENTAL STEPS IN DESIGN & ANALYSIS
+     ================================================================ -->
+<div class="topic-section" id="t2">
+  <div class="topic-header">
+    <div class="topic-num">2</div>
+    <h2>Fundamental Steps in Algorithm Design & Analysis</h2>
+  </div>
+  <div class="topic-body">
+
+    <div class="pyq-box">
+      <div class="pyq-label"><span class="fire">🔥</span> VERY IMPORTANT REPEATED QUESTION</div>
+      <p><strong>SEE 2024 Q1(a)</strong> — "Explain with a neat diagram the fundamental steps involved in design and analysis of algorithms." [08 marks]</p>
+      <p><strong>SEE 2025 Q1(b)</strong> — "With a neat diagram explain the fundamental steps involved in design and analysis of algorithms." [07 marks]</p>
+      <p><strong>SEE 2023(O) Q2(a)</strong> — "Discuss the various stages of algorithm design and analysis process using flow chart." [10 marks]</p>
+    </div>
+
+    <div class="sub-heading"><span class="tag">1. Concept</span><h3>Why is there a Structured Process?</h3></div>
+    <p>Designing a correct and efficient algorithm is not guesswork. There is a well-defined engineering process — from understanding a problem all the way to writing the final code. Understanding this flowchart is often asked for 7–10 marks.</p>
+
+    <div class="sub-heading"><span class="tag">2. Theory</span><h3>The 7-Step Algorithm Design & Analysis Process</h3></div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num" style="counter-increment:none">1</div>
+        <div class="step-content">
+          <strong>Understand the Problem</strong><br>
+          Read the problem statement carefully. Identify: What is the input? What is the expected output? What are the constraints? Is the problem similar to any known problem? A wrong understanding leads to a wrong algorithm entirely.
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="counter-increment:none">2</div>
+        <div class="step-content">
+          <strong>Decide on Computational Means</strong><br>
+          Choose the computational model (sequential vs parallel), exact vs approximate solution, and the general algorithm design strategy: brute force, divide &amp; conquer, dynamic programming, greedy, etc.
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="counter-increment:none">3</div>
+        <div class="step-content">
+          <strong>Design the Algorithm</strong><br>
+          Write the step-by-step procedure. Use pseudocode or a flowchart. Choose appropriate data structures (array, tree, graph, heap, hash table). The design must be correct and efficient.
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="counter-increment:none">4</div>
+        <div class="step-content">
+          <strong>Prove Correctness</strong><br>
+          Mathematically verify that the algorithm produces the correct output for all valid inputs. Methods: mathematical induction, loop invariants, contradiction. For example, prove that Bubble Sort always produces a sorted array.
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="counter-increment:none">5</div>
+        <div class="step-content">
+          <strong>Analyze Efficiency</strong><br>
+          Determine time complexity (how fast?) and space complexity (how much memory?). Express using asymptotic notation: O, Ω, Θ. Analyze best, average, and worst cases.
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="counter-increment:none">6</div>
+        <div class="step-content">
+          <strong>Code the Algorithm</strong><br>
+          Translate the pseudocode into a real programming language (C, Java, Python). Ensure the code is correct, readable, and follows the designed algorithm precisely.
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="counter-increment:none">7</div>
+        <div class="step-content">
+          <strong>Verify &amp; Test</strong><br>
+          Test with multiple inputs including edge cases. If bugs are found, go back and fix the algorithm or implementation.
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-heading"><span class="tag">Diagram</span><h3>Flowchart / Diagram Representation</h3></div>
+    <div class="example-box">
+      <div class="ex-label">📐 Draw this diagram in your exam — worth marks!</div>
+      <pre style="background:#f8f9fa; color:#1a1a2e; border:1px solid #c5cae9;">
+┌─────────────────────────────────┐
+│    Understand the Problem       │
+└────────────┬────────────────────┘
+             ▼
+┌─────────────────────────────────┐
+│  Decide on Computational Means  │
+│  (Sequential/Parallel, Model)   │
+└────────────┬────────────────────┘
+             ▼
+┌─────────────────────────────────┐
+│       Design the Algorithm      │
+│  (Pseudocode + Data Structures) │
+└────────────┬────────────────────┘
+             ▼
+┌─────────────────────────────────┐
+│       Prove Correctness         │
+│   (Induction, Loop Invariants)  │
+└────────────┬────────────────────┘
+             ▼
+┌─────────────────────────────────┐
+│       Analyze Efficiency        │
+│   (Time Complexity, O/Ω/Θ)     │
+└────────────┬────────────────────┘
+             ▼
+┌─────────────────────────────────┐
+│        Code the Algorithm       │
+│        (C / Java / Python)      │
+└────────────┬────────────────────┘
+             ▼
+┌─────────────────────────────────┐
+│      Verify & Test              │
+└─────────────────────────────────┘</pre>
+    </div>
+
+    <div class="sub-heading"><span class="tag">Exam Format</span><h3>How to Write This in Exam</h3></div>
+    <div class="exam-format">
+      <div class="ef-header">For 7-10 Marks Answer</div>
+      <div class="ef-body">
+        <ol>
+          <li>Write one introductory sentence about the need for a systematic process</li>
+          <li>Draw the flowchart (box diagram shown above) — allocate 3–4 lines per step</li>
+          <li>Explain each of the 7 steps in 2–3 lines each</li>
+          <li>Conclude: "Following this structured approach ensures algorithm correctness and efficiency"</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="revision-box">
+      <h4>⚡ Quick Revision Box</h4>
+      <ul>
+        <li>✔ 7 steps: Understand → Decide → Design → Prove → Analyze → Code → Test</li>
+        <li>✔ Step 5 (Efficiency) is where asymptotic notation is applied</li>
+        <li>✔ Common mistake: Skipping the "Prove Correctness" step in answers</li>
+        <li>✔ The diagram is mandatory for full marks</li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- ================================================================
+     TOPIC 3: GROWTH OF FUNCTIONS
+     ================================================================ -->
+<div class="topic-section" id="t3">
+  <div class="topic-header">
+    <div class="topic-num">3</div>
+    <h2>Growth of Functions & Orders of Growth</h2>
+  </div>
+  <div class="topic-body">
+
+    <div class="pyq-box">
+      <div class="pyq-label"><span class="fire">🔥</span> REPEATED QUESTION</div>
+      <p><strong>SEE 2024 Q2(c)</strong> — "Compare order of growth algorithm time class 1, n, n², n³, 2ⁿ, n!, log₂n, nlog₂n." [04 marks]</p>
+      <p><strong>SEE 2023 Q1(c)</strong> — "Compare the orders of growth of log₂n and √n." [05 marks]</p>
+      <p><strong>Makeup 2023 Q1(c)</strong> — "Compare the orders of growth of n! and 2ⁿ." [04 marks]</p>
+    </div>
+
+    <div class="sub-heading"><span class="tag">1. Concept</span><h3>What is Growth Rate and Why Does it Matter?</h3></div>
+    <p>When we say algorithm A is faster than algorithm B, we mean: <em>as the input size n grows, algorithm A uses fewer resources.</em> The key insight is that we don't care about small differences in constant factors — we care about how the resource usage <strong>grows</strong> as n increases.</p>
+    <p>Consider two algorithms: one takes 10n steps and another takes n² steps. For n=10: they're similar (100 vs 100). For n=1000: first takes 10,000 steps; second takes 1,000,000 steps. At n=10⁶, the difference becomes astronomical.</p>
+
+    <div class="sub-heading"><span class="tag">2. Theory</span><h3>Common Growth Function Classes (Slowest to Fastest)</h3></div>
+    <table>
+      <tr><th>Notation</th><th>Name</th><th>n=10</th><th>n=100</th><th>n=1000</th><th>Example Algorithm</th></tr>
+      <tr><td><code>1</code></td><td>Constant</td><td>1</td><td>1</td><td>1</td><td>Array access A[i]</td></tr>
+      <tr><td><code>log₂n</code></td><td>Logarithmic</td><td>3.32</td><td>6.64</td><td>9.97</td><td>Binary Search</td></tr>
+      <tr><td><code>n</code></td><td>Linear</td><td>10</td><td>100</td><td>1,000</td><td>Linear Search</td></tr>
+      <tr><td><code>n log₂n</code></td><td>Linearithmic</td><td>33.2</td><td>664</td><td>9,966</td><td>Merge Sort, Heap Sort</td></tr>
+      <tr><td><code>n²</code></td><td>Quadratic</td><td>100</td><td>10,000</td><td>1,000,000</td><td>Bubble Sort, Selection Sort</td></tr>
+      <tr><td><code>n³</code></td><td>Cubic</td><td>1,000</td><td>1,000,000</td><td>10⁹</td><td>Matrix Multiplication (naïve)</td></tr>
+      <tr><td><code>2ⁿ</code></td><td>Exponential</td><td>1,024</td><td>~10³⁰</td><td>~10³⁰¹</td><td>Subset enumeration</td></tr>
+      <tr><td><code>n!</code></td><td>Factorial</td><td>3,628,800</td><td>~10¹⁵⁷</td><td>~10²⁵⁶⁷</td><td>Brute-force TSP</td></tr>
+    </table>
+
+    <div class="important-box">
+      <strong>Order of Growth Hierarchy (Memorize this!):</strong><br>
+      <code>1 &lt; log n &lt; √n &lt; n &lt; n log n &lt; n² &lt; n³ &lt; 2ⁿ &lt; n!</code>
+    </div>
+
+    <div class="sub-heading"><span class="tag">3. Solved Examples</span><h3>PYQ: Compare Orders of Growth</h3></div>
+
+    <div class="pyq-box">
+      <div class="pyq-label">🔥 SEE 2024 Q2(c) — 4 Marks</div>
+      <p><strong>Question:</strong> Compare order of growth: 1, n, n², n³, 2ⁿ, n!, log₂n, nlog₂n</p>
+      <br>
+      <p><strong>Solution:</strong></p>
+      <p>Arranging in increasing order of growth:</p>
+      <div class="formula">1 &lt; log₂n &lt; n &lt; n·log₂n &lt; n² &lt; n³ &lt; 2ⁿ &lt; n!</div>
+      <p><strong>Justification:</strong></p>
+      <ul>
+        <li><strong>1 → log₂n:</strong> log₂n → ∞ but very slowly. log₂(10⁶) ≈ 20 only.</li>
+        <li><strong>log₂n → n:</strong> n/log₂n → ∞, so n grows faster than log₂n.</li>
+        <li><strong>n → n·log₂n:</strong> nlog₂n = n × log₂n &gt; n for n &gt; 2.</li>
+        <li><strong>n·log₂n → n²:</strong> n²/(nlogn) = n/logn → ∞.</li>
+        <li><strong>n² → n³ → 2ⁿ → n!:</strong> Each grows exponentially faster than the previous.</li>
+      </ul>
+    </div>
+
+    <div class="pyq-box">
+      <div class="pyq-label">🔥 SEE 2023 Q1(c) — 5 Marks | Compare log₂n and √n</div>
+      <p><strong>Solution:</strong></p>
+      <p>We need to determine which grows faster: log₂n or √n (i.e., n^(1/2)).</p>
+      <p><strong>Method — Take the limit as n → ∞ of their ratio:</strong></p>
+      <div class="formula">lim(n→∞) [√n / log₂n]</div>
+      <p>Substitute n = 2^m, so m = log₂n:</p>
+      <div class="formula">= lim(m→∞) [2^(m/2) / m] = lim(m→∞) [√(2ⁿ) / m] → ∞</div>
+      <p>Since the ratio √n / log₂n → ∞, we conclude: <strong>√n grows faster than log₂n</strong></p>
+      <p>Therefore: log₂n = O(√n), confirming the order: <code>log₂n &lt; √n</code></p>
+      <p>Verification with values:</p>
+      <table>
+        <tr><th>n</th><th>log₂n</th><th>√n</th></tr>
+        <tr><td>16</td><td>4</td><td>4</td></tr>
+        <tr><td>256</td><td>8</td><td>16</td></tr>
+        <tr><td>1024</td><td>10</td><td>32</td></tr>
+        <tr><td>1,000,000</td><td>≈20</td><td>1000</td></tr>
+      </table>
+      <p>Clearly √n grows much faster for large n.</p>
+    </div>
+
+    <div class="pyq-box">
+      <div class="pyq-label">Makeup 2023 Q1(c) — 4 Marks | Compare n! and 2ⁿ</div>
+      <p><strong>Solution:</strong></p>
+      <p>Compare n! and 2ⁿ:</p>
+      <p>n! = 1 × 2 × 3 × 4 × … × n</p>
+      <p>2ⁿ = 2 × 2 × 2 × 2 × … × 2 (n times)</p>
+      <p>For n ≥ 3: n! has factors 3, 4, 5, … n, all greater than 2, so n! &gt; 2ⁿ.</p>
+      <table>
+        <tr><th>n</th><th>n!</th><th>2ⁿ</th><th>n! vs 2ⁿ</th></tr>
+        <tr><td>1</td><td>1</td><td>2</td><td>n! &lt; 2ⁿ</td></tr>
+        <tr><td>2</td><td>2</td><td>4</td><td>n! &lt; 2ⁿ</td></tr>
+        <tr><td>4</td><td>24</td><td>16</td><td>n! &gt; 2ⁿ</td></tr>
+        <tr><td>10</td><td>3,628,800</td><td>1,024</td><td>n! ≫ 2ⁿ</td></tr>
+      </table>
+      <p><strong>Conclusion:</strong> 2ⁿ = O(n!), meaning n! grows much faster than 2ⁿ. Order: <code>2ⁿ &lt; n!</code></p>
+    </div>
+
+    <div class="revision-box">
+      <h4>⚡ Quick Revision Box</h4>
+      <ul>
+        <li>✔ Order: <code>1 &lt; log n &lt; √n &lt; n &lt; n log n &lt; n² &lt; n³ &lt; 2ⁿ &lt; n!</code></li>
+        <li>✔ To compare f(n) and g(n): compute lim(n→∞) [f(n)/g(n)]</li>
+        <li>✔ If limit = 0: f grows slower; if ∞: f grows faster; if constant: same growth</li>
+        <li>✔ Algorithms with 2ⁿ or n! are <em>practically infeasible</em> for large n</li>
+        <li>✔ Common mistake: Thinking n log n is between n and n² — YES it is, but closer to n</li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- ================================================================
+     TOPIC 4: ASYMPTOTIC NOTATIONS
+     ================================================================ -->
+<div class="topic-section" id="t4">
+  <div class="topic-header">
+    <div class="topic-num">4</div>
+    <h2>Asymptotic Notations — Big-O, Omega, Theta</h2>
+  </div>
+  <div class="topic-body">
+
+    <div class="pyq-box">
+      <div class="pyq-label"><span class="fire">🔥</span> MOST IMPORTANT — ASKED IN EVERY PAPER!</div>
+      <p><strong>Makeup 2023 Q1(a)</strong> — "Describe the various asymptotic notations with an example for each." [09 marks]</p>
+      <p><strong>SEE 2024 Q2(a)</strong> — "Explain the following notations (formal definition) O, Θ and Ω with an example for each." [08 marks]</p>
+      <p><strong>SEE 2025 Q1(a)</strong> — "Describe various asymptotic notations used in analyzing an algorithm. Give example for each." [09 marks]</p>
+      <p><strong>SEE 2023(O) Q1(b)</strong> — "Explain in brief the basic Asymptotic notations and illustrate with figures." [12 marks]</p>
+      <p><strong>SEE 2023 Q2(c)</strong> — "Express f(n) using Big-theta, Big Omega and Big-Oh." [06 marks]</p>
+    </div>
+
+    <div class="sub-heading"><span class="tag">1. Concept</span><h3>Why Do We Need Asymptotic Notations?</h3></div>
+    <p>When we analyze algorithms, we want to express the running time (or space) as a mathematical function of input size n. But we don't want to get bogged down in exact constants that depend on hardware speed or programming language. We need a way to say "this algorithm is roughly this fast, regardless of machine."</p>
+    <p>Asymptotic notations give us this: they describe the <strong>growth rate</strong> of functions by ignoring constant factors and lower-order terms, focusing only on behavior as n → ∞.</p>
+
+    <div class="sub-heading"><span class="tag">2. Theory</span><h3>Big-O Notation O(g(n)) — Upper Bound</h3></div>
+    <div class="def">
+      <strong>Formal Definition:</strong> f(n) = O(g(n)) if there exist positive constants c and n₀ such that:<br>
+      <strong>0 ≤ f(n) ≤ c · g(n) &nbsp; for all n ≥ n₀</strong>
+    </div>
+    <p><strong>Intuition:</strong> Big-O gives the <em>worst-case upper bound</em>. "f(n) is O(g(n))" means g(n) is an upper bound on f(n)'s growth. f never grows faster than g (up to a constant).</p>
+    <p><strong>Memory trick:</strong> O = "Oh, at most this fast" (upper bound / ceiling)</p>
+
+    <div class="example-box">
+      <div class="ex-label">✅ Example: Prove f(n) = 5n + 3 is O(n)</div>
+      <p>We need to find constants c and n₀ such that 5n + 3 ≤ c·n for all n ≥ n₀.</p>
+      <p>Choose c = 6: Is 5n + 3 ≤ 6n? → 3 ≤ n → true for all n ≥ 3.</p>
+      <p><strong>Therefore: 5n + 3 = O(n) with c = 6, n₀ = 3</strong></p>
+      <p>This makes sense: the dominant term is 5n, and the "+3" becomes negligible for large n.</p>
+    </div>
+
+    <div class="example-box">
+      <div class="ex-label">✅ Example: f(n) = 6·2ⁿ + n²</div>
+      <p>For large n, 2ⁿ dominates n². So f(n) = O(2ⁿ).</p>
+      <p>Proof: 6·2ⁿ + n² ≤ 6·2ⁿ + 2ⁿ = 7·2ⁿ for n ≥ some n₀ (since n² ≤ 2ⁿ for large n).</p>
+      <p><strong>f(n) = O(2ⁿ)</strong></p>
+    </div>
+
+    <hr class="section-divider">
+
+    <div class="sub-heading"><span class="tag">2. Theory</span><h3>Big-Omega Notation Ω(g(n)) — Lower Bound</h3></div>
+    <div class="def">
+      <strong>Formal Definition:</strong> f(n) = Ω(g(n)) if there exist positive constants c and n₀ such that:<br>
+      <strong>0 ≤ c · g(n) ≤ f(n) &nbsp; for all n ≥ n₀</strong>
+    </div>
+    <p><strong>Intuition:</strong> Omega gives the <em>best-case lower bound</em>. "f(n) is Ω(g(n))" means g(n) is a lower bound on f(n)'s growth. f grows at least as fast as g (up to a constant).</p>
+    <p><strong>Memory trick:</strong> Ω = "Omega → at least this fast" (lower bound / floor)</p>
+
+    <div class="example-box">
+      <div class="ex-label">✅ Example: Prove f(n) = 5n + 3 is Ω(n)</div>
+      <p>We need: c·n ≤ 5n + 3 for all n ≥ n₀.</p>
+      <p>Choose c = 1: Is n ≤ 5n + 3? → Yes, for all n ≥ 1.</p>
+      <p><strong>Therefore: 5n + 3 = Ω(n) with c = 1, n₀ = 1</strong></p>
+    </div>
+
+    <hr class="section-divider">
+
+    <div class="sub-heading"><span class="tag">2. Theory</span><h3>Big-Theta Notation Θ(g(n)) — Tight Bound</h3></div>
+    <div class="def">
+      <strong>Formal Definition:</strong> f(n) = Θ(g(n)) if there exist positive constants c₁, c₂ and n₀ such that:<br>
+      <strong>0 ≤ c₁ · g(n) ≤ f(n) ≤ c₂ · g(n) &nbsp; for all n ≥ n₀</strong>
+    </div>
+    <p><strong>Intuition:</strong> Theta is the <em>exact / tight bound</em>. f(n) = Θ(g(n)) means f grows <em>exactly</em> at the same rate as g (sandwiched between two constants). This is the most precise notation.</p>
+    <p><strong>Theorem:</strong> f(n) = Θ(g(n)) if and only if f(n) = O(g(n)) AND f(n) = Ω(g(n)).</p>
+    <p><strong>Memory trick:</strong> Θ = "Theta → exactly this fast" (tight/exact bound)</p>
+
+    <div class="example-box">
+      <div class="ex-label">✅ Example: Prove f(n) = 5n + 3 is Θ(n)</div>
+      <p>Need: c₁·n ≤ 5n + 3 ≤ c₂·n for all n ≥ n₀.</p>
+      <p>From Big-O: c₂ = 6, works for n ≥ 3.</p>
+      <p>From Omega: c₁ = 1, works for n ≥ 1.</p>
+      <p>Combining: 1·n ≤ 5n + 3 ≤ 6·n for all n ≥ 3.</p>
+      <p><strong>Therefore: 5n + 3 = Θ(n) with c₁ = 1, c₂ = 6, n₀ = 3</strong></p>
+    </div>
+
+    <div class="sub-heading"><span class="tag">2. Theory</span><h3>Summary Comparison Table</h3></div>
+    <table>
+      <tr><th>Notation</th><th>Meaning</th><th>Analogy</th><th>Mathematical</th></tr>
+      <tr><td><strong>O(g(n))</strong></td><td>Upper Bound (at most)</td><td>f(n) ≤ c·g(n)</td><td>"&le;"</td></tr>
+      <tr><td><strong>Ω(g(n))</strong></td><td>Lower Bound (at least)</td><td>c·g(n) ≤ f(n)</td><td>"&ge;"</td></tr>
+      <tr><td><strong>Θ(g(n))</strong></td><td>Tight Bound (exactly)</td><td>c₁·g(n) ≤ f(n) ≤ c₂·g(n)</td><td>"="</td></tr>
+    </table>
+
+    <div class="sub-heading"><span class="tag">2. Theory</span><h3>Little-o and Little-omega (Brief)</h3></div>
+    <table>
+      <tr><th>Notation</th><th>Meaning</th><th>Definition</th></tr>
+      <tr><td><strong>o(g(n))</strong></td><td>Strictly less than (upper bound, not tight)</td><td>lim(n→∞) f(n)/g(n) = 0</td></tr>
+      <tr><td><strong>ω(g(n))</strong></td><td>Strictly greater than (lower bound, not tight)</td><td>lim(n→∞) f(n)/g(n) = ∞</td></tr>
+    </table>
+
+    <div class="sub-heading"><span class="tag">2. Theory</span><h3>Important Properties</h3></div>
+    <ul>
+      <li><strong>Transitivity:</strong> If f=O(g) and g=O(h) → f=O(h)</li>
+      <li><strong>Reflexivity:</strong> f=O(f)</li>
+      <li><strong>Symmetry:</strong> f=Θ(g) iff g=Θ(f)</li>
+      <li><strong>Constants ignored:</strong> O(2n) = O(n), O(n² + n) = O(n²)</li>
+      <li><strong>Logs of same base are equivalent:</strong> O(log₂n) = O(log₁₀n)</li>
+    </ul>
+
+    <div class="sub-heading"><span class="tag">4. Solved Examples</span><h3>PYQ: Express using Big-O, Omega, Theta</h3></div>
+    <div class="pyq-box">
+      <div class="pyq-label">SEE 2023 Q2(c) — 6 Marks</div>
+      <p><strong>Question:</strong> Express f(n) using Big-theta, Big Omega and Big-Oh for:</p>
+      <p>(i) f(n) = 6·2ⁿ + n² &nbsp;&nbsp; (ii) f(n) = 10n³ + 5</p>
+      <br>
+      <p><strong>Solution (i): f(n) = 6·2ⁿ + n²</strong></p>
+      <p>For large n, 2ⁿ grows much faster than n² (exponential > polynomial).</p>
+      <p>The dominant term is 2ⁿ.</p>
+      <ul>
+        <li><strong>O notation:</strong> 6·2ⁿ + n² ≤ 6·2ⁿ + 2ⁿ = 7·2ⁿ &nbsp;(since n² ≤ 2ⁿ for n ≥ 4). So f(n) = <strong>O(2ⁿ)</strong></li>
+        <li><strong>Ω notation:</strong> 6·2ⁿ + n² ≥ 6·2ⁿ ≥ 1·2ⁿ. So f(n) = <strong>Ω(2ⁿ)</strong></li>
+        <li><strong>Θ notation:</strong> Since f(n) = O(2ⁿ) and Ω(2ⁿ): f(n) = <strong>Θ(2ⁿ)</strong></li>
+      </ul>
+      <br>
+      <p><strong>Solution (ii): f(n) = 10n³ + 5</strong></p>
+      <p>Dominant term is n³.</p>
+      <ul>
+        <li><strong>O:</strong> 10n³ + 5 ≤ 10n³ + n³ = 11n³ for n ≥ 1. So f(n) = <strong>O(n³)</strong></li>
+        <li><strong>Ω:</strong> 10n³ + 5 ≥ 10n³ ≥ 1·n³. So f(n) = <strong>Ω(n³)</strong></li>
+        <li><strong>Θ:</strong> f(n) = <strong>Θ(n³)</strong></li>
+      </ul>
+    </div>
+
+    <div class="sub-heading"><span class="tag">7. Exam Format</span><h3>How to Write This in Exam</h3></div>
+    <div class="exam-format">
+      <div class="ef-header">For 9-12 Marks (Full Answer on All Three Notations)</div>
+      <div class="ef-body">
+        <ol>
+          <li><strong>Introduction (2 lines):</strong> Asymptotic notations describe growth rate of functions, ignoring constant factors</li>
+          <li><strong>Big-O (3–4 lines):</strong> Definition + formal statement + diagram description + example</li>
+          <li><strong>Big-Omega (3–4 lines):</strong> Definition + formal statement + diagram description + example</li>
+          <li><strong>Big-Theta (3–4 lines):</strong> Definition + formal statement + "sandwiched between" + example</li>
+          <li><strong>Comparison table</strong> (drawn as above)</li>
+          <li><strong>Summary:</strong> Theta is preferred when exact complexity is known</li>
+        </ol>
+        <p><strong>Diagram to draw:</strong> Draw 3 graphs showing the c·g(n) relationship for each notation.</p>
+      </div>
+    </div>
+
+    <div class="revision-box">
+      <h4>⚡ Quick Revision Box — Asymptotic Notations</h4>
+      <ul>
+        <li>✔ O = Upper bound: f(n) ≤ c·g(n) — "at most" — worst case</li>
+        <li>✔ Ω = Lower bound: c·g(n) ≤ f(n) — "at least" — best case</li>
+        <li>✔ Θ = Tight bound: c₁·g(n) ≤ f(n) ≤ c₂·g(n) — "exactly"</li>
+        <li>✔ Θ(g) = O(g) AND Ω(g)</li>
+        <li>✔ Drop constants and lower terms: 5n² + 3n + 7 = Θ(n²)</li>
+        <li>✔ Common mistake: Saying Big-O = worst case. Big-O is just an upper bound; worst case uses Big-O for the worst input.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- ================================================================
+     TOPIC 5: ANALYZING NON-RECURSIVE ALGORITHMS
+     ================================================================ -->
+<div class="topic-section" id="t5">
+  <div class="topic-header">
+    <div class="topic-num">5</div>
+    <h2>Analyzing Non-Recursive Algorithms</h2>
+  </div>
+  <div class="topic-body">
+
+    <div class="pyq-box">
+      <div class="pyq-label"><span class="fire">🔥</span> REPEATED — "4-Part Algorithm Analysis Questions"</div>
+      <p><strong>SEE 2023 Q2(a)</strong> — Algorithm Mystery: basic op, times executed, efficiency [08 marks]</p>
+      <p><strong>SEE 2024 Q2(b)</strong> — Algorithm Fun(n): basic op, efficiency class [08 marks]</p>
+      <p><strong>SEE 2025 Q1(c)</strong> — Algorithm sum(int n): basic op, efficiency class [04 marks]</p>
+      <p><strong>SEE 2023(O) Q1(a)</strong> — MatMul algorithm analysis [08 marks]</p>
+      <p><strong>Makeup 2023 Q1(b)</strong> — Sequential search: best/worst/average case [07 marks]</p>
+    </div>
+
+    <div class="sub-heading"><span class="tag">1. Concept</span><h3>What is Algorithm Analysis?</h3></div>
+    <p>Analyzing an algorithm means figuring out how many basic operations it performs as a function of input size n. We express this as T(n) and then simplify using asymptotic notation.</p>
+    <p>A <strong>basic operation</strong> is the most frequently executed operation that contributes most to total running time — typically a comparison, arithmetic operation, or assignment.</p>
+
+    <div class="sub-heading"><span class="tag">2. Theory</span><h3>General Plan for Analyzing Non-Recursive Algorithms</h3></div>
+    <div class="steps">
+      <div class="step"><div class="step-num" style="counter-increment:none">1</div>
+        <div class="step-content"><strong>Identify the input size parameter n</strong> (e.g., array size, number of nodes, matrix dimension)</div>
+      </div>
+      <div class="step"><div class="step-num" style="counter-increment:none">2</div>
+        <div class="step-content"><strong>Identify the basic operation</strong> — the operation executed most frequently inside the innermost loop</div>
+      </div>
+      <div class="step"><div class="step-num" style="counter-increment:none">3</div>
+        <div class="step-content"><strong>Count the number of times the basic operation is executed</strong> — set up a sum formula</div>
+      </div>
+      <div class="step"><div class="step-num" style="counter-increment:none">4</div>
+        <div class="step-content"><strong>Find a closed-form formula</strong> for the count using summation formulas</div>
+      </div>
+      <div class="step"><div class="step-num" style="counter-increment:none">5</div>
+        <div class="step-content"><strong>Express using asymptotic notation</strong> — drop constants and lower-order terms</div>
+      </div>
+    </div>
+
+    <div class="sub-heading"><span class="tag">Theory</span><h3>Key Summation Formulas to Remember</h3></div>
+    <table>
+      <tr><th>Summation</th><th>Closed Form</th></tr>
+      <tr><td>∑(i=1 to n) 1</td><td>n</td></tr>
+      <tr><td>∑(i=1 to n) i</td><td>n(n+1)/2 ≈ n²/2</td></tr>
+      <tr><td>∑(i=0 to n-1) i</td><td>(n-1)n/2</td></tr>
+      <tr><td>∑(i=1 to n) i²</td><td>n(n+1)(2n+1)/6 ≈ n³/3</td></tr>
+      <tr><td>∑(i=0 to n) 2ⁱ</td><td>2^(n+1) - 1</td></tr>
+      <tr><td>∑(i=1 to n) 1/i</td><td>≈ ln(n) + 0.577 (Harmonic)</td></tr>
+    </table>
+
+    <div class="sub-heading"><span class="tag">4. Solved Examples</span><h3>PYQ: Enigma / Mystery Algorithm Analysis</h3></div>
+
+    <div class="pyq-box">
+      <div class="pyq-label">🔥 SEE 2023 Q2(a) — 8 Marks | Algorithm Mystery</div>
+      <pre><span class="kw">ALGORITHM</span> Mystery(A[], n)
+  <span class="kw">for</span> i = 0 <span class="kw">to</span> n-2 <span class="kw">do</span>
+    <span class="kw">for</span> j = i+1 <span class="kw">to</span> n-1 <span class="kw">do</span>
+      <span class="kw">if</span>(a[i] == a[j])
+        <span class="kw">return</span> 0;
+  <span class="kw">return</span> 1;</pre>
+      <p><strong>Questions: (i) What does it compute? (ii) Basic operation? (iii) How many times? (iv) Efficiency class?</strong></p>
+      <br>
+      <p><strong>(i) What does it compute?</strong></p>
+      <p>It checks if all elements of the array are <em>distinct/unique</em>. Returns 0 if any two elements are equal (duplicate found), returns 1 if all elements are unique.</p>
+      <br>
+      <p><strong>(ii) What is the basic operation?</strong></p>
+      <p>The comparison <code>a[i] == a[j]</code> inside the innermost loop. This is the comparison that dominates the execution time.</p>
+      <br>
+      <p><strong>(iii) How many times is it executed?</strong></p>
+      <p>Outer loop: i goes from 0 to n-2 (total n-1 iterations)</p>
+      <p>Inner loop: j goes from i+1 to n-1 (total n-1-i iterations for each i)</p>
+      <div class="formula">C(n) = ∑(i=0 to n-2) ∑(j=i+1 to n-1) 1 = ∑(i=0 to n-2) (n-1-i)</div>
+      <p>Let k = n-1-i, when i=0 → k=n-1; when i=n-2 → k=1:</p>
+      <div class="formula">= (n-1) + (n-2) + … + 2 + 1 = n(n-1)/2</div>
+      <br>
+      <p><strong>(iv) Efficiency class?</strong></p>
+      <p>C(n) = n(n-1)/2 = n²/2 - n/2</p>
+      <p>Dropping constants and lower terms: <strong>C(n) = Θ(n²)</strong></p>
+      <p>This is a <strong>quadratic</strong> algorithm — worst case O(n²).</p>
+    </div>
+
+    <div class="pyq-box">
+      <div class="pyq-label">SEE 2024 Q2(b) — 8 Marks | Algorithm Fun(n)</div>
+      <pre><span class="kw">Algorithm</span> Fun(n)
+  <span class="cmt">//Input: A positive decimal integer n</span>
+  <span class="kw">If</span> n == 1 <span class="kw">return</span> 1
+  <span class="kw">else return</span> Fun(⌊n/2⌋) + 1</pre>
+      <p><strong>(i) What does it compute?</strong></p>
+      <p>It computes ⌊log₂n⌋ + 1 = the number of bits in the binary representation of n (i.e., floor of log₂n plus 1).</p>
+      <p>Example: Fun(8) → Fun(4) → Fun(2) → Fun(1) returns 1 → returns 2 → returns 3 → returns 4. So Fun(8) = 4 = log₂(8) + 1 = 3 + 1.</p>
+      <br>
+      <p><strong>(ii) Basic operation:</strong> The addition "+1" or the comparison "n==1".</p>
+      <br>
+      <p><strong>(iii) Times executed:</strong> The function halves n each time, so it recurses log₂n times before reaching n=1. Basic operation executed <strong>⌊log₂n⌋</strong> times.</p>
+      <br>
+      <p><strong>(iv) Efficiency class: O(log n)</strong> — logarithmic time complexity.</p>
+    </div>
+
+    <div class="pyq-box">
+      <div class="pyq-label">🔥 Makeup 2023 Q1(b) | SEE 2025 Q2(c) — Sequential Search Analysis</div>
+      <pre><span class="kw">ALGORITHM</span> SequentialSearch(A[0..n-1], K)
+  i ← 0
+  <span class="kw">while</span> i &lt; n <span class="kw">and</span> A[i] ≠ K
+    i ← i + 1
+  <span class="kw">if</span> i &lt; n <span class="kw">return</span> i
+  <span class="kw">else return</span> -1</pre>
+      <p><strong>Input size:</strong> n (number of elements in array)</p>
+      <p><strong>Basic operation:</strong> Comparison A[i] ≠ K</p>
+      <table>
+        <tr><th>Case</th><th>Condition</th><th>Count</th><th>Complexity</th></tr>
+        <tr><td><strong>Best Case</strong></td><td>K is found at A[0] (first position)</td><td>1 comparison</td><td><strong>Ω(1)</strong></td></tr>
+        <tr><td><strong>Worst Case</strong></td><td>K is at last position or not in array</td><td>n comparisons</td><td><strong>O(n)</strong></td></tr>
+        <tr><td><strong>Average Case</strong></td><td>K equally likely at any position</td><td>(n+1)/2 comparisons</td><td><strong>Θ(n)</strong></td></tr>
+      </table>
+      <p><strong>Average Case Derivation:</strong> If K is at position i (1-indexed), we make i comparisons. Averaging over all n positions:</p>
+      <div class="formula">C_avg(n) = (1 + 2 + 3 + ... + n) / n = n(n+1)/2 / n = (n+1)/2 = Θ(n)</div>
+    </div>
+
+    <div class="pyq-box">
+      <div class="pyq-label">SEE 2023(O) Q1(a) — 8 Marks | Matrix Multiplication</div>
+      <pre><span class="kw">Algorithm</span> MatMul(A[1..n], B[1..n], C[1..n])
+  <span class="kw">for</span> i = 1 <span class="kw">to</span> n <span class="kw">do</span>
+    <span class="kw">for</span> j = 1 <span class="kw">to</span> n <span class="kw">do</span>
+      C[i][j] = 0
+      <span class="kw">for</span> k = 1 <span class="kw">to</span> n <span class="kw">do</span>
+        C[i][j] = C[i][j] + A[i][k] * B[k][j]
+  <span class="kw">return</span> C</pre>
+      <p><strong>(i) Basic operation:</strong> Multiplication A[i][k] * B[k][j] (or addition — both executed same number of times)</p>
+      <br>
+      <p><strong>(ii) Times executed:</strong></p>
+      <p>i loop: n iterations; j loop: n iterations; k loop: n iterations</p>
+      <div class="formula">Total = n × n × n = n³</div>
+      <p><strong>(iii) Efficiency class: Θ(n³)</strong> — cubic time.</p>
+    </div>
+
+    <div class="sub-heading"><span class="tag">Exam Tip</span><h3>Template Answer for 4-Part Algorithm Analysis</h3></div>
+    <div class="exam-format">
+      <div class="ef-header">Standard 4-Part Answer Template</div>
+      <div class="ef-body">
+        <p><strong>(i) What does it compute?</strong> [Trace 1-2 small examples to determine]</p>
+        <p><strong>(ii) Basic operation?</strong> [The operation inside the innermost loop — comparison or arithmetic]</p>
+        <p><strong>(iii) How many times?</strong> [Set up sum, solve using summation formula]</p>
+        <p><strong>(iv) Efficiency class?</strong> [Apply Θ notation to the result]</p>
+      </div>
+    </div>
+
+    <div class="revision-box">
+      <h4>⚡ Quick Revision Box</h4>
+      <ul>
+        <li>✔ Input size: n = number of elements (array), n = number of nodes (graph), n = matrix size</li>
+        <li>✔ Basic operation = innermost loop operation (comparison / arithmetic)</li>
+        <li>✔ Double loop: count = n(n-1)/2 → Θ(n²)</li>
+        <li>✔ Triple loop: count = n³ → Θ(n³)</li>
+        <li>✔ Halving: count = log₂n → Θ(log n)</li>
+        <li>✔ Summation formula: ∑i from 1 to n = n(n+1)/2</li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- ================================================================
+     TOPIC 6: ANALYZING RECURSIVE ALGORITHMS
+     ================================================================ -->
+<div class="topic-section" id="t6">
+  <div class="topic-header">
+    <div class="topic-num">6</div>
+    <h2>Analyzing Recursive Algorithms — Tower of Hanoi</h2>
+  </div>
+  <div class="topic-body">
+
+    <div class="pyq-box">
+      <div class="pyq-label"><span class="fire">🔥</span> EXTREMELY IMPORTANT — IN EVERY PAPER!</div>
+      <p><strong>SEE 2023 Q1(b)</strong> — "Tower of Hanoi: algorithm, recurrence relation, solve" [08 marks]</p>
+      <p><strong>SEE 2024 Q1(c)</strong> — "General plan for recursive algorithms + Tower of Hanoi" [06 marks]</p>
+      <p><strong>SEE 2025 Q2(a)</strong> — "General plan for recursive algorithms + Tower of Hanoi complexity" [07 marks]</p>
+      <p><strong>Makeup 2023 Q2(a)</strong> — "General plan for recursive algorithm + Tower of Hanoi + efficiency" [09 marks]</p>
+      <p><strong>SEE 2023(O) Q2(b)</strong> — "General plan for recursive algorithms + Factorial analysis" [10 marks]</p>
+    </div>
+
+    <div class="sub-heading"><span class="tag">2. Theory</span><h3>General Plan for Analyzing Recursive Algorithms</h3></div>
+    <div class="steps">
+      <div class="step"><div class="step-num" style="counter-increment:none">1</div>
+        <div class="step-content"><strong>Identify the input size parameter n</strong></div>
+      </div>
+      <div class="step"><div class="step-num" style="counter-increment:none">2</div>
+        <div class="step-content"><strong>Identify the basic operation</strong> — the dominant operation in the recursive call</div>
+      </div>
+      <div class="step"><div class="step-num" style="counter-increment:none">3</div>
+        <div class="step-content"><strong>Determine whether the count depends on the input value or just the input size.</strong> If it depends on the value (like Quick Sort in average case), we use average-case analysis.</div>
+      </div>
+      <div class="step"><div class="step-num" style="counter-increment:none">4</div>
+        <div class="step-content"><strong>Set up a recurrence relation</strong> for the count of basic operations: express T(n) in terms of T(smaller n)</div>
+      </div>
+      <div class="step"><div class="step-num" style="counter-increment:none">5</div>
+        <div class="step-content"><strong>Solve the recurrence relation</strong> using backward substitution (telescoping), or Master Method, or Recursion Tree</div>
+      </div>
+    </div>
+
+    <div class="sub-heading"><span class="tag">3. Algorithm</span><h3>Tower of Hanoi — Algorithm and Recurrence</h3></div>
+    <p><strong>Problem:</strong> Move n disks from peg A to peg C using peg B as auxiliary, following rules: only one disk at a time, never place larger disk on smaller.</p>
+
+    <div class="example-box">
+      <div class="ex-label">Algorithm: Tower of Hanoi</div>
+      <pre><span class="kw">ALGORITHM</span> TowerOfHanoi(n, source, dest, aux)
+<span class="cmt">// Move n disks from source to dest using aux</span>
+<span class="kw">if</span> n == 1 <span class="kw">then</span>
+    Move disk 1 from source to dest
+    <span class="kw">return</span>
+<span class="kw">else</span>
+    TowerOfHanoi(n-1, source, aux, dest)  <span class="cmt">// Move n-1 disks: A→B using C</span>
+    Move disk n from source to dest        <span class="cmt">// Move largest disk: A→C</span>
+    TowerOfHanoi(n-1, aux, dest, source)  <span class="cmt">// Move n-1 disks: B→C using A</span></pre>
+    </div>
+
+    <div class="sub-heading"><span class="tag">4. Analysis</span><h3>Setting Up the Recurrence Relation</h3></div>
+    <p><strong>Let M(n)</strong> = number of disk moves to solve Tower of Hanoi with n disks.</p>
+    <ul>
+      <li>Base case: M(1) = 1 (move one disk directly)</li>
+      <li>Recursive case: M(n) = M(n-1) + 1 + M(n-1) = 2·M(n-1) + 1</li>
+    </ul>
+    <div class="formula">M(n) = 2·M(n-1) + 1 &nbsp;&nbsp; with M(1) = 1</div>
+
+    <div class="sub-heading"><span class="tag">4. Solved Example</span><h3>Solving the Recurrence — Backward Substitution</h3></div>
+    <div class="example-box">
+      <div class="ex-label">Step-by-Step Solution (Backward Substitution / Telescoping)</div>
+      <p><strong>Given:</strong> M(n) = 2·M(n-1) + 1, M(1) = 1</p>
+      <p><strong>Step 1:</strong> Expand M(n):</p>
+      <pre>M(n) = 2·M(n-1) + 1</pre>
+      <p><strong>Step 2:</strong> Replace M(n-1) = 2·M(n-2) + 1:</p>
+      <pre>M(n) = 2·[2·M(n-2) + 1] + 1 = 4·M(n-2) + 2 + 1 = 4·M(n-2) + 3</pre>
+      <p><strong>Step 3:</strong> Replace M(n-2) = 2·M(n-3) + 1:</p>
+      <pre>M(n) = 4·[2·M(n-3) + 1] + 3 = 8·M(n-3) + 4 + 3 = 8·M(n-3) + 7</pre>
+      <p><strong>Step 4:</strong> See the pattern:</p>
+      <pre>M(n) = 2ᵏ·M(n-k) + (2ᵏ - 1)</pre>
+      <p><strong>Step 5:</strong> When k = n-1, we reach M(1) = 1:</p>
+      <pre>M(n) = 2^(n-1)·M(1) + (2^(n-1) - 1)
+     = 2^(n-1)·1 + 2^(n-1) - 1
+     = 2·2^(n-1) - 1
+     = 2ⁿ - 1</pre>
+      <p><strong>Final Answer:</strong></p>
+      <div class="formula">M(n) = 2ⁿ - 1</div>
+      <p><strong>Verification:</strong></p>
+      <table>
+        <tr><th>n</th><th>M(n) = 2ⁿ - 1</th></tr>
+        <tr><td>1</td><td>1 ✓</td></tr>
+        <tr><td>2</td><td>3 ✓ (move small disk, move large disk, move small disk)</td></tr>
+        <tr><td>3</td><td>7 ✓</td></tr>
+        <tr><td>10</td><td>1023</td></tr>
+        <tr><td>64</td><td>1.84 × 10¹⁹ (takes ~585 billion years at 1 move/second!)</td></tr>
+      </table>
+    </div>
+
+    <div class="sub-heading"><span class="tag">5. Complexity</span><h3>Complexity of Tower of Hanoi</h3></div>
+    <div class="complexity-grid">
+      <div class="comp-card"><div class="label">Time Complexity</div><div class="val">Θ(2ⁿ)</div></div>
+      <div class="comp-card"><div class="label">Space Complexity</div><div class="val">Θ(n)</div></div>
+      <div class="comp-card"><div class="label">Recurrence</div><div class="val">T(n) = 2T(n-1)+1</div></div>
+    </div>
+    <p>The space complexity is Θ(n) due to the recursion stack which grows to depth n.</p>
+
+    <div class="pyq-box">
+      <div class="pyq-label">SEE 2023(O) Q2(b) — Factorial Recursive Analysis</div>
+      <pre><span class="kw">ALGORITHM</span> Factorial(n)
+  <span class="kw">if</span> n == 0 <span class="kw">then return</span> 1
+  <span class="kw">else return</span> n * Factorial(n-1)</pre>
+      <p><strong>Setting up recurrence:</strong></p>
+      <p>Let M(n) = number of multiplications performed by Factorial(n).</p>
+      <ul>
+        <li>M(0) = 0 (base case, no multiplication)</li>
+        <li>M(n) = M(n-1) + 1 (one multiplication: n * Factorial(n-1))</li>
+      </ul>
+      <p><strong>Solving:</strong> M(n) = M(n-1) + 1 = M(n-2) + 2 = … = M(0) + n = n</p>
+      <div class="formula">M(n) = n &nbsp;→&nbsp; Θ(n)</div>
+      <p>Linear time — makes sense since we multiply n numbers together.</p>
+    </div>
+
+    <div class="sub-heading"><span class="tag">PYQ</span><h3>SEE 2025 Q2(b) — Solving Recurrence Relations</h3></div>
+    <div class="pyq-box">
+      <div class="pyq-label">SEE 2025 Q2(b) — 8 Marks</div>
+      <p><strong>Solve the given Recurrence relations:</strong></p>
+      <p>(i) F(n) = F(n-1) + F(n-2), F(0) = 0, F(1) = 1 &nbsp;&nbsp; (ii) T(n) = T(n/2) + c</p>
+      <br>
+      <p><strong>Solution (i): Fibonacci Recurrence</strong></p>
+      <p>F(n) = F(n-1) + F(n-2) with F(0)=0, F(1)=1 is the Fibonacci sequence.</p>
+      <p>The sequence: 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, …</p>
+      <p>The closed-form solution (Binet's formula) is:</p>
+      <div class="formula">F(n) = (φⁿ - ψⁿ) / √5 &nbsp; where φ = (1+√5)/2 ≈ 1.618 (Golden Ratio)</div>
+      <p>Growth rate: F(n) = Θ(φⁿ) ≈ Θ(1.618ⁿ) — exponential growth.</p>
+      <br>
+      <p><strong>Solution (ii): T(n) = T(n/2) + c (Binary Search / Binary Representation)</strong></p>
+      <p>Using backward substitution:</p>
+      <pre>T(n) = T(n/2) + c
+     = T(n/4) + c + c = T(n/4) + 2c
+     = T(n/8) + 3c
+     …
+     = T(n/2ᵏ) + k·c</pre>
+      <p>When n/2ᵏ = 1 → k = log₂n:</p>
+      <pre>T(n) = T(1) + c·log₂n = 1 + c·log₂n</pre>
+      <div class="formula">T(n) = Θ(log n)</div>
+    </div>
+
+    <div class="revision-box">
+      <h4>⚡ Quick Revision Box — Recursive Analysis</h4>
+      <ul>
+        <li>✔ Tower of Hanoi: M(n) = 2·M(n-1) + 1 → M(n) = 2ⁿ - 1 → Θ(2ⁿ)</li>
+        <li>✔ Factorial: M(n) = M(n-1) + 1 → M(n) = n → Θ(n)</li>
+        <li>✔ Binary-type: T(n) = T(n/2) + 1 → T(n) = log n → Θ(log n)</li>
+        <li>✔ Divide & Conquer: T(n) = 2T(n/2) + n → Θ(n log n) [Merge Sort]</li>
+        <li>✔ Always set up the recurrence first, then solve by backward substitution</li>
+        <li>✔ Common mistake: Forgetting the base case when setting up the recurrence</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================
+     TOPIC 7: SUBSTITUTION METHOD
+     ================================================================ -->
+<div class="topic-section" id="t7">
+  <div class="topic-header">
+    <div class="topic-num">7</div>
+    <h2>Recurrence Relations & Substitution Method</h2>
+  </div>
+  <div class="topic-body">
+
+    <div class="sub-heading"><span class="tag">1. Concept</span><h3>What is the Substitution Method?</h3></div>
+    <p>The substitution method (also called backward substitution or telescoping) is the most basic technique to solve recurrence relations. The idea is simple: <strong>keep expanding T(n) by substituting the recurrence until you reach the base case</strong>, then simplify.</p>
+
+    <div class="sub-heading"><span class="tag">2. Theory</span><h3>Two Steps of the Substitution Method</h3></div>
+    <ol>
+      <li><strong>Guess the form of the solution</strong> (optional in some textbooks — just expand and look for pattern)</li>
+      <li><strong>Verify by mathematical induction</strong></li>
+    </ol>
+    <p>In VTU exams, we primarily use backward substitution (expanding and finding the pattern).</p>
+
+    <div class="sub-heading"><span class="tag">4. Solved Examples</span><h3>Example 1: Merge Sort Recurrence</h3></div>
+    <div class="example-box">
+      <div class="ex-label">✅ T(n) = 2T(n/2) + n, T(1) = 1</div>
+      <p><strong>Step 1:</strong> Expand repeatedly:</p>
+      <pre>T(n) = 2·T(n/2) + n
+     = 2·[2·T(n/4) + n/2] + n = 4·T(n/4) + n + n = 4·T(n/4) + 2n
+     = 4·[2·T(n/8) + n/4] + 2n = 8·T(n/8) + n + 2n = 8·T(n/8) + 3n</pre>
+      <p><strong>Step 2:</strong> Pattern: T(n) = 2ᵏ·T(n/2ᵏ) + k·n</p>
+      <p><strong>Step 3:</strong> When n/2ᵏ = 1 → k = log₂n:</p>
+      <pre>T(n) = 2^(log₂n)·T(1) + log₂n · n = n·1 + n·log₂n</pre>
+      <div class="formula">T(n) = n·log₂n + n = Θ(n log n)</div>
+    </div>
+
+    <div class="example-box">
+      <div class="ex-label">✅ T(n) = T(n-1) + n, T(1) = 1 (Insertion Sort worst case)</div>
+      <pre>T(n) = T(n-1) + n
+     = T(n-2) + (n-1) + n
+     = T(n-3) + (n-2) + (n-1) + n
+     …
+     = T(1) + 2 + 3 + … + n
+     = 1 + n(n+1)/2 - 1
+     = n(n+1)/2</pre>
+      <div class="formula">T(n) = n(n+1)/2 = Θ(n²)</div>
+    </div>
+
+    <div class="revision-box">
+      <h4>⚡ Quick Revision Box</h4>
+      <ul>
+        <li>✔ Substitution method: expand T(n) repeatedly until base case, find pattern</li>
+        <li>✔ T(n) = T(n-1) + 1 → Θ(n)</li>
+        <li>✔ T(n) = T(n-1) + n → Θ(n²)</li>
+        <li>✔ T(n) = 2T(n/2) + 1 → Θ(n)</li>
+        <li>✔ T(n) = 2T(n/2) + n → Θ(n log n)</li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- ================================================================
+     TOPIC 8: RECURSION TREE METHOD
+     ================================================================ -->
+<div class="topic-section" id="t8">
+  <div class="topic-header">
+    <div class="topic-num">8</div>
+    <h2>Recursion Tree Method</h2>
+  </div>
+  <div class="topic-body">
+
+    <div class="sub-heading"><span class="tag">1. Concept</span><h3>What is the Recursion Tree Method?</h3></div>
+    <p>When backward substitution gets complex, the <strong>Recursion Tree Method</strong> gives a visual, intuitive way to solve recurrences. We draw a tree where each node represents a subproblem, and the total work = sum of all node values across all levels.</p>
+
+    <div class="sub-heading"><span class="tag">2. Theory</span><h3>Steps of the Recursion Tree Method</h3></div>
+    <div class="steps">
+      <div class="step"><div class="step-num" style="counter-increment:none">1</div>
+        <div class="step-content">Draw the root with cost f(n)</div>
+      </div>
+      <div class="step"><div class="step-num" style="counter-increment:none">2</div>
+        <div class="step-content">Branch into the recursive calls, labeling each child node with its cost</div>
+      </div>
+      <div class="step"><div class="step-num" style="counter-increment:none">3</div>
+        <div class="step-content">Continue until reaching base cases (leaves)</div>
+      </div>
+      <div class="step"><div class="step-num" style="counter-increment:none">4</div>
+        <div class="step-content">Sum the work at each level</div>
+      </div>
+      <div class="step"><div class="step-num" style="counter-increment:none">5</div>
+        <div class="step-content">Sum across all levels → total work = T(n)</div>
+      </div>
+    </div>
+
+    <div class="sub-heading"><span class="tag">4. Solved Example</span><h3>Recursion Tree for T(n) = 2T(n/2) + n (Merge Sort)</h3></div>
+    <div class="example-box">
+      <div class="ex-label">✅ T(n) = 2T(n/2) + n — Recursion Tree</div>
+      <pre style="background:#f8f9fa; color:#1a1a2e; border:1px solid #c5cae9; font-size:0.8rem">
+Level 0:         n                          Cost: n
+                / \
+Level 1:      n/2  n/2                      Cost: n/2 + n/2 = n
+              / \  / \
+Level 2:    n/4 n/4 n/4 n/4                 Cost: 4 × n/4 = n
+            ...........
+Level k:    (2ᵏ nodes each costing n/2ᵏ)   Cost: n
+            ...........
+Level log₂n: n leaves each costing 1        Cost: n
+
+Total levels: log₂n + 1
+Cost per level: n
+Total cost = n × (log₂n + 1) = n·log₂n + n</pre>
+      <div class="formula">T(n) = Θ(n log n)</div>
+    </div>
+
+    <div class="example-box">
+      <div class="ex-label">✅ T(n) = T(n/3) + T(2n/3) + n — Unbalanced Tree</div>
+      <pre style="background:#f8f9fa; color:#1a1a2e; border:1px solid #c5cae9; font-size:0.8rem">
+Level 0:     n                      Cost: n
+            / \
+Level 1:  n/3  2n/3                 Cost: n
+         /  \  /  \
+Level 2: ...........                Cost: n
+...
+Depth of longest branch (right): log_{3/2}(n)
+Depth of shortest branch (left): log₃(n)</pre>
+      <p>Each level costs n, longest branch has depth log_{3/2}(n) = Θ(log n)</p>
+      <div class="formula">T(n) = Θ(n log n)</div>
+    </div>
+
+    <div class="revision-box">
+      <h4>⚡ Quick Revision Box</h4>
+      <ul>
+        <li>✔ Recursion tree: visual method — sum work at each level</li>
+        <li>✔ For T(n) = aT(n/b) + f(n): tree has log_b(n) levels, aᵏ nodes at level k</li>
+        <li>✔ If each level costs the same: T(n) = (cost per level) × (number of levels)</li>
+        <li>✔ Leaves contribute: aˡᵒᵍ_b(n) = n^(log_b a) total cost</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================
+     TOPIC 9: MASTER METHOD
+     ================================================================ -->
+<div class="topic-section" id="t9">
+  <div class="topic-header">
+    <div class="topic-num">9</div>
+    <h2>Master Method</h2>
+  </div>
+  <div class="topic-body">
+
+    <div class="pyq-box">
+      <div class="pyq-label"><span class="fire">🔥</span> IMPORTANT — Used in SEE 2023(O) Q4(a)</div>
+      <p><strong>SEE 2023(O) Q4(a)</strong> — "Design a recursive algorithm for Merge sort and analyze using backward substitution and Master's Theorem." [10 marks]</p>
+    </div>
+
+    <div class="sub-heading"><span class="tag">1. Concept</span><h3>What is the Master Method?</h3></div>
+    <p>The Master Method is a <strong>cookbook formula</strong> for solving recurrences of the form:</p>
+    <div class="formula">T(n) = a·T(n/b) + f(n)</div>
+    <p>where: a ≥ 1 (number of subproblems), b &gt; 1 (factor by which input shrinks), f(n) (cost of non-recursive work at each level).</p>
+    <p>Most divide-and-conquer algorithms have recurrences in this form.</p>
+
+    <div class="sub-heading"><span class="tag">2. Theory</span><h3>The Three Cases of Master Theorem</h3></div>
+    <div class="important-box">
+      <strong>Key quantity: n^(log_b a) — compare this to f(n)</strong>
+    </div>
+    <table>
+      <tr><th>Case</th><th>Condition</th><th>Solution</th><th>Intuition</th></tr>
+      <tr>
+        <td><strong>Case 1</strong></td>
+        <td>f(n) = O(n^(log_b a - ε)) for some ε &gt; 0<br><em>(f grows polynomially slower than n^(log_b a))</em></td>
+        <td><strong>T(n) = Θ(n^(log_b a))</strong></td>
+        <td>Leaves dominate</td>
+      </tr>
+      <tr>
+        <td><strong>Case 2</strong></td>
+        <td>f(n) = Θ(n^(log_b a))<br><em>(f grows at same rate as n^(log_b a))</em></td>
+        <td><strong>T(n) = Θ(n^(log_b a) · log n)</strong></td>
+        <td>All levels equal</td>
+      </tr>
+      <tr>
+        <td><strong>Case 3</strong></td>
+        <td>f(n) = Ω(n^(log_b a + ε)) for some ε &gt; 0 AND a·f(n/b) ≤ c·f(n) for c &lt; 1<br><em>(f grows polynomially faster)</em></td>
+        <td><strong>T(n) = Θ(f(n))</strong></td>
+        <td>Root dominates</td>
+      </tr>
+    </table>
+
+    <div class="sub-heading"><span class="tag">4. Solved Examples</span><h3>Master Method Examples</h3></div>
+
+    <div class="example-box">
+      <div class="ex-label">✅ Example 1: T(n) = 2T(n/2) + n — Merge Sort</div>
+      <p><strong>Step 1:</strong> Identify a=2, b=2, f(n)=n</p>
+      <p><strong>Step 2:</strong> Compute n^(log_b a) = n^(log₂ 2) = n^1 = n</p>
+      <p><strong>Step 3:</strong> Compare f(n)=n with n^(log₂ 2)=n → They're equal → <strong>Case 2</strong></p>
+      <p><strong>Step 4:</strong> Apply Case 2: T(n) = Θ(n^(log₂ 2) · log n) = Θ(n · log n)</p>
+      <div class="formula">T(n) = Θ(n log n) ✓</div>
+    </div>
+
+    <div class="example-box">
+      <div class="ex-label">✅ Example 2: T(n) = 9T(n/3) + n — Strassen-like</div>
+      <p><strong>Step 1:</strong> a=9, b=3, f(n)=n</p>
+      <p><strong>Step 2:</strong> n^(log₃ 9) = n^2 (since log₃ 9 = 2)</p>
+      <p><strong>Step 3:</strong> f(n)=n vs n²: f grows slower → <strong>Case 1</strong> (f = O(n^(2-ε)) with ε=1)</p>
+      <p><strong>Step 4:</strong> T(n) = Θ(n²)</p>
+      <div class="formula">T(n) = Θ(n²)</div>
+    </div>
+
+    <div class="example-box">
+      <div class="ex-label">✅ Example 3: T(n) = 3T(n/4) + n·log n</div>
+      <p><strong>Step 1:</strong> a=3, b=4, f(n)=n·log n</p>
+      <p><strong>Step 2:</strong> n^(log₄ 3) = n^0.793</p>
+      <p><strong>Step 3:</strong> f(n) = n·log n grows faster than n^0.793 → <strong>Case 3</strong></p>
+      <p>Check regularity: 3·f(n/4) = 3·(n/4)·log(n/4) ≤ (3/4)·n·log n = c·f(n) with c=3/4 &lt; 1 ✓</p>
+      <div class="formula">T(n) = Θ(n log n)</div>
+    </div>
+
+    <div class="example-box">
+      <div class="ex-label">✅ Example 4: T(n) = 2T(n/2) + n² — Leads to Case 3</div>
+      <p>a=2, b=2 → n^(log₂ 2) = n. f(n) = n² grows faster → Case 3</p>
+      <div class="formula">T(n) = Θ(n²)</div>
+    </div>
+
+    <div class="example-box">
+      <div class="ex-label">✅ Example 5: T(n) = 4T(n/2) + n (Binary Search-like)</div>
+      <p>a=4, b=2 → n^(log₂ 4) = n². f(n) = n &lt; n² → Case 1</p>
+      <div class="formula">T(n) = Θ(n²)</div>
+    </div>
+
+    <div class="sub-heading"><span class="tag">5. Complexity</span><h3>Common Algorithm Recurrences</h3></div>
+    <table>
+      <tr><th>Algorithm</th><th>Recurrence</th><th>Case</th><th>T(n)</th></tr>
+      <tr><td>Binary Search</td><td>T(n)=T(n/2)+1</td><td>Case 2 (a=1, b=2, n^0=1)</td><td>Θ(log n)</td></tr>
+      <tr><td>Merge Sort</td><td>T(n)=2T(n/2)+n</td><td>Case 2</td><td>Θ(n log n)</td></tr>
+      <tr><td>Quick Sort (avg)</td><td>T(n)=2T(n/2)+n</td><td>Case 2</td><td>Θ(n log n)</td></tr>
+      <tr><td>Strassen's Matrix</td><td>T(n)=7T(n/2)+n²</td><td>Case 1</td><td>Θ(n^2.81)</td></tr>
+      <tr><td>Naïve Matrix Mult.</td><td>T(n)=8T(n/2)+n²</td><td>Case 1</td><td>Θ(n³)</td></tr>
+      <tr><td>Heap Sort</td><td>T(n)=T(n-1)+log n</td><td>Not Master form</td><td>Θ(n log n)</td></tr>
+    </table>
+
+    <div class="revision-box">
+      <h4>⚡ Quick Revision Box — Master Method</h4>
+      <ul>
+        <li>✔ Form: T(n) = aT(n/b) + f(n)</li>
+        <li>✔ Compare f(n) with n^(log_b a)</li>
+        <li>✔ Case 1: f smaller → Θ(n^(log_b a))</li>
+        <li>✔ Case 2: f equal → Θ(n^(log_b a) · log n)</li>
+        <li>✔ Case 3: f larger → Θ(f(n))</li>
+        <li>✔ Master method does NOT apply if: f(n) has log factors between cases, or if recurrence is not in standard form</li>
+        <li>✔ Merge Sort: a=2, b=2, f=n → Case 2 → Θ(n log n)</li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- ================================================================
+     TOPIC 10: PROBABILISTIC ANALYSIS & INDICATOR RANDOM VARIABLES
+     ================================================================ -->
+<div class="topic-section" id="t10">
+  <div class="topic-header">
+    <div class="topic-num">10</div>
+    <h2>Probabilistic Analysis & Indicator Random Variables</h2>
+  </div>
+  <div class="topic-body">
+
+    <div class="sub-heading"><span class="tag">1. Concept</span><h3>Why Probabilistic Analysis?</h3></div>
+    <p>Some algorithms behave differently depending on the specific input (not just its size). For such algorithms, <strong>worst-case analysis can be overly pessimistic</strong>. Probabilistic analysis lets us calculate the <em>expected</em> (average) behavior when input is random.</p>
+    <p><strong>Example:</strong> Quick Sort's worst case is Θ(n²) but on average it runs in Θ(n log n). The average case is what matters in practice.</p>
+
+    <div class="sub-heading"><span class="tag">2. Theory</span><h3>The Hiring Problem — Classic Example</h3></div>
+    <div class="def">
+      <strong>Hiring Problem:</strong> An agency sends candidates for an office assistant job one at a time. We always hire the best candidate seen so far. What is the expected total hiring cost?
+    </div>
+    <pre><span class="kw">ALGORITHM</span> HireAssistant(n)
+  best = 0  <span class="cmt">// dummy candidate</span>
+  <span class="kw">for</span> i = 1 <span class="kw">to</span> n <span class="kw">do</span>
+    interview candidate i  <span class="cmt">// cost: c_i per interview</span>
+    <span class="kw">if</span> candidate i is better than best <span class="kw">then</span>
+      best = i
+      hire candidate i     <span class="cmt">// cost: c_h per hire (c_h >> c_i)</span></pre>
+    <p><strong>Worst case:</strong> Candidates arrive in increasing order of quality → hire n times → O(n·c_h)</p>
+    <p><strong>Best case:</strong> Hire only once (best arrives first) → O(c_h + n·c_i)</p>
+    <p><strong>Expected case:</strong> We need E[number of hires]</p>
+
+    <div class="sub-heading"><span class="tag">2. Theory</span><h3>Indicator Random Variables</h3></div>
+    <div class="def">
+      <strong>Indicator Random Variable:</strong> Given a sample space S and an event A, the indicator random variable X_A associated with event A is:<br>
+      X_A = 1 if A occurs, X_A = 0 if A does not occur<br>
+      <strong>Key lemma:</strong> E[X_A] = P(A) — The expected value of an indicator variable equals the probability of the event.
+    </div>
+    <p>Indicator random variables allow us to compute expected values of sums easily using <strong>linearity of expectation</strong>:</p>
+    <div class="formula">E[X₁ + X₂ + … + Xₙ] = E[X₁] + E[X₂] + … + E[Xₙ]</div>
+    <p>This holds even when the variables are NOT independent — a powerful property!</p>
+
+    <div class="sub-heading"><span class="tag">4. Solved Example</span><h3>Expected Number of Hires (Hiring Problem)</h3></div>
+    <div class="example-box">
+      <div class="ex-label">✅ Computing E[number of hires] using Indicator Variables</div>
+      <p>Let Xᵢ = indicator that candidate i is hired.</p>
+      <p>Candidate i is hired if and only if candidate i is the best among candidates 1, 2, …, i.</p>
+      <p>Since candidates arrive in random order, P(candidate i is best of first i) = 1/i</p>
+      <p>Therefore: E[Xᵢ] = P(Xᵢ = 1) = 1/i</p>
+      <p>Total expected hires:</p>
+      <div class="formula">E[X] = E[∑ Xᵢ] = ∑ E[Xᵢ] = ∑(1/i) = Hₙ = ln(n) + O(1)</div>
+      <p>This is the <strong>harmonic number</strong> Hₙ ≈ ln(n).</p>
+      <p><strong>Expected hiring cost = O(c_h · ln n)</strong> which is much better than worst case O(n · c_h).</p>
+    </div>
+
+    <div class="sub-heading"><span class="tag">4. Solved Example</span><h3>Birthday Problem with Indicator Variables</h3></div>
+    <div class="example-box">
+      <div class="ex-label">✅ Expected number of people until a shared birthday</div>
+      <p>Let Xᵢ = indicator that person i shares a birthday with at least one previous person.</p>
+      <p>P(Xᵢ = 1) = (i-1)/365</p>
+      <p>E[number of shared birthdays] = ∑(i=1 to n) (i-1)/365 = n(n-1)/730</p>
+      <p>On average, after about 23 people, we expect a shared birthday — the "birthday paradox".</p>
+    </div>
+
+    <div class="revision-box">
+      <h4>⚡ Quick Revision Box</h4>
+      <ul>
+        <li>✔ Probabilistic analysis: analyze expected behavior over random inputs</li>
+        <li>✔ Indicator RV: Xₐ = 1 if event A occurs, 0 otherwise</li>
+        <li>✔ Key lemma: E[Xₐ] = P(A)</li>
+        <li>✔ Linearity of expectation: E[ΣXᵢ] = ΣE[Xᵢ] — works even without independence</li>
+        <li>✔ Hiring problem: E[hires] = Hₙ = ln(n) + O(1) ≈ Θ(log n)</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================
+     TOPIC 11: RANDOMIZED ALGORITHMS & RANDOMIZED QUICKSORT
+     ================================================================ -->
+<div class="topic-section" id="t11">
+  <div class="topic-header">
+    <div class="topic-num">11</div>
+    <h2>Randomized Algorithms & Randomized QuickSort</h2>
+  </div>
+  <div class="topic-body">
+
+    <div class="sub-heading"><span class="tag">1. Concept</span><h3>What is a Randomized Algorithm?</h3></div>
+    <div class="def">
+      <strong>Randomized Algorithm:</strong> An algorithm that uses random numbers to make decisions during execution. Its behavior and output may vary even for the same input.
+    </div>
+    <p>There are two types:</p>
+    <ul>
+      <li><strong>Las Vegas Algorithms:</strong> Always produce correct results; running time varies randomly (example: Randomized QuickSort)</li>
+      <li><strong>Monte Carlo Algorithms:</strong> Running time is fixed; result may occasionally be incorrect (example: Miller-Rabin primality test)</li>
+    </ul>
+    <p><strong>Why randomize?</strong> Randomization prevents adversarial inputs from causing worst-case behavior consistently. For QuickSort, an adversary can always pick an input that causes Θ(n²) behavior — but if we randomize the pivot, no fixed input is "bad".</p>
+
+    <div class="sub-heading"><span class="tag">2. Theory</span><h3>Deterministic vs Randomized QuickSort</h3></div>
+    <table>
+      <tr><th>Property</th><th>Deterministic QuickSort</th><th>Randomized QuickSort</th></tr>
+      <tr><td>Pivot selection</td><td>Fixed (e.g., last element)</td><td>Random element from subarray</td></tr>
+      <tr><td>Worst case</td><td>Θ(n²) — predictable for sorted input</td><td>Θ(n²) — but with very low probability</td></tr>
+      <tr><td>Expected time</td><td>Θ(n log n) (random input)</td><td>Θ(n log n) always (regardless of input)</td></tr>
+      <tr><td>Vulnerability</td><td>Can be exploited by adversary</td><td>No fixed "bad" input</td></tr>
+    </table>
+
+    <div class="sub-heading"><span class="tag">3. Algorithm</span><h3>Randomized QuickSort Algorithm</h3></div>
+    <pre><span class="kw">ALGORITHM</span> RandomizedQuickSort(A, p, r)
+  <span class="kw">if</span> p &lt; r <span class="kw">then</span>
+    q = RandomizedPartition(A, p, r)   <span class="cmt">// q = pivot's final position</span>
+    RandomizedQuickSort(A, p, q-1)
+    RandomizedQuickSort(A, q+1, r)
+
+<span class="kw">ALGORITHM</span> RandomizedPartition(A, p, r)
+  i = Random(p, r)          <span class="cmt">// pick random index between p and r</span>
+  swap A[i] with A[r]       <span class="cmt">// move random element to end</span>
+  <span class="kw">return</span> Partition(A, p, r) <span class="cmt">// use it as pivot</span>
+
+<span class="kw">ALGORITHM</span> Partition(A, p, r)
+  x = A[r]    <span class="cmt">// pivot</span>
+  i = p - 1
+  <span class="kw">for</span> j = p <span class="kw">to</span> r-1 <span class="kw">do</span>
+    <span class="kw">if</span> A[j] &lt;= x <span class="kw">then</span>
+      i = i + 1
+      swap A[i] with A[j]
+  swap A[i+1] with A[r]
+  <span class="kw">return</span> i+1  <span class="cmt">// pivot's final position</span></pre>
+
+    <div class="sub-heading"><span class="tag">5. Complexity</span><h3>Expected Running Time Analysis</h3></div>
+    <p>Let X = number of comparisons made by Randomized QuickSort.</p>
+    <p>Define Xᵢⱼ = indicator that element zᵢ and zⱼ are compared (where z₁ ≤ z₂ ≤ … ≤ zₙ are sorted elements).</p>
+    <p>Two elements zᵢ and zⱼ are compared if and only if one of them is chosen as a pivot before any other element in {zᵢ, zᵢ₊₁, …, zⱼ} is chosen.</p>
+    <div class="formula">P(Xᵢⱼ = 1) = 2/(j - i + 1)</div>
+    <div class="formula">E[X] = ∑∑ P(Xᵢⱼ = 1) = ∑∑ 2/(j-i+1) = O(n log n)</div>
+
+    <div class="complexity-grid">
+      <div class="comp-card"><div class="label">Best Case</div><div class="val">Θ(n log n)</div></div>
+      <div class="comp-card"><div class="label">Expected Case</div><div class="val">Θ(n log n)</div></div>
+      <div class="comp-card"><div class="label">Worst Case (probability)</div><div class="val">Θ(n²) — rare</div></div>
+    </div>
+
+    <div class="sub-heading"><span class="tag">2. Theory</span><h3>Randomized Algorithms for Matrix Operations</h3></div>
+    <p>A classic application of randomized algorithms is <strong>Freivalds' Algorithm</strong> for verifying matrix multiplication:</p>
+    <div class="def">
+      <strong>Problem:</strong> Given matrices A, B, C (each n×n), verify if A·B = C in less than O(n³) time.
+    </div>
+    <pre><span class="kw">ALGORITHM</span> FreivaldsCheck(A, B, C, n)
+  r = RandomBinaryVector(n)     <span class="cmt">// random vector of 0s and 1s</span>
+  p = A * (B * r)               <span class="cmt">// compute A*(B*r): O(n²)</span>
+  q = C * r                     <span class="cmt">// compute C*r: O(n²)</span>
+  <span class="kw">return</span> (p == q)              <span class="cmt">// check if A*B*r = C*r</span></pre>
+    <p>If A·B = C, the algorithm always says "YES" (no false negatives).</p>
+    <p>If A·B ≠ C, probability of false YES = 1/2. Repeat k times → probability of error = (1/2)ᵏ.</p>
+    <p>Running time: O(kn²) vs naïve O(n³) — a significant speedup for verification.</p>
+
+    <div class="revision-box">
+      <h4>⚡ Quick Revision Box — Randomized Algorithms</h4>
+      <ul>
+        <li>✔ Las Vegas: always correct, random time (e.g., Randomized QuickSort)</li>
+        <li>✔ Monte Carlo: fixed time, small error probability (e.g., Freivalds')</li>
+        <li>✔ Randomized QS: choose pivot randomly → prevents adversarial worst case</li>
+        <li>✔ Expected time of Randomized QS: Θ(n log n) regardless of input</li>
+        <li>✔ Key advantage: no input distribution assumption needed</li>
+        <li>✔ Freivalds: verify A·B=C in O(n²) with error prob ≤ 1/2ᵏ after k trials</li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- ================================================================
+     COMPREHENSIVE PYQ REFERENCE TABLE
+     ================================================================ -->
+<div class="topic-section" style="border-color:#ffa000">
+  <div class="topic-header" style="background:#e65100">
+    <div class="topic-num" style="background:#ffd54f; color:#1a1a2e">★</div>
+    <h2>Unit 1 — Complete PYQ Reference & Exam Strategy</h2>
+  </div>
+  <div class="topic-body">
+
+    <div class="sub-heading"><span class="tag">PYQ Summary</span><h3>All Unit 1 Questions Across All Papers (2023–2025)</h3></div>
+    <table>
+      <tr><th>Exam</th><th>Q.No</th><th>Topic</th><th>Marks</th><th>Frequency</th></tr>
+      <tr><td>All papers</td><td>Q1(a) or Q2(a)</td><td>Asymptotic Notations (O, Ω, Θ) with examples</td><td>8–12</td><td>🔥🔥🔥 Every paper</td></tr>
+      <tr><td>All papers</td><td>Q1 or Q2</td><td>Tower of Hanoi (algorithm + recurrence + solve)</td><td>6–9</td><td>🔥🔥🔥 Every paper</td></tr>
+      <tr><td>All papers</td><td>Various</td><td>4-part algorithm analysis questions</td><td>6–8</td><td>🔥🔥🔥 Every paper</td></tr>
+      <tr><td>SEE 2024, 2025</td><td>Q1(a)</td><td>Fundamental steps in algorithm design (with diagram)</td><td>7–8</td><td>🔥🔥 High</td></tr>
+      <tr><td>SEE 2024, 2025</td><td>Q2(c) / Q1(c)</td><td>Orders of growth comparison table</td><td>4–5</td><td>🔥🔥 High</td></tr>
+      <tr><td>SEE 2025</td><td>Q2(b)</td><td>Solving recurrence relations</td><td>8</td><td>🔥 Medium</td></tr>
+      <tr><td>SEE 2023</td><td>Q2(b)</td><td>General plan for non-recursive algorithm analysis</td><td>6</td><td>🔥 Medium</td></tr>
+      <tr><td>Makeup 2023</td><td>Q2(c)</td><td>Best-case vs worst-case efficiency discussion</td><td>5</td><td>Medium</td></tr>
+    </table>
+
+    <div class="sub-heading"><span class="tag">Exam Strategy</span><h3>How to Score Maximum Marks in Unit 1</h3></div>
+    <div class="important-box">
+      <strong>Question Paper Pattern:</strong> Answer ONE full question from Unit 1 (Q1 or Q2). Each question has 3 parts totaling 20 marks. Typically: 1 theory (8–9 marks) + 1 numerical (6–8 marks) + 1 short answer (4–5 marks).
+    </div>
+
+    <div class="exam-format">
+      <div class="ef-header">Recommended Preparation Strategy for Unit 1</div>
+      <div class="ef-body">
+        <ol>
+          <li><strong>Must prepare (100% exam probability):</strong>
+            <ul>
+              <li>All three asymptotic notations with formal definitions and examples</li>
+              <li>Tower of Hanoi — algorithm, recurrence, backward substitution solution</li>
+              <li>4-part analysis of given algorithms (Mystery/Enigma type questions)</li>
+            </ul>
+          </li>
+          <li><strong>Very likely (80%+ probability):</strong>
+            <ul>
+              <li>Fundamental steps in design and analysis (with flowchart diagram)</li>
+              <li>Orders of growth table and comparison</li>
+              <li>Master Theorem with examples</li>
+              <li>Recursion tree for T(n)=2T(n/2)+n</li>
+            </ul>
+          </li>
+          <li><strong>Good to know (40–60%):</strong>
+            <ul>
+              <li>Probabilistic analysis / Indicator Random Variables</li>
+              <li>Randomized QuickSort</li>
+              <li>Linear Search analysis (best/average/worst)</li>
+            </ul>
+          </li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="sub-heading"><span class="tag">Quick Reference</span><h3>Unit 1 Formula Sheet</h3></div>
+    <table>
+      <tr><th>Formula / Result</th><th>Source</th></tr>
+      <tr><td>Big-O: f(n) ≤ c·g(n) for n ≥ n₀</td><td>Upper bound definition</td></tr>
+      <tr><td>Omega: c·g(n) ≤ f(n) for n ≥ n₀</td><td>Lower bound definition</td></tr>
+      <tr><td>Theta: c₁g ≤ f ≤ c₂g for n ≥ n₀</td><td>Tight bound = O AND Ω</td></tr>
+      <tr><td>Growth order: 1 &lt; log n &lt; √n &lt; n &lt; n log n &lt; n² &lt; n³ &lt; 2ⁿ &lt; n!</td><td>Hierarchy table</td></tr>
+      <tr><td>Tower of Hanoi: M(n) = 2ⁿ - 1 = Θ(2ⁿ)</td><td>Recurrence: M(n)=2M(n-1)+1</td></tr>
+      <tr><td>Factorial: T(n) = n = Θ(n)</td><td>Recurrence: T(n)=T(n-1)+1</td></tr>
+      <tr><td>Binary halving: T(n)=T(n/2)+1 → Θ(log n)</td><td>Binary Search</td></tr>
+      <tr><td>Merge Sort: T(n)=2T(n/2)+n → Θ(n log n)</td><td>Master Method Case 2</td></tr>
+      <tr><td>Double loop: ∑(i=0 to n-2)∑(j=i+1 to n-1)1 = n(n-1)/2 → Θ(n²)</td><td>Nested loops</td></tr>
+      <tr><td>Triple loop: Θ(n³)</td><td>Three nested loops</td></tr>
+      <tr><td>Summation: ∑i=1 to n = n(n+1)/2</td><td>Arithmetic series</td></tr>
+      <tr><td>Master: T(n)=aT(n/b)+f(n) — compare f with n^(log_b a)</td><td>3 cases</td></tr>
+      <tr><td>E[hires in Hiring Problem] = Hₙ ≈ ln n</td><td>Indicator variables</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <p><strong>DAA Unit 1 — Complete Exam Notes</strong></p>
+  <p>MSRIT / VTU — IS43 Design & Analysis of Algorithms</p>
+  <p>Covers: PYQ SEE 2023 | SEE 2023(O) | SEE 2024 | SEE 2025 | Makeup 2023</p>
+  <p style="margin-top:8px; font-style:italic">These notes are designed for comprehensive exam preparation. Every major topic from the syllabus is covered with theory, worked examples, and PYQ solutions.</p>
+</div>
+
+</div><!-- /container -->
+</body>
+</html>

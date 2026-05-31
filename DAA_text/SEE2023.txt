@@ -1,0 +1,165 @@
+
+--- Page 1 ---
+ IS43 
+Page 1 of 3 
+ 
+ 
+ 
+ (Autonomous Institute, Affiliated to VTU) 
+(Approved by AICTE, New Delhi & Govt. of Karnataka)  
+Accredited by NBA & NAAC with ‘A+’ Grade 
+ 
+SEMESTER END EXAMINATIONS – AUGUST / SEPTEMBER 2023 
+Program : B.E. -  Information  Science and 
+Engineering Semester : IV 
+Course Name : Design  and  Analysis  of  Algorithms Max. Marks : 100 
+Course Code : IS43 Duration : 3 Hrs 
+ 
+Instructions to the Candidates: 
+ Answer one full question from each unit. 
+ 
+ 
+  UNIT - I   
+1. a) Develop an algorithm to determine the minimum and maximum values 
+in an array of integers.(Here n>=1 and the entries in the array need not 
+be distinct and determine its worst case time complexity). 
+CO1 (07) 
+ b) Obtain an algorithm for Tower of Hanoi puzzle and obtain the recurrence 
+relation to find the total number of disk movements and solve the 
+corresponding recurrence relation. 
+CO1 (08) 
+ c) Compare the orders of growth of  log2 𝑛 and √𝑛. CO1 (05) 
+     
+2. a) Consider the following algorithm : 
+Algorithm Mystry(A[],n) 
+  for i=0 to n-2 do 
+      for j=i+1 to n-1 do 
+         if(a[i]=a[j]) 
+                   return 0; 
+         end if 
+      end for 
+  end for 
+return 1; 
+i)What does this algorithm compute? 
+ii)What is its basic operation? 
+iii)How many times is the basic operation executed? 
+iv)What is the efficiency class of this algorithm? 
+CO1 (08) 
+ b) Write the general plan for analyzing non recursive algorithm and list  
+three examples for non-recursive algorithm. 
+CO1 (06) 
+ c) Express f(n) using Big -theta, Big Omega and Big -Oh for the following 
+functions: 
+i). f(n)=6 ∗ 2𝑛 + 𝑛2          ii). f(n)=10𝑛3 + 5. 
+CO1 (06) 
+     
+  UNIT - II   
+3. a) Sort the list E, X, A, M, P, L, E in alphabetical order using Bubble sort 
+and analyse the efficiency of Bubble sort algorithm. 
+CO2 (06) 
+ b) Write pseudo code for a divide -and-conquer algorithm for finding the 
+position of the largest element in an array of n numbers. Set up and 
+solve a recurrence relation  for the number of key comparisons made by 
+your algorithm. 
+CO2 (06) 
+ c) Write the algorithm to sort the give list of elements using Merge sort and 
+derive its worst case efficiency. 
+CO2 (08) 
+     
+4. a) Apply Quick sort to arrange the list 6,10,13,5,8,2,11,4,32,1 in ascending 
+order. Derive it best case efficiency.  
+CO2 (08) 
+ b) Apply the Horspool algorithm to search the pattern ZIGZAG in the given 
+text A_ZIG,A_ZAG_AGAIN_A_ZIGZAG. 
+CO2 (06) 
+USN 1 M S        
+ 
+
+--- Page 2 ---
+ IS43 
+Page 2 of 3 
+ 
+     
+ c) Traverse the following Binary Search Tree in preorder, inorder and 
+postorder. Analyze the efficiency of preorder traversal algorithm. 
+ 
+CO2 (06) 
+     
+  UNIT - III   
+5. a) Apply the dynamic programming algorithm to the following instance of 
+the knapsack problem. Consider capacity w=5. 
+Item Weight Value 
+1 2 $10 
+2 1 $12 
+3 3 $22 
+4 2 $15 
+Write the memory function knapsack algorithm. 
+CO3 (10) 
+ b) Implement Kruskal’s algorithm for the graph shown Fig. 5(b), and find 
+the minimum spanning tree. 
+ 
+Fig. 5(b) 
+CO3 (10) 
+     
+6. a) Define transitive closure of a graph. Apply Floyd’s algorit hm for the 
+graph shown in Fig. 6(a). 
+ 
+Fig. 6(a) 
+CO3 (10) 
+     
+
+--- Page 3 ---
+ IS43 
+Page 3 of 3 
+ 
+     
+ b) Apply Dijkstra’s algorithm, by assuming B as the source for the graph 
+shown in Fig. 6(b). What is the real world application of this algorithm? 
+ 
+Fig. 6(b) 
+CO3 (10) 
+     
+  UNIT- IV   
+7. a) Show the working of insertion sort algorithm for the given input.  
+87, 48, 63, 95, 28, 32, 16. 
+CO4 (08) 
+ b) What is the notion of a heap? What are the conditions that needs to be 
+satisfied. List the properties of heap. 
+CO4 (06) 
+ c) Construct a 2-3 tree for the list 9,5,8,3,2,4,7. CO4 (06) 
+     
+8. a) What is the advantage of an AVL tree over a binary search tree? What is 
+the balance requirement of AVL trees? 
+CO4 (05) 
+ b) Write an algorithm that implements a depth -first search traversal of a 
+given graph. 
+CO4 (06) 
+ c) Apply the source elimination graph to represent vertices in topological 
+order for the graph given below. 
+ 
+CO4 (09) 
+     
+  UNIT - V   
+9. a) Explain how backtracking design technique solves difficult combinatorial 
+problems. Draw the state-space tree for solving 4 -queens problem using 
+backtracking. 
+CO5 (10) 
+ b) Solve the following Traveling sales person problem to find the shortest 
+tour for the given cost adjacency matrix using branch and bound 
+technique: 
+ 1 2 3 4 
+1 0 1 2 5 
+2 6 0 4 3 
+3 5 3 0 7 
+4 1 4 3 0 
+CO5 (10) 
+     
+10. a) Write a brief note on P, NP, and NP complete problems with one example 
+for each. 
+CO5 (10) 
+ b) Differentiate between back tracking and branch -and-bound design 
+techniques. 
+CO5 (05) 
+ c) Explain with examples, the need of approximation problems.  CO5 (05) 
+ 
+******************************** 

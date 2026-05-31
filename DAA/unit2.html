@@ -1,0 +1,2064 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DAA Unit 2 — Sorting & Order Statistics | MSRIT IS43</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#080b12;--surface:#0f1320;--surface2:#161b2e;--surface3:#1e2540;
+  --border:#272d45;--text:#dde2f0;--muted:#7a87a8;
+  --amber:#e8aa20;--amber-d:#b07d0a;--amber-l:#f5cb5c;
+  --blue:#4a9eff;--blue-l:#79b8ff;
+  --green:#3caf60;--green-l:#64db80;
+  --red:#e05c5c;--red-l:#f09090;
+  --purple:#b07af5;--teal:#3dd6b0;
+  --code-bg:#060810;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--text);line-height:1.75;font-size:16px;overflow-x:hidden}
+
+/* ── UTILITIES ── */
+.hidden{display:none}
+strong{color:#fff;font-weight:600}
+em{color:var(--amber-l);font-style:normal;font-weight:600}
+
+/* ── COVER ── */
+.cover{
+  background:linear-gradient(135deg,#080b12 0%,#0d1428 40%,#0a0f20 100%);
+  border-bottom:1px solid var(--border);
+  padding:60px 40px 50px;
+  position:relative;overflow:hidden;
+}
+.cover::before{
+  content:'';position:absolute;top:-60px;right:-60px;
+  width:320px;height:320px;border-radius:50%;
+  background:radial-gradient(circle,rgba(232,170,32,.15) 0%,transparent 70%);
+  pointer-events:none;
+}
+.cover-tag{
+  display:inline-block;background:rgba(232,170,32,.12);
+  border:1px solid rgba(232,170,32,.35);
+  color:var(--amber);font-size:12px;letter-spacing:2px;font-weight:600;
+  padding:4px 14px;border-radius:20px;text-transform:uppercase;margin-bottom:18px;
+}
+.cover h1{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2rem,5vw,3.4rem);
+  color:#fff;line-height:1.15;max-width:760px;
+}
+.cover h1 span{color:var(--amber)}
+.cover-sub{color:var(--muted);margin-top:14px;font-size:15px}
+.cover-meta{
+  display:flex;flex-wrap:wrap;gap:24px;margin-top:28px;
+}
+.meta-pill{
+  background:var(--surface2);border:1px solid var(--border);
+  padding:8px 16px;border-radius:8px;font-size:13px;
+  display:flex;align-items:center;gap:8px;
+}
+.meta-pill .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+/* ── OVERVIEW CARD ── */
+.overview{max-width:1100px;margin:40px auto;padding:0 24px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:28px 32px;margin-bottom:24px}
+.card-title{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--amber);margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.card-title::before{content:'';display:block;width:4px;height:24px;background:var(--amber);border-radius:2px}
+
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+
+/* ── FREQUENCY TABLE ── */
+.freq-table{width:100%;border-collapse:collapse;font-size:14px}
+.freq-table th{background:var(--surface2);color:var(--amber);font-weight:600;padding:10px 14px;text-align:left;border-bottom:2px solid var(--amber-d)}
+.freq-table td{padding:9px 14px;border-bottom:1px solid var(--border);vertical-align:middle}
+.freq-table tr:hover td{background:rgba(255,255,255,.03)}
+.dot-row{display:flex;gap:4px}
+.dot-y{width:10px;height:10px;border-radius:50%;background:var(--green)}
+.dot-n{width:10px;height:10px;border-radius:50%;background:var(--border)}
+.badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700;letter-spacing:.5px}
+.badge-hot{background:rgba(224,92,92,.2);color:var(--red-l);border:1px solid rgba(224,92,92,.4)}
+.badge-med{background:rgba(74,158,255,.15);color:var(--blue-l);border:1px solid rgba(74,158,255,.3)}
+.badge-low{background:rgba(122,135,168,.1);color:var(--muted);border:1px solid var(--border)}
+
+/* ── TOPIC SECTIONS ── */
+.container{max-width:1100px;margin:0 auto;padding:0 24px 60px}
+
+.topic-header{
+  background:linear-gradient(90deg,var(--surface2),var(--surface));
+  border-left:4px solid var(--amber);
+  border-radius:0 12px 12px 0;
+  padding:22px 28px;margin:48px 0 28px;
+}
+.topic-header h2{font-family:'Playfair Display',serif;font-size:1.75rem;color:#fff}
+.topic-header .sub{color:var(--muted);font-size:14px;margin-top:4px}
+.topic-num{
+  display:inline-block;background:var(--amber);color:#000;
+  font-weight:700;font-size:12px;padding:2px 8px;border-radius:4px;
+  margin-right:8px;letter-spacing:1px;vertical-align:middle;
+}
+
+.section-title{
+  font-size:1.05rem;font-weight:600;color:var(--blue-l);
+  margin:24px 0 10px;display:flex;align-items:center;gap:8px;
+}
+.section-title::before{content:'▶';font-size:.65rem;color:var(--blue)}
+
+/* ── ALGORITHM BLOCKS ── */
+.algo-box{
+  background:var(--code-bg);border:1px solid var(--border);
+  border-left:3px solid var(--amber);border-radius:8px;
+  padding:20px 24px;margin:16px 0;font-family:'JetBrains Mono',monospace;
+  font-size:13.5px;line-height:1.8;overflow-x:auto;
+}
+.algo-box .algo-title{
+  font-family:'IBM Plex Sans',sans-serif;font-size:12px;
+  color:var(--amber);font-weight:700;letter-spacing:1.5px;
+  text-transform:uppercase;margin-bottom:12px;
+  padding-bottom:8px;border-bottom:1px solid var(--border);
+}
+.kw{color:var(--purple)}  /* keywords */
+.fn{color:var(--teal)}    /* function names */
+.cm{color:var(--muted);font-style:italic}  /* comments */
+.vr{color:var(--blue-l)}  /* variables */
+.nm{color:var(--amber-l)} /* numbers */
+.op{color:var(--red-l)}   /* operators */
+
+/* ── TRACE TABLES ── */
+.trace-wrap{overflow-x:auto;margin:16px 0}
+.trace-table{border-collapse:collapse;font-size:13px;font-family:'JetBrains Mono',monospace;width:100%}
+.trace-table th{background:var(--surface3);color:var(--amber);padding:8px 12px;text-align:center;border:1px solid var(--border);font-size:12px;letter-spacing:.5px}
+.trace-table td{padding:7px 12px;border:1px solid var(--border);text-align:center;vertical-align:middle}
+.trace-table tr:nth-child(even) td{background:rgba(255,255,255,.02)}
+.trace-table .pivot-cell{background:rgba(232,170,32,.2);color:var(--amber);font-weight:700}
+.trace-table .sorted-cell{background:rgba(60,175,96,.15);color:var(--green-l)}
+.trace-table .swap-cell{background:rgba(74,158,255,.15);color:var(--blue-l)}
+.trace-table .active-cell{background:rgba(176,122,245,.15);color:var(--purple)}
+
+/* ── PYQ CARDS ── */
+.pyq-section{margin-top:28px}
+.pyq-label{
+  font-size:11px;font-weight:700;letter-spacing:2px;color:var(--green);
+  text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:8px;
+}
+.pyq-label::before{content:'';display:block;width:20px;height:2px;background:var(--green)}
+.pyq-card{
+  background:rgba(60,175,96,.06);border:1px solid rgba(60,175,96,.25);
+  border-radius:10px;padding:20px 24px;margin-bottom:16px;
+}
+.pyq-card.hot{
+  background:rgba(232,170,32,.06);border-color:rgba(232,170,32,.3);
+}
+.pyq-meta{font-size:12px;color:var(--green);font-weight:600;margin-bottom:8px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.pyq-card.hot .pyq-meta{color:var(--amber)}
+.pyq-q{font-weight:600;color:#fff;margin-bottom:12px;font-size:15px}
+.pyq-ans{font-size:14px;color:var(--text)}
+.fire{font-size:16px}
+
+/* ── INFO BOXES ── */
+.info-box{
+  border-radius:10px;padding:16px 20px;margin:14px 0;
+  border-left:3px solid;font-size:14px;
+}
+.info-box.tip{background:rgba(74,158,255,.08);border-color:var(--blue)}
+.info-box.warn{background:rgba(224,92,92,.08);border-color:var(--red)}
+.info-box.note{background:rgba(176,122,245,.08);border-color:var(--purple)}
+.info-box.success{background:rgba(60,175,96,.08);border-color:var(--green)}
+.info-box .box-label{font-weight:700;font-size:12px;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px}
+.info-box.tip .box-label{color:var(--blue-l)}
+.info-box.warn .box-label{color:var(--red-l)}
+.info-box.note .box-label{color:var(--purple)}
+.info-box.success .box-label{color:var(--green-l)}
+
+/* ── COMPLEXITY BOX ── */
+.complexity-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:14px 0}
+.cx-card{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:14px 16px;text-align:center}
+.cx-card .cx-case{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.cx-card .cx-val{font-family:'JetBrains Mono',monospace;font-size:1rem;font-weight:600;color:var(--amber)}
+.cx-card.best .cx-val{color:var(--green-l)}
+.cx-card.avg .cx-val{color:var(--blue-l)}
+.cx-card.worst .cx-val{color:var(--red-l)}
+.cx-card.space .cx-val{color:var(--purple)}
+
+/* ── REVISION BOX ── */
+.revision-box{
+  background:var(--surface2);
+  border:1px solid var(--amber-d);
+  border-top:3px solid var(--amber);
+  border-radius:10px;padding:20px 24px;margin-top:24px;
+}
+.revision-box h4{color:var(--amber);font-weight:700;margin-bottom:12px;font-size:15px;display:flex;align-items:center;gap:8px}
+.revision-box ul{list-style:none;display:flex;flex-direction:column;gap:6px}
+.revision-box li{font-size:14px;padding-left:20px;position:relative;color:var(--text)}
+.revision-box li::before{content:'✔';position:absolute;left:0;color:var(--green);font-weight:700}
+.revision-box li.warn::before{content:'⚠';color:var(--amber)}
+.revision-box li.err::before{content:'✘';color:var(--red-l)}
+
+/* ── DIVIDER ── */
+.divider{border:none;border-top:1px solid var(--border);margin:40px 0}
+
+/* ── NAV SIDEBAR (TOC) ── */
+.toc-float{
+  position:fixed;right:20px;top:100px;width:200px;
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:10px;padding:16px;font-size:13px;
+  display:none;
+}
+@media(min-width:1400px){.toc-float{display:block}}
+.toc-float a{display:block;color:var(--muted);text-decoration:none;padding:4px 0;border-left:2px solid transparent;padding-left:10px;transition:.2s}
+.toc-float a:hover{color:var(--amber);border-color:var(--amber)}
+.toc-float .toc-head{font-weight:700;color:var(--amber);font-size:12px;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px}
+
+/* ── HEAP TREE VISUAL ── */
+.tree-visual{
+  font-family:'JetBrains Mono',monospace;font-size:13px;
+  background:var(--code-bg);border:1px solid var(--border);
+  border-radius:8px;padding:20px;text-align:center;line-height:2.2;
+  overflow-x:auto;white-space:pre;color:var(--text);margin:12px 0;
+}
+.tree-visual .node{
+  display:inline-block;background:var(--surface2);border:1px solid var(--border);
+  border-radius:50%;width:36px;height:36px;line-height:34px;text-align:center;
+  font-weight:600;margin:0 4px;
+}
+.tree-visual .root-node{border-color:var(--amber);color:var(--amber)}
+
+/* ── ARRAY VISUAL ── */
+.arr-visual{display:flex;gap:4px;flex-wrap:wrap;margin:10px 0;font-family:'JetBrains Mono',monospace;font-size:13px}
+.arr-cell{
+  background:var(--surface2);border:1px solid var(--border);
+  border-radius:6px;padding:6px 12px;text-align:center;min-width:40px;
+  display:flex;flex-direction:column;gap:2px;
+}
+.arr-cell .idx{font-size:10px;color:var(--muted)}
+.arr-cell .val{font-weight:700;color:var(--text)}
+.arr-cell.pivot{background:rgba(232,170,32,.2);border-color:var(--amber);color:var(--amber)}
+.arr-cell.pivot .val{color:var(--amber)}
+.arr-cell.sorted{background:rgba(60,175,96,.15);border-color:var(--green)}
+.arr-cell.sorted .val{color:var(--green-l)}
+.arr-cell.active{background:rgba(74,158,255,.15);border-color:var(--blue)}
+.arr-cell.active .val{color:var(--blue-l)}
+
+/* ── STEP BOXES ── */
+.step-list{display:flex;flex-direction:column;gap:12px;margin:12px 0}
+.step-item{display:flex;gap:14px;align-items:flex-start}
+.step-num{
+  background:var(--amber);color:#000;font-weight:700;
+  min-width:28px;height:28px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;flex-shrink:0;margin-top:2px;
+}
+.step-content{flex:1;font-size:14px}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  .cover{padding:36px 20px 30px}
+  .grid2,.grid3{grid-template-columns:1fr}
+  .overview,.container{padding:0 14px}
+  .card{padding:18px 16px}
+  .topic-header{padding:16px 18px}
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════
+     COVER
+══════════════════════════════════════ -->
+<div class="cover">
+  <div style="max-width:1100px;margin:0 auto">
+    <div class="cover-tag">MSRIT · IS43 · Semester IV · DAA</div>
+    <h1>Unit 2 — <span>Sorting &amp; Order Statistics</span></h1>
+    <p class="cover-sub">Heaps · HeapSort · Priority Queues · QuickSort · Linear-Time Sorting · Selection Algorithms</p>
+    <div class="cover-meta">
+      <div class="meta-pill"><div class="dot" style="background:var(--amber)"></div>SEE 2025 · 2024 · 2023 · Makeup 2023 PYQs Integrated</div>
+      <div class="meta-pill"><div class="dot" style="background:var(--green)"></div>Complete Proofs &amp; Traces</div>
+      <div class="meta-pill"><div class="dot" style="background:var(--blue)"></div>Exam-ready Answers</div>
+      <div class="meta-pill"><div class="dot" style="background:var(--purple)"></div>CLRS-based Syllabus</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     UNIT OVERVIEW
+══════════════════════════════════════ -->
+<div class="overview">
+  <div class="card">
+    <div class="card-title">Unit Overview &amp; PYQ Frequency Analysis</div>
+    <table class="freq-table">
+      <thead>
+        <tr>
+          <th>Topic</th>
+          <th>Makeup'23</th>
+          <th>SEE'23</th>
+          <th>SEE'23(O)</th>
+          <th>SEE'24</th>
+          <th>SEE'25</th>
+          <th>Frequency</th>
+          <th>Priority</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>QuickSort</strong></td>
+          <td><div class="dot-row"><div class="dot-y"></div></div></td>
+          <td><div class="dot-row"><div class="dot-y"></div></div></td>
+          <td><div class="dot-row"><div class="dot-y"></div></div></td>
+          <td><div class="dot-row"><div class="dot-y"></div></div></td>
+          <td><div class="dot-row"><div class="dot-y"></div></div></td>
+          <td>5/5 papers</td>
+          <td><span class="badge badge-hot">🔥 MUST DO</span></td>
+        </tr>
+        <tr>
+          <td><strong>HeapSort</strong></td>
+          <td><div class="dot-row"><div class="dot-y"></div></div></td>
+          <td><div class="dot-row"><div class="dot-n"></div></div></td>
+          <td><div class="dot-row"><div class="dot-y"></div></div></td>
+          <td><div class="dot-row"><div class="dot-y"></div></div></td>
+          <td><div class="dot-row"><div class="dot-y"></div></div></td>
+          <td>4/5 papers</td>
+          <td><span class="badge badge-hot">🔥 MUST DO</span></td>
+        </tr>
+        <tr>
+          <td><strong>Build-Max-Heap</strong></td>
+          <td><div class="dot-row"><div class="dot-y"></div></div></td>
+          <td><div class="dot-row"><div class="dot-y"></div></div></td>
+          <td><div class="dot-row"><div class="dot-y"></div></div></td>
+          <td><div class="dot-row"><div class="dot-y"></div></div></td>
+          <td><div class="dot-row"><div class="dot-y"></div></div></td>
+          <td>5/5 papers</td>
+          <td><span class="badge badge-hot">🔥 MUST DO</span></td>
+        </tr>
+        <tr>
+          <td><strong>Merge Sort</strong></td>
+          <td><div class="dot-row"><div class="dot-y"></div></div></td>
+          <td><div class="dot-row"><div class="dot-y"></div></div></td>
+          <td><div class="dot-row"><div class="dot-y"></div></div></td>
+          <td><div class="dot-row"><div class="dot-y"></div></div></td>
+          <td><div class="dot-row"><div class="dot-y"></div></div></td>
+          <td>5/5 papers</td>
+          <td><span class="badge badge-hot">🔥 MUST DO</span></td>
+        </tr>
+        <tr>
+          <td><strong>Bubble / Selection Sort</strong></td>
+          <td><div class="dot-row"><div class="dot-y"></div></div></td>
+          <td><div class="dot-row"><div class="dot-y"></div></div></td>
+          <td><div class="dot-row"><div class="dot-y"></div></div></td>
+          <td><div class="dot-row"><div class="dot-y"></div></div></td>
+          <td><div class="dot-row"><div class="dot-y"></div></div></td>
+          <td>5/5 papers</td>
+          <td><span class="badge badge-med">HIGH</span></td>
+        </tr>
+        <tr>
+          <td><strong>Counting / Radix / Bucket Sort</strong></td>
+          <td><div class="dot-row"><div class="dot-n"></div></div></td>
+          <td><div class="dot-row"><div class="dot-n"></div></div></td>
+          <td><div class="dot-row"><div class="dot-n"></div></div></td>
+          <td><div class="dot-row"><div class="dot-n"></div></div></td>
+          <td><div class="dot-row"><div class="dot-n"></div></div></td>
+          <td>Syllabus only</td>
+          <td><span class="badge badge-low">PREPARE</span></td>
+        </tr>
+        <tr>
+          <td><strong>Priority Queue</strong></td>
+          <td><div class="dot-row"><div class="dot-n"></div></div></td>
+          <td><div class="dot-row"><div class="dot-n"></div></div></td>
+          <td><div class="dot-row"><div class="dot-n"></div></div></td>
+          <td><div class="dot-row"><div class="dot-n"></div></div></td>
+          <td><div class="dot-row"><div class="dot-n"></div></div></td>
+          <td>Syllabus only</td>
+          <td><span class="badge badge-low">PREPARE</span></td>
+        </tr>
+        <tr>
+          <td><strong>Order Statistics / Selection</strong></td>
+          <td><div class="dot-row"><div class="dot-n"></div></div></td>
+          <td><div class="dot-row"><div class="dot-n"></div></div></td>
+          <td><div class="dot-row"><div class="dot-n"></div></div></td>
+          <td><div class="dot-row"><div class="dot-n"></div></div></td>
+          <td><div class="dot-row"><div class="dot-n"></div></div></td>
+          <td>Syllabus only</td>
+          <td><span class="badge badge-low">PREPARE</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="info-box tip" style="margin-top:16px">
+      <div class="box-label">⚡ Exam Strategy</div>
+      Master QuickSort traces and HeapSort/Build-Heap traces first — they appear in <strong>every single paper</strong>. The same arrays [2,7,8,3,1,9,5,6,3] and [1,8,6,5,3,7,4] appear in multiple years.
+    </div>
+  </div>
+
+  <!-- Marks summary -->
+  <div class="grid3">
+    <div class="card" style="text-align:center">
+      <div style="font-size:2rem;color:var(--amber);font-family:'Playfair Display',serif;font-weight:700">20</div>
+      <div style="font-size:13px;color:var(--muted);margin-top:4px">Marks from Unit II</div>
+    </div>
+    <div class="card" style="text-align:center">
+      <div style="font-size:2rem;color:var(--blue-l);font-family:'Playfair Display',serif;font-weight:700">8</div>
+      <div style="font-size:13px;color:var(--muted);margin-top:4px">Key Topics</div>
+    </div>
+    <div class="card" style="text-align:center">
+      <div style="font-size:2rem;color:var(--green-l);font-family:'Playfair Display',serif;font-weight:700">15+</div>
+      <div style="font-size:13px;color:var(--muted);margin-top:4px">PYQ Questions Solved</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════
+     MAIN CONTAINER STARTS
+══════════════════════════════════════ -->
+<div class="container">
+
+<!-- ════════════════════════════════════════════════════════════
+     TOPIC 1 — HEAP DATA STRUCTURE
+════════════════════════════════════════════════════════════ -->
+<div class="topic-header" id="heap">
+  <h2><span class="topic-num">TOPIC 1</span> The Heap Data Structure</h2>
+  <div class="sub">Foundation of HeapSort and Priority Queues · O(log n) operations</div>
+</div>
+
+<!-- 1.1 Concept Introduction -->
+<div class="section-title">1. Concept Introduction</div>
+<p>A <em>heap</em> is a clever data structure that answers the question: <em>"Give me the largest (or smallest) element instantly, while still being able to maintain a large collection efficiently."</em></p>
+<br>
+<p>Think of it like a tournament bracket — the winner (root) is always the best. When you remove the winner, the bracket reorganizes quickly to find the next winner. This is why heaps are used in:</p>
+<ul style="margin:10px 0 0 24px;font-size:15px;display:flex;flex-direction:column;gap:6px">
+  <li><strong>HeapSort</strong> — efficient O(n log n) sorting</li>
+  <li><strong>Priority Queues</strong> — OS scheduling, Dijkstra's, Prim's algorithms</li>
+  <li><strong>Selection algorithms</strong> — finding k-th largest element</li>
+</ul>
+
+<!-- 1.2 Detailed Theory -->
+<div class="section-title">2. Detailed Theory</div>
+
+<p><strong>Definition:</strong> A (binary) heap is a nearly-complete binary tree stored as an array such that a specific ordering property holds.</p>
+
+<div class="grid2" style="margin:16px 0">
+  <div class="card" style="border-left:3px solid var(--amber)">
+    <div style="font-weight:700;color:var(--amber);margin-bottom:10px">MAX-HEAP Property</div>
+    <p style="font-size:14px">For every node <em>i</em> other than the root:<br><br>
+    <code style="font-family:'JetBrains Mono',monospace;color:var(--amber-l)">A[PARENT(i)] ≥ A[i]</code><br><br>
+    The largest element is at the <strong>root</strong>. Used in HeapSort and Max-Priority Queue.</p>
+  </div>
+  <div class="card" style="border-left:3px solid var(--blue)">
+    <div style="font-weight:700;color:var(--blue-l);margin-bottom:10px">MIN-HEAP Property</div>
+    <p style="font-size:14px">For every node <em>i</em> other than the root:<br><br>
+    <code style="font-family:'JetBrains Mono',monospace;color:var(--blue-l)">A[PARENT(i)] ≤ A[i]</code><br><br>
+    The smallest element is at the <strong>root</strong>. Used in Min-Priority Queue, Dijkstra's.</p>
+  </div>
+</div>
+
+<div class="section-title">Array Representation</div>
+<p>The heap is stored as a 1D array. For a node at index <em>i</em> (1-indexed):</p>
+
+<table class="trace-table" style="max-width:500px;margin:12px 0">
+  <tr>
+    <th>Operation</th><th>1-Indexed Formula</th><th>0-Indexed Formula</th>
+  </tr>
+  <tr><td>PARENT(i)</td><td class="pivot-cell">⌊i/2⌋</td><td class="pivot-cell">⌊(i–1)/2⌋</td></tr>
+  <tr><td>LEFT(i)</td><td class="sorted-cell">2i</td><td class="sorted-cell">2i+1</td></tr>
+  <tr><td>RIGHT(i)</td><td class="active-cell">2i+1</td><td class="active-cell">2i+2</td></tr>
+</table>
+
+<p>Example for array <code style="font-family:'JetBrains Mono',monospace">A = [16, 14, 10, 8, 7, 9, 3, 2, 4, 1]</code> (1-indexed):</p>
+
+<div class="algo-box" style="border-left-color:var(--blue)">
+<div class="algo-title">HEAP TREE STRUCTURE (1-indexed)</div>
+<pre style="color:var(--text);font-size:12.5px">
+                   16  ← index 1 (ROOT)
+                 /    \
+               14       10   ← indices 2, 3
+              /  \      / \
+             8    7    9   3  ← indices 4, 5, 6, 7
+            / \ /
+           2  4 1               ← indices 8, 9, 10
+
+Array: [ — ,16, 14, 10, 8, 7, 9, 3, 2, 4, 1]  (index 0 unused in 1-indexed)
+Index:    0   1   2   3  4  5  6  7  8  9  10
+</pre>
+</div>
+
+<div class="info-box note">
+  <div class="box-label">📝 Important Property</div>
+  In an n-element heap, the leaves are at nodes <strong>⌊n/2⌋+1, ⌊n/2⌋+2, ..., n</strong>. The non-leaf nodes (which need heapifying) are indices <strong>1 to ⌊n/2⌋</strong> (1-indexed) or <strong>0 to ⌊n/2⌋−1</strong> (0-indexed).
+</div>
+
+<!-- 1.3 Algorithms -->
+<div class="section-title">3. Algorithms &amp; Pseudocode</div>
+
+<div class="algo-box">
+<div class="algo-title">ALGORITHM 1 — MAX-HEAPIFY(A, i, n)</div>
+<span class="cm">// Maintains the max-heap property for subtree rooted at node i
+// Assumes LEFT(i) and RIGHT(i) sub-trees are valid max-heaps
+// Time: O(log n)</span>
+
+<span class="kw">MAX-HEAPIFY</span>(<span class="vr">A</span>, <span class="vr">i</span>, <span class="vr">n</span>):
+  <span class="vr">l</span> ← LEFT(<span class="vr">i</span>)           <span class="cm">// 2i (1-indexed) or 2i+1 (0-indexed)</span>
+  <span class="vr">r</span> ← RIGHT(<span class="vr">i</span>)          <span class="cm">// 2i+1 (1-indexed) or 2i+2 (0-indexed)</span>
+  
+  <span class="cm">// Find largest among A[i], A[l], A[r]</span>
+  <span class="kw">if</span> <span class="vr">l</span> ≤ <span class="vr">n</span> <span class="kw">and</span> <span class="vr">A</span>[<span class="vr">l</span>] > <span class="vr">A</span>[<span class="vr">i</span>]
+    <span class="vr">largest</span> ← <span class="vr">l</span>
+  <span class="kw">else</span>
+    <span class="vr">largest</span> ← <span class="vr">i</span>
+  
+  <span class="kw">if</span> <span class="vr">r</span> ≤ <span class="vr">n</span> <span class="kw">and</span> <span class="vr">A</span>[<span class="vr">r</span>] > <span class="vr">A</span>[<span class="vr">largest</span>]
+    <span class="vr">largest</span> ← <span class="vr">r</span>
+  
+  <span class="kw">if</span> <span class="vr">largest</span> ≠ <span class="vr">i</span>             <span class="cm">// If root is NOT the largest</span>
+    swap <span class="vr">A</span>[<span class="vr">i</span>] ↔ <span class="vr">A</span>[<span class="vr">largest</span>]  <span class="cm">// Move largest up</span>
+    <span class="fn">MAX-HEAPIFY</span>(<span class="vr">A</span>, <span class="vr">largest</span>, <span class="vr">n</span>)  <span class="cm">// Fix the affected sub-tree</span>
+</div>
+
+<div class="algo-box">
+<div class="algo-title">ALGORITHM 2 — BUILD-MAX-HEAP(A, n)</div>
+<span class="cm">// Builds a max-heap from an arbitrary array A[1..n]
+// Key insight: Start from last non-leaf and heapify upward
+// Time: O(n) — not O(n log n)! (tighter analysis shows sum of heights)</span>
+
+<span class="kw">BUILD-MAX-HEAP</span>(<span class="vr">A</span>, <span class="vr">n</span>):
+  <span class="kw">for</span> <span class="vr">i</span> ← ⌊<span class="vr">n</span>/<span class="nm">2</span>⌋ <span class="kw">downto</span> <span class="nm">1</span>    <span class="cm">// From last non-leaf to root</span>
+    <span class="fn">MAX-HEAPIFY</span>(<span class="vr">A</span>, <span class="vr">i</span>, <span class="vr">n</span>)
+
+<span class="cm">// For 0-indexed: loop from i = ⌊n/2⌋-1 downto 0</span>
+</div>
+
+<!-- 1.4 Solved Examples -->
+<div class="section-title">4. Solved Examples — Build Max-Heap Trace</div>
+
+<!-- Example 1: [1,8,6,5,3,7,4] — MOST REPEATED -->
+<div class="pyq-card hot">
+  <div class="pyq-meta">
+    <span class="fire">🔥</span>
+    <span>MOST REPEATED — SEE 2024 Q9a · SEE 2023(O) Q10a · MAKEUP 2023 Q7b (similar)</span>
+    <span class="badge badge-hot">VERY IMPORTANT</span>
+  </div>
+  <div class="pyq-q">Build a Max-Heap from the array: <code style="font-family:'JetBrains Mono',monospace">[1, 8, 6, 5, 3, 7, 4]</code> using bottom-up algorithm.</div>
+  <div class="pyq-ans">
+    <strong>Given:</strong> A = [1, 8, 6, 5, 3, 7, 4] (0-indexed: A[0]=1, A[1]=8, A[2]=6, A[3]=5, A[4]=3, A[5]=7, A[6]=4)
+    <br>n = 7 · Last non-leaf (0-indexed) = ⌊7/2⌋ − 1 = <strong>2</strong>
+    <br><br>
+    <strong>Initial Array:</strong>
+    <div class="arr-visual">
+      <div class="arr-cell"><div class="idx">i=0</div><div class="val">1</div></div>
+      <div class="arr-cell"><div class="idx">i=1</div><div class="val">8</div></div>
+      <div class="arr-cell"><div class="idx">i=2</div><div class="val">6</div></div>
+      <div class="arr-cell"><div class="idx">i=3</div><div class="val">5</div></div>
+      <div class="arr-cell"><div class="idx">i=4</div><div class="val">3</div></div>
+      <div class="arr-cell"><div class="idx">i=5</div><div class="val">7</div></div>
+      <div class="arr-cell"><div class="idx">i=6</div><div class="val">4</div></div>
+    </div>
+    <br>
+    <div class="trace-wrap">
+    <table class="trace-table">
+      <tr>
+        <th>Step</th><th>Action</th><th>i</th><th>Left Child</th><th>Right Child</th><th>Largest</th><th>Swap?</th><th>Array State</th>
+      </tr>
+      <tr>
+        <td><strong>i=2</strong></td>
+        <td>HEAPIFY(A,2)</td>
+        <td class="active-cell">A[2]=6</td>
+        <td>A[5]=7</td>
+        <td>A[6]=4</td>
+        <td class="sorted-cell">idx=5 (val=7)</td>
+        <td class="swap-cell">Swap A[2]↔A[5]</td>
+        <td>[1, 8, <strong style="color:var(--amber)">7</strong>, 5, 3, <strong style="color:var(--amber)">6</strong>, 4]</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>Cascade at i=5</td>
+        <td>A[5]=6</td>
+        <td>A[11] ✗ OOB</td>
+        <td>A[12] ✗ OOB</td>
+        <td>—</td>
+        <td>No swap (leaf)</td>
+        <td>[1, 8, 7, 5, 3, 6, 4]</td>
+      </tr>
+      <tr>
+        <td><strong>i=1</strong></td>
+        <td>HEAPIFY(A,1)</td>
+        <td class="active-cell">A[1]=8</td>
+        <td>A[3]=5</td>
+        <td>A[4]=3</td>
+        <td class="sorted-cell">idx=1 (val=8)</td>
+        <td>No swap</td>
+        <td>[1, 8, 7, 5, 3, 6, 4]</td>
+      </tr>
+      <tr>
+        <td><strong>i=0</strong></td>
+        <td>HEAPIFY(A,0)</td>
+        <td class="active-cell">A[0]=1</td>
+        <td>A[1]=8</td>
+        <td>A[2]=7</td>
+        <td class="sorted-cell">idx=1 (val=8)</td>
+        <td class="swap-cell">Swap A[0]↔A[1]</td>
+        <td>[<strong style="color:var(--amber)">8</strong>, <strong style="color:var(--amber)">1</strong>, 7, 5, 3, 6, 4]</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>Cascade at i=1</td>
+        <td class="active-cell">A[1]=1</td>
+        <td>A[3]=5</td>
+        <td>A[4]=3</td>
+        <td class="sorted-cell">idx=3 (val=5)</td>
+        <td class="swap-cell">Swap A[1]↔A[3]</td>
+        <td>[8, <strong style="color:var(--amber)">5</strong>, 7, <strong style="color:var(--amber)">1</strong>, 3, 6, 4]</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>Cascade at i=3</td>
+        <td>A[3]=1</td>
+        <td>A[7] ✗ OOB</td>
+        <td>A[8] ✗ OOB</td>
+        <td>—</td>
+        <td>No swap (leaf)</td>
+        <td>[8, 5, 7, 1, 3, 6, 4]</td>
+      </tr>
+    </table>
+    </div>
+
+    <br><strong>✅ Final Max-Heap Array:</strong>
+    <div class="arr-visual">
+      <div class="arr-cell sorted"><div class="idx">i=0</div><div class="val">8</div></div>
+      <div class="arr-cell"><div class="idx">i=1</div><div class="val">5</div></div>
+      <div class="arr-cell"><div class="idx">i=2</div><div class="val">7</div></div>
+      <div class="arr-cell"><div class="idx">i=3</div><div class="val">1</div></div>
+      <div class="arr-cell"><div class="idx">i=4</div><div class="val">3</div></div>
+      <div class="arr-cell"><div class="idx">i=5</div><div class="val">6</div></div>
+      <div class="arr-cell"><div class="idx">i=6</div><div class="val">4</div></div>
+    </div>
+
+    <div class="algo-box" style="border-left-color:var(--green);margin-top:12px">
+<div class="algo-title">HEAP TREE VERIFICATION</div>
+<pre style="color:var(--text);font-size:12.5px">
+              8  (root, idx 0)
+            /   \
+          5       7   (idx 1, 2)
+         / \     / \
+        1   3   6   4  (idx 3,4,5,6)
+
+Check: 8>5✓ 8>7✓ | 5>1✓ 5>3✓ | 7>6✓ 7>4✓ → Valid MAX-HEAP ✅
+</pre>
+    </div>
+  </div>
+</div>
+
+<!-- Example 2: [12,30,37,5,2,16,4] — Makeup 2023 -->
+<div class="pyq-card">
+  <div class="pyq-meta">MAKEUP 2023 Q7b · Build-Max-Heap for {12, 30, 37, 5, 2, 16, 4}</div>
+  <div class="pyq-q">Construct a heap using Bottom-up heap construction for: <code style="font-family:'JetBrains Mono',monospace">{12, 30, 37, 5, 2, 16, 4}</code></div>
+  <div class="pyq-ans">
+    n=7, Last non-leaf = ⌊7/2⌋ − 1 = <strong>2</strong>
+    <div class="trace-wrap">
+    <table class="trace-table" style="margin-top:12px">
+      <tr><th>Step</th><th>Action (0-indexed)</th><th>Comparison</th><th>Swap?</th><th>Array After</th></tr>
+      <tr>
+        <td>i=2</td>
+        <td>HEAPIFY at A[2]=37</td>
+        <td>Left=A[5]=16, Right=A[6]=4. Max=37</td>
+        <td>No swap</td>
+        <td>[12, 30, 37, 5, 2, 16, 4]</td>
+      </tr>
+      <tr>
+        <td>i=1</td>
+        <td>HEAPIFY at A[1]=30</td>
+        <td>Left=A[3]=5, Right=A[4]=2. Max=30</td>
+        <td>No swap</td>
+        <td>[12, 30, 37, 5, 2, 16, 4]</td>
+      </tr>
+      <tr>
+        <td>i=0</td>
+        <td>HEAPIFY at A[0]=12</td>
+        <td>Left=A[1]=30, Right=A[2]=37. Max=37</td>
+        <td class="swap-cell">Swap A[0]↔A[2]</td>
+        <td>[37, 30, 12, 5, 2, 16, 4]</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>Cascade at i=2 (A[2]=12)</td>
+        <td>Left=A[5]=16, Right=A[6]=4. Max=16</td>
+        <td class="swap-cell">Swap A[2]↔A[5]</td>
+        <td>[37, 30, 16, 5, 2, 12, 4]</td>
+      </tr>
+    </table>
+    </div>
+    <strong>✅ Max-Heap: [37, 30, 16, 5, 2, 12, 4]</strong>
+    <div class="algo-box" style="border-left-color:var(--green);margin-top:10px">
+<pre style="color:var(--text);font-size:12.5px">
+           37  (root)
+          /  \
+        30    16
+       / \   / \
+      5   2 12  4   → Valid MAX-HEAP ✅</pre>
+    </div>
+  </div>
+</div>
+
+<!-- Example 3: [4,10,3,5,1] — SEE 2025 -->
+<div class="pyq-card">
+  <div class="pyq-meta">SEE 2025 Q9a · Build Max-Heap from [4, 10, 3, 5, 1]</div>
+  <div class="pyq-q">Build a max-heap from [4, 10, 3, 5, 1]. Perform heapify operations.</div>
+  <div class="pyq-ans">
+    n=5, Last non-leaf (0-indexed) = ⌊5/2⌋ − 1 = <strong>1</strong>
+    <br><br>
+    <strong>Step i=1:</strong> A[1]=10. Left=A[3]=5, Right=A[4]=1. Max=10 → No swap.<br>
+    Array: [4, 10, 3, 5, 1]<br><br>
+    <strong>Step i=0:</strong> A[0]=4. Left=A[1]=10, Right=A[2]=3. Max=10 at idx 1 → Swap A[0]↔A[1]<br>
+    Array: [10, 4, 3, 5, 1]<br>
+    <em>Cascade at i=1:</em> A[1]=4. Left=A[3]=5, Right=A[4]=1. Max=5 at idx 3 → Swap A[1]↔A[3]<br>
+    Array: [10, 5, 3, 4, 1]<br>
+    No further cascade (i=3 is a leaf for n=5).<br><br>
+    <strong>✅ Max-Heap: [10, 5, 3, 4, 1]</strong>
+    <div class="algo-box" style="border-left-color:var(--green);margin-top:8px">
+<pre style="color:var(--text);font-size:12.5px">
+        10  (root)
+       /  \
+      5    3
+     / \
+    4   1     → Valid MAX-HEAP ✅</pre>
+    </div>
+  </div>
+</div>
+
+<!-- 1.5 Complexity -->
+<div class="section-title">5. Complexity Analysis</div>
+<div class="complexity-grid">
+  <div class="cx-card"><div class="cx-case">MAX-HEAPIFY</div><div class="cx-val">O(log n)</div><div style="font-size:12px;color:var(--muted);margin-top:4px">Height of tree</div></div>
+  <div class="cx-card"><div class="cx-case">BUILD-MAX-HEAP Time</div><div class="cx-val">O(n)</div><div style="font-size:12px;color:var(--muted);margin-top:4px">Tight analysis (not O(n log n))</div></div>
+  <div class="cx-card space"><div class="cx-case">Space</div><div class="cx-val">O(1)</div><div style="font-size:12px;color:var(--muted);margin-top:4px">In-place</div></div>
+</div>
+
+<div class="info-box note">
+  <div class="box-label">Why BUILD-MAX-HEAP is O(n) not O(n log n)</div>
+  Most nodes are near the bottom. Leaves do O(1) work. Nodes at height h do O(h) work. The sum Σ (n/2^h · h) for h=0 to log n converges to O(n). This is the mathematical reason we call BUILD-MAX-HEAP O(n).
+</div>
+
+<!-- Revision Box -->
+<div class="revision-box">
+  <h4>⚡ Quick Revision — Heap</h4>
+  <ul>
+    <li>MAX-HEAP: every parent ≥ children; root = maximum element</li>
+    <li>Array rep: PARENT=⌊i/2⌋, LEFT=2i, RIGHT=2i+1 (1-indexed)</li>
+    <li>Last non-leaf (0-indexed) = ⌊n/2⌋ − 1</li>
+    <li>MAX-HEAPIFY: O(log n) · BUILD-MAX-HEAP: O(n)</li>
+    <li class="warn">Build-Heap loops from ⌊n/2⌋ DOWN to 1 (not 1 up to n)</li>
+    <li class="err">Common mistake: confusing 0-indexed vs 1-indexed formulas — be consistent!</li>
+  </ul>
+</div>
+
+
+<hr class="divider">
+
+<!-- ════════════════════════════════════════════════════════════
+     TOPIC 2 — HEAPSORT
+════════════════════════════════════════════════════════════ -->
+<div class="topic-header" id="heapsort">
+  <h2><span class="topic-num">TOPIC 2</span> HeapSort</h2>
+  <div class="sub">O(n log n) worst-case · In-place · Not stable</div>
+</div>
+
+<div class="section-title">1. Concept Introduction</div>
+<p>HeapSort combines the <strong>best of both worlds</strong>: the O(n log n) worst-case guarantee of MergeSort with the <strong>in-place</strong> space efficiency of QuickSort. The idea is elegant:</p>
+
+<div class="step-list" style="margin:16px 0">
+  <div class="step-item"><div class="step-num">1</div><div class="step-content">Build a Max-Heap from the input array — O(n)</div></div>
+  <div class="step-item"><div class="step-num">2</div><div class="step-content">The root A[0] is now the maximum. Swap it with the last element.</div></div>
+  <div class="step-item"><div class="step-num">3</div><div class="step-content">Reduce heap size by 1 (the last element is now in its sorted position).</div></div>
+  <div class="step-item"><div class="step-num">4</div><div class="step-content">Call MAX-HEAPIFY on the new root to restore heap property — O(log n)</div></div>
+  <div class="step-item"><div class="step-num">5</div><div class="step-content">Repeat steps 2–4 for n−1 iterations. Total: O(n log n)</div></div>
+</div>
+
+<div class="section-title">3. Algorithm &amp; Pseudocode</div>
+
+<div class="algo-box">
+<div class="algo-title">ALGORITHM — HEAPSORT(A, n)</div>
+<span class="fn">HEAPSORT</span>(<span class="vr">A</span>, <span class="vr">n</span>):
+  <span class="fn">BUILD-MAX-HEAP</span>(<span class="vr">A</span>, <span class="vr">n</span>)           <span class="cm">// Step 1: Build heap — O(n)</span>
+  
+  <span class="kw">for</span> <span class="vr">i</span> ← <span class="vr">n</span> <span class="kw">downto</span> <span class="nm">2</span>             <span class="cm">// n-1 iterations</span>
+    swap <span class="vr">A</span>[<span class="nm">1</span>] ↔ <span class="vr">A</span>[<span class="vr">i</span>]            <span class="cm">// Move max to sorted position</span>
+    <span class="vr">heap_size</span> ← <span class="vr">heap_size</span> − <span class="nm">1</span>    <span class="cm">// Shrink heap</span>
+    <span class="fn">MAX-HEAPIFY</span>(<span class="vr">A</span>, <span class="nm">1</span>, <span class="vr">heap_size</span>)  <span class="cm">// Restore heap — O(log i)</span>
+
+<span class="cm">// For 0-indexed: swap A[0] with A[i], call MAX-HEAPIFY(A, 0, heap_size)</span>
+</div>
+
+<div class="section-title">4. Solved Example — HeapSort Complete Trace</div>
+
+<!-- MAIN HEAPSORT EXAMPLE: [1,8,6,5,3,7,4] -->
+<div class="pyq-card hot">
+  <div class="pyq-meta"><span class="fire">🔥</span> MOST REPEATED — SEE 2024 Q9a · SEE 2023(O) Q10a · VERY IMPORTANT</div>
+  <div class="pyq-q">Sort [1, 8, 6, 5, 3, 7, 4] using HeapSort. Show every step.</div>
+  <div class="pyq-ans">
+
+    <strong>Phase 1 — Build Max-Heap</strong> (from previous example):<br>
+    Max-Heap: <code style="font-family:'JetBrains Mono',monospace">[8, 5, 7, 1, 3, 6, 4]</code><br><br>
+
+    <strong>Phase 2 — HeapSort Passes (0-indexed, heap_size starts at 7):</strong>
+    <div class="trace-wrap">
+    <table class="trace-table">
+      <tr>
+        <th>Pass</th>
+        <th>Action</th>
+        <th>Array Before Swap</th>
+        <th>After Swap</th>
+        <th>After HEAPIFY</th>
+        <th>Sorted Part</th>
+      </tr>
+      <tr>
+        <td><strong>1</strong></td>
+        <td>Swap A[0]↔A[6], heap=6</td>
+        <td>[8,5,7,1,3,6,<span style="color:var(--muted)">4</span>]</td>
+        <td>[4,5,7,1,3,6 | 8]</td>
+        <td>[7,5,6,1,3,4 | <span class="sorted-cell">8</span>]</td>
+        <td>[..., <strong style="color:var(--green-l)">8</strong>]</td>
+      </tr>
+      <tr>
+        <td><strong>2</strong></td>
+        <td>Swap A[0]↔A[5], heap=5</td>
+        <td>[7,5,6,1,3,<span style="color:var(--muted)">4</span>]</td>
+        <td>[4,5,6,1,3 | 7,8]</td>
+        <td>[6,5,4,1,3 | <span class="sorted-cell">7,8</span>]</td>
+        <td>[..., <strong style="color:var(--green-l)">7,8</strong>]</td>
+      </tr>
+      <tr>
+        <td><strong>3</strong></td>
+        <td>Swap A[0]↔A[4], heap=4</td>
+        <td>[6,5,4,1,<span style="color:var(--muted)">3</span>]</td>
+        <td>[3,5,4,1 | 6,7,8]</td>
+        <td>[5,3,4,1 | <span class="sorted-cell">6,7,8</span>]</td>
+        <td>[..., <strong style="color:var(--green-l)">6,7,8</strong>]</td>
+      </tr>
+      <tr>
+        <td><strong>4</strong></td>
+        <td>Swap A[0]↔A[3], heap=3</td>
+        <td>[5,3,4,<span style="color:var(--muted)">1</span>]</td>
+        <td>[1,3,4 | 5,6,7,8]</td>
+        <td>[4,3,1 | <span class="sorted-cell">5,6,7,8</span>]</td>
+        <td>[..., <strong style="color:var(--green-l)">5,6,7,8</strong>]</td>
+      </tr>
+      <tr>
+        <td><strong>5</strong></td>
+        <td>Swap A[0]↔A[2], heap=2</td>
+        <td>[4,3,<span style="color:var(--muted)">1</span>]</td>
+        <td>[1,3 | 4,5,6,7,8]</td>
+        <td>[3,1 | <span class="sorted-cell">4,5,6,7,8</span>]</td>
+        <td>[..., <strong style="color:var(--green-l)">4,5,6,7,8</strong>]</td>
+      </tr>
+      <tr>
+        <td><strong>6</strong></td>
+        <td>Swap A[0]↔A[1], heap=1</td>
+        <td>[3,<span style="color:var(--muted)">1</span>]</td>
+        <td>[1 | 3,4,5,6,7,8]</td>
+        <td>[1 | <span class="sorted-cell">3,4,5,6,7,8</span>]</td>
+        <td><strong style="color:var(--green-l)">Done!</strong></td>
+      </tr>
+    </table>
+    </div>
+
+    <strong>✅ Sorted Array: [1, 3, 4, 5, 6, 7, 8]</strong>
+
+    <div class="info-box success" style="margin-top:12px">
+      <div class="box-label">Detailed HEAPIFY trace for Pass 1</div>
+      After swap: [4,5,7,1,3,6] (heap_size=6)<br>
+      HEAPIFY at i=0: A[0]=4, Left=A[1]=5, Right=A[2]=7. Max=7 at idx 2. Swap A[0]↔A[2] → [7,5,4,1,3,6]<br>
+      Cascade i=2: A[2]=4, Left=A[5]=6. Max=6. Swap A[2]↔A[5] → [7,5,6,1,3,4]<br>
+      (A[5] has no valid children in heap_size=6)
+    </div>
+  </div>
+</div>
+
+<!-- HEAPSORT example 2: [9,5,8,3,2,4,7,0,1,6] — Makeup 2023 -->
+<div class="pyq-card">
+  <div class="pyq-meta">MAKEUP 2023 Q8b · Heap Sort on [9, 5, 8, 3, 2, 4, 7, 0, 1, 6]</div>
+  <div class="pyq-q">Perform heap sort on the list 9, 5, 8, 3, 2, 4, 7, 0, 1, 6 showing every step.</div>
+  <div class="pyq-ans">
+    <strong>n=10, Last non-leaf (0-indexed) = ⌊10/2⌋ − 1 = 4</strong><br><br>
+    
+    <strong>Phase 1 — Build Max-Heap:</strong>
+    <div class="trace-wrap">
+    <table class="trace-table">
+      <tr><th>i</th><th>A[i]</th><th>Children</th><th>Max at</th><th>Swap?</th><th>Array After</th></tr>
+      <tr><td>i=4</td><td>2</td><td>A[9]=6, A[10]✗OOB</td><td>idx=9 (6)</td><td class="swap-cell">A[4]↔A[9]: 2↔6</td><td>[9,5,8,3,6,4,7,0,1,2]</td></tr>
+      <tr><td>i=3</td><td>3</td><td>A[7]=0, A[8]=1</td><td>idx=3 (3)</td><td>No swap</td><td>[9,5,8,3,6,4,7,0,1,2]</td></tr>
+      <tr><td>i=2</td><td>8</td><td>A[5]=4, A[6]=7</td><td>idx=2 (8)</td><td>No swap</td><td>[9,5,8,3,6,4,7,0,1,2]</td></tr>
+      <tr><td>i=1</td><td>5</td><td>A[3]=3, A[4]=6</td><td>idx=4 (6)</td><td class="swap-cell">A[1]↔A[4]: 5↔6</td><td>[9,6,8,3,5,4,7,0,1,2]</td></tr>
+      <tr><td></td><td colspan="3">Cascade i=4: A[4]=5, children A[9]=2, no right. 5>2, no swap</td><td>—</td><td>[9,6,8,3,5,4,7,0,1,2]</td></tr>
+      <tr><td>i=0</td><td>9</td><td>A[1]=6, A[2]=8</td><td>idx=0 (9)</td><td>No swap</td><td>[9,6,8,3,5,4,7,0,1,2]</td></tr>
+    </table>
+    </div>
+    <strong>Max-Heap: [9,6,8,3,5,4,7,0,1,2]</strong><br><br>
+
+    <strong>Phase 2 — Sort (showing key passes):</strong>
+    <div class="trace-wrap">
+    <table class="trace-table">
+      <tr><th>Pass</th><th>Swap (root ↔ last)</th><th>After HEAPIFY</th><th>Sorted End</th></tr>
+      <tr><td>1</td><td>9↔2 → [2,6,8,3,5,4,7,0,1 | 9]</td><td>[8,6,7,3,5,4,2,0,1 | 9]</td><td>...9</td></tr>
+      <tr><td>2</td><td>8↔1 → [1,6,7,3,5,4,2,0 | 8,9]</td><td>[7,6,4,3,5,1,2,0 | 8,9]</td><td>...8,9</td></tr>
+      <tr><td>3</td><td>7↔0 → [0,6,4,3,5,1,2 | 7,8,9]</td><td>[6,5,4,3,0,1,2 | 7,8,9]</td><td>...7,8,9</td></tr>
+      <tr><td>4</td><td>6↔2 → [2,5,4,3,0,1 | 6,7,8,9]</td><td>[5,3,4,2,0,1 | 6,7,8,9]</td><td>...6,7,8,9</td></tr>
+      <tr><td>5</td><td>5↔1 → [1,3,4,2,0 | 5,6,7,8,9]</td><td>[4,3,1,2,0 | 5,6,7,8,9]</td><td>...5,6,7,8,9</td></tr>
+      <tr><td>6</td><td>4↔0 → [0,3,1,2 | 4,5,6,7,8,9]</td><td>[3,2,1,0 | 4,5,6,7,8,9]</td><td>...4,5,6,7,8,9</td></tr>
+      <tr><td>7</td><td>3↔0 → [0,2,1 | 3,4,5,6,7,8,9]</td><td>[2,0,1 | 3,4,5,6,7,8,9]</td><td>...3,4,5,6,7,8,9</td></tr>
+      <tr><td>8</td><td>2↔1 → [1,0 | 2,3,4,5,6,7,8,9]</td><td>[1,0 | 2,3,...]</td><td>...2,3,...</td></tr>
+      <tr><td>9</td><td>1↔0 → [0 | 1,2,...,9]</td><td>Done</td><td class="sorted-cell">[0,1,2,3,4,5,6,7,8,9]</td></tr>
+    </table>
+    </div>
+    <strong>✅ Sorted: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]</strong>
+  </div>
+</div>
+
+<!-- SEE 2025 Heap Sort [4,10,3,5,1] -->
+<div class="pyq-card">
+  <div class="pyq-meta">SEE 2025 Q9a · Heap Sort on [4, 10, 3, 5, 1]</div>
+  <div class="pyq-q">Build a max-heap from [4,10,3,5,1]. Perform heapify operations. Then perform Heap Sort.</div>
+  <div class="pyq-ans">
+    <strong>Max-Heap built (from Topic 1 Example):</strong> [10, 5, 3, 4, 1]<br><br>
+    <strong>HeapSort Passes:</strong>
+    <div class="trace-wrap">
+    <table class="trace-table">
+      <tr><th>Pass</th><th>Swap</th><th>After Heapify</th><th>State</th></tr>
+      <tr><td>1</td><td>A[0]=10 ↔ A[4]=1</td><td>After: [5,4,3,1 | 10]</td><td>[5,4,3,1,<span class="sorted-cell">10</span>]</td></tr>
+      <tr><td>2</td><td>A[0]=5 ↔ A[3]=1</td><td>After: [4,1,3 | 5,10]</td><td>[4,1,3,<span class="sorted-cell">5,10</span>]</td></tr>
+      <tr><td>3</td><td>A[0]=4 ↔ A[2]=3</td><td>After: [3,1 | 4,5,10]</td><td>[3,1,<span class="sorted-cell">4,5,10</span>]</td></tr>
+      <tr><td>4</td><td>A[0]=3 ↔ A[1]=1</td><td>heap_size=1, done</td><td>[1,<span class="sorted-cell">3,4,5,10</span>]</td></tr>
+    </table>
+    </div>
+    <strong>✅ Sorted: [1, 3, 4, 5, 10]</strong>
+  </div>
+</div>
+
+<!-- 2.5 Complexity -->
+<div class="section-title">5. Complexity Analysis</div>
+<div class="complexity-grid">
+  <div class="cx-card best"><div class="cx-case">Best Case</div><div class="cx-val">O(n log n)</div><div style="font-size:12px;color:var(--muted);margin-top:4px">Even if already sorted</div></div>
+  <div class="cx-card avg"><div class="cx-case">Average Case</div><div class="cx-val">O(n log n)</div><div style="font-size:12px;color:var(--muted);margin-top:4px">All inputs</div></div>
+  <div class="cx-card worst"><div class="cx-case">Worst Case</div><div class="cx-val">O(n log n)</div><div style="font-size:12px;color:var(--muted);margin-top:4px">Guaranteed!</div></div>
+  <div class="cx-card space"><div class="cx-case">Space</div><div class="cx-val">O(1)</div><div style="font-size:12px;color:var(--muted);margin-top:4px">In-place sort</div></div>
+</div>
+
+<div class="info-box warn">
+  <div class="box-label">⚠️ HeapSort vs QuickSort</div>
+  HeapSort guarantees O(n log n) worst-case. QuickSort averages O(n log n) but can degrade to O(n²). However, QuickSort has better cache performance in practice, so it's often faster on real systems despite the theoretical guarantee.
+</div>
+
+<!-- Revision Box -->
+<div class="revision-box">
+  <h4>⚡ Quick Revision — HeapSort</h4>
+  <ul>
+    <li>Phase 1: Build Max-Heap O(n) · Phase 2: n−1 extractions × O(log n) each</li>
+    <li>Total: O(n log n) — Best, Average AND Worst case</li>
+    <li>In-place (O(1) extra space) · NOT stable</li>
+    <li class="warn">In Phase 2, always swap root (max) with LAST element of current heap</li>
+    <li class="err">Common mistake: forgetting to reduce heap_size after each swap</li>
+    <li>Result: elements sorted in ASCENDING order (max is placed at end first)</li>
+  </ul>
+</div>
+
+
+<hr class="divider">
+
+<!-- ════════════════════════════════════════════════════════════
+     TOPIC 3 — PRIORITY QUEUE
+════════════════════════════════════════════════════════════ -->
+<div class="topic-header" id="pq">
+  <h2><span class="topic-num">TOPIC 3</span> Priority Queue</h2>
+  <div class="sub">Heap-based · O(log n) insert and extract · Used in Dijkstra, scheduling</div>
+</div>
+
+<div class="section-title">1. Concept Introduction</div>
+<p>A <em>Priority Queue</em> is an ADT (Abstract Data Type) where each element has a <strong>priority</strong> and the element with the highest (or lowest) priority is always served first — regardless of insertion order. Think of an emergency room: a critical patient is treated before a regular check-up, regardless of who arrived first.</p>
+
+<div class="grid2" style="margin:14px 0">
+  <div class="card" style="border-left:3px solid var(--amber)">
+    <div style="font-weight:700;color:var(--amber);margin-bottom:8px">MAX Priority Queue</div>
+    <p style="font-size:14px">Extracts the <strong>maximum</strong> element. Built on Max-Heap. Operations:<br>
+    EXTRACT-MAX, INSERT, MAXIMUM, INCREASE-KEY</p>
+  </div>
+  <div class="card" style="border-left:3px solid var(--blue)">
+    <div style="font-weight:700;color:var(--blue-l);margin-bottom:8px">MIN Priority Queue</div>
+    <p style="font-size:14px">Extracts the <strong>minimum</strong> element. Built on Min-Heap. Used in Dijkstra's shortest path, Prim's MST, Huffman coding.</p>
+  </div>
+</div>
+
+<div class="section-title">3. Algorithms — Max-Priority Queue Operations</div>
+
+<div class="algo-box">
+<div class="algo-title">MAX-PRIORITY QUEUE — FOUR KEY OPERATIONS</div>
+
+<span class="cm">// 1. HEAP-MAXIMUM — Return max without removing</span>
+<span class="fn">HEAP-MAXIMUM</span>(<span class="vr">A</span>):
+  <span class="kw">return</span> <span class="vr">A</span>[<span class="nm">1</span>]                 <span class="cm">// Just read root — O(1)</span>
+
+<span class="cm">// 2. HEAP-EXTRACT-MAX — Remove and return max</span>
+<span class="fn">HEAP-EXTRACT-MAX</span>(<span class="vr">A</span>, <span class="vr">n</span>):
+  <span class="kw">if</span> <span class="vr">n</span> < <span class="nm">1</span>: <span class="kw">error</span> "heap underflow"
+  <span class="vr">max</span> ← <span class="vr">A</span>[<span class="nm">1</span>]                  <span class="cm">// Save the max</span>
+  <span class="vr">A</span>[<span class="nm">1</span>] ← <span class="vr">A</span>[<span class="vr">n</span>]                  <span class="cm">// Move last to root</span>
+  <span class="vr">n</span> ← <span class="vr">n</span> − <span class="nm">1</span>                    <span class="cm">// Shrink heap</span>
+  <span class="fn">MAX-HEAPIFY</span>(<span class="vr">A</span>, <span class="nm">1</span>, <span class="vr">n</span>)          <span class="cm">// Restore heap — O(log n)</span>
+  <span class="kw">return</span> <span class="vr">max</span>
+
+<span class="cm">// 3. HEAP-INCREASE-KEY — Increase priority of element at index i</span>
+<span class="fn">HEAP-INCREASE-KEY</span>(<span class="vr">A</span>, <span class="vr">i</span>, <span class="vr">key</span>):
+  <span class="kw">if</span> <span class="vr">key</span> < <span class="vr">A</span>[<span class="vr">i</span>]: <span class="kw">error</span> "new key smaller than current"
+  <span class="vr">A</span>[<span class="vr">i</span>] ← <span class="vr">key</span>
+  <span class="kw">while</span> <span class="vr">i</span> > <span class="nm">1</span> <span class="kw">and</span> <span class="vr">A</span>[PARENT(<span class="vr">i</span>)] < <span class="vr">A</span>[<span class="vr">i</span>]
+    swap <span class="vr">A</span>[<span class="vr">i</span>] ↔ <span class="vr">A</span>[PARENT(<span class="vr">i</span>)]  <span class="cm">// Bubble up</span>
+    <span class="vr">i</span> ← PARENT(<span class="vr">i</span>)              <span class="cm">// Move up — O(log n)</span>
+
+<span class="cm">// 4. MAX-HEAP-INSERT — Insert new element</span>
+<span class="fn">MAX-HEAP-INSERT</span>(<span class="vr">A</span>, <span class="vr">key</span>, <span class="vr">n</span>):
+  <span class="vr">n</span> ← <span class="vr">n</span> + <span class="nm">1</span>
+  <span class="vr">A</span>[<span class="vr">n</span>] ← −∞                    <span class="cm">// Place -infinity at new leaf</span>
+  <span class="fn">HEAP-INCREASE-KEY</span>(<span class="vr">A</span>, <span class="vr">n</span>, <span class="vr">key</span>)  <span class="cm">// Increase to actual key — O(log n)</span>
+</div>
+
+<div class="section-title">5. Complexity Analysis</div>
+<div class="complexity-grid">
+  <div class="cx-card best"><div class="cx-case">HEAP-MAXIMUM</div><div class="cx-val">O(1)</div></div>
+  <div class="cx-card avg"><div class="cx-case">EXTRACT-MAX</div><div class="cx-val">O(log n)</div></div>
+  <div class="cx-card worst"><div class="cx-case">INSERT</div><div class="cx-val">O(log n)</div></div>
+  <div class="cx-card space"><div class="cx-case">INCREASE-KEY</div><div class="cx-val">O(log n)</div></div>
+</div>
+
+<div class="revision-box">
+  <h4>⚡ Quick Revision — Priority Queue</h4>
+  <ul>
+    <li>PQ is an ADT; Heap is the implementation</li>
+    <li>EXTRACT-MAX: move last element to root → HEAPIFY down</li>
+    <li>INSERT: add at leaf → BUBBLE UP (INCREASE-KEY)</li>
+    <li>All operations: O(log n) except MAXIMUM → O(1)</li>
+    <li>Applications: Dijkstra (min-PQ), HeapSort, OS Scheduling, Huffman</li>
+  </ul>
+</div>
+
+<hr class="divider">
+
+<!-- ════════════════════════════════════════════════════════════
+     TOPIC 4 — QUICKSORT (MOST IMPORTANT)
+════════════════════════════════════════════════════════════ -->
+<div class="topic-header" id="quicksort">
+  <h2><span class="topic-num">TOPIC 4</span> QuickSort</h2>
+  <div class="sub">🔥 Appears in EVERY paper · Divide &amp; Conquer · Average O(n log n)</div>
+</div>
+
+<div class="section-title">1. Concept Introduction</div>
+<p>QuickSort is the <em>fastest sorting algorithm in practice</em> for general-purpose sorting. It works on the <strong>divide-and-conquer</strong> paradigm with one brilliant insight:</p>
+
+<div class="info-box success">
+  <div class="box-label">💡 Core Idea</div>
+  Pick one element as the <strong>pivot</strong>. Rearrange the array so that all elements <strong>smaller than pivot</strong> come before it, and all elements <strong>greater than pivot</strong> come after it. The pivot is now in its <strong>final sorted position</strong>. Recursively sort the two subarrays.
+</div>
+
+<p style="margin-top:12px">Why is it used everywhere?</p>
+<ul style="margin:8px 0 0 24px;font-size:15px;display:flex;flex-direction:column;gap:5px">
+  <li>In-place sorting (O(log n) stack space on average)</li>
+  <li>Excellent cache performance (accesses contiguous memory)</li>
+  <li>Average case O(n log n) which beats MergeSort's constants in practice</li>
+  <li>Used in Java Arrays.sort(), C++ std::sort(), Python's Timsort (hybrid)</li>
+</ul>
+
+<div class="section-title">2. Detailed Theory — Partition Algorithm</div>
+<p>The heart of QuickSort is the <strong>PARTITION</strong> function. Lomuto partition (textbook) uses the last element as pivot:</p>
+
+<div class="algo-box">
+<div class="algo-title">LOMUTO PARTITION(A, p, r)</div>
+<span class="cm">// Partitions A[p..r] around pivot x = A[r]
+// Returns final position of pivot
+// Time: O(r-p+1) = O(n) for subarray of size n</span>
+
+<span class="fn">PARTITION</span>(<span class="vr">A</span>, <span class="vr">p</span>, <span class="vr">r</span>):
+  <span class="vr">x</span> ← <span class="vr">A</span>[<span class="vr">r</span>]          <span class="cm">// pivot = last element</span>
+  <span class="vr">i</span> ← <span class="vr">p</span> − <span class="nm">1</span>         <span class="cm">// i = boundary of "≤ pivot" zone</span>
+  
+  <span class="kw">for</span> <span class="vr">j</span> ← <span class="vr">p</span> <span class="kw">to</span> <span class="vr">r</span> − <span class="nm">1</span>  <span class="cm">// scan left portion</span>
+    <span class="kw">if</span> <span class="vr">A</span>[<span class="vr">j</span>] ≤ <span class="vr">x</span>        <span class="cm">// element belongs in "≤ pivot" zone</span>
+      <span class="vr">i</span> ← <span class="vr">i</span> + <span class="nm">1</span>
+      swap <span class="vr">A</span>[<span class="vr">i</span>] ↔ <span class="vr">A</span>[<span class="vr">j</span>]
+  
+  swap <span class="vr">A</span>[<span class="vr">i</span>+<span class="nm">1</span>] ↔ <span class="vr">A</span>[<span class="vr">r</span>]  <span class="cm">// Place pivot in correct position</span>
+  <span class="kw">return</span> <span class="vr">i</span> + <span class="nm">1</span>        <span class="cm">// Return pivot index</span>
+
+<span class="fn">QUICKSORT</span>(<span class="vr">A</span>, <span class="vr">p</span>, <span class="vr">r</span>):
+  <span class="kw">if</span> <span class="vr">p</span> < <span class="vr">r</span>
+    <span class="vr">q</span> ← <span class="fn">PARTITION</span>(<span class="vr">A</span>, <span class="vr">p</span>, <span class="vr">r</span>)    <span class="cm">// q = pivot's final position</span>
+    <span class="fn">QUICKSORT</span>(<span class="vr">A</span>, <span class="vr">p</span>, <span class="vr">q</span>−<span class="nm">1</span>)       <span class="cm">// Sort left of pivot</span>
+    <span class="fn">QUICKSORT</span>(<span class="vr">A</span>, <span class="vr">q</span>+<span class="nm">1</span>, <span class="vr">r</span>)       <span class="cm">// Sort right of pivot</span>
+</div>
+
+<div class="info-box tip">
+  <div class="box-label">📘 Hoare Partition (First Element as Pivot)</div>
+  Many MSRIT questions use the <strong>first element as pivot</strong>. In this case: pivot = A[p], use two pointers i=p+1 and j=r scanning inward, swap when A[i]>pivot and A[j]≤pivot, stop when i>j, swap pivot with A[j]. This is the Hoare-style partition shown in the examples below.
+</div>
+
+<div class="section-title">4. Solved Examples — QuickSort Complete Traces</div>
+
+<!-- MOST IMPORTANT: [2,7,8,3,1,9,5,6,3] — appears in MAKEUP 2023 AND SEE 2024 -->
+<div class="pyq-card hot">
+  <div class="pyq-meta">
+    <span class="fire">🔥</span>
+    <span>SAME ARRAY IN MAKEUP 2023 Q4b AND SEE 2024 Q4b — VERY IMPORTANT</span>
+    <span class="badge badge-hot">MOST REPEATED</span>
+  </div>
+  <div class="pyq-q">Sort [2, 7, 8, 3, 1, 9, 5, 6, 3] using QuickSort. Show tree calls and average time complexity.</div>
+  <div class="pyq-ans">
+    <p>We use <strong>first element as pivot</strong> (standard approach in VTU textbook).</p>
+    <br>
+
+    <strong>Pass 1 — Full array [2, 7, 8, 3, 1, 9, 5, 6, 3], pivot = 2</strong>
+    <p style="font-size:14px;margin-top:8px">Two-pointer approach (i scans right from left, j scans left from right):<br>
+    i starts at index 1, j starts at index 8. Pivot = 2.<br>
+    — i advances while A[i] ≤ 2: A[1]=7 > 2, stop at i=1<br>
+    — j retreats while A[j] > 2: A[8]=3>2, A[7]=6>2, A[6]=5>2, A[5]=9>2, A[4]=1≤2, stop at j=4<br>
+    — Since i=1 &lt; j=4: swap A[1]↔A[4]: [2, <strong style="color:var(--blue-l)">1</strong>, 8, 3, <strong style="color:var(--blue-l)">7</strong>, 9, 5, 6, 3]<br>
+    — Continue: i advances: A[2]=8>2, stop i=2. j retreats: A[3]=3>2, A[2]=8>2... wait, j moves left from 4: A[3]=3>2, A[2]=8>2... we check A[j] where j is now 3: 3>2, j=2: 8>2, j=1: 1≤2 stop j=1.<br>
+    — Now i=2 > j=1. Stop. Swap pivot A[0]↔A[j=1]: [<strong style="color:var(--amber)">1</strong>, <strong style="color:var(--amber)">2</strong>, 8, 3, 7, 9, 5, 6, 3]</p>
+
+    <div class="info-box note" style="margin:8px 0">
+      <div class="box-label">Simpler Lomuto approach — same pivot (last element) per call</div>
+      For exam clarity, let's use Lomuto partition (pivot = last element) which is easier to trace step by step in exam.
+    </div>
+
+    <strong>LOMUTO QuickSort Trace — [2, 7, 8, 3, 1, 9, 5, 6, 3]</strong>
+    <p style="font-size:14px;margin-top:8px">Indices: p=0, r=8, pivot = A[8] = <strong style="color:var(--amber)">3</strong></p>
+
+    <div class="trace-wrap">
+    <table class="trace-table">
+      <tr>
+        <th>j</th><th>A[j]</th><th>A[j] ≤ pivot(3)?</th><th>i after</th><th>Array after swap</th>
+      </tr>
+      <tr><td>0</td><td>2</td><td class="sorted-cell">Yes → i=0, swap A[0]↔A[0]</td><td>0</td><td>[2, 7, 8, 3, 1, 9, 5, 6, 3]</td></tr>
+      <tr><td>1</td><td>7</td><td>No</td><td>0</td><td>[2, 7, 8, 3, 1, 9, 5, 6, 3]</td></tr>
+      <tr><td>2</td><td>8</td><td>No</td><td>0</td><td>[2, 7, 8, 3, 1, 9, 5, 6, 3]</td></tr>
+      <tr><td>3</td><td>3</td><td class="sorted-cell">Yes → i=1, swap A[1]↔A[3]</td><td>1</td><td>[2, 3, 8, 7, 1, 9, 5, 6, 3]</td></tr>
+      <tr><td>4</td><td>1</td><td class="sorted-cell">Yes → i=2, swap A[2]↔A[4]</td><td>2</td><td>[2, 3, 1, 7, 8, 9, 5, 6, 3]</td></tr>
+      <tr><td>5</td><td>9</td><td>No</td><td>2</td><td>[2, 3, 1, 7, 8, 9, 5, 6, 3]</td></tr>
+      <tr><td>6</td><td>5</td><td>No</td><td>2</td><td>[2, 3, 1, 7, 8, 9, 5, 6, 3]</td></tr>
+      <tr><td>7</td><td>6</td><td>No</td><td>2</td><td>[2, 3, 1, 7, 8, 9, 5, 6, 3]</td></tr>
+    </table>
+    </div>
+    <p style="font-size:14px">Final: swap A[i+1=3] ↔ A[r=8]: [2, 3, 1, <span class="pivot-cell" style="padding:2px 6px;border-radius:4px">3</span>, 8, 9, 5, 6, 7]</p>
+    <p style="font-size:14px"><strong>Pivot 3 is at index 3.</strong> Left subarray: [2,3,1] (indices 0–2). Right: [8,9,5,6,7] (indices 4–8).</p>
+    <br>
+
+    <strong>Recursion Tree:</strong>
+    <div class="algo-box" style="border-left-color:var(--purple)">
+<div class="algo-title">QUICKSORT CALL TREE</div>
+<pre style="color:var(--text);font-size:12px;line-height:1.9">
+QUICKSORT([2,7,8,3,1,9,5,6,3])  pivot=3 → [2,3,1] | 3 | [8,9,5,6,7]
+├── QUICKSORT([2,3,1]) pivot=1 → [] | 1 | [2,3]
+│   ├── QUICKSORT([]) → BASE CASE
+│   └── QUICKSORT([2,3]) pivot=3 → [2] | 3 | []
+│       ├── QUICKSORT([2]) → BASE CASE
+│       └── QUICKSORT([]) → BASE CASE
+│   ➜ [1,2,3]
+└── QUICKSORT([8,9,5,6,7]) pivot=7 → [5,6] | 7 | [8,9]
+    ├── QUICKSORT([5,6]) pivot=6 → [5] | 6 | []
+    │   ├── QUICKSORT([5]) → BASE CASE
+    │   └── QUICKSORT([]) → BASE CASE
+    │   ➜ [5,6]
+    └── QUICKSORT([8,9]) pivot=9 → [8] | 9 | []
+        ├── QUICKSORT([8]) → BASE CASE
+        └── QUICKSORT([]) → BASE CASE
+        ➜ [8,9]
+    ➜ [5,6,7,8,9]
+
+FINAL SORTED: [1, 2, 3, 3, 5, 6, 7, 8, 9] ✅
+</pre>
+    </div>
+  </div>
+</div>
+
+<!-- Example: [6,10,13,5,8,2,11,4,32,1] — SEE 2023 Q4a -->
+<div class="pyq-card">
+  <div class="pyq-meta">SEE 2023 Q4a · QuickSort on [6,10,13,5,8,2,11,4,32,1]</div>
+  <div class="pyq-q">Apply QuickSort to arrange [6,10,13,5,8,2,11,4,32,1] in ascending order. Derive best case efficiency.</div>
+  <div class="pyq-ans">
+    <strong>pivot = last element = 1</strong><br>
+    PARTITION(p=0, r=9): No element ≤ 1 except itself. All elements move to right of 1.<br>
+    After partition: [ <span class="pivot-cell" style="padding:2px 5px;border-radius:4px">1</span>, 6, 10, 13, 5, 8, 2, 11, 4, 32 ] — pivot at index 0.<br>
+    Left = [] (empty), Right = [6,10,13,5,8,2,11,4,32]<br><br>
+
+    <strong>Next: PARTITION([6,10,13,5,8,2,11,4,32]) pivot=32:</strong><br>
+    All elements ≤ 32. After: [6,10,13,5,8,2,11,4 | <span class="pivot-cell" style="padding:2px 5px;border-radius:4px">32</span>]. Pivot at last position.<br>
+    Right = [] (empty), Left = [6,10,13,5,8,2,11,4]<br><br>
+
+    <strong>Next: PARTITION([6,10,13,5,8,2,11,4]) pivot=4:</strong>
+    <div class="trace-wrap">
+    <table class="trace-table">
+      <tr><th>j</th><th>A[j]</th><th>≤4?</th><th>i</th><th>Array</th></tr>
+      <tr><td>0</td><td>6</td><td>No</td><td>-1</td><td>[6,10,13,5,8,2,11,4]</td></tr>
+      <tr><td>1</td><td>10</td><td>No</td><td>-1</td><td>same</td></tr>
+      <tr><td>2</td><td>13</td><td>No</td><td>-1</td><td>same</td></tr>
+      <tr><td>3</td><td>5</td><td>No</td><td>-1</td><td>same</td></tr>
+      <tr><td>4</td><td>8</td><td>No</td><td>-1</td><td>same</td></tr>
+      <tr><td>5</td><td>2</td><td class="sorted-cell">Yes → i=0, swap A[0]↔A[5]</td><td>0</td><td>[2,10,13,5,8,6,11,4]</td></tr>
+      <tr><td>6</td><td>11</td><td>No</td><td>0</td><td>same</td></tr>
+    </table>
+    </div>
+    Final swap: A[i+1=1]↔A[r=7]: [2, <span class="pivot-cell" style="padding:2px 5px;border-radius:4px">4</span>, 13, 5, 8, 6, 11, 10]<br>
+    Pivot 4 at index 1. Left=[2], Right=[13,5,8,6,11,10]<br><br>
+
+    <em>Continue recursively... Final sorted: [1, 2, 4, 5, 6, 8, 10, 11, 13, 32] ✅</em><br><br>
+
+    <strong>Best Case Efficiency:</strong><br>
+    Best case occurs when pivot always divides array into two <strong>equal halves</strong>.<br>
+    Recurrence: T(n) = 2T(n/2) + Θ(n)<br>
+    By Master Theorem (Case 2): a=2, b=2, f(n)=n, n^(log_b a) = n^1 = n<br>
+    f(n) = Θ(n^log_b a · log n) → T(n) = <strong>Θ(n log n)</strong>
+  </div>
+</div>
+
+<!-- Example: E,X,A,M,P,L,E — SEE 2023(O) Q4b -->
+<div class="pyq-card">
+  <div class="pyq-meta">SEE 2023(O) Q4b · QuickSort on 'E','X','A','M','P','L','E'</div>
+  <div class="pyq-q">Trace QuickSort for: 'E','X','A','M','P','L','E'</div>
+  <div class="pyq-ans">
+    Array: [E, X, A, M, P, L, E], pivot = last = <strong style="color:var(--amber)">E</strong><br><br>
+    <strong>PARTITION(0,6), pivot='E':</strong>
+    <div class="trace-wrap">
+    <table class="trace-table">
+      <tr><th>j</th><th>A[j]</th><th>≤'E'?</th><th>i</th><th>Action</th></tr>
+      <tr><td>0</td><td>E</td><td class="sorted-cell">Yes (i=0)</td><td>0</td><td>swap A[0]↔A[0] → no change</td></tr>
+      <tr><td>1</td><td>X</td><td>No</td><td>0</td><td>—</td></tr>
+      <tr><td>2</td><td>A</td><td class="sorted-cell">Yes (i=1)</td><td>1</td><td>swap A[1]↔A[2] → [E,A,X,M,P,L,E]</td></tr>
+      <tr><td>3</td><td>M</td><td>No</td><td>1</td><td>—</td></tr>
+      <tr><td>4</td><td>P</td><td>No</td><td>1</td><td>—</td></tr>
+      <tr><td>5</td><td>L</td><td>No</td><td>1</td><td>—</td></tr>
+    </table>
+    </div>
+    Final: swap A[i+1=2]↔A[r=6]: [E,A,<span class="pivot-cell" style="padding:2px 5px;border-radius:4px">E</span>,M,P,L,X]<br>
+    Pivot 'E' at index 2. Left=[E,A], Right=[M,P,L,X]<br><br>
+    <strong>Recursion continues...</strong>
+    <div class="algo-box" style="border-left-color:var(--purple);margin-top:8px">
+<pre style="color:var(--text);font-size:12px;line-height:1.9">
+QS([E,X,A,M,P,L,E]) → pivot=E → [E,A] | E | [M,P,L,X]
+├── QS([E,A]) pivot=A → [] | A | [E]
+│   ➜ [A,E]
+└── QS([M,P,L,X]) pivot=X → [M,P,L] | X | []
+    └── QS([M,P,L]) pivot=L → [M] |wait, M>L, swap|
+        PARTITION([M,P,L]): j=0:M>L(No) j=1:P>L(No)
+        Final: swap A[0]↔A[2]→ [L,P,M] → [L|...|M,P]
+        Actually: pivot=L, all others>L → L at idx 0
+        → [L] | L | [M,P] → wait...
+        pivot=last=L, M>L, P>L → no swaps → swap A[0]↔A[2]
+        → [L, P, M]? No...
+        PARTITION([M,P,L]), p=0,r=2, pivot=A[2]=L
+        j=0: M>L: No. j=1: P>L: No. i stays at -1.
+        Final swap: A[0]↔A[2] → [L, P, M]. pivot L at idx 0.
+        Left=[], Right=[P,M]
+        QS([P,M]) pivot=M: j=0:P>M:No. swap A[0]↔A[1]→[M,P]
+        → [M,P]
+        Full: [L,M,P]
+    ➜ [L,M,P,X]
+
+FINAL SORTED: [A, E, E, L, M, P, X] ✅
+</pre>
+    </div>
+  </div>
+</div>
+
+<!-- SEE 2025 QuickSort -->
+<div class="pyq-card">
+  <div class="pyq-meta">SEE 2025 Q4a · QuickSort on [15,3,2,1,9,5,7,8,6]</div>
+  <div class="pyq-q">Sort [15,3,2,1,9,5,7,8,6] using QuickSort. Show steps.</div>
+  <div class="pyq-ans">
+    <strong>Call 1: PARTITION([15,3,2,1,9,5,7,8,6]), pivot = 6</strong>
+    <div class="trace-wrap">
+    <table class="trace-table">
+      <tr><th>j</th><th>A[j]</th><th>≤6?</th><th>i</th><th>Array</th></tr>
+      <tr><td>0</td><td>15</td><td>No</td><td>-1</td><td>[15,3,2,1,9,5,7,8,6]</td></tr>
+      <tr><td>1</td><td>3</td><td class="sorted-cell">Yes, i=0</td><td>0</td><td>[3,15,2,1,9,5,7,8,6]</td></tr>
+      <tr><td>2</td><td>2</td><td class="sorted-cell">Yes, i=1</td><td>1</td><td>[3,2,15,1,9,5,7,8,6]</td></tr>
+      <tr><td>3</td><td>1</td><td class="sorted-cell">Yes, i=2</td><td>2</td><td>[3,2,1,15,9,5,7,8,6]</td></tr>
+      <tr><td>4</td><td>9</td><td>No</td><td>2</td><td>same</td></tr>
+      <tr><td>5</td><td>5</td><td class="sorted-cell">Yes, i=3</td><td>3</td><td>[3,2,1,5,9,15,7,8,6]</td></tr>
+      <tr><td>6</td><td>7</td><td>No</td><td>3</td><td>same</td></tr>
+      <tr><td>7</td><td>8</td><td>No</td><td>3</td><td>same</td></tr>
+    </table>
+    </div>
+    Final: swap A[4]↔A[8]: [3,2,1,5,<span class="pivot-cell" style="padding:2px 5px;border-radius:4px">6</span>,15,7,8,9]<br>
+    Pivot 6 at index 4. Left=[3,2,1,5], Right=[15,7,8,9]<br><br>
+    <em>Continuing recursively:</em>
+    <div class="algo-box" style="border-left-color:var(--purple);margin-top:8px">
+<pre style="color:var(--text);font-size:12px;line-height:1.9">
+QS([15,3,2,1,9,5,7,8,6]) → pivot=6 → [3,2,1,5] | 6 | [15,7,8,9]
+├── QS([3,2,1,5]) pivot=5 → [3,2,1] | 5 | []
+│   └── QS([3,2,1]) pivot=1 → [] | 1 | [3,2]
+│       └── QS([3,2]) pivot=2 → [] | 2 | [3]
+│           ➜ [2,3]
+│       ➜ [1,2,3]
+│   ➜ [1,2,3,5]
+└── QS([15,7,8,9]) pivot=9 → [7,8] | 9 | [15]
+    └── QS([7,8]) pivot=8 → [7] | 8 | []  ➜ [7,8]
+    ➜ [7,8,9,15]
+
+FINAL SORTED: [1, 2, 3, 5, 6, 7, 8, 9, 15] ✅
+</pre>
+    </div>
+  </div>
+</div>
+
+<!-- 4.5 Complexity -->
+<div class="section-title">5. Complexity Analysis — QuickSort</div>
+<div class="complexity-grid">
+  <div class="cx-card best"><div class="cx-case">Best Case</div><div class="cx-val">O(n log n)</div><div style="font-size:12px;color:var(--muted);margin-top:4px">Pivot always splits equally</div></div>
+  <div class="cx-card avg"><div class="cx-case">Average Case</div><div class="cx-val">O(n log n)</div><div style="font-size:12px;color:var(--muted);margin-top:4px">Randomized or random input</div></div>
+  <div class="cx-card worst"><div class="cx-case">Worst Case</div><div class="cx-val">O(n²)</div><div style="font-size:12px;color:var(--muted);margin-top:4px">Already sorted, last=pivot</div></div>
+  <div class="cx-card space"><div class="cx-case">Space</div><div class="cx-val">O(log n)</div><div style="font-size:12px;color:var(--muted);margin-top:4px">Recursion stack (avg)</div></div>
+</div>
+
+<div class="card" style="margin-top:16px">
+  <div class="card-title" style="font-size:1rem">Recurrence Relations for QuickSort</div>
+  <div class="trace-wrap">
+  <table class="trace-table">
+    <tr><th>Case</th><th>Recurrence</th><th>Solution Method</th><th>Result</th></tr>
+    <tr>
+      <td>Best</td>
+      <td class="sorted-cell">T(n) = 2T(n/2) + Θ(n)</td>
+      <td>Master Theorem Case 2</td>
+      <td><strong>Θ(n log n)</strong></td>
+    </tr>
+    <tr>
+      <td>Worst</td>
+      <td class="swap-cell">T(n) = T(n−1) + T(0) + Θ(n) = T(n−1) + Θ(n)</td>
+      <td>Substitution / Arithmetic series</td>
+      <td><strong>Θ(n²)</strong></td>
+    </tr>
+    <tr>
+      <td>Average</td>
+      <td class="active-cell">T(n) = T(n/9) + T(9n/10) + Θ(n) (even uneven split)</td>
+      <td>Recursion tree</td>
+      <td><strong>Θ(n log n)</strong></td>
+    </tr>
+  </table>
+  </div>
+  <p style="font-size:14px;margin-top:10px"><strong>Worst case occurs</strong> when array is already sorted (ascending or descending) and we always pick the first or last element as pivot. Each partition creates subarrays of size 0 and n−1.</p>
+</div>
+
+<div class="section-title">7. Exam Writing Format</div>
+<div class="grid2">
+  <div class="card" style="border-left:3px solid var(--blue)">
+    <div style="font-weight:700;color:var(--blue-l);margin-bottom:8px">For 5 Marks</div>
+    <ul style="font-size:14px;display:flex;flex-direction:column;gap:5px;list-style:disc;padding-left:18px">
+      <li>Write QUICKSORT and PARTITION pseudocode</li>
+      <li>One example with full partition trace (table form)</li>
+      <li>State best/worst case complexities with recurrences</li>
+    </ul>
+  </div>
+  <div class="card" style="border-left:3px solid var(--amber)">
+    <div style="font-weight:700;color:var(--amber);margin-bottom:8px">For 10 Marks</div>
+    <ul style="font-size:14px;display:flex;flex-direction:column;gap:5px;list-style:disc;padding-left:18px">
+      <li>Write both QUICKSORT + PARTITION pseudocode</li>
+      <li>Complete trace with table for each partition call</li>
+      <li>Draw the recursion tree showing all subproblems</li>
+      <li>Derive all three complexities with recurrences solved</li>
+      <li>Mention randomized QuickSort as improvement</li>
+    </ul>
+  </div>
+</div>
+
+<div class="revision-box">
+  <h4>⚡ Quick Revision — QuickSort</h4>
+  <ul>
+    <li>Paradigm: Divide &amp; Conquer · Partition step is O(n)</li>
+    <li>Best/Average: O(n log n) · Worst: O(n²) when sorted + last pivot</li>
+    <li>PARTITION places pivot in its FINAL position and returns its index</li>
+    <li>In-place algorithm — O(log n) stack space (average)</li>
+    <li class="warn">Worst case: sorted array + first/last element as pivot</li>
+    <li class="err">Mistake: swapping incorrectly during partition. Always increment i BEFORE swapping.</li>
+    <li>Randomized QuickSort picks random pivot → avoids O(n²) worst case → expected O(n log n)</li>
+  </ul>
+</div>
+
+
+<hr class="divider">
+
+<!-- ════════════════════════════════════════════════════════════
+     TOPIC 5 — COUNTING SORT
+════════════════════════════════════════════════════════════ -->
+<div class="topic-header" id="counting">
+  <h2><span class="topic-num">TOPIC 5</span> Counting Sort</h2>
+  <div class="sub">Linear Time O(n+k) · Non-comparison · Stable · Integer keys only</div>
+</div>
+
+<div class="section-title">1. Concept Introduction</div>
+<p>All comparison-based sorting algorithms (QuickSort, MergeSort, HeapSort) have a theoretical lower bound of <em>Ω(n log n)</em>. But what if we cheat? What if we exploit extra information about the input?</p>
+
+<p style="margin-top:10px"><strong>Counting Sort</strong> breaks the O(n log n) barrier by assuming integer keys in range [0, k]. Instead of comparing elements, it <em>counts how many times each value appears</em>, then places each element directly into its sorted position.</p>
+
+<div class="info-box note">
+  <div class="box-label">📝 Key Assumption</div>
+  Input: n integers where each element is in range [0..k]. If k = O(n), then Counting Sort runs in <strong>O(n) time</strong>. It is the building block for Radix Sort.
+</div>
+
+<div class="section-title">3. Algorithm &amp; Pseudocode</div>
+
+<div class="algo-box">
+<div class="algo-title">ALGORITHM — COUNTING-SORT(A, B, n, k)</div>
+<span class="cm">// A[0..n-1] = input, B[0..n-1] = output, k = max value
+// C[0..k] = counting array</span>
+
+<span class="fn">COUNTING-SORT</span>(<span class="vr">A</span>, <span class="vr">B</span>, <span class="vr">n</span>, <span class="vr">k</span>):
+  
+  <span class="cm">// Step 1: Initialize count array to 0</span>
+  <span class="kw">let</span> <span class="vr">C</span>[<span class="nm">0</span>..<span class="vr">k</span>] be a new array
+  <span class="kw">for</span> <span class="vr">i</span> ← <span class="nm">0</span> <span class="kw">to</span> <span class="vr">k</span>
+    <span class="vr">C</span>[<span class="vr">i</span>] ← <span class="nm">0</span>
+  
+  <span class="cm">// Step 2: Count occurrences of each value</span>
+  <span class="kw">for</span> <span class="vr">j</span> ← <span class="nm">0</span> <span class="kw">to</span> <span class="vr">n</span>−<span class="nm">1</span>
+    <span class="vr">C</span>[<span class="vr">A</span>[<span class="vr">j</span>]] ← <span class="vr">C</span>[<span class="vr">A</span>[<span class="vr">j</span>]] + <span class="nm">1</span>
+  <span class="cm">// C[i] now = number of elements equal to i</span>
+  
+  <span class="cm">// Step 3: Compute prefix sums (cumulative counts)</span>
+  <span class="kw">for</span> <span class="vr">i</span> ← <span class="nm">1</span> <span class="kw">to</span> <span class="vr">k</span>
+    <span class="vr">C</span>[<span class="vr">i</span>] ← <span class="vr">C</span>[<span class="vr">i</span>] + <span class="vr">C</span>[<span class="vr">i</span>−<span class="nm">1</span>]
+  <span class="cm">// C[i] now = number of elements ≤ i (= position of last i in output)</span>
+  
+  <span class="cm">// Step 4: Place elements into output (reverse for stability)</span>
+  <span class="kw">for</span> <span class="vr">j</span> ← <span class="vr">n</span>−<span class="nm">1</span> <span class="kw">downto</span> <span class="nm">0</span>
+    <span class="vr">B</span>[<span class="vr">C</span>[<span class="vr">A</span>[<span class="vr">j</span>]] − <span class="nm">1</span>] ← <span class="vr">A</span>[<span class="vr">j</span>]
+    <span class="vr">C</span>[<span class="vr">A</span>[<span class="vr">j</span>]] ← <span class="vr">C</span>[<span class="vr">A</span>[<span class="vr">j</span>]] − <span class="nm">1</span>
+  <span class="cm">// (iterating in reverse maintains stability)</span>
+</div>
+
+<div class="section-title">4. Solved Example</div>
+<div class="card">
+  <div style="font-weight:700;color:#fff;margin-bottom:12px">Example: Sort A = [2, 5, 3, 0, 2, 3, 0, 3], k=5</div>
+
+  <strong>Step 1 &amp; 2 — Count occurrences:</strong>
+  <div class="trace-wrap" style="margin-top:8px">
+  <table class="trace-table" style="max-width:500px">
+    <tr><th>Value i</th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr>
+    <tr><td>C[i] (count)</td>
+      <td class="sorted-cell">2</td>
+      <td>0</td>
+      <td class="active-cell">2</td>
+      <td class="pivot-cell">3</td>
+      <td>0</td>
+      <td class="swap-cell">1</td>
+    </tr>
+  </table>
+  </div>
+
+  <strong style="margin-top:12px;display:block">Step 3 — Prefix sums (C[i] = C[i] + C[i−1]):</strong>
+  <div class="trace-wrap" style="margin-top:8px">
+  <table class="trace-table" style="max-width:500px">
+    <tr><th>Value i</th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr>
+    <tr><td>C[i] (prefix)</td>
+      <td class="sorted-cell">2</td>
+      <td>2</td>
+      <td class="active-cell">4</td>
+      <td class="pivot-cell">7</td>
+      <td>7</td>
+      <td class="swap-cell">8</td>
+    </tr>
+    <tr><td style="font-size:11px;color:var(--muted)"># of elements ≤ i</td>
+      <td>2 zeros</td><td>still 2</td><td>4 elems ≤2</td><td>7 elems ≤3</td><td>7</td><td>8</td>
+    </tr>
+  </table>
+  </div>
+
+  <strong style="margin-top:12px;display:block">Step 4 — Place elements (j from n−1=7 downto 0):</strong>
+  <div class="trace-wrap" style="margin-top:8px">
+  <table class="trace-table">
+    <tr><th>j</th><th>A[j]</th><th>C[A[j]]</th><th>Place at B[C[A[j]]−1]</th><th>Decrement C[A[j]]</th><th>B so far</th></tr>
+    <tr><td>7</td><td>3</td><td>7</td><td class="pivot-cell">B[6] = 3</td><td>C[3]=6</td><td>[_,_,_,_,_,_,3,_]</td></tr>
+    <tr><td>6</td><td>0</td><td>2</td><td class="sorted-cell">B[1] = 0</td><td>C[0]=1</td><td>[_,0,_,_,_,_,3,_]</td></tr>
+    <tr><td>5</td><td>3</td><td>6</td><td class="pivot-cell">B[5] = 3</td><td>C[3]=5</td><td>[_,0,_,_,_,3,3,_]</td></tr>
+    <tr><td>4</td><td>2</td><td>4</td><td class="active-cell">B[3] = 2</td><td>C[2]=3</td><td>[_,0,_,2,_,3,3,_]</td></tr>
+    <tr><td>3</td><td>0</td><td>1</td><td class="sorted-cell">B[0] = 0</td><td>C[0]=0</td><td>[0,0,_,2,_,3,3,_]</td></tr>
+    <tr><td>2</td><td>3</td><td>5</td><td class="pivot-cell">B[4] = 3</td><td>C[3]=4</td><td>[0,0,_,2,3,3,3,_]</td></tr>
+    <tr><td>1</td><td>5</td><td>8</td><td class="swap-cell">B[7] = 5</td><td>C[5]=7</td><td>[0,0,_,2,3,3,3,5]</td></tr>
+    <tr><td>0</td><td>2</td><td>3</td><td class="active-cell">B[2] = 2</td><td>C[2]=2</td><td>[0,0,2,2,3,3,3,5]</td></tr>
+  </table>
+  </div>
+  <strong style="color:var(--green-l)">✅ Sorted B = [0, 0, 2, 2, 3, 3, 3, 5]</strong>
+</div>
+
+<div class="section-title">5. Complexity Analysis</div>
+<div class="complexity-grid">
+  <div class="cx-card best"><div class="cx-case">Time (All Cases)</div><div class="cx-val">Θ(n + k)</div><div style="font-size:12px;color:var(--muted);margin-top:4px">n = input size, k = max value</div></div>
+  <div class="cx-card space"><div class="cx-case">Space</div><div class="cx-val">O(n + k)</div><div style="font-size:12px;color:var(--muted);margin-top:4px">Output array B + count C</div></div>
+  <div class="cx-card avg"><div class="cx-case">When k = O(n)</div><div class="cx-val">O(n)</div><div style="font-size:12px;color:var(--muted);margin-top:4px">Linear time!</div></div>
+  <div class="cx-card worst"><div class="cx-case">Stability</div><div class="cx-val">STABLE ✓</div><div style="font-size:12px;color:var(--muted);margin-top:4px">Reverse iteration in step 4</div></div>
+</div>
+
+<div class="revision-box">
+  <h4>⚡ Quick Revision — Counting Sort</h4>
+  <ul>
+    <li>4 Steps: Initialize → Count → Prefix Sum → Place (reverse iteration)</li>
+    <li>Time: Θ(n+k) · Space: O(n+k) · Stable · NOT comparison-based</li>
+    <li>Works only for integer keys in known range [0..k]</li>
+    <li class="warn">Reverse iteration in Step 4 is what makes it stable</li>
+    <li>Used as subroutine in Radix Sort (stable sort requirement)</li>
+  </ul>
+</div>
+
+<hr class="divider">
+
+<!-- ════════════════════════════════════════════════════════════
+     TOPIC 6 — RADIX SORT
+════════════════════════════════════════════════════════════ -->
+<div class="topic-header" id="radix">
+  <h2><span class="topic-num">TOPIC 6</span> Radix Sort</h2>
+  <div class="sub">O(d·(n+k)) · Digit-by-digit sorting · Stable · Used in card sorting</div>
+</div>
+
+<div class="section-title">1. Concept Introduction</div>
+<p>Imagine sorting a deck of punched cards by multiple columns. A human card sorter would sort on the <em>least significant digit first</em>, then the next digit, and so on. Radix Sort does exactly this algorithmically.</p>
+
+<div class="info-box success">
+  <div class="box-label">💡 Key Idea</div>
+  Sort by digits from <strong>Least Significant Digit (LSD)</strong> to <strong>Most Significant Digit (MSD)</strong>, using a <em>stable sort</em> (Counting Sort) at each digit position. After all d passes, the array is sorted.
+</div>
+
+<div class="section-title">3. Algorithm &amp; Pseudocode</div>
+
+<div class="algo-box">
+<div class="algo-title">ALGORITHM — RADIX-SORT(A, n, d)</div>
+<span class="cm">// A = array of n d-digit integers
+// Each digit in range [0..k], typically k=9 for decimal</span>
+
+<span class="fn">RADIX-SORT</span>(<span class="vr">A</span>, <span class="vr">n</span>, <span class="vr">d</span>):
+  <span class="kw">for</span> <span class="vr">i</span> ← <span class="nm">1</span> <span class="kw">to</span> <span class="vr">d</span>                <span class="cm">// For each digit position (LSD first)</span>
+    Use a <em>stable sort</em> to sort <span class="vr">A</span> on digit <span class="vr">i</span>
+    <span class="cm">// Stable sort = Counting Sort on digit i</span>
+    <span class="cm">// Extract digit i of A[j] = (A[j] / 10^(i-1)) mod 10</span>
+</div>
+
+<div class="section-title">4. Solved Example</div>
+<div class="card">
+  <div style="font-weight:700;color:#fff;margin-bottom:12px">Example: Sort [329, 457, 657, 839, 436, 720, 355]</div>
+  <p style="font-size:14px">d = 3 digits (ones, tens, hundreds). Each digit ∈ [0..9], k=9.</p>
+
+  <div class="trace-wrap" style="margin-top:12px">
+  <table class="trace-table">
+    <tr>
+      <th>Initial</th>
+      <th>After Pass 1 (sort by ones)</th>
+      <th>After Pass 2 (sort by tens)</th>
+      <th>After Pass 3 (sort by hundreds)</th>
+    </tr>
+    <tr><td class="active-cell">329</td><td>72<strong style="color:var(--amber)">0</strong></td><td>7<strong style="color:var(--amber)">2</strong>0</td><td><strong style="color:var(--amber)">3</strong>29</td></tr>
+    <tr><td class="active-cell">457</td><td>35<strong style="color:var(--amber)">5</strong></td><td>4<strong style="color:var(--amber)">3</strong>6</td><td><strong style="color:var(--amber)">3</strong>55</td></tr>
+    <tr><td class="active-cell">657</td><td>43<strong style="color:var(--amber)">6</strong></td><td>8<strong style="color:var(--amber)">3</strong>9</td><td><strong style="color:var(--amber)">4</strong>36</td></tr>
+    <tr><td class="active-cell">839</td><td>45<strong style="color:var(--amber)">7</strong></td><td>3<strong style="color:var(--amber)">5</strong>5</td><td><strong style="color:var(--amber)">4</strong>57</td></tr>
+    <tr><td class="active-cell">436</td><td>65<strong style="color:var(--amber)">7</strong></td><td>4<strong style="color:var(--amber)">5</strong>7</td><td><strong style="color:var(--amber)">6</strong>57</td></tr>
+    <tr><td class="active-cell">720</td><td>32<strong style="color:var(--amber)">9</strong></td><td>6<strong style="color:var(--amber)">5</strong>7</td><td><strong style="color:var(--amber)">7</strong>20</td></tr>
+    <tr><td class="active-cell">355</td><td>83<strong style="color:var(--amber)">9</strong></td><td>3<strong style="color:var(--amber)">2</strong>9</td><td><strong style="color:var(--amber)">8</strong>39</td></tr>
+  </table>
+  </div>
+
+  <div class="info-box tip" style="margin-top:12px">
+    <div class="box-label">Why stability matters</div>
+    After Pass 1, 457 and 657 both end in 7. Stability preserves their relative order (457 before 657). After Pass 2, when sorted by tens digit 5, we get 355, 457, 657 in this order — which is correct because the ones digits maintain relative order.
+  </div>
+
+  <strong style="color:var(--green-l)">✅ Sorted: [329, 355, 436, 457, 657, 720, 839]</strong>
+</div>
+
+<div class="section-title">5. Complexity Analysis</div>
+<div class="complexity-grid">
+  <div class="cx-card best"><div class="cx-case">Time</div><div class="cx-val">Θ(d·(n+k))</div><div style="font-size:12px;color:var(--muted);margin-top:4px">d passes of Counting Sort</div></div>
+  <div class="cx-card avg"><div class="cx-case">When d = O(1), k = O(n)</div><div class="cx-val">Θ(n)</div><div style="font-size:12px;color:var(--muted);margin-top:4px">Linear time!</div></div>
+  <div class="cx-card space"><div class="cx-case">Space</div><div class="cx-val">O(n + k)</div></div>
+  <div class="cx-card worst"><div class="cx-case">Stability</div><div class="cx-val">STABLE ✓</div></div>
+</div>
+
+<div class="revision-box">
+  <h4>⚡ Quick Revision — Radix Sort</h4>
+  <ul>
+    <li>Sort digit by digit, starting from LSD (ones) → tens → hundreds</li>
+    <li>Use stable sort (Counting Sort) at each digit position</li>
+    <li>Time: Θ(d·(n+k)) · if d=O(1) and k=O(n) → Θ(n)</li>
+    <li class="warn">Must use STABLE sort at each pass — otherwise doesn't work</li>
+    <li>LSD Radix Sort: sort from least significant. MSD: from most significant (less common)</li>
+  </ul>
+</div>
+
+<hr class="divider">
+
+<!-- ════════════════════════════════════════════════════════════
+     TOPIC 7 — BUCKET SORT
+════════════════════════════════════════════════════════════ -->
+<div class="topic-header" id="bucket">
+  <h2><span class="topic-num">TOPIC 7</span> Bucket Sort</h2>
+  <div class="sub">Average O(n) · Uniform distribution · Insertion Sort on small buckets</div>
+</div>
+
+<div class="section-title">1. Concept Introduction</div>
+<p>Bucket Sort assumes input is drawn from a <em>uniform distribution</em> over [0, 1). The idea: divide [0,1) into n equal-sized buckets, throw each element into the corresponding bucket, sort each bucket, then concatenate.</p>
+
+<div class="section-title">3. Algorithm &amp; Pseudocode</div>
+
+<div class="algo-box">
+<div class="algo-title">ALGORITHM — BUCKET-SORT(A, n)</div>
+<span class="cm">// Input: A[0..n-1] where 0 ≤ A[i] &lt; 1
+// Each bucket = linked list</span>
+
+<span class="fn">BUCKET-SORT</span>(<span class="vr">A</span>, <span class="vr">n</span>):
+  <span class="kw">let</span> <span class="vr">B</span>[<span class="nm">0</span>..<span class="vr">n</span>−<span class="nm">1</span>] be new array of empty lists (buckets)
+  
+  <span class="cm">// Step 1: Distribute elements into buckets</span>
+  <span class="kw">for</span> <span class="vr">i</span> ← <span class="nm">0</span> <span class="kw">to</span> <span class="vr">n</span>−<span class="nm">1</span>
+    insert <span class="vr">A</span>[<span class="vr">i</span>] into bucket <span class="vr">B</span>[⌊<span class="vr">n</span> · <span class="vr">A</span>[<span class="vr">i</span>]⌋]
+  
+  <span class="cm">// Step 2: Sort each bucket (insertion sort)</span>
+  <span class="kw">for</span> <span class="vr">i</span> ← <span class="nm">0</span> <span class="kw">to</span> <span class="vr">n</span>−<span class="nm">1</span>
+    sort list <span class="vr">B</span>[<span class="vr">i</span>] with <span class="fn">INSERTION-SORT</span>
+  
+  <span class="cm">// Step 3: Concatenate all buckets</span>
+  concatenate lists <span class="vr">B</span>[<span class="nm">0</span>], <span class="vr">B</span>[<span class="nm">1</span>], ..., <span class="vr">B</span>[<span class="vr">n</span>−<span class="nm">1</span>] in order
+</div>
+
+<div class="section-title">4. Solved Example</div>
+<div class="card">
+  <div style="font-weight:700;color:#fff;margin-bottom:8px">Example: Sort A = [0.78, 0.17, 0.39, 0.26, 0.72, 0.94, 0.21, 0.12, 0.23, 0.68], n=10</div>
+  <p style="font-size:14px">Bucket index = ⌊10 × A[i]⌋</p>
+
+  <div class="trace-wrap" style="margin-top:10px">
+  <table class="trace-table">
+    <tr><th>Bucket</th><th>Range</th><th>Elements (unsorted)</th><th>After Insertion Sort</th></tr>
+    <tr><td>B[0]</td><td>[0.00, 0.10)</td><td>—</td><td>—</td></tr>
+    <tr><td>B[1]</td><td>[0.10, 0.20)</td><td class="active-cell">0.17, 0.12</td><td>0.12, 0.17</td></tr>
+    <tr><td>B[2]</td><td>[0.20, 0.30)</td><td class="active-cell">0.26, 0.21, 0.23</td><td>0.21, 0.23, 0.26</td></tr>
+    <tr><td>B[3]</td><td>[0.30, 0.40)</td><td class="active-cell">0.39</td><td>0.39</td></tr>
+    <tr><td>B[4..5]</td><td>[0.40, 0.60)</td><td>—</td><td>—</td></tr>
+    <tr><td>B[6]</td><td>[0.60, 0.70)</td><td class="active-cell">0.68</td><td>0.68</td></tr>
+    <tr><td>B[7]</td><td>[0.70, 0.80)</td><td class="active-cell">0.78, 0.72</td><td>0.72, 0.78</td></tr>
+    <tr><td>B[9]</td><td>[0.90, 1.00)</td><td class="active-cell">0.94</td><td>0.94</td></tr>
+  </table>
+  </div>
+  <strong style="color:var(--green-l)">✅ Sorted: [0.12, 0.17, 0.21, 0.23, 0.26, 0.39, 0.68, 0.72, 0.78, 0.94]</strong>
+</div>
+
+<div class="section-title">5. Complexity Analysis</div>
+<div class="complexity-grid">
+  <div class="cx-card best"><div class="cx-case">Average Case</div><div class="cx-val">Θ(n)</div><div style="font-size:12px;color:var(--muted);margin-top:4px">Uniform distribution assumed</div></div>
+  <div class="cx-card worst"><div class="cx-case">Worst Case</div><div class="cx-val">O(n²)</div><div style="font-size:12px;color:var(--muted);margin-top:4px">All in one bucket</div></div>
+  <div class="cx-card space"><div class="cx-case">Space</div><div class="cx-val">O(n)</div></div>
+  <div class="cx-card avg"><div class="cx-case">Stability</div><div class="cx-val">STABLE ✓</div></div>
+</div>
+
+<div class="card" style="margin-top:16px">
+  <div class="card-title" style="font-size:1rem">Sorting Algorithm Comparison — All Algorithms</div>
+  <div class="trace-wrap">
+  <table class="trace-table">
+    <tr>
+      <th>Algorithm</th>
+      <th>Best Case</th>
+      <th>Average Case</th>
+      <th>Worst Case</th>
+      <th>Space</th>
+      <th>Stable</th>
+      <th>In-place</th>
+    </tr>
+    <tr><td><strong>Bubble Sort</strong></td><td class="sorted-cell">O(n)</td><td>O(n²)</td><td class="swap-cell">O(n²)</td><td>O(1)</td><td>✓</td><td>✓</td></tr>
+    <tr><td><strong>Selection Sort</strong></td><td>O(n²)</td><td>O(n²)</td><td class="swap-cell">O(n²)</td><td>O(1)</td><td>✗</td><td>✓</td></tr>
+    <tr><td><strong>Insertion Sort</strong></td><td class="sorted-cell">O(n)</td><td>O(n²)</td><td class="swap-cell">O(n²)</td><td>O(1)</td><td>✓</td><td>✓</td></tr>
+    <tr><td><strong>Merge Sort</strong></td><td class="active-cell">O(n log n)</td><td class="active-cell">O(n log n)</td><td class="active-cell">O(n log n)</td><td>O(n)</td><td>✓</td><td>✗</td></tr>
+    <tr><td><strong>QuickSort</strong></td><td class="active-cell">O(n log n)</td><td class="active-cell">O(n log n)</td><td class="swap-cell">O(n²)</td><td>O(log n)</td><td>✗</td><td>✓</td></tr>
+    <tr><td><strong>HeapSort</strong></td><td class="active-cell">O(n log n)</td><td class="active-cell">O(n log n)</td><td class="active-cell">O(n log n)</td><td>O(1)</td><td>✗</td><td>✓</td></tr>
+    <tr><td><strong>Counting Sort</strong></td><td class="pivot-cell">O(n+k)</td><td class="pivot-cell">O(n+k)</td><td class="pivot-cell">O(n+k)</td><td>O(n+k)</td><td>✓</td><td>✗</td></tr>
+    <tr><td><strong>Radix Sort</strong></td><td class="pivot-cell">O(d(n+k))</td><td class="pivot-cell">O(d(n+k))</td><td class="pivot-cell">O(d(n+k))</td><td>O(n+k)</td><td>✓</td><td>✗</td></tr>
+    <tr><td><strong>Bucket Sort</strong></td><td class="pivot-cell">O(n)</td><td class="pivot-cell">O(n)</td><td class="swap-cell">O(n²)</td><td>O(n)</td><td>✓</td><td>✗</td></tr>
+  </table>
+  </div>
+</div>
+
+<div class="revision-box">
+  <h4>⚡ Quick Revision — Bucket Sort</h4>
+  <ul>
+    <li>Input must be uniformly distributed in [0, 1)</li>
+    <li>Bucket index = ⌊n × A[i]⌋ — maps elements to n buckets</li>
+    <li>Average: O(n) · Worst: O(n²) (all in one bucket)</li>
+    <li>Uses Insertion Sort within each bucket (good for small lists)</li>
+    <li class="warn">Works best when input is uniformly distributed</li>
+  </ul>
+</div>
+
+
+<hr class="divider">
+
+<!-- ════════════════════════════════════════════════════════════
+     TOPIC 8 — ORDER STATISTICS & SELECTION ALGORITHMS
+════════════════════════════════════════════════════════════ -->
+<div class="topic-header" id="selection">
+  <h2><span class="topic-num">TOPIC 8</span> Order Statistics &amp; Selection Algorithms</h2>
+  <div class="sub">Finding k-th smallest element · Randomized Select O(n) avg · Median-of-Medians O(n) worst</div>
+</div>
+
+<div class="section-title">1. Concept Introduction</div>
+<p>The <em>i-th order statistic</em> of a set of n numbers is the i-th smallest number. Special cases:</p>
+<ul style="margin:8px 0 0 24px;font-size:15px;display:flex;flex-direction:column;gap:5px">
+  <li><strong>Minimum</strong> = 1st order statistic (i=1)</li>
+  <li><strong>Maximum</strong> = n-th order statistic (i=n)</li>
+  <li><strong>Median</strong> = ⌊(n+1)/2⌋-th order statistic</li>
+</ul>
+
+<div class="info-box note" style="margin-top:12px">
+  <div class="box-label">📝 The Selection Problem</div>
+  <strong>Input:</strong> A set of n numbers and an integer i (1 ≤ i ≤ n)<br>
+  <strong>Output:</strong> The element x that is larger than exactly i−1 other elements<br>
+  <strong>Naive approach:</strong> Sort (O(n log n)) and return the i-th element. Can we do better?
+</div>
+
+<p style="margin-top:10px">YES! Using a partition-based approach (like QuickSort's partition), we can solve this in <strong>O(n) average time</strong>.</p>
+
+<div class="section-title">2. Finding Min and Max</div>
+
+<div class="algo-box">
+<div class="algo-title">MINIMUM(A, n) — O(n)</div>
+<span class="fn">MINIMUM</span>(<span class="vr">A</span>, <span class="vr">n</span>):
+  <span class="vr">min</span> ← <span class="vr">A</span>[<span class="nm">0</span>]
+  <span class="kw">for</span> <span class="vr">i</span> ← <span class="nm">1</span> <span class="kw">to</span> <span class="vr">n</span>−<span class="nm">1</span>
+    <span class="kw">if</span> <span class="vr">A</span>[<span class="vr">i</span>] < <span class="vr">min</span>
+      <span class="vr">min</span> ← <span class="vr">A</span>[<span class="vr">i</span>]
+  <span class="kw">return</span> <span class="vr">min</span>
+<span class="cm">// Comparisons: n-1 (optimal for finding just min or max)</span>
+
+<span class="cm">// SIMULTANEOUS MIN &amp; MAX — uses only ~3n/2 comparisons instead of 2n</span>
+<span class="fn">MIN-MAX</span>(<span class="vr">A</span>, <span class="vr">n</span>):
+  Process elements in pairs: compare A[i] vs A[i+1] first
+  → larger goes to "potential max" candidates
+  → smaller goes to "potential min" candidates
+  Then find max among max-candidates and min among min-candidates
+<span class="cm">// Total: 3⌊n/2⌋ comparisons</span>
+</div>
+
+<div class="section-title">3. Randomized Selection (RANDOMIZED-SELECT)</div>
+
+<div class="algo-box">
+<div class="algo-title">ALGORITHM — RANDOMIZED-SELECT(A, p, r, i)</div>
+<span class="cm">// Returns the i-th smallest element of A[p..r]
+// Uses random pivot for partition</span>
+
+<span class="fn">RANDOMIZED-SELECT</span>(<span class="vr">A</span>, <span class="vr">p</span>, <span class="vr">r</span>, <span class="vr">i</span>):
+  <span class="kw">if</span> <span class="vr">p</span> == <span class="vr">r</span>              <span class="cm">// Only one element</span>
+    <span class="kw">return</span> <span class="vr">A</span>[<span class="vr">p</span>]
+  
+  <span class="vr">q</span> ← <span class="fn">RANDOMIZED-PARTITION</span>(<span class="vr">A</span>, <span class="vr">p</span>, <span class="vr">r</span>)
+  <span class="vr">k</span> ← <span class="vr">q</span> − <span class="vr">p</span> + <span class="nm">1</span>           <span class="cm">// k = pivot's rank within A[p..r]</span>
+  
+  <span class="kw">if</span> <span class="vr">i</span> == <span class="vr">k</span>               <span class="cm">// Pivot IS the i-th smallest</span>
+    <span class="kw">return</span> <span class="vr">A</span>[<span class="vr">q</span>]
+  <span class="kw">elseif</span> <span class="vr">i</span> < <span class="vr">k</span>             <span class="cm">// i-th smallest is in LEFT subarray</span>
+    <span class="kw">return</span> <span class="fn">RANDOMIZED-SELECT</span>(<span class="vr">A</span>, <span class="vr">p</span>, <span class="vr">q</span>−<span class="nm">1</span>, <span class="vr">i</span>)
+  <span class="kw">else</span>                     <span class="cm">// i-th smallest is in RIGHT subarray</span>
+    <span class="kw">return</span> <span class="fn">RANDOMIZED-SELECT</span>(<span class="vr">A</span>, <span class="vr">q</span>+<span class="nm">1</span>, <span class="vr">r</span>, <span class="vr">i</span>−<span class="vr">k</span>)
+</div>
+
+<div class="section-title">4. Solved Example — Randomized Select</div>
+<div class="card">
+  <div style="font-weight:700;color:#fff;margin-bottom:10px">Example: Find 3rd smallest element in A = [3, 2, 9, 0, 7, 5, 4, 8, 6, 1]</div>
+  <p style="font-size:14px">n=10, find i=3 (3rd order statistic).</p>
+  <br>
+  <strong>Step 1:</strong> PARTITION with pivot = A[9] = 1 (Lomuto).<br>
+  Elements ≤ 1: {0, 1}. After partition: [0, <span class="pivot-cell" style="padding:2px 5px;border-radius:4px">1</span>, 9, 2, 7, 5, 4, 8, 6, 3]<br>
+  Pivot 1 is at index q=1. k = q-p+1 = 1-0+1 = 2.<br><br>
+  
+  <strong>Decision:</strong> i=3 > k=2 → Look in RIGHT subarray A[2..9], find (3−2=1)-st smallest.<br><br>
+  
+  <strong>Step 2:</strong> PARTITION([9,2,7,5,4,8,6,3]) with pivot = A[9] = 3.<br>
+  Elements ≤ 3: {2, 3}. After partition: [2, <span class="pivot-cell" style="padding:2px 5px;border-radius:4px">3</span>, 7, 5, 4, 8, 6, 9] (within that subarray).<br>
+  Pivot 3 at local index 1 (global q=3). k = 1-0+1 = 2.<br><br>
+  
+  <strong>Decision:</strong> i=1 < k=2 → Look in LEFT subarray A[2..2] = [2], find 1st smallest.<br><br>
+  
+  <strong>Step 3:</strong> Subarray has 1 element: return A[2] = 2.<br>
+  <strong style="color:var(--red-l)">Wait — let me re-check: 3rd smallest of [3,2,9,0,7,5,4,8,6,1].</strong><br>
+  Sorted: [0,1,2,3,4,5,6,7,8,9] → 3rd smallest = <strong style="color:var(--green-l)">2</strong> ✅
+</div>
+
+<div class="section-title">5. Worst-Case Linear Selection — Median of Medians</div>
+
+<div class="info-box tip">
+  <div class="box-label">📘 SELECT Algorithm — O(n) Worst Case</div>
+  RANDOMIZED-SELECT is O(n) on average but can be O(n²) in the worst case. The deterministic <strong>SELECT</strong> algorithm (Median of Medians) guarantees O(n) worst case.
+</div>
+
+<div class="algo-box">
+<div class="algo-title">SELECT ALGORITHM — Steps (Median of Medians)</div>
+<span class="kw">Step 1:</span> Divide the n elements into groups of 5 (last group may be &lt; 5).
+          → ⌈n/5⌉ groups total.
+
+<span class="kw">Step 2:</span> Find the <em>median</em> of each group by sorting (5 elements → O(1)).
+          → ⌈n/5⌉ medians.
+
+<span class="kw">Step 3:</span> Recursively call SELECT to find the median x of the ⌈n/5⌉ medians.
+          → x is a good pivot (guarantees ≥ 3n/10 elements below &amp; above).
+
+<span class="kw">Step 4:</span> Partition the array around x.
+
+<span class="kw">Step 5:</span> Recurse on the appropriate subarray.
+<span class="cm">// Recurrence: T(n) ≤ T(n/5) + T(7n/10) + O(n)
+// Solution: T(n) = O(n)</span>
+</div>
+
+<div class="section-title">4b. Solved Example — Order Statistics</div>
+<div class="card">
+  <div style="font-weight:700;color:#fff;margin-bottom:10px">Finding Median of [12, 3, 7, 19, 5, 1, 14, 8, 11, 2, 15, 9, 6, 4, 10]</div>
+  n = 15, median = 8th order statistic.<br><br>
+  <strong>Groups of 5:</strong><br>
+  Group 1: [12, 3, 7, 19, 5] → sorted [3,5,7,12,19] → median = <strong>7</strong><br>
+  Group 2: [1, 14, 8, 11, 2] → sorted [1,2,8,11,14] → median = <strong>8</strong><br>
+  Group 3: [15, 9, 6, 4, 10] → sorted [4,6,9,10,15] → median = <strong>9</strong><br><br>
+  <strong>Medians of medians: {7, 8, 9}</strong> → median = <strong>8</strong><br>
+  Use 8 as pivot. Partition around 8 and recurse as needed.
+</div>
+
+<div class="section-title">5. Complexity Analysis — Selection</div>
+<div class="complexity-grid">
+  <div class="cx-card best"><div class="cx-case">MIN / MAX</div><div class="cx-val">O(n)</div><div style="font-size:12px;color:var(--muted);margin-top:4px">One scan</div></div>
+  <div class="cx-card avg"><div class="cx-case">RANDOM-SELECT avg</div><div class="cx-val">O(n)</div><div style="font-size:12px;color:var(--muted);margin-top:4px">Expected linear</div></div>
+  <div class="cx-card worst"><div class="cx-case">RANDOM-SELECT worst</div><div class="cx-val">O(n²)</div><div style="font-size:12px;color:var(--muted);margin-top:4px">Unlikely with random pivot</div></div>
+  <div class="cx-card space"><div class="cx-case">SELECT (Median of Medians)</div><div class="cx-val">O(n) worst</div><div style="font-size:12px;color:var(--muted);margin-top:4px">Deterministic O(n)</div></div>
+</div>
+
+<div class="revision-box">
+  <h4>⚡ Quick Revision — Order Statistics &amp; Selection</h4>
+  <ul>
+    <li>i-th order statistic = i-th smallest element in a set</li>
+    <li>Minimum needs n−1 comparisons; Max also n−1; Both simultaneously: ≈3n/2</li>
+    <li>RANDOMIZED-SELECT: uses QuickSort partition, recurses on ONE side only → O(n) avg</li>
+    <li>After partition: if pivot rank k == i, done; if i&lt;k go left; if i>k go right (find i−k th)</li>
+    <li>SELECT (Median of Medians): groups of 5 → median of medians → guaranteed O(n) worst case</li>
+    <li class="warn">RANDOMIZED-SELECT recurrence on ONE subarray only (unlike QuickSort which does BOTH)</li>
+  </ul>
+</div>
+
+<hr class="divider">
+
+<!-- ════════════════════════════════════════════════════════════
+     ADDITIONAL PYQs — MERGE SORT (APPEARS IN ALL PAPERS)
+════════════════════════════════════════════════════════════ -->
+<div class="topic-header" id="mergesort">
+  <h2><span class="topic-num">BONUS</span> Merge Sort — Complete Reference</h2>
+  <div class="sub">🔥 Appears in all 5 papers · Divide &amp; Conquer · O(n log n) all cases · Stable</div>
+</div>
+
+<div class="section-title">Algorithm &amp; Pseudocode</div>
+
+<div class="algo-box">
+<div class="algo-title">ALGORITHM — MERGE-SORT &amp; MERGE</div>
+<span class="fn">MERGE-SORT</span>(<span class="vr">A</span>, <span class="vr">p</span>, <span class="vr">r</span>):
+  <span class="kw">if</span> <span class="vr">p</span> < <span class="vr">r</span>
+    <span class="vr">q</span> ← ⌊(<span class="vr">p</span>+<span class="vr">r</span>)/<span class="nm">2</span>⌋
+    <span class="fn">MERGE-SORT</span>(<span class="vr">A</span>, <span class="vr">p</span>, <span class="vr">q</span>)
+    <span class="fn">MERGE-SORT</span>(<span class="vr">A</span>, <span class="vr">q</span>+<span class="nm">1</span>, <span class="vr">r</span>)
+    <span class="fn">MERGE</span>(<span class="vr">A</span>, <span class="vr">p</span>, <span class="vr">q</span>, <span class="vr">r</span>)
+
+<span class="fn">MERGE</span>(<span class="vr">A</span>, <span class="vr">p</span>, <span class="vr">q</span>, <span class="vr">r</span>):
+  <span class="vr">n1</span> ← <span class="vr">q</span> − <span class="vr">p</span> + <span class="nm">1</span>  ; <span class="vr">n2</span> ← <span class="vr">r</span> − <span class="vr">q</span>
+  <span class="kw">let</span> L[<span class="nm">1</span>..<span class="vr">n1</span>+<span class="nm">1</span>] and R[<span class="nm">1</span>..<span class="vr">n2</span>+<span class="nm">1</span>]   <span class="cm">// +1 for sentinel</span>
+  L[<span class="nm">1</span>..<span class="vr">n1</span>] ← A[<span class="vr">p</span>..<span class="vr">q</span>]   ;  R[<span class="nm">1</span>..<span class="vr">n2</span>] ← A[<span class="vr">q</span>+<span class="nm">1</span>..<span class="vr">r</span>]
+  L[<span class="vr">n1</span>+<span class="nm">1</span>] ← ∞   ;   R[<span class="vr">n2</span>+<span class="nm">1</span>] ← ∞   <span class="cm">// Sentinels eliminate boundary checks</span>
+  <span class="vr">i</span> ← <span class="nm">1</span>  ;  <span class="vr">j</span> ← <span class="nm">1</span>
+  <span class="kw">for</span> <span class="vr">k</span> ← <span class="vr">p</span> <span class="kw">to</span> <span class="vr">r</span>
+    <span class="kw">if</span> L[<span class="vr">i</span>] ≤ R[<span class="vr">j</span>]
+      A[<span class="vr">k</span>] ← L[<span class="vr">i</span>]  ; <span class="vr">i</span>++
+    <span class="kw">else</span>
+      A[<span class="vr">k</span>] ← R[<span class="vr">j</span>]  ; <span class="vr">j</span>++
+</div>
+
+<!-- MergeSort: [11,6,3,24,46,22,7] SEE 2024 -->
+<div class="pyq-card hot">
+  <div class="pyq-meta"><span class="fire">🔥</span> SEE 2024 Q3a · MergeSort trace on [11, 6, 3, 24, 46, 22, 7]</div>
+  <div class="pyq-q">Illustrate the tracing of merge sort algorithm for: 11, 6, 3, 24, 46, 22, 7</div>
+  <div class="pyq-ans">
+    <div class="algo-box" style="border-left-color:var(--green)">
+<div class="algo-title">MERGE SORT SPLIT TREE</div>
+<pre style="color:var(--text);font-size:12px;line-height:1.9">
+Level 0: [11, 6, 3, 24, 46, 22, 7]
+          /                      \
+Level 1: [11, 6, 3]          [24, 46, 22, 7]
+         /       \             /            \
+Level 2: [11]   [6, 3]    [24, 46]        [22, 7]
+                 /   \     /    \           /   \
+Level 3:       [6]  [3]  [24] [46]        [22] [7]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+                    MERGE (bottom-up)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Merge [6]+[3]     → [3, 6]
+Merge [11]+[3,6]  → compare 11vs3→3, 11vs6→6, →11 = [3, 6, 11]
+Merge [24]+[46]   → [24, 46]
+Merge [22]+[7]    → [7, 22]
+Merge [24,46]+[7,22] → compare 24vs7→7, 24vs22→22, 24vs∞→24, 46 = [7, 22, 24, 46]
+Merge [3,6,11]+[7,22,24,46]:
+  compare 3vs7→3 | 6vs7→6 | 11vs7→7 | 11vs22→11 | ∞vs22→22,24,46
+  = [3, 6, 7, 11, 22, 24, 46]
+
+SORTED: [3, 6, 7, 11, 22, 24, 46] ✅
+</pre>
+    </div>
+  </div>
+</div>
+
+<!-- MergeSort: P,A,N,D,E,M,I,C,S,O,N — Makeup 2023 -->
+<div class="pyq-card">
+  <div class="pyq-meta">MAKEUP 2023 Q3b · MergeSort on {P, A, N, D, E, M, I, C, S, O, N}</div>
+  <div class="pyq-q">Sort {P, A, N, D, E, M, I, C, S, O, N} alphabetically using Merge Sort.</div>
+  <div class="pyq-ans">
+    <div class="algo-box" style="border-left-color:var(--green)">
+<div class="algo-title">MERGE SORT — ALPHABETICAL</div>
+<pre style="color:var(--text);font-size:12px;line-height:1.9">
+[P A N D E M I C S O N]
+    /                 \
+[P A N D E]        [M I C S O N]
+  /      \            /        \
+[P A]   [N D E]   [M I C]   [S O N]
+ / \    /    \    /    \    /     \
+[P][A] [N] [D E] [M] [I C] [S]  [O N]
+         |   |        |          |
+       [N] [D,E]  [I,C]→[C,I] [O,N]→[N,O]
+
+━━━━━━ MERGE PASSES ━━━━━━
+[P]+[A]     → [A, P]
+[D]+[E]     → [D, E]
+[N]+[D,E]   → [D, E, N]
+[A,P]+[D,E,N] → [A, D, E, N, P]
+[I]+[C]     → [C, I]
+[M]+[C,I]   → [C, I, M]
+[O]+[N]     → [N, O]
+[S]+[N,O]   → [N, O, S]
+[C,I,M]+[N,O,S] → [C, I, M, N, O, S]
+[A,D,E,N,P]+[C,I,M,N,O,S]:
+  A,C,D,E,I,M,N,N,O,P,S
+
+SORTED: [A, C, D, E, I, M, N, N, O, P, S] ✅
+</pre>
+    </div>
+  </div>
+</div>
+
+<!-- Complexity Analysis — Merge Sort -->
+<div class="section-title">Merge Sort Complexity — Derivation</div>
+<div class="card">
+  <p><strong>Recurrence:</strong> T(n) = 2T(n/2) + Θ(n), T(1) = 1</p>
+  <br>
+  <strong>Method 1 — Master Theorem:</strong><br>
+  a=2, b=2, f(n)=n<br>
+  n^(log_b a) = n^(log_2 2) = n^1 = n<br>
+  f(n) = Θ(n) = Θ(n^1) → Case 2: T(n) = Θ(n log n)<br><br>
+  
+  <strong>Method 2 — Backward Substitution (for exam):</strong>
+  <div class="algo-box" style="border-left-color:var(--green);margin-top:8px">
+<pre style="color:var(--text);font-size:13px;line-height:1.8">
+T(n) = 2T(n/2) + cn
+     = 2[2T(n/4) + c(n/2)] + cn
+     = 4T(n/4) + cn + cn
+     = 4T(n/4) + 2cn
+     = 4[2T(n/8) + c(n/4)] + 2cn
+     = 8T(n/8) + 3cn
+     ...
+     = 2^k T(n/2^k) + k·cn
+
+When n/2^k = 1 → k = log₂n, 2^k = n
+
+T(n) = n·T(1) + log₂n · cn
+     = n·1 + cn log₂n
+     = Θ(n log n)   ✅
+</pre>
+  </div>
+</div>
+
+<div class="complexity-grid">
+  <div class="cx-card best"><div class="cx-case">Best Case</div><div class="cx-val">O(n log n)</div></div>
+  <div class="cx-card avg"><div class="cx-case">Average Case</div><div class="cx-val">O(n log n)</div></div>
+  <div class="cx-card worst"><div class="cx-case">Worst Case</div><div class="cx-val">O(n log n)</div></div>
+  <div class="cx-card space"><div class="cx-case">Space</div><div class="cx-val">O(n)</div><div style="font-size:12px;color:var(--muted);margin-top:4px">NOT in-place</div></div>
+</div>
+
+<div class="revision-box">
+  <h4>⚡ Quick Revision — Merge Sort</h4>
+  <ul>
+    <li>Divide: split at midpoint ⌊(p+r)/2⌋ · Conquer: recursively sort halves · Combine: MERGE</li>
+    <li>O(n log n) in ALL cases — best, average, worst</li>
+    <li>Stable sort · NOT in-place (requires O(n) auxiliary space)</li>
+    <li>Preferred for sorting linked lists (no random access needed)</li>
+    <li class="warn">Space = O(n) is a disadvantage vs HeapSort (O(1)) and QuickSort (O(log n) stack)</li>
+    <li>Recurrence T(n)=2T(n/2)+n → solved by Master Theorem Case 2 → Θ(n log n)</li>
+  </ul>
+</div>
+
+<hr class="divider">
+
+<!-- ════════════════════════════════════════════════════════════
+     FINAL UNIT SUMMARY
+════════════════════════════════════════════════════════════ -->
+<div class="card" style="border-top:3px solid var(--amber);margin-top:16px">
+  <div class="card-title">Unit 2 — Master Summary &amp; Exam Checklist</div>
+
+  <div class="grid2">
+    <div>
+      <div style="font-weight:700;color:var(--blue-l);margin-bottom:10px">Most Likely Questions (Based on PYQ Analysis)</div>
+      <div class="step-list">
+        <div class="step-item">
+          <div class="step-num" style="background:var(--red);color:#fff">1</div>
+          <div class="step-content"><strong>Build Max-Heap + HeapSort</strong> on [1,8,6,5,3,7,4] — appears verbatim in 2 papers. Know this cold.</div>
+        </div>
+        <div class="step-item">
+          <div class="step-num" style="background:var(--red);color:#fff">2</div>
+          <div class="step-content"><strong>QuickSort trace</strong> on [2,7,8,3,1,9,5,6,3] — same array in Makeup'23 and SEE'24. Know partition step.</div>
+        </div>
+        <div class="step-item">
+          <div class="step-num" style="background:var(--amber);color:#000">3</div>
+          <div class="step-content"><strong>MergeSort trace</strong> on arbitrary array — know split tree and merge steps.</div>
+        </div>
+        <div class="step-item">
+          <div class="step-num" style="background:var(--amber);color:#000">4</div>
+          <div class="step-content"><strong>QuickSort worst case derivation</strong> — T(n)=T(n-1)+n → O(n²). Always asked alongside trace.</div>
+        </div>
+        <div class="step-item">
+          <div class="step-num" style="background:var(--green);color:#000">5</div>
+          <div class="step-content"><strong>Counting/Radix/Bucket Sort concepts</strong> — likely 5-mark theory question, know the 4-step algorithm.</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div style="font-weight:700;color:var(--amber);margin-bottom:10px">Key Formulas to Memorize</div>
+      <div class="algo-box" style="font-size:13px">
+        <div class="algo-title">FORMULAS SHEET</div>
+Heap indices (1-indexed):
+  PARENT(i) = ⌊i/2⌋
+  LEFT(i)   = 2i
+  RIGHT(i)  = 2i+1
+  Last non-leaf = ⌊n/2⌋
+
+Complexities:
+  HeapSort:  O(n log n) all cases, O(1) space
+  QuickSort: O(n log n) avg, O(n²) worst
+  MergeSort: O(n log n) all cases, O(n) space
+  CountSort: Θ(n+k)
+  RadixSort: Θ(d·(n+k))
+  BucketSort:Θ(n) avg, O(n²) worst
+
+Recurrences:
+  MergeSort: T(n)=2T(n/2)+n  → Θ(n log n)
+  QuickSort best:  2T(n/2)+n → Θ(n log n)
+  QuickSort worst: T(n-1)+n  → Θ(n²)
+
+Lower bound for comparison sorting:
+  Ω(n log n)  ← cannot be beaten by comparison-based
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- end .container -->
+
+<!-- ══ FOOTER ══ -->
+<div style="background:var(--surface2);border-top:1px solid var(--border);padding:20px 24px;text-align:center">
+  <p style="color:var(--muted);font-size:13px">DAA Unit 2 Notes · MSRIT IS43 · Prepared based on SEE 2025, 2024, 2023(O), 2023, Makeup 2023 PYQs</p>
+  <p style="color:var(--muted);font-size:12px;margin-top:4px">Covers all 8 topics: Heap · HeapSort · Priority Queue · QuickSort · Counting Sort · Radix Sort · Bucket Sort · Order Statistics</p>
+</div>
+
+</body>
+</html>

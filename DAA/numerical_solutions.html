@@ -1,0 +1,1412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DAA — Solved Weekly Numerical Tests & Problems | MSRIT IS43</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:        #0d1117;
+  --bg2:       #161b22;
+  --bg3:       #1c2333;
+  --border:    #30363d;
+  --text:      #e6edf3;
+  --muted:     #8b949e;
+  --accent:    #00d4aa;
+  --accent2:   #f0883e;
+  --accent3:   #58a6ff;
+  --danger:    #ff7b72;
+  --green:     #3fb950;
+  --purple:    #d2a8ff;
+  --yellow:    #e3b341;
+  --code-bg:   #161b22;
+  --shadow:    0 4px 32px rgba(0,0,0,0.5);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Lora',Georgia,serif;
+  font-size:16px;
+  line-height:1.75;
+}
+
+/* ─── LAYOUT ─── */
+.page-wrap{max-width:1100px;margin:0 auto;padding:0 24px 80px;}
+
+/* ─── HERO BANNER ─── */
+.hero{
+  background:linear-gradient(135deg,#0d1117 0%,#241a44 40%,#0d2b27 100%);
+  border-bottom:2px solid var(--accent);
+  padding:56px 24px 44px;
+  position:relative;
+  overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 60% 80% at 80% 20%,rgba(0,212,170,0.12),transparent);
+}
+.hero-inner{max-width:1100px;margin:0 auto;position:relative;}
+.hero-badge{
+  display:inline-block;
+  background:rgba(0,212,170,0.15);
+  border:1px solid rgba(0,212,170,0.4);
+  color:var(--accent);
+  font-family:'Syne',sans-serif;
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  padding:4px 14px;
+  border-radius:20px;
+  margin-bottom:16px;
+}
+.hero h1{
+  font-family:'Syne',sans-serif;
+  font-size:clamp(28px,5vw,46px);
+  font-weight:800;
+  line-height:1.1;
+  color:#fff;
+  margin-bottom:12px;
+}
+.hero h1 span{color:var(--accent);}
+.hero-sub{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:13px;
+  color:var(--muted);
+  letter-spacing:1px;
+}
+.hero-meta{
+  display:flex;gap:24px;flex-wrap:wrap;margin-top:28px;
+}
+.hero-pill{
+  background:rgba(255,255,255,0.06);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:8px 16px;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:12px;
+  color:var(--muted);
+}
+.hero-pill strong{color:var(--text);}
+
+/* ─── TOC ─── */
+.toc-card{
+  background:var(--bg2);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:28px 32px;
+  margin:40px 0;
+  position:relative;
+  overflow:hidden;
+}
+.toc-card::before{
+  content:'';position:absolute;top:0;left:0;width:4px;height:100%;
+  background:linear-gradient(180deg,var(--accent),var(--accent3));
+}
+.toc-title{
+  font-family:'Syne',sans-serif;
+  font-size:13px;
+  font-weight:700;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:16px;
+}
+.toc-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:8px;
+}
+.toc-item{
+  display:flex;align-items:flex-start;gap:10px;
+  padding:8px 10px;
+  border-radius:6px;
+  text-decoration:none;
+  color:var(--text);
+  font-family:'IBM Plex Mono',monospace;
+  font-size:13px;
+  transition:background .15s,color .15s;
+}
+.toc-item:hover{background:rgba(0,212,170,0.1);color:var(--accent);}
+.toc-num{
+  color:var(--accent);font-weight:600;min-width:28px;
+}
+
+/* ─── SECTION HEADERS ─── */
+.unit-section{margin-top:72px;}
+.section-label{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:8px;
+}
+.section-title{
+  font-family:'Syne',sans-serif;
+  font-size:clamp(22px,4vw,32px);
+  font-weight:800;
+  color:#fff;
+  line-height:1.15;
+  border-bottom:2px solid var(--border);
+  padding-bottom:16px;
+  margin-bottom:28px;
+}
+.section-title .accent{color:var(--accent);}
+
+/* ─── TOPIC CARDS ─── */
+.topic-block{
+  background:var(--bg2);
+  border:1px solid var(--border);
+  border-radius:14px;
+  margin-bottom:40px;
+  overflow:hidden;
+}
+.topic-header{
+  background:linear-gradient(90deg,var(--bg3),var(--bg2));
+  border-bottom:1px solid var(--border);
+  padding:20px 28px;
+  display:flex;align-items:center;gap:14px;
+}
+.topic-num{
+  background:var(--accent);
+  color:#000;
+  font-family:'Syne',sans-serif;
+  font-size:13px;
+  font-weight:800;
+  width:36px;height:36px;
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.topic-name{
+  font-family:'Syne',sans-serif;
+  font-size:18px;
+  font-weight:700;
+  color:#fff;
+}
+.topic-body{padding:28px;}
+
+/* ─── SUB-SECTIONS ─── */
+.sub-section{margin-bottom:28px;}
+.sub-title{
+  font-family:'Syne',sans-serif;
+  font-size:15px;
+  font-weight:700;
+  color:var(--accent3);
+  margin-bottom:10px;
+  display:flex;align-items:center;gap:8px;
+}
+.sub-title::before{
+  content:'';
+  display:inline-block;
+  width:3px;height:18px;
+  background:var(--accent3);
+  border-radius:2px;
+}
+
+/* ─── CALLOUT BOXES ─── */
+.callout{
+  border-radius:10px;
+  padding:16px 20px;
+  margin:16px 0;
+  border-left:4px solid;
+  font-size:15px;
+}
+.callout.info{background:rgba(88,166,255,0.08);border-color:var(--accent3);}
+.callout.warning{background:rgba(240,136,62,0.08);border-color:var(--accent2);}
+.callout.success{background:rgba(63,185,80,0.08);border-color:var(--green);}
+.callout.danger{background:rgba(255,123,114,0.08);border-color:var(--danger);}
+.callout.formula{background:rgba(0,212,170,0.08);border-color:var(--accent);}
+.callout-title{
+  font-family:'Syne',sans-serif;
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
+.callout.info .callout-title{color:var(--accent3);}
+.callout.warning .callout-title{color:var(--accent2);}
+.callout.success .callout-title{color:var(--green);}
+.callout.danger .callout-title{color:var(--danger);}
+.callout.formula .callout-title{color:var(--accent);}
+
+/* ─── CODE BLOCKS ─── */
+pre{
+  background:var(--code-bg);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:20px;
+  overflow-x:auto;
+  margin:14px 0;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:13px;
+  line-height:1.65;
+  color:#cdd9e5;
+}
+code{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:13px;
+  background:rgba(110,118,129,0.2);
+  border-radius:4px;
+  padding:1px 6px;
+  color:var(--accent);
+}
+pre code{background:none;padding:0;color:#cdd9e5;}
+
+/* ─── TABLES ─── */
+.table-wrap{overflow-x:auto;margin:16px 0;}
+table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:14px;
+  font-family:'IBM Plex Mono',monospace;
+}
+th{
+  background:var(--bg3);
+  color:var(--accent);
+  font-weight:700;
+  padding:10px 14px;
+  text-align:left;
+  border:1px solid var(--border);
+  font-size:12px;
+  letter-spacing:0.5px;
+  text-transform:uppercase;
+}
+td{
+  padding:9px 14px;
+  border:1px solid var(--border);
+  color:var(--text);
+  vertical-align:top;
+}
+tr:nth-child(even) td{background:rgba(255,255,255,0.02);}
+tr:hover td{background:rgba(0,212,170,0.05);}
+.td-hi{color:var(--accent);font-weight:600;}
+.td-num{color:var(--accent2);}
+
+/* ─── QUICK REVISION BOX ─── */
+.qr-box{
+  background:linear-gradient(135deg,rgba(0,212,170,0.06),rgba(88,166,255,0.06));
+  border:1px solid rgba(0,212,170,0.25);
+  border-radius:12px;
+  padding:22px;
+  margin-top:24px;
+}
+.qr-title{
+  font-family:'Syne',sans-serif;
+  font-size:14px;
+  font-weight:800;
+  color:var(--accent);
+  letter-spacing:1px;
+  text-transform:uppercase;
+  margin-bottom:14px;
+  display:flex;align-items:center;gap:8px;
+}
+.qr-title::before{content:'⚡';}
+.qr-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;}
+.qr-item{
+  display:flex;gap:8px;align-items:flex-start;
+  font-size:14px;color:var(--text);
+}
+.qr-item::before{
+  content:'✔';color:var(--green);font-weight:700;flex-shrink:0;margin-top:2px;
+}
+
+/* ─── MATH ─── */
+.math{
+  font-family:'IBM Plex Mono',monospace;
+  background:rgba(0,212,170,0.08);
+  border:1px solid rgba(0,212,170,0.2);
+  border-radius:6px;
+  padding:12px 16px;
+  display:block;
+  margin:12px 0;
+  color:var(--accent);
+  font-size:14px;
+  text-align:center;
+}
+.math.left{text-align:left;}
+.inline-math{
+  font-family:'IBM Plex Mono',monospace;
+  color:var(--accent);
+  font-size:13px;
+  background:rgba(0,212,170,0.08);
+  border-radius:3px;
+  padding:1px 5px;
+}
+
+/* ─── DIVIDER ─── */
+.divider{
+  border:none;
+  border-top:1px solid var(--border);
+  margin:32px 0;
+}
+
+/* ─── ANIMATION ─── */
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(16px);}
+  to{opacity:1;transform:translateY(0);}
+}
+.topic-block{animation:fadeUp .4s ease both;}
+
+/* ─── GRAPH GRID DISPLAY ─── */
+.graph-display{
+  background:#090d16;
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:20px;
+  margin:16px 0;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:13px;
+  color:var(--muted);
+  overflow-x:auto;
+}
+
+@media print{
+  body{background:#fff;color:#000;}
+  .topic-block,.toc-card,.callout{break-inside:avoid;}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════ HERO ═══════════════════════════════ -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">MSRIT IS43 · Sec B · Practical Hub</div>
+    <h1>Weekly Numerical Tests: <span>Full Solved Manual</span></h1>
+    <p class="hero-sub">// Complete solutions for all Dynamic Programming, Greedy, and Graph Algorithm tests</p>
+    <div class="hero-meta">
+      <div class="hero-pill"><strong>DP &amp; Greedy:</strong> MCM · LCS · OBST · Huffman</div>
+      <div class="hero-pill"><strong>MST Algorithms:</strong> Kruskal · Prim's (with Union-Find &amp; PQs)</div>
+      <div class="hero-pill"><strong>Shortest Paths:</strong> Dijkstra · Bellman-Ford · Floyd-Warshall</div>
+      <div class="hero-pill"><strong>Topological:</strong> Source Removal &amp; DFS Orderings</div>
+    </div>
+  </div>
+</div>
+
+<div class="page-wrap">
+
+<!-- ═══════════════════════════════ UNIT OVERVIEW ═══════════════════════════════ -->
+<div class="toc-card">
+  <div class="toc-title">📋 Worksheet Navigation Hub</div>
+  <div class="toc-grid">
+    <a href="#dp" class="toc-item"><span class="toc-num">01-04</span>Dynamic Programming &amp; Greedy (23/4/26)</a>
+    <a href="#mst" class="toc-item"><span class="toc-num">05-07</span>Minimum Spanning Trees (16/5/26)</a>
+    <a href="#ts" class="toc-item"><span class="toc-num">08</span>Topological Sorting (16/5/26)</a>
+    <a href="#sp" class="toc-item"><span class="toc-num">09-12</span>Shortest Path Algorithms (16/5/26)</a>
+  </div>
+
+  <div style="margin-top:20px;">
+    <div class="callout warning">
+      <div class="callout-title">⚡ High-Value Numerical Master Guide</div>
+      This document contains <strong>100% complete, rigorous mathematical solutions</strong> to every question in the DAA Sec-B Weekly Numerical Tests worksheet. Every algorithm trace includes exact tables, equations, intermediate matrices, and structures required to secure maximum marks in CIE and SEE.
+    </div>
+  </div>
+</div>
+
+<!-- ======================= DYNAMIC PROGRAMMING & GREEDY ======================= -->
+<div class="unit-section" id="dp">
+  <div class="section-label">Session 23/4/26</div>
+  <div class="section-title">Dynamic Programming &amp; <span class="accent">Greedy Algorithms</span></div>
+
+  <!-- Q1: MCM -->
+  <div class="topic-block">
+    <div class="topic-header">
+      <div class="topic-num">1</div>
+      <div class="topic-name">Matrix Chain Multiplication: A(10×8) × B(8×7) × C(7×2)</div>
+    </div>
+    <div class="topic-body">
+      <div class="sub-section">
+        <div class="sub-title">1. Problem Specification</div>
+        <p>Find the optimal multiplication sequence for three matrices <span class="inline-math">A<sub>1</sub>(10 &times; 8)</span>, <span class="inline-math">A<sub>2</sub>(8 &times; 7)</span>, and <span class="inline-math">A<sub>3</sub>(7 &times; 2)</span>.</p>
+        <div class="callout info">
+          <strong>Dimensions:</strong> <span class="inline-math">p<sub>0</sub> = 10,&nbsp; p<sub>1</sub> = 8,&nbsp; p<sub>2</sub> = 7,&nbsp; p<sub>3</sub> = 2</span><br>
+          <strong>Chain length:</strong> <span class="inline-math">n = 3</span> (matrices indexed 1 to 3)
+        </div>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">2. Recurrence Relation &amp; Principles</div>
+        <p>The minimum cost <span class="inline-math">m[i, j]</span> to multiply matrices from index <span class="inline-math">i</span> to <span class="inline-math">j</span> is given by:</p>
+        <span class="math">m[i, j] = min<sub>i &le; k < j</sub> { m[i, k] + m[k+1, j] + p<sub>i-1</sub>p<sub>k</sub> p<sub>j</sub> }</span>
+        <p>For base cases where <span class="inline-math">i = j</span>, <span class="inline-math">m[i, i] = 0</span>.</p>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">3. Step-by-Step Dynamic Programming Calculations</div>
+        <p><strong>Step 1: Base Cases (Chain Length <span class="inline-math">l = 1</span>)</strong></p>
+        <span class="math">m[1, 1] = 0, &nbsp;&nbsp;&nbsp;&nbsp; m[2, 2] = 0, &nbsp;&nbsp;&nbsp;&nbsp; m[3, 3] = 0</span>
+
+        <p><strong>Step 2: Chain Length <span class="inline-math">l = 2</span></strong></p>
+        <ul>
+          <li><strong>Compute <span class="inline-math">m[1, 2]</span> (Multiplying <span class="inline-math">A &times; B</span>):</strong><br>
+            <span class="inline-math">m[1, 2] = m[1, 1] + m[2, 2] + p<sub>0</sub> p<sub>1</sub> p<sub>2</sub> = 0 + 0 + 10 &times; 8 &times; 7 = 560</span><br>
+            Split point: <span class="inline-math">s[1, 2] = 1</span>
+          </li>
+          <li style="margin-top:10px;"><strong>Compute <span class="inline-math">m[2, 3]</span> (Multiplying <span class="inline-math">B &times; C</span>):</strong><br>
+            <span class="inline-math">m[2, 3] = m[2, 2] + m[3, 3] + p<sub>1</sub> p<sub>2</sub> p<sub>3</sub> = 0 + 0 + 8 &times; 7 &times; 2 = 112</span><br>
+            Split point: <span class="inline-math">s[2, 3] = 2</span>
+          </li>
+        </ul>
+
+        <p style="margin-top:15px;"><strong>Step 3: Chain Length <span class="inline-math">l = 3</span></strong></p>
+        <ul>
+          <li><strong>Compute <span class="inline-math">m[1, 3]</span> (Multiplying <span class="inline-math">A &times; B &times; C</span>):</strong><br>
+            We evaluate the two possible split points <span class="inline-math">k = 1</span> and <span class="inline-math">k = 2</span>:
+            <div style="margin-top:8px; padding-left:15px;">
+              <strong>For <span class="inline-math">k = 1</span> (Grouping <span class="inline-math">A &times; (BC)</span>):</strong><br>
+              <span class="inline-math">Cost<sub>1</sub> = m[1, 1] + m[2, 3] + p<sub>0</sub> p<sub>1</sub> p<sub>3</sub> = 0 + 112 + (10 &times; 8 &times; 2) = 112 + 160 = 272</span>
+            </div>
+            <div style="margin-top:8px; padding-left:15px;">
+              <strong>For <span class="inline-math">k = 2</span> (Grouping <span class="inline-math">(AB) &times; C</span>):</strong><br>
+              <span class="inline-math">Cost<sub>2</sub> = m[1, 2] + m[3, 3] + p<sub>0</sub> p<sub>2</sub> p<sub>3</sub> = 560 + 0 + (10 &times; 7 &times; 2) = 560 + 140 = 700</span>
+            </div>
+            <div style="margin-top:8px;">
+              Taking the minimum: <span class="inline-math">m[1, 3] = min(272, 700) = 272</span><br>
+              Optimal split point: <span class="inline-math">s[1, 3] = 1</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">4. DP Tables (m-table and s-table)</div>
+        <div class="table-wrap">
+          <table style="text-align:center;">
+            <thead>
+              <tr>
+                <th colspan="4">Cost Table m[i, j]</th>
+                <th colspan="4">Split Table s[i, j]</th>
+              </tr>
+              <tr>
+                <th>i \ j</th><th>1</th><th>2</th><th>3</th>
+                <th>i \ j</th><th>1</th><th>2</th><th>3</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="td-hi">1</td><td>0</td><td class="td-num">560</td><td class="td-num" style="background:rgba(0,212,170,0.15)">272</td>
+                <td class="td-hi">1</td><td>—</td><td class="td-num">1</td><td class="td-num" style="color:var(--accent)">1</td>
+              </tr>
+              <tr>
+                <td class="td-hi">2</td><td>—</td><td>0</td><td class="td-num">112</td>
+                <td class="td-hi">2</td><td>—</td><td>—</td><td class="td-num">2</td>
+              </tr>
+              <tr>
+                <td class="td-hi">3</td><td>—</td><td>—</td><td>0</td>
+                <td class="td-hi">3</td><td>—</td><td>—</td><td>—</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">5. Final Solution &amp; Parenthesization</div>
+        <div class="callout success">
+          <strong>Optimal Multiplication Sequence:</strong> <span class="inline-math">(A &times; (B &times; C))</span> or simply <span class="inline-math">A(BC)</span><br>
+          <strong>Minimum Scalar Multiplications:</strong> <span style="color:var(--green); font-weight:700">272 multiplications</span><br>
+          <strong>Detailed operations:</strong> Multiply B (8×7) and C (7×2) at a cost of 112 operations, giving product BC (8×2). Then multiply A (10×8) by BC (8×2) at a cost of 160 operations. Total cost = 112 + 160 = 272.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q2: LCS -->
+  <div class="topic-block">
+    <div class="topic-header">
+      <div class="topic-num">2</div>
+      <div class="topic-name">Longest Common Subsequence (LCS): CGAGCT and ATGCAT</div>
+    </div>
+    <div class="topic-body">
+      <div class="sub-section">
+        <div class="sub-title">1. Problem Specification</div>
+        <p>Derive the LCS for the strings <span class="inline-math">X = {CGAGCT}</span> (length <span class="inline-math">m = 6</span>) and <span class="inline-math">Y = {ATGCAT}</span> (length <span class="inline-math">n = 6</span>).</p>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">2. LCS Tabulation Grid</div>
+        <p>Applying the standard LCS recurrence: <span class="inline-math">c[i, j] = c[i-1, j-1] + 1</span> if <span class="inline-math">X[i] = Y[j]</span>, else <span class="inline-math">max(c[i-1, j], c[i, j-1])</span>.</p>
+        
+        <div class="table-wrap">
+          <table style="text-align:center;">
+            <thead>
+              <tr>
+                <th>c[i,j]</th>
+                <th>y_j</th>
+                <th>-</th>
+                <th>A</th>
+                <th>T</th>
+                <th>G</th>
+                <th>C</th>
+                <th>A</th>
+                <th>T</th>
+              </tr>
+              <tr>
+                <th>x_i</th>
+                <th>j</th>
+                <th>0</th>
+                <th>1</th>
+                <th>2</th>
+                <th>3</th>
+                <th>4</th>
+                <th>5</th>
+                <th>6</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td class="td-hi">-</td><td class="td-hi">0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+              <tr><td class="td-hi">C</td><td class="td-hi">1</td><td>0</td><td>0</td><td>0</td><td>0</td><td style="background:rgba(88,166,255,0.15); font-weight:700">1 ↖</td><td>1 ←</td><td>1 ←</td></tr>
+              <tr><td class="td-hi">G</td><td class="td-hi">2</td><td>0</td><td>0</td><td>0</td><td style="background:rgba(88,166,255,0.15); font-weight:700">1 ↖</td><td>1 ↑</td><td>1 ←</td><td>1 ←</td></tr>
+              <tr><td class="td-hi">A</td><td class="td-hi">3</td><td>0</td><td style="background:rgba(0,212,170,0.15); font-weight:700">1 ↖</td><td>1 ←</td><td>1 ↑</td><td>1 ↑</td><td style="background:rgba(88,166,255,0.15); font-weight:700">2 ↖</td><td>2 ←</td></tr>
+              <tr><td class="td-hi">G</td><td class="td-hi">4</td><td>0</td><td>1 ↑</td><td>1 ↑</td><td style="background:rgba(0,212,170,0.15); font-weight:700">2 ↖</td><td>2 ↑ or ←</td><td>2 ↑</td><td>2 ↑</td></tr>
+              <tr><td class="td-hi">C</td><td class="td-hi">5</td><td>0</td><td>1 ↑</td><td>1 ↑</td><td>2 ↑</td><td style="background:rgba(0,212,170,0.15); font-weight:700">3 ↖</td><td>3 ←</td><td>3 ←</td></tr>
+              <tr><td class="td-hi">T</td><td class="td-hi">6</td><td>0</td><td>1 ↑</td><td style="background:rgba(0,212,170,0.15); font-weight:700">2 ↖</td><td>2 ↑ or ←</td><td>3 ↑</td><td>3 ↑</td><td style="background:rgba(0,212,170,0.15); font-weight:700; border:2px solid var(--accent)">4 ↖</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="font-size:12px; color:var(--muted)">Note: Shaded cells represent matching characters. Cells marked with ↖ indicate a match which increments the LCS count.</p>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">3. Traceback Path &amp; Reconstruction</div>
+        <p>Start from cell <span class="inline-math">(6,6) = 4</span> and trace backwards following the arrows:</p>
+        <ol class="algo-steps">
+          <li>At <span class="inline-math">(6,6)</span>, <span class="inline-math">X[6] = Y[6] = {'T'}</span>. Match! Add <strong>'T'</strong> to LCS, move to <span class="inline-math">(5,5)</span>.</li>
+          <li>At <span class="inline-math">(5,5)</span>, <span class="inline-math">X[5] = {'C'}</span>, <span class="inline-math">Y[5] = {'A'}</span>. No match. <span class="inline-math">c[4,5]=2</span>, <span class="inline-math">c[5,4]=3</span>. Move to max cell <span class="inline-math">(5,4)</span>.</li>
+          <li>At <span class="inline-math">(5,4)</span>, <span class="inline-math">X[5] = Y[4] = {'C'}</span>. Match! Add <strong>'C'</strong> to LCS, move to <span class="inline-math">(4,3)</span>.</li>
+          <li>At <span class="inline-math">(4,3)</span>, <span class="inline-math">X[4] = Y[3] = {'G'}</span>. Match! Add <strong>'G'</strong> to LCS, move to <span class="inline-math">(3,2)</span>.</li>
+          <li>At <span class="inline-math">(3,2)</span>, <span class="inline-math">X[3] = {'A'}</span>, <span class="inline-math">Y[2] = {'T'}</span>. No match. <span class="inline-math">c[2,2]=0</span>, <span class="inline-math">c[3,1]=1</span>. Move to max cell <span class="inline-math">(3,1)</span>.</li>
+          <li>At <span class="inline-math">(3,1)</span>, <span class="inline-math">X[3] = Y[1] = {'A'}</span>. Match! Add <strong>'A'</strong> to LCS, move to <span class="inline-math">(2,0)</span>.</li>
+          <li>At <span class="inline-math">(2,0)</span>, column index is 0. Terminate tracing.</li>
+        </ol>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">4. Final LCS Result</div>
+        <div class="callout success">
+          <strong>Longest Common Subsequence:</strong> <span style="font-family:'IBM Plex Mono'; font-weight:700; color:var(--accent)">A - G - C - T</span> (or "AGCT")<br>
+          <strong>LCS Length:</strong> 4 characters
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q3: OBST -->
+  <div class="topic-block">
+    <div class="topic-header">
+      <div class="topic-num">3</div>
+      <div class="topic-name">Optimal Binary Search Tree (OBST): Nodes A, B, C, D</div>
+    </div>
+    <div class="topic-body">
+      <div class="sub-section">
+        <div class="sub-title">1. Problem Specification</div>
+        <p>Compute the Optimal BST for keys <span class="inline-math">K<sub>1</sub> = A</span>, <span class="inline-math">K<sub>2</sub> = B</span>, <span class="inline-math">K<sub>3</sub> = C</span>, <span class="inline-math">K<sub>4</sub> = D</span> with search probabilities:</p>
+        <span class="math">p<sub>1</sub> = 0.15, &nbsp;&nbsp;&nbsp;&nbsp; p<sub>2</sub> = 0.30, &nbsp;&nbsp;&nbsp;&nbsp; p<sub>3</sub> = 0.10, &nbsp;&nbsp;&nbsp;&nbsp; p<sub>4</sub> = 0.20</span>
+        <p>No dummy key probabilities are provided; we assume <span class="inline-math">q<sub>i</sub> = 0</span> for <span class="inline-math">i &isin; [0, 4]</span>.</p>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">2. Formulation &amp; Dynamic Programming Recurrence</div>
+        <p>For keys index <span class="inline-math">i</span> to <span class="inline-math">j</span>:</p>
+        <span class="math">w(i, j) = &sum;<sub>k=i</sub><sup>j</sup> p<sub>k</sub>, &nbsp;&nbsp;&nbsp;&nbsp; e[i, j] = min<sub>i &le; r &le; j</sub> { e[i, r-1] + e[r+1, j] + w(i, j) }</span>
+        <p>Base cases: <span class="inline-math">e[i, i-1] = 0</span> and <span class="inline-math">e[i, i] = p<sub>i</sub></span>.</p>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">3. Dynamic Programming Step-by-Step Table Building</div>
+        <p>We solve the DP subproblems by length <span class="inline-math">l = j - i + 1</span> from <span class="inline-math">l = 1</span> to <span class="inline-math">4</span>:</p>
+        
+        <p><strong>Subproblem Length <span class="inline-math">l = 2</span> (Chains of 2 nodes)</strong></p>
+        <ul>
+          <li><strong><span class="inline-math">e[1, 2]</span> (Keys A, B):</strong> <span class="inline-math">w(1, 2) = p<sub>1</sub> + p<sub>2</sub> = 0.45</span>.
+            <ul>
+              <li><span class="inline-math">r=1: e[1,0] + e[2,2] + 0.45 = 0 + 0.30 + 0.45 = 0.75</span></li>
+              <li><span class="inline-math">r=2: e[1,1] + e[3,2] + 0.45 = 0.15 + 0 + 0.45 = 0.60</span> (Min)</li>
+            </ul>
+            <span class="inline-math">\implies e[1,2] = 0.60</span>, Root <span class="inline-math">root[1,2] = 2</span>.
+          </li>
+          <li style="margin-top:10px;"><strong><span class="inline-math">e[2, 3]</span> (Keys B, C):</strong> <span class="inline-math">w(2, 3) = p<sub>2</sub> + p<sub>3</sub> = 0.40</span>.
+            <ul>
+              <li><span class="inline-math">r=2: e[2,1] + e[3,3] + 0.40 = 0 + 0.10 + 0.40 = 0.50</span> (Min)</li>
+              <li><span class="inline-math">r=3: e[2,2] + e[4,3] + 0.40 = 0.30 + 0 + 0.40 = 0.70</span></li>
+            </ul>
+            <span class="inline-math">\implies e[2,3] = 0.50</span>, Root <span class="inline-math">root[2,3] = 2</span>.
+          </li>
+          <li style="margin-top:10px;"><strong><span class="inline-math">e[3, 4]</span> (Keys C, D):</strong> <span class="inline-math">w(3, 4) = p<sub>3</sub> + p<sub>4</sub> = 0.30</span>.
+            <ul>
+              <li><span class="inline-math">r=3: e[3,2] + e[4,4] + 0.30 = 0 + 0.20 + 0.30 = 0.50</span></li>
+              <li><span class="inline-math">r=4: e[3,3] + e[5,4] + 0.30 = 0.10 + 0 + 0.30 = 0.40</span> (Min)</li>
+            </ul>
+            <span class="inline-math">\implies e[3,4] = 0.40</span>, Root <span class="inline-math">root[3,4] = 4</span>.
+          </li>
+        </ul>
+
+        <p style="margin-top:15px;"><strong>Subproblem Length <span class="inline-math">l = 3</span> (Chains of 3 nodes)</strong></p>
+        <ul>
+          <li><strong><span class="inline-math">e[1, 3]</span> (Keys A, B, C):</strong> <span class="inline-math">w(1, 3) = w(1,2) + p<sub>3</sub> = 0.55</span>.
+            <ul>
+              <li><span class="inline-math">r=1: e[1,0] + e[2,3] + 0.55 = 0 + 0.50 + 0.55 = 1.05</span></li>
+              <li><span class="inline-math">r=2: e[1,1] + e[3,3] + 0.55 = 0.15 + 0.10 + 0.55 = 0.80</span> (Min)</li>
+              <li><span class="inline-math">r=3: e[1,2] + e[4,3] + 0.55 = 0.60 + 0 + 0.55 = 1.15</span></li>
+            </ul>
+            <span class="inline-math">\implies e[1,3] = 0.80</span>, Root <span class="inline-math">root[1,3] = 2</span>.
+          </li>
+          <li style="margin-top:10px;"><strong><span class="inline-math">e[2, 4]</span> (Keys B, C, D):</strong> <span class="inline-math">w(2, 4) = w(2,3) + p<sub>4</sub> = 0.60</span>.
+            <ul>
+              <li><span class="inline-math">r=2: e[2,1] + e[3,4] + 0.60 = 0 + 0.40 + 0.60 = 1.00</span> (Min)</li>
+              <li><span class="inline-math">r=3: e[2,2] + e[4,4] + 0.60 = 0.30 + 0.20 + 0.60 = 1.10</span></li>
+              <li><span class="inline-math">r=4: e[2,3] + e[5,4] + 0.60 = 0.50 + 0 + 0.60 = 1.10</span></li>
+            </ul>
+            <span class="inline-math">\implies e[2,4] = 1.00</span>, Root <span class="inline-math">root[2,4] = 2</span>.
+          </li>
+        </ul>
+
+        <p style="margin-top:15px;"><strong>Subproblem Length <span class="inline-math">l = 4</span> (Full Chain A, B, C, D)</strong></p>
+        <ul>
+          <li><strong><span class="inline-math">e[1, 4]</span> (Full Tree):</strong> <span class="inline-math">w(1, 4) = 0.75</span>.
+            <ul>
+              <li><span class="inline-math">r=1: e[1,0] + e[2,4] + 0.75 = 0 + 1.00 + 0.75 = 1.75</span></li>
+              <li><span class="inline-math">r=2: e[1,1] + e[3,4] + 0.75 = 0.15 + 0.40 + 0.75 = 1.30</span> (Min)</li>
+              <li><span class="inline-math">r=3: e[1,2] + e[4,4] + 0.75 = 0.60 + 0.20 + 0.75 = 1.55</span></li>
+              <li><span class="inline-math">r=4: e[1,3] + e[5,4] + 0.75 = 0.80 + 0 + 0.75 = 1.55</span></li>
+            </ul>
+            <span class="inline-math">\implies e[1,4] = 1.30</span>, Root <span class="inline-math">root[1,4] = 2</span>.
+          </li>
+        </ul>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">4. DP Matrix Tables</div>
+        <div class="table-wrap">
+          <table style="text-align:center;">
+            <thead>
+              <tr>
+                <th colspan="5">Cost Matrix e[i, j]</th>
+                <th colspan="5">Root Selection Matrix root[i, j]</th>
+              </tr>
+              <tr>
+                <th>i \ j</th><th>1</th><th>2</th><th>3</th><th>4</th>
+                <th>i \ j</th><th>1</th><th>2</th><th>3</th><th>4</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="td-hi">1</td><td>0.15</td><td>0.60</td><td>0.80</td><td style="background:rgba(0,212,170,0.15); font-weight:700">1.30</td>
+                <td class="td-hi">1</td><td>1</td><td>2</td><td>2</td><td style="color:var(--accent)">2</td>
+              </tr>
+              <tr>
+                <td class="td-hi">2</td><td>—</td><td>0.30</td><td>0.50</td><td>1.00</td>
+                <td class="td-hi">2</td><td>—</td><td>2</td><td>2</td><td>2</td>
+              </tr>
+              <tr>
+                <td class="td-hi">3</td><td>—</td><td>—</td><td>0.10</td><td>0.40</td>
+                <td class="td-hi">3</td><td>—</td><td>—</td><td>3</td><td>4</td>
+              </tr>
+              <tr>
+                <td class="td-hi">4</td><td>—</td><td>—</td><td>—</td><td>0.20</td>
+                <td class="td-hi">4</td><td>—</td><td>—</td><td>—</td><td>4</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">5. Tree Construction and Expected Search Cost</div>
+        <div class="callout success">
+          <strong>Optimal BST Structure:</strong><br>
+          • Root: <strong>B</strong> (Key 2)<br>
+          • Left Child of Root: <strong>A</strong> (Key 1)<br>
+          • Right Child of Root: <strong>D</strong> (Key 4)<br>
+          • Left Child of D: <strong>C</strong> (Key 3)<br><br>
+          <strong>Expected Search Cost:</strong> 1.30
+        </div>
+        <p><strong>Cost Verification:</strong> Cost = <span class="inline-math">&sum; ({depth}<sub>i</sub> &times; p<sub>i</sub>)</span> where root depth is 1:<br>
+          <span class="inline-math">{Cost} = (1 &times; 0.30) + (2 &times; 0.15) + (2 &times; 0.20) + (3 &times; 0.10) = 0.30 + 0.30 + 0.40 + 0.30 = 1.30</span> (Verified!).
+        </p>
+        <div class="graph-display">
+      Tree Structure:
+            B [p=0.30, depth=1]
+           / \
+          /   \
+         A     D [p=0.20, depth=2]
+        [p=0.15]  /
+                 /
+                C [p=0.10, depth=3]
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q4: Huffman Coding -->
+  <div class="topic-block">
+    <div class="topic-header">
+      <div class="topic-num">4</div>
+      <div class="topic-name">Huffman Coding: "Huffman's Buffet"</div>
+    </div>
+    <div class="topic-body">
+      <div class="sub-section">
+        <div class="sub-title">1. Frequency Analysis</div>
+        <p>Calculate the frequencies of every character (including spaces and apostrophes) in the phrase <strong>"Huffman's Buffet"</strong>:</p>
+        
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Char</th><th>Frequency</th><th>Char</th><th>Frequency</th><th>Char</th><th>Frequency</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>'f'</td><td class="td-num">4</td><td>'u'</td><td class="td-num">2</td><td>'H'</td><td class="td-num">1</td></tr>
+              <tr><td>'m'</td><td class="td-num">1</td><td>'a'</td><td class="td-num">1</td><td>'n'</td><td class="td-num">1</td></tr>
+              <tr><td>'\''</td><td class="td-num">1</td><td>'s'</td><td class="td-num">1</td><td>' ' (space)</td><td class="td-num">1</td></tr>
+              <tr><td>'B'</td><td class="td-num">1</td><td>'e'</td><td class="td-num">1</td><td>'t'</td><td class="td-num">1</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p><strong>Total length:</strong> 16 characters. Unique characters: 12.</p>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">2. Tree Merging Process</div>
+        <p>Applying the Greedy Huffman tree builder by continuously merging two lowest frequency nodes:</p>
+        <ol class="algo-steps">
+          <li>Merge <code>'H' (1)</code> and <code>'m' (1)</code> <span class="inline-math">\implies</span> <code>T1 (2)</code>. Remaining list: <code>T1(2)</code>, <code>'u'(2)</code>, <code>'f'(4)</code>, and remaining eight 1s.</li>
+          <li>Merge <code>'a' (1)</code> and <code>'n' (1)</code> <span class="inline-math">\implies</span> <code>T2 (2)</code>.</li>
+          <li>Merge <code>'\'' (1)</code> and <code>'s' (1)</code> <span class="inline-math">\implies</span> <code>T3 (2)</code>.</li>
+          <li>Merge <code>' ' (1)</code> and <code>'B' (1)</code> <span class="inline-math">\implies</span> <code>T4 (2)</code>.</li>
+          <li>Merge <code>'e' (1)</code> and <code>'t' (1)</code> <span class="inline-math">\implies</span> <code>T5 (2)</code>.</li>
+          <li>We now have nodes: <code>'f'(4)</code>, <code>'u'(2)</code>, <code>T1(2)</code>, <code>T2(2)</code>, <code>T3(2)</code>, <code>T4(2)</code>, <code>T5(2)</code>.</li>
+          <li>Merge <code>'u' (2)</code> and <code>T1 (2)</code> <span class="inline-math">\implies</span> <code>T6 (4)</code>.</li>
+          <li>Merge <code>T2 (2)</code> and <code>T3 (2)</code> <span class="inline-math">\implies</span> <code>T7 (4)</code>.</li>
+          <li>Merge <code>T4 (2)</code> and <code>T5 (2)</code> <span class="inline-math">\implies</span> <code>T8 (4)</code>.</li>
+          <li>We now have: <code>'f'(4)</code>, <code>T6(4)</code>, <code>T7(4)</code>, <code>T8(4)</code>.</li>
+          <li>Merge <code>'f' (4)</code> and <code>T6 (4)</code> <span class="inline-math">\implies</span> <code>T9 (8)</code>.</li>
+          <li>Merge <code>T7 (4)</code> and <code>T8 (4)</code> <span class="inline-math">\implies</span> <code>T10 (8)</code>.</li>
+          <li>Merge <code>T9 (8)</code> and <code>T10 (8)</code> <span class="inline-math">\implies</span> <code>Root (16)</code>.</li>
+        </ol>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">3. Final Huffman Character Codes Table</div>
+        <p>Assigning binary <strong>'0'</strong> to the left child and <strong>'1'</strong> to the right child:</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Char</th><th>Frequency</th><th>Huffman Binary Code</th><th>Codeword Bit-Length</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td class="td-hi">'f'</td><td class="td-num">4</td><td>00</td><td class="td-num">2</td></tr>
+              <tr><td class="td-hi">'u'</td><td class="td-num">2</td><td>010</td><td class="td-num">3</td></tr>
+              <tr><td class="td-hi">'H'</td><td class="td-num">1</td><td>0110</td><td class="td-num">4</td></tr>
+              <tr><td class="td-hi">'m'</td><td class="td-num">1</td><td>0111</td><td class="td-num">4</td></tr>
+              <tr><td class="td-hi">'a'</td><td class="td-num">1</td><td>1000</td><td class="td-num">4</td></tr>
+              <tr><td class="td-hi">'n'</td><td class="td-num">1</td><td>1001</td><td class="td-num">4</td></tr>
+              <tr><td class="td-hi">'\''</td><td class="td-num">1</td><td>1010</td><td class="td-num">4</td></tr>
+              <tr><td class="td-hi">'s'</td><td class="td-num">1</td><td>1011</td><td class="td-num">4</td></tr>
+              <tr><td class="td-hi">' '</td><td class="td-num">1</td><td>1100</td><td class="td-num">4</td></tr>
+              <tr><td class="td-hi">'B'</td><td class="td-num">1</td><td>1101</td><td class="td-num">4</td></tr>
+              <tr><td class="td-hi">'e'</td><td class="td-num">1</td><td>1110</td><td class="td-num">4</td></tr>
+              <tr><td class="td-hi">'t'</td><td class="td-num">1</td><td>1111</td><td class="td-num">4</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">4. Efficiency Analysis</div>
+        <div class="callout success">
+          <strong>Total Bits to Encode the Phrase:</strong><br>
+          <span class="inline-math">{Total Bits} = (4 &times; 2) + (2 &times; 3) + (10 &times; 4) = 8 + 6 + 40 = 54{ bits}</span><br><br>
+          <strong>Average Bits per Character:</strong> <span class="inline-math">54 / 16 = 3.375{ bits}</span><br>
+          Compared to fixed-length encoding of <span class="inline-math">\lceil \log<sub>2</sub> 12 \rceil = 4{ bits/character}</span>, Huffman Coding achieves an **average compression of 15.6%** for this phrase.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================= MINIMUM SPANNING TREES ======================= -->
+<div class="unit-section" id="mst">
+  <div class="section-label">Session 16/5/26</div>
+  <div class="section-title">Minimum Spanning <span class="accent">Trees (MST)</span></div>
+
+  <!-- Q5: MST Graph 1 -->
+  <div class="topic-block">
+    <div class="topic-header">
+      <div class="topic-num">5</div>
+      <div class="topic-name">Kruskal's MST on 9-Vertex Graph (A to I)</div>
+    </div>
+    <div class="topic-body">
+      <div class="sub-section">
+        <div class="sub-title">1. Problem Specification</div>
+        <p>Find the MST for the graph defined by: A, B, C, D, E, F, G, H, I. Undirected weighted edges:</p>
+        <span class="math" style="font-size:12px;">(A, B, 10), (A, C, 12), (B, C, 9), (B, D, 8), (C, E, 3), (C, F, 1), (D, E, 7), (D, F, -1), (D, G, 8), (D, H, 5), (E, F, 3), (F, H, 6), (G, H, 9), (G, I, 2), (H, I, 11)</span>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">2. Kruskal's Edge Tracing Table</div>
+        <p>Edges are sorted in strictly increasing order of weight and evaluated for cycle formation (Disjoint Sets tracking):</p>
+        
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Edge</th><th>Weight</th><th>Action</th><th>Disjoint Set State (Parent structures)</th><th>MST Cumulative Cost</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td class="td-hi">(D, F)</td><td class="td-num">-1</td><td style="color:var(--green); font-weight:700">SELECT</td><td>{D, F}, {A}, {B}, {C}, {E}, {G}, {H}, {I}</td><td class="td-num">-1</td></tr>
+              <tr><td class="td-hi">(C, F)</td><td class="td-num">1</td><td style="color:var(--green); font-weight:700">SELECT</td><td>{C, D, F}, {A}, {B}, {E}, {G}, {H}, {I}</td><td class="td-num">0</td></tr>
+              <tr><td class="td-hi">(G, I)</td><td class="td-num">2</td><td style="color:var(--green); font-weight:700">SELECT</td><td>{C, D, F}, {G, I}, {A}, {B}, {E}, {H}</td><td class="td-num">2</td></tr>
+              <tr><td class="td-hi">(C, E)</td><td class="td-num">3</td><td style="color:var(--green); font-weight:700">SELECT</td><td>{C, D, E, F}, {G, I}, {A}, {B}, {H}</td><td class="td-num">5</td></tr>
+              <tr><td class="td-hi">(E, F)</td><td class="td-num">3</td><td style="color:var(--danger)">REJECT</td><td>Cycle formed (C-E-F-C loop)</td><td class="td-num">5</td></tr>
+              <tr><td class="td-hi">(D, H)</td><td class="td-num">5</td><td style="color:var(--green); font-weight:700">SELECT</td><td>{C, D, E, F, H}, {G, I}, {A}, {B}</td><td class="td-num">10</td></tr>
+              <tr><td class="td-hi">(F, H)</td><td class="td-num">6</td><td style="color:var(--danger)">REJECT</td><td>Cycle formed (D-F-H-D loop)</td><td class="td-num">10</td></tr>
+              <tr><td class="td-hi">(D, E)</td><td class="td-num">7</td><td style="color:var(--danger)">REJECT</td><td>Cycle formed (C-E-D-F-C loop)</td><td class="td-num">10</td></tr>
+              <tr><td class="td-hi">(B, D)</td><td class="td-num">8</td><td style="color:var(--green); font-weight:700">SELECT</td><td>{B, C, D, E, F, H}, {G, I}, {A}</td><td class="td-num">18</td></tr>
+              <tr><td class="td-hi">(D, G)</td><td class="td-num">8</td><td style="color:var(--green); font-weight:700">SELECT</td><td>{B, C, D, E, F, G, H, I}, {A} (Merges sets)</td><td class="td-num">26</td></tr>
+              <tr><td class="td-hi">(B, C)</td><td class="td-num">9</td><td style="color:var(--danger)">REJECT</td><td>Cycle formed (B-D-C loop)</td><td class="td-num">26</td></tr>
+              <tr><td class="td-hi">(G, H)</td><td class="td-num">9</td><td style="color:var(--danger)">REJECT</td><td>Cycle formed (D-G-H loop)</td><td class="td-num">26</td></tr>
+              <tr><td class="td-hi">(A, B)</td><td class="td-num">10</td><td style="color:var(--green); font-weight:700">SELECT</td><td>{A, B, C, D, E, F, G, H, I} (All connected)</td><td class="td-num">36</td></tr>
+              <tr><td class="td-hi">(H, I)</td><td class="td-num">11</td><td style="color:var(--danger)">REJECT</td><td>All vertices already in a single component</td><td class="td-num">36</td></tr>
+              <tr><td class="td-hi">(A, C)</td><td class="td-num">12</td><td style="color:var(--danger)">REJECT</td><td>All vertices already in a single component</td><td class="td-num">36</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">3. Final Minimum Spanning Tree</div>
+        <div class="callout success">
+          <strong>MST Edges:</strong> (D, F), (C, F), (G, I), (C, E), (D, H), (B, D), (D, G), (A, B)<br>
+          <strong>Total MST Cost:</strong> <span style="font-weight:700; color:var(--green)">36</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q6: Prim's CLRS -->
+  <div class="topic-block">
+    <div class="topic-header">
+      <div class="topic-num">6</div>
+      <div class="topic-name">Prim's MST on Classic CLRS 9-Vertex Graph (0 to 8)</div>
+    </div>
+    <div class="topic-body">
+      <div class="sub-section">
+        <div class="sub-title">1. Problem Specification &amp; Source Selection</div>
+        <p>Apply Prim's algorithm on the 9-vertex graph starting from vertex 0. The graph contains the following undirected edges:</p>
+        <span class="math" style="font-size:12px;">(0, 1, 4), (0, 7, 8), (1, 2, 8), (1, 7, 11), (2, 3, 7), (2, 5, 4), (2, 8, 2), (3, 4, 9), (3, 5, 14), (4, 5, 10), (5, 6, 2), (6, 7, 1), (6, 8, 6), (7, 8, 7)</span>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">2. Prim's Step-by-Step Priority Queue Trace</div>
+        <p>We trace the visited vertices <span class="inline-math">S</span> and the minimum crossing edges in the priority queue (Fringe):</p>
+        
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Step</th><th>Visited Set (S)</th><th>Fringe Candidates (Priority Queue)</th><th>Minimum Edge Chosen</th><th>Cumulative Cost</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td class="td-hi">0</td><td>{0}</td><td>(0, 1, 4), (0, 7, 8)</td><td>(0, 1, 4)</td><td class="td-num">4</td></tr>
+              <tr><td class="td-hi">1</td><td>{0, 1}</td><td>(0, 7, 8), (1, 2, 8), (1, 7, 11)</td><td>(0, 7, 8)</td><td class="td-num">12</td></tr>
+              <tr><td class="td-hi">2</td><td>{0, 1, 7}</td><td>(1, 2, 8), (7, 6, 1), (7, 8, 7), (1, 7, 11) [internal]</td><td>(6, 7, 1)</td><td class="td-num">13</td></tr>
+              <tr><td class="td-hi">3</td><td>{0, 1, 6, 7}</td><td>(1, 2, 8), (5, 6, 2), (6, 8, 6), (7, 8, 7)</td><td>(5, 6, 2)</td><td class="td-num">15</td></tr>
+              <tr><td class="td-hi">4</td><td>{0, 1, 5, 6, 7}</td><td>(1, 2, 8), (2, 5, 4), (3, 5, 14), (4, 5, 10), (6, 8, 6), (7, 8, 7)</td><td>(2, 5, 4)</td><td class="td-num">19</td></tr>
+              <tr><td class="td-hi">5</td><td>{0, 1, 2, 5, 6, 7}</td><td>(1, 2, 8) [internal], (2, 3, 7), (2, 8, 2), (3, 5, 14), (4, 5, 10), (6, 8, 6), (7, 8, 7)</td><td>(2, 8, 2)</td><td class="td-num">21</td></tr>
+              <tr><td class="td-hi">6</td><td>{0, 1, 2, 5, 6, 7, 8}</td><td>(2, 3, 7), (3, 5, 14), (4, 5, 10), (6, 8, 6) [internal], (7, 8, 7) [internal]</td><td>(2, 3, 7)</td><td class="td-num">28</td></tr>
+              <tr><td class="td-hi">7</td><td>{0, 1, 2, 3, 5, 6, 7, 8}</td><td>(3, 4, 9), (4, 5, 10)</td><td>(3, 4, 9)</td><td class="td-num">37</td></tr>
+              <tr><td class="td-hi">8</td><td>{0..8}</td><td>Empty (All vertices visited)</td><td>—</td><td class="td-num">37</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">3. Final MST Result</div>
+        <div class="callout success">
+          <strong>Prim's MST Edge List:</strong> (0, 1), (0, 7), (6, 7), (5, 6), (2, 5), (2, 8), (2, 3), (3, 4)<br>
+          <strong>Total MST Cost:</strong> <span style="font-weight:700; color:var(--green)">37</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q7: Kruskal's CLRS -->
+  <div class="topic-block">
+    <div class="topic-header">
+      <div class="topic-num">7</div>
+      <div class="topic-name">Kruskal's MST on same Classic CLRS Graph</div>
+    </div>
+    <div class="topic-body">
+      <div class="sub-section">
+        <div class="sub-title">1. Sorted Edge List Tracing</div>
+        <p>Traced using Kruskal's edge-first sorting. Disjoint components are merged using union-find structures:</p>
+        
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Sorted Edge</th><th>Weight</th><th>Action</th><th>Union-Find Set Status</th><th>MST Cost</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td class="td-hi">(6, 7)</td><td class="td-num">1</td><td style="color:var(--green); font-weight:700">SELECT</td><td>{6, 7}</td><td class="td-num">1</td></tr>
+              <tr><td class="td-hi">(2, 8)</td><td class="td-num">2</td><td style="color:var(--green); font-weight:700">SELECT</td><td>{6, 7}, {2, 8}</td><td class="td-num">3</td></tr>
+              <tr><td class="td-hi">(5, 6)</td><td class="td-num">2</td><td style="color:var(--green); font-weight:700">SELECT</td><td>{5, 6, 7}, {2, 8}</td><td class="td-num">5</td></tr>
+              <tr><td class="td-hi">(0, 1)</td><td class="td-num">4</td><td style="color:var(--green); font-weight:700">SELECT</td><td>{0, 1}, {5, 6, 7}, {2, 8}</td><td class="td-num">9</td></tr>
+              <tr><td class="td-hi">(2, 5)</td><td class="td-num">4</td><td style="color:var(--green); font-weight:700">SELECT</td><td>{0, 1}, {2, 5, 6, 7, 8} (Merges components)</td><td class="td-num">13</td></tr>
+              <tr><td class="td-hi">(6, 8)</td><td class="td-num">6</td><td style="color:var(--danger)">REJECT</td><td>Cycle formed (6-5-2-8-6)</td><td class="td-num">13</td></tr>
+              <tr><td class="td-hi">(2, 3)</td><td class="td-num">7</td><td style="color:var(--green); font-weight:700">SELECT</td><td>{0, 1}, {2, 3, 5, 6, 7, 8}</td><td class="td-num">20</td></tr>
+              <tr><td class="td-hi">(7, 8)</td><td class="td-num">7</td><td style="color:var(--danger)">REJECT</td><td>Cycle formed (7-6-5-2-8-7)</td><td class="td-num">20</td></tr>
+              <tr><td class="td-hi">(0, 7)</td><td class="td-num">8</td><td style="color:var(--green); font-weight:700">SELECT</td><td>{0, 1, 2, 3, 5, 6, 7, 8}</td><td class="td-num">28</td></tr>
+              <tr><td class="td-hi">(1, 2)</td><td class="td-num">8</td><td style="color:var(--danger)">REJECT</td><td>Cycle formed (0-1-2-5-6-7-0)</td><td class="td-num">28</td></tr>
+              <tr><td class="td-hi">(3, 4)</td><td class="td-num">9</td><td style="color:var(--green); font-weight:700">SELECT</td><td>{0, 1, 2, 3, 4, 5, 6, 7, 8} (All vertices connected)</td><td class="td-num">37</td></tr>
+              <tr><td class="td-hi">(4, 5)</td><td class="td-num">10</td><td style="color:var(--danger)">REJECT</td><td>All vertices connected</td><td class="td-num">37</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">2. Comparative Synthesis</div>
+        <div class="callout info">
+          <strong>Algorithm Agreement:</strong> Both Prim's and Kruskal's algorithms generate an identical MST structure with a cost of 37, verifying that spanning trees are structurally unique when there are no alternative minimal-weight paths producing cycles.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================= TOPOLOGICAL SORTING ======================= -->
+<div class="unit-section" id="ts">
+  <div class="section-label">Session 16/5/26</div>
+  <div class="section-title">Topological <span class="accent">Sorting</span></div>
+
+  <!-- Q8: Topological Sort -->
+  <div class="topic-block">
+    <div class="topic-header">
+      <div class="topic-num">8</div>
+      <div class="topic-name">Topological Sort Order for 8-Vertex DAG</div>
+    </div>
+    <div class="topic-body">
+      <div class="sub-section">
+        <div class="sub-title">1. Problem Specification</div>
+        <p>Find a valid topological sort order for the directed graph defined by the directed edges:</p>
+        <span class="math" style="font-size:12px;">(7, 1), (7, 0), (5, 1), (3, 1), (3, 4), (3, 0), (1, 4), (1, 2), (1, 6), (0, 6)</span>
+        <p>Vertices: 0, 1, 2, 3, 4, 5, 6, 7.</p>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">2. Kahn's Algorithm (Source Removal Method)</div>
+        <p><strong>Step 1: Calculate initial In-degrees</strong></p>
+        <div class="table-wrap">
+          <table style="text-align:center;">
+            <thead>
+              <tr><th>Vertex</th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th></tr>
+            </thead>
+            <tbody>
+              <tr><td class="td-hi">In-degree</td><td>2</td><td>3</td><td>1</td><td style="color:var(--accent); font-weight:700">0</td><td>2</td><td style="color:var(--accent); font-weight:700">0</td><td>2</td><td style="color:var(--accent); font-weight:700">0</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="margin-top:10px;">Sources (In-degree = 0) available: <strong>3, 5, 7</strong>.</p>
+
+        <p style="margin-top:15px;"><strong>Step 2: Source Removal Trace</strong></p>
+        <ol class="algo-steps">
+          <li>Remove source vertex <strong>3</strong>:
+            <ul>
+              <li>Edges out of 3: <span class="inline-math">3 \to 1</span>, <span class="inline-math">3 \to 4</span>, <span class="inline-math">3 \to 0</span>.</li>
+              <li>Decrement in-degrees: <span class="inline-math">{in}[1]=2</span>, <span class="inline-math">{in}[4]=1</span>, <span class="inline-math">{in}[0]=1</span>.</li>
+              <li>Order so far: <code>[3]</code>.</li>
+            </ul>
+          </li>
+          <li>Remove source vertex <strong>5</strong>:
+            <ul>
+              <li>Edges out of 5: <span class="inline-math">5 \to 1</span>.</li>
+              <li>Decrement in-degree: <span class="inline-math">{in}[1]=1</span>.</li>
+              <li>Order so far: <code>[3, 5]</code>.</li>
+            </ul>
+          </li>
+          <li>Remove source vertex <strong>7</strong>:
+            <ul>
+              <li>Edges out of 7: <span class="inline-math">7 \to 1</span>, <span class="inline-math">7 \to 0</span>.</li>
+              <li>Decrement in-degrees: <span class="inline-math">{in}[1]=0</span>, <span class="inline-math">{in}[0]=0</span>.</li>
+              <li>New sources: <strong>0, 1</strong>.</li>
+              <li>Order so far: <code>[3, 5, 7]</code>.</li>
+            </ul>
+          </li>
+          <li>Remove source vertex <strong>0</strong>:
+            <ul>
+              <li>Edges out of 0: <span class="inline-math">0 \to 6</span>.</li>
+              <li>Decrement in-degree: <span class="inline-math">{in}[6]=1</span>.</li>
+              <li>Order so far: <code>[3, 5, 7, 0]</code>.</li>
+            </ul>
+          </li>
+          <li>Remove source vertex <strong>1</strong>:
+            <ul>
+              <li>Edges out of 1: <span class="inline-math">1 \to 4</span>, <span class="inline-math">1 \to 2</span>, <span class="inline-math">1 \to 6</span>.</li>
+              <li>Decrement in-degrees: <span class="inline-math">{in}[4]=0</span>, <span class="inline-math">{in}[2]=0</span>, <span class="inline-math">{in}[6]=0</span>.</li>
+              <li>New sources: <strong>2, 4, 6</strong>.</li>
+              <li>Order so far: <code>[3, 5, 7, 0, 1]</code>.</li>
+            </ul>
+          </li>
+          <li>Remove source vertex <strong>2</strong>:
+            <ul>
+              <li>No outgoing edges. Order: <code>[3, 5, 7, 0, 1, 2]</code>.</li>
+            </ul>
+          </li>
+          <li>Remove source vertex <strong>4</strong>:
+            <ul>
+              <li>No outgoing edges. Order: <code>[3, 5, 7, 0, 1, 2, 4]</code>.</li>
+            </ul>
+          </li>
+          <li>Remove source vertex <strong>6</strong>:
+            <ul>
+              <li>No outgoing edges. Final Order: <code>[3, 5, 7, 0, 1, 2, 4, 6]</code>.</li>
+            </ul>
+          </li>
+        </ol>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">3. Final Sorted Outputs</div>
+        <div class="callout success">
+          <strong>Valid Topological Order (Source Removal):</strong> <code>3, 5, 7, 0, 1, 2, 4, 6</code><br><br>
+          <strong>Alternative Valid Orders (Depending on tie-breaks):</strong><br>
+          • <code>7, 5, 3, 0, 1, 6, 4, 2</code><br>
+          • <code>5, 7, 3, 1, 0, 4, 2, 6</code>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================= SHORTEST PATH ALGORITHMS ======================= -->
+<div class="unit-section" id="sp">
+  <div class="section-label">Sessions 8/5/26 - 14/5/26 - 16/5/26</div>
+  <div class="section-title">Shortest Path <span class="accent">Algorithms</span></div>
+
+  <!-- Q9: Dijkstra's Graph 1 -->
+  <div class="topic-block">
+    <div class="topic-header">
+      <div class="topic-num">9</div>
+      <div class="topic-name">Dijkstra's Single-Source Shortest Path from A</div>
+    </div>
+    <div class="topic-body">
+      <div class="sub-section">
+        <div class="sub-title">1. Problem Specification</div>
+        <p>Find the shortest path from source vertex <strong>A</strong> for the graph defined by the edges:</p>
+        <span class="math" style="font-size:12px;">(A, B, 7), (A, C, 12), (B, C, 2), (B, D, 9), (C, E, 10), (E, D, 4), (E, F, 5), (D, F, 1)</span>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">2. Dijkstra's Relaxation Trace</div>
+        <p>Unvisited set: <span class="inline-math">\{A, B, C, D, E, F\}</span>. Initial distances: <span class="inline-math">d[A]=0,&nbsp; d[{others}]=&infin;</span>.</p>
+        
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Iteration</th><th>Selected Vertex (u)</th><th>Visited (S)</th><th>Relaxation Checks &amp; Updates</th><th>Distance Array State [A, B, C, D, E, F]</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td class="td-hi">1</td><td>A (d=0)</td><td>{A}</td><td>• B: <span class="inline-math">min(&infin;, 0+7) = 7</span> (parent A)<br>• C: <span class="inline-math">min(&infin;, 0+12) = 12</span> (parent A)</td><td>[0, 7, 12, ∞, ∞, ∞]</td></tr>
+              <tr><td class="td-hi">2</td><td>B (d=7)</td><td>{A, B}</td><td>• C: <span class="inline-math">min(12, 7+2) = 9</span> (parent B)<br>• D: <span class="inline-math">min(&infin;, 7+9) = 16</span> (parent B)</td><td>[0, 7, 9, 16, ∞, ∞]</td></tr>
+              <tr><td class="td-hi">3</td><td>C (d=9)</td><td>{A, B, C}</td><td>• E: <span class="inline-math">min(&infin;, 9+10) = 19</span> (parent C)</td><td>[0, 7, 9, 16, 19, ∞]</td></tr>
+              <tr><td class="td-hi">4</td><td>D (d=16)</td><td>{A..D}</td><td>• F: <span class="inline-math">min(&infin;, 16+1) = 17</span> (parent D)</td><td>[0, 7, 9, 16, 19, 17]</td></tr>
+              <tr><td class="td-hi">5</td><td>F (d=17)</td><td>{A..D, F}</td><td>No outgoing edges of smaller distance.</td><td>[0, 7, 9, 16, 19, 17]</td></tr>
+              <tr><td class="td-hi">6</td><td>E (d=19)</td><td>{A..F}</td><td>• D: <span class="inline-math">min(16, 19+4) = 16</span> (No change)<br>• F: <span class="inline-math">min(17, 19+5) = 17</span> (No change)</td><td>[0, 7, 9, 16, 19, 17]</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">3. Final Distances and Paths</div>
+        <div class="callout success">
+          <strong>Path Routing from A:</strong><br>
+          • Vertex B: <span class="inline-math">A \to B</span> (Cost: 7)<br>
+          • Vertex C: <span class="inline-math">A \to B \to C</span> (Cost: 9)<br>
+          • Vertex D: <span class="inline-math">A \to B \to D</span> (Cost: 16)<br>
+          • Vertex E: <span class="inline-math">A \to B \to C \to E</span> (Cost: 19)<br>
+          • Vertex F: <span class="inline-math">A \to B \to D \to F</span> (Cost: 17)
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q10: Dijkstra's Graph 2 (CLRS from 1) -->
+  <div class="topic-block">
+    <div class="topic-header">
+      <div class="topic-num">10</div>
+      <div class="topic-name">Dijkstra's Shortest Path from Vertex 1 on CLRS Graph</div>
+    </div>
+    <div class="topic-body">
+      <div class="sub-section">
+        <div class="sub-title">1. Problem Specification</div>
+        <p>Apply Dijkstra's algorithm to find shortest paths from source **1** on the CLRS graph:</p>
+        <span class="math" style="font-size:12px;">(0, 1, 4), (0, 7, 8), (1, 2, 8), (1, 7, 11), (2, 3, 7), (2, 5, 4), (2, 8, 2), (3, 4, 9), (3, 5, 14), (4, 5, 10), (5, 6, 2), (6, 7, 1), (6, 8, 6), (7, 8, 7)</span>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">2. Dynamic Relaxation Trace Table</div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Step</th><th>Vertex Chosen</th><th>Visited (S)</th><th>Relaxation updates</th><th>Distances array [0, 1, 2, 3, 4, 5, 6, 7, 8]</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td class="td-hi">1</td><td>1 (d=0)</td><td>{1}</td><td>• 0: 4 (parent 1)<br>• 2: 8 (parent 1)<br>• 7: 11 (parent 1)</td><td>[4, 0, 8, ∞, ∞, ∞, ∞, 11, ∞]</td></tr>
+              <tr><td class="td-hi">2</td><td>0 (d=4)</td><td>{0, 1}</td><td>• 7: <span class="inline-math">min(11, 4+8) = 11</span> (No change)</td><td>[4, 0, 8, ∞, ∞, ∞, ∞, 11, ∞]</td></tr>
+              <tr><td class="td-hi">3</td><td>2 (d=8)</td><td>{0, 1, 2}</td><td>• 3: <span class="inline-math">8+7=15</span> (parent 2)<br>• 5: <span class="inline-math">8+4=12</span> (parent 2)<br>• 8: <span class="inline-math">8+2=10</span> (parent 2)</td><td>[4, 0, 8, 15, ∞, 12, ∞, 11, 10]</td></tr>
+              <tr><td class="td-hi">4</td><td>8 (d=10)</td><td>{0, 1, 2, 8}</td><td>• 6: <span class="inline-math">10+6=16</span> (parent 8)<br>• 7: <span class="inline-math">min(11, 10+7) = 11</span> (No change)</td><td>[4, 0, 8, 15, ∞, 12, 16, 11, 10]</td></tr>
+              <tr><td class="td-hi">5</td><td>7 (d=11)</td><td>{0, 1, 2, 7, 8}</td><td>• 6: <span class="inline-math">min(16, 11+1) = 12</span> (parent 7 - updated!)</td><td>[4, 0, 8, 15, ∞, 12, 12, 11, 10]</td></tr>
+              <tr><td class="td-hi">6</td><td>5 (d=12)</td><td>{0..2, 5, 7, 8}</td><td>• 3: <span class="inline-math">min(15, 12+14) = 15</span> (No change)<br>• 4: <span class="inline-math">12+10=22</span> (parent 5)<br>• 6: <span class="inline-math">min(12, 12+2) = 12</span> (No change)</td><td>[4, 0, 8, 15, 22, 12, 12, 11, 10]</td></tr>
+              <tr><td class="td-hi">7</td><td>6 (d=12)</td><td>{0..2, 5, 6, 7, 8}</td><td>No relaxation changes.</td><td>[4, 0, 8, 15, 22, 12, 12, 11, 10]</td></tr>
+              <tr><td class="td-hi">8</td><td>3 (d=15)</td><td>{0..3, 5, 6, 7, 8}</td><td>• 4: <span class="inline-math">min(22, 15+9) = 22</span> (No change)</td><td>[4, 0, 8, 15, 22, 12, 12, 11, 10]</td></tr>
+              <tr><td class="td-hi">9</td><td>4 (d=22)</td><td>{0..8}</td><td>Visited all.</td><td>[4, 0, 8, 15, 22, 12, 12, 11, 10]</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">3. Final Shortest Paths from Vertex 1</div>
+        <div class="callout success">
+          <strong>Path Routing from 1:</strong><br>
+          • Node 0: <span class="inline-math">1 \to 0</span> (Cost: 4)<br>
+          • Node 2: <span class="inline-math">1 \to 2</span> (Cost: 8)<br>
+          • Node 3: <span class="inline-math">1 \to 2 \to 3</span> (Cost: 15)<br>
+          • Node 4: <span class="inline-math">1 \to 2 \to 5 \to 4</span> (Cost: 22)<br>
+          • Node 5: <span class="inline-math">1 \to 2 \to 5</span> (Cost: 12)<br>
+          • Node 6: <span class="inline-math">1 \to 0 \to 7 \to 6</span> (Cost: 12) (Wait, <span class="inline-math">1 \to 7</span> is 11, <span class="inline-math">7 \to 6</span> is 1. Cost: 12)<br>
+          • Node 7: <span class="inline-math">1 \to 7</span> (Cost: 11)<br>
+          • Node 8: <span class="inline-math">1 \to 2 \to 8</span> (Cost: 10)
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q11: Bellman-Ford -->
+  <div class="topic-block">
+    <div class="topic-header">
+      <div class="topic-num">11</div>
+      <div class="topic-name">Bellman-Ford Shortest Path with Negative Weights from A</div>
+    </div>
+    <div class="topic-body">
+      <div class="sub-section">
+        <div class="sub-title">1. Problem Specification</div>
+        <p>Find the shortest path from vertex **A** for the graph containing negative weights defined by:</p>
+        <span class="math" style="font-size:12px;">(A, B, 4), (A, F, 6), (B, C, -1), (B, E, 2), (B, F, -2), (C, D, 1), (C, E, 3), (E, D, -1), (F, E, -1)</span>
+        <p>Vertices: A, B, C, D, E, F (<span class="inline-math">|V|=6</span>). Relax edges <span class="inline-math">|V|-1 = 5</span> times.</p>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">2. Edge Relaxation Passes Trace</div>
+        <p>Initial distances: <span class="inline-math">d[A]=0</span>, others <span class="inline-math">&infin;</span>.</p>
+        
+        <p><strong>Pass 1: Edge Relaxations</strong></p>
+        <ol class="algo-steps">
+          <li>Relax <span class="inline-math">(A, B, 4) \implies d[B] = min(&infin;, 0 + 4) = 4</span> (Parent: A)</li>
+          <li>Relax <span class="inline-math">(A, F, 6) \implies d[F] = min(&infin;, 0 + 6) = 6</span></li>
+          <li>Relax <span class="inline-math">(B, C, -1) \implies d[C] = min(&infin;, 4 - 1) = 3</span> (Parent: B)</li>
+          <li>Relax <span class="inline-math">(B, E, 2) \implies d[E] = min(&infin;, 4 + 2) = 6</span></li>
+          <li>Relax <span class="inline-math">(B, F, -2) \implies d[F] = min(6, 4 - 2) = 2</span> (Parent: B - updated!)</li>
+          <li>Relax <span class="inline-math">(C, D, 1) \implies d[D] = min(&infin;, 3 + 1) = 4</span></li>
+          <li>Relax <span class="inline-math">(C, E, 3) \implies d[E] = min(6, 3 + 3) = 6</span></li>
+          <li>Relax <span class="inline-math">(F, E, -1) \implies d[E] = min(6, 2 - 1) = 1</span> (Parent: F - updated!)</li>
+          <li>Relax <span class="inline-math">(E, D, -1) \implies d[D] = min(4, 1 - 1) = 0</span> (Parent: E - updated!)</li>
+        </ol>
+        <p style="margin-top:10px;">Distances after Pass 1: <span class="inline-math">d[A]=0,&nbsp; d[B]=4,&nbsp; d[C]=3,&nbsp; d[D]=0,&nbsp; d[E]=1,&nbsp; d[F]=2</span>.</p>
+
+        <p style="margin-top:15px;"><strong>Pass 2: Check for further minimization</strong></p>
+        <ul>
+          <li>Relax <span class="inline-math">(F, E, -1) \implies d[E] = min(1, 2 - 1) = 1</span> (No change)</li>
+          <li>Relax <span class="inline-math">(E, D, -1) \implies d[D] = min(0, 1 - 1) = 0</span> (No change)</li>
+          <li>All other edge relaxation checks show no distance improvements. Distances converged.</li>
+        </ul>
+        
+        <p style="margin-top:15px;"><strong>Passes 3, 4, and 5:</strong> No updates. Distances remain stable.</p>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">3. Negative-Weight Cycle Verification</div>
+        <div class="callout info">
+          <strong>Pass 6 (Cycle Verification):</strong> We perform a 6th pass over all edges. No edge satisfies <span class="inline-math">d[v] > d[u] + w(u,v)</span>. Since no relaxation occurs, <strong>no negative weight cycles exist or are reachable from source A</strong>.
+        </div>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">4. Final Bellman-Ford Shortest Paths</div>
+        <div class="callout success">
+          <strong>Shortest Paths &amp; Costs from A:</strong><br>
+          • Vertex B: <span class="inline-math">A \to B</span> (Cost: 4)<br>
+          • Vertex C: <span class="inline-math">A \to B \to C</span> (Cost: 3)<br>
+          • Vertex D: <span class="inline-math">A \to B \to F \to E \to D</span> (Cost: 0)<br>
+          • Vertex E: <span class="inline-math">A \to B \to F \to E</span> (Cost: 1)<br>
+          • Vertex F: <span class="inline-math">A \to B \to F</span> (Cost: 2)
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q12: Floyd-Warshall -->
+  <div class="topic-block">
+    <div class="topic-header">
+      <div class="topic-num">12</div>
+      <div class="topic-name">Floyd-Warshall All-Pairs Shortest Paths</div>
+    </div>
+    <div class="topic-body">
+      <div class="sub-section">
+        <div class="sub-title">1. Problem Specification</div>
+        <p>Find all-pairs shortest paths using the Floyd-Warshall DP algorithm for the 5-vertex graph defined by:</p>
+        <span class="math" style="font-size:12px;">(A, B, 5), (A, D, 6), (B, C, 1), (B, E, 7), (C, A, 3), (C, D, 4), (D, C, 2), (D, E, 3), (E, A, 2), (E, D, 5)</span>
+        <p>Vertices: <span class="inline-math">1={A},&nbsp; 2={B},&nbsp; 3={C},&nbsp; 4={D},&nbsp; 5={E}</span>.</p>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">2. Standard Recurrence Relation</div>
+        <span class="math">D<sup>(k)</sup>[i, j] = min ( D<sup>(k-1)</sup>[i, j],   D<sup>(k-1)</sup>[i, k] + D<sup>(k-1)</sup>[k, j] )</span>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">3. Dynamic Programming Matrix Transitions</div>
+        
+        <p><strong>Initial Matrix <span class="inline-math">D<sup>(0)</sup></span> (Direct Weights Only)</strong></p>
+        <div class="table-wrap">
+          <table style="text-align:center;">
+            <thead><tr><th>i \ j</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th></tr></thead>
+            <tbody>
+              <tr><td class="td-hi">A</td><td>0</td><td>5</td><td>∞</td><td>6</td><td>∞</td></tr>
+              <tr><td class="td-hi">B</td><td>∞</td><td>0</td><td>1</td><td>∞</td><td>7</td></tr>
+              <tr><td class="td-hi">C</td><td>3</td><td>∞</td><td>0</td><td>4</td><td>∞</td></tr>
+              <tr><td class="td-hi">D</td><td>∞</td><td>∞</td><td>2</td><td>0</td><td>3</td></tr>
+              <tr><td class="td-hi">E</td><td>2</td><td>∞</td><td>∞</td><td>5</td><td>0</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p style="margin-top:20px;"><strong>Matrix <span class="inline-math">D<sup>(1)</sup></span> (Path via vertex A allowed)</strong></p>
+        <div class="callout info">
+          • <span class="inline-math">D<sup>(1)</sup>[E, B] = min(&infin;, D<sup>(0)</sup>[E, A] + D<sup>(0)</sup>[A, B]) = min(&infin;, 2 + 5) = 7</span> (Updated!)<br>
+          • <span class="inline-math">D<sup>(1)</sup>[C, B] = min(&infin;, D<sup>(0)</sup>[C, A] + D<sup>(0)</sup>[A, B]) = min(&infin;, 3 + 5) = 8</span> (Updated!)
+        </div>
+        <div class="table-wrap">
+          <table style="text-align:center;">
+            <thead><tr><th>i \ j</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th></tr></thead>
+            <tbody>
+              <tr><td class="td-hi">A</td><td>0</td><td>5</td><td>∞</td><td>6</td><td>∞</td></tr>
+              <tr><td class="td-hi">B</td><td>∞</td><td>0</td><td>1</td><td>∞</td><td>7</td></tr>
+              <tr><td class="td-hi">C</td><td>3</td><td class="td-num">8</td><td>0</td><td>4</td><td>∞</td></tr>
+              <tr><td class="td-hi">D</td><td>∞</td><td>∞</td><td>2</td><td>0</td><td>3</td></tr>
+              <tr><td class="td-hi">E</td><td>2</td><td class="td-num">7</td><td>∞</td><td>5</td><td>0</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p style="margin-top:20px;"><strong>Matrix <span class="inline-math">D<sup>(2)</sup></span> (Path via vertices A, B allowed)</strong></p>
+        <div class="callout info">
+          • <span class="inline-math">D<sup>(2)</sup>[A, C] = min(&infin;, D<sup>(1)</sup>[A, B] + D<sup>(1)</sup>[B, C]) = 5 + 1 = 6</span> (Updated!)<br>
+          • <span class="inline-math">D<sup>(2)</sup>[A, E] = min(&infin;, D<sup>(1)</sup>[A, B] + D<sup>(1)</sup>[B, E]) = 5 + 7 = 12</span> (Updated!)<br>
+          • <span class="inline-math">D<sup>(2)</sup>[C, E] = min(&infin;, D<sup>(1)</sup>[C, B] + D<sup>(1)</sup>[B, E]) = 8 + 7 = 15</span> (Updated!)<br>
+          • <span class="inline-math">D<sup>(2)</sup>[E, C] = min(&infin;, D<sup>(1)</sup>[E, B] + D<sup>(1)</sup>[B, C]) = 7 + 1 = 8</span> (Updated!)
+        </div>
+        <div class="table-wrap">
+          <table style="text-align:center;">
+            <thead><tr><th>i \ j</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th></tr></thead>
+            <tbody>
+              <tr><td class="td-hi">A</td><td>0</td><td>5</td><td class="td-num">6</td><td>6</td><td class="td-num">12</td></tr>
+              <tr><td class="td-hi">B</td><td>∞</td><td>0</td><td>1</td><td>∞</td><td>7</td></tr>
+              <tr><td class="td-hi">C</td><td>3</td><td>8</td><td>0</td><td>4</td><td class="td-num">15</td></tr>
+              <tr><td class="td-hi">D</td><td>∞</td><td>∞</td><td>2</td><td>0</td><td>3</td></tr>
+              <tr><td class="td-hi">E</td><td>2</td><td>7</td><td class="td-num">8</td><td>5</td><td>0</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p style="margin-top:20px;"><strong>Matrix <span class="inline-math">D<sup>(3)</sup></span> (Path via vertices A, B, C allowed)</strong></p>
+        <div class="callout info">
+          • <span class="inline-math">D<sup>(3)</sup>[B, A] = min(&infin;, D<sup>(2)</sup>[B, C] + D<sup>(2)</sup>[C, A]) = 1 + 3 = 4</span> (Updated!)<br>
+          • <span class="inline-math">D<sup>(3)</sup>[B, D] = min(&infin;, D<sup>(2)</sup>[B, C] + D<sup>(2)</sup>[C, D]) = 1 + 4 = 5</span> (Updated!)<br>
+          • <span class="inline-math">D<sup>(3)</sup>[D, A] = min(&infin;, D<sup>(2)</sup>[D, C] + D<sup>(2)</sup>[C, A]) = 2 + 3 = 5</span> (Updated!)<br>
+          • <span class="inline-math">D<sup>(3)</sup>[D, B] = min(&infin;, D<sup>(2)</sup>[D, C] + D<sup>(2)</sup>[C, B]) = 2 + 8 = 10</span> (Updated!)
+        </div>
+        <div class="table-wrap">
+          <table style="text-align:center;">
+            <thead><tr><th>i \ j</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th></tr></thead>
+            <tbody>
+              <tr><td class="td-hi">A</td><td>0</td><td>5</td><td>6</td><td>6</td><td>12</td></tr>
+              <tr><td class="td-hi">B</td><td class="td-num">4</td><td>0</td><td>1</td><td class="td-num">5</td><td>7</td></tr>
+              <tr><td class="td-hi">C</td><td>3</td><td>8</td><td>0</td><td>4</td><td>15</td></tr>
+              <tr><td class="td-hi">D</td><td class="td-num">5</td><td class="td-num">10</td><td>2</td><td>0</td><td>3</td></tr>
+              <tr><td class="td-hi">E</td><td>2</td><td>7</td><td>8</td><td>5</td><td>0</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p style="margin-top:20px;"><strong>Matrix <span class="inline-math">D<sup>(4)</sup></span> (Path via vertices A, B, C, D allowed)</strong></p>
+        <div class="callout info">
+          • <span class="inline-math">D<sup>(4)</sup>[A, E] = min(12, D<sup>(3)</sup>[A, D] + D<sup>(3)</sup>[D, E]) = min(12, 6 + 3) = 9</span> (Updated!)<br>
+          • <span class="inline-math">D<sup>(4)</sup>[C, E] = min(15, D<sup>(3)</sup>[C, D] + D<sup>(3)</sup>[D, E]) = min(15, 4 + 3) = 7</span> (Updated!)<br>
+          • <span class="inline-math">D<sup>(4)</sup>[E, C] = min(8, D<sup>(3)</sup>[E, D] + D<sup>(3)</sup>[D, C]) = min(8, 5 + 2) = 7</span> (Updated!)
+        </div>
+        <div class="table-wrap">
+          <table style="text-align:center;">
+            <thead><tr><th>i \ j</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th></tr></thead>
+            <tbody>
+              <tr><td class="td-hi">A</td><td>0</td><td>5</td><td>6</td><td>6</td><td class="td-num">9</td></tr>
+              <tr><td class="td-hi">B</td><td>4</td><td>0</td><td>1</td><td>5</td><td>7</td></tr>
+              <tr><td class="td-hi">C</td><td>3</td><td>8</td><td>0</td><td>4</td><td class="td-num">7</td></tr>
+              <tr><td class="td-hi">D</td><td>5</td><td>10</td><td>2</td><td>0</td><td>3</td></tr>
+              <tr><td class="td-hi">E</td><td>2</td><td>7</td><td class="td-num">7</td><td>5</td><td>0</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p style="margin-top:20px;"><strong>Matrix <span class="inline-math">D<sup>(5)</sup></span> (Path via vertices A, B, C, D, E allowed)</strong></p>
+        <div class="callout success">
+          <strong>Pass 5 Check:</strong> Check updates via vertex E. For example: <span class="inline-math">D<sup>(5)</sup>[A, B] = min(5, D<sup>(4)</sup>[A, E] + D<sup>(4)</sup>[E, B]) = min(5, 9+7) = 5</span>. Since all paths are already optimal, no updates occur in the fifth pass. The matrix remains stable and forms our final answer!
+        </div>
+        <div class="table-wrap">
+          <table style="text-align:center; border: 2px solid var(--accent);">
+            <thead>
+              <tr style="background:rgba(0,212,170,0.15)">
+                <th>Final D^(5)</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td class="td-hi">A</td><td>0</td><td>5</td><td>6</td><td>6</td><td>9</td></tr>
+              <tr><td class="td-hi">B</td><td>4</td><td>0</td><td>1</td><td>5</td><td>7</td></tr>
+              <tr><td class="td-hi">C</td><td>3</td><td>8</td><td>0</td><td>4</td><td>7</td></tr>
+              <tr><td class="td-hi">D</td><td>5</td><td>10</td><td>2</td><td>0</td><td>3</td></tr>
+              <tr><td class="td-hi">E</td><td>2</td><td>7</td><td>7</td><td>5</td><td>0</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div style="text-align:center; margin-top:50px; color:var(--muted); font-size:12px;">
+  Solved Weekly Numerical Manual • Design &amp; Analysis of Algorithms (IS43) • MSRIT IV Semester
+</div>
+
+</div>
+</body>
+</html>

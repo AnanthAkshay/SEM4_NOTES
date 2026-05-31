@@ -1,0 +1,2663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Analytics using R — Units 3, 4 & 5 | MSRIT Exam Notes</title>
+<meta name="description" content="Complete exam-oriented notes for Data Analytics using R covering Units 3, 4, and 5 for MSRIT B.E. ISE students.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Caveat:wght@500;600;700&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+--bg:#0f0f1a;--bg2:#161625;--bg3:#1e1e32;--bg4:#262640;
+--text:#e2e2f0;--text2:#a0a0c0;--text3:#707090;
+--accent:#6c63ff;--accent2:#ff6b9d;--accent3:#00d4aa;--accent4:#ffd93d;--accent5:#ff8c42;
+--grad1:linear-gradient(135deg,#6c63ff,#ff6b9d);--grad2:linear-gradient(135deg,#00d4aa,#6c63ff);
+--grad3:linear-gradient(135deg,#ffd93d,#ff6b9d);
+--card:#1a1a2e;--card-border:#2a2a45;--radius:12px;--shadow:0 4px 24px rgba(0,0,0,0.3);
+--sidebar-w:280px;--code-bg:#1a1a2e;
+}
+html{scroll-behavior:smooth;font-size:15px}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;display:flex;min-height:100vh}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--bg2)}::-webkit-scrollbar-thumb{background:var(--accent);border-radius:3px}
+/* SIDEBAR */
+.sidebar{position:fixed;top:0;left:0;width:var(--sidebar-w);height:100vh;background:var(--bg2);border-right:1px solid var(--card-border);overflow-y:auto;z-index:100;transition:transform .3s}
+.sidebar .logo{padding:20px;text-align:center;background:var(--grad1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:1.3rem;font-weight:800;letter-spacing:1px}
+.sidebar .logo small{display:block;font-size:.7rem;font-weight:400;-webkit-text-fill-color:var(--text2)}
+.sidebar nav{padding:10px}
+.sidebar .nav-unit{margin:8px 0}
+.sidebar .nav-unit-title{display:flex;align-items:center;gap:8px;padding:10px 14px;color:var(--text);font-weight:600;font-size:.85rem;cursor:pointer;border-radius:8px;transition:all .2s;background:var(--bg3)}
+.sidebar .nav-unit-title:hover{background:var(--bg4)}
+.sidebar .nav-unit-title .arrow{transition:transform .3s;font-size:.7rem}
+.sidebar .nav-unit-title.active .arrow{transform:rotate(90deg)}
+.sidebar .nav-links{max-height:0;overflow:hidden;transition:max-height .4s ease}
+.sidebar .nav-links.open{max-height:2000px}
+.sidebar .nav-links a{display:block;padding:6px 14px 6px 32px;color:var(--text2);text-decoration:none;font-size:.78rem;border-radius:6px;transition:all .2s;border-left:2px solid transparent}
+.sidebar .nav-links a:hover,.sidebar .nav-links a.active{color:var(--accent);background:rgba(108,99,255,.08);border-left-color:var(--accent)}
+.sidebar .search-box{margin:10px 14px;position:relative}
+.sidebar .search-box input{width:100%;padding:8px 12px 8px 34px;background:var(--bg3);border:1px solid var(--card-border);border-radius:8px;color:var(--text);font-size:.8rem;outline:none}
+.sidebar .search-box input:focus{border-color:var(--accent)}
+.sidebar .search-box::before{content:'🔍';position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:.75rem}
+/* MAIN */
+.main{margin-left:var(--sidebar-w);flex:1;padding:30px 40px 60px;max-width:1000px}
+/* HAMBURGER */
+.hamburger{display:none;position:fixed;top:12px;left:12px;z-index:200;background:var(--accent);border:none;color:#fff;width:40px;height:40px;border-radius:8px;font-size:1.2rem;cursor:pointer}
+@media(max-width:900px){
+.sidebar{transform:translateX(-100%)}
+.sidebar.open{transform:translateX(0)}
+.hamburger{display:flex;align-items:center;justify-content:center}
+.main{margin-left:0;padding:20px 16px 60px}
+}
+/* HERO */
+.hero{text-align:center;padding:40px 20px;margin-bottom:30px;background:var(--grad1);border-radius:16px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.hero h1{font-size:2.2rem;font-weight:900;color:#fff;margin-bottom:8px;text-shadow:0 2px 10px rgba(0,0,0,.3)}
+.hero p{color:rgba(255,255,255,.85);font-size:.95rem}
+.hero .badge{display:inline-block;margin-top:12px;padding:5px 16px;background:rgba(255,255,255,.2);border-radius:20px;font-size:.8rem;color:#fff;backdrop-filter:blur(4px)}
+/* UNIT HEADER */
+.unit-header{padding:24px;margin:40px 0 20px;border-radius:var(--radius);position:relative;overflow:hidden}
+.unit-header.u3{background:linear-gradient(135deg,#6c63ff 0%,#3b37a8 100%)}
+.unit-header.u4{background:linear-gradient(135deg,#ff6b9d 0%,#c44569 100%)}
+.unit-header.u5{background:linear-gradient(135deg,#00d4aa 0%,#0a8967 100%)}
+.unit-header h2{color:#fff;font-size:1.6rem;font-weight:800}
+.unit-header p{color:rgba(255,255,255,.8);font-size:.85rem;margin-top:4px}
+/* SECTION */
+.section{background:var(--card);border:1px solid var(--card-border);border-radius:var(--radius);margin:16px 0;overflow:hidden;transition:all .3s}
+.section-head{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;cursor:pointer;user-select:none;transition:background .2s}
+.section-head:hover{background:var(--bg3)}
+.section-head h3{font-size:1rem;font-weight:700;display:flex;align-items:center;gap:10px}
+.section-head .toggle{font-size:.8rem;color:var(--text3);transition:transform .3s}
+.section-head.active .toggle{transform:rotate(180deg)}
+.section-body{padding:0 20px 20px;display:none}
+.section-body.show{display:block}
+/* TAGS */
+.tag{display:inline-block;padding:2px 10px;border-radius:20px;font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin:2px 4px 2px 0;vertical-align:middle}
+.tag-def{background:rgba(108,99,255,.15);color:#6c63ff}
+.tag-imp{background:rgba(255,107,157,.15);color:#ff6b9d}
+.tag-viva{background:rgba(0,212,170,.15);color:#00d4aa}
+.tag-pyq{background:rgba(255,217,61,.15);color:#ffd93d}
+.tag-prog{background:rgba(255,140,66,.15);color:#ff8c42}
+.tag-output{background:rgba(108,99,255,.1);color:#a78bfa}
+.tag-exam{background:rgba(255,60,60,.2);color:#ff4444;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
+/* DEFINITION CARD */
+.def-card{background:var(--bg3);border-left:4px solid var(--accent);border-radius:0 8px 8px 0;padding:14px 18px;margin:12px 0}
+.def-card h4{color:var(--accent);font-size:.85rem;font-weight:700;margin-bottom:4px}
+/* IMPORTANT BOX */
+.imp-box{background:rgba(255,107,157,.06);border:1px solid rgba(255,107,157,.2);border-radius:8px;padding:14px 18px;margin:12px 0}
+.imp-box::before{content:'⚡ IMPORTANT';display:block;font-size:.7rem;font-weight:800;color:var(--accent2);margin-bottom:6px;letter-spacing:1px}
+/* EXAM BOX */
+.exam-box{background:rgba(255,217,61,.06);border:1px solid rgba(255,217,61,.2);border-radius:8px;padding:14px 18px;margin:12px 0}
+.exam-box::before{content:'🎯 MOST IMPORTANT FOR EXAM';display:block;font-size:.7rem;font-weight:800;color:var(--accent4);margin-bottom:6px;letter-spacing:1px}
+/* VIVA BOX */
+.viva-box{background:rgba(0,212,170,.06);border:1px solid rgba(0,212,170,.2);border-radius:8px;padding:14px 18px;margin:12px 0}
+.viva-box::before{content:'🗣️ VIVA QUESTION';display:block;font-size:.7rem;font-weight:800;color:var(--accent3);margin-bottom:6px;letter-spacing:1px}
+/* CODE BLOCKS */
+.code-wrapper{position:relative;margin:12px 0;border-radius:8px;overflow:hidden;border:1px solid var(--card-border)}
+.code-header{display:flex;justify-content:space-between;align-items:center;padding:8px 14px;background:var(--bg4);font-size:.75rem;color:var(--text2)}
+.code-header .lang{font-weight:600;color:var(--accent3)}
+.copy-btn{background:var(--bg3);border:1px solid var(--card-border);color:var(--text2);padding:3px 10px;border-radius:4px;cursor:pointer;font-size:.7rem;transition:all .2s}
+.copy-btn:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+pre{background:var(--code-bg);padding:16px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:.82rem;line-height:1.6;color:#e2e2f0}
+pre .kw{color:#c792ea}pre .fn{color:#82aaff}pre .str{color:#c3e88d}pre .num{color:#f78c6c}
+pre .cmt{color:#7e97a6;font-style:italic}pre .op{color:#89ddff}pre .var{color:#eeffff}
+/* OUTPUT BLOCK */
+.output-block{background:#0d1117;border:1px solid #21262d;border-radius:8px;padding:14px;margin:10px 0;font-family:'JetBrains Mono',monospace;font-size:.8rem;color:#7ee787;white-space:pre-wrap}
+.output-block::before{content:'📤 Output:';display:block;color:var(--accent4);font-weight:600;margin-bottom:8px;font-family:'Inter',sans-serif;font-size:.75rem}
+/* TABLES */
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.85rem}
+th{background:var(--bg4);color:var(--accent);font-weight:600;text-align:left;padding:10px 14px;border:1px solid var(--card-border)}
+td{padding:10px 14px;border:1px solid var(--card-border);color:var(--text)}
+tr:nth-child(even) td{background:rgba(108,99,255,.03)}
+tr:hover td{background:rgba(108,99,255,.06)}
+/* PROGRAM CARD */
+.prog-card{border:1px solid var(--card-border);border-radius:var(--radius);margin:16px 0;overflow:hidden;background:var(--bg2)}
+.prog-card .prog-head{padding:14px 18px;background:var(--grad1);color:#fff}
+.prog-card .prog-head h4{font-size:.95rem;font-weight:700;color:#ffffff !important;margin:4px 0 0}
+.prog-card .prog-head .prog-num{font-size:.7rem;opacity:.8}
+.prog-card .prog-body{padding:18px}
+/* MCQ */
+.mcq{background:var(--bg3);border-radius:8px;padding:16px;margin:10px 0;border-left:3px solid var(--accent4)}
+.mcq .q{font-weight:600;color:var(--text);margin-bottom:8px}
+.mcq .opts{padding-left:18px;color:var(--text2);font-size:.85rem}
+.mcq .opts div{padding:2px 0}
+.mcq .ans{margin-top:8px;color:var(--accent3);font-weight:600;font-size:.82rem;display:none}
+.mcq.show-ans .ans{display:block}
+/* REVISION PANEL */
+.revision-panel{position:fixed;bottom:20px;right:20px;width:320px;max-height:400px;background:var(--bg2);border:1px solid var(--card-border);border-radius:12px;box-shadow:var(--shadow);z-index:150;transform:translateY(calc(100% + 30px));transition:transform .3s;overflow:hidden}
+.revision-panel.open{transform:translateY(0)}
+.revision-panel .rp-head{padding:12px 16px;background:var(--grad1);color:#fff;display:flex;justify-content:space-between;align-items:center;cursor:pointer}
+.revision-panel .rp-head *{color:#ffffff !important}
+.revision-panel .rp-body{padding:14px;overflow-y:auto;max-height:340px;font-size:.8rem;color:var(--text2)}
+.revision-panel .rp-body li{padding:3px 0;border-bottom:1px solid var(--card-border)}
+.rp-toggle{position:fixed;bottom:20px;right:20px;z-index:151;width:50px;height:50px;border-radius:50%;background:var(--grad1);border:none;color:#fff;font-size:1.3rem;cursor:pointer;box-shadow:0 4px 20px rgba(108,99,255,.4);transition:transform .2s}
+.rp-toggle:hover{transform:scale(1.1)}
+/* CONTROLS */
+.controls{display:flex;gap:10px;margin:20px 0;flex-wrap:wrap}
+.ctrl-btn{padding:8px 16px;background:var(--bg3);border:1px solid var(--card-border);color:var(--text2);border-radius:8px;cursor:pointer;font-size:.8rem;transition:all .2s}
+.ctrl-btn:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+/* LISTS */
+.section-body ul,.section-body ol{padding-left:20px;margin:8px 0}
+.section-body li{padding:3px 0;color:var(--text)}
+.section-body p{margin:8px 0;color:var(--text)}
+.section-body h4{color:var(--accent);margin:16px 0 8px;font-size:.95rem}
+.section-body h5{color:var(--accent2);margin:12px 0 6px;font-size:.88rem}
+/* SYNTAX TABLE */
+.syntax-tbl td:first-child{font-family:'JetBrains Mono',monospace;color:var(--accent3);font-size:.82rem;white-space:nowrap}
+/* MNEMONIC */
+.mnemonic{background:linear-gradient(135deg,rgba(255,217,61,.1),rgba(255,140,66,.1));border:1px dashed var(--accent4);border-radius:8px;padding:12px 16px;margin:10px 0;font-family:'Caveat',cursive;font-size:1.1rem;color:var(--accent4)}
+.mnemonic::before{content:'🧠 Memory Trick: ';font-weight:700}
+/* DIAGRAM BOX */
+.diagram{background:var(--bg3);border:1px solid var(--card-border);border-radius:8px;padding:20px;margin:12px 0;text-align:center;font-family:'JetBrains Mono',monospace;font-size:.8rem;color:var(--text2);overflow-x:auto}
+.diagram .box{display:inline-block;padding:8px 16px;border:2px solid var(--accent);border-radius:8px;margin:4px;color:var(--accent)}
+.diagram .arrow{color:var(--accent2);margin:0 6px;font-size:1.2rem}
+/* HIGHLIGHT */
+.hl{color:var(--accent);font-weight:600}
+.hl2{color:var(--accent3);font-weight:600}
+.hl3{color:var(--accent2);font-weight:600}
+mark{background:rgba(255,217,61,.2);color:var(--accent4);padding:1px 4px;border-radius:3px}
+code{font-family:'JetBrains Mono',monospace;background:var(--bg3);padding:1px 6px;border-radius:4px;font-size:.82rem;color:var(--accent3)}
+strong{color:var(--text);font-weight:700}
+/* HANDWRITTEN */
+.handwritten{font-family:'Caveat',cursive;font-size:1.2rem;color:var(--accent4)}
+/* DIFF TABLE */
+.diff-tbl th:first-child,.diff-tbl td:first-child{background:rgba(108,99,255,.05)}
+</style>
+</head>
+<body>
+
+<!-- HAMBURGER -->
+<button class="hamburger" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰</button>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+<div class="logo">📊 R Analytics Notes<small>MSRIT • B.E. ISE • 2nd Internal</small></div>
+<div class="search-box"><input type="text" id="searchInput" placeholder="Search topics..." oninput="searchTopics(this.value)"></div>
+<nav>
+<div class="nav-unit">
+<div class="nav-unit-title active" onclick="toggleNav(this)"><span class="arrow">▶</span> Unit 3: Data I/O & Aggregation</div>
+<div class="nav-links open">
+<a href="#u3-aggregate">aggregate() Function</a>
+<a href="#u3-tapply">tapply() Function</a>
+<a href="#u3-simple-analysis">Simple Analysis using R</a>
+<a href="#u3-io">Input / Output in R</a>
+<a href="#u3-readcsv">read.csv() & read.table()</a>
+<a href="#u3-spreadsheets">Reading Spreadsheets</a>
+<a href="#u3-json-xml">JSON & XML</a>
+<a href="#u3-gui">R GUIs for Data Input</a>
+<a href="#u3-databases">R with Databases</a>
+<a href="#u3-programs">Unit 3 Programs</a>
+</div>
+</div>
+<div class="nav-unit">
+<div class="nav-unit-title" onclick="toggleNav(this)"><span class="arrow">▶</span> Unit 4: Data Frames & EDA</div>
+<div class="nav-links">
+<a href="#u4-dataframes">Data Frames</a>
+<a href="#u4-functions">R Functions for DFs</a>
+<a href="#u4-loading">Loading Data Frames</a>
+<a href="#u4-subsetting">Subsetting & Merging</a>
+<a href="#u4-eda">Exploratory Data Analysis</a>
+<a href="#u4-missing">Missing & Invalid Values</a>
+<a href="#u4-descriptive">Descriptive Statistics</a>
+<a href="#u4-programs">Unit 4 Programs</a>
+</div>
+</div>
+<div class="nav-unit">
+<div class="nav-unit-title" onclick="toggleNav(this)"><span class="arrow">▶</span> Unit 5: Visualization & Data Mgmt</div>
+<div class="nav-links">
+<a href="#u5-histograms">Histograms & Density</a>
+<a href="#u5-scatter">Scatter & Line Plots</a>
+<a href="#u5-bar-box">Bar & Box Plots</a>
+<a href="#u5-ggplot">ggplot2 Basics</a>
+<a href="#u5-cleaning">Cleaning Data</a>
+<a href="#u5-transform">Data Transformation</a>
+<a href="#u5-sampling">Sampling</a>
+<a href="#u5-programs">Unit 5 Programs</a>
+</div>
+</div>
+<div class="nav-unit">
+<div class="nav-unit-title" onclick="toggleNav(this)"><span class="arrow">▶</span> 📝 Exam Preparation</div>
+<div class="nav-links">
+<a href="#mcqs">MCQs (20+)</a>
+<a href="#viva">Viva Questions (15+)</a>
+<a href="#practice-progs">Practice Programs (25+)</a>
+<a href="#expected-qs">Expected Questions</a>
+<a href="#revision">Last-Minute Revision</a>
+</div>
+</div>
+</nav>
+</aside>
+
+<!-- MAIN CONTENT -->
+<div class="main" id="mainContent">
+
+<!-- HERO -->
+<div class="hero">
+<h1>Data Analytics using R</h1>
+<p>Complete Exam Notes — Units 3, 4 & 5</p>
+<span class="badge">🎓 MSRIT • ISE • ISALC492 • 2nd Internal Assessment</span>
+</div>
+
+<!-- CONTROLS -->
+<div class="controls">
+<button class="ctrl-btn" onclick="expandAll()">📂 Expand All</button>
+<button class="ctrl-btn" onclick="collapseAll()">📁 Collapse All</button>
+<button class="ctrl-btn" onclick="showAllAnswers()">✅ Show MCQ Answers</button>
+<button class="ctrl-btn" onclick="hideAllAnswers()">❌ Hide MCQ Answers</button>
+</div>
+
+<!-- ============================================================== -->
+<!-- UNIT 3 -->
+<!-- ============================================================== -->
+<div class="unit-header u3" id="unit3">
+<h2>📘 UNIT 3 — Aggregating, Data I/O & Databases</h2>
+<p>Aggregation, Simple Analysis, Input/Output, Reading Data, R GUIs, Databases</p>
+</div>
+
+<!-- 3.1 aggregate() -->
+<div class="section" id="u3-aggregate">
+<div class="section-head" onclick="toggleSection(this)">
+<h3><span class="tag tag-imp">Important</span><span class="tag tag-pyq">PYQ</span> aggregate() Function</h3>
+<span class="toggle">▼</span>
+</div>
+<div class="section-body">
+
+<div class="def-card">
+<h4>📖 Definition</h4>
+<p>The <code>aggregate()</code> function in R is used to <strong>split the data into subsets</strong>, <strong>compute summary statistics</strong> for each subset, and <strong>return the result in a data frame</strong>. It is one of the most important functions for group-wise data processing.</p>
+</div>
+
+<div class="exam-box">
+<p>This function is VERY frequently asked in exams — both as theory (explain aggregate) and as programs (write R code using aggregate).</p>
+</div>
+
+<h4>📝 Syntax</h4>
+<table class="syntax-tbl">
+<tr><th>Syntax</th><th>Description</th></tr>
+<tr><td>aggregate(formula, data, FUN)</td><td>Formula-based: <code>y ~ x</code> means summarize y grouped by x</td></tr>
+<tr><td>aggregate(x, by, FUN)</td><td>x = data to summarize, by = list of grouping factors, FUN = function</td></tr>
+</table>
+
+<h4>📌 Key Parameters</h4>
+<ul>
+<li><span class="hl">formula</span> — A formula like <code>value ~ group</code>; left side = variable to summarize, right side = grouping variable</li>
+<li><span class="hl">data</span> — The data frame to operate on</li>
+<li><span class="hl">FUN</span> — The function to apply (mean, sum, max, min, length, sd, etc.)</li>
+<li><span class="hl">by</span> — A list of grouping elements (used in non-formula syntax)</li>
+<li><span class="hl">na.rm</span> — Whether to remove NA values (TRUE/FALSE)</li>
+</ul>
+
+<h4>📌 How aggregate() Works — Step by Step</h4>
+<div class="diagram">
+<span class="box">Input Data Frame</span>
+<span class="arrow">→</span>
+<span class="box">Split by Group</span>
+<span class="arrow">→</span>
+<span class="box">Apply FUN</span>
+<span class="arrow">→</span>
+<span class="box">Combine Results</span>
+</div>
+
+<div class="prog-card">
+<div class="prog-head"><span class="prog-num">Program 3.1</span><h4>Basic aggregate() — Mean salary by department</h4></div>
+<div class="prog-body">
+<div class="code-wrapper">
+<div class="code-header"><span class="lang">R</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+<pre><span class="cmt"># Create a data frame</span>
+emp &lt;- <span class="fn">data.frame</span>(
+  name = <span class="fn">c</span>(<span class="str">"Alice"</span>, <span class="str">"Bob"</span>, <span class="str">"Charlie"</span>, <span class="str">"David"</span>, <span class="str">"Eve"</span>),
+  dept = <span class="fn">c</span>(<span class="str">"IT"</span>, <span class="str">"HR"</span>, <span class="str">"IT"</span>, <span class="str">"HR"</span>, <span class="str">"IT"</span>),
+  salary = <span class="fn">c</span>(<span class="num">50000</span>, <span class="num">45000</span>, <span class="num">55000</span>, <span class="num">48000</span>, <span class="num">60000</span>)
+)
+
+<span class="cmt"># Aggregate: mean salary by department</span>
+result &lt;- <span class="fn">aggregate</span>(salary ~ dept, data = emp, FUN = mean)
+<span class="fn">print</span>(result)</pre>
+</div>
+<div class="output-block">  dept salary
+1   HR  46500
+2   IT  55000</div>
+<p><strong>Explanation:</strong> The formula <code>salary ~ dept</code> means "summarize salary grouped by dept". FUN = mean computes the average salary for each department. HR has (45000+48000)/2 = 46500, IT has (50000+55000+60000)/3 = 55000.</p>
+</div>
+</div>
+
+<div class="prog-card">
+<div class="prog-head"><span class="prog-num">Program 3.2</span><h4>aggregate() with multiple grouping variables</h4></div>
+<div class="prog-body">
+<div class="code-wrapper">
+<div class="code-header"><span class="lang">R</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+<pre><span class="cmt"># Data with multiple groups</span>
+sales &lt;- <span class="fn">data.frame</span>(
+  region = <span class="fn">c</span>(<span class="str">"North"</span>,<span class="str">"North"</span>,<span class="str">"South"</span>,<span class="str">"South"</span>,<span class="str">"North"</span>,<span class="str">"South"</span>),
+  product = <span class="fn">c</span>(<span class="str">"A"</span>,<span class="str">"B"</span>,<span class="str">"A"</span>,<span class="str">"B"</span>,<span class="str">"A"</span>,<span class="str">"A"</span>),
+  amount = <span class="fn">c</span>(<span class="num">100</span>,<span class="num">200</span>,<span class="num">150</span>,<span class="num">250</span>,<span class="num">120</span>,<span class="num">180</span>)
+)
+
+<span class="cmt"># Aggregate by region AND product</span>
+result &lt;- <span class="fn">aggregate</span>(amount ~ region + product, data = sales, FUN = sum)
+<span class="fn">print</span>(result)</pre>
+</div>
+<div class="output-block">  region product amount
+1  North       A    220
+2  South       A    330
+3  North       B    200
+4  South       B    250</div>
+</div>
+</div>
+
+<div class="prog-card">
+<div class="prog-head"><span class="prog-num">Program 3.3</span><h4>aggregate() using list-based syntax</h4></div>
+<div class="prog-body">
+<div class="code-wrapper">
+<div class="code-header"><span class="lang">R</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+<pre><span class="cmt"># Alternative syntax using by = list()</span>
+result &lt;- <span class="fn">aggregate</span>(
+  x = emp$salary,
+  by = <span class="fn">list</span>(Department = emp$dept),
+  FUN = sum
+)
+<span class="fn">print</span>(result)</pre>
+</div>
+<div class="output-block">  Department     x
+1         HR 93000
+2         IT 165000</div>
+</div>
+</div>
+
+<div class="viva-box">
+<p><strong>Q: What is the difference between formula syntax and list syntax in aggregate()?</strong></p>
+<p><strong>A:</strong> Formula syntax: <code>aggregate(y ~ x, data, FUN)</code> — cleaner, uses data frame directly. List syntax: <code>aggregate(x, by=list(), FUN)</code> — more flexible, can use external vectors. Both give same results.</p>
+</div>
+
+<div class="imp-box">
+<p><strong>Common FUN values:</strong> <code>mean</code>, <code>sum</code>, <code>max</code>, <code>min</code>, <code>length</code> (count), <code>sd</code> (standard deviation), <code>var</code> (variance), <code>median</code></p>
+</div>
+
+</div>
+</div>
+
+<!-- 3.2 tapply() -->
+<div class="section" id="u3-tapply">
+<div class="section-head" onclick="toggleSection(this)">
+<h3><span class="tag tag-imp">Important</span><span class="tag tag-viva">Viva</span> tapply() Function</h3>
+<span class="toggle">▼</span>
+</div>
+<div class="section-body">
+
+<div class="def-card">
+<h4>📖 Definition</h4>
+<p><code>tapply()</code> applies a function to <strong>subsets of a vector</strong>, split by the levels of a factor. It is used for <strong>group-wise operations on vectors</strong>. The name stands for "tagged apply" — it applies a function to groups identified by tags (factors).</p>
+</div>
+
+<h4>📝 Syntax</h4>
+<div class="code-wrapper">
+<div class="code-header"><span class="lang">R Syntax</span></div>
+<pre>tapply(X, INDEX, FUN, ..., simplify = TRUE)
+
+<span class="cmt"># X       = numeric vector to apply function on</span>
+<span class="cmt"># INDEX   = factor/list of factors defining groups</span>
+<span class="cmt"># FUN     = function to apply (mean, sum, etc.)</span>
+<span class="cmt"># simplify = if TRUE, returns array; if FALSE, returns list</span></pre>
+</div>
+
+<h4>📌 Difference: aggregate() vs tapply()</h4>
+<table class="diff-tbl">
+<tr><th>Feature</th><th>aggregate()</th><th>tapply()</th></tr>
+<tr><td>Input</td><td>Data frame</td><td>Vector + Factor</td></tr>
+<tr><td>Output</td><td>Data frame</td><td>Array / Named vector</td></tr>
+<tr><td>Formula support</td><td>Yes (y ~ x)</td><td>No</td></tr>
+<tr><td>Multiple columns</td><td>Yes</td><td>One vector at a time</td></tr>
+<tr><td>Best for</td><td>Complex grouped summaries</td><td>Quick group stats on a single variable</td></tr>
+</table>
+
+<div class="prog-card">
+<div class="prog-head"><span class="prog-num">Program 3.4</span><h4>tapply() — Mean marks by subject</h4></div>
+<div class="prog-body">
+<div class="code-wrapper">
+<div class="code-header"><span class="lang">R</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+<pre>marks &lt;- <span class="fn">c</span>(<span class="num">85</span>, <span class="num">90</span>, <span class="num">78</span>, <span class="num">92</span>, <span class="num">88</span>, <span class="num">76</span>)
+subject &lt;- <span class="fn">c</span>(<span class="str">"Math"</span>, <span class="str">"Science"</span>, <span class="str">"Math"</span>, <span class="str">"Science"</span>, <span class="str">"Math"</span>, <span class="str">"Science"</span>)
+
+<span class="cmt"># Mean marks per subject</span>
+result &lt;- <span class="fn">tapply</span>(marks, subject, mean)
+<span class="fn">print</span>(result)
+
+<span class="cmt"># Sum marks per subject</span>
+<span class="fn">tapply</span>(marks, subject, sum)</pre>
+</div>
+<div class="output-block">    Math Science 
+83.66667 86.00000
+
+  Math Science 
+   251     258</div>
+</div>
+</div>
+
+<div class="mnemonic">tapply = "Tagged Apply" — it applies a function to data tagged/grouped by a factor.</div>
+
+<div class="viva-box">
+<p><strong>Q: What does tapply() return?</strong></p>
+<p><strong>A:</strong> By default (simplify=TRUE), tapply() returns a <strong>named array</strong>. If simplify=FALSE, it returns a <strong>list</strong>.</p>
+</div>
+
+<div class="imp-box">
+<p><strong>Other apply family functions:</strong> <code>apply()</code> — for matrices (row/col-wise), <code>lapply()</code> — returns list, <code>sapply()</code> — simplified lapply, <code>mapply()</code> — multivariate, <code>vapply()</code> — type-safe sapply</p>
+</div>
+
+</div>
+</div>
+
+<!-- 3.3 Simple Analysis -->
+<div class="section" id="u3-simple-analysis">
+<div class="section-head" onclick="toggleSection(this)">
+<h3><span class="tag tag-def">Definition</span> Simple Analysis Using R</h3>
+<span class="toggle">▼</span>
+</div>
+<div class="section-body">
+
+<div class="def-card">
+<h4>📖 What is Simple Analysis?</h4>
+<p>Simple analysis in R involves understanding and describing the basic structure and characteristics of your data using built-in R functions. This includes describing data structures, variable structures, and performing basic statistical analysis.</p>
+</div>
+
+<h4>📌 Describe Data Structure</h4>
+<table class="syntax-tbl">
+<tr><th>Function</th><th>Purpose</th><th>Example</th></tr>
+<tr><td>class(x)</td><td>Returns the class/type of object</td><td><code>class(df)</code> → "data.frame"</td></tr>
+<tr><td>typeof(x)</td><td>Returns internal type</td><td><code>typeof(5L)</code> → "integer"</td></tr>
+<tr><td>str(x)</td><td>Displays structure of object</td><td><code>str(df)</code> → shows cols, types, values</td></tr>
+<tr><td>summary(x)</td><td>Statistical summary</td><td><code>summary(df)</code> → min, max, mean, quartiles</td></tr>
+<tr><td>length(x)</td><td>Number of elements</td><td><code>length(v)</code> → 5</td></tr>
+<tr><td>dim(x)</td><td>Dimensions (rows × cols)</td><td><code>dim(df)</code> → 10 3</td></tr>
+<tr><td>names(x)</td><td>Column names</td><td><code>names(df)</code> → "Name" "Age" "Salary"</td></tr>
+</table>
+
+<h4>📌 Describe Variable Structure</h4>
+<ul>
+<li><strong>Numeric variables:</strong> <code>mean()</code>, <code>median()</code>, <code>sd()</code>, <code>var()</code>, <code>range()</code>, <code>quantile()</code></li>
+<li><strong>Categorical variables:</strong> <code>table()</code>, <code>levels()</code>, <code>nlevels()</code>, <code>factor()</code></li>
+<li><strong>Checking type:</strong> <code>is.numeric()</code>, <code>is.character()</code>, <code>is.factor()</code>, <code>is.logical()</code></li>
+</ul>
+
+<div class="prog-card">
+<div class="prog-head"><span class="prog-num">Program 3.5</span><h4>Describing data and variable structure</h4></div>
+<div class="prog-body">
+<div class="code-wrapper">
+<div class="code-header"><span class="lang">R</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+<pre>df &lt;- <span class="fn">data.frame</span>(
+  Name = <span class="fn">c</span>(<span class="str">"A"</span>, <span class="str">"B"</span>, <span class="str">"C"</span>, <span class="str">"D"</span>),
+  Age = <span class="fn">c</span>(<span class="num">21</span>, <span class="num">22</span>, <span class="num">20</span>, <span class="num">23</span>),
+  Grade = <span class="fn">c</span>(<span class="str">"A"</span>, <span class="str">"B"</span>, <span class="str">"A"</span>, <span class="str">"C"</span>)
+)
+
+<span class="cmt"># Data structure</span>
+<span class="fn">class</span>(df)       <span class="cmt"># "data.frame"</span>
+<span class="fn">dim</span>(df)         <span class="cmt"># 4 3</span>
+<span class="fn">str</span>(df)         <span class="cmt"># structure with types</span>
+<span class="fn">summary</span>(df)     <span class="cmt"># statistical summary</span>
+<span class="fn">names</span>(df)       <span class="cmt"># column names</span>
+
+<span class="cmt"># Variable structure</span>
+<span class="fn">is.numeric</span>(df$Age)      <span class="cmt"># TRUE</span>
+<span class="fn">is.character</span>(df$Name)   <span class="cmt"># TRUE</span>
+<span class="fn">mean</span>(df$Age)            <span class="cmt"># 21.5</span>
+<span class="fn">table</span>(df$Grade)         <span class="cmt"># frequency table</span></pre>
+</div>
+<div class="output-block">[1] "data.frame"
+[1] 4 3
+'data.frame':	4 obs. of  3 variables:
+ $ Name : chr  "A" "B" "C" "D"
+ $ Age  : num  21 22 20 23
+ $ Grade: chr  "A" "B" "A" "C"
+
+     Name       Age        Grade
+ Length:4      Min.  :20.00  Length:4
+ Class :char   1st Qu:20.75  Class :char
+ Mode  :char   Median:21.50  Mode  :char
+               Mean  :21.50
+               3rd Qu:22.25
+               Max.  :23.00</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<!-- 3.4 Input / Output in R -->
+<div class="section" id="u3-io">
+<div class="section-head" onclick="toggleSection(this)">
+<h3><span class="tag tag-imp">Important</span><span class="tag tag-exam">Exam</span> Input / Output in R</h3>
+<span class="toggle">▼</span>
+</div>
+<div class="section-body">
+
+<div class="def-card">
+<h4>📖 Overview</h4>
+<p>R provides multiple methods for reading data from external sources and writing data to files. Understanding I/O is essential because real-world data analysis always starts with importing data into R.</p>
+</div>
+
+<h4>📌 Methods for Reading Data in R</h4>
+<table>
+<tr><th>Method</th><th>Function</th><th>File Type</th></tr>
+<tr><td>CSV files</td><td><code>read.csv()</code>, <code>read.csv2()</code></td><td>.csv</td></tr>
+<tr><td>Tab/delimited files</td><td><code>read.table()</code>, <code>read.delim()</code></td><td>.txt, .tsv</td></tr>
+<tr><td>Excel files</td><td><code>read_excel()</code> (readxl pkg)</td><td>.xlsx, .xls</td></tr>
+<tr><td>JSON</td><td><code>fromJSON()</code> (jsonlite pkg)</td><td>.json</td></tr>
+<tr><td>XML</td><td><code>xmlParse()</code> (XML pkg)</td><td>.xml</td></tr>
+<tr><td>From packages</td><td><code>data()</code></td><td>Built-in datasets</td></tr>
+<tr><td>Databases</td><td><code>dbConnect()</code>, <code>dbGetQuery()</code></td><td>MySQL, PostgreSQL, SQLite</td></tr>
+<tr><td>Keyboard input</td><td><code>scan()</code>, <code>readline()</code></td><td>Interactive</td></tr>
+</table>
+
+<h4>📌 Writing Data</h4>
+<table>
+<tr><th>Function</th><th>Purpose</th></tr>
+<tr><td><code>write.csv()</code></td><td>Write data frame to CSV file</td></tr>
+<tr><td><code>write.table()</code></td><td>Write to tab-delimited or custom format</td></tr>
+<tr><td><code>sink()</code></td><td>Redirect output to a file</td></tr>
+<tr><td><code>cat()</code></td><td>Print output to file or console</td></tr>
+<tr><td><code>writeLines()</code></td><td>Write character vector to file</td></tr>
+</table>
+
+</div>
+</div>
+
+<!-- 3.5 read.csv() and read.table() -->
+<div class="section" id="u3-readcsv">
+<div class="section-head" onclick="toggleSection(this)">
+<h3><span class="tag tag-prog">Program</span><span class="tag tag-pyq">PYQ</span> read.csv() & read.table()</h3>
+<span class="toggle">▼</span>
+</div>
+<div class="section-body">
+
+<h4>📌 read.csv()</h4>
+<div class="def-card">
+<h4>📖 Definition</h4>
+<p><code>read.csv()</code> reads a <strong>comma-separated values (CSV)</strong> file and returns a data frame. It is the most commonly used function for importing data in R.</p>
+</div>
+
+<div class="code-wrapper">
+<div class="code-header"><span class="lang">R Syntax</span></div>
+<pre>read.csv(file, header = TRUE, sep = ",", stringsAsFactors = FALSE,
+         na.strings = "NA", skip = 0, nrows = -1, ...)</pre>
+</div>
+
+<table class="syntax-tbl">
+<tr><th>Parameter</th><th>Description</th><th>Default</th></tr>
+<tr><td>file</td><td>Path to CSV file or URL</td><td>Required</td></tr>
+<tr><td>header</td><td>Does first row contain column names?</td><td>TRUE</td></tr>
+<tr><td>sep</td><td>Field separator character</td><td>"," (comma)</td></tr>
+<tr><td>stringsAsFactors</td><td>Convert strings to factors?</td><td>FALSE (R 4.0+)</td></tr>
+<tr><td>na.strings</td><td>Strings to treat as NA</td><td>"NA"</td></tr>
+<tr><td>skip</td><td>Number of lines to skip</td><td>0</td></tr>
+<tr><td>nrows</td><td>Max number of rows to read</td><td>-1 (all)</td></tr>
+</table>
+
+<div class="prog-card">
+<div class="prog-head"><span class="prog-num">Program 3.6</span><h4>Reading a CSV file</h4></div>
+<div class="prog-body">
+<div class="code-wrapper">
+<div class="code-header"><span class="lang">R</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+<pre><span class="cmt"># Reading CSV file</span>
+data &lt;- <span class="fn">read.csv</span>(<span class="str">"students.csv"</span>, header = <span class="kw">TRUE</span>)
+<span class="fn">head</span>(data)         <span class="cmt"># First 6 rows</span>
+<span class="fn">str</span>(data)          <span class="cmt"># Structure</span>
+<span class="fn">nrow</span>(data)         <span class="cmt"># Number of rows</span>
+<span class="fn">ncol</span>(data)         <span class="cmt"># Number of columns</span>
+
+<span class="cmt"># Reading from URL</span>
+url_data &lt;- <span class="fn">read.csv</span>(<span class="str">"https://example.com/data.csv"</span>)
+
+<span class="cmt"># Writing CSV</span>
+<span class="fn">write.csv</span>(data, <span class="str">"output.csv"</span>, row.names = <span class="kw">FALSE</span>)</pre>
+</div>
+</div>
+</div>
+
+<h4>📌 read.table()</h4>
+<div class="def-card">
+<h4>📖 Definition</h4>
+<p><code>read.table()</code> is a more general function for reading tabular data. Default separator is <strong>whitespace</strong> (space/tab). It is the parent function — <code>read.csv()</code> is actually a wrapper around <code>read.table()</code> with <code>sep=","</code> and <code>header=TRUE</code>.</p>
+</div>
+
+<div class="code-wrapper">
+<div class="code-header"><span class="lang">R Syntax</span></div>
+<pre>read.table(file, header = FALSE, sep = "", dec = ".",
+           stringsAsFactors = FALSE, ...)</pre>
+</div>
+
+<h4>📌 Difference: read.csv() vs read.table()</h4>
+<table class="diff-tbl">
+<tr><th>Feature</th><th>read.csv()</th><th>read.table()</th></tr>
+<tr><td>Default separator</td><td>Comma (,)</td><td>Whitespace</td></tr>
+<tr><td>Default header</td><td>TRUE</td><td>FALSE</td></tr>
+<tr><td>Use case</td><td>CSV files</td><td>Space/tab-delimited files</td></tr>
+<tr><td>Relationship</td><td>Wrapper of read.table()</td><td>Parent function</td></tr>
+</table>
+
+<div class="mnemonic">"CSV = Comma, So read.csv uses comma by default. TABLE = Tab/Any, so read.table uses whitespace."</div>
+
+</div>
+</div>
+
+<!-- 3.6 Reading Spreadsheets -->
+<div class="section" id="u3-spreadsheets">
+<div class="section-head" onclick="toggleSection(this)">
+<h3><span class="tag tag-def">Definition</span> Reading Spreadsheets, Packages, JSON & XML</h3>
+<span class="toggle">▼</span>
+</div>
+<div class="section-body">
+
+<h4>📌 Reading Excel Spreadsheets</h4>
+<div class="code-wrapper">
+<div class="code-header"><span class="lang">R</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+<pre><span class="cmt"># Install and load readxl package</span>
+<span class="fn">install.packages</span>(<span class="str">"readxl"</span>)
+<span class="fn">library</span>(readxl)
+
+<span class="cmt"># Read Excel file</span>
+data &lt;- <span class="fn">read_excel</span>(<span class="str">"data.xlsx"</span>, sheet = <span class="num">1</span>)
+data &lt;- <span class="fn">read_excel</span>(<span class="str">"data.xlsx"</span>, sheet = <span class="str">"Sheet1"</span>)
+
+<span class="cmt"># List all sheets</span>
+<span class="fn">excel_sheets</span>(<span class="str">"data.xlsx"</span>)</pre>
+</div>
+
+<h4 id="u3-json-xml">📌 Reading JSON</h4>
+<div class="code-wrapper">
+<div class="code-header"><span class="lang">R</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+<pre><span class="fn">install.packages</span>(<span class="str">"jsonlite"</span>)
+<span class="fn">library</span>(jsonlite)
+
+<span class="cmt"># Read JSON from file</span>
+data &lt;- <span class="fn">fromJSON</span>(<span class="str">"data.json"</span>)
+
+<span class="cmt"># Read JSON from URL</span>
+data &lt;- <span class="fn">fromJSON</span>(<span class="str">"https://api.example.com/data"</span>)
+
+<span class="cmt"># Convert R object to JSON</span>
+json_str &lt;- <span class="fn">toJSON</span>(data, pretty = <span class="kw">TRUE</span>)</pre>
+</div>
+
+<h4>📌 Reading XML</h4>
+<div class="code-wrapper">
+<div class="code-header"><span class="lang">R</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+<pre><span class="fn">install.packages</span>(<span class="str">"XML"</span>)
+<span class="fn">library</span>(XML)
+
+<span class="cmt"># Parse XML file</span>
+doc &lt;- <span class="fn">xmlParse</span>(<span class="str">"data.xml"</span>)
+root &lt;- <span class="fn">xmlRoot</span>(doc)
+
+<span class="cmt"># Convert XML to data frame</span>
+df &lt;- <span class="fn">xmlToDataFrame</span>(doc)</pre>
+</div>
+
+<h4>📌 Reading from R Packages (Built-in Datasets)</h4>
+<div class="code-wrapper">
+<div class="code-header"><span class="lang">R</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+<pre><span class="cmt"># List all available datasets</span>
+<span class="fn">data</span>()
+
+<span class="cmt"># Load specific dataset</span>
+<span class="fn">data</span>(mtcars)
+<span class="fn">data</span>(iris)
+
+<span class="cmt"># View dataset</span>
+<span class="fn">head</span>(mtcars)
+<span class="fn">str</span>(iris)</pre>
+</div>
+
+<div class="imp-box">
+<p><strong>Popular built-in datasets:</strong> <code>mtcars</code> (motor cars), <code>iris</code> (flower measurements), <code>airquality</code>, <code>ChickWeight</code>, <code>ToothGrowth</code>, <code>PlantGrowth</code>, <code>USArrests</code></p>
+</div>
+
+</div>
+</div>
+
+<!-- 3.7 R GUIs for Data Input -->
+<div class="section" id="u3-gui">
+<div class="section-head" onclick="toggleSection(this)">
+<h3><span class="tag tag-def">Definition</span><span class="tag tag-viva">Viva</span> R GUIs for Data Input</h3>
+<span class="toggle">▼</span>
+</div>
+<div class="section-body">
+
+<div class="def-card">
+<h4>📖 What are R GUIs?</h4>
+<p>R GUIs (Graphical User Interfaces) provide visual, point-and-click interfaces for data input and analysis, making R more accessible to users who are not comfortable with command-line programming.</p>
+</div>
+
+<h4>📌 Popular R GUIs</h4>
+<table>
+<tr><th>GUI</th><th>Description</th><th>Key Features</th></tr>
+<tr><td><strong>RStudio</strong></td><td>Most popular IDE for R</td><td>Code editor, console, plots, packages, environment viewer</td></tr>
+<tr><td><strong>R Commander (Rcmdr)</strong></td><td>Menu-driven GUI for R</td><td>Point-and-click statistical analysis, generates R code</td></tr>
+<tr><td><strong>Deducer</strong></td><td>GUI built on JGR</td><td>Dialog-based analysis, works with JGR Java GUI</td></tr>
+<tr><td><strong>Rattle</strong></td><td>GUI for data mining</td><td>Data exploration, modeling, evaluation — generates R code</td></tr>
+<tr><td><strong>RKWard</strong></td><td>KDE-based R GUI</td><td>Spreadsheet-like data editor, plugin system</td></tr>
+<tr><td><strong>jamovi</strong></td><td>Spreadsheet-style GUI</td><td>Real-time analysis, uses R engine underneath</td></tr>
+</table>
+
+<h4>📌 Comparison of R GUIs</h4>
+<table class="diff-tbl">
+<tr><th>Feature</th><th>RStudio</th><th>R Commander</th><th>Rattle</th></tr>
+<tr><td>Target Users</td><td>All levels</td><td>Beginners</td><td>Data miners</td></tr>
+<tr><td>Interface</td><td>IDE</td><td>Menu-driven</td><td>Tab-based</td></tr>
+<tr><td>Coding Required</td><td>Yes</td><td>Minimal</td><td>Minimal</td></tr>
+<tr><td>Generates R Code</td><td>N/A</td><td>Yes</td><td>Yes</td></tr>
+<tr><td>Package</td><td>Standalone</td><td>Rcmdr</td><td>rattle</td></tr>
+</table>
+
+<div class="code-wrapper">
+<div class="code-header"><span class="lang">R</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+<pre><span class="cmt"># Using R Commander</span>
+<span class="fn">install.packages</span>(<span class="str">"Rcmdr"</span>)
+<span class="fn">library</span>(Rcmdr)    <span class="cmt"># Opens R Commander GUI</span>
+
+<span class="cmt"># Using Rattle for Data Mining</span>
+<span class="fn">install.packages</span>(<span class="str">"rattle"</span>)
+<span class="fn">library</span>(rattle)
+<span class="fn">rattle</span>()          <span class="cmt"># Opens Rattle GUI</span></pre>
+</div>
+
+</div>
+</div>
+
+<!-- 3.8 R with Databases -->
+<div class="section" id="u3-databases">
+<div class="section-head" onclick="toggleSection(this)">
+<h3><span class="tag tag-imp">Important</span><span class="tag tag-exam">Exam</span> Using R with Databases</h3>
+<span class="toggle">▼</span>
+</div>
+<div class="section-body">
+
+<div class="def-card">
+<h4>📖 Why use R with Databases?</h4>
+<p>When data is too large for CSV files or needs to be shared across applications, databases are used. R can connect to <strong>MySQL</strong>, <strong>PostgreSQL</strong>, <strong>SQLite</strong>, and others using the <strong>DBI</strong> package as a common interface.</p>
+</div>
+
+<h4>📌 General Workflow</h4>
+<div class="diagram">
+<span class="box">Install DBI + Driver</span>
+<span class="arrow">→</span>
+<span class="box">dbConnect()</span>
+<span class="arrow">→</span>
+<span class="box">dbGetQuery()</span>
+<span class="arrow">→</span>
+<span class="box">dbDisconnect()</span>
+</div>
+
+<h4>📌 MySQL with R</h4>
+<div class="code-wrapper">
+<div class="code-header"><span class="lang">R</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+<pre><span class="fn">install.packages</span>(<span class="str">"RMySQL"</span>)
+<span class="fn">library</span>(DBI)
+<span class="fn">library</span>(RMySQL)
+
+<span class="cmt"># Connect to MySQL database</span>
+con &lt;- <span class="fn">dbConnect</span>(MySQL(),
+  dbname = <span class="str">"mydb"</span>,
+  host = <span class="str">"localhost"</span>,
+  port = <span class="num">3306</span>,
+  user = <span class="str">"root"</span>,
+  password = <span class="str">"password"</span>
+)
+
+<span class="cmt"># Run query</span>
+result &lt;- <span class="fn">dbGetQuery</span>(con, <span class="str">"SELECT * FROM students"</span>)
+
+<span class="cmt"># List tables</span>
+<span class="fn">dbListTables</span>(con)
+
+<span class="cmt"># Write data frame to table</span>
+<span class="fn">dbWriteTable</span>(con, <span class="str">"newtable"</span>, df)
+
+<span class="cmt"># Disconnect</span>
+<span class="fn">dbDisconnect</span>(con)</pre>
+</div>
+
+<h4>📌 PostgreSQL with R</h4>
+<div class="code-wrapper">
+<div class="code-header"><span class="lang">R</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+<pre><span class="fn">install.packages</span>(<span class="str">"RPostgreSQL"</span>)
+<span class="fn">library</span>(RPostgreSQL)
+
+drv &lt;- <span class="fn">dbDriver</span>(<span class="str">"PostgreSQL"</span>)
+con &lt;- <span class="fn">dbConnect</span>(drv, dbname=<span class="str">"mydb"</span>, host=<span class="str">"localhost"</span>,
+                 port=<span class="num">5432</span>, user=<span class="str">"postgres"</span>, password=<span class="str">"pass"</span>)
+result &lt;- <span class="fn">dbGetQuery</span>(con, <span class="str">"SELECT * FROM employees"</span>)
+<span class="fn">dbDisconnect</span>(con)</pre>
+</div>
+
+<h4>📌 SQLite with R</h4>
+<div class="code-wrapper">
+<div class="code-header"><span class="lang">R</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+<pre><span class="fn">install.packages</span>(<span class="str">"RSQLite"</span>)
+<span class="fn">library</span>(RSQLite)
+
+<span class="cmt"># SQLite does NOT need server — file-based</span>
+con &lt;- <span class="fn">dbConnect</span>(SQLite(), <span class="str">"mydata.sqlite"</span>)
+<span class="fn">dbWriteTable</span>(con, <span class="str">"students"</span>, df)
+result &lt;- <span class="fn">dbGetQuery</span>(con, <span class="str">"SELECT * FROM students WHERE age > 20"</span>)
+<span class="fn">dbDisconnect</span>(con)</pre>
+</div>
+
+<h4>📌 Comparison of Databases</h4>
+<table class="diff-tbl">
+<tr><th>Feature</th><th>MySQL</th><th>PostgreSQL</th><th>SQLite</th></tr>
+<tr><td>Type</td><td>Client-Server</td><td>Client-Server</td><td>Embedded (file-based)</td></tr>
+<tr><td>R Package</td><td>RMySQL</td><td>RPostgreSQL</td><td>RSQLite</td></tr>
+<tr><td>Server Required</td><td>Yes</td><td>Yes</td><td>No</td></tr>
+<tr><td>Best For</td><td>Web apps</td><td>Complex queries</td><td>Local / small projects</td></tr>
+<tr><td>Port</td><td>3306</td><td>5432</td><td>N/A</td></tr>
+</table>
+
+<h4>📌 JasperDB and Pentaho</h4>
+<div class="def-card">
+<h4>📖 JasperReports Server</h4>
+<p><strong>Jasper</strong> is a Business Intelligence (BI) tool used for generating reports and dashboards. R can be integrated with JasperReports Server to embed R-based analytics into business reports. It uses the <code>Rserve</code> package to communicate with R.</p>
+</div>
+<div class="def-card">
+<h4>📖 Pentaho</h4>
+<p><strong>Pentaho</strong> is an open-source Business Intelligence suite that provides data integration, reporting, and analytics. R scripts can be embedded in Pentaho using the <strong>WEKA plugin</strong> or <strong>R Script Executor</strong> step in Pentaho Data Integration (PDI/Kettle). This allows combining ETL (Extract-Transform-Load) workflows with R analytics.</p>
+</div>
+
+<div class="imp-box">
+<p><strong>Key BI Terms:</strong> ETL = Extract, Transform, Load | OLAP = Online Analytical Processing | Dashboard = Visual summary of KPIs | KPI = Key Performance Indicator</p>
+</div>
+
+</div>
+</div>
+
+<!-- Unit 3 Programs -->
+<div class="section" id="u3-programs">
+<div class="section-head" onclick="toggleSection(this)">
+<h3><span class="tag tag-prog">Program</span> Unit 3 — Additional Programs</h3>
+<span class="toggle">▼</span>
+</div>
+<div class="section-body">
+
+<div class="prog-card">
+<div class="prog-head"><span class="prog-num">Program 3.7</span><h4>tapply() with multiple groups</h4></div>
+<div class="prog-body">
+<div class="code-wrapper">
+<div class="code-header"><span class="lang">R</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+<pre>scores &lt;- <span class="fn">c</span>(<span class="num">80</span>,<span class="num">90</span>,<span class="num">85</span>,<span class="num">70</span>,<span class="num">95</span>,<span class="num">88</span>,<span class="num">72</span>,<span class="num">91</span>)
+gender &lt;- <span class="fn">c</span>(<span class="str">"M"</span>,<span class="str">"F"</span>,<span class="str">"M"</span>,<span class="str">"F"</span>,<span class="str">"M"</span>,<span class="str">"F"</span>,<span class="str">"M"</span>,<span class="str">"F"</span>)
+
+<span class="cmt"># Maximum score by gender</span>
+<span class="fn">tapply</span>(scores, gender, max)
+
+<span class="cmt"># Count by gender</span>
+<span class="fn">tapply</span>(scores, gender, length)
+
+<span class="cmt"># Standard deviation by gender</span>
+<span class="fn">tapply</span>(scores, gender, sd)</pre>
+</div>
+<div class="output-block"> F  M 
+91 95 
+
+F M 
+4 4 
+
+       F        M 
+11.34247 10.30776</div>
+</div>
+</div>
+
+<div class="prog-card">
+<div class="prog-head"><span class="prog-num">Program 3.8</span><h4>Complete I/O Example — Read, Process, Write</h4></div>
+<div class="prog-body">
+<div class="code-wrapper">
+<div class="code-header"><span class="lang">R</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+<pre><span class="cmt"># Create sample data and write to CSV</span>
+students &lt;- <span class="fn">data.frame</span>(
+  Name = <span class="fn">c</span>(<span class="str">"Ravi"</span>, <span class="str">"Priya"</span>, <span class="str">"Amit"</span>, <span class="str">"Sneha"</span>),
+  Marks = <span class="fn">c</span>(<span class="num">85</span>, <span class="num">92</span>, <span class="num">78</span>, <span class="num">95</span>),
+  Branch = <span class="fn">c</span>(<span class="str">"ISE"</span>, <span class="str">"CSE"</span>, <span class="str">"ISE"</span>, <span class="str">"CSE"</span>)
+)
+<span class="fn">write.csv</span>(students, <span class="str">"students.csv"</span>, row.names = <span class="kw">FALSE</span>)
+
+<span class="cmt"># Read it back</span>
+data &lt;- <span class="fn">read.csv</span>(<span class="str">"students.csv"</span>)
+<span class="fn">cat</span>(<span class="str">"Rows:"</span>, <span class="fn">nrow</span>(data), <span class="str">"\n"</span>)
+<span class="fn">cat</span>(<span class="str">"Columns:"</span>, <span class="fn">ncol</span>(data), <span class="str">"\n"</span>)
+
+<span class="cmt"># Aggregate marks by branch</span>
+avg_marks &lt;- <span class="fn">aggregate</span>(Marks ~ Branch, data = data, FUN = mean)
+<span class="fn">print</span>(avg_marks)</pre>
+</div>
+<div class="output-block">Rows: 4 
+Columns: 3 
+  Branch Marks
+1    CSE  93.5
+2    ISE  81.5</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<!-- UNIT 4 PLACEHOLDER -->
+<!-- ============================================================== -->
+<!-- UNIT 4 -->
+<!-- ============================================================== -->
+<div class="unit-header u4" id="unit4">
+<h2>📗 UNIT 4 — Exploring Data & Data Frames</h2>
+<p>Data Frames, EDA, Missing Values, Outliers, Descriptive Statistics</p>
+</div>
+
+<!-- 4.1 Data Frames -->
+<div class="section" id="u4-dataframes">
+<div class="section-head" onclick="toggleSection(this)">
+<h3><span class="tag tag-imp">Important</span><span class="tag tag-pyq">PYQ</span> Data Frames in R</h3>
+<span class="toggle">▼</span>
+</div>
+<div class="section-body">
+
+<div class="def-card">
+<h4>📖 Definition</h4>
+<p>A <strong>Data Frame</strong> is the most commonly used data structure in R for storing tabular data. It is a <strong>list of vectors of equal length</strong>, organized as a 2D table with <strong>rows (observations)</strong> and <strong>columns (variables)</strong>. Each column can have a <strong>different data type</strong> (numeric, character, logical, factor).</p>
+</div>
+
+<div class="exam-box">
+<p>Data frames are asked in EVERY exam — creation, access, subsetting, merging. Master this section completely!</p>
+</div>
+
+<h4>📌 Key Properties of Data Frames</h4>
+<ul>
+<li>Each column must have the <strong>same number of elements</strong></li>
+<li>Columns can have <strong>different data types</strong> (unlike matrices)</li>
+<li>Each column has a <strong>name</strong></li>
+<li>Row names are optional (default: 1, 2, 3...)</li>
+<li>It is essentially a <strong>special type of list</strong></li>
+</ul>
+
+<h4>📌 Data Frame vs Matrix vs List</h4>
+<table class="diff-tbl">
+<tr><th>Feature</th><th>Data Frame</th><th>Matrix</th><th>List</th></tr>
+<tr><td>Dimensions</td><td>2D</td><td>2D</td><td>1D</td></tr>
+<tr><td>Column types</td><td>Different allowed</td><td>Same type only</td><td>Any type</td></tr>
+<tr><td>Access</td><td>df$col, df[r,c]</td><td>m[r,c]</td><td>list[[i]], list$name</td></tr>
+<tr><td>Use case</td><td>Tabular data</td><td>Math operations</td><td>Mixed data</td></tr>
+</table>
+
+<div class="prog-card">
+<div class="prog-head"><span class="prog-num">Program 4.1</span><h4>Creating a Data Frame</h4></div>
+<div class="prog-body">
+<div class="code-wrapper">
+<div class="code-header"><span class="lang">R</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+<pre><span class="cmt"># Method 1: Using data.frame()</span>
+students &lt;- <span class="fn">data.frame</span>(
+  Name = <span class="fn">c</span>(<span class="str">"Ravi"</span>, <span class="str">"Priya"</span>, <span class="str">"Amit"</span>, <span class="str">"Sneha"</span>, <span class="str">"Kiran"</span>),
+  Age = <span class="fn">c</span>(<span class="num">21</span>, <span class="num">22</span>, <span class="num">20</span>, <span class="num">23</span>, <span class="num">21</span>),
+  Branch = <span class="fn">c</span>(<span class="str">"ISE"</span>, <span class="str">"CSE"</span>, <span class="str">"ISE"</span>, <span class="str">"ECE"</span>, <span class="str">"CSE"</span>),
+  CGPA = <span class="fn">c</span>(<span class="num">8.5</span>, <span class="num">9.2</span>, <span class="num">7.8</span>, <span class="num">8.9</span>, <span class="num">8.1</span>),
+  stringsAsFactors = <span class="kw">FALSE</span>
+)
+<span class="fn">print</span>(students)</pre>
+</div>
+<div class="output-block">   Name Age Branch CGPA
+1  Ravi  21    ISE  8.5
+2 Priya  22    CSE  9.2
+3  Amit  20    ISE  7.8
+4 Sneha  23    ECE  8.9
+5 Kiran  21    CSE  8.1</div>
+</div>
+</div>
+
+<h4>📌 Data Frame Access Methods</h4>
+<table class="syntax-tbl">
+<tr><th>Syntax</th><th>Description</th><th>Example</th></tr>
+<tr><td>df$colname</td><td>Access a column by name (returns vector)</td><td><code>students$Name</code></td></tr>
+<tr><td>df[r, c]</td><td>Access by row and column index</td><td><code>students[1, 2]</code> → 21</td></tr>
+<tr><td>df[r, ]</td><td>Access entire row</td><td><code>students[1, ]</code> → first row</td></tr>
+<tr><td>df[, c]</td><td>Access entire column</td><td><code>students[, 2]</code> → Age column</td></tr>
+<tr><td>df["colname"]</td><td>Access column as data frame</td><td><code>students["Name"]</code></td></tr>
+<tr><td>df[["colname"]]</td><td>Access column as vector</td><td><code>students[["Name"]]</code></td></tr>
+<tr><td>df[c(1,3), ]</td><td>Multiple rows</td><td><code>students[c(1,3), ]</code> → rows 1 & 3</td></tr>
+<tr><td>df[condition, ]</td><td>Conditional access</td><td><code>students[students$Age > 21, ]</code></td></tr>
+</table>
+
+<div class="prog-card">
+<div class="prog-head"><span class="prog-num">Program 4.2</span><h4>Data Frame Access & Ordering</h4></div>
+<div class="prog-body">
+<div class="code-wrapper">
+<div class="code-header"><span class="lang">R</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+<pre><span class="cmt"># Access single column</span>
+<span class="fn">print</span>(students$Name)
+
+<span class="cmt"># Access specific cell</span>
+<span class="fn">print</span>(students[<span class="num">2</span>, <span class="num">3</span>])   <span class="cmt"># Row 2, Column 3</span>
+
+<span class="cmt"># Conditional filtering</span>
+high_cgpa &lt;- students[students$CGPA &gt; <span class="num">8.5</span>, ]
+<span class="fn">print</span>(high_cgpa)
+
+<span class="cmt"># Ordering by CGPA (descending)</span>
+sorted &lt;- students[<span class="fn">order</span>(-students$CGPA), ]
+<span class="fn">print</span>(sorted)
+
+<span class="cmt"># Ordering by multiple columns</span>
+sorted2 &lt;- students[<span class="fn">order</span>(students$Branch, -students$CGPA), ]
+<span class="fn">print</span>(sorted2)</pre>
+</div>
+<div class="output-block">[1] "Ravi"  "Priya" "Amit"  "Sneha" "Kiran"
+
+[1] "CSE"
+
+   Name Age Branch CGPA
+2 Priya  22    CSE  9.2
+4 Sneha  23    ECE  8.9
+
+   Name Age Branch CGPA
+2 Priya  22    CSE  9.2
+4 Sneha  23    ECE  8.9
+1  Ravi  21    ISE  8.5
+5 Kiran  21    CSE  8.1
+3  Amit  20    ISE  7.8</div>
+</div>
+</div>
+
+<div class="viva-box">
+<p><strong>Q: What is the difference between df["col"] and df[["col"]]?</strong></p>
+<p><strong>A:</strong> <code>df["col"]</code> returns a <strong>data frame</strong> with one column. <code>df[["col"]]</code> returns a <strong>vector</strong>. Similarly, <code>df$col</code> also returns a vector.</p>
+</div>
+
+</div>
+</div>
+
+<!-- 4.2 R Functions for Data Frames -->
+<div class="section" id="u4-functions">
+<div class="section-head" onclick="toggleSection(this)">
+<h3><span class="tag tag-exam">Exam</span><span class="tag tag-pyq">PYQ</span> R Functions for Understanding Data Frames</h3>
+<span class="toggle">▼</span>
+</div>
+<div class="section-body">
+
+<div class="exam-box">
+<p>These functions are asked every year! Know them with examples and expected outputs.</p>
+</div>
+
+<table class="syntax-tbl">
+<tr><th>Function</th><th>Purpose</th><th>Returns</th></tr>
+<tr><td>dim(df)</td><td>Dimensions of data frame</td><td>Vector: c(nrow, ncol)</td></tr>
+<tr><td>nrow(df)</td><td>Number of rows</td><td>Integer</td></tr>
+<tr><td>ncol(df)</td><td>Number of columns</td><td>Integer</td></tr>
+<tr><td>str(df)</td><td>Structure — types, values preview</td><td>Console output</td></tr>
+<tr><td>summary(df)</td><td>Statistical summary of each column</td><td>Console output</td></tr>
+<tr><td>names(df)</td><td>Column names</td><td>Character vector</td></tr>
+<tr><td>head(df, n)</td><td>First n rows (default 6)</td><td>Data frame</td></tr>
+<tr><td>tail(df, n)</td><td>Last n rows (default 6)</td><td>Data frame</td></tr>
+</table>
+
+<div class="prog-card">
+<div class="prog-head"><span class="prog-num">Program 4.3</span><h4>All Data Frame Functions — Complete Demo</h4></div>
+<div class="prog-body">
+<div class="code-wrapper">
+<div class="code-header"><span class="lang">R</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+<pre><span class="cmt"># Using built-in mtcars dataset</span>
+<span class="fn">data</span>(mtcars)
+
+<span class="fn">dim</span>(mtcars)       <span class="cmt"># Dimensions</span>
+<span class="fn">nrow</span>(mtcars)      <span class="cmt"># Number of rows</span>
+<span class="fn">ncol</span>(mtcars)      <span class="cmt"># Number of columns</span>
+<span class="fn">names</span>(mtcars)     <span class="cmt"># Column names</span>
+<span class="fn">head</span>(mtcars, <span class="num">3</span>)   <span class="cmt"># First 3 rows</span>
+<span class="fn">tail</span>(mtcars, <span class="num">2</span>)   <span class="cmt"># Last 2 rows</span>
+<span class="fn">str</span>(mtcars)       <span class="cmt"># Structure</span>
+<span class="fn">summary</span>(mtcars)   <span class="cmt"># Statistical summary</span></pre>
+</div>
+<div class="output-block">[1] 32 11     # 32 rows, 11 columns
+[1] 32
+[1] 11
+[1] "mpg"  "cyl"  "disp" "hp"   "drat" "wt"   "qsec" "vs"   "am"   "gear" "carb"
+
+                   mpg cyl disp  hp drat    wt  qsec vs am gear carb
+Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
+Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
+Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4    1
+
+'data.frame':  32 obs. of  11 variables:
+ $ mpg : num  21 21 22.8 21.4 18.7 ...
+ $ cyl : num  6 6 4 6 8 ...</div>
+</div>
+</div>
+
+<div class="viva-box">
+<p><strong>Q: What is the difference between head() and tail()?</strong></p>
+<p><strong>A:</strong> <code>head(df, n)</code> returns the <strong>first n rows</strong> (default 6). <code>tail(df, n)</code> returns the <strong>last n rows</strong> (default 6). Both are used to quickly preview data without printing the entire dataset.</p>
+</div>
+
+<div class="viva-box">
+<p><strong>Q: What is the difference between str() and summary()?</strong></p>
+<p><strong>A:</strong> <code>str()</code> shows the <strong>structure</strong> — column names, data types, and a preview of values. <code>summary()</code> shows <strong>statistical summary</strong> — Min, 1st Qu, Median, Mean, 3rd Qu, Max for numeric columns; frequency counts for factors.</p>
+</div>
+
+</div>
+</div>
+
+<!-- 4.3 Loading, Subsetting, Merging -->
+<div class="section" id="u4-loading">
+<div class="section-head" onclick="toggleSection(this)">
+<h3><span class="tag tag-prog">Program</span> Loading Data Frames</h3>
+<span class="toggle">▼</span>
+</div>
+<div class="section-body">
+
+<h4>📌 Ways to Load Data Frames</h4>
+<ol>
+<li><strong>Create manually:</strong> <code>data.frame(col1=..., col2=...)</code></li>
+<li><strong>From CSV:</strong> <code>read.csv("file.csv")</code></li>
+<li><strong>From built-in datasets:</strong> <code>data(iris)</code></li>
+<li><strong>From packages:</strong> Install package, then access its datasets</li>
+<li><strong>From clipboard:</strong> <code>read.table("clipboard", header=TRUE)</code></li>
+</ol>
+
+<div class="code-wrapper">
+<div class="code-header"><span class="lang">R</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+<pre><span class="cmt"># Load built-in dataset</span>
+<span class="fn">data</span>(iris)
+<span class="fn">head</span>(iris, <span class="num">3</span>)
+
+<span class="cmt"># Check working directory</span>
+<span class="fn">getwd</span>()
+
+<span class="cmt"># Set working directory</span>
+<span class="fn">setwd</span>(<span class="str">"C:/Users/student/data"</span>)
+
+<span class="cmt"># List files in directory</span>
+<span class="fn">list.files</span>()</pre>
+</div>
+
+</div>
+</div>
+
+<!-- 4.4 Subsetting & Merging -->
+<div class="section" id="u4-subsetting">
+<div class="section-head" onclick="toggleSection(this)">
+<h3><span class="tag tag-imp">Important</span><span class="tag tag-pyq">PYQ</span> Subsetting & Merging Data Frames</h3>
+<span class="toggle">▼</span>
+</div>
+<div class="section-body">
+
+<h4>📌 Subsetting Methods</h4>
+<table class="syntax-tbl">
+<tr><th>Method</th><th>Syntax</th><th>Example</th></tr>
+<tr><td>By index</td><td>df[rows, cols]</td><td><code>df[1:3, c(1,3)]</code></td></tr>
+<tr><td>By name</td><td>df[, "colname"]</td><td><code>df[, c("Name","Age")]</code></td></tr>
+<tr><td>By condition</td><td>df[condition, ]</td><td><code>df[df$Age > 21, ]</code></td></tr>
+<tr><td>subset() function</td><td>subset(df, condition)</td><td><code>subset(df, Age > 21)</code></td></tr>
+<tr><td>Exclude columns</td><td>df[, -c(2,3)]</td><td>Remove cols 2 and 3</td></tr>
+<tr><td>which()</td><td>df[which(cond), ]</td><td><code>df[which(df$Age==21), ]</code></td></tr>
+</table>
+
+<div class="prog-card">
+<div class="prog-head"><span class="prog-num">Program 4.4</span><h4>Subsetting Data Frames — Complete Examples</h4></div>
+<div class="prog-body">
+<div class="code-wrapper">
+<div class="code-header"><span class="lang">R</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+<pre>df &lt;- <span class="fn">data.frame</span>(
+  Name = <span class="fn">c</span>(<span class="str">"Ravi"</span>,<span class="str">"Priya"</span>,<span class="str">"Amit"</span>,<span class="str">"Sneha"</span>,<span class="str">"Kiran"</span>),
+  Age = <span class="fn">c</span>(<span class="num">21</span>,<span class="num">22</span>,<span class="num">20</span>,<span class="num">23</span>,<span class="num">21</span>),
+  Marks = <span class="fn">c</span>(<span class="num">85</span>,<span class="num">92</span>,<span class="num">78</span>,<span class="num">95</span>,<span class="num">88</span>)
+)
+
+<span class="cmt"># Subset by condition</span>
+<span class="fn">print</span>(df[df$Marks &gt; <span class="num">85</span>, ])
+
+<span class="cmt"># Using subset() function</span>
+<span class="fn">print</span>(<span class="fn">subset</span>(df, Age &gt;= <span class="num">21</span> &amp; Marks &gt; <span class="num">80</span>))
+
+<span class="cmt"># Select specific columns</span>
+<span class="fn">print</span>(df[, <span class="fn">c</span>(<span class="str">"Name"</span>, <span class="str">"Marks"</span>)])
+
+<span class="cmt"># Exclude a column</span>
+<span class="fn">print</span>(df[, -<span class="num">2</span>])  <span class="cmt"># Exclude Age column</span></pre>
+</div>
+<div class="output-block">   Name Age Marks
+2 Priya  22    92
+4 Sneha  23    95
+5 Kiran  21    88
+
+   Name Age Marks
+1  Ravi  21    85
+2 Priya  22    92
+4 Sneha  23    95
+5 Kiran  21    88
+
+   Name Marks
+1  Ravi    85
+2 Priya    92
+3  Amit    78
+4 Sneha    95
+5 Kiran    88</div>
+</div>
+</div>
+
+<h4>📌 Merging Data Frames</h4>
+<div class="def-card">
+<h4>📖 merge() Function</h4>
+<p><code>merge()</code> combines two data frames based on common columns, similar to SQL JOINs. The <code>by</code> parameter specifies the column(s) to match on.</p>
+</div>
+
+<div class="code-wrapper">
+<div class="code-header"><span class="lang">R Syntax</span></div>
+<pre>merge(x, y, by = "common_col")           <span class="cmt"># Inner join</span>
+merge(x, y, by = "col", all = TRUE)      <span class="cmt"># Full outer join</span>
+merge(x, y, by = "col", all.x = TRUE)    <span class="cmt"># Left join</span>
+merge(x, y, by = "col", all.y = TRUE)    <span class="cmt"># Right join</span></pre>
+</div>
+
+<div class="prog-card">
+<div class="prog-head"><span class="prog-num">Program 4.5</span><h4>Merging Data Frames</h4></div>
+<div class="prog-body">
+<div class="code-wrapper">
+<div class="code-header"><span class="lang">R</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+<pre><span class="cmt"># Two data frames</span>
+df1 &lt;- <span class="fn">data.frame</span>(
+  ID = <span class="fn">c</span>(<span class="num">1</span>,<span class="num">2</span>,<span class="num">3</span>,<span class="num">4</span>),
+  Name = <span class="fn">c</span>(<span class="str">"A"</span>,<span class="str">"B"</span>,<span class="str">"C"</span>,<span class="str">"D"</span>)
+)
+df2 &lt;- <span class="fn">data.frame</span>(
+  ID = <span class="fn">c</span>(<span class="num">2</span>,<span class="num">3</span>,<span class="num">4</span>,<span class="num">5</span>),
+  Score = <span class="fn">c</span>(<span class="num">85</span>,<span class="num">90</span>,<span class="num">78</span>,<span class="num">92</span>)
+)
+
+<span class="cmt"># Inner join (only matching rows)</span>
+<span class="fn">print</span>(<span class="fn">merge</span>(df1, df2, by = <span class="str">"ID"</span>))
+
+<span class="cmt"># Left join (all from df1)</span>
+<span class="fn">print</span>(<span class="fn">merge</span>(df1, df2, by = <span class="str">"ID"</span>, all.x = <span class="kw">TRUE</span>))
+
+<span class="cmt"># Full outer join</span>
+<span class="fn">print</span>(<span class="fn">merge</span>(df1, df2, by = <span class="str">"ID"</span>, all = <span class="kw">TRUE</span>))
+
+<span class="cmt"># Column bind and Row bind</span>
+<span class="fn">cbind</span>(df1, extra = <span class="fn">c</span>(<span class="num">10</span>,<span class="num">20</span>,<span class="num">30</span>,<span class="num">40</span>))  <span class="cmt"># Add column</span>
+<span class="fn">rbind</span>(df1, <span class="fn">data.frame</span>(ID=<span class="num">5</span>, Name=<span class="str">"E"</span>))  <span class="cmt"># Add row</span></pre>
+</div>
+<div class="output-block"># Inner join:
+  ID Name Score
+1  2    B    85
+2  3    C    90
+3  4    D    78
+
+# Left join:
+  ID Name Score
+1  1    A    NA
+2  2    B    85
+3  3    C    90
+4  4    D    78
+
+# Full outer join:
+  ID Name Score
+1  1    A    NA
+2  2    B    85
+3  3    C    90
+4  4    D    78
+5  5 &lt;NA&gt;    92</div>
+</div>
+</div>
+
+<div class="mnemonic">Merge = "Match & Eat & Roll & Get & Extend" — Match common column, combine both tables!</div>
+
+</div>
+</div>
+
+<!-- 4.5 Exploratory Data Analysis -->
+<div class="section" id="u4-eda">
+<div class="section-head" onclick="toggleSection(this)">
+<h3><span class="tag tag-imp">Important</span><span class="tag tag-exam">Exam</span> Exploratory Data Analysis (EDA)</h3>
+<span class="toggle">▼</span>
+</div>
+<div class="section-body">
+
+<div class="def-card">
+<h4>📖 Definition</h4>
+<p><strong>Exploratory Data Analysis (EDA)</strong> is an approach to analyzing datasets to summarize their main characteristics, often using visual methods. The goal is to understand the data <strong>before</strong> applying any formal modeling. EDA helps detect errors, check assumptions, identify patterns, and find relationships between variables.</p>
+</div>
+
+<h4>📌 Steps in EDA</h4>
+<ol>
+<li><strong>Data Summary:</strong> Use <code>summary()</code>, <code>str()</code>, <code>dim()</code> to understand structure</li>
+<li><strong>Check Missing Values:</strong> <code>is.na()</code>, <code>sum(is.na())</code>, <code>complete.cases()</code></li>
+<li><strong>Check Invalid Values:</strong> Look for impossible values (negative ages, etc.)</li>
+<li><strong>Detect Outliers:</strong> Using boxplots, IQR method, z-scores</li>
+<li><strong>Descriptive Statistics:</strong> Mean, median, mode, range, sd, variance</li>
+<li><strong>Visualize:</strong> Histograms, scatter plots, box plots, bar charts</li>
+</ol>
+
+<div class="diagram">
+<span class="box">Raw Data</span>
+<span class="arrow">→</span>
+<span class="box">Summary Stats</span>
+<span class="arrow">→</span>
+<span class="box">Find Problems</span>
+<span class="arrow">→</span>
+<span class="box">Clean Data</span>
+<span class="arrow">→</span>
+<span class="box">Visualize</span>
+</div>
+
+</div>
+</div>
+
+<!-- 4.6 Missing & Invalid Values -->
+<div class="section" id="u4-missing">
+<div class="section-head" onclick="toggleSection(this)">
+<h3><span class="tag tag-imp">Important</span><span class="tag tag-prog">Program</span> Missing Values, Invalid Values & Outliers</h3>
+<span class="toggle">▼</span>
+</div>
+<div class="section-body">
+
+<h4>📌 Missing Values (NA)</h4>
+<div class="def-card">
+<h4>📖 What is NA?</h4>
+<p>In R, <code>NA</code> represents a <strong>missing or undefined value</strong>. It is NOT the same as 0, NULL, or "" (empty string). NA stands for "Not Available". Operations with NA usually return NA unless explicitly handled.</p>
+</div>
+
+<table class="syntax-tbl">
+<tr><th>Function</th><th>Purpose</th><th>Example</th></tr>
+<tr><td>is.na(x)</td><td>Check if value is NA</td><td><code>is.na(NA)</code> → TRUE</td></tr>
+<tr><td>sum(is.na(df))</td><td>Count total NAs in data frame</td><td>Returns count</td></tr>
+<tr><td>complete.cases(df)</td><td>Rows with NO missing values</td><td>Logical vector</td></tr>
+<tr><td>na.rm = TRUE</td><td>Ignore NAs in calculations</td><td><code>mean(x, na.rm=TRUE)</code></td></tr>
+<tr><td>na.omit(df)</td><td>Remove rows with NAs</td><td>Returns cleaned df</td></tr>
+<tr><td>is.null(x)</td><td>Check if object is NULL</td><td><code>is.null(NULL)</code> → TRUE</td></tr>
+</table>
+
+<div class="prog-card">
+<div class="prog-head"><span class="prog-num">Program 4.6</span><h4>Handling Missing Values — Complete Demo</h4></div>
+<div class="prog-body">
+<div class="code-wrapper">
+<div class="code-header"><span class="lang">R</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+<pre><span class="cmt"># Create data with NAs</span>
+df &lt;- <span class="fn">data.frame</span>(
+  Name = <span class="fn">c</span>(<span class="str">"A"</span>,<span class="str">"B"</span>,<span class="str">"C"</span>,<span class="str">"D"</span>,<span class="str">"E"</span>),
+  Marks = <span class="fn">c</span>(<span class="num">85</span>, <span class="kw">NA</span>, <span class="num">78</span>, <span class="num">92</span>, <span class="kw">NA</span>),
+  Age = <span class="fn">c</span>(<span class="num">21</span>, <span class="num">22</span>, <span class="kw">NA</span>, <span class="num">20</span>, <span class="num">23</span>)
+)
+
+<span class="cmt"># Check for NAs</span>
+<span class="fn">is.na</span>(df)                    <span class="cmt"># Matrix of TRUE/FALSE</span>
+<span class="fn">sum</span>(<span class="fn">is.na</span>(df))               <span class="cmt"># Total NAs: 3</span>
+<span class="fn">colSums</span>(<span class="fn">is.na</span>(df))           <span class="cmt"># NAs per column</span>
+
+<span class="cmt"># Complete cases</span>
+<span class="fn">complete.cases</span>(df)           <span class="cmt"># TRUE FALSE FALSE TRUE FALSE</span>
+df[<span class="fn">complete.cases</span>(df), ]     <span class="cmt"># Only complete rows</span>
+
+<span class="cmt"># Remove NAs</span>
+clean_df &lt;- <span class="fn">na.omit</span>(df)
+
+<span class="cmt"># Replace NA with mean</span>
+df$Marks[<span class="fn">is.na</span>(df$Marks)] &lt;- <span class="fn">mean</span>(df$Marks, na.rm = <span class="kw">TRUE</span>)
+
+<span class="cmt"># Calculate with na.rm</span>
+<span class="fn">mean</span>(df$Marks, na.rm = <span class="kw">TRUE</span>)  <span class="cmt"># Ignores NA</span></pre>
+</div>
+<div class="output-block">     Name Marks   Age
+[1,] FALSE FALSE FALSE
+[2,] FALSE  TRUE FALSE
+[3,] FALSE FALSE  TRUE
+[4,] FALSE FALSE FALSE
+[5,] FALSE  TRUE FALSE
+
+Total NAs: 3
+
+ Name Marks   Age 
+    0     2     1
+
+Complete rows only:
+  Name Marks Age
+1    A    85  21
+4    D    92  20</div>
+</div>
+</div>
+
+<h4>📌 Invalid Values</h4>
+<div class="def-card">
+<h4>📖 What are Invalid Values?</h4>
+<p>Invalid values are entries that exist but make <strong>no logical sense</strong>. Example: negative age (-5), percentage > 100, future dates in birth_date. They are NOT NA — they're present but incorrect.</p>
+</div>
+
+<div class="code-wrapper">
+<div class="code-header"><span class="lang">R</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+<pre><span class="cmt"># Detect invalid values</span>
+ages &lt;- <span class="fn">c</span>(<span class="num">21</span>, -<span class="num">5</span>, <span class="num">22</span>, <span class="num">200</span>, <span class="num">20</span>)
+
+<span class="cmt"># Find invalid ages (negative or > 120)</span>
+invalid &lt;- ages[ages &lt; <span class="num">0</span> | ages &gt; <span class="num">120</span>]
+<span class="fn">cat</span>(<span class="str">"Invalid ages:"</span>, invalid, <span class="str">"\n"</span>)
+
+<span class="cmt"># Replace invalid with NA</span>
+ages[ages &lt; <span class="num">0</span> | ages &gt; <span class="num">120</span>] &lt;- <span class="kw">NA</span>
+<span class="fn">print</span>(ages)</pre>
+</div>
+
+<h4>📌 Outliers</h4>
+<div class="def-card">
+<h4>📖 What are Outliers?</h4>
+<p>Outliers are <strong>data points that differ significantly</strong> from other observations. They can be caused by measurement errors, data entry errors, or genuine extreme values. The <strong>IQR method</strong> is commonly used to detect outliers.</p>
+</div>
+
+<h5>IQR Method Formula:</h5>
+<div class="imp-box">
+<p>
+<strong>IQR</strong> = Q3 - Q1 (Inter-Quartile Range)<br>
+<strong>Lower Fence</strong> = Q1 - 1.5 × IQR<br>
+<strong>Upper Fence</strong> = Q3 + 1.5 × IQR<br>
+Any value <strong>below Lower Fence or above Upper Fence</strong> is an outlier.
+</p>
+</div>
+
+<div class="prog-card">
+<div class="prog-head"><span class="prog-num">Program 4.7</span><h4>Detecting Outliers using IQR</h4></div>
+<div class="prog-body">
+<div class="code-wrapper">
+<div class="code-header"><span class="lang">R</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+<pre>data &lt;- <span class="fn">c</span>(<span class="num">12</span>,<span class="num">15</span>,<span class="num">14</span>,<span class="num">10</span>,<span class="num">13</span>,<span class="num">50</span>,<span class="num">11</span>,<span class="num">16</span>,<span class="num">14</span>,<span class="num">100</span>)
+
+Q1 &lt;- <span class="fn">quantile</span>(data, <span class="num">0.25</span>)
+Q3 &lt;- <span class="fn">quantile</span>(data, <span class="num">0.75</span>)
+IQR_val &lt;- Q3 - Q1
+
+lower &lt;- Q1 - <span class="num">1.5</span> * IQR_val
+upper &lt;- Q3 + <span class="num">1.5</span> * IQR_val
+
+outliers &lt;- data[data &lt; lower | data &gt; upper]
+<span class="fn">cat</span>(<span class="str">"Q1:"</span>, Q1, <span class="str">"Q3:"</span>, Q3, <span class="str">"IQR:"</span>, IQR_val, <span class="str">"\n"</span>)
+<span class="fn">cat</span>(<span class="str">"Lower:"</span>, lower, <span class="str">"Upper:"</span>, upper, <span class="str">"\n"</span>)
+<span class="fn">cat</span>(<span class="str">"Outliers:"</span>, outliers, <span class="str">"\n"</span>)
+
+<span class="cmt"># Visual detection using boxplot</span>
+<span class="fn">boxplot</span>(data, main = <span class="str">"Outlier Detection"</span>, col = <span class="str">"lightblue"</span>)</pre>
+</div>
+<div class="output-block">Q1: 11.75  Q3: 15.75  IQR: 4
+Lower: 5.75  Upper: 21.75
+Outliers: 50 100</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<!-- 4.7 Descriptive Statistics -->
+<div class="section" id="u4-descriptive">
+<div class="section-head" onclick="toggleSection(this)">
+<h3><span class="tag tag-exam">Exam</span><span class="tag tag-imp">Important</span> Descriptive Statistics</h3>
+<span class="toggle">▼</span>
+</div>
+<div class="section-body">
+
+<div class="def-card">
+<h4>📖 Definition</h4>
+<p><strong>Descriptive Statistics</strong> summarize and describe the main features of a dataset. They provide simple summaries about the sample and the measures. The two main types are: <strong>Measures of Central Tendency</strong> (Mean, Median, Mode) and <strong>Measures of Dispersion</strong> (Range, Variance, Standard Deviation).</p>
+</div>
+
+<h4>📌 Measures of Central Tendency</h4>
+<table>
+<tr><th>Measure</th><th>Definition</th><th>R Function</th><th>Formula</th></tr>
+<tr><td><strong>Mean</strong></td><td>Arithmetic average of all values</td><td><code>mean(x)</code></td><td>Sum(x) / n</td></tr>
+<tr><td><strong>Median</strong></td><td>Middle value when data is sorted</td><td><code>median(x)</code></td><td>Middle value of sorted data</td></tr>
+<tr><td><strong>Mode</strong></td><td>Most frequently occurring value</td><td>No built-in function!</td><td>Value with highest frequency</td></tr>
+</table>
+
+<div class="exam-box">
+<p><strong>R has NO built-in mode function!</strong> You must write your own. This is frequently asked in exams!</p>
+</div>
+
+<div class="prog-card">
+<div class="prog-head"><span class="prog-num">Program 4.8</span><h4>Mean, Median, and Mode Calculation</h4></div>
+<div class="prog-body">
+<div class="code-wrapper">
+<div class="code-header"><span class="lang">R</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+<pre>x &lt;- <span class="fn">c</span>(<span class="num">10</span>, <span class="num">20</span>, <span class="num">20</span>, <span class="num">30</span>, <span class="num">40</span>, <span class="num">40</span>, <span class="num">40</span>, <span class="num">50</span>)
+
+<span class="cmt"># Mean</span>
+<span class="fn">cat</span>(<span class="str">"Mean:"</span>, <span class="fn">mean</span>(x), <span class="str">"\n"</span>)
+
+<span class="cmt"># Median</span>
+<span class="fn">cat</span>(<span class="str">"Median:"</span>, <span class="fn">median</span>(x), <span class="str">"\n"</span>)
+
+<span class="cmt"># Mode — custom function (IMPORTANT!)</span>
+get_mode &lt;- <span class="kw">function</span>(v) {
+  uniq &lt;- <span class="fn">unique</span>(v)
+  uniq[<span class="fn">which.max</span>(<span class="fn">tabulate</span>(<span class="fn">match</span>(v, uniq)))]
+}
+<span class="fn">cat</span>(<span class="str">"Mode:"</span>, <span class="fn">get_mode</span>(x), <span class="str">"\n"</span>)
+
+<span class="cmt"># Frequency table</span>
+<span class="fn">print</span>(<span class="fn">table</span>(x))</pre>
+</div>
+<div class="output-block">Mean: 31.25 
+Median: 35 
+Mode: 40
+
+x
+10 20 30 40 50 
+ 1  2  1  3  1</div>
+</div>
+</div>
+
+<h4>📌 Measures of Dispersion</h4>
+<table class="syntax-tbl">
+<tr><th>Measure</th><th>R Function</th><th>Description</th></tr>
+<tr><td>Range</td><td>range(x)</td><td>Min and Max values</td></tr>
+<tr><td>Data Range</td><td>diff(range(x))</td><td>Max - Min</td></tr>
+<tr><td>Variance</td><td>var(x)</td><td>Average of squared deviations from mean</td></tr>
+<tr><td>Std Deviation</td><td>sd(x)</td><td>Square root of variance</td></tr>
+<tr><td>Quantiles</td><td>quantile(x)</td><td>0%, 25%, 50%, 75%, 100%</td></tr>
+<tr><td>IQR</td><td>IQR(x)</td><td>Q3 - Q1</td></tr>
+</table>
+
+<div class="prog-card">
+<div class="prog-head"><span class="prog-num">Program 4.9</span><h4>All Descriptive Statistics</h4></div>
+<div class="prog-body">
+<div class="code-wrapper">
+<div class="code-header"><span class="lang">R</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+<pre>x &lt;- <span class="fn">c</span>(<span class="num">15</span>, <span class="num">22</span>, <span class="num">18</span>, <span class="num">30</span>, <span class="num">25</span>, <span class="num">28</span>, <span class="num">20</span>, <span class="num">35</span>)
+
+<span class="fn">cat</span>(<span class="str">"Mean:"</span>, <span class="fn">mean</span>(x), <span class="str">"\n"</span>)
+<span class="fn">cat</span>(<span class="str">"Median:"</span>, <span class="fn">median</span>(x), <span class="str">"\n"</span>)
+<span class="fn">cat</span>(<span class="str">"Range:"</span>, <span class="fn">range</span>(x), <span class="str">"\n"</span>)
+<span class="fn">cat</span>(<span class="str">"Data Range:"</span>, <span class="fn">diff</span>(<span class="fn">range</span>(x)), <span class="str">"\n"</span>)
+<span class="fn">cat</span>(<span class="str">"Variance:"</span>, <span class="fn">var</span>(x), <span class="str">"\n"</span>)
+<span class="fn">cat</span>(<span class="str">"Std Dev:"</span>, <span class="fn">sd</span>(x), <span class="str">"\n"</span>)
+<span class="fn">cat</span>(<span class="str">"IQR:"</span>, <span class="fn">IQR</span>(x), <span class="str">"\n"</span>)
+<span class="fn">print</span>(<span class="fn">quantile</span>(x))
+<span class="fn">print</span>(<span class="fn">summary</span>(x))</pre>
+</div>
+<div class="output-block">Mean: 24.125 
+Median: 23.5 
+Range: 15 35 
+Data Range: 20 
+Variance: 43.26786 
+Std Dev: 6.577831 
+IQR: 9.25
+
+   0%   25%   50%   75%  100% 
+15.00 19.50 23.50 28.75 35.00
+
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  15.00   19.50   23.50   24.12   28.75   35.00</div>
+</div>
+</div>
+
+<div class="imp-box">
+<p><strong>Key Formulas to Remember:</strong><br>
+• Variance = Σ(xi - x̄)² / (n-1) [sample variance in R uses n-1]<br>
+• Std Dev = √Variance<br>
+• IQR = Q3 - Q1<br>
+• Outlier if value &lt; Q1 - 1.5×IQR or value &gt; Q3 + 1.5×IQR</p>
+</div>
+
+</div>
+</div>
+
+<!-- Unit 4 Programs -->
+<div class="section" id="u4-programs">
+<div class="section-head" onclick="toggleSection(this)">
+<h3><span class="tag tag-prog">Program</span> Unit 4 — Additional Programs</h3>
+<span class="toggle">▼</span>
+</div>
+<div class="section-body">
+
+<div class="prog-card">
+<div class="prog-head"><span class="prog-num">Program 4.10</span><h4>Vector Creation & Arithmetic</h4></div>
+<div class="prog-body">
+<div class="code-wrapper">
+<div class="code-header"><span class="lang">R</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+<pre><span class="cmt"># Vector creation methods</span>
+v1 &lt;- <span class="fn">c</span>(<span class="num">1</span>,<span class="num">2</span>,<span class="num">3</span>,<span class="num">4</span>,<span class="num">5</span>)
+v2 &lt;- <span class="num">1</span>:<span class="num">10</span>
+v3 &lt;- <span class="fn">seq</span>(<span class="num">1</span>, <span class="num">20</span>, by=<span class="num">2</span>)
+v4 &lt;- <span class="fn">rep</span>(<span class="num">5</span>, <span class="num">3</span>)
+
+<span class="cmt"># Arithmetic</span>
+a &lt;- <span class="fn">c</span>(<span class="num">10</span>,<span class="num">20</span>,<span class="num">30</span>)
+b &lt;- <span class="fn">c</span>(<span class="num">1</span>,<span class="num">2</span>,<span class="num">3</span>)
+<span class="fn">cat</span>(<span class="str">"Add:"</span>, a + b, <span class="str">"\n"</span>)
+<span class="fn">cat</span>(<span class="str">"Mul:"</span>, a * b, <span class="str">"\n"</span>)
+<span class="fn">cat</span>(<span class="str">"Sum:"</span>, <span class="fn">sum</span>(a), <span class="str">"\n"</span>)
+<span class="fn">cat</span>(<span class="str">"Length:"</span>, <span class="fn">length</span>(a), <span class="str">"\n"</span>)
+<span class="fn">cat</span>(<span class="str">"Sort desc:"</span>, <span class="fn">sort</span>(a, decreasing=<span class="kw">TRUE</span>), <span class="str">"\n"</span>)</pre>
+</div>
+<div class="output-block">Add: 11 22 33 
+Mul: 10 40 90 
+Sum: 60 
+Length: 3 
+Sort desc: 30 20 10</div>
+</div>
+</div>
+
+<div class="prog-card">
+<div class="prog-head"><span class="prog-num">Program 4.11</span><h4>Matrix Creation & Access</h4></div>
+<div class="prog-body">
+<div class="code-wrapper">
+<div class="code-header"><span class="lang">R</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+<pre><span class="cmt"># Create 2x3 matrix</span>
+m &lt;- <span class="fn">matrix</span>(<span class="num">1</span>:<span class="num">6</span>, nrow=<span class="num">2</span>, ncol=<span class="num">3</span>)
+<span class="fn">print</span>(m)
+
+<span class="cmt"># Access element at row 1, col 2</span>
+<span class="fn">cat</span>(<span class="str">"m[1,2] ="</span>, m[<span class="num">1</span>,<span class="num">2</span>], <span class="str">"\n"</span>)
+
+<span class="cmt"># Access entire row</span>
+<span class="fn">cat</span>(<span class="str">"Row 1:"</span>, m[<span class="num">1</span>,], <span class="str">"\n"</span>)
+
+<span class="cmt"># Access entire column</span>
+<span class="fn">cat</span>(<span class="str">"Col 2:"</span>, m[,<span class="num">2</span>], <span class="str">"\n"</span>)
+
+<span class="cmt"># Matrix with byrow</span>
+m2 &lt;- <span class="fn">matrix</span>(<span class="num">1</span>:<span class="num">6</span>, nrow=<span class="num">2</span>, byrow=<span class="kw">TRUE</span>)
+<span class="fn">print</span>(m2)</pre>
+</div>
+<div class="output-block">     [,1] [,2] [,3]
+[1,]    1    3    5
+[2,]    2    4    6
+
+m[1,2] = 3
+Row 1: 1 3 5
+Col 2: 3 4
+
+     [,1] [,2] [,3]
+[1,]    1    2    3
+[2,]    4    5    6</div>
+</div>
+</div>
+
+<div class="prog-card">
+<div class="prog-head"><span class="prog-num">Program 4.12</span><h4>List Operations</h4></div>
+<div class="prog-body">
+<div class="code-wrapper">
+<div class="code-header"><span class="lang">R</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+<pre><span class="cmt"># Create a list</span>
+my_list &lt;- <span class="fn">list</span>(
+  name = <span class="str">"Ravi"</span>,
+  marks = <span class="fn">c</span>(<span class="num">85</span>,<span class="num">90</span>,<span class="num">78</span>),
+  pass = <span class="kw">TRUE</span>
+)
+
+<span class="cmt"># Access elements</span>
+<span class="fn">print</span>(my_list$name)         <span class="cmt"># "Ravi"</span>
+<span class="fn">print</span>(my_list[[<span class="num">2</span>]])         <span class="cmt"># 85 90 78</span>
+<span class="fn">print</span>(my_list[<span class="str">"marks"</span>])     <span class="cmt"># as list</span>
+
+<span class="cmt"># Display the list</span>
+<span class="fn">str</span>(my_list)
+
+<span class="cmt"># Length</span>
+<span class="fn">cat</span>(<span class="str">"Length:"</span>, <span class="fn">length</span>(my_list), <span class="str">"\n"</span>)</pre>
+</div>
+<div class="output-block">[1] "Ravi"
+[1] 85 90 78
+
+List of 3
+ $ name : chr "Ravi"
+ $ marks: num [1:3] 85 90 78
+ $ pass : logi TRUE
+
+Length: 3</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<!-- UNIT 5 PLACEHOLDER -->
+<!-- ============================================================== -->
+<!-- UNIT 5 -->
+<!-- ============================================================== -->
+<div class="unit-header u5" id="unit5">
+<h2>📙 UNIT 5 — Visualization & Data Management</h2>
+<p>Graphics, ggplot2, Cleaning Data, Transformation, Sampling</p>
+</div>
+
+<!-- 5.1 Histograms & Density -->
+<div class="section" id="u5-histograms">
+<div class="section-head" onclick="toggleSection(this)">
+<h3><span class="tag tag-prog">Program</span><span class="tag tag-pyq">PYQ</span> Histograms & Density Plots</h3>
+<span class="toggle">▼</span>
+</div>
+<div class="section-body">
+
+<div class="def-card">
+<h4>📖 Histogram</h4>
+<p>A <strong>histogram</strong> displays the distribution of a <strong>single continuous variable</strong> by dividing the data range into intervals (bins) and counting the frequency of values in each bin. It shows the <strong>shape, center, and spread</strong> of the data.</p>
+</div>
+
+<div class="code-wrapper">
+<div class="code-header"><span class="lang">R Syntax</span></div>
+<pre>hist(x, breaks, col, main, xlab, ylab, border, freq)
+
+<span class="cmt"># x      = numeric vector</span>
+<span class="cmt"># breaks = number of bins or breakpoints</span>
+<span class="cmt"># col    = fill color</span>
+<span class="cmt"># main   = title</span>
+<span class="cmt"># xlab   = x-axis label</span>
+<span class="cmt"># freq   = TRUE (frequency) / FALSE (density)</span></pre>
+</div>
+
+<div class="prog-card">
+<div class="prog-head"><span class="prog-num">Program 5.1</span><h4>Histogram — Student Marks Distribution</h4></div>
+<div class="prog-body">
+<div class="code-wrapper">
+<div class="code-header"><span class="lang">R</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+<pre>marks &lt;- <span class="fn">c</span>(<span class="num">45</span>,<span class="num">67</span>,<span class="num">78</span>,<span class="num">89</span>,<span class="num">92</span>,<span class="num">55</span>,<span class="num">71</span>,<span class="num">84</span>,<span class="num">63</span>,<span class="num">95</span>,<span class="num">50</span>,<span class="num">73</span>,<span class="num">88</span>,<span class="num">61</span>,<span class="num">76</span>)
+
+<span class="cmt"># Basic histogram</span>
+<span class="fn">hist</span>(marks,
+     main = <span class="str">"Student Marks Distribution"</span>,
+     xlab = <span class="str">"Marks"</span>,
+     ylab = <span class="str">"Frequency"</span>,
+     col = <span class="str">"steelblue"</span>,
+     border = <span class="str">"white"</span>,
+     breaks = <span class="num">5</span>)
+
+<span class="cmt"># Density histogram</span>
+<span class="fn">hist</span>(marks, freq = <span class="kw">FALSE</span>, col = <span class="str">"lightcoral"</span>,
+     main = <span class="str">"Density Histogram"</span>)
+<span class="fn">lines</span>(<span class="fn">density</span>(marks), col = <span class="str">"red"</span>, lwd = <span class="num">2</span>)</pre>
+</div>
+</div>
+</div>
+
+<div class="def-card">
+<h4>📖 Density Plot</h4>
+<p>A <strong>density plot</strong> is a smoothed version of the histogram. It estimates the probability density function of a continuous variable. Created using <code>density()</code> function and plotted with <code>plot()</code>.</p>
+</div>
+
+<div class="code-wrapper">
+<div class="code-header"><span class="lang">R</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+<pre><span class="cmt"># Density plot</span>
+<span class="fn">plot</span>(<span class="fn">density</span>(marks),
+     main = <span class="str">"Density Plot of Marks"</span>,
+     col = <span class="str">"purple"</span>, lwd = <span class="num">2</span>,
+     xlab = <span class="str">"Marks"</span>)
+<span class="fn">polygon</span>(<span class="fn">density</span>(marks), col = <span class="fn">rgb</span>(<span class="num">0.5</span>,<span class="num">0</span>,<span class="num">0.5</span>,<span class="num">0.3</span>))</pre>
+</div>
+
+</div>
+</div>
+
+<!-- 5.2 Scatter & Line Plots -->
+<div class="section" id="u5-scatter">
+<div class="section-head" onclick="toggleSection(this)">
+<h3><span class="tag tag-imp">Important</span><span class="tag tag-prog">Program</span> Scatter Plots & Line Plots</h3>
+<span class="toggle">▼</span>
+</div>
+<div class="section-body">
+
+<div class="def-card">
+<h4>📖 Scatter Plot</h4>
+<p>A <strong>scatter plot</strong> shows the relationship between <strong>two continuous variables</strong> using dots. Each dot represents one observation. Used to check <strong>correlation</strong> (positive, negative, none).</p>
+</div>
+
+<div class="prog-card">
+<div class="prog-head"><span class="prog-num">Program 5.2</span><h4>Scatter Plot — Height vs Weight</h4></div>
+<div class="prog-body">
+<div class="code-wrapper">
+<div class="code-header"><span class="lang">R</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+<pre>height &lt;- <span class="fn">c</span>(<span class="num">150</span>,<span class="num">160</span>,<span class="num">165</span>,<span class="num">170</span>,<span class="num">175</span>,<span class="num">180</span>,<span class="num">155</span>,<span class="num">168</span>)
+weight &lt;- <span class="fn">c</span>(<span class="num">50</span>,<span class="num">60</span>,<span class="num">65</span>,<span class="num">70</span>,<span class="num">75</span>,<span class="num">82</span>,<span class="num">55</span>,<span class="num">68</span>)
+
+<span class="cmt"># Basic scatter plot</span>
+<span class="fn">plot</span>(height, weight,
+     main = <span class="str">"Height vs Weight"</span>,
+     xlab = <span class="str">"Height (cm)"</span>,
+     ylab = <span class="str">"Weight (kg)"</span>,
+     col = <span class="str">"blue"</span>,
+     pch = <span class="num">19</span>,     <span class="cmt"># solid circle</span>
+     cex = <span class="num">1.5</span>)    <span class="cmt"># point size</span>
+
+<span class="cmt"># Add trend line</span>
+<span class="fn">abline</span>(<span class="fn">lm</span>(weight ~ height), col = <span class="str">"red"</span>, lwd = <span class="num">2</span>)</pre>
+</div>
+</div>
+</div>
+
+<h4>📌 pch Values (Point Characters)</h4>
+<table>
+<tr><th>pch</th><th>Shape</th><th>pch</th><th>Shape</th></tr>
+<tr><td>0</td><td>Square</td><td>15</td><td>Filled Square</td></tr>
+<tr><td>1</td><td>Circle</td><td>16</td><td>Filled Circle</td></tr>
+<tr><td>2</td><td>Triangle</td><td>17</td><td>Filled Triangle</td></tr>
+<tr><td>3</td><td>Plus</td><td>19</td><td>Solid Circle</td></tr>
+<tr><td>4</td><td>Cross</td><td>20</td><td>Small Solid Circle</td></tr>
+</table>
+
+<h4>📌 Line Plot</h4>
+<div class="code-wrapper">
+<div class="code-header"><span class="lang">R</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+<pre>days &lt;- <span class="num">1</span>:<span class="num">7</span>
+temp &lt;- <span class="fn">c</span>(<span class="num">30</span>,<span class="num">32</span>,<span class="num">28</span>,<span class="num">35</span>,<span class="num">33</span>,<span class="num">31</span>,<span class="num">29</span>)
+
+<span class="cmt"># Line plot</span>
+<span class="fn">plot</span>(days, temp,
+     type = <span class="str">"l"</span>,        <span class="cmt"># "l"=line, "b"=both, "o"=overplotted</span>
+     main = <span class="str">"Weekly Temperature"</span>,
+     col = <span class="str">"red"</span>, lwd = <span class="num">2</span>,
+     xlab = <span class="str">"Day"</span>, ylab = <span class="str">"Temp (°C)"</span>)
+<span class="fn">points</span>(days, temp, pch = <span class="num">19</span>, col = <span class="str">"darkred"</span>)</pre>
+</div>
+
+<div class="imp-box">
+<p><strong>plot() type parameter:</strong> <code>"p"</code> = points, <code>"l"</code> = lines, <code>"b"</code> = both, <code>"o"</code> = overplotted, <code>"h"</code> = histogram-like, <code>"s"</code> = steps, <code>"n"</code> = no plotting</p>
+</div>
+
+</div>
+</div>
+
+<!-- 5.3 Bar & Box Plots -->
+<div class="section" id="u5-bar-box">
+<div class="section-head" onclick="toggleSection(this)">
+<h3><span class="tag tag-exam">Exam</span><span class="tag tag-prog">Program</span> Bar Charts, Box Plots & Hexbin Plots</h3>
+<span class="toggle">▼</span>
+</div>
+<div class="section-body">
+
+<div class="def-card">
+<h4>📖 Bar Chart</h4>
+<p>A <strong>bar chart</strong> displays <strong>categorical data</strong> using rectangular bars with heights proportional to the values. Created using <code>barplot()</code>.</p>
+</div>
+
+<div class="prog-card">
+<div class="prog-head"><span class="prog-num">Program 5.3</span><h4>Bar Chart & Filled Bar Chart</h4></div>
+<div class="prog-body">
+<div class="code-wrapper">
+<div class="code-header"><span class="lang">R</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+<pre><span class="cmt"># Simple bar chart</span>
+fruits &lt;- <span class="fn">c</span>(<span class="num">25</span>, <span class="num">40</span>, <span class="num">15</span>, <span class="num">30</span>)
+<span class="fn">names</span>(fruits) &lt;- <span class="fn">c</span>(<span class="str">"Apple"</span>, <span class="str">"Banana"</span>, <span class="str">"Cherry"</span>, <span class="str">"Date"</span>)
+<span class="fn">barplot</span>(fruits,
+        main = <span class="str">"Fruit Sales"</span>,
+        col = <span class="fn">c</span>(<span class="str">"red"</span>,<span class="str">"yellow"</span>,<span class="str">"pink"</span>,<span class="str">"brown"</span>),
+        ylab = <span class="str">"Quantity"</span>)
+
+<span class="cmt"># Stacked bar chart (filled bar chart)</span>
+data &lt;- <span class="fn">matrix</span>(<span class="fn">c</span>(<span class="num">10</span>,<span class="num">20</span>,<span class="num">15</span>,<span class="num">25</span>,<span class="num">30</span>,<span class="num">20</span>), nrow=<span class="num">2</span>)
+<span class="fn">colnames</span>(data) &lt;- <span class="fn">c</span>(<span class="str">"Q1"</span>,<span class="str">"Q2"</span>,<span class="str">"Q3"</span>)
+<span class="fn">barplot</span>(data, col = <span class="fn">c</span>(<span class="str">"steelblue"</span>,<span class="str">"coral"</span>),
+        legend = <span class="fn">c</span>(<span class="str">"Product A"</span>,<span class="str">"Product B"</span>),
+        main = <span class="str">"Stacked Bar Chart"</span>)
+
+<span class="cmt"># Grouped bar chart (beside = TRUE)</span>
+<span class="fn">barplot</span>(data, beside = <span class="kw">TRUE</span>,
+        col = <span class="fn">c</span>(<span class="str">"steelblue"</span>,<span class="str">"coral"</span>),
+        legend = <span class="fn">c</span>(<span class="str">"Product A"</span>,<span class="str">"Product B"</span>))</pre>
+</div>
+</div>
+</div>
+
+<div class="def-card">
+<h4>📖 Box Plot (Box-and-Whisker Plot)</h4>
+<p>A <strong>box plot</strong> summarizes data through its <strong>five-number summary</strong>: Min, Q1, Median, Q3, Max. It visually shows the <strong>spread, skewness, and outliers</strong> in data. Created using <code>boxplot()</code>.</p>
+</div>
+
+<div class="diagram">
+<pre style="text-align:left;display:inline-block;color:var(--accent)">
+  ┌─────┐
+  │     │      • ← Outlier
+──┤  Q3 ├──    ─ ← Upper Whisker (Q3 + 1.5*IQR or Max)
+  │─────│      ─ ← Median (Q2)
+──┤  Q1 ├──    ─ ← Lower Whisker (Q1 - 1.5*IQR or Min)
+  │     │
+  └─────┘
+</pre>
+</div>
+
+<div class="prog-card">
+<div class="prog-head"><span class="prog-num">Program 5.4</span><h4>Box Plot — Detecting Outliers</h4></div>
+<div class="prog-body">
+<div class="code-wrapper">
+<div class="code-header"><span class="lang">R</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+<pre>data &lt;- <span class="fn">c</span>(<span class="num">12</span>,<span class="num">15</span>,<span class="num">14</span>,<span class="num">10</span>,<span class="num">13</span>,<span class="num">50</span>,<span class="num">11</span>,<span class="num">16</span>,<span class="num">14</span>,<span class="num">100</span>)
+
+<span class="cmt"># Box plot</span>
+<span class="fn">boxplot</span>(data,
+        main = <span class="str">"Box Plot with Outliers"</span>,
+        col = <span class="str">"lightblue"</span>,
+        border = <span class="str">"darkblue"</span>,
+        horizontal = <span class="kw">TRUE</span>,
+        notch = <span class="kw">FALSE</span>)
+
+<span class="cmt"># Get outlier values</span>
+bp &lt;- <span class="fn">boxplot</span>(data, plot = <span class="kw">FALSE</span>)
+<span class="fn">cat</span>(<span class="str">"Outliers:"</span>, bp$out, <span class="str">"\n"</span>)
+
+<span class="cmt"># Comparative box plot</span>
+<span class="fn">boxplot</span>(mpg ~ cyl, data = mtcars,
+        main = <span class="str">"MPG by Cylinders"</span>,
+        xlab = <span class="str">"Cylinders"</span>,
+        ylab = <span class="str">"Miles per Gallon"</span>,
+        col = <span class="fn">c</span>(<span class="str">"salmon"</span>,<span class="str">"steelblue"</span>,<span class="str">"lightgreen"</span>))</pre>
+</div>
+<div class="output-block">Outliers: 50 100</div>
+</div>
+</div>
+
+<h4>📌 Hexbin Plot</h4>
+<div class="def-card">
+<h4>📖 What is a Hexbin Plot?</h4>
+<p>A <strong>hexbin plot</strong> divides the plane into hexagonal bins and counts points in each bin. It is useful for <strong>large datasets</strong> where scatter plots become too crowded. Uses the <code>hexbin</code> package.</p>
+</div>
+
+<div class="code-wrapper">
+<div class="code-header"><span class="lang">R</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+<pre><span class="fn">install.packages</span>(<span class="str">"hexbin"</span>)
+<span class="fn">library</span>(hexbin)
+
+x &lt;- <span class="fn">rnorm</span>(<span class="num">1000</span>)
+y &lt;- <span class="fn">rnorm</span>(<span class="num">1000</span>)
+bin &lt;- <span class="fn">hexbin</span>(x, y, xbins = <span class="num">30</span>)
+<span class="fn">plot</span>(bin, main = <span class="str">"Hexbin Plot"</span>)</pre>
+</div>
+
+</div>
+</div>
+
+<!-- 5.4 ggplot2 -->
+<div class="section" id="u5-ggplot">
+<div class="section-head" onclick="toggleSection(this)">
+<h3><span class="tag tag-exam">Exam</span><span class="tag tag-imp">Important</span> ggplot2 Basics</h3>
+<span class="toggle">▼</span>
+</div>
+<div class="section-body">
+
+<div class="def-card">
+<h4>📖 What is ggplot2?</h4>
+<p><code>ggplot2</code> is the most popular visualization package in R, based on the <strong>Grammar of Graphics</strong>. It builds plots layer by layer using: <strong>data</strong> + <strong>aesthetics (aes)</strong> + <strong>geometries (geom)</strong>. Created by <strong>Hadley Wickham</strong>.</p>
+</div>
+
+<div class="exam-box">
+<p>ggplot2 is VERY important for exams. Know the syntax: <code>ggplot(data, aes(x, y)) + geom_*()</code></p>
+</div>
+
+<h4>📌 ggplot2 Components</h4>
+<table>
+<tr><th>Component</th><th>Description</th><th>Example</th></tr>
+<tr><td><strong>ggplot()</strong></td><td>Initialize plot with data</td><td><code>ggplot(df, aes(x, y))</code></td></tr>
+<tr><td><strong>aes()</strong></td><td>Aesthetic mappings (x, y, color, size)</td><td><code>aes(x=wt, y=mpg, color=cyl)</code></td></tr>
+<tr><td><strong>geom_point()</strong></td><td>Scatter plot</td><td>Points on the plot</td></tr>
+<tr><td><strong>geom_line()</strong></td><td>Line plot</td><td>Connected lines</td></tr>
+<tr><td><strong>geom_bar()</strong></td><td>Bar chart</td><td><code>stat="identity"</code> for values</td></tr>
+<tr><td><strong>geom_histogram()</strong></td><td>Histogram</td><td><code>bins=30</code></td></tr>
+<tr><td><strong>geom_boxplot()</strong></td><td>Box plot</td><td>Five-number summary</td></tr>
+<tr><td><strong>geom_density()</strong></td><td>Density plot</td><td>Smoothed distribution</td></tr>
+<tr><td><strong>labs()</strong></td><td>Labels (title, x, y)</td><td><code>labs(title="My Plot")</code></td></tr>
+<tr><td><strong>theme_*()</strong></td><td>Pre-built themes</td><td><code>theme_minimal()</code></td></tr>
+</table>
+
+<div class="prog-card">
+<div class="prog-head"><span class="prog-num">Program 5.5</span><h4>ggplot2 — Scatter Plot</h4></div>
+<div class="prog-body">
+<div class="code-wrapper">
+<div class="code-header"><span class="lang">R</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+<pre><span class="fn">library</span>(ggplot2)
+
+<span class="cmt"># Basic scatter plot with ggplot2</span>
+<span class="fn">ggplot</span>(mtcars, <span class="fn">aes</span>(x = wt, y = mpg)) +
+  <span class="fn">geom_point</span>(color = <span class="str">"blue"</span>, size = <span class="num">3</span>) +
+  <span class="fn">labs</span>(title = <span class="str">"Weight vs MPG"</span>,
+       x = <span class="str">"Weight (1000 lbs)"</span>,
+       y = <span class="str">"Miles per Gallon"</span>) +
+  <span class="fn">theme_minimal</span>()
+
+<span class="cmt"># Colored by factor</span>
+<span class="fn">ggplot</span>(mtcars, <span class="fn">aes</span>(x = wt, y = mpg, color = <span class="fn">factor</span>(cyl))) +
+  <span class="fn">geom_point</span>(size = <span class="num">3</span>) +
+  <span class="fn">labs</span>(color = <span class="str">"Cylinders"</span>) +
+  <span class="fn">theme_classic</span>()</pre>
+</div>
+</div>
+</div>
+
+<div class="prog-card">
+<div class="prog-head"><span class="prog-num">Program 5.6</span><h4>ggplot2 — Bar Chart, Histogram & Box Plot</h4></div>
+<div class="prog-body">
+<div class="code-wrapper">
+<div class="code-header"><span class="lang">R</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+<pre><span class="fn">library</span>(ggplot2)
+
+<span class="cmt"># Histogram</span>
+<span class="fn">ggplot</span>(mtcars, <span class="fn">aes</span>(x = mpg)) +
+  <span class="fn">geom_histogram</span>(bins = <span class="num">10</span>, fill = <span class="str">"steelblue"</span>, color = <span class="str">"white"</span>) +
+  <span class="fn">labs</span>(title = <span class="str">"Distribution of MPG"</span>) +
+  <span class="fn">theme_minimal</span>()
+
+<span class="cmt"># Bar chart</span>
+<span class="fn">ggplot</span>(mtcars, <span class="fn">aes</span>(x = <span class="fn">factor</span>(cyl))) +
+  <span class="fn">geom_bar</span>(fill = <span class="str">"coral"</span>) +
+  <span class="fn">labs</span>(title = <span class="str">"Cars by Cylinder Count"</span>, x = <span class="str">"Cylinders"</span>)
+
+<span class="cmt"># Box plot</span>
+<span class="fn">ggplot</span>(mtcars, <span class="fn">aes</span>(x = <span class="fn">factor</span>(cyl), y = mpg, fill = <span class="fn">factor</span>(cyl))) +
+  <span class="fn">geom_boxplot</span>() +
+  <span class="fn">labs</span>(title = <span class="str">"MPG by Cylinder"</span>) +
+  <span class="fn">theme_bw</span>()</pre>
+</div>
+</div>
+</div>
+
+<h4>📌 Single Variable vs Two Variable Visualization</h4>
+<table class="diff-tbl">
+<tr><th>Single Variable</th><th>Two Variables</th></tr>
+<tr><td>Histogram (<code>geom_histogram</code>)</td><td>Scatter Plot (<code>geom_point</code>)</td></tr>
+<tr><td>Density Plot (<code>geom_density</code>)</td><td>Line Plot (<code>geom_line</code>)</td></tr>
+<tr><td>Bar Chart (<code>geom_bar</code>)</td><td>Box Plot by group (<code>geom_boxplot</code>)</td></tr>
+<tr><td>Box Plot (<code>geom_boxplot</code>)</td><td>Hexbin Plot (<code>geom_hex</code>)</td></tr>
+</table>
+
+</div>
+</div>
+
+<!-- 5.5 Cleaning Data -->
+<div class="section" id="u5-cleaning">
+<div class="section-head" onclick="toggleSection(this)">
+<h3><span class="tag tag-imp">Important</span><span class="tag tag-exam">Exam</span> Cleaning Data & Missing Value Treatment</h3>
+<span class="toggle">▼</span>
+</div>
+<div class="section-body">
+
+<div class="def-card">
+<h4>📖 Data Cleaning</h4>
+<p><strong>Data Cleaning</strong> (Data Cleansing) is the process of detecting and correcting (or removing) corrupt, inaccurate, or irrelevant records from a dataset. It includes handling missing values, removing duplicates, fixing inconsistencies, and correcting data types.</p>
+</div>
+
+<h4>📌 Missing Value Treatment Methods</h4>
+<table>
+<tr><th>Method</th><th>When to Use</th><th>R Code</th></tr>
+<tr><td><strong>Remove rows</strong></td><td>Small % of NAs, large dataset</td><td><code>na.omit(df)</code></td></tr>
+<tr><td><strong>Replace with Mean</strong></td><td>Numeric, no outliers</td><td><code>df$col[is.na(df$col)] &lt;- mean(df$col, na.rm=T)</code></td></tr>
+<tr><td><strong>Replace with Median</strong></td><td>Numeric, with outliers</td><td><code>df$col[is.na(df$col)] &lt;- median(df$col, na.rm=T)</code></td></tr>
+<tr><td><strong>Replace with Mode</strong></td><td>Categorical data</td><td>Custom function</td></tr>
+<tr><td><strong>Forward Fill</strong></td><td>Time series data</td><td><code>zoo::na.locf(df$col)</code></td></tr>
+<tr><td><strong>Replace with 0</strong></td><td>When 0 is meaningful</td><td><code>df$col[is.na(df$col)] &lt;- 0</code></td></tr>
+</table>
+
+<div class="prog-card">
+<div class="prog-head"><span class="prog-num">Program 5.7</span><h4>Complete Data Cleaning Pipeline</h4></div>
+<div class="prog-body">
+<div class="code-wrapper">
+<div class="code-header"><span class="lang">R</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+<pre><span class="cmt"># Create messy data</span>
+df &lt;- <span class="fn">data.frame</span>(
+  Name = <span class="fn">c</span>(<span class="str">"A"</span>,<span class="str">"B"</span>,<span class="str">"C"</span>,<span class="str">"D"</span>,<span class="str">"E"</span>,<span class="str">"A"</span>),
+  Age = <span class="fn">c</span>(<span class="num">21</span>, <span class="kw">NA</span>, <span class="num">22</span>, -<span class="num">5</span>, <span class="num">23</span>, <span class="num">21</span>),
+  Score = <span class="fn">c</span>(<span class="num">85</span>, <span class="num">90</span>, <span class="kw">NA</span>, <span class="num">78</span>, <span class="num">200</span>, <span class="num">85</span>)
+)
+
+<span class="cmt"># Step 1: Check missing values</span>
+<span class="fn">cat</span>(<span class="str">"NAs per column:\n"</span>)
+<span class="fn">print</span>(<span class="fn">colSums</span>(<span class="fn">is.na</span>(df)))
+
+<span class="cmt"># Step 2: Replace NA with mean</span>
+df$Age[<span class="fn">is.na</span>(df$Age)] &lt;- <span class="fn">mean</span>(df$Age, na.rm = <span class="kw">TRUE</span>)
+df$Score[<span class="fn">is.na</span>(df$Score)] &lt;- <span class="fn">median</span>(df$Score, na.rm = <span class="kw">TRUE</span>)
+
+<span class="cmt"># Step 3: Fix invalid values</span>
+df$Age[df$Age &lt; <span class="num">0</span>] &lt;- <span class="kw">NA</span>
+df$Score[df$Score &gt; <span class="num">100</span>] &lt;- <span class="num">100</span>  <span class="cmt"># Cap at 100</span>
+
+<span class="cmt"># Step 4: Remove duplicates</span>
+df &lt;- df[!<span class="fn">duplicated</span>(df), ]
+
+<span class="fn">print</span>(df)</pre>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<!-- 5.6 Data Transformation -->
+<div class="section" id="u5-transform">
+<div class="section-head" onclick="toggleSection(this)">
+<h3><span class="tag tag-imp">Important</span><span class="tag tag-viva">Viva</span> Data Transformation</h3>
+<span class="toggle">▼</span>
+</div>
+<div class="section-body">
+
+<h4>📌 Normalization (Min-Max Scaling)</h4>
+<div class="def-card">
+<h4>📖 What is Normalization?</h4>
+<p><strong>Normalization</strong> rescales data to a <strong>[0, 1]</strong> range. Formula: <code>x_norm = (x - min) / (max - min)</code>. Used when features have different scales and you want them on a common scale.</p>
+</div>
+
+<div class="prog-card">
+<div class="prog-head"><span class="prog-num">Program 5.8</span><h4>Normalization & Rescaling</h4></div>
+<div class="prog-body">
+<div class="code-wrapper">
+<div class="code-header"><span class="lang">R</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+<pre>x &lt;- <span class="fn">c</span>(<span class="num">10</span>, <span class="num">20</span>, <span class="num">30</span>, <span class="num">40</span>, <span class="num">50</span>)
+
+<span class="cmt"># Min-Max Normalization (0 to 1)</span>
+normalize &lt;- <span class="kw">function</span>(x) {
+  (x - <span class="fn">min</span>(x)) / (<span class="fn">max</span>(x) - <span class="fn">min</span>(x))
+}
+<span class="fn">cat</span>(<span class="str">"Normalized:"</span>, <span class="fn">normalize</span>(x), <span class="str">"\n"</span>)
+
+<span class="cmt"># Z-score Standardization (mean=0, sd=1)</span>
+z_score &lt;- <span class="fn">scale</span>(x)
+<span class="fn">cat</span>(<span class="str">"Z-scores:"</span>, z_score, <span class="str">"\n"</span>)
+
+<span class="cmt"># Log Transformation</span>
+<span class="fn">cat</span>(<span class="str">"Log:"</span>, <span class="fn">log</span>(x), <span class="str">"\n"</span>)
+
+<span class="cmt"># Square Root Transformation</span>
+<span class="fn">cat</span>(<span class="str">"Sqrt:"</span>, <span class="fn">sqrt</span>(x), <span class="str">"\n"</span>)</pre>
+</div>
+<div class="output-block">Normalized: 0.00 0.25 0.50 0.75 1.00
+Z-scores: -1.2649 -0.6325 0.0000 0.6325 1.2649
+Log: 2.3026 2.9957 3.4012 3.6889 3.9120
+Sqrt: 3.1623 4.4721 5.4772 6.3246 7.0711</div>
+</div>
+</div>
+
+<h4>📌 Normalization vs Standardization</h4>
+<table class="diff-tbl">
+<tr><th>Feature</th><th>Normalization (Min-Max)</th><th>Standardization (Z-score)</th></tr>
+<tr><td>Formula</td><td>(x - min) / (max - min)</td><td>(x - mean) / sd</td></tr>
+<tr><td>Range</td><td>[0, 1]</td><td>No fixed range (mean=0, sd=1)</td></tr>
+<tr><td>R Function</td><td>Custom function</td><td><code>scale(x)</code></td></tr>
+<tr><td>Sensitive to outliers</td><td>Yes</td><td>Less sensitive</td></tr>
+<tr><td>Best for</td><td>Neural networks, KNN</td><td>Linear regression, PCA</td></tr>
+</table>
+
+<h4>📌 Converting Continuous to Discrete</h4>
+<div class="prog-card">
+<div class="prog-head"><span class="prog-num">Program 5.9</span><h4>Continuous to Discrete using cut()</h4></div>
+<div class="prog-body">
+<div class="code-wrapper">
+<div class="code-header"><span class="lang">R</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+<pre>marks &lt;- <span class="fn">c</span>(<span class="num">45</span>,<span class="num">67</span>,<span class="num">78</span>,<span class="num">89</span>,<span class="num">92</span>,<span class="num">55</span>,<span class="num">34</span>,<span class="num">71</span>)
+
+<span class="cmt"># Convert to grade categories</span>
+grades &lt;- <span class="fn">cut</span>(marks,
+  breaks = <span class="fn">c</span>(<span class="num">0</span>, <span class="num">40</span>, <span class="num">60</span>, <span class="num">75</span>, <span class="num">90</span>, <span class="num">100</span>),
+  labels = <span class="fn">c</span>(<span class="str">"Fail"</span>, <span class="str">"Pass"</span>, <span class="str">"Good"</span>, <span class="str">"Very Good"</span>, <span class="str">"Excellent"</span>)
+)
+<span class="fn">print</span>(grades)
+<span class="fn">table</span>(grades)</pre>
+</div>
+<div class="output-block">[1] Pass      Good      Very Good Very Good Excellent Pass      Fail      Good
+Levels: Fail Pass Good Very Good Excellent
+
+grades
+     Fail      Pass      Good Very Good Excellent 
+        1         2         2         2         1</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<!-- 5.7 Sampling -->
+<div class="section" id="u5-sampling">
+<div class="section-head" onclick="toggleSection(this)">
+<h3><span class="tag tag-def">Definition</span><span class="tag tag-viva">Viva</span> Sampling for Modeling & Validation</h3>
+<span class="toggle">▼</span>
+</div>
+<div class="section-body">
+
+<div class="def-card">
+<h4>📖 What is Sampling?</h4>
+<p><strong>Sampling</strong> is the process of selecting a subset of data from a larger dataset. In machine learning, data is split into <strong>training set</strong> (to build model) and <strong>test/validation set</strong> (to evaluate model). Common split: <strong>70-30</strong> or <strong>80-20</strong>.</p>
+</div>
+
+<div class="prog-card">
+<div class="prog-head"><span class="prog-num">Program 5.10</span><h4>Random Sampling & Train-Test Split</h4></div>
+<div class="prog-body">
+<div class="code-wrapper">
+<div class="code-header"><span class="lang">R</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+<pre><span class="cmt"># Simple random sampling</span>
+data &lt;- <span class="num">1</span>:<span class="num">100</span>
+<span class="fn">sample</span>(data, <span class="num">5</span>)              <span class="cmt"># 5 random values without replacement</span>
+<span class="fn">sample</span>(data, <span class="num">5</span>, replace=<span class="kw">TRUE</span>)  <span class="cmt"># with replacement</span>
+
+<span class="cmt"># Set seed for reproducibility</span>
+<span class="fn">set.seed</span>(<span class="num">42</span>)
+
+<span class="cmt"># Train-Test Split (70-30)</span>
+<span class="fn">data</span>(iris)
+n &lt;- <span class="fn">nrow</span>(iris)
+train_idx &lt;- <span class="fn">sample</span>(<span class="num">1</span>:n, size = <span class="fn">round</span>(<span class="num">0.7</span> * n))
+
+train_data &lt;- iris[train_idx, ]
+test_data  &lt;- iris[-train_idx, ]
+
+<span class="fn">cat</span>(<span class="str">"Training rows:"</span>, <span class="fn">nrow</span>(train_data), <span class="str">"\n"</span>)
+<span class="fn">cat</span>(<span class="str">"Testing rows:"</span>, <span class="fn">nrow</span>(test_data), <span class="str">"\n"</span>)</pre>
+</div>
+<div class="output-block">Training rows: 105 
+Testing rows: 45</div>
+</div>
+</div>
+
+<div class="imp-box">
+<p><strong>set.seed(n):</strong> Sets the random number generator seed so that results are <strong>reproducible</strong>. Same seed → same random numbers every time. Essential for exams and reproducible research!</p>
+</div>
+
+<div class="viva-box">
+<p><strong>Q: Why do we split data into training and testing sets?</strong></p>
+<p><strong>A:</strong> To avoid <strong>overfitting</strong>. The training set is used to build the model, and the test set is used to evaluate how well the model generalizes to unseen data. If we test on training data, the model may memorize the data instead of learning patterns.</p>
+</div>
+
+</div>
+</div>
+
+<!-- Unit 5 Programs -->
+<div class="section" id="u5-programs">
+<div class="section-head" onclick="toggleSection(this)">
+<h3><span class="tag tag-prog">Program</span> Unit 5 — Additional Programs</h3>
+<span class="toggle">▼</span>
+</div>
+<div class="section-body">
+
+<div class="prog-card">
+<div class="prog-head"><span class="prog-num">Program 5.11</span><h4>ggplot2 — Multiple Plot Types</h4></div>
+<div class="prog-body">
+<div class="code-wrapper">
+<div class="code-header"><span class="lang">R</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+<pre><span class="fn">library</span>(ggplot2)
+
+<span class="cmt"># Density plot</span>
+<span class="fn">ggplot</span>(mtcars, <span class="fn">aes</span>(x = mpg, fill = <span class="fn">factor</span>(cyl))) +
+  <span class="fn">geom_density</span>(alpha = <span class="num">0.5</span>) +
+  <span class="fn">labs</span>(title = <span class="str">"MPG Density by Cylinders"</span>)
+
+<span class="cmt"># Line plot</span>
+df &lt;- <span class="fn">data.frame</span>(x = <span class="num">1</span>:<span class="num">10</span>, y = <span class="fn">cumsum</span>(<span class="fn">rnorm</span>(<span class="num">10</span>)))
+<span class="fn">ggplot</span>(df, <span class="fn">aes</span>(x, y)) +
+  <span class="fn">geom_line</span>(color = <span class="str">"steelblue"</span>, size = <span class="num">1.2</span>) +
+  <span class="fn">geom_point</span>(color = <span class="str">"red"</span>, size = <span class="num">3</span>) +
+  <span class="fn">theme_minimal</span>()</pre>
+</div>
+</div>
+</div>
+
+<div class="prog-card">
+<div class="prog-head"><span class="prog-num">Program 5.12</span><h4>Complete Data Transformation Pipeline</h4></div>
+<div class="prog-body">
+<div class="code-wrapper">
+<div class="code-header"><span class="lang">R</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+<pre><span class="cmt"># Create sample data</span>
+df &lt;- <span class="fn">data.frame</span>(
+  income = <span class="fn">c</span>(<span class="num">20000</span>,<span class="num">35000</span>,<span class="num">50000</span>,<span class="num">75000</span>,<span class="num">100000</span>,<span class="num">150000</span>),
+  age = <span class="fn">c</span>(<span class="num">22</span>,<span class="num">28</span>,<span class="num">35</span>,<span class="num">42</span>,<span class="num">50</span>,<span class="num">60</span>)
+)
+
+<span class="cmt"># Normalize income (0-1)</span>
+df$income_norm &lt;- (df$income - <span class="fn">min</span>(df$income)) /
+                  (<span class="fn">max</span>(df$income) - <span class="fn">min</span>(df$income))
+
+<span class="cmt"># Standardize age (z-score)</span>
+df$age_std &lt;- <span class="fn">scale</span>(df$age)
+
+<span class="cmt"># Log transform income</span>
+df$income_log &lt;- <span class="fn">log</span>(df$income)
+
+<span class="cmt"># Categorize age</span>
+df$age_group &lt;- <span class="fn">cut</span>(df$age,
+  breaks = <span class="fn">c</span>(<span class="num">0</span>,<span class="num">30</span>,<span class="num">45</span>,<span class="num">100</span>),
+  labels = <span class="fn">c</span>(<span class="str">"Young"</span>,<span class="str">"Middle"</span>,<span class="str">"Senior"</span>))
+
+<span class="fn">print</span>(df)</pre>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<!-- ============================================================== -->
+<!-- EXAM PREPARATION -->
+<!-- ============================================================== -->
+<div class="unit-header" style="background:linear-gradient(135deg,#ffd93d,#ff6b9d)" id="exam-prep">
+<h2>📝 EXAM PREPARATION</h2>
+<p>MCQs, Viva Questions, Practice Programs, Expected Questions, Last-Minute Revision</p>
+</div>
+
+<!-- MCQs -->
+<div class="section" id="mcqs">
+<div class="section-head" onclick="toggleSection(this)">
+<h3><span class="tag tag-exam">Exam</span> MCQs (20+ Questions)</h3>
+<span class="toggle">▼</span>
+</div>
+<div class="section-body">
+
+<div class="mcq"><div class="q">1. Which function is used to apply a function to subsets of a vector grouped by a factor?</div><div class="opts"><div>A. aggregate()</div><div>B. tapply()</div><div>C. lapply()</div><div>D. sapply()</div></div><div class="ans">✅ Answer: B. tapply()</div></div>
+
+<div class="mcq"><div class="q">2. What is the default separator in read.csv()?</div><div class="opts"><div>A. Tab</div><div>B. Space</div><div>C. Comma</div><div>D. Semicolon</div></div><div class="ans">✅ Answer: C. Comma</div></div>
+
+<div class="mcq"><div class="q">3. Which of the following is NOT a valid data type in R?</div><div class="opts"><div>A. Numeric</div><div>B. Character</div><div>C. Logical</div><div>D. Decimal</div></div><div class="ans">✅ Answer: D. Decimal (R uses "numeric" for decimals)</div></div>
+
+<div class="mcq"><div class="q">4. What does dim(df) return?</div><div class="opts"><div>A. Column names</div><div>B. Number of rows and columns</div><div>C. Data types</div><div>D. Summary statistics</div></div><div class="ans">✅ Answer: B. Number of rows and columns</div></div>
+
+<div class="mcq"><div class="q">5. Which function removes rows with NA values?</div><div class="opts"><div>A. rm.na()</div><div>B. delete.na()</div><div>C. na.omit()</div><div>D. remove.na()</div></div><div class="ans">✅ Answer: C. na.omit()</div></div>
+
+<div class="mcq"><div class="q">6. R has a built-in function for mode (most frequent value)?</div><div class="opts"><div>A. TRUE — mode()</div><div>B. FALSE — no built-in function</div><div>C. TRUE — freq()</div><div>D. TRUE — most()</div></div><div class="ans">✅ Answer: B. FALSE — R's mode() returns storage type, not statistical mode!</div></div>
+
+<div class="mcq"><div class="q">7. Which ggplot2 function creates a scatter plot?</div><div class="opts"><div>A. geom_bar()</div><div>B. geom_line()</div><div>C. geom_point()</div><div>D. geom_scatter()</div></div><div class="ans">✅ Answer: C. geom_point()</div></div>
+
+<div class="mcq"><div class="q">8. What does the formula salary ~ dept mean in aggregate()?</div><div class="opts"><div>A. salary depends on dept</div><div>B. Summarize salary grouped by dept</div><div>C. Compare salary and dept</div><div>D. Filter salary where dept exists</div></div><div class="ans">✅ Answer: B. Summarize salary grouped by dept</div></div>
+
+<div class="mcq"><div class="q">9. Which database is file-based and does NOT require a server?</div><div class="opts"><div>A. MySQL</div><div>B. PostgreSQL</div><div>C. SQLite</div><div>D. Oracle</div></div><div class="ans">✅ Answer: C. SQLite</div></div>
+
+<div class="mcq"><div class="q">10. What does head(df, 3) return?</div><div class="opts"><div>A. Last 3 rows</div><div>B. First 3 rows</div><div>C. 3 random rows</div><div>D. 3 columns</div></div><div class="ans">✅ Answer: B. First 3 rows</div></div>
+
+<div class="mcq"><div class="q">11. Which function is used for Min-Max normalization in R?</div><div class="opts"><div>A. normalize()</div><div>B. scale()</div><div>C. No built-in — write custom function</div><div>D. minmax()</div></div><div class="ans">✅ Answer: C. No built-in — scale() does z-score standardization, not min-max</div></div>
+
+<div class="mcq"><div class="q">12. What does complete.cases(df) return?</div><div class="opts"><div>A. Count of NAs</div><div>B. Logical vector — TRUE for rows with no NAs</div><div>C. Cleaned data frame</div><div>D. Column names with NAs</div></div><div class="ans">✅ Answer: B. Logical vector — TRUE for rows with no NAs</div></div>
+
+<div class="mcq"><div class="q">13. Which R function converts continuous data to discrete categories?</div><div class="opts"><div>A. factor()</div><div>B. cut()</div><div>C. discrete()</div><div>D. as.category()</div></div><div class="ans">✅ Answer: B. cut()</div></div>
+
+<div class="mcq"><div class="q">14. IQR stands for?</div><div class="opts"><div>A. Internal Quality Range</div><div>B. Inter-Quartile Range</div><div>C. Interquartile Ratio</div><div>D. Index Quality Range</div></div><div class="ans">✅ Answer: B. Inter-Quartile Range (Q3 - Q1)</div></div>
+
+<div class="mcq"><div class="q">15. Which package is used to read Excel files in R?</div><div class="opts"><div>A. readxl</div><div>B. xlsx</div><div>C. excel</div><div>D. Both A and B</div></div><div class="ans">✅ Answer: D. Both readxl and xlsx packages work</div></div>
+
+<div class="mcq"><div class="q">16. What does set.seed(42) do?</div><div class="opts"><div>A. Sets random seed for reproducibility</div><div>B. Creates 42 random numbers</div><div>C. Sets the sample size</div><div>D. Initializes a dataset</div></div><div class="ans">✅ Answer: A. Sets random seed for reproducibility</div></div>
+
+<div class="mcq"><div class="q">17. In merge(df1, df2, by="ID", all.x=TRUE), what type of join is performed?</div><div class="opts"><div>A. Inner join</div><div>B. Right join</div><div>C. Left join</div><div>D. Full outer join</div></div><div class="ans">✅ Answer: C. Left join (keeps all rows from df1)</div></div>
+
+<div class="mcq"><div class="q">18. Which function reads JSON data in R?</div><div class="opts"><div>A. read.json()</div><div>B. fromJSON() from jsonlite</div><div>C. json.read()</div><div>D. parseJSON()</div></div><div class="ans">✅ Answer: B. fromJSON() from jsonlite package</div></div>
+
+<div class="mcq"><div class="q">19. A data frame column can have different data types?</div><div class="opts"><div>A. TRUE — each row can have different types</div><div>B. FALSE — all columns must be same type</div><div>C. TRUE — each column can have different types</div><div>D. FALSE — only numeric data allowed</div></div><div class="ans">✅ Answer: C. Each column can have a different data type (unlike matrices)</div></div>
+
+<div class="mcq"><div class="q">20. A value is an outlier if it is beyond:</div><div class="opts"><div>A. Q1 - IQR or Q3 + IQR</div><div>B. Q1 - 1.5*IQR or Q3 + 1.5*IQR</div><div>C. Mean ± 2*SD</div><div>D. Min - 1 or Max + 1</div></div><div class="ans">✅ Answer: B. Q1 - 1.5*IQR or Q3 + 1.5*IQR</div></div>
+
+<div class="mcq"><div class="q">21. Which ggplot2 layer adds labels and title?</div><div class="opts"><div>A. geom_text()</div><div>B. labs()</div><div>C. title()</div><div>D. label()</div></div><div class="ans">✅ Answer: B. labs(title="...", x="...", y="...")</div></div>
+
+<div class="mcq"><div class="q">22. What is the default value of header in read.table()?</div><div class="opts"><div>A. TRUE</div><div>B. FALSE</div><div>C. NULL</div><div>D. NA</div></div><div class="ans">✅ Answer: B. FALSE (unlike read.csv which defaults to TRUE)</div></div>
+
+</div>
+</div>
+
+<!-- VIVA -->
+<div class="section" id="viva">
+<div class="section-head" onclick="toggleSection(this)">
+<h3><span class="tag tag-viva">Viva</span> Viva Questions (15+ Questions)</h3>
+<span class="toggle">▼</span>
+</div>
+<div class="section-body">
+
+<div class="viva-box"><p><strong>Q1: What is the difference between a data frame and a matrix?</strong></p><p>A: Data frames allow different data types per column; matrices require all elements to be the same type.</p></div>
+
+<div class="viva-box"><p><strong>Q2: What is the difference between aggregate() and tapply()?</strong></p><p>A: aggregate() works on data frames and returns data frames; tapply() works on vectors and returns arrays.</p></div>
+
+<div class="viva-box"><p><strong>Q3: How do you handle missing values in R?</strong></p><p>A: Use is.na() to detect, na.omit() to remove, replace with mean/median, or use na.rm=TRUE in functions.</p></div>
+
+<div class="viva-box"><p><strong>Q4: What is the Grammar of Graphics?</strong></p><p>A: A framework that breaks a plot into components: data, aesthetics (aes), geometries (geom), statistics, coordinates, and themes. ggplot2 is based on this.</p></div>
+
+<div class="viva-box"><p><strong>Q5: What is EDA?</strong></p><p>A: Exploratory Data Analysis — analyzing data to summarize characteristics, find patterns, detect anomalies, and check assumptions before modeling.</p></div>
+
+<div class="viva-box"><p><strong>Q6: Difference between normalization and standardization?</strong></p><p>A: Normalization scales to [0,1] using min-max. Standardization (z-score) transforms to mean=0, sd=1 using scale().</p></div>
+
+<div class="viva-box"><p><strong>Q7: What is the use of set.seed() in R?</strong></p><p>A: Makes random operations reproducible. Same seed always generates same random numbers.</p></div>
+
+<div class="viva-box"><p><strong>Q8: Name 5 built-in datasets in R.</strong></p><p>A: mtcars, iris, airquality, ChickWeight, ToothGrowth, USArrests, PlantGrowth</p></div>
+
+<div class="viva-box"><p><strong>Q9: What does the $ operator do in R?</strong></p><p>A: Accesses a column of a data frame or an element of a list by name. e.g., df$Name</p></div>
+
+<div class="viva-box"><p><strong>Q10: What is the use of cut() function?</strong></p><p>A: Converts a continuous numeric variable into discrete categories/intervals (bins).</p></div>
+
+<div class="viva-box"><p><strong>Q11: What are the types of joins in merge()?</strong></p><p>A: Inner join (default), Left join (all.x=TRUE), Right join (all.y=TRUE), Full outer join (all=TRUE).</p></div>
+
+<div class="viva-box"><p><strong>Q12: What is an outlier and how to detect it?</strong></p><p>A: A data point significantly different from others. Detect using boxplot or IQR method (below Q1-1.5*IQR or above Q3+1.5*IQR).</p></div>
+
+<div class="viva-box"><p><strong>Q13: What is the difference between df["col"] and df$col?</strong></p><p>A: df["col"] returns a data frame. df$col returns a vector.</p></div>
+
+<div class="viva-box"><p><strong>Q14: What is Rattle in R?</strong></p><p>A: A GUI-based tool for data mining in R. It provides point-and-click interface and generates R code automatically.</p></div>
+
+<div class="viva-box"><p><strong>Q15: What does str() show that summary() does not?</strong></p><p>A: str() shows data types and structure. summary() shows statistical measures (min, max, mean, quartiles).</p></div>
+
+<div class="viva-box"><p><strong>Q16: What is the difference between NA and NULL in R?</strong></p><p>A: NA = missing value (placeholder), NULL = absence of value (empty object). NA has a type, NULL has no type.</p></div>
+
+</div>
+</div>
+
+<!-- Practice Programs -->
+<div class="section" id="practice-progs">
+<div class="section-head" onclick="toggleSection(this)">
+<h3><span class="tag tag-prog">Program</span> Practice Programs (25+)</h3>
+<span class="toggle">▼</span>
+</div>
+<div class="section-body">
+
+<h4>📌 Quick Practice Programs (Write and Run)</h4>
+<ol>
+<li>Create a vector of 10 numbers and find sum, mean, max, min</li>
+<li>Create a 3×4 matrix and access element at row 2, column 3</li>
+<li>Create a list with name, marks vector, and passed boolean</li>
+<li>Create a data frame of 5 students with Name, Age, Marks, Branch</li>
+<li>Read a CSV file and display first 5 rows</li>
+<li>Use aggregate() to find average marks by branch</li>
+<li>Use tapply() to find sum of sales by region</li>
+<li>Subset a data frame where Age > 20</li>
+<li>Merge two data frames by a common column (inner join)</li>
+<li>Find and count NA values in a data frame</li>
+<li>Replace NA values with column mean</li>
+<li>Remove duplicate rows from a data frame</li>
+<li>Find outliers using IQR method</li>
+<li>Calculate mean, median, and mode of a vector</li>
+<li>Create a frequency table using table()</li>
+<li>Sort a data frame by a column in descending order</li>
+<li>Add a new column to an existing data frame</li>
+<li>Use rbind() to add a row and cbind() to add a column</li>
+<li>Plot a histogram of random normal data</li>
+<li>Create a scatter plot of height vs weight</li>
+<li>Draw a box plot and identify outliers</li>
+<li>Create a bar chart of categorical data</li>
+<li>Use ggplot2 to create a scatter plot with color groups</li>
+<li>Normalize a numeric vector to [0,1] range</li>
+<li>Standardize a vector using scale()</li>
+<li>Use cut() to bin continuous data into categories</li>
+<li>Split data into 70-30 train-test sets</li>
+<li>Write a data frame to CSV and read it back</li>
+<li>Use complete.cases() to filter complete rows</li>
+<li>Create a density plot overlaid on a histogram</li>
+</ol>
+
+</div>
+</div>
+
+<!-- Expected Questions -->
+<div class="section" id="expected-qs">
+<div class="section-head" onclick="toggleSection(this)">
+<h3><span class="tag tag-exam">Exam</span><span class="tag tag-pyq">PYQ</span> Expected Internal Exam Questions</h3>
+<span class="toggle">▼</span>
+</div>
+<div class="section-body">
+
+<h4>📌 2-Mark Questions (Short Answers)</h4>
+<ol>
+<li>Define aggregate() function with syntax.</li>
+<li>What is the difference between read.csv() and read.table()?</li>
+<li>Write syntax of tapply() with an example.</li>
+<li>What is a data frame? How is it different from a matrix?</li>
+<li>What does dim(), nrow(), ncol() return?</li>
+<li>What is the difference between head() and tail()?</li>
+<li>What is NA in R? How to check for NA?</li>
+<li>Define EDA (Exploratory Data Analysis).</li>
+<li>What is an outlier? How to detect using IQR?</li>
+<li>What is normalization? Write the formula.</li>
+<li>What does set.seed() do?</li>
+<li>Difference between df$col and df["col"]?</li>
+</ol>
+
+<h4>📌 5/6-Mark Questions (Descriptive / Programs)</h4>
+<ol>
+<li>Explain aggregate() function with syntax and example. <span class="tag tag-pyq">PYQ</span></li>
+<li>Write an R program to read a CSV file and display its structure, summary, and first 5 rows.</li>
+<li>Explain different methods of reading data in R with examples.</li>
+<li>Write R code to create a data frame, subset it by condition, and sort by a column.</li>
+<li>Explain how to handle missing values in R with a complete example.</li>
+<li>Write an R program to detect and remove outliers using the IQR method.</li>
+<li>Explain the merge() function. Demonstrate inner join and left join with examples.</li>
+<li>Write R programs using ggplot2 to create: scatter plot, histogram, box plot.</li>
+<li>Explain normalization vs standardization with R code examples.</li>
+<li>Write an R program to perform train-test split on the iris dataset.</li>
+<li>Compare R GUIs: RStudio, R Commander, and Rattle.</li>
+<li>Explain how to connect R to MySQL/SQLite database with code.</li>
+<li>Write an R program to calculate mean, median, mode, and create a frequency table.</li>
+<li>Explain the steps of EDA with an example.</li>
+<li>Write a program to convert continuous data to discrete using cut().</li>
+</ol>
+
+<h4>📌 Common Mistakes to Avoid</h4>
+<ul>
+<li>❌ Using <code>mode()</code> for statistical mode — it returns storage mode, not the most frequent value!</li>
+<li>❌ Forgetting <code>na.rm = TRUE</code> when calculating mean/sum with NAs</li>
+<li>❌ Confusing <code>read.csv()</code> (header=TRUE) with <code>read.table()</code> (header=FALSE)</li>
+<li>❌ Using <code>=</code> instead of <code>&lt;-</code> for assignment (both work, but <code>&lt;-</code> is standard)</li>
+<li>❌ Forgetting <code>library(ggplot2)</code> before using ggplot functions</li>
+<li>❌ Not using <code>factor()</code> when grouping categorical data in ggplot2</li>
+<li>❌ Confusing <code>merge()</code> parameters: all.x vs all.y vs all</li>
+</ul>
+
+</div>
+</div>
+
+<!-- Revision Sheet -->
+<div class="section" id="revision">
+<div class="section-head" onclick="toggleSection(this)">
+<h3><span class="tag tag-exam">Exam</span> ⚡ Last-Minute Revision Sheet</h3>
+<span class="toggle">▼</span>
+</div>
+<div class="section-body">
+
+<h4>🔥 UNIT 3 — Key Points</h4>
+<ul>
+<li><code>aggregate(y ~ x, data, FUN)</code> — group-wise summary → returns data frame</li>
+<li><code>tapply(X, INDEX, FUN)</code> — tagged apply on vector → returns array</li>
+<li><code>read.csv()</code>: header=TRUE, sep="," | <code>read.table()</code>: header=FALSE, sep=whitespace</li>
+<li>JSON: <code>fromJSON()</code> from jsonlite | XML: <code>xmlParse()</code> from XML package</li>
+<li>Excel: <code>read_excel()</code> from readxl | Built-in: <code>data(iris)</code></li>
+<li>DB workflow: <code>dbConnect()</code> → <code>dbGetQuery()</code> → <code>dbDisconnect()</code></li>
+<li>SQLite = file-based, no server | MySQL port = 3306 | PostgreSQL port = 5432</li>
+<li>R GUIs: RStudio (IDE), R Commander (Rcmdr), Rattle (data mining)</li>
+</ul>
+
+<h4>🔥 UNIT 4 — Key Points</h4>
+<ul>
+<li>Data Frame = list of vectors of equal length, different types per column</li>
+<li><code>dim()</code>, <code>nrow()</code>, <code>ncol()</code>, <code>str()</code>, <code>summary()</code>, <code>names()</code>, <code>head()</code>, <code>tail()</code></li>
+<li>Access: <code>df$col</code> (vector), <code>df["col"]</code> (data frame), <code>df[row, col]</code></li>
+<li>Subset: <code>df[condition, ]</code> or <code>subset(df, condition)</code></li>
+<li>Merge: <code>merge(df1, df2, by="col")</code> — inner/left/right/full joins</li>
+<li>NA handling: <code>is.na()</code>, <code>na.omit()</code>, <code>complete.cases()</code>, <code>na.rm=TRUE</code></li>
+<li><strong>R has NO built-in mode function!</strong> Write custom using unique + which.max + tabulate</li>
+<li>Outlier formula: Below Q1 - 1.5×IQR or Above Q3 + 1.5×IQR</li>
+<li>Variance uses n-1 in R (sample variance)</li>
+</ul>
+
+<h4>🔥 UNIT 5 — Key Points</h4>
+<ul>
+<li>Histogram: <code>hist(x)</code> — single continuous variable distribution</li>
+<li>Scatter: <code>plot(x, y)</code> — two variables, check correlation</li>
+<li>Box plot: <code>boxplot(x)</code> — five-number summary + outliers</li>
+<li>Bar chart: <code>barplot(x)</code> — categorical data</li>
+<li>ggplot2: <code>ggplot(data, aes()) + geom_*()</code> — Grammar of Graphics</li>
+<li>Normalization: <code>(x-min)/(max-min)</code> → [0,1] | Standardization: <code>scale(x)</code> → mean=0, sd=1</li>
+<li><code>cut(x, breaks, labels)</code> — continuous to discrete</li>
+<li><code>sample()</code> + <code>set.seed()</code> — reproducible sampling</li>
+<li>Train-test split: 70-30 or 80-20 using sample()</li>
+<li>Missing value treatment: remove, mean/median imputation, forward fill</li>
+</ul>
+
+<h4>🔥 Must-Remember Commands</h4>
+<table class="syntax-tbl">
+<tr><th>Task</th><th>Command</th></tr>
+<tr><td>Working directory</td><td><code>getwd()</code>, <code>setwd("path")</code></td></tr>
+<tr><td>Install package</td><td><code>install.packages("name")</code></td></tr>
+<tr><td>Load package</td><td><code>library(name)</code></td></tr>
+<tr><td>Help</td><td><code>?function</code> or <code>help(function)</code></td></tr>
+<tr><td>List files</td><td><code>list.files()</code></td></tr>
+<tr><td>Object type</td><td><code>class(x)</code>, <code>typeof(x)</code></td></tr>
+<tr><td>Check NA</td><td><code>is.na(x)</code>, <code>any(is.na(x))</code></td></tr>
+<tr><td>Remove duplicates</td><td><code>df[!duplicated(df), ]</code></td></tr>
+</table>
+
+<div class="mnemonic">"DNSSH NHT" = dim, nrow, ncol, str, summary, names, head, tail — The 8 Data Frame functions!</div>
+
+</div>
+</div>
+
+<!-- REVISION PANEL -->
+<button class="rp-toggle" onclick="toggleRevision()" title="Quick Revision">📝</button>
+<div class="revision-panel" id="revisionPanel">
+<div class="rp-head" onclick="toggleRevision()"><strong>⚡ Last-Minute Revision</strong><span>✕</span></div>
+<div class="rp-body">
+<ol>
+<li><code>aggregate(y~x, data, FUN)</code> — group summarize</li>
+<li><code>tapply(X, INDEX, FUN)</code> — tagged apply on vector</li>
+<li><code>read.csv()</code> default: header=TRUE, sep=","</li>
+<li><code>read.table()</code> default: header=FALSE, sep=whitespace</li>
+<li><code>data.frame()</code> — create data frame</li>
+<li><code>df[rows, cols]</code> — subset data frame</li>
+<li><code>merge(df1, df2, by="col")</code> — join data frames</li>
+<li><code>dim()</code>, <code>str()</code>, <code>summary()</code> — inspect data</li>
+<li><code>is.na(x)</code> — check NA, <code>na.rm=TRUE</code> to ignore</li>
+<li><code>complete.cases(df)</code> — rows with no NAs</li>
+<li><code>mean()</code>, <code>median()</code> — central tendency</li>
+<li>Mode = most frequent value (no built-in function)</li>
+<li><code>hist()</code>, <code>plot()</code>, <code>barplot()</code>, <code>boxplot()</code></li>
+<li><code>ggplot(data, aes(x,y)) + geom_*()</code></li>
+<li><code>scale()</code> or <code>(x-min)/(max-min)</code> — normalization</li>
+<li><code>sample()</code> — random sampling</li>
+<li><code>cut()</code> — continuous to discrete</li>
+<li><code>dbConnect()</code> → <code>dbGetQuery()</code> → <code>dbDisconnect()</code></li>
+<li>SQLite = file-based, no server needed</li>
+<li>Outliers: values beyond Q1-1.5*IQR or Q3+1.5*IQR</li>
+</ol>
+</div>
+</div>
+
+</div><!-- END MAIN -->
+
+<script>
+// Toggle sidebar nav
+function toggleNav(el){
+  el.classList.toggle('active');
+  const links=el.nextElementSibling;
+  links.classList.toggle('open');
+}
+// Toggle section
+function toggleSection(el){
+  el.classList.toggle('active');
+  const body=el.nextElementSibling;
+  body.classList.toggle('show');
+}
+// Expand/Collapse all
+function expandAll(){document.querySelectorAll('.section-body').forEach(b=>{b.classList.add('show');b.previousElementSibling.classList.add('active')})}
+function collapseAll(){document.querySelectorAll('.section-body').forEach(b=>{b.classList.remove('show');b.previousElementSibling.classList.remove('active')})}
+// Copy code
+function copyCode(btn){
+  const pre=btn.closest('.code-wrapper').querySelector('pre');
+  navigator.clipboard.writeText(pre.textContent).then(()=>{btn.textContent='✅ Copied!';setTimeout(()=>btn.textContent='📋 Copy',1500)});
+}
+// MCQ answers
+function showAllAnswers(){document.querySelectorAll('.mcq').forEach(m=>m.classList.add('show-ans'))}
+function hideAllAnswers(){document.querySelectorAll('.mcq').forEach(m=>m.classList.remove('show-ans'))}
+// Revision panel
+function toggleRevision(){document.getElementById('revisionPanel').classList.toggle('open')}
+// Search
+function searchTopics(q){
+  q=q.toLowerCase();
+  document.querySelectorAll('.sidebar .nav-links a').forEach(a=>{
+    a.style.display=a.textContent.toLowerCase().includes(q)?'block':'none';
+  });
+  if(q.length>0)document.querySelectorAll('.nav-links').forEach(n=>n.classList.add('open'));
+}
+// Smooth scroll active link
+document.querySelectorAll('.sidebar a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',function(e){
+    if(window.innerWidth<=900)document.querySelector('.sidebar').classList.remove('open');
+  });
+});
+</script>
+</body>
+</html>

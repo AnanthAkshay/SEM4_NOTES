@@ -1,0 +1,2835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit 4 — Swing & JDBC Exam Notes</title>
+    <meta name="description" content="Complete internal exam notes for Advanced Java Unit 4: Swing GUI and JDBC Database Connectivity">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* ===== CSS RESET & ROOT ===== */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-primary: #0a0e1a;
+            --bg-secondary: #111827;
+            --bg-card: #1a2234;
+            --bg-card-hover: #1e2a40;
+            --bg-code: #0d1117;
+            --bg-inlinecode: #1e293b;
+            --text-primary: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --accent-blue: #3b82f6;
+            --accent-purple: #8b5cf6;
+            --accent-cyan: #06b6d4;
+            --accent-green: #10b981;
+            --accent-orange: #f59e0b;
+            --accent-red: #ef4444;
+            --accent-pink: #ec4899;
+            --border-color: #1e293b;
+            --border-accent: #2d3a52;
+            --gradient-1: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            --gradient-2: linear-gradient(135deg, #06b6d4, #3b82f6);
+            --gradient-3: linear-gradient(135deg, #8b5cf6, #ec4899);
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+            --shadow-md: 0 4px 14px rgba(0,0,0,0.4);
+            --shadow-lg: 0 10px 40px rgba(0,0,0,0.5);
+            --shadow-glow: 0 0 30px rgba(59,130,246,0.15);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 15px;
+            overflow-x: hidden;
+        }
+
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-primary); }
+        ::-webkit-scrollbar-thumb { background: var(--border-accent); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent-blue); }
+
+        /* ===== ANIMATED BACKGROUND ===== */
+        .bg-glow {
+            position: fixed;
+            top: -200px;
+            right: -200px;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(59,130,246,0.08) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+            animation: floatGlow 20s ease-in-out infinite;
+        }
+        .bg-glow-2 {
+            position: fixed;
+            bottom: -200px;
+            left: -200px;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(139,92,246,0.06) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+            animation: floatGlow 25s ease-in-out infinite reverse;
+        }
+        @keyframes floatGlow {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(50px, 30px); }
+        }
+
+        /* ===== SIDEBAR NAV ===== */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 280px;
+            height: 100vh;
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border-color);
+            padding: 24px 0;
+            overflow-y: auto;
+            z-index: 100;
+            transition: transform 0.3s ease;
+        }
+        .sidebar-header {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 12px;
+        }
+        .sidebar-header h2 {
+            font-size: 16px;
+            font-weight: 700;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .sidebar-header p {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+        .nav-section {
+            padding: 8px 16px 4px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-muted);
+        }
+        .nav-link {
+            display: block;
+            padding: 7px 20px 7px 24px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+        }
+        .nav-link:hover {
+            color: var(--accent-blue);
+            background: rgba(59,130,246,0.05);
+            border-left-color: var(--accent-blue);
+        }
+        .nav-link.active {
+            color: var(--accent-blue);
+            background: rgba(59,130,246,0.08);
+            border-left-color: var(--accent-blue);
+            font-weight: 500;
+        }
+        .nav-link .badge {
+            display: inline-block;
+            font-size: 9px;
+            padding: 1px 6px;
+            border-radius: 10px;
+            margin-left: 6px;
+            font-weight: 600;
+            vertical-align: middle;
+        }
+        .badge-pyq { background: rgba(239,68,68,0.15); color: var(--accent-red); }
+        .badge-imp { background: rgba(245,158,11,0.15); color: var(--accent-orange); }
+
+        /* ===== MOBILE TOGGLE ===== */
+        .sidebar-toggle {
+            display: none;
+            position: fixed;
+            top: 16px;
+            left: 16px;
+            z-index: 200;
+            background: var(--bg-card);
+            border: 1px solid var(--border-accent);
+            color: var(--text-primary);
+            width: 42px;
+            height: 42px;
+            border-radius: var(--radius-sm);
+            font-size: 20px;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .main {
+            margin-left: 280px;
+            padding: 40px 48px 100px;
+            max-width: 960px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ===== HERO HEADER ===== */
+        .hero {
+            text-align: center;
+            padding: 56px 32px;
+            background: linear-gradient(135deg, rgba(59,130,246,0.1), rgba(139,92,246,0.1));
+            border: 1px solid var(--border-accent);
+            border-radius: var(--radius-xl);
+            margin-bottom: 48px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: var(--gradient-1);
+        }
+        .hero .unit-badge {
+            display: inline-block;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--accent-cyan);
+            background: rgba(6,182,212,0.1);
+            padding: 6px 16px;
+            border-radius: 20px;
+            border: 1px solid rgba(6,182,212,0.2);
+            margin-bottom: 16px;
+        }
+        .hero h1 {
+            font-size: 36px;
+            font-weight: 900;
+            letter-spacing: -1px;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 12px;
+        }
+        .hero p {
+            color: var(--text-secondary);
+            font-size: 16px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        /* ===== PART DIVIDER ===== */
+        .part-divider {
+            text-align: center;
+            margin: 64px 0 40px;
+            position: relative;
+        }
+        .part-divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0; right: 0;
+            height: 1px;
+            background: var(--border-accent);
+        }
+        .part-divider span {
+            position: relative;
+            display: inline-block;
+            background: var(--bg-primary);
+            padding: 8px 28px;
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            border: 1px solid var(--border-accent);
+            border-radius: 30px;
+        }
+        .part-divider .swing { color: var(--accent-cyan); border-color: rgba(6,182,212,0.3); }
+        .part-divider .jdbc { color: var(--accent-green); border-color: rgba(16,185,129,0.3); }
+        .part-divider .revision { color: var(--accent-orange); border-color: rgba(245,158,11,0.3); }
+
+        /* ===== SECTION (TOPIC) ===== */
+        .section {
+            margin-bottom: 48px;
+            scroll-margin-top: 24px;
+        }
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 20px;
+        }
+        .section-number {
+            flex-shrink: 0;
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            font-weight: 800;
+            border-radius: 10px;
+            color: #fff;
+        }
+        .num-blue { background: var(--gradient-2); }
+        .num-purple { background: var(--gradient-3); }
+        .num-green { background: linear-gradient(135deg, #10b981, #06b6d4); }
+        .section-header h2 {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        /* ===== CARDS ===== */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            margin-bottom: 20px;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .card:hover {
+            border-color: var(--border-accent);
+            box-shadow: var(--shadow-md);
+        }
+        .card h3 {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .card h3 .icon { font-size: 18px; }
+        .card p, .card li {
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+        }
+        .card ul { padding-left: 20px; list-style: none; }
+        .card ul li::before {
+            content: '▸';
+            color: var(--accent-blue);
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        /* ===== DEFINITION BOX ===== */
+        .def-box {
+            background: linear-gradient(135deg, rgba(59,130,246,0.06), rgba(139,92,246,0.06));
+            border: 1px solid rgba(59,130,246,0.15);
+            border-radius: var(--radius-md);
+            padding: 20px 24px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--accent-blue);
+        }
+        .def-box .label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--accent-blue);
+            margin-bottom: 6px;
+        }
+        .def-box p {
+            color: var(--text-primary);
+            font-size: 15px;
+        }
+
+        /* ===== EXAM TIP BOX ===== */
+        .tip-box {
+            background: rgba(16,185,129,0.06);
+            border: 1px solid rgba(16,185,129,0.15);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            margin-bottom: 16px;
+            border-left: 4px solid var(--accent-green);
+        }
+        .tip-box .label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--accent-green);
+            margin-bottom: 4px;
+        }
+        .tip-box p { color: var(--text-secondary); font-size: 14px; }
+        .tip-box code { background: rgba(16,185,129,0.1); color: var(--accent-green); }
+
+        /* ===== WARNING BOX ===== */
+        .warn-box {
+            background: rgba(245,158,11,0.06);
+            border: 1px solid rgba(245,158,11,0.15);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            margin-bottom: 16px;
+            border-left: 4px solid var(--accent-orange);
+        }
+        .warn-box .label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--accent-orange);
+            margin-bottom: 4px;
+        }
+        .warn-box p { color: var(--text-secondary); font-size: 14px; }
+
+        /* ===== DANGER BOX ===== */
+        .danger-box {
+            background: rgba(239,68,68,0.06);
+            border: 1px solid rgba(239,68,68,0.15);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            margin-bottom: 16px;
+            border-left: 4px solid var(--accent-red);
+        }
+        .danger-box .label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--accent-red);
+            margin-bottom: 4px;
+        }
+        .danger-box p { color: var(--text-secondary); font-size: 14px; }
+
+        /* ===== PYQ TAG ===== */
+        .pyq-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--accent-red);
+            background: rgba(239,68,68,0.1);
+            border: 1px solid rgba(239,68,68,0.2);
+            padding: 3px 10px;
+            border-radius: 20px;
+            margin-left: 8px;
+        }
+
+        /* ===== TABLES ===== */
+        .table-wrap {
+            overflow-x: auto;
+            margin-bottom: 20px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13.5px;
+        }
+        thead th {
+            background: var(--bg-card);
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 700;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--text-secondary);
+            border-bottom: 2px solid var(--border-accent);
+        }
+        tbody td {
+            padding: 10px 16px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+        tbody tr:hover { background: rgba(59,130,246,0.03); }
+        tbody tr:last-child td { border-bottom: none; }
+        td code, th code {
+            background: var(--bg-inlinecode);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        /* ===== DIFF TABLE (comparison) ===== */
+        .diff-table {
+            border: 2px solid var(--accent-purple);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        .diff-table-header {
+            background: linear-gradient(135deg, rgba(139,92,246,0.15), rgba(236,72,153,0.1));
+            padding: 12px 16px;
+            font-weight: 800;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid rgba(139,92,246,0.2);
+        }
+        .diff-table thead th {
+            background: rgba(139,92,246,0.08);
+        }
+
+        /* ===== CODE BLOCKS ===== */
+        pre {
+            background: var(--bg-code);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 20px 24px;
+            margin-bottom: 16px;
+            overflow-x: auto;
+            position: relative;
+        }
+        pre code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            line-height: 1.65;
+            color: var(--text-primary);
+        }
+        pre .label-lang {
+            position: absolute;
+            top: 8px;
+            right: 12px;
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            background: var(--bg-inlinecode);
+            padding: 2px 7px;
+            border-radius: 5px;
+            color: var(--accent-cyan);
+        }
+
+        /* ===== Syntax Highlighting ===== */
+        .kw { color: #c678dd; }
+        .str { color: #98c379; }
+        .cm { color: #5c6370; font-style: italic; }
+        .fn { color: #61afef; }
+        .cls { color: #e5c07b; }
+        .num { color: #d19a66; }
+        .ann { color: #e06c75; }
+        .op { color: #56b6c2; }
+
+        /* ===== PROGRAM CARD ===== */
+        .program-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            margin-bottom: 32px;
+            box-shadow: var(--shadow-md);
+        }
+        .program-header {
+            padding: 20px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .program-header h3 {
+            font-size: 17px;
+            font-weight: 800;
+        }
+        .program-body { padding: 24px; }
+        .program-body pre {
+            margin: 16px -24px;
+            border-radius: 0;
+            border-left: none;
+            border-right: none;
+        }
+        .output-box {
+            background: rgba(16,185,129,0.06);
+            border: 1px solid rgba(16,185,129,0.15);
+            border-radius: var(--radius-sm);
+            padding: 14px 18px;
+            margin-top: 12px;
+        }
+        .output-box .label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--accent-green);
+            margin-bottom: 6px;
+        }
+        .output-box pre {
+            background: transparent;
+            border: none;
+            padding: 0;
+            margin: 0;
+        }
+        .output-box pre code { color: var(--accent-green); font-size: 13px; }
+
+        .viva-box {
+            background: rgba(139,92,246,0.06);
+            border: 1px solid rgba(139,92,246,0.15);
+            border-radius: var(--radius-sm);
+            padding: 14px 18px;
+            margin-top: 12px;
+        }
+        .viva-box .label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--accent-purple);
+            margin-bottom: 8px;
+        }
+        .viva-box ol { padding-left: 18px; }
+        .viva-box li {
+            color: var(--text-secondary);
+            font-size: 13px;
+            margin-bottom: 4px;
+        }
+        .viva-box strong { color: var(--text-primary); }
+
+        /* ===== HIERARCHY / FLOW DIAGRAM ===== */
+        .diagram-box {
+            background: var(--bg-code);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+        .diagram-box pre {
+            background: transparent;
+            border: none;
+            padding: 0;
+            margin: 0;
+            text-align: left;
+            display: inline-block;
+        }
+
+        /* ===== REVISION SHEET ===== */
+        .revision-sheet {
+            background: linear-gradient(135deg, rgba(245,158,11,0.06), rgba(239,68,68,0.04));
+            border: 2px solid rgba(245,158,11,0.25);
+            border-radius: var(--radius-xl);
+            padding: 32px;
+            margin-top: 48px;
+        }
+        .revision-sheet h2 {
+            text-align: center;
+            font-size: 28px;
+            font-weight: 900;
+            margin-bottom: 8px;
+        }
+        .revision-sheet .subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-bottom: 32px;
+        }
+        .rev-section {
+            margin-bottom: 24px;
+        }
+        .rev-section h4 {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--accent-orange);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .checklist {
+            list-style: none;
+            padding: 0;
+        }
+        .checklist li {
+            padding: 6px 0;
+            color: var(--text-secondary);
+            font-size: 14px;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+        .checklist li::before {
+            content: '✅';
+            flex-shrink: 0;
+        }
+
+        /* ===== BACK TO TOP ===== */
+        .back-to-top {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            width: 44px;
+            height: 44px;
+            background: var(--gradient-1);
+            border: none;
+            border-radius: 50%;
+            color: #fff;
+            font-size: 20px;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            z-index: 200;
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .back-to-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .back-to-top:hover { transform: translateY(-3px); }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 900px) {
+            .sidebar { transform: translateX(-100%); }
+            .sidebar.open { transform: translateX(0); box-shadow: var(--shadow-lg); }
+            .sidebar-toggle { display: flex; }
+            .main { margin-left: 0; padding: 24px 20px 80px; }
+            .hero h1 { font-size: 26px; }
+            .program-body pre { margin: 16px -16px; }
+        }
+        @media (max-width: 600px) {
+            .hero { padding: 36px 20px; }
+            .hero h1 { font-size: 22px; }
+            table { font-size: 12px; }
+            thead th, tbody td { padding: 8px 10px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="bg-glow"></div>
+<div class="bg-glow-2"></div>
+
+<!-- Mobile Toggle -->
+<button class="sidebar-toggle" id="sidebarToggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰</button>
+
+<!-- Sidebar Navigation -->
+<nav class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+        <h2>📘 Unit 4 Notes</h2>
+        <p>Swing & JDBC • Exam Ready</p>
+    </div>
+
+    <div class="nav-section">Part A — Swing</div>
+    <a class="nav-link" href="#swing">What is Swing?</a>
+    <a class="nav-link" href="#packages">Swing Packages</a>
+    <a class="nav-link" href="#awt-vs-swing">AWT vs Swing <span class="badge badge-imp">TABLE</span></a>
+    <a class="nav-link" href="#exploring-swing">Exploring Swing</a>
+    <a class="nav-link" href="#layout-managers">Layout Managers <span class="badge badge-imp">IMP</span></a>
+    <a class="nav-link" href="#event-handling">Event Handling</a>
+    <a class="nav-link" href="#jlabel">JLabel</a>
+    <a class="nav-link" href="#jbutton">JButton</a>
+    <a class="nav-link" href="#jtextfield">JTextField</a>
+    <a class="nav-link" href="#jframe">JFrame</a>
+    <a class="nav-link" href="#actionlistener">ActionListener</a>
+
+    <div class="nav-section">GUI Programs</div>
+    <a class="nav-link" href="#prog-evenodd">Even/Odd Checker <span class="badge badge-pyq">PYQ</span></a>
+    <a class="nav-link" href="#prog-btnclick">Button Click Event</a>
+    <a class="nav-link" href="#prog-addition">Addition (Swing)</a>
+    <a class="nav-link" href="#prog-greet">TextField + Button</a>
+    <a class="nav-link" href="#prog-layout">Layout Managers Demo</a>
+
+    <div class="nav-section">Part B — JDBC</div>
+    <a class="nav-link" href="#jdbc">What is JDBC?</a>
+    <a class="nav-link" href="#jdbc-arch">JDBC Architecture</a>
+    <a class="nav-link" href="#jdbc-drivers">JDBC Drivers</a>
+    <a class="nav-link" href="#jdbc-steps">Connectivity Steps <span class="badge badge-imp">IMP</span></a>
+    <a class="nav-link" href="#stmt-vs-pstmt">Statement vs Prepared <span class="badge badge-imp">TABLE</span></a>
+    <a class="nav-link" href="#query-vs-update">Query vs Update <span class="badge badge-imp">TABLE</span></a>
+
+    <div class="nav-section">JDBC Programs</div>
+    <a class="nav-link" href="#prog-fetch">Fetch Rows <span class="badge badge-pyq">PYQ</span></a>
+    <a class="nav-link" href="#prog-insert">Insert Program <span class="badge badge-pyq">PYQ</span></a>
+    <a class="nav-link" href="#prog-connect">Basic Connectivity</a>
+    <a class="nav-link" href="#prog-crud">Update & Delete</a>
+
+    <div class="nav-section">Quick Reference</div>
+    <a class="nav-link" href="#mistakes">Common Mistakes ⚠️</a>
+    <a class="nav-link" href="#revision">🔥 Revision Sheet</a>
+</nav>
+
+<!-- Main Content -->
+<div class="main">
+
+    <!-- Hero -->
+    <header class="hero" id="top">
+        <div class="unit-badge">Unit IV — Advanced Java</div>
+        <h1>Swing & JDBC Exam Notes</h1>
+        <p>Complete internal exam notes — definitions, programs, tables & revision sheet. Everything you need for tomorrow.</p>
+    </header>
+
+    <!-- ============================== -->
+    <!-- PART A: SWING                  -->
+    <!-- ============================== -->
+    <div class="part-divider"><span class="swing">Part A — Introducing Swing</span></div>
+
+    <!-- 1. SWING -->
+    <section class="section" id="swing">
+        <div class="section-header">
+            <div class="section-number num-blue">1</div>
+            <h2>What is Swing?</h2>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definition</div>
+            <p>Swing is a <strong>lightweight, platform-independent GUI toolkit</strong> in Java used to create window-based applications. It is part of <strong>Java Foundation Classes (JFC)</strong> and is built on top of AWT.</p>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🔑</span> Key Points</h3>
+            <ul>
+                <li>Swing classes are in the <code>javax.swing</code> package</li>
+                <li>Swing components are <strong>lightweight</strong> (don't depend on native OS)</li>
+                <li>Follows <strong>MVC (Model-View-Controller)</strong> architecture</li>
+                <li>Supports <strong>pluggable look and feel</strong> — change appearance without changing code</li>
+                <li>All Swing components start with <strong>"J"</strong> → JFrame, JButton, JLabel, etc.</li>
+                <li>Swing is <strong>NOT thread-safe</strong> (use SwingUtilities for thread safety)</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🌳</span> Class Hierarchy</h3>
+            <div class="diagram-box">
+<pre><code>java.lang.Object
+  └── java.awt.<span class="cls">Component</span>
+        └── java.awt.<span class="cls">Container</span>
+              ├── javax.swing.<span class="cls">JComponent</span>
+              │     ├── <span class="kw">JButton</span>
+              │     ├── <span class="kw">JLabel</span>
+              │     ├── <span class="kw">JTextField</span>
+              │     └── <span class="kw">JPanel</span>
+              └── java.awt.<span class="cls">Window</span>
+                    └── java.awt.<span class="cls">Frame</span>
+                          └── javax.swing.<span class="kw">JFrame</span></code></pre>
+            </div>
+        </div>
+
+        <div class="tip-box">
+            <div class="label">💡 Exam Tip</div>
+            <p>If asked <em>"Why Swing over AWT?"</em> — Answer: <strong>Lightweight, platform-independent, more components, pluggable look & feel, MVC support.</strong></p>
+        </div>
+
+        <div class="card" style="margin-top:1.25rem;">
+            <h3><span class="icon">📐</span> Swing MVC Architecture</h3>
+            <p>Swing uses a modified <strong>Model-View-Controller (MVC)</strong> architecture. Unlike classic MVC where all three components are isolated, Swing uses a <strong>Delegated/Component UI Design</strong>:</p>
+            <ul style="margin-top: 8px;">
+                <li><strong>Model (State):</strong> Represents the data and state of the component (e.g., <code>ButtonModel</code> tracks clicked/enabled states, <code>Document</code> holds text for JTextField).</li>
+                <li><strong>View & Controller (UI Delegate):</strong> Swing merges the View and Controller into a single, unified object called a <strong>UI Delegate</strong> (extending <code>ComponentUI</code>). This delegate renders the component to the screen and intercepts mouse/keyboard events.</li>
+            </ul>
+            <p style="margin-top: 8px;">This allows Swing to support its famous <strong>Pluggable Look and Feel (PLAF)</strong>. You can change the visual style (View/Controller delegate) at runtime without altering the underlying data structures (Model).</p>
+        </div>
+
+        <div class="card" style="margin-top:1rem;">
+            <h3><span class="icon">🧵</span> Event Dispatch Thread (EDT) & Thread Safety</h3>
+            <p>A fundamental rule of Swing development is: <strong>Swing components are NOT thread-safe.</strong> If multiple threads attempt to edit GUI elements simultaneously, race conditions, visual glitches, or deadlocks will occur.</p>
+            
+            <div class="def-box" style="border-left-color: var(--accent-red); background: rgba(239, 68, 68, 0.05); margin-top: 10px;">
+                <div class="label" style="color: var(--accent-red);">The Single-Threaded Rule</div>
+                All GUI-interacting code—including component creation, modifications, layouts, and rendering—<strong>must be executed exclusively on a single thread</strong>: the <strong>Event Dispatch Thread (EDT)</strong>.
+            </div>
+
+            <p style="margin-top: 8px;">To safely launch a Swing application from the main thread, or update GUI elements from a background/worker thread, you must queue the execution asynchronously on the EDT using <code class="inline-code">SwingUtilities.invokeLater()</code>:</p>
+
+            <pre style="margin-top: 10px;"><span class="cm">// Exam-ready safe Swing program startup template:</span>
+<span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+    <span class="cls">SwingUtilities</span>.<span class="fn">invokeLater</span>(<span class="kw">new</span> <span class="cls">Runnable</span>() {
+        <span class="ann">@Override</span>
+        <span class="kw">public void</span> <span class="fn">run</span>() {
+            <span class="cm">// Safely create and display the JFrame here</span>
+            <span class="cls">JFrame</span> frame = <span class="kw">new</span> <span class="cls">JFrame</span>(<span class="str">"Thread Safe App"</span>);
+            frame.<span class="fn">setDefaultCloseOperation</span>(<span class="cls">JFrame</span>.EXIT_ON_CLOSE);
+            frame.<span class="fn">setSize</span>(<span class="num">300</span>, <span class="num">200</span>);
+            frame.<span class="fn">setVisible</span>(<span class="kw">true</span>);
+        }
+    });
+}</pre>
+        </div>
+    </section>
+
+    <!-- 2. SWING PACKAGES -->
+    <section class="section" id="packages">
+        <div class="section-header">
+            <div class="section-number num-blue">2</div>
+            <h2>Swing Packages</h2>
+        </div>
+
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>Package</th><th>Description</th></tr></thead>
+                <tbody>
+                    <tr><td><code>javax.swing</code></td><td>Core Swing components (JButton, JFrame, JLabel, etc.)</td></tr>
+                    <tr><td><code>javax.swing.event</code></td><td>Event classes specific to Swing</td></tr>
+                    <tr><td><code>javax.swing.table</code></td><td>Classes for JTable component</td></tr>
+                    <tr><td><code>javax.swing.tree</code></td><td>Classes for JTree component</td></tr>
+                    <tr><td><code>javax.swing.border</code></td><td>Border-related classes</td></tr>
+                    <tr><td><code>javax.swing.plaf</code></td><td>Pluggable Look and Feel classes</td></tr>
+                    <tr><td><code>javax.swing.text</code></td><td>Text component support</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="warn-box">
+            <div class="label">⚠️ Common Mistake</div>
+            <p>The main package is <code>javax.swing</code>. Remember: it's <strong>javax</strong> (with 'x'), NOT <code>java.swing</code>!</p>
+        </div>
+    </section>
+
+    <!-- 3. AWT vs SWING -->
+    <section class="section" id="awt-vs-swing">
+        <div class="section-header">
+            <div class="section-number num-purple">3</div>
+            <h2>AWT vs Swing</h2>
+        </div>
+
+        <div class="diff-table">
+            <div class="diff-table-header">⭐ Mandatory Difference Table — AWT vs Swing</div>
+            <div class="table-wrap" style="border: none; border-radius: 0;">
+                <table>
+                    <thead><tr><th>Feature</th><th>AWT</th><th>Swing</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Package</strong></td><td><code>java.awt</code></td><td><code>javax.swing</code></td></tr>
+                        <tr><td><strong>Component Type</strong></td><td>Heavyweight</td><td>Lightweight</td></tr>
+                        <tr><td><strong>Platform Dependent?</strong></td><td>Yes (uses native OS components)</td><td>No (pure Java)</td></tr>
+                        <tr><td><strong>Look and Feel</strong></td><td>OS dependent</td><td>Pluggable (can change)</td></tr>
+                        <tr><td><strong>Components</strong></td><td>Fewer (Button, Label, TextField)</td><td>Many more (JButton, JTable, JTree)</td></tr>
+                        <tr><td><strong>MVC Support</strong></td><td>No</td><td>Yes</td></tr>
+                        <tr><td><strong>Speed</strong></td><td>Faster (native)</td><td>Slightly slower (Java rendered)</td></tr>
+                        <tr><td><strong>Prefix</strong></td><td>No prefix (Button, Frame)</td><td>"J" prefix (JButton, JFrame)</td></tr>
+                        <tr><td><strong>Advanced Components</strong></td><td>No table, tree, tabs</td><td>JTable, JTree, JTabbedPane</td></tr>
+                        <tr><td><strong>Memory</strong></td><td>More (OS resources)</td><td>Less</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="diff-table">
+            <div class="diff-table-header">⭐ Mandatory — Heavyweight vs Lightweight Components</div>
+            <div class="table-wrap" style="border: none; border-radius: 0;">
+                <table>
+                    <thead><tr><th>Feature</th><th>Heavyweight</th><th>Lightweight</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Depends on OS?</strong></td><td>Yes</td><td>No</td></tr>
+                        <tr><td><strong>Drawn by</strong></td><td>Native OS peer</td><td>Java itself</td></tr>
+                        <tr><td><strong>Example</strong></td><td>AWT (Button, Frame)</td><td>Swing (JButton, JFrame)</td></tr>
+                        <tr><td><strong>Memory Usage</strong></td><td>More</td><td>Less</td></tr>
+                        <tr><td><strong>Appearance</strong></td><td>Varies with OS</td><td>Consistent across OS</td></tr>
+                        <tr><td><strong>Transparency</strong></td><td>Not supported</td><td>Supported</td></tr>
+                        <tr><td><strong>Package</strong></td><td><code>java.awt</code></td><td><code>javax.swing</code></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. EXPLORING SWING COMPONENTS -->
+    <section class="section" id="exploring-swing">
+        <div class="section-header">
+            <div class="section-number num-blue">4</div>
+            <h2>Exploring Swing Components</h2>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definition</div>
+            <p>Swing provides a rich set of GUI components extending from <code>JComponent</code> that cover buttons, lists, menus, and container panels to build advanced, complex user interfaces.</p>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🧱</span> Complete Tour of Major Swing Components</h3>
+            <p>Below is a summary of the essential Swing components, their descriptions, and common constructors:</p>
+            
+            <div class="table-wrap" style="margin-top: 15px;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Component</th>
+                            <th>Description</th>
+                            <th>Common Constructors</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>JCheckBox</code></td>
+                            <td>An implementation of a check box — an item that can be selected or deselected, allowing multiple options to be selected.</td>
+                            <td>
+                                <code>new JCheckBox()</code><br>
+                                <code>new JCheckBox(String text)</code><br>
+                                <code>new JCheckBox(String text, boolean selected)</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><code>JRadioButton</code></td>
+                            <td>An implementation of a radio button — an item that can be selected or deselected. Used with <code>ButtonGroup</code> to allow only a single option to be selected at a time.</td>
+                            <td>
+                                <code>new JRadioButton()</code><br>
+                                <code>new JRadioButton(String text)</code><br>
+                                <code>new JRadioButton(String text, boolean selected)</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><code>JComboBox</code></td>
+                            <td>A drop-down list of items. A user can select an item from the list or optionally type a value (if editable).</td>
+                            <td>
+                                <code>new JComboBox()</code><br>
+                                <code>new JComboBox(Object[] items)</code><br>
+                                <code>new JComboBox(Vector items)</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><code>JList</code></td>
+                            <td>A component that displays a list of objects and allows the user to select one or more items. Unlike a combo box, the list is displayed inline on screen.</td>
+                            <td>
+                                <code>new JList()</code><br>
+                                <code>new JList(Object[] items)</code><br>
+                                <code>new JList(ListModel dataModel)</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><code>JMenu</code></td>
+                            <td>A menu component that is displayed from a <code>JMenuBar</code>. It contains <code>JMenuItem</code>s which represent the options a user can select.</td>
+                            <td>
+                                <code>new JMenu()</code><br>
+                                <code>new JMenu(String s)</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><code>JPanel</code></td>
+                            <td>A lightweight container used to organize other components. Ideal for grouping controls and applying nested layout managers.</td>
+                            <td>
+                                <code>new JPanel()</code><br>
+                                <code>new JPanel(LayoutManager layout)</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><code>JScrollPane</code></td>
+                            <td>A container component that provides a scrollable view of a lightweight component. Used when the display area is smaller than the component size (e.g. for JTextArea or JList).</td>
+                            <td>
+                                <code>new JScrollPane()</code><br>
+                                <code>new JScrollPane(Component view)</code><br>
+                                <code>new JScrollPane(int vsbPolicy, int hsbPolicy)</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><code>JTabbedPane</code></td>
+                            <td>A component that lets the user switch between a group of components by clicking on a tab with a given title and/or icon. Ideal for saving screen space.</td>
+                            <td>
+                                <code>new JTabbedPane()</code><br>
+                                <code>new JTabbedPane(int tabPlacement)</code>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. SWING LAYOUT MANAGERS -->
+    <section class="section" id="layout-managers">
+        <div class="section-header">
+            <div class="section-number num-blue">5</div>
+            <h2>Swing Layout Managers</h2>
+            <span class="pyq-tag">MSRIT SEE '24</span>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definition</div>
+            <p>A <strong>Layout Manager</strong> is an interface in AWT/Swing that automatically governs the <strong>positioning and sizing</strong> of components inside a container. It decodes the layout logic dynamically, ensuring components adjust gracefully when the window is resized.</p>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">📐</span> Core Layout Managers Tour</h3>
+            <p>Swing includes five essential layout managers that you must know for the exam:</p>
+            
+            <div style="margin-top: 15px;">
+                <h4 style="font-size: 14.5px; color: var(--accent-cyan); margin-bottom: 6px;">1. FlowLayout (Default for JPanel)</h4>
+                <p>Arranges components in a simple, consecutive line (row) from left to right. If a row gets filled, components wrap to the next line. You can specify alignment (left, center, right) and horizontal/vertical spacing.</p>
+                <pre><code><span class="kw">new</span> <span class="cls">FlowLayout</span>()                           <span class="cm">// Centered with 5px default gaps</span>
+<span class="kw">new</span> <span class="cls">FlowLayout</span>(FlowLayout.LEFT)            <span class="cm">// Left-aligned</span>
+<span class="kw">new</span> <span class="cls">FlowLayout</span>(FlowLayout.RIGHT, <span class="num">10</span>, <span class="num">20</span>)   <span class="cm">// Right-aligned with custom hGap/vGap</span></code></pre>
+            </div>
+
+            <div style="margin-top: 15px;">
+                <h4 style="font-size: 14.5px; color: var(--accent-cyan); margin-bottom: 6px;">2. BorderLayout (Default for JFrame)</h4>
+                <p>Divides the container into <strong>five distinct regions</strong>: <code>NORTH</code>, <code>SOUTH</code>, <code>EAST</code>, <code>WEST</code>, and <code>CENTER</code>. Each region can contain only one component. The Center region automatically stretches to consume all remaining space.</p>
+                <pre><code><span class="kw">new</span> <span class="cls">BorderLayout</span>()                         <span class="cm">// Default constructor</span>
+<span class="kw">new</span> <span class="cls">BorderLayout</span>(<span class="num">10</span>, <span class="num">10</span>)                   <span class="cm">// Custom hGap/vGap</span>
+
+<span class="cm">// Usage: Adding components to specific regions</span>
+frame.<span class="fn">add</span>(<span class="kw">new</span> <span class="cls">JButton</span>(<span class="str">"Top"</span>), <span class="cls">BorderLayout</span>.NORTH);
+frame.<span class="fn">add</span>(<span class="kw">new</span> <span class="cls">JButton</span>(<span class="str">"Middle"</span>), <span class="cls">BorderLayout</span>.CENTER);</code></pre>
+            </div>
+
+            <div style="margin-top: 15px;">
+                <h4 style="font-size: 14.5px; color: var(--accent-cyan); margin-bottom: 6px;">3. GridLayout</h4>
+                <p>Positions components inside a rigid <strong>grid pattern of equal-sized cells</strong> (rows and columns). Each component fills its entire cell boundary. If you resize the container, cells expand proportionally.</p>
+                <pre><code><span class="kw">new</span> <span class="cls">GridLayout</span>(<span class="num">3</span>, <span class="num">2</span>)                       <span class="cm">// 3 rows and 2 columns</span>
+<span class="kw">new</span> <span class="cls">GridLayout</span>(<span class="num">4</span>, <span class="num">4</span>, <span class="num">5</span>, <span class="num">5</span>)                 <span class="cm">// 4x4 grid with 5px hGap/vGap</span></code></pre>
+            </div>
+
+            <div style="margin-top: 15px;">
+                <h4 style="font-size: 14.5px; color: var(--accent-cyan); margin-bottom: 6px;">4. BoxLayout</h4>
+                <p>Arranges components sequentially in a single row or single column. Unlike FlowLayout, components do not wrap. It respects the components' maximum sizes and allows alignment control.</p>
+                <pre><code><span class="cm">// Constructor: requires target container and axis</span>
+<span class="kw">new</span> <span class="cls">BoxLayout</span>(panel, <span class="cls">BoxLayout</span>.Y_AXIS)     <span class="cm">// Stack components vertically</span>
+<span class="kw">new</span> <span class="cls">BoxLayout</span>(panel, <span class="cls">BoxLayout</span>.X_AXIS)     <span class="cm">// Align components horizontally</span></code></pre>
+            </div>
+
+            <div style="margin-top: 15px;">
+                <h4 style="font-size: 14.5px; color: var(--accent-cyan); margin-bottom: 6px;">5. GridBagLayout (Highly Flexible)</h4>
+                <p>The most flexible and complex layout manager. It places components in a grid but allows cells to have varying sizes, and components to span multiple columns or rows. Positions are configured using a companion helper object: <code>GridBagConstraints</code>.</p>
+                <pre><code><span class="cls">GridBagLayout</span> gridbag = <span class="kw">new</span> <span class="cls">GridBagLayout</span>();
+<span class="cls">GridBagConstraints</span> c = <span class="kw">new</span> <span class="cls">GridBagConstraints</span>();
+panel.<span class="fn">setLayout</span>(gridbag);
+
+<span class="cm">// GridBagConstraints Parameters to write in Exam:</span>
+c.gridx = <span class="num">0</span>;      <span class="cm">// Column index (starting at 0)</span>
+c.gridy = <span class="num">1</span>;      <span class="cm">// Row index (starting at 0)</span>
+c.gridwidth = <span class="num">2</span>;  <span class="cm">// Number of columns to span</span>
+c.gridheight = <span class="num">1</span>; <span class="cm">// Number of rows to span</span>
+c.weightx = <span class="num">1.0</span>;  <span class="cm">// Horizontal space distribution ratio</span>
+c.weighty = <span class="num">0.0</span>;  <span class="cm">// Vertical space distribution ratio</span>
+c.fill = <span class="cls">GridBagConstraints</span>.HORIZONTAL; <span class="cm">// Fill constraint (HORIZONTAL, VERTICAL, BOTH, NONE)</span>
+c.insets = <span class="kw">new</span> <span class="cls">Insets</span>(<span class="num">5</span>, <span class="num">5</span>, <span class="num">5</span>, <span class="num">5</span>);       <span class="cm">// Padding margins (top, left, bottom, right)</span>
+c.anchor = <span class="cls">GridBagConstraints</span>.CENTER;   <span class="cm">// Alignment inside grid cell</span>
+
+panel.<span class="fn">add</span>(button, c);</code></pre>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top: 1.5rem;">
+            <h3><span class="icon">📊</span> Layout Managers Comparison</h3>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Layout Manager</th>
+                            <th>Default for</th>
+                            <th>Arrangement Flow</th>
+                            <th>Component Resizing Behaviour</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>FlowLayout</code></td>
+                            <td><code>JPanel</code></td>
+                            <td>Consecutive rows (left to right, wrapping).</td>
+                            <td>Keeps components at preferred size.</td>
+                        </tr>
+                        <tr>
+                            <td><code>BorderLayout</code></td>
+                            <td><code>JFrame</code>, <code>JDialog</code></td>
+                            <td>5 fixed regions (North, South, East, West, Center).</td>
+                            <td>Stretches components to fill region bounds. Center fills remainder.</td>
+                        </tr>
+                        <tr>
+                            <td><code>GridLayout</code></td>
+                            <td><em>None</em></td>
+                            <td>Rigid 2D cell grid (rows × columns).</td>
+                            <td>Forces all components to have equal, uniform size.</td>
+                        </tr>
+                        <tr>
+                            <td><code>BoxLayout</code></td>
+                            <td><em>None</em></td>
+                            <td>Single row (X_AXIS) or single column (Y_AXIS).</td>
+                            <td>Attempts to keep preferred size; respects max size.</td>
+                        </tr>
+                        <tr>
+                            <td><code>GridBagLayout</code></td>
+                            <td><em>None</em></td>
+                            <td>Dynamic cell grid of varying heights/widths.</td>
+                            <td>Highly customizable via <code>GridBagConstraints</code>.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top: 1.5rem;">
+            <h3><span class="icon">🧱</span> Nested Panel Layout (ASCII Flow Representation)</h3>
+            <p>In advanced GUI design, complex layouts are created by nesting <code>JPanel</code> containers inside each other, each utilizing a specialized layout manager. Below is a structural flow representation of a typical nested GUI hierarchy:</p>
+            <div class="diagram-box" style="text-align: left; background: var(--bg-code); font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--accent-cyan); line-height: 1.4;">
+<pre>+-----------------------------------------------------------+
+|                   JFrame (BorderLayout)                   |
++-----------------------------------------------------------+
+| NORTH: JPanel Header Panel (FlowLayout)                  |
+|   [ Logo ]   [ Title Label ]                 [ Settings ] |
++-----------------------------------------------------------+
+| CENTER: JPanel Workspace Panel (GridLayout - 1x2 Cells)   |
+|  +-------------------------+ +-------------------------+  |
+|  | Cell 1: JPanel Form     | | Cell 2: JPanel Form     |  |
+|  |   [ Username Label ]    | |   [ Input Field ]       |  |
+|  |   [ Password Label ]    | |   [ Input Field ]       |  |
+|  +-------------------------+ +-------------------------+  |
++-----------------------------------------------------------+
+| SOUTH: JPanel Actions Panel (FlowLayout.RIGHT)             |
+|                                     [ Reset ]  [ Submit ] |
++-----------------------------------------------------------+ </pre>
+            </div>
+        </div>
+
+        <div class="tip-box">
+            <div class="label">💡 Setting the Layout Manager</div>
+            <p>To apply a layout manager to a JFrame or JPanel, use the <code>setLayout()</code> method. Passing <code>null</code> selects <strong>Absolute Positioning</strong>, requiring you to define sizes manually via <code>setBounds(x, y, w, h)</code>.</p>
+            <pre><code>panel.<span class="fn">setLayout</span>(<span class="kw">new</span> <span class="cls">GridLayout</span>(<span class="num">2</span>, <span class="num">2</span>)); <span class="cm">// Applies grid layout</span>
+frame.<span class="fn">setLayout</span>(<span class="kw">null</span>);                 <span class="cm">// Enables absolute positioning bounds</span></code></pre>
+        </div>
+    </section>
+
+    <!-- 6. EVENT HANDLING -->
+    <section class="section" id="event-handling">
+        <div class="section-header">
+            <div class="section-number num-blue">6</div>
+            <h2>Event Handling</h2>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definition</div>
+            <p>Event Handling is the mechanism to <strong>control events</strong> (like button click, mouse move, key press) and <strong>decide what should happen</strong> when an event occurs.</p>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🧩</span> Key Concepts</h3>
+            <ul>
+                <li><strong>Event</strong> → An object that describes a state change (e.g., button clicked)</li>
+                <li><strong>Event Source</strong> → The component that generates the event (e.g., JButton)</li>
+                <li><strong>Event Listener</strong> → The interface that receives and handles the event (e.g., ActionListener)</li>
+                <li><strong>Event Handler</strong> → The method that contains the code to execute (e.g., <code>actionPerformed()</code>)</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🔄</span> Event Handling Flow (Delegation Event Model)</h3>
+            <div class="diagram-box">
+<pre><code>User Action (click)
+      │
+      ▼
+Event Source (<span class="cls">JButton</span>)
+      │
+      ├── Creates <span class="cls">Event Object</span> (<span class="kw">ActionEvent</span>)
+      │
+      ▼
+Sends to Registered Listener (<span class="kw">ActionListener</span>)
+      │
+      ▼
+Executes Handler Method → <span class="fn">actionPerformed</span>(<span class="cls">ActionEvent</span> e)</code></pre>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">📋</span> Steps to Handle Events</h3>
+            <ul>
+                <li><strong>Step 1:</strong> Implement the listener interface → <code>implements ActionListener</code></li>
+                <li><strong>Step 2:</strong> Register the component → <code>button.addActionListener(this)</code></li>
+                <li><strong>Step 3:</strong> Override the handler method → <code>actionPerformed(ActionEvent e)</code></li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">📊</span> Common Event Classes & Listeners</h3>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>Event Class</th><th>Listener Interface</th><th>Key Method</th></tr></thead>
+                    <tbody>
+                        <tr><td><code>ActionEvent</code></td><td><code>ActionListener</code></td><td><code>actionPerformed(ActionEvent e)</code></td></tr>
+                        <tr><td><code>MouseEvent</code></td><td><code>MouseListener</code></td><td><code>mouseClicked()</code>, <code>mousePressed()</code></td></tr>
+                        <tr><td><code>KeyEvent</code></td><td><code>KeyListener</code></td><td><code>keyPressed()</code>, <code>keyReleased()</code></td></tr>
+                        <tr><td><code>ItemEvent</code></td><td><code>ItemListener</code></td><td><code>itemStateChanged(ItemEvent e)</code></td></tr>
+                        <tr><td><code>WindowEvent</code></td><td><code>WindowListener</code></td><td><code>windowClosing()</code>, <code>windowOpened()</code></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="tip-box">
+            <div class="label">💡 Viva Favorite</div>
+            <p><strong>"What is Delegation Event Model?"</strong> → A model where the event source (component) delegates the event handling to a separate listener object. The source generates events, the listener handles them.</p>
+        </div>
+    </section>
+
+    <!-- 7. JLABEL -->
+    <section class="section" id="jlabel">
+        <div class="section-header">
+            <div class="section-number num-blue">7</div>
+            <h2>JLabel</h2>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definition</div>
+            <p><code>JLabel</code> is a Swing component used to <strong>display text, image, or both</strong>. It is a <strong>read-only</strong> component — user cannot edit it.</p>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🔧</span> Constructors</h3>
+<pre><code><span class="kw">new</span> <span class="cls">JLabel</span>()                           <span class="cm">// Empty label</span>
+<span class="kw">new</span> <span class="cls">JLabel</span>(<span class="str">"Hello"</span>)                     <span class="cm">// Label with text</span>
+<span class="kw">new</span> <span class="cls">JLabel</span>(icon)                        <span class="cm">// Label with image</span>
+<span class="kw">new</span> <span class="cls">JLabel</span>(<span class="str">"Hello"</span>, SwingConstants.CENTER) <span class="cm">// With alignment</span></code></pre>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">📋</span> Important Methods</h3>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>Method</th><th>Description</th></tr></thead>
+                    <tbody>
+                        <tr><td><code>setText(String)</code></td><td>Set label text</td></tr>
+                        <tr><td><code>getText()</code></td><td>Get label text</td></tr>
+                        <tr><td><code>setFont(Font f)</code></td><td>Set font</td></tr>
+                        <tr><td><code>setForeground(Color c)</code></td><td>Set text color</td></tr>
+                        <tr><td><code>setIcon(Icon)</code></td><td>Set image icon</td></tr>
+                        <tr><td><code>setHorizontalAlignment(int)</code></td><td>Set alignment (LEFT, CENTER, RIGHT)</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. JBUTTON -->
+    <section class="section" id="jbutton">
+        <div class="section-header">
+            <div class="section-number num-blue">8</div>
+            <h2>JButton</h2>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definition</div>
+            <p><code>JButton</code> is a Swing component that creates a <strong>push button</strong>. When clicked, it generates an <code>ActionEvent</code>.</p>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🔧</span> Constructors</h3>
+<pre><code><span class="kw">new</span> <span class="cls">JButton</span>()                    <span class="cm">// Empty button</span>
+<span class="kw">new</span> <span class="cls">JButton</span>(<span class="str">"Click"</span>)             <span class="cm">// Button with text</span>
+<span class="kw">new</span> <span class="cls">JButton</span>(icon)                <span class="cm">// Button with icon</span>
+<span class="kw">new</span> <span class="cls">JButton</span>(<span class="str">"Click"</span>, icon)       <span class="cm">// Button with text and icon</span></code></pre>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">📋</span> Important Methods</h3>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>Method</th><th>Description</th></tr></thead>
+                    <tbody>
+                        <tr><td><code>setText(String)</code></td><td>Set button text</td></tr>
+                        <tr><td><code>getText()</code></td><td>Get button text</td></tr>
+                        <tr><td><code>addActionListener(ActionListener)</code></td><td>Register action listener</td></tr>
+                        <tr><td><code>setEnabled(boolean)</code></td><td>Enable/Disable button</td></tr>
+                        <tr><td><code>setMnemonic(int key)</code></td><td>Set keyboard shortcut</td></tr>
+                        <tr><td><code>doClick()</code></td><td>Programmatically click</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. JTEXTFIELD -->
+    <section class="section" id="jtextfield">
+        <div class="section-header">
+            <div class="section-number num-blue">9</div>
+            <h2>JTextField</h2>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definition</div>
+            <p><code>JTextField</code> is a Swing component that allows the user to <strong>enter/edit a single line of text</strong>.</p>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🔧</span> Constructors</h3>
+<pre><code><span class="kw">new</span> <span class="cls">JTextField</span>()                      <span class="cm">// Empty text field</span>
+<span class="kw">new</span> <span class="cls">JTextField</span>(<span class="str">"default text"</span>)          <span class="cm">// With default text</span>
+<span class="kw">new</span> <span class="cls">JTextField</span>(<span class="num">20</span>)                     <span class="cm">// With column width</span>
+<span class="kw">new</span> <span class="cls">JTextField</span>(<span class="str">"text"</span>, <span class="num">20</span>)             <span class="cm">// Both</span></code></pre>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">📋</span> Important Methods</h3>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>Method</th><th>Description</th></tr></thead>
+                    <tbody>
+                        <tr><td><code>setText(String)</code></td><td>Set text</td></tr>
+                        <tr><td><code>getText()</code></td><td>Get text entered by user</td></tr>
+                        <tr><td><code>setEditable(boolean)</code></td><td>Make editable/non-editable</td></tr>
+                        <tr><td><code>setColumns(int)</code></td><td>Set width in columns</td></tr>
+                        <tr><td><code>setFont(Font)</code></td><td>Set font</td></tr>
+                        <tr><td><code>addActionListener(ActionListener)</code></td><td>Listen for Enter key</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="warn-box">
+            <div class="label">⚠️ Common Mistake</div>
+            <p><code>tf.getText()</code> returns a <strong>String</strong>. To convert to int: <code>int num = Integer.parseInt(tf.getText());</code></p>
+        </div>
+    </section>
+
+    <!-- 10. JFRAME -->
+    <section class="section" id="jframe">
+        <div class="section-header">
+            <div class="section-number num-blue">10</div>
+            <h2>JFrame</h2>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definition</div>
+            <p><code>JFrame</code> is a <strong>top-level container</strong> in Swing that represents a <strong>window</strong> with title bar, border, and buttons (minimize, maximize, close).</p>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">📋</span> Important Methods</h3>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>Method</th><th>Description</th></tr></thead>
+                    <tbody>
+                        <tr><td><code>setSize(int w, int h)</code></td><td>Set window size</td></tr>
+                        <tr><td><code>setVisible(boolean)</code></td><td>Show/hide window</td></tr>
+                        <tr><td><code>setTitle(String)</code></td><td>Set window title</td></tr>
+                        <tr><td><code>setLayout(LayoutManager)</code></td><td>Set layout (null = absolute)</td></tr>
+                        <tr><td><code>setDefaultCloseOperation(int)</code></td><td>What happens on close</td></tr>
+                        <tr><td><code>add(Component)</code></td><td>Add component to frame</td></tr>
+                        <tr><td><code>setLocationRelativeTo(null)</code></td><td>Center on screen</td></tr>
+                        <tr><td><code>setResizable(boolean)</code></td><td>Allow/prevent resize</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🚪</span> Close Operations</h3>
+<pre><code>JFrame.<span class="fn">EXIT_ON_CLOSE</span>        <span class="cm">// Exit application (MOST USED ✅)</span>
+JFrame.<span class="fn">HIDE_ON_CLOSE</span>        <span class="cm">// Just hide window</span>
+JFrame.<span class="fn">DISPOSE_ON_CLOSE</span>     <span class="cm">// Dispose window</span>
+JFrame.<span class="fn">DO_NOTHING_ON_CLOSE</span>  <span class="cm">// Do nothing</span></code></pre>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">📝</span> Basic JFrame Template (Memorize!)</h3>
+<pre><code><span class="kw">import</span> javax.swing.*;
+
+<span class="kw">public class</span> <span class="cls">MyFrame</span> <span class="kw">extends</span> <span class="cls">JFrame</span> {
+    <span class="cls">MyFrame</span>() {
+        <span class="fn">setTitle</span>(<span class="str">"My Application"</span>);
+        <span class="fn">setSize</span>(<span class="num">500</span>, <span class="num">400</span>);
+        <span class="fn">setLayout</span>(<span class="kw">null</span>);
+        <span class="fn">setDefaultCloseOperation</span>(JFrame.<span class="fn">EXIT_ON_CLOSE</span>);
+        <span class="fn">setLocationRelativeTo</span>(<span class="kw">null</span>);
+        <span class="fn">setVisible</span>(<span class="kw">true</span>);  <span class="cm">// ALWAYS LAST!</span>
+    }
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+        <span class="kw">new</span> <span class="cls">MyFrame</span>();
+    }
+}</code></pre>
+        </div>
+
+        <div class="danger-box">
+            <div class="label">🚨 Important</div>
+            <p><code>setVisible(true)</code> must be called <strong>AFTER</strong> adding all components, otherwise some components may not appear.</p>
+        </div>
+    </section>
+
+    <!-- 11. ACTIONLISTENER -->
+    <section class="section" id="actionlistener">
+        <div class="section-header">
+            <div class="section-number num-blue">11</div>
+            <h2>ActionListener Interface</h2>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definition</div>
+            <p><code>ActionListener</code> is a <strong>functional interface</strong> in <code>java.awt.event</code> package used to handle <strong>action events</strong> like button clicks. It has only <strong>ONE method</strong>: <code>public void actionPerformed(ActionEvent e)</code></p>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">1️⃣</span> Way 1: Implementing the Interface</h3>
+<pre><code><span class="kw">public class</span> <span class="cls">MyApp</span> <span class="kw">extends</span> <span class="cls">JFrame</span> <span class="kw">implements</span> <span class="cls">ActionListener</span> {
+    <span class="cls">JButton</span> btn = <span class="kw">new</span> <span class="cls">JButton</span>(<span class="str">"Click"</span>);
+
+    <span class="cls">MyApp</span>() {
+        btn.<span class="fn">addActionListener</span>(<span class="kw">this</span>);  <span class="cm">// REGISTER</span>
+        <span class="fn">add</span>(btn);
+    }
+
+    <span class="kw">public void</span> <span class="fn">actionPerformed</span>(<span class="cls">ActionEvent</span> e) {
+        <span class="cm">// handle event</span>
+    }
+}</code></pre>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">2️⃣</span> Way 2: Anonymous Inner Class</h3>
+<pre><code>btn.<span class="fn">addActionListener</span>(<span class="kw">new</span> <span class="cls">ActionListener</span>() {
+    <span class="kw">public void</span> <span class="fn">actionPerformed</span>(<span class="cls">ActionEvent</span> e) {
+        <span class="cm">// handle event</span>
+    }
+});</code></pre>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">3️⃣</span> Way 3: Lambda Expression (Java 8+)</h3>
+<pre><code>btn.<span class="fn">addActionListener</span>(e <span class="op">-></span> {
+    <span class="cm">// handle event</span>
+});</code></pre>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">📋</span> Important ActionEvent Methods</h3>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>Method</th><th>Description</th></tr></thead>
+                    <tbody>
+                        <tr><td><code>getSource()</code></td><td>Returns the object that generated the event</td></tr>
+                        <tr><td><code>getActionCommand()</code></td><td>Returns the command string (button text)</td></tr>
+                    </tbody>
+                </table>
+            </div>
+<pre><code><span class="cm">// When you have multiple buttons:</span>
+<span class="kw">public void</span> <span class="fn">actionPerformed</span>(<span class="cls">ActionEvent</span> e) {
+    <span class="kw">if</span> (e.<span class="fn">getSource</span>() == btn1) {
+        <span class="cm">// btn1 was clicked</span>
+    } <span class="kw">else if</span> (e.<span class="fn">getSource</span>() == btn2) {
+        <span class="cm">// btn2 was clicked</span>
+    }
+}</code></pre>
+        </div>
+
+        <div class="tip-box">
+            <div class="label">💡 Viva Question</div>
+            <p><strong>"Why is ActionListener a functional interface?"</strong> → Because it has exactly ONE abstract method (<code>actionPerformed</code>), so it can be used with lambda expressions.</p>
+        </div>
+    </section>
+
+    <!-- ============================== -->
+    <!-- GUI PROGRAMS                   -->
+    <!-- ============================== -->
+
+    <!-- PROGRAM 1: EVEN/ODD -->
+    <section class="section" id="prog-evenodd">
+        <div class="program-card">
+            <div class="program-header">
+                <h3>⭐ Program 1: Even/Odd GUI Checker</h3>
+                <span class="pyq-tag">🔴 PYQ — 5 marks</span>
+            </div>
+            <div class="program-body">
+                <p style="color: var(--text-secondary); margin-bottom: 12px;"><strong>Logic:</strong> Take a number from JTextField → On button click → Check if even or odd → Display result in JLabel.</p>
+                <p style="color: var(--text-muted); font-size: 13px;"><strong>Imports:</strong> <code>javax.swing.*</code>, <code>java.awt.event.*</code></p>
+
+<pre><code><span class="kw">import</span> javax.swing.*;
+<span class="kw">import</span> java.awt.event.*;
+
+<span class="kw">public class</span> <span class="cls">EvenOddChecker</span> <span class="kw">extends</span> <span class="cls">JFrame</span> <span class="kw">implements</span> <span class="cls">ActionListener</span> {
+    <span class="cls">JTextField</span> tf;
+    <span class="cls">JButton</span> btn;
+    <span class="cls">JLabel</span> resultLabel;
+
+    <span class="cls">EvenOddChecker</span>() {
+        <span class="fn">setTitle</span>(<span class="str">"Even/Odd Checker"</span>);
+        <span class="fn">setLayout</span>(<span class="kw">null</span>);
+
+        <span class="cls">JLabel</span> inputLabel = <span class="kw">new</span> <span class="cls">JLabel</span>(<span class="str">"Enter a number:"</span>);
+        inputLabel.<span class="fn">setBounds</span>(<span class="num">30</span>, <span class="num">30</span>, <span class="num">150</span>, <span class="num">30</span>);
+        <span class="fn">add</span>(inputLabel);
+
+        tf = <span class="kw">new</span> <span class="cls">JTextField</span>();
+        tf.<span class="fn">setBounds</span>(<span class="num">180</span>, <span class="num">30</span>, <span class="num">150</span>, <span class="num">30</span>);
+        <span class="fn">add</span>(tf);
+
+        btn = <span class="kw">new</span> <span class="cls">JButton</span>(<span class="str">"Check"</span>);
+        btn.<span class="fn">setBounds</span>(<span class="num">120</span>, <span class="num">80</span>, <span class="num">100</span>, <span class="num">35</span>);
+        btn.<span class="fn">addActionListener</span>(<span class="kw">this</span>);
+        <span class="fn">add</span>(btn);
+
+        resultLabel = <span class="kw">new</span> <span class="cls">JLabel</span>(<span class="str">"Result will appear here"</span>);
+        resultLabel.<span class="fn">setBounds</span>(<span class="num">80</span>, <span class="num">130</span>, <span class="num">250</span>, <span class="num">30</span>);
+        <span class="fn">add</span>(resultLabel);
+
+        <span class="fn">setSize</span>(<span class="num">400</span>, <span class="num">250</span>);
+        <span class="fn">setDefaultCloseOperation</span>(JFrame.<span class="fn">EXIT_ON_CLOSE</span>);
+        <span class="fn">setLocationRelativeTo</span>(<span class="kw">null</span>);
+        <span class="fn">setVisible</span>(<span class="kw">true</span>);
+    }
+
+    <span class="kw">public void</span> <span class="fn">actionPerformed</span>(<span class="cls">ActionEvent</span> e) {
+        <span class="cls">String</span> input = tf.<span class="fn">getText</span>();
+        <span class="kw">int</span> num = <span class="cls">Integer</span>.<span class="fn">parseInt</span>(input);
+
+        <span class="kw">if</span> (num % <span class="num">2</span> == <span class="num">0</span>) {
+            resultLabel.<span class="fn">setText</span>(num + <span class="str">" is EVEN"</span>);
+        } <span class="kw">else</span> {
+            resultLabel.<span class="fn">setText</span>(num + <span class="str">" is ODD"</span>);
+        }
+    }
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+        <span class="kw">new</span> <span class="cls">EvenOddChecker</span>();
+    }
+}</code></pre>
+
+                <div class="output-box">
+                    <div class="label">📤 Output</div>
+<pre><code>Enter 4 → Click "Check" → Shows "4 is EVEN"
+Enter 7 → Click "Check" → Shows "7 is ODD"</code></pre>
+                </div>
+
+                <div class="viva-box">
+                    <div class="label">🎤 Expected Viva Questions</div>
+                    <ol>
+                        <li><strong>What happens if user enters text instead of number?</strong> → <code>NumberFormatException</code></li>
+                        <li><strong>How to handle that?</strong> → Use <code>try-catch</code> block</li>
+                        <li><strong>What is <code>setBounds()</code>?</strong> → Sets position (x, y) and size (width, height)</li>
+                        <li><strong>Why <code>setLayout(null)</code>?</strong> → To use absolute positioning with <code>setBounds()</code></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROGRAM 2: BUTTON CLICK -->
+    <section class="section" id="prog-btnclick">
+        <div class="program-card">
+            <div class="program-header">
+                <h3>⭐ Program 2: Button Click Event Counter</h3>
+            </div>
+            <div class="program-body">
+                <p style="color: var(--text-secondary); margin-bottom: 12px;"><strong>Logic:</strong> Simple button click that increments and displays a counter.</p>
+<pre><code><span class="kw">import</span> javax.swing.*;
+<span class="kw">import</span> java.awt.event.*;
+
+<span class="kw">public class</span> <span class="cls">ButtonClickDemo</span> <span class="kw">extends</span> <span class="cls">JFrame</span> <span class="kw">implements</span> <span class="cls">ActionListener</span> {
+    <span class="cls">JButton</span> btn;
+    <span class="cls">JLabel</span> label;
+    <span class="kw">int</span> count = <span class="num">0</span>;
+
+    <span class="cls">ButtonClickDemo</span>() {
+        <span class="fn">setTitle</span>(<span class="str">"Button Click Counter"</span>);
+        <span class="fn">setLayout</span>(<span class="kw">null</span>);
+
+        label = <span class="kw">new</span> <span class="cls">JLabel</span>(<span class="str">"Click count: 0"</span>);
+        label.<span class="fn">setBounds</span>(<span class="num">100</span>, <span class="num">30</span>, <span class="num">200</span>, <span class="num">30</span>);
+        <span class="fn">add</span>(label);
+
+        btn = <span class="kw">new</span> <span class="cls">JButton</span>(<span class="str">"Click Me!"</span>);
+        btn.<span class="fn">setBounds</span>(<span class="num">100</span>, <span class="num">80</span>, <span class="num">120</span>, <span class="num">40</span>);
+        btn.<span class="fn">addActionListener</span>(<span class="kw">this</span>);
+        <span class="fn">add</span>(btn);
+
+        <span class="fn">setSize</span>(<span class="num">350</span>, <span class="num">200</span>);
+        <span class="fn">setDefaultCloseOperation</span>(JFrame.<span class="fn">EXIT_ON_CLOSE</span>);
+        <span class="fn">setVisible</span>(<span class="kw">true</span>);
+    }
+
+    <span class="kw">public void</span> <span class="fn">actionPerformed</span>(<span class="cls">ActionEvent</span> e) {
+        count++;
+        label.<span class="fn">setText</span>(<span class="str">"Click count: "</span> + count);
+    }
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+        <span class="kw">new</span> <span class="cls">ButtonClickDemo</span>();
+    }
+}</code></pre>
+                <div class="output-box">
+                    <div class="label">📤 Output</div>
+<pre><code>Each click → "Click count: 1", "Click count: 2", ...</code></pre>
+                </div>
+                <div class="viva-box">
+                    <div class="label">🎤 Viva Questions</div>
+                    <ol>
+                        <li><strong>Can one button have multiple ActionListeners?</strong> → Yes</li>
+                        <li><strong>What does <code>e.getSource()</code> return?</strong> → The component that triggered the event</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROGRAM 3: ADDITION -->
+    <section class="section" id="prog-addition">
+        <div class="program-card">
+            <div class="program-header">
+                <h3>⭐ Program 3: Addition of Two Numbers (Swing)</h3>
+            </div>
+            <div class="program-body">
+                <p style="color: var(--text-secondary); margin-bottom: 12px;"><strong>Logic:</strong> Two JTextFields for input → Click button → Show sum in JLabel.</p>
+                <p style="color: var(--text-muted); font-size: 13px;"><strong>Imports:</strong> <code>javax.swing.*</code>, <code>java.awt.event.*</code></p>
+<pre><code><span class="kw">import</span> javax.swing.*;
+<span class="kw">import</span> java.awt.event.*;
+
+<span class="kw">public class</span> <span class="cls">AdditionApp</span> <span class="kw">extends</span> <span class="cls">JFrame</span> <span class="kw">implements</span> <span class="cls">ActionListener</span> {
+    <span class="cls">JTextField</span> tf1, tf2;
+    <span class="cls">JButton</span> addBtn;
+    <span class="cls">JLabel</span> resultLabel;
+
+    <span class="cls">AdditionApp</span>() {
+        <span class="fn">setTitle</span>(<span class="str">"Addition Calculator"</span>);
+        <span class="fn">setLayout</span>(<span class="kw">null</span>);
+
+        <span class="cls">JLabel</span> l1 = <span class="kw">new</span> <span class="cls">JLabel</span>(<span class="str">"Number 1:"</span>);
+        l1.<span class="fn">setBounds</span>(<span class="num">30</span>, <span class="num">30</span>, <span class="num">100</span>, <span class="num">30</span>);
+        <span class="fn">add</span>(l1);
+
+        tf1 = <span class="kw">new</span> <span class="cls">JTextField</span>();
+        tf1.<span class="fn">setBounds</span>(<span class="num">140</span>, <span class="num">30</span>, <span class="num">150</span>, <span class="num">30</span>);
+        <span class="fn">add</span>(tf1);
+
+        <span class="cls">JLabel</span> l2 = <span class="kw">new</span> <span class="cls">JLabel</span>(<span class="str">"Number 2:"</span>);
+        l2.<span class="fn">setBounds</span>(<span class="num">30</span>, <span class="num">70</span>, <span class="num">100</span>, <span class="num">30</span>);
+        <span class="fn">add</span>(l2);
+
+        tf2 = <span class="kw">new</span> <span class="cls">JTextField</span>();
+        tf2.<span class="fn">setBounds</span>(<span class="num">140</span>, <span class="num">70</span>, <span class="num">150</span>, <span class="num">30</span>);
+        <span class="fn">add</span>(tf2);
+
+        addBtn = <span class="kw">new</span> <span class="cls">JButton</span>(<span class="str">"Add"</span>);
+        addBtn.<span class="fn">setBounds</span>(<span class="num">100</span>, <span class="num">120</span>, <span class="num">100</span>, <span class="num">35</span>);
+        addBtn.<span class="fn">addActionListener</span>(<span class="kw">this</span>);
+        <span class="fn">add</span>(addBtn);
+
+        resultLabel = <span class="kw">new</span> <span class="cls">JLabel</span>(<span class="str">"Sum: "</span>);
+        resultLabel.<span class="fn">setBounds</span>(<span class="num">100</span>, <span class="num">170</span>, <span class="num">200</span>, <span class="num">30</span>);
+        <span class="fn">add</span>(resultLabel);
+
+        <span class="fn">setSize</span>(<span class="num">400</span>, <span class="num">280</span>);
+        <span class="fn">setDefaultCloseOperation</span>(JFrame.<span class="fn">EXIT_ON_CLOSE</span>);
+        <span class="fn">setLocationRelativeTo</span>(<span class="kw">null</span>);
+        <span class="fn">setVisible</span>(<span class="kw">true</span>);
+    }
+
+    <span class="kw">public void</span> <span class="fn">actionPerformed</span>(<span class="cls">ActionEvent</span> e) {
+        <span class="kw">int</span> num1 = <span class="cls">Integer</span>.<span class="fn">parseInt</span>(tf1.<span class="fn">getText</span>());
+        <span class="kw">int</span> num2 = <span class="cls">Integer</span>.<span class="fn">parseInt</span>(tf2.<span class="fn">getText</span>());
+        <span class="kw">int</span> sum = num1 + num2;
+        resultLabel.<span class="fn">setText</span>(<span class="str">"Sum: "</span> + sum);
+    }
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+        <span class="kw">new</span> <span class="cls">AdditionApp</span>();
+    }
+}</code></pre>
+                <div class="output-box">
+                    <div class="label">📤 Output</div>
+<pre><code>Enter 10 and 20 → Click "Add" → Shows "Sum: 30"</code></pre>
+                </div>
+                <div class="viva-box">
+                    <div class="label">🎤 Viva Questions</div>
+                    <ol>
+                        <li><strong>Why <code>Integer.parseInt()</code>?</strong> → <code>getText()</code> returns String, need int for addition</li>
+                        <li><strong>What if we don't parse?</strong> → String concatenation: "10" + "20" = "1020" instead of 30</li>
+                        <li><strong>What exception can occur?</strong> → <code>NumberFormatException</code></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROGRAM 4: GREET APP -->
+    <section class="section" id="prog-greet">
+        <div class="program-card">
+            <div class="program-header">
+                <h3>⭐ Program 4: JTextField + JButton Greeting App</h3>
+            </div>
+            <div class="program-body">
+                <p style="color: var(--text-secondary); margin-bottom: 12px;"><strong>Logic:</strong> User types name → Clicks button → Greeting displayed.</p>
+<pre><code><span class="kw">import</span> javax.swing.*;
+<span class="kw">import</span> java.awt.event.*;
+
+<span class="kw">public class</span> <span class="cls">GreetApp</span> <span class="kw">extends</span> <span class="cls">JFrame</span> <span class="kw">implements</span> <span class="cls">ActionListener</span> {
+    <span class="cls">JTextField</span> nameField;
+    <span class="cls">JButton</span> greetBtn;
+    <span class="cls">JLabel</span> greetLabel;
+
+    <span class="cls">GreetApp</span>() {
+        <span class="fn">setTitle</span>(<span class="str">"Greeting App"</span>);
+        <span class="fn">setLayout</span>(<span class="kw">null</span>);
+
+        <span class="cls">JLabel</span> l = <span class="kw">new</span> <span class="cls">JLabel</span>(<span class="str">"Enter your name:"</span>);
+        l.<span class="fn">setBounds</span>(<span class="num">30</span>, <span class="num">30</span>, <span class="num">120</span>, <span class="num">30</span>);
+        <span class="fn">add</span>(l);
+
+        nameField = <span class="kw">new</span> <span class="cls">JTextField</span>();
+        nameField.<span class="fn">setBounds</span>(<span class="num">160</span>, <span class="num">30</span>, <span class="num">150</span>, <span class="num">30</span>);
+        <span class="fn">add</span>(nameField);
+
+        greetBtn = <span class="kw">new</span> <span class="cls">JButton</span>(<span class="str">"Greet"</span>);
+        greetBtn.<span class="fn">setBounds</span>(<span class="num">120</span>, <span class="num">80</span>, <span class="num">100</span>, <span class="num">35</span>);
+        greetBtn.<span class="fn">addActionListener</span>(<span class="kw">this</span>);
+        <span class="fn">add</span>(greetBtn);
+
+        greetLabel = <span class="kw">new</span> <span class="cls">JLabel</span>();
+        greetLabel.<span class="fn">setBounds</span>(<span class="num">60</span>, <span class="num">130</span>, <span class="num">300</span>, <span class="num">30</span>);
+        <span class="fn">add</span>(greetLabel);
+
+        <span class="fn">setSize</span>(<span class="num">400</span>, <span class="num">230</span>);
+        <span class="fn">setDefaultCloseOperation</span>(JFrame.<span class="fn">EXIT_ON_CLOSE</span>);
+        <span class="fn">setVisible</span>(<span class="kw">true</span>);
+    }
+
+    <span class="kw">public void</span> <span class="fn">actionPerformed</span>(<span class="cls">ActionEvent</span> e) {
+        <span class="cls">String</span> name = nameField.<span class="fn">getText</span>();
+        greetLabel.<span class="fn">setText</span>(<span class="str">"Hello, "</span> + name + <span class="str">"! Welcome!"</span>);
+    }
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+        <span class="kw">new</span> <span class="cls">GreetApp</span>();
+    }
+}</code></pre>
+                <div class="output-box">
+                    <div class="label">📤 Output</div>
+<pre><code>Enter "Akshay" → Click "Greet" → Shows "Hello, Akshay! Welcome!"</code></pre>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROGRAM 5: LAYOUT DEMO -->
+    <section class="section" id="prog-layout">
+        <div class="program-card">
+            <div class="program-header">
+                <h3>⭐ Program 5: Swing Layout Managers Demo (Nested BorderLayout, FlowLayout, GridLayout)</h3>
+                <span class="pyq-tag">MSRIT SEE '24</span>
+            </div>
+            <div class="program-body">
+                <p style="color: var(--text-secondary); margin-bottom: 12px;"><strong>Logic:</strong> A single premium window combining <strong>BorderLayout</strong> (main frame) with nested <strong>FlowLayout</strong> (North) and <strong>GridLayout</strong> (Center) panels. Demonstrates dynamic component resizing and standard button-click event handling.</p>
+                <p style="color: var(--text-muted); font-size: 13px;"><strong>Imports:</strong> <code>javax.swing.*</code>, <code>java.awt.*</code>, <code>java.awt.event.*</code></p>
+<pre><code><span class="kw">import</span> javax.swing.*;
+<span class="kw">import</span> java.awt.*;
+<span class="kw">import</span> java.awt.event.*;
+
+<span class="kw">public class</span> <span class="cls">LayoutDemoApp</span> <span class="kw">extends</span> <span class="cls">JFrame</span> {
+    <span class="cls">LayoutDemoApp</span>() {
+        <span class="fn">setTitle</span>(<span class="str">"Swing Layout Managers Demo"</span>);
+        <span class="fn">setSize</span>(<span class="num">600</span>, <span class="num">400</span>);
+        <span class="fn">setDefaultCloseOperation</span>(JFrame.<span class="fn">EXIT_ON_CLOSE</span>);
+        
+        <span class="cm">// 1. Main frame uses BorderLayout with gaps</span>
+        <span class="fn">setLayout</span>(<span class="kw">new</span> <span class="cls">BorderLayout</span>(<span class="num">10</span>, <span class="num">10</span>));
+        
+        <span class="cm">// 2. North panel uses FlowLayout (flow of items row-wise)</span>
+        <span class="cls">JPanel</span> northPanel = <span class="kw">new</span> <span class="cls">JPanel</span>(<span class="kw">new</span> <span class="cls">FlowLayout</span>(FlowLayout.<span class="fn">CENTER</span>, <span class="num">15</span>, <span class="num">5</span>));
+        northPanel.<span class="fn">setBorder</span>(BorderFactory.<span class="fn">createTitledBorder</span>(<span class="str">"FlowLayout Panel (North)"</span>));
+        northPanel.<span class="fn">add</span>(<span class="kw">new</span> <span class="cls">JButton</span>(<span class="str">"Flow 1"</span>));
+        northPanel.<span class="fn">add</span>(<span class="kw">new</span> <span class="cls">JButton</span>(<span class="str">"Flow 2"</span>));
+        northPanel.<span class="fn">add</span>(<span class="kw">new</span> <span class="cls">JButton</span>(<span class="str">"Flow 3"</span>));
+        
+        <span class="cm">// 3. Center panel uses GridLayout (equal-sized cells in a grid)</span>
+        <span class="cls">JPanel</span> centerPanel = <span class="kw">new</span> <span class="cls">JPanel</span>(<span class="kw">new</span> <span class="cls">GridLayout</span>(<span class="num">2</span>, <span class="num">2</span>, <span class="num">8</span>, <span class="num">8</span>));
+        centerPanel.<span class="fn">setBorder</span>(BorderFactory.<span class="fn">createTitledBorder</span>(<span class="str">"GridLayout Panel (Center 2x2)"</span>));
+        centerPanel.<span class="fn">add</span>(<span class="kw">new</span> <span class="cls">JButton</span>(<span class="str">"Grid Cell A"</span>));
+        centerPanel.<span class="fn">add</span>(<span class="kw">new</span> <span class="cls">JButton</span>(<span class="str">"Grid Cell B"</span>));
+        centerPanel.<span class="fn">add</span>(<span class="kw">new</span> <span class="cls">JButton</span>(<span class="str">"Grid Cell C"</span>));
+        centerPanel.<span class="fn">add</span>(<span class="kw">new</span> <span class="cls">JButton</span>(<span class="str">"Grid Cell D"</span>));
+        
+        <span class="cm">// 4. West and East buttons for BorderLayout Demo</span>
+        <span class="cls">JButton</span> westBtn = <span class="kw">new</span> <span class="cls">JButton</span>(<span class="str">"West (Border)"</span>);
+        <span class="cls">JButton</span> eastBtn = <span class="kw">new</span> <span class="cls">JButton</span>(<span class="str">"East (Border)"</span>);
+        
+        <span class="cm">// 5. South status label</span>
+        <span class="cls">JLabel</span> statusLabel = <span class="kw">new</span> <span class="cls">JLabel</span>(<span class="str">"Click any button to see layout source!"</span>, SwingConstants.<span class="fn">CENTER</span>);
+        statusLabel.<span class="fn">setPreferredSize</span>(<span class="kw">new</span> <span class="cls">Dimension</span>(<span class="num">600</span>, <span class="num">30</span>));
+        
+        <span class="cm">// Event handler to show which button in which layout was clicked</span>
+        <span class="cls">ActionListener</span> btnListener = <span class="kw">new</span> <span class="cls">ActionListener</span>() {
+            <span class="kw">public void</span> <span class="fn">actionPerformed</span>(<span class="cls">ActionEvent</span> e) {
+                <span class="cls">JButton</span> src = (<span class="cls">JButton</span>) e.<span class="fn">getSource</span>();
+                statusLabel.<span class="fn">setText</span>(<span class="str">"Action Triggered! Clicked: "</span> + src.<span class="fn">getText</span>());
+            }
+        };
+        
+        <span class="cm">// Register action listener to all buttons</span>
+        <span class="kw">for</span> (<span class="cls">Component</span> c : northPanel.<span class="fn">getComponents</span>()) {
+            <span class="kw">if</span> (c <span class="kw">instanceof</span> <span class="cls">JButton</span>) ((<span class="cls">JButton</span>) c).<span class="fn">addActionListener</span>(btnListener);
+        }
+        <span class="kw">for</span> (<span class="cls">Component</span> c : centerPanel.<span class="fn">getComponents</span>()) {
+            <span class="kw">if</span> (c <span class="kw">instanceof</span> <span class="cls">JButton</span>) ((<span class="cls">JButton</span>) c).<span class="fn">addActionListener</span>(btnListener);
+        }
+        westBtn.<span class="fn">addActionListener</span>(btnListener);
+        eastBtn.<span class="fn">addActionListener</span>(btnListener);
+        
+        <span class="cm">// 6. Add components to respective BorderLayout regions</span>
+        <span class="fn">add</span>(northPanel, <span class="cls">BorderLayout</span>.NORTH);
+        <span class="fn">add</span>(centerPanel, <span class="cls">BorderLayout</span>.CENTER);
+        <span class="fn">add</span>(westBtn, <span class="cls">BorderLayout</span>.WEST);
+        <span class="fn">add</span>(eastBtn, <span class="cls">BorderLayout</span>.EAST);
+        <span class="fn">add</span>(statusLabel, <span class="cls">BorderLayout</span>.SOUTH);
+        
+        <span class="fn">setLocationRelativeTo</span>(<span class="kw">null</span>);
+        <span class="fn">setVisible</span>(<span class="kw">true</span>);
+    }
+    
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+        SwingUtilities.<span class="fn">invokeLater</span>(() <span class="op">-&gt;</span> <span class="kw">new</span> <span class="cls">LayoutDemoApp</span>());
+    }
+}</code></pre>
+                <div class="output-box">
+                    <div class="label">📤 Output</div>
+<pre><code>Launches a single unified window.
+Click "Flow 1" → Shows "Action Triggered! Clicked: Flow 1"
+Click "Grid Cell A" → Shows "Action Triggered! Clicked: Grid Cell A"
+Click "West (Border)" → Shows "Action Triggered! Clicked: West (Border)"</code></pre>
+                </div>
+                <div class="viva-box">
+                    <div class="label">🎤 Expected Viva Questions</div>
+                    <ol>
+                        <li><strong>What is the default layout for JFrame?</strong> → <code>BorderLayout</code></li>
+                        <li><strong>What is the default layout for JPanel?</strong> → <code>FlowLayout</code></li>
+                        <li><strong>How to disable layout managers completely?</strong> → Call <code>setLayout(null)</code> to enable absolute positioning.</li>
+                        <li><strong>What happens to regions not filled in a BorderLayout?</strong> → The remaining regions expand to consume the unused space. E.g., if West is empty, Center expands leftwards.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Swing Common Mistakes -->
+    <section class="section" id="mistakes-swing">
+        <div class="card">
+            <h3><span class="icon">⚠️</span> Common Swing Syntax Mistakes</h3>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>❌ Mistake</th><th>✅ Correct Way</th></tr></thead>
+                    <tbody>
+                        <tr><td><code>import java.swing.*;</code></td><td><code>import javax.swing.*;</code> (with 'x')</td></tr>
+                        <tr><td>Forgetting <code>setVisible(true)</code></td><td>Window won't show without it</td></tr>
+                        <tr><td>Calling <code>setVisible(true)</code> first</td><td>Call it LAST after adding components</td></tr>
+                        <tr><td>Not setting <code>setDefaultCloseOperation()</code></td><td>Program keeps running in background</td></tr>
+                        <tr><td><code>setLayout(null)</code> without <code>setBounds()</code></td><td>Components won't appear</td></tr>
+                        <tr><td><code>tf.getText()</code> in arithmetic directly</td><td>Use <code>Integer.parseInt(tf.getText())</code></td></tr>
+                        <tr><td>Forgetting <code>addActionListener(this)</code></td><td>Event won't be handled</td></tr>
+                        <tr><td><code>ActionPerformed</code> (capital A)</td><td><code>actionPerformed</code> (lowercase a)</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================== -->
+    <!-- PART B: JDBC                   -->
+    <!-- ============================== -->
+    <div class="part-divider"><span class="jdbc">Part B — JDBC (Database Connectivity)</span></div>
+
+    <!-- 12. JDBC -->
+    <section class="section" id="jdbc">
+        <div class="section-header">
+            <div class="section-number num-green">12</div>
+            <h2>What is JDBC?</h2>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definition</div>
+            <p>JDBC (Java Database Connectivity) is a <strong>Java API</strong> that allows Java programs to <strong>connect to and interact with databases</strong>. It provides methods to query, insert, update, and delete data.</p>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🔑</span> Key Points</h3>
+            <ul>
+                <li>JDBC is part of <code>java.sql</code> package</li>
+                <li>It is <strong>database-independent</strong> — same code works with MySQL, Oracle, PostgreSQL</li>
+                <li>Uses <strong>drivers</strong> to connect to specific databases</li>
+                <li>Follows a <strong>standard set of interfaces</strong> that database vendors implement</li>
+                <li>Supports SQL queries for CRUD operations</li>
+            </ul>
+        </div>
+
+        <div class="tip-box">
+            <div class="label">💡 Exam One-liner</div>
+            <p>"JDBC is a Java API that provides a standard interface for connecting Java applications to relational databases."</p>
+        </div>
+    </section>
+
+    <!-- 13. JDBC ARCHITECTURE -->
+    <section class="section" id="jdbc-arch">
+        <div class="section-header">
+            <div class="section-number num-green">13</div>
+            <h2>JDBC Architecture</h2>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🏗️</span> Two-Tier Architecture Diagram</h3>
+            <div class="diagram-box">
+<pre><code>┌──────────────────────────────────────────┐
+│          <span class="cls">JAVA APPLICATION</span>                │
+│   (Your Java program with SQL queries)   │
+└──────────────────┬───────────────────────┘
+                   │
+                   ▼
+┌──────────────────────────────────────────┐
+│              <span class="kw">JDBC API</span>                    │
+│  (<span class="fn">java.sql</span> package)                     │
+│  ┌───────────┐ ┌───────────┐ ┌────────┐ │
+│  │DriverMgr  │ │Connection │ │Statement│ │
+│  └───────────┘ └───────────┘ └────────┘ │
+│  ┌───────────┐ ┌─────────────────────┐  │
+│  │ ResultSet  │ │ PreparedStatement   │  │
+│  └───────────┘ └─────────────────────┘  │
+└──────────────────┬───────────────────────┘
+                   │
+                   ▼
+┌──────────────────────────────────────────┐
+│         <span class="fn">JDBC DRIVER MANAGER</span>              │
+│   (Selects appropriate driver)           │
+└────────┬─────────┬───────────┬───────────┘
+         ▼         ▼           ▼
+    ┌─────────┐ ┌────────┐ ┌──────────┐
+    │ <span class="str">MySQL</span>   │ │ <span class="str">Oracle</span> │ │<span class="str">PostgreSQL</span>│
+    │ Driver  │ │ Driver │ │  Driver  │
+    └────┬────┘ └───┬────┘ └────┬─────┘
+         ▼         ▼           ▼
+    ┌─────────┐ ┌────────┐ ┌──────────┐
+    │ MySQL   │ │ Oracle │ │PostgreSQL│
+    │   DB    │ │   DB   │ │   DB     │
+    └─────────┘ └────────┘ └──────────┘</code></pre>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">📋</span> Key Components</h3>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>Component</th><th>Description</th></tr></thead>
+                    <tbody>
+                        <tr><td><code>JDBC API</code></td><td>Provides interfaces and classes (<code>java.sql</code> and <code>javax.sql</code>)</td></tr>
+                        <tr><td><code>DriverManager</code></td><td><strong>Class</strong> — Manages drivers, creates connections</td></tr>
+                        <tr><td><code>Connection</code></td><td><strong>Interface</strong> — Represents a connection session with database</td></tr>
+                        <tr><td><code>Statement</code></td><td><strong>Interface</strong> — Executes SQL queries</td></tr>
+                        <tr><td><code>PreparedStatement</code></td><td><strong>Interface</strong> — Pre-compiled SQL (more efficient, safer)</td></tr>
+                        <tr><td><code>ResultSet</code></td><td><strong>Interface</strong> — Holds data retrieved from database</td></tr>
+                        <tr><td><code>SQLException</code></td><td><strong>Class</strong> — Handles database errors</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- 14. JDBC DRIVERS -->
+    <section class="section" id="jdbc-drivers">
+        <div class="section-header">
+            <div class="section-number num-green">14</div>
+            <h2>Types of JDBC Drivers</h2>
+        </div>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Driver Type & Name</th>
+                        <th>Architecture & How it Works</th>
+                        <th>Pros (Advantages)</th>
+                        <th>Cons (Disadvantages)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Type 1: JDBC-ODBC Bridge</strong></td>
+                        <td>Translates JDBC calls into ODBC calls. Relies on local native ODBC drivers installed on the client machine.</td>
+                        <td>
+                            <ul style="list-style-type: disc; padding-left: 12px; margin: 0; font-size: 12.5px;">
+                                <li>Easy database connection check.</li>
+                                <li>Allows access to almost any DB with an ODBC driver.</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul style="list-style-type: disc; padding-left: 12px; margin: 0; font-size: 12.5px;">
+                                <li><span class="hl2">Slowest speed</span> (double translation).</li>
+                                <li>Requires ODBC installation on client.</li>
+                                <li>Deprecated since Java 8.</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Type 2: Native-API (Part-Java, Part-Native)</strong></td>
+                        <td>Translates JDBC calls into database-specific client-side native API calls (e.g., Oracle OCI, MySQL C-client library).</td>
+                        <td>
+                            <ul style="list-style-type: disc; padding-left: 12px; margin: 0; font-size: 12.5px;">
+                                <li>Faster performance than Type 1.</li>
+                                <li>Uses native OS optimization.</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul style="list-style-type: disc; padding-left: 12px; margin: 0; font-size: 12.5px;">
+                                <li>Requires client database libraries installed.</li>
+                                <li>Not platform-independent.</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Type 3: Network Protocol (Middleware Driver)</strong></td>
+                        <td>Translates JDBC calls into a generic database-independent network protocol. A middle tier middleware server translates it to specific DB protocols.</td>
+                        <td>
+                            <ul style="list-style-type: disc; padding-left: 12px; margin: 0; font-size: 12.5px;">
+                                <li>No database-specific client install.</li>
+                                <li>Middleware can handle security, logging, auditing.</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul style="list-style-type: disc; padding-left: 12px; margin: 0; font-size: 12.5px;">
+                                <li>Requires an active middleware server.</li>
+                                <li>Extra network hop increases latency.</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Type 4: Thin Driver (Pure Java Driver) ✅</strong></td>
+                        <td>Converts JDBC calls directly into vendor-specific database network protocols (sockets) in pure Java. Communicates directly with DB server.</td>
+                        <td>
+                            <ul style="list-style-type: disc; padding-left: 12px; margin: 0; font-size: 12.5px;">
+                                <li><span class="hl">Fastest performance</span>.</li>
+                                <li>Zero client-side installs (packaged in jar).</li>
+                                <li>Pure Java, platform independent.</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul style="list-style-type: disc; padding-left: 12px; margin: 0; font-size: 12.5px;">
+                                <li>Driver is database-specific; must load a different jar for MySQL vs Oracle.</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="tip-box">
+            <div class="label">💡 Exam Tip</div>
+            <p><strong>Type 4 (Thin Driver)</strong> is most commonly used and most asked! MySQL's <code>com.mysql.cj.jdbc.Driver</code> is Type 4. Type 1 is <strong>deprecated</strong> (removed in Java 8+).</p>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🔄</span> Type 4 Driver Flow</h3>
+            <div class="diagram-box">
+<pre><code><span class="cls">Java Application</span> → <span class="kw">JDBC API</span> → <span class="fn">Type 4 Driver</span> → <span class="str">Database Server</span>
+                              (Pure Java)      (MySQL/Oracle)</code></pre>
+            </div>
+        </div>
+
+        <div class="viva-box">
+            <div class="label">🎤 Viva Questions</div>
+            <ol>
+                <li><strong>Which type is fastest?</strong> → Type 4 (Thin Driver)</li>
+                <li><strong>Which type is deprecated?</strong> → Type 1 (JDBC-ODBC Bridge)</li>
+                <li><strong>What type does MySQL Connector/J use?</strong> → Type 4</li>
+            </ol>
+        </div>
+    </section>
+
+    <!-- 15. JDBC CONNECTIVITY STEPS -->
+    <section class="section" id="jdbc-steps">
+        <div class="section-header">
+            <div class="section-number num-green">15</div>
+            <h2>JDBC Connectivity Steps</h2>
+            <span class="pyq-tag">⭐ MOST IMPORTANT</span>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">1️⃣</span> Step 1: Load/Register the Driver</h3>
+<pre><code><span class="cls">Class</span>.<span class="fn">forName</span>(<span class="str">"com.mysql.cj.jdbc.Driver"</span>);</code></pre>
+            <p style="color:var(--text-muted); font-size:13px; margin-top:6px;">Tells JVM to load the MySQL driver class into memory.</p>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">2️⃣</span> Step 2: Establish Connection</h3>
+<pre><code><span class="cls">Connection</span> con = <span class="cls">DriverManager</span>.<span class="fn">getConnection</span>(
+    <span class="str">"jdbc:mysql://localhost:3306/mydb"</span>,  <span class="cm">// URL</span>
+    <span class="str">"root"</span>,                              <span class="cm">// Username</span>
+    <span class="str">"password"</span>                           <span class="cm">// Password</span>
+);</code></pre>
+            <p style="color:var(--text-muted); font-size:13px; margin-top:6px;">JDBC URL format: <code>jdbc:mysql://hostname:port/databasename</code></p>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">3️⃣</span> Step 3: Create Statement</h3>
+<pre><code><span class="cls">Statement</span> stmt = con.<span class="fn">createStatement</span>();
+<span class="cm">// OR for PreparedStatement:</span>
+<span class="cls">PreparedStatement</span> pstmt = con.<span class="fn">prepareStatement</span>(<span class="str">"SELECT * FROM students WHERE id=?"</span>);</code></pre>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">4️⃣</span> Step 4: Execute Query</h3>
+<pre><code><span class="cm">// For SELECT queries → returns ResultSet</span>
+<span class="cls">ResultSet</span> rs = stmt.<span class="fn">executeQuery</span>(<span class="str">"SELECT * FROM students"</span>);
+
+<span class="cm">// For INSERT/UPDATE/DELETE → returns int (rows affected)</span>
+<span class="kw">int</span> count = stmt.<span class="fn">executeUpdate</span>(<span class="str">"INSERT INTO students VALUES(1, 'Akshay')"</span>);</code></pre>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">5️⃣</span> Step 5: Close Connection</h3>
+<pre><code>rs.<span class="fn">close</span>();     <span class="cm">// Close ResultSet</span>
+stmt.<span class="fn">close</span>();   <span class="cm">// Close Statement</span>
+con.<span class="fn">close</span>();    <span class="cm">// Close Connection</span></code></pre>
+        </div>
+
+        <div class="card" style="margin-top: 1rem;">
+            <h3><span class="icon">💼</span> JDBC Transaction Management (ACID)</h3>
+            <p>By default, JDBC connections operate in <strong>Auto-Commit Mode</strong> (<code>con.setAutoCommit(true)</code>), meaning each SQL statement is executed and committed to the database immediately as an isolated unit. However, real-world scenarios (like a bank transfer) require multiple statements to succeed or fail together as a single atomic transaction.</p>
+            
+            <div class="def-box" style="border-left-color: var(--accent-orange); background: rgba(245, 158, 11, 0.05); margin-top: 10px;">
+                <div class="label" style="color: var(--accent-orange);">Transaction Management Workflow</div>
+                To group multiple queries into a single atomic transaction:
+                <ol style="margin-left: 1.25rem; font-size: 13.5px; margin-top: 5px;">
+                    <li><strong>Disable Auto-Commit:</strong> <code>con.setAutoCommit(false);</code></li>
+                    <li><strong>Execute Operations:</strong> Perform multiple database updates.</li>
+                    <li><strong>Commit Changes:</strong> If all statements execute successfully, commit them permanently: <code>con.commit();</code></li>
+                    <li><strong>Rollback on Failure:</strong> If any statement fails (throws <code>SQLException</code>), catch it and revert all modifications: <code>con.rollback();</code></li>
+                </ol>
+            </div>
+
+            <p style="margin-top: 8px;">Here is an exam-ready, complete transaction management block illustrating a secure money transfer between accounts:</p>
+            <pre style="margin-top: 8px;"><span class="cls">Connection</span> con = <span class="kw">null</span>;
+<span class="cls">PreparedStatement</span> withdraw = <span class="kw">null</span>;
+<span class="cls">PreparedStatement</span> deposit = <span class="kw">null</span>;
+<span class="kw">try</span> {
+    con = <span class="cls">DriverManager</span>.<span class="fn">getConnection</span>(URL, USER, PASS);
+    
+    <span class="cm">// Step 1: Turn off auto-commit</span>
+    con.<span class="fn">setAutoCommit</span>(<span class="kw">false</span>);
+    
+    <span class="cm">// Step 2: Perform withdraw and deposit queries</span>
+    withdraw = con.<span class="fn">prepareStatement</span>(<span class="str">"UPDATE accounts SET bal = bal - ? WHERE acc_no = ?"</span>);
+    withdraw.<span class="fn">setDouble</span>(<span class="num">1</span>, <span class="num">5000.00</span>);
+    withdraw.<span class="fn">setInt</span>(<span class="num">2</span>, <span class="num">101</span>);
+    withdraw.<span class="fn">executeUpdate</span>();
+    
+    deposit = con.<span class="fn">prepareStatement</span>(<span class="str">"UPDATE accounts SET bal = bal + ? WHERE acc_no = ?"</span>);
+    deposit.<span class="fn">setDouble</span>(<span class="num">1</span>, <span class="num">5000.00</span>);
+    deposit.<span class="fn">setInt</span>(<span class="num">2</span>, <span class="num">102</span>);
+    deposit.<span class="fn">executeUpdate</span>();
+    
+    <span class="cm">// Step 3: Commit both queries together</span>
+    con.<span class="fn">commit</span>();
+    <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Transaction committed successfully!"</span>);
+    
+} <span class="kw">catch</span> (<span class="cls">SQLException</span> e) {
+    <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Transaction failed! Rolling back changes..."</span>);
+    <span class="kw">try</span> {
+        <span class="kw">if</span> (con != <span class="kw">null</span>) {
+            <span class="cm">// Step 4: Revert all changes on exception</span>
+            con.<span class="fn">rollback</span>(); 
+        }
+    } <span class="kw">catch</span> (<span class="cls">SQLException</span> ex) {
+        ex.<span class="fn">printStackTrace</span>();
+    }
+} <span class="kw">finally</span> {
+    <span class="cm">// Close resources safely</span>
+    <span class="kw">try</span> {
+        <span class="kw">if</span> (withdraw != <span class="kw">null</span>) withdraw.<span class="fn">close</span>();
+        <span class="kw">if</span> (deposit != <span class="kw">null</span>) deposit.<span class="fn">close</span>();
+        <span class="kw">if</span> (con != <span class="kw">null</span>) con.<span class="fn">close</span>();
+    } <span class="kw">catch</span> (<span class="cls">SQLException</span> e) {
+        e.<span class="fn">printStackTrace</span>();
+    }
+}</pre>
+        </div>
+
+        <div class="danger-box">
+            <div class="label">🚨 Important</div>
+            <p>Always close in <strong>reverse order</strong>: ResultSet → Statement → Connection. Or better: use try-with-resources!</p>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🔄</span> Complete Flow</h3>
+            <div class="diagram-box">
+<pre><code><span class="fn">Load Driver</span> → <span class="fn">Establish Connection</span> → <span class="fn">Create Statement</span> → <span class="fn">Execute Query</span> → <span class="fn">Process Results</span> → <span class="fn">Close</span></code></pre>
+            </div>
+        </div>
+    </section>
+
+    <!-- STATEMENT vs PREPAREDSTATEMENT -->
+    <section class="section" id="stmt-vs-pstmt">
+        <div class="diff-table">
+            <div class="diff-table-header">⭐ Mandatory — Statement vs PreparedStatement</div>
+            <div class="table-wrap" style="border: none; border-radius: 0;">
+                <table>
+                    <thead><tr><th>Feature</th><th>Statement</th><th>PreparedStatement</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Type</strong></td><td>Static SQL</td><td>Parameterized SQL (uses <code>?</code>)</td></tr>
+                        <tr><td><strong>Compilation</strong></td><td>Compiled every time</td><td>Pre-compiled (compile once, run many)</td></tr>
+                        <tr><td><strong>Performance</strong></td><td>Slower for repeated queries</td><td><strong>Faster</strong> for repeated queries</td></tr>
+                        <tr><td><strong>SQL Injection</strong></td><td>Vulnerable ⚠️</td><td><strong>Safe</strong> ✅</td></tr>
+                        <tr><td><strong>Setting Values</strong></td><td>Concatenate in SQL string</td><td>Use <code>setInt()</code>, <code>setString()</code></td></tr>
+                        <tr><td><strong>Best For</strong></td><td>One-time simple queries</td><td>Repeated queries with parameters</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">⚙️</span> Pre-Compilation & Security Mechanics</h3>
+            <p><strong>1. Pre-Compilation Mechanics:</strong> Under the hood, when you call <code>con.prepareStatement(SQL)</code>, the database server parses, compiles, and optimizes the SQL query skeleton once, caching the execution plan. When you invoke <code>setInt()</code> or <code>setString()</code>, only the parameter values are passed down. The DB plugs these values directly into the cached execution plan. This eliminates compilation overhead for repeated queries, providing massive performance boosts.</p>
+            
+            <p style="margin-top: 8px;"><strong>2. SQL Injection Prevention:</strong> In a regular <code>Statement</code>, user inputs are concatenated directly into the query string, allowing malicious users to inject SQL syntax commands (e.g., entering <code>admin' OR '1'='1</code> as a username to bypass authentication). In a <code>PreparedStatement</code>, the placeholders (<code>?</code>) treat the bound parameters strictly as <strong>literal data values</strong> rather than executable SQL code. Any quotes or semicolons in the input are automatically escaped by the driver, rendering the SQL injection attack completely harmless.</p>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🔍</span> Complete SQL Injection Security Comparison</h3>
+            <div style="font-size:0.85rem; margin-bottom:8px; color:var(--text-secondary);">Scenario: Attacker inputs username as: <code style="color:var(--accent-red); background:rgba(239,68,68,0.1);">admin' OR '1'='1</code></div>
+            <div class="grid2">
+                <div class="card" style="background:#1f1313; border: 1px solid rgba(239,68,68,0.25);">
+                    <div class="card-title" style="color:var(--accent-red); font-size:0.75rem;">❌ Statement (Vulnerable to Attack)</div>
+                    <pre style="margin:0; padding:6px; font-size:0.7rem;"><span class="cls">Statement</span> stmt = con.<span class="fn">createStatement</span>();
+<span class="cls">String</span> sql = <span class="str">"SELECT * FROM users WHERE name='"</span> + input + <span class="str">"'"</span>;
+<span class="cls">ResultSet</span> rs = stmt.<span class="fn">executeQuery</span>(sql);
+
+<span class="cm">// Compiled SQL executed by Database:</span>
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> users <span class="kw">WHERE</span> name=<span class="str">'admin'</span> <span class="op">OR</span> <span class="str">'1'</span>=<span class="str">'1'</span>;
+<span class="cm">// Result: '1'='1' is always TRUE. </span>
+<span class="cm">// Attacker logs in successfully without password!</span></pre>
+                </div>
+                <div class="card" style="background:#0f1d17; border: 1px solid rgba(16,185,129,0.25);">
+                    <div class="card-title" style="color:var(--accent-green); font-size:0.75rem;">✅ PreparedStatement (Secure Prevention)</div>
+                    <pre style="margin:0; padding:6px; font-size:0.7rem;"><span class="cls">PreparedStatement</span> pstmt = con.<span class="fn">prepareStatement</span>(
+    <span class="str">"SELECT * FROM users WHERE name=?"</span>
+);
+pstmt.<span class="fn">setString</span>(<span class="num">1</span>, input);
+<span class="cls">ResultSet</span> rs = pstmt.<span class="fn">executeQuery</span>();
+
+<span class="cm">// Compiled SQL executed by Database:</span>
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> users <span class="kw">WHERE</span> name=<span class="str">"admin' OR '1'='1"</span>;
+<span class="cm">// Result: Database searches for a user whose </span>
+<span class="cm">// actual username matches that literal string. </span>
+<span class="cm">// Safe login check!</span></pre>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- executeQuery vs executeUpdate -->
+    <section class="section" id="query-vs-update">
+        <div class="diff-table">
+            <div class="diff-table-header">⭐ Mandatory — executeQuery vs executeUpdate</div>
+            <div class="table-wrap" style="border: none; border-radius: 0;">
+                <table>
+                    <thead><tr><th>Feature</th><th><code>executeQuery()</code></th><th><code>executeUpdate()</code></th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Used For</strong></td><td>SELECT statements</td><td>INSERT, UPDATE, DELETE, CREATE, DROP</td></tr>
+                        <tr><td><strong>Returns</strong></td><td><code>ResultSet</code> (data)</td><td><code>int</code> (rows affected)</td></tr>
+                        <tr><td><strong>Operation</strong></td><td>Read</td><td>Write</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="tip-box">
+            <div class="label">💡 Easy Remember</div>
+            <p><strong>Query = Question</strong> (asking for data) = SELECT | <strong>Update = Changing data</strong> = INSERT/UPDATE/DELETE</p>
+        </div>
+    </section>
+
+    <!-- ============================== -->
+    <!-- JDBC PROGRAMS                  -->
+    <!-- ============================== -->
+
+    <!-- PROGRAM 5: FETCH ROWS -->
+    <section class="section" id="prog-fetch">
+        <div class="program-card">
+            <div class="program-header">
+                <h3>⭐ Program 5: JDBC Fetch All Rows (READ)</h3>
+                <span class="pyq-tag">🔴 PYQ — 5 marks</span>
+            </div>
+            <div class="program-body">
+                <p style="color: var(--text-secondary); margin-bottom: 12px;"><strong>Logic:</strong> Connect to MySQL → Execute SELECT → Print all rows using ResultSet.</p>
+                <p style="color: var(--text-muted); font-size: 13px;"><strong>Import:</strong> <code>java.sql.*</code></p>
+<pre><code><span class="kw">import</span> java.sql.*;
+
+<span class="kw">public class</span> <span class="cls">JdbcFetchDemo</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+        <span class="kw">try</span> {
+            <span class="cm">// Step 1: Load Driver</span>
+            <span class="cls">Class</span>.<span class="fn">forName</span>(<span class="str">"com.mysql.cj.jdbc.Driver"</span>);
+
+            <span class="cm">// Step 2: Establish Connection</span>
+            <span class="cls">Connection</span> con = <span class="cls">DriverManager</span>.<span class="fn">getConnection</span>(
+                <span class="str">"jdbc:mysql://localhost:3306/studentdb"</span>,
+                <span class="str">"root"</span>, <span class="str">"password"</span>
+            );
+
+            <span class="cm">// Step 3: Create Statement</span>
+            <span class="cls">Statement</span> stmt = con.<span class="fn">createStatement</span>();
+
+            <span class="cm">// Step 4: Execute Query</span>
+            <span class="cls">ResultSet</span> rs = stmt.<span class="fn">executeQuery</span>(<span class="str">"SELECT * FROM students"</span>);
+
+            <span class="cm">// Step 5: Process Results</span>
+            System.out.<span class="fn">println</span>(<span class="str">"ID\tName\t\tMarks"</span>);
+            System.out.<span class="fn">println</span>(<span class="str">"--\t----\t\t-----"</span>);
+
+            <span class="kw">while</span> (rs.<span class="fn">next</span>()) {
+                <span class="kw">int</span> id = rs.<span class="fn">getInt</span>(<span class="str">"id"</span>);
+                <span class="cls">String</span> name = rs.<span class="fn">getString</span>(<span class="str">"name"</span>);
+                <span class="kw">int</span> marks = rs.<span class="fn">getInt</span>(<span class="str">"marks"</span>);
+                System.out.<span class="fn">println</span>(id + <span class="str">"\t"</span> + name + <span class="str">"\t\t"</span> + marks);
+            }
+
+            <span class="cm">// Step 6: Close</span>
+            rs.<span class="fn">close</span>();
+            stmt.<span class="fn">close</span>();
+            con.<span class="fn">close</span>();
+            System.out.<span class="fn">println</span>(<span class="str">"Connection closed successfully."</span>);
+
+        } <span class="kw">catch</span> (<span class="cls">ClassNotFoundException</span> e) {
+            System.out.<span class="fn">println</span>(<span class="str">"Driver not found: "</span> + e.<span class="fn">getMessage</span>());
+        } <span class="kw">catch</span> (<span class="cls">SQLException</span> e) {
+            System.out.<span class="fn">println</span>(<span class="str">"SQL Error: "</span> + e.<span class="fn">getMessage</span>());
+        }
+    }
+}</code></pre>
+                <div class="output-box">
+                    <div class="label">📤 Output</div>
+<pre><code>ID    Name        Marks
+--    ----        -----
+1     Akshay      85
+2     Rahul       90
+3     Priya       78
+Connection closed successfully.</code></pre>
+                </div>
+                <div class="viva-box">
+                    <div class="label">🎤 Expected Viva Questions</div>
+                    <ol>
+                        <li><strong>What does <code>rs.next()</code> do?</strong> → Moves cursor to next row. Returns true if row exists.</li>
+                        <li><strong>Can we use column index?</strong> → Yes, <code>rs.getString(1)</code> — 1-indexed!</li>
+                        <li><strong>What exception does JDBC throw?</strong> → <code>SQLException</code></li>
+                        <li><strong>What if driver JAR missing?</strong> → <code>ClassNotFoundException</code></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROGRAM 6: INSERT -->
+    <section class="section" id="prog-insert">
+        <div class="program-card">
+            <div class="program-header">
+                <h3>⭐ Program 6: JDBC Insert with PreparedStatement</h3>
+                <span class="pyq-tag">🔴 PYQ — 5 marks</span>
+            </div>
+            <div class="program-body">
+                <p style="color: var(--text-secondary); margin-bottom: 12px;"><strong>Logic:</strong> Accept user input → Insert into database using PreparedStatement.</p>
+                <p style="color: var(--text-muted); font-size: 13px;"><strong>Imports:</strong> <code>java.sql.*</code>, <code>java.util.Scanner</code></p>
+<pre><code><span class="kw">import</span> java.sql.*;
+<span class="kw">import</span> java.util.Scanner;
+
+<span class="kw">public class</span> <span class="cls">JdbcInsertDemo</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+        <span class="cls">Scanner</span> sc = <span class="kw">new</span> <span class="cls">Scanner</span>(System.in);
+
+        <span class="kw">try</span> {
+            <span class="cm">// Step 1: Load Driver</span>
+            <span class="cls">Class</span>.<span class="fn">forName</span>(<span class="str">"com.mysql.cj.jdbc.Driver"</span>);
+
+            <span class="cm">// Step 2: Establish Connection</span>
+            <span class="cls">Connection</span> con = <span class="cls">DriverManager</span>.<span class="fn">getConnection</span>(
+                <span class="str">"jdbc:mysql://localhost:3306/product_db"</span>,
+                <span class="str">"root"</span>, <span class="str">"password"</span>
+            );
+
+            <span class="cm">// Take input from user</span>
+            System.out.<span class="fn">print</span>(<span class="str">"Enter Product ID: "</span>);
+            <span class="kw">int</span> id = sc.<span class="fn">nextInt</span>();
+            System.out.<span class="fn">print</span>(<span class="str">"Enter Product Name: "</span>);
+            <span class="cls">String</span> name = sc.<span class="fn">next</span>();
+            System.out.<span class="fn">print</span>(<span class="str">"Enter Price: "</span>);
+            <span class="kw">double</span> price = sc.<span class="fn">nextDouble</span>();
+            System.out.<span class="fn">print</span>(<span class="str">"Enter Quantity: "</span>);
+            <span class="kw">int</span> qty = sc.<span class="fn">nextInt</span>();
+
+            <span class="cm">// Step 3: Create PreparedStatement</span>
+            <span class="cls">String</span> sql = <span class="str">"INSERT INTO products(product_id, product_name, price, quantity) VALUES(?, ?, ?, ?)"</span>;
+            <span class="cls">PreparedStatement</span> pstmt = con.<span class="fn">prepareStatement</span>(sql);
+
+            <span class="cm">// Set values for placeholders</span>
+            pstmt.<span class="fn">setInt</span>(<span class="num">1</span>, id);
+            pstmt.<span class="fn">setString</span>(<span class="num">2</span>, name);
+            pstmt.<span class="fn">setDouble</span>(<span class="num">3</span>, price);
+            pstmt.<span class="fn">setInt</span>(<span class="num">4</span>, qty);
+
+            <span class="cm">// Step 4: Execute Update</span>
+            <span class="kw">int</span> rowsInserted = pstmt.<span class="fn">executeUpdate</span>();
+
+            <span class="kw">if</span> (rowsInserted > <span class="num">0</span>) {
+                System.out.<span class="fn">println</span>(<span class="str">"Product inserted successfully!"</span>);
+            }
+
+            <span class="cm">// Step 5: Close</span>
+            pstmt.<span class="fn">close</span>();
+            con.<span class="fn">close</span>();
+            sc.<span class="fn">close</span>();
+
+        } <span class="kw">catch</span> (<span class="cls">ClassNotFoundException</span> e) {
+            System.out.<span class="fn">println</span>(<span class="str">"Driver not found: "</span> + e.<span class="fn">getMessage</span>());
+        } <span class="kw">catch</span> (<span class="cls">SQLException</span> e) {
+            System.out.<span class="fn">println</span>(<span class="str">"SQL Error: "</span> + e.<span class="fn">getMessage</span>());
+        }
+    }
+}</code></pre>
+                <div class="output-box">
+                    <div class="label">📤 Output</div>
+<pre><code>Enter Product ID: 101
+Enter Product Name: Laptop
+Enter Price: 55000.0
+Enter Quantity: 5
+Product inserted successfully!</code></pre>
+                </div>
+                <div class="viva-box">
+                    <div class="label">🎤 Expected Viva Questions</div>
+                    <ol>
+                        <li><strong>Why PreparedStatement?</strong> → Prevents SQL injection, better performance</li>
+                        <li><strong>What does <code>?</code> mean?</strong> → Placeholder for parameter values</li>
+                        <li><strong><code>setInt(1, id)</code> meaning?</strong> → Sets first <code>?</code> to value of <code>id</code></li>
+                        <li><strong>Index starts from?</strong> → <strong>1</strong> (not 0!)</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROGRAM 7: BASIC CONNECTIVITY -->
+    <section class="section" id="prog-connect">
+        <div class="program-card">
+            <div class="program-header">
+                <h3>⭐ Program 7: JDBC Basic Connectivity Test</h3>
+            </div>
+            <div class="program-body">
+                <p style="color: var(--text-secondary); margin-bottom: 12px;"><strong>Logic:</strong> Simply connect to database and confirm success.</p>
+<pre><code><span class="kw">import</span> java.sql.*;
+
+<span class="kw">public class</span> <span class="cls">JdbcConnectionTest</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+        <span class="kw">try</span> {
+            <span class="cls">Class</span>.<span class="fn">forName</span>(<span class="str">"com.mysql.cj.jdbc.Driver"</span>);
+            System.out.<span class="fn">println</span>(<span class="str">"Driver loaded successfully."</span>);
+
+            <span class="cls">Connection</span> con = <span class="cls">DriverManager</span>.<span class="fn">getConnection</span>(
+                <span class="str">"jdbc:mysql://localhost:3306/testdb"</span>,
+                <span class="str">"root"</span>, <span class="str">"password"</span>
+            );
+            System.out.<span class="fn">println</span>(<span class="str">"Connected to database successfully!"</span>);
+            System.out.<span class="fn">println</span>(<span class="str">"Database: "</span> + con.<span class="fn">getCatalog</span>());
+
+            con.<span class="fn">close</span>();
+            System.out.<span class="fn">println</span>(<span class="str">"Connection closed."</span>);
+
+        } <span class="kw">catch</span> (<span class="cls">ClassNotFoundException</span> e) {
+            System.out.<span class="fn">println</span>(<span class="str">"Error: MySQL Driver not found!"</span>);
+        } <span class="kw">catch</span> (<span class="cls">SQLException</span> e) {
+            System.out.<span class="fn">println</span>(<span class="str">"Error: Could not connect!"</span>);
+            System.out.<span class="fn">println</span>(<span class="str">"Message: "</span> + e.<span class="fn">getMessage</span>());
+        }
+    }
+}</code></pre>
+                <div class="output-box">
+                    <div class="label">📤 Output</div>
+<pre><code>Driver loaded successfully.
+Connected to database successfully!
+Database: testdb
+Connection closed.</code></pre>
+                </div>
+                <div class="viva-box">
+                    <div class="label">🎤 Viva Questions</div>
+                    <ol>
+                        <li><strong>JDBC URL format?</strong> → <code>jdbc:mysql://hostname:port/databasename</code></li>
+                        <li><strong>Default MySQL port?</strong> → <strong>3306</strong></li>
+                        <li><strong><code>Class.forName()</code> does?</strong> → Loads driver class dynamically at runtime</li>
+                        <li><strong>Wrong password?</strong> → <code>SQLException: Access denied</code></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BONUS: UPDATE & DELETE -->
+    <section class="section" id="prog-crud">
+        <div class="card">
+            <h3><span class="icon">✏️</span> Bonus: UPDATE Operation</h3>
+<pre><code><span class="cls">String</span> sql = <span class="str">"UPDATE students SET marks=? WHERE id=?"</span>;
+<span class="cls">PreparedStatement</span> pstmt = con.<span class="fn">prepareStatement</span>(sql);
+pstmt.<span class="fn">setInt</span>(<span class="num">1</span>, <span class="num">95</span>);     <span class="cm">// new marks</span>
+pstmt.<span class="fn">setInt</span>(<span class="num">2</span>, <span class="num">1</span>);      <span class="cm">// student id</span>
+<span class="kw">int</span> rows = pstmt.<span class="fn">executeUpdate</span>();
+System.out.<span class="fn">println</span>(rows + <span class="str">" row(s) updated."</span>);</code></pre>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🗑️</span> Bonus: DELETE Operation</h3>
+<pre><code><span class="cls">String</span> sql = <span class="str">"DELETE FROM students WHERE id=?"</span>;
+<span class="cls">PreparedStatement</span> pstmt = con.<span class="fn">prepareStatement</span>(sql);
+pstmt.<span class="fn">setInt</span>(<span class="num">1</span>, <span class="num">3</span>);      <span class="cm">// delete student id=3</span>
+<span class="kw">int</span> rows = pstmt.<span class="fn">executeUpdate</span>();
+System.out.<span class="fn">println</span>(rows + <span class="str">" row(s) deleted."</span>);</code></pre>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">📋</span> ResultSet Important Methods</h3>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>Method</th><th>Description</th></tr></thead>
+                    <tbody>
+                        <tr><td><code>next()</code></td><td>Move to next row, returns true/false</td></tr>
+                        <tr><td><code>getInt(column)</code></td><td>Get integer value</td></tr>
+                        <tr><td><code>getString(column)</code></td><td>Get string value</td></tr>
+                        <tr><td><code>getDouble(column)</code></td><td>Get double value</td></tr>
+                        <tr><td><code>getDate(column)</code></td><td>Get date value</td></tr>
+                        <tr><td><code>first()</code></td><td>Move to first row</td></tr>
+                        <tr><td><code>last()</code></td><td>Move to last row</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p style="color:var(--text-muted); font-size:13px;">Column can be <strong>name</strong> (<code>"id"</code>) or <strong>index</strong> (<code>1</code>) — index starts from <strong>1</strong>.</p>
+        </div>
+    </section>
+
+    <!-- COMMON MISTAKES -->
+    <section class="section" id="mistakes">
+        <div class="section-header">
+            <div class="section-number num-purple">⚠</div>
+            <h2>Common JDBC Syntax Mistakes</h2>
+        </div>
+
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>❌ Mistake</th><th>✅ Correct Way</th></tr></thead>
+                <tbody>
+                    <tr><td><code>import java.sql.connection;</code></td><td><code>import java.sql.Connection;</code> (capital C)</td></tr>
+                    <tr><td><code>Class.forname(...)</code></td><td><code>Class.forName(...)</code> (capital N)</td></tr>
+                    <tr><td><code>DriverManager.getconnection(...)</code></td><td><code>DriverManager.getConnection(...)</code> (capital C)</td></tr>
+                    <tr><td>Forgetting to handle <code>SQLException</code></td><td>Always use try-catch or throws</td></tr>
+                    <tr><td><code>executeQuery()</code> for INSERT</td><td>Use <code>executeUpdate()</code> for DML</td></tr>
+                    <tr><td><code>executeUpdate()</code> for SELECT</td><td>Use <code>executeQuery()</code> for SELECT</td></tr>
+                    <tr><td>PreparedStatement index from 0</td><td>Starts from <strong>1</strong>!</td></tr>
+                    <tr><td>Not closing Connection</td><td>Always close (memory leak)</td></tr>
+                    <tr><td>Wrong JDBC URL format</td><td><code>jdbc:mysql://localhost:3306/dbname</code></td></tr>
+                    <tr><td>Missing MySQL JAR in classpath</td><td><code>java -cp .:mysql-connector-j.jar ClassName</code></td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- ============================== -->
+    <!-- REVISION SHEET                 -->
+    <!-- ============================== -->
+    <div class="part-divider"><span class="revision">🔥 1 Hour Before Exam</span></div>
+
+    <section class="section" id="revision">
+        <div class="revision-sheet">
+            <h2>🔥 RAPID REVISION SHEET 🔥</h2>
+            <p class="subtitle">Only syntax, methods, and key facts — no fluff</p>
+
+            <div class="rev-section">
+                <h4>📌 Key Imports</h4>
+<pre><code><span class="kw">import</span> javax.swing.*;        <span class="cm">// Swing components</span>
+<span class="kw">import</span> java.awt.event.*;     <span class="cm">// Event handling</span>
+<span class="kw">import</span> java.sql.*;           <span class="cm">// JDBC</span>
+<span class="kw">import</span> java.util.Scanner;    <span class="cm">// User input</span></code></pre>
+            </div>
+
+            <div class="rev-section">
+                <h4>📌 Swing Quick Syntax</h4>
+<pre><code><span class="cm">// Create Frame</span>
+<span class="cls">JFrame</span> f = <span class="kw">new</span> <span class="cls">JFrame</span>(<span class="str">"Title"</span>);
+f.<span class="fn">setSize</span>(<span class="num">400</span>, <span class="num">300</span>);
+f.<span class="fn">setLayout</span>(<span class="kw">null</span>);
+f.<span class="fn">setDefaultCloseOperation</span>(JFrame.<span class="fn">EXIT_ON_CLOSE</span>);
+f.<span class="fn">setVisible</span>(<span class="kw">true</span>);
+
+<span class="cm">// Components</span>
+<span class="cls">JLabel</span> l = <span class="kw">new</span> <span class="cls">JLabel</span>(<span class="str">"text"</span>);       l.<span class="fn">setBounds</span>(x, y, w, h);
+<span class="cls">JTextField</span> tf = <span class="kw">new</span> <span class="cls">JTextField</span>();   tf.<span class="fn">setBounds</span>(x, y, w, h);
+<span class="cls">JButton</span> b = <span class="kw">new</span> <span class="cls">JButton</span>(<span class="str">"text"</span>);   b.<span class="fn">setBounds</span>(x, y, w, h);
+
+<span class="cm">// Parse to int</span>
+<span class="kw">int</span> n = <span class="cls">Integer</span>.<span class="fn">parseInt</span>(tf.<span class="fn">getText</span>());</code></pre>
+            </div>
+
+            <div class="rev-section">
+                <h4>📌 Event Handling Template</h4>
+<pre><code><span class="kw">class</span> <span class="cls">MyApp</span> <span class="kw">extends</span> <span class="cls">JFrame</span> <span class="kw">implements</span> <span class="cls">ActionListener</span> {
+    <span class="cls">JButton</span> btn = <span class="kw">new</span> <span class="cls">JButton</span>(<span class="str">"Click"</span>);
+    <span class="cls">MyApp</span>() {
+        btn.<span class="fn">addActionListener</span>(<span class="kw">this</span>);  <span class="cm">// REGISTER</span>
+        <span class="fn">add</span>(btn);
+    }
+    <span class="kw">public void</span> <span class="fn">actionPerformed</span>(<span class="cls">ActionEvent</span> e) {
+        <span class="cm">// HANDLE EVENT</span>
+    }
+}</code></pre>
+            </div>
+
+            <div class="rev-section">
+                <h4>📌 JDBC 5 Steps (MEMORIZE!)</h4>
+<pre><code><span class="num">1.</span> <span class="cls">Class</span>.<span class="fn">forName</span>(<span class="str">"com.mysql.cj.jdbc.Driver"</span>);
+<span class="num">2.</span> <span class="cls">Connection</span> con = <span class="cls">DriverManager</span>.<span class="fn">getConnection</span>(url, user, pass);
+<span class="num">3.</span> <span class="cls">Statement</span> stmt = con.<span class="fn">createStatement</span>();
+   <span class="cm">OR</span> <span class="cls">PreparedStatement</span> pstmt = con.<span class="fn">prepareStatement</span>(sql);
+<span class="num">4.</span> <span class="cls">ResultSet</span> rs = stmt.<span class="fn">executeQuery</span>(<span class="str">"SELECT..."</span>);
+   <span class="cm">OR</span> <span class="kw">int</span> n = stmt.<span class="fn">executeUpdate</span>(<span class="str">"INSERT/UPDATE/DELETE..."</span>);
+<span class="num">5.</span> con.<span class="fn">close</span>();</code></pre>
+            </div>
+
+            <div class="rev-section">
+                <h4>📌 PreparedStatement Setters</h4>
+<pre><code>pstmt.<span class="fn">setInt</span>(<span class="num">1</span>, value);      <span class="cm">// For integers</span>
+pstmt.<span class="fn">setString</span>(<span class="num">2</span>, value);   <span class="cm">// For strings</span>
+pstmt.<span class="fn">setDouble</span>(<span class="num">3</span>, value);   <span class="cm">// For doubles</span>
+<span class="cm">// Index starts from 1, NOT 0!</span></code></pre>
+            </div>
+
+            <div class="rev-section">
+                <h4>📌 Quick Difference Recall</h4>
+                <div class="table-wrap">
+                    <table>
+                        <thead><tr><th>AWT</th><th>Swing</th></tr></thead>
+                        <tbody>
+                            <tr><td><code>java.awt</code></td><td><code>javax.swing</code></td></tr>
+                            <tr><td>Heavyweight</td><td>Lightweight</td></tr>
+                            <tr><td>Platform dependent</td><td>Platform independent</td></tr>
+                            <tr><td>Button</td><td>JButton</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="table-wrap" style="margin-top: 12px;">
+                    <table>
+                        <thead><tr><th>Statement</th><th>PreparedStatement</th></tr></thead>
+                        <tbody>
+                            <tr><td>Compiled every time</td><td>Pre-compiled</td></tr>
+                            <tr><td>SQL Injection risk</td><td>Safe ✅</td></tr>
+                            <tr><td>No <code>?</code></td><td>Uses <code>?</code></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="table-wrap" style="margin-top: 12px;">
+                    <table>
+                        <thead><tr><th><code>executeQuery()</code></th><th><code>executeUpdate()</code></th></tr></thead>
+                        <tbody>
+                            <tr><td>SELECT</td><td>INSERT / UPDATE / DELETE</td></tr>
+                            <tr><td>Returns <code>ResultSet</code></td><td>Returns <code>int</code></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="rev-section">
+                <h4>📌 Must-Remember Points</h4>
+                <div class="table-wrap">
+                    <table>
+                        <thead><tr><th>Fact</th><th>Answer</th></tr></thead>
+                        <tbody>
+                            <tr><td>Swing prefix</td><td><strong>J</strong> (JButton, JFrame)</td></tr>
+                            <tr><td>Package</td><td><strong>javax</strong>.swing (not java.swing)</td></tr>
+                            <tr><td><code>setVisible(true)</code></td><td>Call <strong>LAST</strong></td></tr>
+                            <tr><td>ActionListener methods</td><td><strong>1</strong> → <code>actionPerformed()</code></td></tr>
+                            <tr><td>MySQL default port</td><td><strong>3306</strong></td></tr>
+                            <tr><td>PreparedStatement index</td><td>Starts from <strong>1</strong></td></tr>
+                            <tr><td>JDBC best driver type</td><td><strong>Type 4</strong> (Thin, Pure Java)</td></tr>
+                            <tr><td><code>Class.forName()</code></td><td>Capital <strong>N</strong> in forName</td></tr>
+                            <tr><td>JDBC exceptions</td><td><code>SQLException</code> + <code>ClassNotFoundException</code></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="rev-section">
+                <h4>📌 Viva Quick-Fire Answers</h4>
+                <div class="table-wrap">
+                    <table>
+                        <thead><tr><th>Question</th><th>Answer</th></tr></thead>
+                        <tbody>
+                            <tr><td>What is Swing?</td><td>Lightweight, platform-independent GUI toolkit</td></tr>
+                            <tr><td>AWT vs Swing?</td><td>AWT = heavyweight, Swing = lightweight</td></tr>
+                            <tr><td>What is JFC?</td><td>Java Foundation Classes</td></tr>
+                            <tr><td>Delegation event model?</td><td>Source delegates to listener</td></tr>
+                            <tr><td>What is JDBC?</td><td>Java API to connect with databases</td></tr>
+                            <tr><td>Best driver type?</td><td>Type 4 — Thin/Pure Java</td></tr>
+                            <tr><td><code>rs.next()</code> returns?</td><td>boolean (true if row exists)</td></tr>
+                            <tr><td>Is ActionListener functional?</td><td>Yes (1 abstract method)</td></tr>
+                            <tr><td>What is ResultSet?</td><td>Holds data from SELECT query</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="danger-box" style="margin-top: 24px;">
+                <div class="label">🚨 Final Checklist</div>
+                <ul class="checklist">
+                    <li>Remember the 5 JDBC steps in order</li>
+                    <li>Know AWT vs Swing table (at least 5 points)</li>
+                    <li>Practice Even/Odd GUI program — it's a PYQ repeat!</li>
+                    <li>Know JDBC insert with PreparedStatement — PYQ repeat!</li>
+                    <li>Don't mix up executeQuery (SELECT) and executeUpdate (INSERT/DELETE)</li>
+                    <li>Remember: <code>javax.swing</code> NOT <code>java.swing</code></li>
+                    <li>Remember: PreparedStatement index starts from <strong>1</strong></li>
+                </ul>
+            </div>
+
+            <p style="text-align: center; margin-top: 32px; font-size: 22px; font-weight: 900;">
+                ALL THE BEST FOR YOUR EXAM! 🎯💪
+            </p>
+        </div>
+    </section>
+
+</div>
+
+<!-- Back to Top Button -->
+<button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+    // Back to top button visibility
+    window.addEventListener('scroll', () => {
+        const btn = document.getElementById('backToTop');
+        if (window.scrollY > 400) {
+            btn.classList.add('visible');
+        } else {
+            btn.classList.remove('visible');
+        }
+    });
+
+    // Active nav link highlighting
+    const sections = document.querySelectorAll('.section');
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    const observerOptions = {
+        root: null,
+        rootMargin: '-20% 0px -70% 0px',
+        threshold: 0
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                navLinks.forEach(link => link.classList.remove('active'));
+                const activeLink = document.querySelector(`.nav-link[href="#${entry.target.id}"]`);
+                if (activeLink) activeLink.classList.add('active');
+            }
+        });
+    }, observerOptions);
+
+    sections.forEach(section => observer.observe(section));
+
+    // Close sidebar on mobile when clicking a link
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            if (window.innerWidth <= 900) {
+                document.getElementById('sidebar').classList.remove('open');
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

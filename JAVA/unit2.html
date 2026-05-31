@@ -1,0 +1,2329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit 2 — Strings, Lambdas & Multithreading Exam Notes</title>
+    <meta name="description" content="Complete internal exam notes for Advanced Java Unit 2: String Handling, StringBuffer, Lambdas, Functional Interfaces, Multithreading, Thread Synchronization">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* ===== CSS RESET & ROOT ===== */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-primary: #0a0e1a;
+            --bg-secondary: #111827;
+            --bg-card: #1a2234;
+            --bg-card-hover: #1e2a40;
+            --bg-code: #0d1117;
+            --bg-inlinecode: #1e293b;
+            --text-primary: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --accent-blue: #3b82f6;
+            --accent-purple: #8b5cf6;
+            --accent-cyan: #06b6d4;
+            --accent-green: #10b981;
+            --accent-orange: #f59e0b;
+            --accent-red: #ef4444;
+            --accent-pink: #ec4899;
+            --border-color: #1e293b;
+            --border-accent: #2d3a52;
+            --gradient-1: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            --gradient-2: linear-gradient(135deg, #06b6d4, #3b82f6);
+            --gradient-3: linear-gradient(135deg, #8b5cf6, #ec4899);
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+            --shadow-md: 0 4px 14px rgba(0,0,0,0.4);
+            --shadow-lg: 0 10px 40px rgba(0,0,0,0.5);
+            --shadow-glow: 0 0 30px rgba(59,130,246,0.15);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 15px;
+            overflow-x: hidden;
+        }
+
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-primary); }
+        ::-webkit-scrollbar-thumb { background: var(--border-accent); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent-blue); }
+
+        /* ===== ANIMATED BACKGROUND ===== */
+        .bg-glow {
+            position: fixed;
+            top: -200px;
+            right: -200px;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(59,130,246,0.08) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+            animation: floatGlow 20s ease-in-out infinite;
+        }
+        .bg-glow-2 {
+            position: fixed;
+            bottom: -200px;
+            left: -200px;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(139,92,246,0.06) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+            animation: floatGlow 25s ease-in-out infinite reverse;
+        }
+        @keyframes floatGlow {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(50px, 30px); }
+        }
+
+        /* ===== SIDEBAR NAV ===== */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 280px;
+            height: 100vh;
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border-color);
+            padding: 24px 0;
+            overflow-y: auto;
+            z-index: 100;
+            transition: transform 0.3s ease;
+        }
+        .sidebar-header {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 12px;
+        }
+        .sidebar-header h2 {
+            font-size: 16px;
+            font-weight: 700;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .sidebar-header p {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+        .nav-section {
+            padding: 8px 16px 4px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-muted);
+        }
+        .nav-link {
+            display: block;
+            padding: 7px 20px 7px 24px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+        }
+        .nav-link:hover {
+            color: var(--accent-blue);
+            background: rgba(59,130,246,0.05);
+            border-left-color: var(--accent-blue);
+        }
+        .nav-link.active {
+            color: var(--accent-blue);
+            background: rgba(59,130,246,0.08);
+            border-left-color: var(--accent-blue);
+            font-weight: 500;
+        }
+        .badge {
+            display: inline-block;
+            font-size: 9px;
+            padding: 1px 6px;
+            border-radius: 10px;
+            margin-left: 6px;
+            font-weight: 600;
+            vertical-align: middle;
+        }
+        .badge-pyq { background: rgba(239,68,68,0.15); color: var(--accent-red); }
+        .badge-imp { background: rgba(245,158,11,0.15); color: var(--accent-orange); }
+
+        /* ===== MOBILE TOGGLE ===== */
+        .sidebar-toggle {
+            display: none;
+            position: fixed;
+            top: 16px;
+            left: 16px;
+            z-index: 200;
+            background: var(--bg-card);
+            border: 1px solid var(--border-accent);
+            color: var(--text-primary);
+            width: 42px;
+            height: 42px;
+            border-radius: var(--radius-sm);
+            font-size: 20px;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .main {
+            margin-left: 280px;
+            padding: 40px 48px 100px;
+            max-width: 960px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ===== HERO HEADER ===== */
+        .hero {
+            text-align: center;
+            padding: 56px 32px;
+            background: linear-gradient(135deg, rgba(59,130,246,0.1), rgba(139,92,246,0.1));
+            border: 1px solid var(--border-accent);
+            border-radius: var(--radius-xl);
+            margin-bottom: 48px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: var(--gradient-1);
+        }
+        .hero .unit-badge {
+            display: inline-block;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--accent-cyan);
+            background: rgba(6,182,212,0.1);
+            padding: 6px 16px;
+            border-radius: 20px;
+            border: 1px solid rgba(6,182,212,0.2);
+            margin-bottom: 16px;
+        }
+        .hero h1 {
+            font-size: 36px;
+            font-weight: 900;
+            letter-spacing: -1px;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 12px;
+        }
+        .hero p {
+            color: var(--text-secondary);
+            font-size: 16px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        /* ===== PART DIVIDER ===== */
+        .part-divider {
+            text-align: center;
+            margin: 64px 0 40px;
+            position: relative;
+        }
+        .part-divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0; right: 0;
+            height: 1px;
+            background: var(--border-accent);
+        }
+        .part-divider span {
+            position: relative;
+            display: inline-block;
+            background: var(--bg-primary);
+            padding: 8px 28px;
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            border: 1px solid var(--border-accent);
+            border-radius: 30px;
+        }
+        .part-divider.part-a span { color: var(--accent-cyan); border-color: rgba(6,182,212,0.3); }
+        .part-divider.part-b span { color: var(--accent-purple); border-color: rgba(139,92,246,0.3); }
+
+        /* ===== SECTION (TOPIC) ===== */
+        .section {
+            margin-bottom: 48px;
+            scroll-margin-top: 24px;
+        }
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 20px;
+        }
+        .section-number {
+            flex-shrink: 0;
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            font-weight: 800;
+            border-radius: 10px;
+            color: #fff;
+        }
+        .num-blue { background: var(--gradient-2); }
+        .num-purple { background: var(--gradient-3); }
+        .num-green { background: linear-gradient(135deg, #10b981, #06b6d4); }
+        .section-header h2 {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        /* ===== CARDS ===== */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            margin-bottom: 20px;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .card:hover {
+            border-color: var(--border-accent);
+            box-shadow: var(--shadow-md);
+        }
+        .card h3 {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .card h3 .icon { font-size: 18px; }
+        .card p, .card li {
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+        }
+        .card ul { padding-left: 20px; list-style: none; }
+        .card ul li::before {
+            content: '▸';
+            color: var(--accent-blue);
+            font-weight: bold;
+            margin-right: 8px;
+        }
+        .card ol { padding-left: 20px; }
+        .card ol li { color: var(--text-secondary); margin-bottom: 4px; }
+
+        /* ===== DEFINITION BOX ===== */
+        .def-box {
+            background: linear-gradient(135deg, rgba(59,130,246,0.06), rgba(139,92,246,0.06));
+            border: 1px solid rgba(59,130,246,0.15);
+            border-radius: var(--radius-md);
+            padding: 20px 24px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--accent-blue);
+        }
+        .def-box .label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--accent-blue);
+            margin-bottom: 6px;
+        }
+        .def-box p {
+            color: var(--text-primary);
+            font-size: 15px;
+        }
+
+        /* ===== EXAM TIP BOX ===== */
+        .tip-box {
+            background: rgba(16,185,129,0.06);
+            border: 1px solid rgba(16,185,129,0.15);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            margin-bottom: 16px;
+            border-left: 4px solid var(--accent-green);
+        }
+        .tip-box .label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--accent-green);
+            margin-bottom: 4px;
+        }
+        .tip-box p { color: var(--text-secondary); font-size: 14px; }
+
+        /* ===== WARNING BOX ===== */
+        .warn-box {
+            background: rgba(245,158,11,0.06);
+            border: 1px solid rgba(245,158,11,0.15);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            margin-bottom: 16px;
+            border-left: 4px solid var(--accent-orange);
+        }
+        .warn-box .label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--accent-orange);
+            margin-bottom: 4px;
+        }
+        .warn-box p { color: var(--text-secondary); font-size: 14px; }
+
+        /* ===== PYQ TAG ===== */
+        .pyq-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--accent-red);
+            background: rgba(239,68,68,0.1);
+            border: 1px solid rgba(239,68,68,0.2);
+            padding: 3px 10px;
+            border-radius: 20px;
+            margin-left: 8px;
+        }
+
+        /* ===== TABLES ===== */
+        .table-wrap {
+            overflow-x: auto;
+            margin-bottom: 20px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13.5px;
+        }
+        thead th {
+            background: var(--bg-card);
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 700;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--text-secondary);
+            border-bottom: 2px solid var(--border-accent);
+        }
+        tbody td {
+            padding: 10px 16px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+        tbody tr:hover { background: rgba(59,130,246,0.03); }
+        tbody tr:last-child td { border-bottom: none; }
+        td code, th code {
+            background: var(--bg-inlinecode);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        /* ===== DIFF TABLE ===== */
+        .diff-table {
+            border: 2px solid var(--accent-purple);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        .diff-table-header {
+            background: linear-gradient(135deg, rgba(139,92,246,0.15), rgba(236,72,153,0.1));
+            padding: 12px 16px;
+            font-weight: 800;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid rgba(139,92,246,0.2);
+        }
+        .diff-table thead th {
+            background: rgba(139,92,246,0.08);
+        }
+
+        /* ===== CODE BLOCKS ===== */
+        pre {
+            background: var(--bg-code);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 20px 24px;
+            margin-bottom: 16px;
+            overflow-x: auto;
+            position: relative;
+        }
+        pre code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            line-height: 1.65;
+            color: var(--text-primary);
+        }
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            background: var(--bg-inlinecode);
+            padding: 2px 7px;
+            border-radius: 5px;
+            color: var(--accent-cyan);
+        }
+
+        /* ===== Syntax Highlighting ===== */
+        .kw { color: #c678dd; }
+        .str { color: #98c379; }
+        .cm { color: #5c6370; font-style: italic; }
+        .fn { color: #61afef; }
+        .cls { color: #e5c07b; }
+        .num { color: #d19a66; }
+        .op { color: #56b6c2; }
+
+        /* ===== PROGRAM CARD ===== */
+        .program-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            margin-bottom: 32px;
+            box-shadow: var(--shadow-md);
+        }
+        .program-header {
+            padding: 20px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .program-header h3 {
+            font-size: 17px;
+            font-weight: 800;
+        }
+        .program-body { padding: 24px; }
+        .program-body pre {
+            margin: 16px -24px;
+            border-radius: 0;
+            border-left: none;
+            border-right: none;
+        }
+        .output-box {
+            background: rgba(16,185,129,0.06);
+            border: 1px solid rgba(16,185,129,0.15);
+            border-radius: var(--radius-sm);
+            padding: 14px 18px;
+            margin-top: 12px;
+        }
+        .output-box .label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--accent-green);
+            margin-bottom: 6px;
+        }
+        .output-box pre {
+            background: transparent;
+            border: none;
+            padding: 0;
+            margin: 0;
+        }
+        .output-box pre code { color: var(--accent-green); font-size: 13px; }
+
+        /* ===== VIVA QUESTIONS ===== */
+        .viva-list { counter-reset: viva-counter; list-style: none; padding: 0; }
+        .viva-list li {
+            counter-increment: viva-counter; padding: 12px 16px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-secondary); font-size: 14px;
+        }
+        .viva-list li:last-child { border-bottom: none; }
+        .viva-list li::before {
+            content: counter(viva-counter); display: inline-flex;
+            align-items: center; justify-content: center;
+            width: 24px; height: 24px; background: rgba(59,130,246,0.15);
+            color: var(--accent-blue); font-size: 11px; font-weight: 700;
+            border-radius: 6px; margin-right: 12px; flex-shrink: 0;
+        }
+        .viva-list li strong { color: var(--text-primary); }
+
+        /* ===== BACK TO TOP ===== */
+        .back-to-top {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            width: 44px;
+            height: 44px;
+            background: var(--gradient-1);
+            border: none;
+            border-radius: 50%;
+            color: #fff;
+            font-size: 20px;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            z-index: 200;
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .back-to-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .back-to-top:hover { transform: translateY(-3px); }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 900px) {
+            .sidebar { transform: translateX(-100%); }
+            .sidebar.open { transform: translateX(0); box-shadow: var(--shadow-lg); }
+            .sidebar-toggle { display: flex; }
+            .main { margin-left: 0; padding: 24px 20px 80px; }
+            .hero h1 { font-size: 26px; }
+            .program-body pre { margin: 16px -16px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="bg-glow"></div>
+<div class="bg-glow-2"></div>
+
+<!-- Mobile Toggle -->
+<button class="sidebar-toggle" id="sidebarToggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰</button>
+
+<!-- Sidebar Navigation -->
+<nav class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+        <h2>📘 Unit 2 Notes</h2>
+        <p>Advanced Java • Strings & Multithreading</p>
+    </div>
+
+    <div class="nav-section">Part A — String Handling</div>
+    <a class="nav-link" href="#strings">String Constructors</a>
+    <a class="nav-link" href="#str-ops">String Operations</a>
+    <a class="nav-link" href="#char-extract">Character Extraction</a>
+    <a class="nav-link" href="#case-convert">Case Conversion</a>
+    <a class="nav-link" href="#str-join">Joining Strings</a>
+    <a class="nav-link" href="#str-search">Searching Strings</a>
+    <a class="nav-link" href="#str-modify">Modifying Strings</a>
+    <a class="nav-link" href="#str-methods">Essential Methods Table</a>
+    <a class="nav-link" href="#data-convert">Data Conversions</a>
+    <a class="nav-link" href="#stringbuffer">StringBuffer Class</a>
+    <a class="nav-link" href="#wrappers">Wrappers &amp; Autoboxing</a>
+
+    <div class="nav-section">Part B — Lambdas &amp; Threads</div>
+    <a class="nav-link" href="#lambdas">Lambda Fundamentals</a>
+    <a class="nav-link" href="#block-lambda">Block Lambda Expressions</a>
+    <a class="nav-link" href="#functional">Functional Interfaces</a>
+    <a class="nav-link" href="#threads">Java Thread Model</a>
+    <a class="nav-link" href="#thread-creation">Creating Threads <span class="badge badge-imp">IMP</span></a>
+    <a class="nav-link" href="#multi-threads">Multiple Threads</a>
+    <a class="nav-link" href="#thread-control">isAlive() &amp; join() <span class="badge badge-pyq">PYQ</span></a>
+    <a class="nav-link" href="#thread-sync">Thread Synchronization <span class="badge badge-imp">IMP</span></a>
+    <a class="nav-link" href="#inter-thread">Inter-Thread Communication</a>
+    <a class="nav-link" href="#safe-control">Safe Thread Control</a>
+
+    <div class="nav-section">Programs & Viva</div>
+    <a class="nav-link" href="#programs">Key Programs</a>
+    <a class="nav-link" href="#viva">Viva Q&A</a>
+</nav>
+
+<!-- Main Content -->
+<div class="main">
+
+    <!-- Hero -->
+    <header class="hero" id="top">
+        <div class="unit-badge">Unit II — Strings, Lambdas & Multithreading</div>
+        <h1>String Handling, Lambdas, & Multithreading</h1>
+        <p>In-depth, exam-ready notes focusing on the String API, lambda syntax, functional interfaces, the Java thread lifecycle, and thread coordination.</p>
+    </header>
+
+    <!-- ============================== -->
+    <!-- PART A: STRING HANDLING        -->
+    <!-- ============================== -->
+    <div class="part-divider part-a"><span id="strings-intro">Part A — String API & Data Wrappers</span></div>
+
+    <!-- 1. STRINGS -->
+    <section class="section" id="strings">
+        <div class="section-header">
+            <div class="section-number num-blue">1</div>
+            <h2>String Constructors &amp; String Constant Pool (SCP)</h2>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definition</div>
+            <p>In Java, a <strong>String</strong> is a non-primitive object encapsulated by the final class <code>java.lang.String</code>. Strings represent an immutable sequence of characters. Once a String object is instantiated in the JVM heap, its character sequence cannot be dynamically modified.</p>
+        </div>
+
+        <div class="card">
+            <h3>🏗️ String Literal vs. new Keyword (Memory Isolation)</h3>
+            <p>The JVM manages String memory allocation in two completely different locations depending on instantiation styles:</p>
+            <ul>
+                <li><strong>String Literal (<code>String s = "Java";</code>):</strong> Allocates memory directly within the <strong>String Constant Pool (SCP)</strong>—a dedicated memory region inside the JVM's Heap (relocated to Heap from PermGen in Java 7). Before allocation, the JVM checks the pool. If a matching string literal is found, it simply returns the reference address, saving CPU cycles and memory. If not found, a new literal object is created in the SCP.</li>
+                <li><strong>new Operator (<code>String s = new String("Java");</code>):</strong> Bypasses the pool check. It **always allocates a brand new object** on the general non-pool Heap. It also puts the literal in the SCP if not already present. This results in **two objects being created** in memory if the literal isn't already pooled!</li>
+            </ul>
+            
+            <div style="margin-top: 15px;">
+                <h4 style="font-size: 14px; color: var(--accent-cyan); margin-bottom: 8px;">Memory Comparison Demo:</h4>
+                <pre><code><span class="cls">String</span> s1 = <span class="str">"Hello"</span>;                  <span class="cm">// Reference to SCP object</span>
+<span class="cls">String</span> s2 = <span class="str">"Hello"</span>;                  <span class="cm">// Reuses same reference from SCP</span>
+<span class="cls">String</span> s3 = <span class="kw">new</span> <span class="cls">String</span>(<span class="str">"Hello"</span>);      <span class="cm">// Allocates new Heap object</span>
+
+<span class="cls">System</span>.out.<span class="fn">println</span>(s1 == s2);          <span class="cm">// true (Points to identical SCP memory address)</span>
+<span class="cls">System</span>.out.<span class="fn">println</span>(s1 == s3);          <span class="cm">// false (s3 is a different Heap object)</span></code></pre>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>⚡ The intern() Method: Bypassing Heap Allocations</h3>
+            <p>The <code>intern()</code> method is a native call that allows dynamically adding a standard Heap String into the String Constant Pool at runtime:</p>
+            <div class="def-box" style="margin-top: 10px; border-left-color: var(--accent-purple);">
+                <div class="label" style="color: var(--accent-purple);">How intern() Works</div>
+                When <code>s.intern()</code> is called, the JVM searches the SCP. If a string with identical content is already pooled, the JVM returns the address of that pooled version. If the string is not present in the pool, the current string object is registered in the pool, and its reference is returned.
+            </div>
+            <pre><code><span class="cls">String</span> h = <span class="kw">new</span> <span class="cls">String</span>(<span class="str">"MSRIT"</span>);
+<span class="cls">String</span> p = <span class="str">"MSRIT"</span>;
+<span class="cls">String</span> i = h.<span class="fn">intern</span>(); <span class="cm">// Returns the canonical pooled reference</span>
+
+<span class="cls">System</span>.out.<span class="fn">println</span>(h == p); <span class="cm">// false (heap vs pool references)</span>
+<span class="cls">System</span>.out.<span class="fn">println</span>(p == i); <span class="cm">// true (both point to SCP resource!)</span></code></pre>
+        </div>
+
+        <div class="card">
+            <h3>🛠️ Useful String Constructors</h3>
+            <pre><code><span class="cls">String</span> s = <span class="kw">new</span> <span class="cls">String</span>();                         <span class="cm">// Empty string</span>
+<span class="kw">char</span>[] chars = {<span class="str">'a'</span>, <span class="str">'b'</span>, <span class="str">'c'</span>};
+<span class="cls">String</span> s2 = <span class="kw">new</span> <span class="cls">String</span>(chars);                   <span class="cm">// "abc"</span>
+<span class="cls">String</span> s3 = <span class="kw">new</span> <span class="cls">String</span>(chars, <span class="num">1</span>, <span class="num">2</span>);             <span class="cm">// "bc" (char[], startOffset, length)</span>
+<span class="kw">byte</span>[] bytes = {<span class="num">65</span>, <span class="num">66</span>, <span class="num">67</span>};
+<span class="cls">String</span> s4 = <span class="kw">new</span> <span class="cls">String</span>(bytes);                   <span class="cm">// "ABC" (using ASCII values)</span></code></pre>
+        </div>
+    </section>
+
+    <!-- 2. STRING OPERATIONS -->
+    <section class="section" id="str-ops">
+        <div class="section-header">
+            <div class="section-number num-blue">2</div>
+            <h2>String Immutability &amp; Custom Immutable Classes</h2>
+            <span class="pyq-tag">MSRIT CIE-1</span>
+        </div>
+
+        <div class="card">
+            <h3>🛑 Rationale Behind String Immutability</h3>
+            <ol>
+                <li><strong>String Pool Optimization:</strong> Since multiple String variables point to a single literal in the pool, mutability would cause "side-effect corruption" (e.g. changing <code>s1</code>'s value would silently alter <code>s2</code>'s reference data).</li>
+                <li><strong>Security &amp; Sandboxing:</strong> Java classloaders, file system pathways, and network credentials rely heavily on Strings. If Strings were mutable, an attacker could manipulate parameters post-validation, bypassing security checks.</li>
+                <li><strong>Safe Concurrency (Thread Safety):</strong> Because String data cannot be changed, String objects are inherently thread-safe. They can be shared among threads without synchronization locks or risk of race conditions.</li>
+                <li><strong>Map Key Optimization (Caching Hash):</strong> The hash code of a String is cached immediately during construction (saved in the private field <code>hash</code>). This guarantees high performance when used as keys in <code>HashMap</code>, as the hash calculation runs only once.</li>
+            </ol>
+        </div>
+
+        <div class="card">
+            <h3>🧱 Design Patterns: The 5 Strict Rules of Immutability</h3>
+            <p>To design a completely custom immutable class in Java, you must adhere strictly to these 5 compiler and runtime rules:</p>
+            <ul>
+                <li><strong>1. Final Class:</strong> Declare the class as <code>final</code> to prevent subclassing (subclasses could override getters and introduce mutable behaviors).</li>
+                <li><strong>2. Private and Final Fields:</strong> Declare all instance variables as <code>private final</code> to ensure encapsulation and guarantee single-assignment initialization.</li>
+                <li><strong>3. Zero Mutators:</strong> Do not write any setter (mutator) methods.</li>
+                <li><strong>4. Constructor Defensive Copying:</strong> If instance variables point to **mutable objects** (like <code>java.util.Date</code> or collections), perform a **deep clone/defensive copy** of parameter arguments inside the constructor. Do not assign parameter references directly.</li>
+                <li><strong>5. Getter Defensive Copying:</strong> In getter methods, return **cloned copies** of mutable fields rather than returning actual reference handles. This keeps the internal state protected from external modification.</li>
+            </ul>
+        </div>
+
+        <div class="program-card">
+            <h3>💻 Complete Custom Immutable Class Template</h3>
+            <div class="program-body" style="padding-top: 0;">
+                <p>Demonstrates deep copying and defensive cloning to guarantee immutability even when handling mutable objects like dates.</p>
+                <pre><code><span class="kw">import</span> java.util.<span class="cls">Date</span>;
+
+<span class="kw">public final class</span> <span class="cls">ImmutableStudent</span> { <span class="cm">// Rule 1: Final Class</span>
+    <span class="kw">private final</span> <span class="cls">String</span> name;         <span class="cm">// Rule 2: Private final variables</span>
+    <span class="kw">private final int</span> rollNumber;
+    <span class="kw">private final</span> <span class="cls">Date</span> joiningDate;    <span class="cm">// Mutable object field</span>
+
+    <span class="kw">public</span> <span class="cls">ImmutableStudent</span>(<span class="cls">String</span> name, <span class="kw">int</span> rollNumber, <span class="cls">Date</span> joiningDate) {
+        <span class="kw">this</span>.name = name;
+        <span class="kw">this</span>.rollNumber = rollNumber;
+        <span class="cm">// Rule 4: Constructor Defensive Copying for mutable objects</span>
+        <span class="kw">if</span> (joiningDate != <span class="kw">null</span>) {
+            <span class="kw">this</span>.joiningDate = <span class="kw">new</span> <span class="cls">Date</span>(joiningDate.<span class="fn">getTime</span>());
+        } <span class="kw">else</span> {
+            <span class="kw">this</span>.joiningDate = <span class="kw">null</span>;
+        }
+    }
+
+    <span class="kw">public</span> <span class="cls">String</span> <span class="fn">getName</span>() { <span class="kw">return</span> name; }
+    <span class="kw">public int</span> <span class="fn">getRollNumber</span>() { <span class="kw">return</span> rollNumber; }
+
+    <span class="kw">public</span> <span class="cls">Date</span> <span class="fn">getJoiningDate</span>() {
+        <span class="cm">// Rule 5: Getter Defensive Copying. Avoid returning reference to direct field.</span>
+        <span class="kw">if</span> (joiningDate != <span class="kw">null</span>) {
+            <span class="kw">return</span> <span class="kw">new</span> <span class="cls">Date</span>(joiningDate.<span class="fn">getTime</span>());
+        }
+        <span class="kw">return</span> <span class="kw">null</span>;
+    }
+}</code></pre>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. CHARACTER EXTRACTION -->
+    <section class="section" id="char-extract">
+        <div class="section-header">
+            <div class="section-number num-blue">3</div>
+            <h2>Character Extraction</h2>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Introduction</div>
+            <p>Java provides several methods to **extract characters** from a String object. Since Strings are character arrays internally, these methods let you pull out individual characters or ranges of characters.</p>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🔍</span> Extraction Methods</h3>
+            <ul>
+                <li><strong><code>charAt(int index)</code></strong> — Returns a single character at the specified 0-based index. Throws <code>StringIndexOutOfBoundsException</code> if index is out of range.</li>
+                <li><strong><code>getChars(int srcBegin, int srcEnd, char[] dst, int dstBegin)</code></strong> — Copies characters from the string into a destination character array. <code>srcEnd</code> is exclusive.</li>
+                <li><strong><code>toCharArray()</code></strong> — Converts the entire string into a new character array and returns it.</li>
+            </ul>
+        </div>
+
+        <pre><code><span class="cls">String</span> s = <span class="str">"Advanced Java"</span>;
+
+<span class="cm">// charAt() — extract single character</span>
+<span class="kw">char</span> c = s.<span class="fn">charAt</span>(<span class="num">0</span>);            <span class="cm">// 'A'</span>
+<span class="kw">char</span> d = s.<span class="fn">charAt</span>(<span class="num">9</span>);            <span class="cm">// 'J'</span>
+
+<span class="cm">// getChars() — extract range into char array</span>
+<span class="kw">char</span>[] buf = <span class="kw">new</span> <span class="kw">char</span>[<span class="num">4</span>];
+s.<span class="fn">getChars</span>(<span class="num">9</span>, <span class="num">13</span>, buf, <span class="num">0</span>);     <span class="cm">// buf = {'J','a','v','a'}</span>
+
+<span class="cm">// toCharArray() — entire string to char[]</span>
+<span class="kw">char</span>[] all = s.<span class="fn">toCharArray</span>();    <span class="cm">// {'A','d','v','a','n','c','e','d',' ','J','a','v','a'}</span></code></pre>
+    </section>
+
+    <!-- 4. CASE CONVERSION -->
+    <section class="section" id="case-convert">
+        <div class="section-header">
+            <div class="section-number num-blue">4</div>
+            <h2>Changing Case of Characters</h2>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Introduction</div>
+            <p>Java provides two methods to change the case of all characters in a string. Since Strings are immutable, these methods return a **new String** — the original remains unchanged.</p>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🔠</span> Case Methods</h3>
+            <ul>
+                <li><strong><code>toUpperCase()</code></strong> — Returns a new string with all characters converted to UPPERCASE.</li>
+                <li><strong><code>toLowerCase()</code></strong> — Returns a new string with all characters converted to lowercase.</li>
+            </ul>
+        </div>
+
+        <pre><code><span class="cls">String</span> s = <span class="str">"Hello World"</span>;
+<span class="cls">String</span> upper = s.<span class="fn">toUpperCase</span>();  <span class="cm">// "HELLO WORLD"</span>
+<span class="cls">String</span> lower = s.<span class="fn">toLowerCase</span>();  <span class="cm">// "hello world"</span>
+
+<span class="cm">// Original string s is unchanged (immutability!)</span>
+<span class="cls">System</span>.out.<span class="fn">println</span>(s);          <span class="cm">// "Hello World" (no change)</span></code></pre>
+
+        <div class="tip-box">
+            <div class="label">💡 Exam Tip</div>
+            <p>These methods are <strong>locale-sensitive</strong>. You can pass a <code>Locale</code> parameter for internationalization: <code>s.toUpperCase(Locale.ENGLISH)</code>. However, for exam purposes the default no-argument version is sufficient.</p>
+        </div>
+    </section>
+
+    <!-- 5. JOINING STRINGS -->
+    <section class="section" id="str-join">
+        <div class="section-header">
+            <div class="section-number num-blue">5</div>
+            <h2>Joining Strings</h2>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Introduction</div>
+            <p>Java provides multiple ways to **concatenate (join)** strings together. Understanding all approaches is important for both exams and practical code.</p>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🔗</span> Three Ways to Join Strings</h3>
+            <ol>
+                <li><strong>The <code>+</code> operator:</strong> Simplest way. Compiler internally uses <code>StringBuilder</code> for efficiency. E.g., <code>"Hello" + " " + "World"</code> → <code>"Hello World"</code>.</li>
+                <li><strong><code>concat(String str)</code> method:</strong> Appends the specified string to the end. E.g., <code>"Hello".concat(" World")</code> → <code>"Hello World"</code>. Returns a new String.</li>
+                <li><strong><code>String.join(delimiter, elements)</code> (Java 8+):</strong> Joins multiple strings with a delimiter. E.g., <code>String.join("-", "2025", "05", "29")</code> → <code>"2025-05-29"</code>.</li>
+            </ol>
+        </div>
+
+        <pre><code><span class="cm">// Method 1: + operator</span>
+<span class="cls">String</span> s1 = <span class="str">"Hello"</span> + <span class="str">" "</span> + <span class="str">"World"</span>;     <span class="cm">// "Hello World"</span>
+
+<span class="cm">// Method 2: concat()</span>
+<span class="cls">String</span> s2 = <span class="str">"Hello"</span>.<span class="fn">concat</span>(<span class="str">" World"</span>);     <span class="cm">// "Hello World"</span>
+
+<span class="cm">// Method 3: String.join() — joins with a delimiter</span>
+<span class="cls">String</span> date = <span class="cls">String</span>.<span class="fn">join</span>(<span class="str">"-"</span>, <span class="str">"2025"</span>, <span class="str">"05"</span>, <span class="str">"29"</span>);   <span class="cm">// "2025-05-29"</span>
+<span class="cls">String</span> csv  = <span class="cls">String</span>.<span class="fn">join</span>(<span class="str">", "</span>, <span class="str">"Java"</span>, <span class="str">"Python"</span>, <span class="str">"C++"</span>); <span class="cm">// "Java, Python, C++"</span></code></pre>
+
+        <div class="warn-box">
+            <div class="label">⚠️ Concat vs + Operator</div>
+            <p><code>concat()</code> throws <code>NullPointerException</code> if you call it on a null reference. The <code>+</code> operator converts null to the string <code>"null"</code> automatically. E.g., <code>null + "hi"</code> → <code>"nullhi"</code>.</p>
+        </div>
+    </section>
+
+    <!-- 6. SEARCHING STRINGS -->
+    <section class="section" id="str-search">
+        <div class="section-header">
+            <div class="section-number num-blue">6</div>
+            <h2>Searching Strings</h2>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Introduction</div>
+            <p>Java's String class provides methods to **search for characters or substrings** within a string. All search methods return an <code>int</code> index (0-based) or <code>-1</code> if not found.</p>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🔎</span> Search Methods</h3>
+            <ul>
+                <li><strong><code>indexOf(char ch)</code></strong> — Returns index of the <strong>first occurrence</strong> of the character.</li>
+                <li><strong><code>indexOf(String str)</code></strong> — Returns index of first occurrence of the substring.</li>
+                <li><strong><code>indexOf(char ch, int fromIndex)</code></strong> — Starts searching from the given index.</li>
+                <li><strong><code>lastIndexOf(char ch)</code></strong> — Returns index of the <strong>last occurrence</strong> of the character.</li>
+                <li><strong><code>lastIndexOf(String str)</code></strong> — Returns index of the last occurrence of the substring.</li>
+                <li><strong><code>contains(CharSequence s)</code></strong> — Returns <code>true</code> if the string contains the specified sequence.</li>
+                <li><strong><code>startsWith(String prefix)</code></strong> — Returns <code>true</code> if string starts with the given prefix.</li>
+                <li><strong><code>endsWith(String suffix)</code></strong> — Returns <code>true</code> if string ends with the given suffix.</li>
+            </ul>
+        </div>
+
+        <pre><code><span class="cls">String</span> s = <span class="str">"Java Programming Java"</span>;
+
+s.<span class="fn">indexOf</span>(<span class="str">'a'</span>);               <span class="cm">// 1 (first 'a')</span>
+s.<span class="fn">indexOf</span>(<span class="str">"Java"</span>);             <span class="cm">// 0 (first "Java")</span>
+s.<span class="fn">indexOf</span>(<span class="str">"Java"</span>, <span class="num">1</span>);          <span class="cm">// 17 (second "Java", search from index 1)</span>
+s.<span class="fn">lastIndexOf</span>(<span class="str">'a'</span>);           <span class="cm">// 20 (last 'a')</span>
+s.<span class="fn">lastIndexOf</span>(<span class="str">"Java"</span>);         <span class="cm">// 17 (last "Java")</span>
+s.<span class="fn">contains</span>(<span class="str">"Program"</span>);         <span class="cm">// true</span>
+s.<span class="fn">startsWith</span>(<span class="str">"Java"</span>);          <span class="cm">// true</span>
+s.<span class="fn">endsWith</span>(<span class="str">"Java"</span>);            <span class="cm">// true</span>
+s.<span class="fn">indexOf</span>(<span class="str">"Python"</span>);           <span class="cm">// -1 (not found)</span></code></pre>
+    </section>
+
+    <!-- 7. MODIFYING STRINGS -->
+    <section class="section" id="str-modify">
+        <div class="section-header">
+            <div class="section-number num-blue">7</div>
+            <h2>Modifying Strings &amp; Unicode API Nuances</h2>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Introduction</div>
+            <p>Because Strings are immutable, **every modification method is a non-destructive reader**. They do not change the state of the original object on the heap; instead, they compute the modification and yield a brand-new String object reference. The original remains unchanged.</p>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">✏️</span> String Modification Methods</h3>
+            <ul>
+                <li><strong><code>substring(int beginIndex, int endIndex)</code> Index Mechanics:</strong> Returns a slice of the string from <code>beginIndex</code> (inclusive) to <code>endIndex</code> (<strong>exclusive</strong>). The length of the returned substring is always <code>endIndex - beginIndex</code>. If parameters are negative or <code>endIndex > length()</code>, it throws <code>StringIndexOutOfBoundsException</code>.</li>
+                <li><strong><code>split(String regex, int limit)</code> Controls:</strong> Splits the string around matches of the regular expression. The optional <code>limit</code> parameter dictates the pattern application count:
+                    <ul>
+                        <li><code>limit > 0</code>: The pattern is applied at most <code>limit - 1</code> times, and the array's length will not be greater than the limit.</li>
+                        <li><code>limit = 0</code>: Trailing empty strings are discarded.</li>
+                        <li><code>limit < 0</code>: The pattern is applied as many times as possible, and the array can have any length, including trailing empty strings.</li>
+                    </ul>
+                </li>
+                <li><strong><code>replace()</code> vs. <code>replaceAll()</code> / <code>replaceFirst()</code>:</strong>
+                    <ul>
+                        <li><code>replace(CharSequence target, CharSequence replacement)</code>: Performs a direct literal match-and-replace. It does **not** evaluate regular expressions, making it highly efficient for plain text.</li>
+                        <li><code>replaceAll(String regex, String replacement)</code>: Evaluates the target string as a **regular expression** and replaces all matching sequences.</li>
+                        <li><code>replaceFirst(String regex, String replacement)</code>: Evaluates the target as a regex but only replaces the first match.</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>⚖️ Trim vs. Strip: The Java 11 Unicode Evolution</h3>
+            <p>Java supports two methods for removing trailing/leading whitespaces, which handle characters differently:</p>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Specification</th>
+                            <th><code>trim()</code> (Legacy Java 1.0)</th>
+                            <th><code>strip()</code> (Modern Java 11+)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Whitespace Check</strong></td>
+                            <td>Checks strictly if character codepoint is <code>&lt;= U+0020</code> (space character, tab, newline).</td>
+                            <td>Unicode-aware. Uses <code>Character.isWhitespace(codepoint)</code> to evaluate.</td>
+                        </tr>
+                        <tr>
+                            <th>Unicode Whitespaces (e.g. <code>\u2000</code> to <code>\u200A</code>)</th>
+                            <td style="color:var(--accent-red); font-weight:600;">Ignored. Legacy trim cannot remove Unicode whitespaces.</td>
+                            <td style="color:var(--accent-green); font-weight:600;">Successfully removed. strip parses all Unicode spaces.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p style="font-size: 13.5px; margin-top: 10px;">Java 11 also provides <code>stripLeading()</code> and <code>stripTrailing()</code> to target specific ends of a string, optimizing memory and string manipulation workflows.</p>
+        </div>
+
+        <pre><code><span class="cls">String</span> s = <span class="str">"  Hello World Hello  "</span>;
+
+<span class="cm">// substring() index checks</span>
+<span class="cls">String</span> sub1 = <span class="str">"Advanced"</span>.<span class="fn">substring</span>(<span class="num">0</span>, <span class="num">3</span>);         <span class="cm">// "Adv" (indices 0, 1, 2)</span>
+
+<span class="cm">// split() with limits</span>
+<span class="cls">String</span>[] parts = <span class="str">"a:b:c::"</span>.<span class="fn">split</span>(<span class="str">":"</span>, <span class="num">0</span>);          <span class="cm">// parts = {"a", "b", "c"} (trailing empty discarded)</span>
+<span class="cls">String</span>[] partsAll = <span class="str">"a:b:c::"</span>.<span class="fn">split</span>(<span class="str">":"</span>, -<span class="num">1</span>);        <span class="cm">// partsAll = {"a", "b", "c", "", ""} (retains all)</span>
+
+<span class="cm">// replace() vs replaceAll()</span>
+<span class="cls">String</span> text = <span class="str">"a.b.c"</span>;
+<span class="cls">System</span>.out.<span class="fn">println</span>(text.<span class="fn">replace</span>(<span class="str">"."</span>, <span class="str">"#"</span>));        <span class="cm">// "a#b#c" (literal dot replaced)</span>
+<span class="cls">System</span>.out.<span class="fn">println</span>(text.<span class="fn">replaceAll</span>(<span class="str">"."</span>, <span class="str">"#"</span>));     <span class="cm">// "#####" (regex dot matches any char!)</span></code></pre>
+    </section>
+
+    <!-- 8. STRING METHODS TABLE -->
+    <section class="section" id="str-methods">
+        <div class="section-header">
+            <div class="section-number num-blue">8</div>
+            <h2>Complete String Methods Reference</h2>
+        </div>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Method</th>
+                        <th>Return Type</th>
+                        <th>Description & Example</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>length()</code></td>
+                        <td><code>int</code></td>
+                        <td>Returns the number of characters. E.g. <code>"hi".length()</code> returns <code>2</code>.</td>
+                    </tr>
+                    <tr>
+                        <td><code>charAt(int index)</code></td>
+                        <td><code>char</code></td>
+                        <td>Extracts the character at a specific 0-based index. <code>"abc".charAt(1)</code> returns <code>'b'</code>.</td>
+                    </tr>
+                    <tr>
+                        <td><code>equals(Object obj)</code></td>
+                        <td><code>boolean</code></td>
+                        <td>Compares the **content** of the strings for equality. Case-sensitive.</td>
+                    </tr>
+                    <tr>
+                        <td><code>equalsIgnoreCase(String str)</code></td>
+                        <td><code>boolean</code></td>
+                        <td>Compares contents, ignoring case differences.</td>
+                    </tr>
+                    <tr>
+                        <td><code>compareTo(String str)</code></td>
+                        <td><code>int</code></td>
+                        <td>Compares lexicographically. Returns 0 if equal, negative if less, positive if greater.</td>
+                    </tr>
+                    <tr>
+                        <td><code>indexOf(char ch)</code></td>
+                        <td><code>int</code></td>
+                        <td>Returns first index of character, or -1 if not found.</td>
+                    </tr>
+                    <tr>
+                        <td><code>substring(int start, int end)</code></td>
+                        <td><code>String</code></td>
+                        <td>Extracts from `start` (inclusive) to `end` (exclusive). <code>"hello".substring(1,3)</code> is <code>"el"</code>.</td>
+                    </tr>
+                    <tr>
+                        <td><code>replace(char old, char new)</code></td>
+                        <td><code>String</code></td>
+                        <td>Replaces all occurrences. <code>"cat".replace('c','b')</code> is <code>"bat"</code>.</td>
+                    </tr>
+                    <tr>
+                        <td><code>trim()</code></td>
+                        <td><code>String</code></td>
+                        <td>Removes leading and trailing whitespaces.</td>
+                    </tr>
+                    <tr>
+                        <td><code>toUpperCase()</code></td>
+                        <td><code>String</code></td>
+                        <td>Converts all characters to uppercase. <code>"hello".toUpperCase()</code> returns <code>"HELLO"</code>.</td>
+                    </tr>
+                    <tr>
+                        <td><code>toLowerCase()</code></td>
+                        <td><code>String</code></td>
+                        <td>Converts all characters to lowercase. <code>"HELLO".toLowerCase()</code> returns <code>"hello"</code>.</td>
+                    </tr>
+                    <tr>
+                        <td><code>concat(String str)</code></td>
+                        <td><code>String</code></td>
+                        <td>Concatenates the specified string. <code>"Hi".concat(" Java")</code> is <code>"Hi Java"</code>.</td>
+                    </tr>
+                    <tr>
+                        <td><code>contains(CharSequence s)</code></td>
+                        <td><code>boolean</code></td>
+                        <td>Returns true if string contains the sequence. <code>"hello".contains("ell")</code> is <code>true</code>.</td>
+                    </tr>
+                    <tr>
+                        <td><code>startsWith(String prefix)</code></td>
+                        <td><code>boolean</code></td>
+                        <td>Tests if string starts with prefix. <code>"Java".startsWith("Ja")</code> is <code>true</code>.</td>
+                    </tr>
+                    <tr>
+                        <td><code>endsWith(String suffix)</code></td>
+                        <td><code>boolean</code></td>
+                        <td>Tests if string ends with suffix. <code>"Java".endsWith("va")</code> is <code>true</code>.</td>
+                    </tr>
+                    <tr>
+                        <td><code>split(String regex)</code></td>
+                        <td><code>String[]</code></td>
+                        <td>Splits string by regex. <code>"a,b,c".split(",")</code> returns array <code>{"a","b","c"}</code>.</td>
+                    </tr>
+                    <tr>
+                        <td><code>toCharArray()</code></td>
+                        <td><code>char[]</code></td>
+                        <td>Converts entire string to character array.</td>
+                    </tr>
+                    <tr>
+                        <td><code>valueOf(any type)</code></td>
+                        <td><code>String</code></td>
+                        <td>Static method. Converts int, double, boolean, char[], etc. to String.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="warn-box">
+            <div class="label">⚠️ String Comparison Trap: == vs .equals()</div>
+            <p>• The **`==` operator** compares **memory references (addresses)** — whether both variables point to the exact same object in memory.
+            <br>• The **`equals()` method** compares the **actual content** inside the string objects.
+            <br>E.g. `String s1 = new String("A"); String s2 = new String("A");` here `s1 == s2` is `false`, but `s1.equals(s2)` is `true`.</p>
+        </div>
+    </section>
+
+    <!-- 9. DATA CONVERSIONS -->
+    <section class="section" id="data-convert">
+        <div class="section-header">
+            <div class="section-number num-blue">9</div>
+            <h2>Data Conversions</h2>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Introduction</div>
+            <p>Java provides multiple utility methods to convert between **Strings and primitive data types**. These conversions are essential for parsing user input, processing files, and formatted output.</p>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🔄</span> String → Primitive (Parsing)</h3>
+            <ul>
+                <li><strong><code>Integer.parseInt(String s)</code></strong> — Converts a string to an <code>int</code>. Throws <code>NumberFormatException</code> if invalid.</li>
+                <li><strong><code>Double.parseDouble(String s)</code></strong> — Converts string to <code>double</code>.</li>
+                <li><strong><code>Float.parseFloat(String s)</code></strong> — Converts string to <code>float</code>.</li>
+                <li><strong><code>Long.parseLong(String s)</code></strong> — Converts string to <code>long</code>.</li>
+                <li><strong><code>Boolean.parseBoolean(String s)</code></strong> — Returns <code>true</code> only if string is <code>"true"</code> (case insensitive).</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🔄</span> Primitive → String</h3>
+            <ul>
+                <li><strong><code>String.valueOf(int/double/boolean/char[])</code></strong> — Static method that converts any primitive type to its String representation.</li>
+                <li><strong><code>Integer.toString(int n)</code></strong> — Converts int to String.</li>
+                <li><strong><code>"" + value</code></strong> — Concatenating with empty string converts any value to String.</li>
+            </ul>
+        </div>
+
+        <pre><code><span class="cm">// String to Primitive (Parsing)</span>
+<span class="kw">int</span> a = <span class="cls">Integer</span>.<span class="fn">parseInt</span>(<span class="str">"42"</span>);          <span class="cm">// 42</span>
+<span class="kw">double</span> b = <span class="cls">Double</span>.<span class="fn">parseDouble</span>(<span class="str">"3.14"</span>);  <span class="cm">// 3.14</span>
+<span class="kw">boolean</span> c = <span class="cls">Boolean</span>.<span class="fn">parseBoolean</span>(<span class="str">"true"</span>); <span class="cm">// true</span>
+
+<span class="cm">// Primitive to String</span>
+<span class="cls">String</span> s1 = <span class="cls">String</span>.<span class="fn">valueOf</span>(<span class="num">42</span>);         <span class="cm">// "42"</span>
+<span class="cls">String</span> s2 = <span class="cls">Integer</span>.<span class="fn">toString</span>(<span class="num">42</span>);       <span class="cm">// "42"</span>
+<span class="cls">String</span> s3 = <span class="str">""</span> + <span class="num">3.14</span>;                 <span class="cm">// "3.14"</span>
+<span class="cls">String</span> s4 = <span class="cls">String</span>.<span class="fn">valueOf</span>(<span class="kw">true</span>);      <span class="cm">// "true"</span>
+
+<span class="cm">// char[] to String and back</span>
+<span class="kw">char</span>[] arr = {<span class="str">'J'</span>, <span class="str">'a'</span>, <span class="str">'v'</span>, <span class="str">'a'</span>};
+<span class="cls">String</span> s5 = <span class="kw">new</span> <span class="cls">String</span>(arr);            <span class="cm">// "Java"</span>
+<span class="cls">String</span> s6 = <span class="cls">String</span>.<span class="fn">valueOf</span>(arr);        <span class="cm">// "Java"</span></code></pre>
+
+        <div class="warn-box">
+            <div class="label">⚠️ NumberFormatException Trap</div>
+            <p><code>Integer.parseInt("12.5")</code> throws <code>NumberFormatException</code> because "12.5" is not a valid integer. Use <code>Double.parseDouble()</code> for decimal values. Similarly, <code>Integer.parseInt("abc")</code> throws the same exception.</p>
+        </div>
+    </section>
+
+    <!-- 10. STRINGBUFFER CLASS -->
+    <section class="section" id="stringbuffer">
+        <div class="section-header">
+            <div class="section-number num-blue">10</div>
+            <h2>StringBuffer Class &amp; Dynamic Reallocation Mechanics</h2>
+            <span class="pyq-tag">MSRIT SEE '24</span>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definition</div>
+            <p>A <strong>StringBuffer</strong> represents a mutable, thread-safe sequence of characters. Unlike <code>String</code>, it can dynamically grow, shrink, and modify its internal character arrays in-place without creating orphaned garbage objects. All its major structural methods are **synchronized**, ensuring safe access across multiple concurrent threads.</p>
+        </div>
+
+        <div class="card">
+            <h3>📈 Default Capacity &amp; Dynamic Capacity Growth Formula</h3>
+            <p>A StringBuffer manages memory using an internal character array (<code>char[] value</code>). It allocates memory dynamically according to these strict JVM rules:</p>
+            <ul>
+                <li><strong>Default Initial Capacity:</strong> If instantiated using the empty constructor (<code>new StringBuffer()</code>), it initializes with a default buffer capacity of <strong>16 characters</strong>.</li>
+                <li><strong>String-based Capacity:</strong> If instantiated with a string argument (<code>new StringBuffer("Hello")</code>), it allocates an initial capacity of <strong>16 + length of the string</strong> (e.g. 16 + 5 = 21 characters).</li>
+                <li><strong>Dynamic Growth Formula:</strong> When appending characters that exceed the current buffer limit, the JVM reallocates a larger contiguous character array on the heap. The dynamic capacity growth formula used is:
+                    <div class="diagram-box" style="margin: 10px 0; font-size: 14px; font-weight: bold; color: var(--accent-cyan);">
+                        <code>newCapacity = (oldCapacity * 2) + 2</code>
+                    </div>
+                    <em>Why this formula?</em> This amortized growth strategy ensures that a zero or small capacity buffer scales up exponentially, minimizing expensive array-copying cycles (<code>System.arraycopy()</code>) while balancing heap memory footprints.
+                </li>
+            </ul>
+        </div>
+
+        <div class="diff-table">
+            <div class="diff-table-header">⭐ Comparative Matrix: String vs StringBuffer vs StringBuilder</div>
+            <div class="table-wrap" style="border:none;border-radius:0;margin-bottom:0;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Feature Specification</th>
+                            <th>String Class</th>
+                            <th>StringBuffer Class (Java 1.0)</th>
+                            <th>StringBuilder Class (Java 5+)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Immutability</strong></td>
+                            <td style="color:var(--accent-red);">Immutable (Read-only on SCP/Heap)</td>
+                            <td style="color:var(--accent-green); font-weight:600;">Mutable (Modifiable in-place)</td>
+                            <td style="color:var(--accent-green); font-weight:600;">Mutable (Modifiable in-place)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Thread Safety</strong></td>
+                            <td style="color:var(--accent-green); font-weight:600;">Thread-Safe (Implicit via immutability)</td>
+                            <td style="color:var(--accent-green); font-weight:600;">Thread-Safe (All methods synchronized)</td>
+                            <td style="color:var(--accent-red);">Not Thread-Safe (No synchronization overhead)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Performance Speed</strong></td>
+                            <td>Slow (Frequent garbage object heap allocations)</td>
+                            <td>Medium (Safe, but introduces sync lock overhead)</td>
+                            <td style="color:var(--accent-green); font-weight:600;">Fastest (High-speed single-threaded processing)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Storage Pool</strong></td>
+                            <td>String Constant Pool (SCP) &amp; Heap</td>
+                            <td>General Heap only</td>
+                            <td>General Heap only</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>🛠️ Core StringBuffer Operations</h3>
+            <pre><code><span class="cls">StringBuffer</span> sb = <span class="kw">new</span> <span class="cls">StringBuffer</span>(<span class="str">"Hello"</span>); <span class="cm">// Init capacity: 16+5 = 21</span>
+sb.<span class="fn">append</span>(<span class="str">" World"</span>);                               <span class="cm">// sb is now "Hello World" (mutated in-place)</span>
+sb.<span class="fn">insert</span>(<span class="num">6</span>, <span class="str">"Java "</span>);                             <span class="cm">// "Hello Java World" (insert at offset index)</span>
+sb.<span class="fn">reverse</span>();                                      <span class="cm">// Reverses the characters in-place</span>
+sb.<span class="fn">delete</span>(<span class="num">0</span>, <span class="num">5</span>);                                   <span class="cm">// Deletes range of characters</span></code></pre>
+        </div>
+    </section>
+
+    <!-- 11. WRAPPERS & AUTOBOXING -->
+    <section class="section" id="wrappers">
+        <div class="section-header">
+            <div class="section-number num-blue">11</div>
+            <h2>Type Wrappers, Autoboxing &amp; Caching Traps</h2>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definitions</div>
+            <p><strong>Type Wrappers:</strong> Standard classes in the <code>java.lang</code> package (e.g. <code>Integer</code>, <code>Double</code>, <code>Character</code>, <code>Boolean</code>) that wrap primitive data types in objects, enabling them to participate in Object-based frameworks like Collections (<code>ArrayList</code>, <code>HashMap</code>).</p>
+            <p style="margin-top:10px;"><strong>Autoboxing:</strong> The automatic compilation conversion that the Java compiler inserts to convert primitive types into their matching wrapper objects (e.g., converting <code>int</code> to <code>Integer</code> via <code>Integer.valueOf()</code>).</p>
+            <p style="margin-top:10px;"><strong>Unboxing:</strong> The automatic compilation conversion from wrapper objects back to primitive types (e.g., converting <code>Integer</code> to <code>int</code> via <code>intValue()</code>).</p>
+        </div>
+
+        <div class="card">
+            <h3>🚨 The Integer Cache Gotcha (-128 to 127)</h3>
+            <p>To optimize CPU cycle and memory efficiency, Java internally caches <code>Integer</code> object instances for a specific range of values: <strong>between -128 and 127</strong> (governed by <code>Integer.IntegerCache</code>).</p>
+            
+            <div class="def-box" style="margin-top: 10px; border-left-color: var(--accent-orange);">
+                <div class="label" style="color: var(--accent-orange);">How Caching Leads to Reference Errors</div>
+                When autoboxing converts primitive integers in the cached range (e.g. <code>Integer x = 100;</code>), it calls <code>Integer.valueOf(100)</code> which returns a pre-allocated pooled reference from the internal cache. However, values **outside the [-128, 127] boundary** bypass the cache and allocate a brand new object on the Heap every single time.
+            </div>
+
+            <pre><code><span class="cls">Integer</span> a = <span class="num">127</span>;
+<span class="cls">Integer</span> b = <span class="num">127</span>;
+<span class="cls">System</span>.out.<span class="fn">println</span>(a == b); <span class="cm">// true (Both point to the same cached pool object!)</span>
+
+<span class="cls">Integer</span> c = <span class="num">128</span>;
+<span class="cls">Integer</span> d = <span class="num">128</span>;
+<span class="cls">System</span>.out.<span class="fn">println</span>(c == d); <span class="cm">// false (Values > 127 bypass cache, creating separate Heap objects!)</span>
+<span class="cls">System</span>.out.<span class="fn">println</span>(c.<span class="fn">equals</span>(d)); <span class="cm">// true (Always use .equals() for content-based comparison)</span></code></pre>
+        </div>
+    </section>
+
+    <!-- ============================== -->
+    <!-- PART B: LAMBDAS & THREADS      -->
+    <!-- ============================== -->
+    <div class="part-divider part-b"><span id="lambdas-threads">Part B — Lambdas & Concurrent Threads</span></div>
+
+    <!-- 12. LAMBDAS -->
+    <section class="section" id="lambdas">
+        <div class="section-header">
+            <div class="section-number num-purple">12</div>
+            <h2>Lambda Expressions (SAM &amp; Compilation Mechanics)</h2>
+            <span class="pyq-tag">MSRIT SEE '25</span>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definition</div>
+            <p>Introduced in <strong>Java 8</strong>, a <strong>Lambda Expression</strong> is an anonymous (nameless, classless) block of executable statements. It implements a **Functional Interface** directly, facilitating functional programming architectures in Java by treating code/behaviors as method arguments.</p>
+        </div>
+
+        <div class="card">
+            <h3>🔑 Functional Target: Single Abstract Method (SAM)</h3>
+            <p>A lambda expression cannot exist in isolation; it strictly requires a **Functional Interface** as its target type. A functional interface is any interface that declares **exactly one abstract method** (SAM). It can declare any number of <code>default</code> or <code>static</code> methods, but it must contain only one abstract signature.</p>
+        </div>
+
+        <div class="card">
+            <h3>⚡ Under the Hood: Compiling Mechanics &amp; indy</h3>
+            <p>Unlike other OOP concepts, the Java compiler does **not** compile lambda expressions into standard anonymous inner classes. Doing so would generate a distinct <code>.class</code> file on disk for every single lambda, bloating classloader footprints and slowing startup execution times.</p>
+            <div class="def-box" style="margin-top: 10px; border-left-color: var(--accent-green);">
+                <div class="label" style="color: var(--accent-green);">The invokedynamic (indy) Pipeline</div>
+                Instead, Java compiles lambdas using the <strong><code>invokedynamic</code> (indy)</strong> instruction introduced in Java 7. At runtime, the JVM uses the static bootstrap helper <code>LambdaMetafactory.metafactory()</code> to dynamically construct a call site, generating a highly optimized, lightweight dynamic class definition directly in memory.
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>📈 Compiler Type Inference &amp; Variable Capture Rules</h3>
+            <ul>
+                <li><strong>Target Type Inference:</strong> Because the lambda is assigned directly to a functional interface type, the compiler automatically infers the parameter list types. You do not need to write explicit parameter types (e.g. <code>(a, b) -> a + b</code> instead of <code>(int a, int b) -> a + b</code>). This is known as **target typing**.</li>
+                <li><strong>Effectively Final Enclosure:</strong> A lambda expression can access local variables residing in its enclosing outer block. However, the compiler enforces that captured local variables **must be final or effectively final** (meaning they are not declared final, but their value is never modified after initial assignment).
+                    <pre><code><span class="kw">int</span> factor = <span class="num">2</span>; <span class="cm">// Effectively final (not modified)</span>
+<span class="cls">NumericFunc</span> f = (n) -&gt; n * factor; <span class="cm">// Legal capture</span>
+<span class="cm">// factor = 3; // ERROR! Modifying this breaks effectively final constraint for lambda capture.</span></code></pre>
+                    <em>Why this restriction?</em> Stack variables reside on the thread stack and are destroyed when the method exits. However, the lambda instance resides on the Heap and may outlive the stack frame (e.g., in concurrent executions). The JVM handles this by creating a **copied value** of the variable for the lambda. If the stack variable could change, the two copies would lose sync.
+                </li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>⚡ Lambda Syntax</h3>
+            <p>The syntax has three parts: **parameters**, the **arrow operator (`->`)**, and the **body expression/block**.</p>
+            <pre><code><span class="cm">// Single Parameter syntax</span>
+(parameter) -&gt; expression
+
+<span class="cm">// Multiple Parameters with blocks (Block Lambda)</span>
+(p1, p2) -&gt; {
+    statements;
+    <span class="kw">return</span> val;
+}</code></pre>
+        </div>
+    </section>
+
+    <!-- 13. BLOCK LAMBDA EXPRESSIONS -->
+    <section class="section" id="block-lambda">
+        <div class="section-header">
+            <div class="section-number num-purple">13</div>
+            <h2>Block Lambda Expressions</h2>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Introduction</div>
+            <p>A **Block Lambda** is a lambda expression that contains **multiple statements** enclosed in braces <code>{ }</code>. Unlike single-expression lambdas, block lambdas require an explicit <code>return</code> statement (if the functional interface method returns a value). They are used when the lambda body needs more than one line of logic.</p>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">⚔️</span> Single Expression vs Block Lambda</h3>
+            <pre><code><span class="cm">// Single-expression lambda (implicit return)</span>
+(a, b) -&gt; a + b
+
+<span class="cm">// Block lambda (explicit return required)</span>
+(a, b) -&gt; {
+    <span class="kw">int</span> sum = a + b;
+    <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Sum is: "</span> + sum);
+    <span class="kw">return</span> sum;
+}</code></pre>
+        </div>
+
+        <div class="program-card">
+            <div class="program-header">
+                <h3>💻 Block Lambda — Factorial Calculator</h3>
+                <span class="pyq-tag">Probable 5M</span>
+            </div>
+            <div class="program-body">
+                <pre><code><span class="cm">// Functional Interface</span>
+<span class="kw">interface</span> <span class="cls">NumericFunc</span> {
+    <span class="kw">int</span> <span class="fn">func</span>(<span class="kw">int</span> n);
+}
+
+<span class="kw">public class</span> <span class="cls">BlockLambdaDemo</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cm">// Block lambda to compute factorial</span>
+        <span class="cls">NumericFunc</span> factorial = (n) -&gt; {
+            <span class="kw">int</span> result = <span class="num">1</span>;
+            <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">1</span>; i &lt;= n; i++)
+                result = result * i;
+            <span class="kw">return</span> result;  <span class="cm">// explicit return REQUIRED in block lambda</span>
+        };
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Factorial of 5: "</span> + factorial.<span class="fn">func</span>(<span class="num">5</span>));
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Factorial of 3: "</span> + factorial.<span class="fn">func</span>(<span class="num">3</span>));
+    }
+}</code></pre>
+                <div class="output-box">
+                    <div class="label">📺 Output</div>
+                    <pre><code>Factorial of 5: 120
+Factorial of 3: 6</code></pre>
+                </div>
+            </div>
+        </div>
+
+        <div class="tip-box">
+            <div class="label">💡 Key Rule</div>
+            <p>In a <strong>block lambda</strong>, if the interface method returns a value, you <strong>must use <code>return</code></strong>. In a single-expression lambda, the return is implicit. If the method returns <code>void</code>, no return is needed in either case.</p>
+        </div>
+    </section>
+
+    <!-- 14. FUNCTIONAL INTERFACES -->
+    <section class="section" id="functional">
+        <div class="section-header">
+            <div class="section-number num-purple">14</div>
+            <h2>Functional Interfaces &amp; Built-in Java APIs</h2>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definition</div>
+            <p>A <strong>Functional Interface</strong> is an interface containing **exactly one abstract method** (Single Abstract Method or SAM). It may declare multiple static or default methods, but only one abstract signature. It is annotated with <code>@FunctionalInterface</code>, which informs the compiler to generate an error if a developer accidentally attempts to add a second abstract method.</p>
+        </div>
+
+        <div class="card">
+            <h3>🛡️ Built-in Functional Interfaces (<code>java.util.function</code>)</h3>
+            <p>Java 8 introduced a comprehensive suite of pre-packaged functional interfaces to cover standard operations:</p>
+            
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Functional Interface</th>
+                            <th>Functional Method Signature</th>
+                            <th>Operation Purpose</th>
+                            <th>Practical Lambda Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong><code>Predicate&lt;T&gt;</code></strong></td>
+                            <td><code>boolean test(T t)</code></td>
+                            <td>Evaluates a logical condition on an input argument and returns a boolean value.</td>
+                            <td><code>Predicate&lt;String&gt; isLong = s -&gt; s.length() &gt; 5;</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong><code>Consumer&lt;T&gt;</code></strong></td>
+                            <td><code>void accept(T t)</code></td>
+                            <td>Accepts an argument, executes a custom side-effect action, and returns nothing.</td>
+                            <td><code>Consumer&lt;String&gt; print = s -&gt; System.out.println(s);</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong><code>Supplier&lt;T&gt;</code></strong></td>
+                            <td><code>T get()</code></td>
+                            <td>Accepts zero arguments and produces/returns an object instance of type T.</td>
+                            <td><code>Supplier&lt;Double&gt; rand = () -&gt; Math.random();</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong><code>Function&lt;T, R&gt;</code></strong></td>
+                            <td><code>R apply(T t)</code></td>
+                            <td>Accepts an argument of type T, transforms/maps it, and yields a result of type R.</td>
+                            <td><code>Function&lt;String, Integer&gt; parse = s -&gt; Integer.parseInt(s);</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="tip-box">
+            <div class="label">💡 Classic Examples in Legacy Java API</div>
+            <p>• <code>Runnable</code> (contains only <code>void run()</code>)
+            <br>• <code>Callable</code> (contains only <code>V call() throws Exception</code>)
+            <br>• <code>Comparator</code> (contains only <code>int compare(T o1, T o2)</code>)</p>
+        </div>
+    </section>
+
+    <!-- 15. THREAD MODEL -->
+    <section class="section" id="threads">
+        <div class="section-header">
+            <div class="section-number num-purple">15</div>
+            <h2>The Java Thread Model &amp; Lifecycle</h2>
+            <span class="pyq-tag">MSRIT CIE-2</span>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definition</div>
+            <p>A <strong>Thread</strong> is a lightweight, independent path of execution inside a running program. In Java, multithreading facilitates concurrent execution by spawning multiple threads that share a single common memory heap region (reducing context-switching memory overhead compared to process-level multi-tasking).</p>
+        </div>
+
+        <div class="card">
+            <h3>🔄 Strict Thread State Lifecycle Diagram</h3>
+            <p>A Java thread is governed by the JVM and OS schedulers, transiting through 6 highly structured states (defined in the enum <code>Thread.State</code>):</p>
+            
+            <div class="diagram-box" style="margin: 15px 0; text-align: center;">
+<pre style="display: inline-block; text-align: left; background: var(--bg-card); padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); font-size: 11.5px; line-height: 1.5;">
+               [ NEW ]  (Thread created via 'new Thread()')
+                  │
+                  │  t.start()
+                  ▼
+             [ RUNNABLE ] ◀──────────────┐  (Ready/Waiting for CPU time)
+               │      ▲                  │
+  Scheduler    │      │                  │  - notify() / notifyAll()
+  grants CPU   │      │  CPU relinquishes│  - Thread sleep expires
+  time slice   ▼      │  control         │  - Lock acquired
+             [ RUNNING ] ────────────────┴──┐
+               │                            │
+               │                            │ - Object.wait()
+               │ - Accessing locked block   │ - Thread.join()
+               │ - I/O wait                 │ - Thread.sleep(ms)
+               ▼                            ▼
+          [ BLOCKED ]               [ WAITING / TIMED_WAIT ]
+      (Waiting for Monitor lock)    (Sleeping or waiting on conditions)
+               │                            │
+               └──────────────┬─────────────┘
+                              │
+                              │ run() exits (or uncaught Exception)
+                              ▼
+                        [ TERMINATED ]  (Thread completes, dead)
+</pre>
+            </div>
+
+            <div style="margin-top: 10px;">
+                <h4 style="font-size: 14px; color: var(--accent-cyan); margin-bottom: 6px;">Lifecycle Transition Mechanisms:</h4>
+                <ol>
+                    <li><strong>NEW:</strong> Instantiated but <code>start()</code> not called. Occupies no CPU cycles.</li>
+                    <li><strong>RUNNABLE:</strong> Ready for execution. The OS Thread Scheduler decides when the thread transits to RUNNING via time-slicing.</li>
+                    <li><strong>BLOCKED:</strong> Suspended while waiting to acquire an **intrinsic monitor lock** held by another thread (e.g. entering a synchronized block).</li>
+                    <li><strong>WAITING:</strong> Parked indefinitely due to <code>wait()</code> or <code>join()</code>. Wakes up only when notified.</li>
+                    <li><strong>TIMED_WAITING:</strong> Parked for a designated period (e.g., <code>Thread.sleep(1000)</code>). Automatically returns to RUNNABLE when timer expires.</li>
+                    <li><strong>TERMINATED:</strong> Finished executing its <code>run()</code> block. Cannot be restarted. Calling <code>start()</code> again throws <code>IllegalThreadStateException</code>.</li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>⚙️ Thread Scheduling, Priorities &amp; Context Switching</h3>
+            <ul>
+                <li><strong>Context Switching vs. CPU Time-Slicing:</strong> Multithreading is often an illusion on single/multi-core CPUs. The OS scheduler allocates brief "time slices" (quantum) to each thread. A **Context Switch** occurs when the CPU saves the state of the active thread (program counter, registers) and loads the state of another thread. High context switching frequency creates system overhead.</li>
+                <li><strong>Thread Priorities:</strong> Java supports priority-based preemption. You can assign priorities from <code>Thread.MIN_PRIORITY</code> (1) to <code>Thread.MAX_PRIORITY</code> (10), defaulting to <code>Thread.NORM_PRIORITY</code> (5).
+                    <br><em>⚠️ Platform Dependency Gotcha:</em> Thread priorities are merely "hints" to the host OS. Some operating systems ignore priorities completely or map them differently, meaning your code must never rely on thread priorities for correct execution logic.
+                </li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>🧵 The Main Thread</h3>
+            <p>When a Java program boots, the JVM automatically spawns the **Main Thread** to execute the <code>main()</code> method. It is the root from which all worker/child threads are created. You can access and configure the main thread using static APIs:</p>
+            <pre><code><span class="cls">Thread</span> t = <span class="cls">Thread</span>.<span class="fn">currentThread</span>();
+<span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Current thread: "</span> + t.<span class="fn">getName</span>()); <span class="cm">// "main"</span>
+t.<span class="fn">setPriority</span>(<span class="cls">Thread</span>.MAX_PRIORITY);</code></pre>
+        </div>
+    </section>
+
+    <!-- 16. THREAD CREATION -->
+    <section class="section" id="thread-creation">
+        <div class="section-header">
+            <div class="section-number num-purple">16</div>
+            <h2>Creating a Thread</h2>
+            <span class="pyq-tag">⭐ 6 MARKS QUESTION</span>
+        </div>
+
+        <p>Java supports two official ways to create a concurrent thread:</p>
+        
+        <div class="diff-table" style="margin-top:10px;">
+            <div class="diff-table-header">⭐ Runnable vs Thread Class</div>
+            <div class="table-wrap" style="border:none;border-radius:0;margin-bottom:0;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Implementing Runnable Interface</th>
+                            <th>Extending Thread Class</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Class Inheritance</strong></td>
+                            <td style="color:var(--accent-green); font-weight:600;">Highly flexible — your class can still extend another parent class.</td>
+                            <td style="color:var(--accent-red);">Inflexible — your class cannot extend any other class (Java multiple inheritance limits).</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Usage</strong></td>
+                            <td>Better for decoupling task logic from the execution thread structure.</td>
+                            <td>Simpler to write for minor independent processes.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Instantiated</strong></td>
+                            <td><code>Thread t = new Thread(new MyRunnable());</code></td>
+                            <td><code>MyThread t = new MyThread();</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- 17. CREATING MULTIPLE THREADS -->
+    <section class="section" id="multi-threads">
+        <div class="section-header">
+            <div class="section-number num-purple">17</div>
+            <h2>Creating Multiple Threads</h2>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Introduction</div>
+            <p>In Java, you can create **multiple threads** that run concurrently. Each thread executes independently, and the order of execution depends on the **thread scheduler** (not the programmer). This is the foundation of multithreaded programming.</p>
+        </div>
+
+        <div class="program-card">
+            <div class="program-header">
+                <h3>💻 3 Threads Running Concurrently</h3>
+                <span class="pyq-tag">Probable 6M</span>
+            </div>
+            <div class="program-body">
+                <pre><code><span class="kw">class</span> <span class="cls">NewThread</span> <span class="kw">implements</span> <span class="cls">Runnable</span> {
+    <span class="cls">String</span> name;
+    <span class="cls">Thread</span> t;
+
+    <span class="cls">NewThread</span>(<span class="cls">String</span> threadName) {
+        name = threadName;
+        t = <span class="kw">new</span> <span class="cls">Thread</span>(<span class="kw">this</span>, name);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"New thread: "</span> + t);
+        t.<span class="fn">start</span>();  <span class="cm">// Start the thread</span>
+    }
+
+    <span class="kw">public void</span> <span class="fn">run</span>() {
+        <span class="kw">try</span> {
+            <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">5</span>; i &gt; <span class="num">0</span>; i--) {
+                <span class="cls">System</span>.out.<span class="fn">println</span>(name + <span class="str">": "</span> + i);
+                <span class="cls">Thread</span>.<span class="fn">sleep</span>(<span class="num">1000</span>);
+            }
+        } <span class="kw">catch</span> (<span class="cls">InterruptedException</span> e) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(name + <span class="str">" interrupted."</span>);
+        }
+        <span class="cls">System</span>.out.<span class="fn">println</span>(name + <span class="str">" exiting."</span>);
+    }
+}
+
+<span class="kw">public class</span> <span class="cls">MultiThreadDemo</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+        <span class="kw">new</span> <span class="cls">NewThread</span>(<span class="str">"One"</span>);    <span class="cm">// start thread 1</span>
+        <span class="kw">new</span> <span class="cls">NewThread</span>(<span class="str">"Two"</span>);    <span class="cm">// start thread 2</span>
+        <span class="kw">new</span> <span class="cls">NewThread</span>(<span class="str">"Three"</span>);  <span class="cm">// start thread 3</span>
+
+        <span class="kw">try</span> {
+            <span class="cls">Thread</span>.<span class="fn">sleep</span>(<span class="num">10000</span>); <span class="cm">// wait for threads</span>
+        } <span class="kw">catch</span> (<span class="cls">InterruptedException</span> e) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Main interrupted."</span>);
+        }
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Main thread exiting."</span>);
+    }
+}</code></pre>
+                <div class="output-box">
+                    <div class="label">📺 Output (interleaved — order may vary)</div>
+                    <pre><code>New thread: Thread[One,5,main]
+New thread: Thread[Two,5,main]
+New thread: Thread[Three,5,main]
+One: 5
+Two: 5
+Three: 5
+One: 4
+Two: 4
+Three: 4
+...
+One exiting.
+Two exiting.
+Three exiting.
+Main thread exiting.</code></pre>
+                </div>
+            </div>
+        </div>
+
+        <div class="warn-box">
+            <div class="label">⚠️ Thread Scheduling</div>
+            <p>The output order is <strong>non-deterministic</strong>. Each run may produce different interleaving because the thread scheduler decides which thread gets CPU time. You <strong>cannot predict</strong> exact execution order.</p>
+        </div>
+    </section>
+
+    <!-- 18. THREAD CONTROL -->
+    <section class="section" id="thread-control">
+        <div class="section-header">
+            <div class="section-number num-purple">18</div>
+            <h2>Thread Control: isAlive() & join()</h2>
+            <span class="pyq-tag">MSRIT SEE '23</span>
+        </div>
+
+        <div class="card">
+            <h3>🟢 isAlive() Method</h3>
+            <p>Returns `true` if the target thread is currently running or runnable; returns `false` if the thread is terminated or has not started yet.</p>
+            <pre><code><span class="kw">if</span> (threadA.<span class="fn">isAlive</span>()) {
+    <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Thread A is still running!"</span>);
+}</code></pre>
+        </div>
+
+        <div class="card">
+            <h3>🤝 join() Method</h3>
+            <p>Forces the calling thread (e.g. main thread) to **pause execution and wait** until the target thread completely finishes its work (terminates). Throws `InterruptedException`.</p>
+            <pre><code><span class="kw">try</span> {
+    threadA.<span class="fn">join</span>(); <span class="cm">// Pauses main thread until threadA dies</span>
+} <span class="kw">catch</span> (<span class="cls">InterruptedException</span> e) {
+    <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Interrupted!"</span>);
+}</code></pre>
+        </div>
+    </section>
+
+    <!-- 19. THREAD SYNCHRONIZATION -->
+    <section class="section" id="thread-sync">
+        <div class="section-header">
+            <div class="section-number num-purple">19</div>
+            <h2>Thread Synchronization (Monitors &amp; Lock Levels)</h2>
+            <span class="pyq-tag">MSRIT SEE '24</span>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definition</div>
+            <p><strong>Thread Synchronization</strong> is an access control mechanism that prevents concurrent operations from corrupting shared mutable state. It guarantees that only one thread can execute a critical section at any given moment, eliminating **race conditions** (data corruption arising from unsynchronized, interleaved execution paths).</p>
+        </div>
+
+        <div class="card">
+            <h3>🔒 Monitors &amp; Intrinsic Locks (Mutexes)</h3>
+            <p>In Java, synchronization is built around internal entities known as <strong>intrinsic locks</strong> or <strong>monitors</strong>. Every single object instantiated in the JVM Heap has an associated monitor lock automatically mapped to it. 
+            <br>When a thread attempts to enter a synchronized method or block, it must first **acquire the object's monitor lock**. If the lock is already held by another thread, the requesting thread is forced to pause execution and enter the <code>BLOCKED</code> state until the holding thread yields the lock.</p>
+        </div>
+
+        <div class="card">
+            <h3>⚔️ Instance-Level Locks vs. Class-Level Locks</h3>
+            <p>Depending on the synchronization target, the JVM distinguishes between two separate scope-locking layers:</p>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Lock Layer</th>
+                            <th>Syntax Context</th>
+                            <th>Monitor Lock Target</th>
+                            <th>Execution Boundaries</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Instance-Level Lock (Object Lock)</strong></td>
+                            <td>Non-static synchronized method or <code>synchronized(this)</code> block.</td>
+                            <td>Lock is bound to that **specific object instance** on the heap.</td>
+                            <td>Different threads can execute synchronized methods on **different object instances** concurrently. Only concurrent access to the *same* instance is blocked.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Class-Level Lock (Static Lock)</strong></td>
+                            <td>Static synchronized method or <code>synchronized(MyClass.class)</code> block.</td>
+                            <td>Lock is bound to the **<code>Class</code> object** loaded in JVM memory.</td>
+                            <td>Strictly blocks **all threads** from executing any static synchronized sections of that class across all instances globally.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>🛡️ Two Methods of Synchronization</h3>
+            <p>Java achieves synchronization using monitors (locks) via the <code>synchronized</code> keyword in two contexts:</p>
+            <ol>
+                <li style="margin-bottom: 10px;"><strong>Synchronized Methods:</strong> Declares the entire method scope as locked. It automatically acquires the object's monitor upon entry and releases it upon method completion (normal or exceptional return).
+                    <pre><code><span class="kw">synchronized void</span> <span class="fn">display</span>(<span class="cls">String</span> msg) {
+    <span class="cm">// Only one thread can execute this method at a time</span>
+}</code></pre>
+                </li>
+                <li><strong>Synchronized Statements (Blocks):</strong> Restricts locking to a precise, granular block of statements inside a method. This is far more efficient as it minimizes the critical section size, preventing unnecessary thread stalling.
+                    <pre><code><span class="kw">void</span> <span class="fn">printData</span>() {
+    <span class="kw">synchronized</span>(<span class="kw">this</span>) {
+        <span class="cm">// Only one thread can execute this block at a time</span>
+    }
+}</code></pre>
+                </li>
+            </ol>
+        </div>
+    </section>
+
+    <!-- 20. INTER-THREAD COMMUNICATION -->
+    <section class="section" id="inter-thread">
+        <div class="section-header">
+            <div class="section-number num-purple">20</div>
+            <h2>Inter-Thread Communication &amp; Spurious Wakeups</h2>
+            <span class="pyq-tag">MSRIT SEE '25</span>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definition</div>
+            <p><strong>Inter-Thread Communication</strong> is a cooperative signaling architecture allowing synchronized threads to coordinate and exchange state status without CPU-heavy polling (wasteful busy-wait loops). It uses <code>wait()</code>, <code>notify()</code>, and <code>notifyAll()</code> to suspend and resume threads cooperatively.</p>
+        </div>
+
+        <div class="card">
+            <h3>🔑 The Three Communication Methods</h3>
+            <p>These methods are declared directly inside the root <code>java.lang.Object</code> class (allowing every object to serve as a lock queue target). <strong>Crucial Compiler Rule:</strong> They **must only be called from within a synchronized context** (method or block), otherwise the JVM throws a runtime <code>IllegalMonitorStateException</code>.</p>
+            <ul>
+                <li><strong><code>wait()</code>:</strong> Forces the calling thread to instantly **release its monitor lock atomically** and go to sleep in the object's wait set. It remains suspended until another thread calls <code>notify()</code> or <code>notifyAll()</code> on the same object monitor.</li>
+                <li><strong><code>notify()</code>:</strong> Wakes up a single arbitrary thread waiting on that object's monitor. The woken thread moves back to the <code>RUNNABLE</code> queue but must re-acquire the monitor lock before resuming.</li>
+                <li><strong><code>notifyAll()</code>:</strong> Wakes up all threads waiting on that object's monitor. This is highly recommended over <code>notify()</code> to prevent deadlocks from lost signals.</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>🚨 The Spurious Wakeup Gotcha: The Golden Loop Check Rule</h3>
+            <p>A waiting thread can occasionally wake up from its <code>wait()</code> state without any explicit notification or interrupt signal. This is a hardware/OS-level optimization side-effect known as a **Spurious Wakeup**.</p>
+            <div class="def-box" style="margin-top: 10px; border-left-color: var(--accent-red);">
+                <div class="label" style="color: var(--accent-red);">The Golden Rule of wait()</div>
+                To guarantee correct program state and prevent spurious wakeups from executing invalid code, you **must always call wait() inside a conditional while-loop**, NEVER a simple <code>if</code> statement!
+            </div>
+            
+            <div style="margin-top: 15px;">
+                <h4 style="font-size: 14px; color: var(--accent-cyan); margin-bottom: 8px;">Correct Condition Check Pattern:</h4>
+                <pre><code><span class="kw">synchronized</span>(lockObj) {
+    <span class="cm">// ALWAYS check condition inside a loop!</span>
+    <span class="kw">while</span> (!conditionRealized) {
+        lockObj.<span class="fn">wait</span>(); <span class="cm">// Releases lock, sleeps, and re-checks condition upon wakeup</span>
+    }
+    <span class="cm">// Safe to perform critical operations here</span>
+}</code></pre>
+                <p style="font-size: 13.5px; margin-top: 6px;"><em>Why?</em> If you used an <code>if</code> block, a spurious wakeup would bypass the condition validation and execute subsequent logic even if the condition is still false, leading to index out-of-bounds, null pointers, or direct data corruption.</p>
+            </div>
+        </div>
+
+        <div class="tip-box">
+            <div class="label">💡 Why are wait/notify in Object and not in Thread?</div>
+            <p>Because monitor locks in Java are associated with **Objects**, not individual threads. Since every Java object contains a header capable of acting as a monitor lock, these methods naturally reside in the <code>Object</code> base class to manage object-level lock queues.</p>
+        </div>
+    </section>
+
+    <!-- 21. SAFE THREAD CONTROL -->
+    <section class="section" id="safe-control">
+        <div class="section-header">
+            <div class="section-number num-purple">21</div>
+            <h2>Safe Thread Control</h2>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definition</div>
+            <p>Historically, Java used the <code>suspend()</code>, <code>resume()</code>, and <code>stop()</code> methods of the <code>Thread</code> class to control execution. However, these methods are **deprecated** and must not be used because they are highly unsafe and easily cause **deadlocks**.</p>
+        </div>
+
+        <div class="card">
+            <h3>🚨 The Deadlock Risk of Deprecated Methods</h3>
+            <ul>
+                <li><strong>suspend():</strong> Pauses thread execution. **Crucial Gotcha:** The suspended thread keeps all its locks! If the thread holding a lock is suspended, no other thread can ever acquire that lock, causing permanent deadlocks.</li>
+                <li><strong>stop():</strong> Abruptly terminates the thread. This instantly releases all its locks, which can leave shared objects in an inconsistent or corrupted state.</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>🛡️ Modern, Safe Thread Control Pattern</h3>
+            <p>The correct, modern approach is to use **boolean flags** inside the thread to determine its status. The thread checks these flags periodically, and suspends itself cleanly using <code>wait()</code> or terminates by returning from the <code>run()</code> method:</p>
+            <pre><code><span class="kw">class</span> <span class="cls">SafeThread</span> <span class="kw">implements</span> <span class="cls">Runnable</span> {
+    <span class="kw">boolean</span> suspendFlag = <span class="kw">false</span>;
+    <span class="kw">boolean</span> stopFlag = <span class="kw">false</span>;
+
+    <span class="kw">public synchronized void</span> <span class="fn">run</span>() {
+        <span class="kw">while</span> (!stopFlag) {
+            <span class="kw">synchronized</span>(<span class="kw">this</span>) {
+                <span class="kw">while</span> (suspendFlag) {
+                    <span class="fn">wait</span>(); <span class="cm">// Safe suspension</span>
+                }
+            }
+        }
+    }
+    
+    <span class="kw">public synchronized void</span> <span class="fn">mysuspend</span>() { suspendFlag = <span class="kw">true</span>; }
+    <span class="kw">public synchronized void</span> <span class="fn">myresume</span>() { suspendFlag = <span class="kw">false</span>; <span class="fn">notify</span>(); }
+    <span class="kw">public synchronized void</span> <span class="fn">mystop</span>() { stopFlag = <span class="kw">true</span>; suspendFlag = <span class="kw">false</span>; <span class="fn">notify</span>(); }
+}</code></pre>
+        </div>
+    </section>
+
+    <!-- ============================== -->
+    <!-- PROGRAMS SECTION               -->
+    <!-- ============================== -->
+    <section class="section" id="programs">
+        <div class="part-divider part-a"><span>Exhaustive Program Walkthroughs</span></div>
+
+        <!-- PROGRAM 1 -->
+        <div class="program-card">
+            <div class="program-header">
+                <h3>1. Thread Creation: Runnable vs Thread Class</h3>
+                <span class="badge badge-imp">6 MARKS</span>
+            </div>
+            <div class="program-body">
+                <p>Demonstrates creating child threads concurrently using both official Java techniques.</p>
+<pre><code><span class="cm">// Method A: Extending Thread Class</span>
+<span class="kw">class</span> <span class="cls">MyThread</span> <span class="kw">extends</span> <span class="cls">Thread</span> {
+    <span class="annotation">@Override</span>
+    <span class="kw">public void</span> <span class="fn">run</span>() {
+        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">1</span>; i &lt;= <span class="num">3</span>; i++) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="cls">Thread</span>.<span class="fn">currentThread</span>().<span class="fn">getName</span>() + <span class="str">": "</span> + i);
+            <span class="kw">try</span> { <span class="cls">Thread</span>.<span class="fn">sleep</span>(<span class="num">200</span>); } <span class="kw">catch</span> (<span class="cls">Exception</span> e) {}
+        }
+    }
+}
+
+<span class="cm">// Method B: Implementing Runnable</span>
+<span class="kw">class</span> <span class="cls">MyRunnable</span> <span class="kw">implements</span> <span class="cls">Runnable</span> {
+    <span class="annotation">@Override</span>
+    <span class="kw">public void</span> <span class="fn">run</span>() {
+        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">1</span>; i &lt;= <span class="num">3</span>; i++) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="cls">Thread</span>.<span class="fn">currentThread</span>().<span class="fn">getName</span>() + <span class="str">": "</span> + i);
+            <span class="kw">try</span> { <span class="cls">Thread</span>.<span class="fn">sleep</span>(<span class="num">200</span>); } <span class="kw">catch</span> (<span class="cls">Exception</span> e) {}
+        }
+    }
+}
+
+<span class="kw">public class</span> <span class="cls">ConcurrencyDemo</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+        <span class="cls">MyThread</span> t1 = <span class="kw">new</span> <span class="cls">MyThread</span>();
+        t1.<span class="fn">setName</span>(<span class="str">"ThreadExtends"</span>);
+
+        <span class="cls">Thread</span> t2 = <span class="kw">new</span> <span class="cls">Thread</span>(<span class="kw">new</span> <span class="cls">MyRunnable</span>());
+        t2.<span class="fn">setName</span>(<span class="str">"ThreadRunnable"</span>);
+
+        t1.<span class="fn">start</span>(); <span class="cm">// start the threads concurrently</span>
+        t2.<span class="fn">start</span>();
+    }
+}</code></pre>
+            </div>
+        </div>
+
+        <!-- PROGRAM 2 -->
+        <div class="program-card">
+            <div class="program-header">
+                <h3>2. Thread Coordination using isAlive() and join()</h3>
+                <span class="badge badge-imp">6 MARKS</span>
+            </div>
+            <div class="program-body">
+                <p>Demonstrates how the main thread coordinates and waits for concurrent child threads using `isAlive()` and `join()` methods.</p>
+<pre><code><span class="kw">public class</span> <span class="cls">ThreadJoinDemo</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+        <span class="cls">Thread</span> child = <span class="kw">new</span> <span class="cls">Thread</span>(() -&gt; {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Child thread working..."</span>);
+            <span class="kw">try</span> { <span class="cls">Thread</span>.<span class="fn">sleep</span>(<span class="num">500</span>); } <span class="kw">catch</span> (<span class="cls">Exception</span> e) {}
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Child thread complete!"</span>);
+        });
+
+        child.<span class="fn">start</span>();
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Is child alive? "</span> + child.<span class="fn">isAlive</span>());
+
+        <span class="kw">try</span> {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Waiting for child to finish..."</span>);
+            child.<span class="fn">join</span>(); <span class="cm">// Main thread block-waits here</span>
+        } <span class="kw">catch</span> (<span class="cls">InterruptedException</span> e) {
+            e.<span class="fn">printStackTrace</span>();
+        }
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Is child alive? "</span> + child.<span class="fn">isAlive</span>());
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Main thread executes exit."</span>);
+    }
+}</code></pre>
+                <div class="output-box">
+                    <div class="label">Program Output</div>
+                    <pre><code>Is child alive? true
+Waiting for child to finish...
+Child thread working...
+Child thread complete!
+Is child alive? false
+Main thread executes exit.</code></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- PROGRAM 3 -->
+        <div class="program-card">
+            <div class="program-header">
+                <h3>3. Lambda Expressions & Block Lambdas</h3>
+                <span class="badge badge-imp">6 MARKS</span>
+            </div>
+            <div class="program-body">
+                <p>Demonstrates a single abstract method interface, single-line lambda expression, and multi-statement Block Lambda expressions.</p>
+<pre><code><span class="annotation">@FunctionalInterface</span>
+<span class="kw">interface</span> <span class="cls">NumericTest</span> {
+    <span class="kw">boolean</span> <span class="fn">test</span>(<span class="kw">int</span> n);
+}
+
+<span class="annotation">@FunctionalInterface</span>
+<span class="kw">interface</span> <span class="cls">FactorialCalculator</span> {
+    <span class="kw">int</span> <span class="fn">fact</span>(<span class="kw">int</span> n);
+}
+
+<span class="kw">public class</span> <span class="cls">LambdaDemo</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+        <span class="cm">// 1. Single-line expression lambda</span>
+        <span class="cls">NumericTest</span> isEven = (n) -&gt; (n % <span class="num">2</span>) == <span class="num">0</span>;
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Is 14 even? "</span> + isEven.<span class="fn">test</span>(<span class="num">14</span>));
+
+        <span class="cm">// 2. Block lambda (multi-statement)</span>
+        <span class="cls">FactorialCalculator</span> factorial = (n) -&gt; {
+            <span class="kw">int</span> result = <span class="num">1</span>;
+            <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">1</span>; i &lt;= n; i++) {
+                result *= i;
+            }
+            <span class="kw">return</span> result;
+        };
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Factorial of 5: "</span> + factorial.<span class="fn">fact</span>(<span class="num">5</span>));
+    }
+}</code></pre>
+                <div class="output-box">
+                    <div class="label">Program Output</div>
+                    <pre><code>Is 14 even? true
+Factorial of 5: 120</code></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- PROGRAM 4 -->
+        <div class="program-card">
+            <div class="program-header">
+                <h3>4. Thread Synchronization (Synchronized Method &amp; Block)</h3>
+                <span class="badge badge-imp">6 MARKS</span>
+            </div>
+            <div class="program-body">
+                <p>Demonstrates how the `synchronized` keyword prevents thread race conditions by letting only one thread access the shared resource at a time.</p>
+<pre><code><span class="kw">class</span> <span class="cls">CallMe</span> {
+    <span class="cm">// Synchronized method lock</span>
+    <span class="kw">synchronized void</span> <span class="fn">call</span>(<span class="cls">String</span> msg) {
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"["</span> + msg);
+        <span class="kw">try</span> {
+            <span class="cls">Thread</span>.<span class="fn">sleep</span>(<span class="num">1000</span>);
+        } <span class="kw">catch</span> (<span class="cls">InterruptedException</span> e) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Interrupted"</span>);
+        }
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"]"</span>);
+    }
+}
+
+<span class="kw">class</span> <span class="cls">Caller</span> <span class="kw">implements</span> <span class="cls">Runnable</span> {
+    <span class="cls">String</span> msg;
+    <span class="cls">CallMe</span> target;
+    <span class="cls">Thread</span> t;
+
+    <span class="cls">Caller</span>(<span class="cls">CallMe</span> targ, <span class="cls">String</span> s) {
+        target = targ;
+        msg = s;
+        t = <span class="kw">new</span> <span class="cls">Thread</span>(<span class="kw">this</span>);
+        t.<span class="fn">start</span>();
+    }
+
+    <span class="kw">public void</span> <span class="fn">run</span>() {
+        <span class="cm">// Method A: Calling target.call() directly (internally synchronized method)</span>
+        target.<span class="fn">call</span>(msg);
+        
+        <span class="cm">/* 
+           Method B (Alternative using Synchronized Block):
+           synchronized(target) {
+               target.call(msg);
+           }
+        */</span>
+    }
+}
+
+<span class="kw">public class</span> <span class="cls">SynchDemo</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+        <span class="cls">CallMe</span> target = <span class="kw">new</span> <span class="cls">CallMe</span>();
+        <span class="cls">Caller</span> ob1 = <span class="kw">new</span> <span class="cls">Caller</span>(target, <span class="str">"Hello"</span>);
+        <span class="cls">Caller</span> ob2 = <span class="kw">new</span> <span class="cls">Caller</span>(target, <span class="str">"Synchronized"</span>);
+        <span class="cls">Caller</span> ob3 = <span class="kw">new</span> <span class="cls">Caller</span>(target, <span class="str">"World"</span>);
+
+        <span class="kw">try</span> {
+            ob1.t.<span class="fn">join</span>();
+            ob2.t.<span class="fn">join</span>();
+            ob3.t.<span class="fn">join</span>();
+        } <span class="kw">catch</span> (<span class="cls">InterruptedException</span> e) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Main Interrupted"</span>);
+        }
+    }
+}</code></pre>
+                <div class="output-box">
+                    <div class="label">Program Output (Guaranteed Clean Order)</div>
+                    <pre><code>[Hello]
+[Synchronized]
+[World]</code></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- PROGRAM 5 -->
+        <div class="program-card">
+            <div class="program-header">
+                <h3>5. Inter-Thread Communication (Producer-Consumer)</h3>
+                <span class="badge badge-imp">6 MARKS</span>
+            </div>
+            <div class="program-body">
+                <p>Demonstrates proper lock coordination between a Producer thread and a Consumer thread using standard `wait()` and `notify()` blocks inside a synchronized queue.</p>
+<pre><code><span class="kw">class</span> <span class="cls">Queue</span> {
+    <span class="kw">int</span> n;
+    <span class="kw">boolean</span> valueSet = <span class="kw">false</span>;
+
+    <span class="kw">synchronized int</span> <span class="fn">get</span>() {
+        <span class="kw">while</span> (!valueSet) {
+            <span class="kw">try</span> {
+                <span class="fn">wait</span>(); <span class="cm">// Wait until producer puts a value</span>
+            } <span class="kw">catch</span> (<span class="cls">InterruptedException</span> e) {}
+        }
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Got: "</span> + n);
+        valueSet = <span class="kw">false</span>;
+        <span class="fn">notify</span>(); <span class="cm">// Notify producer that queue is empty</span>
+        <span class="kw">return</span> n;
+    }
+
+    <span class="kw">synchronized void</span> <span class="fn">put</span>(<span class="kw">int</span> n) {
+        <span class="kw">while</span> (valueSet) {
+            <span class="kw">try</span> {
+                <span class="fn">wait</span>(); <span class="cm">// Wait until consumer gets the value</span>
+            } <span class="kw">catch</span> (<span class="cls">InterruptedException</span> e) {}
+        }
+        <span class="kw">this</span>.n = n;
+        valueSet = <span class="kw">true</span>;
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Put: "</span> + n);
+        <span class="fn">notify</span>(); <span class="cm">// Notify consumer that a value is ready</span>
+    }
+}
+
+<span class="kw">class</span> <span class="cls">Producer</span> <span class="kw">implements</span> <span class="cls">Runnable</span> {
+    <span class="cls">Queue</span> q;
+    <span class="cls">Producer</span>(<span class="cls">Queue</span> q) {
+        <span class="kw">this</span>.q = q;
+        <span class="kw">new</span> <span class="cls">Thread</span>(<span class="kw">this</span>, <span class="str">"Producer"</span>).<span class="fn">start</span>();
+    }
+    <span class="kw">public void</span> <span class="fn">run</span>() {
+        <span class="kw">int</span> i = <span class="num">0</span>;
+        <span class="kw">while</span> (i &lt; <span class="num">5</span>) {
+            q.<span class="fn">put</span>(++i);
+        }
+    }
+}
+
+<span class="kw">class</span> <span class="cls">Consumer</span> <span class="kw">implements</span> <span class="cls">Runnable</span> {
+    <span class="cls">Queue</span> q;
+    <span class="cls">Consumer</span>(<span class="cls">Queue</span> q) {
+        <span class="kw">this</span>.q = q;
+        <span class="kw">new</span> <span class="cls">Thread</span>(<span class="kw">this</span>, <span class="str">"Consumer"</span>).<span class="fn">start</span>();
+    }
+    <span class="kw">public void</span> <span class="fn">run</span>() {
+        <span class="kw">int</span> i = <span class="num">0</span>;
+        <span class="kw">while</span> (i &lt; <span class="num">5</span>) {
+            q.<span class="fn">get</span>();
+            i++;
+        }
+    }
+}
+
+<span class="kw">public class</span> <span class="cls">ProdConsDemo</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+        <span class="cls">Queue</span> q = <span class="kw">new</span> <span class="cls">Queue</span>();
+        <span class="kw">new</span> <span class="cls">Producer</span>(q);
+        <span class="kw">new</span> <span class="cls">Consumer</span>(q);
+    }
+}</code></pre>
+                <div class="output-box">
+                    <div class="label">Program Output (Coordinated Handshake)</div>
+                    <pre><code>Put: 1
+Got: 1
+Put: 2
+Got: 2
+Put: 3
+Got: 3
+...</code></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- PROGRAM 6 -->
+        <div class="program-card">
+            <div class="program-header">
+                <h3>6. Safe Thread Control (Modern suspend, resume, stop)</h3>
+                <span class="badge badge-imp">6 MARKS</span>
+            </div>
+            <div class="program-body">
+                <p>Demonstrates safely suspending, resuming, and stopping a thread without deprecation risks by implementing state check flags inside synchronized methods.</p>
+<pre><code><span class="kw">class</span> <span class="cls">MySafeThread</span> <span class="kw">implements</span> <span class="cls">Runnable</span> {
+    <span class="cls">String</span> name;
+    <span class="cls">Thread</span> t;
+    <span class="kw">boolean</span> suspendFlag;
+    <span class="kw">boolean</span> stopFlag;
+
+    <span class="cls">MySafeThread</span>(<span class="cls">String</span> threadName) {
+        name = threadName;
+        t = <span class="kw">new</span> <span class="cls">Thread</span>(<span class="kw">this</span>, name);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"New thread: "</span> + t);
+        suspendFlag = <span class="kw">false</span>;
+        stopFlag = <span class="kw">false</span>;
+        t.<span class="fn">start</span>();
+    }
+
+    <span class="kw">public void</span> <span class="fn">run</span>() {
+        <span class="kw">try</span> {
+            <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">5</span>; i &gt; <span class="num">0</span>; i--) {
+                <span class="cls">System</span>.out.<span class="fn">println</span>(name + <span class="str">": "</span> + i);
+                <span class="cls">Thread</span>.<span class="fn">sleep</span>(<span class="num">500</span>);
+                <span class="kw">synchronized</span> (<span class="kw">this</span>) {
+                    <span class="kw">while</span> (suspendFlag) {
+                        <span class="fn">wait</span>(); <span class="cm">// Safe suspension release</span>
+                    }
+                    <span class="kw">if</span> (stopFlag) <span class="kw">break</span>; <span class="cm">// Safe exit</span>
+                }
+            }
+        } <span class="kw">catch</span> (<span class="cls">InterruptedException</span> e) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(name + <span class="str">" interrupted."</span>);
+        }
+        <span class="cls">System</span>.out.<span class="fn">println</span>(name + <span class="str">" exiting."</span>);
+    }
+
+    <span class="kw">synchronized void</span> <span class="fn">mysuspend</span>() { suspendFlag = <span class="kw">true</span>; }
+    
+    <span class="kw">synchronized void</span> <span class="fn">myresume</span>() {
+        suspendFlag = <span class="kw">false</span>;
+        <span class="fn">notify</span>(); <span class="cm">// Wake up thread from wait()</span>
+    }
+    
+    <span class="kw">synchronized void</span> <span class="fn">mystop</span>() {
+        stopFlag = <span class="kw">true</span>;
+        suspendFlag = <span class="kw">false</span>;
+        <span class="fn">notify</span>();
+    }
+}
+
+<span class="kw">public class</span> <span class="cls">SafeControlDemo</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+        <span class="cls">MySafeThread</span> ob1 = <span class="kw">new</span> <span class="cls">MySafeThread</span>(<span class="str">"SafeThread"</span>);
+        
+        <span class="kw">try</span> {
+            <span class="cls">Thread</span>.<span class="fn">sleep</span>(<span class="num">1000</span>);
+            
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Suspending thread..."</span>);
+            ob1.<span class="fn">mysuspend</span>();
+            
+            <span class="cls">Thread</span>.<span class="fn">sleep</span>(<span class="num">1000</span>);
+            
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Resuming thread..."</span>);
+            ob1.<span class="fn">myresume</span>();
+            
+            <span class="cls">Thread</span>.<span class="fn">sleep</span>(<span class="num">1000</span>);
+            
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Stopping thread..."</span>);
+            ob1.<span class="fn">mystop</span>();
+        } <span class="kw">catch</span> (<span class="cls">InterruptedException</span> e) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Main thread interrupted."</span>);
+        }
+    }
+}</code></pre>
+                <div class="output-box">
+                    <div class="label">Program Output (Controlled Execution)</div>
+                    <pre><code>New thread: Thread[SafeThread,5,main]
+SafeThread: 5
+SafeThread: 4
+Suspending thread...
+(no output for 1 sec)
+Resuming thread...
+SafeThread: 3
+SafeThread: 2
+Stopping thread...
+SafeThread exiting.</code></pre>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================== -->
+    <!-- VIVA QUESTIONS                 -->
+    <!-- ============================== -->
+    <section class="section" id="viva">
+        <div class="part-divider part-b"><span>Top 10 Viva/Interview Questions</span></div>
+        <div class="card">
+            <ul class="viva-list">
+                <li><strong>What is the difference between String and StringBuffer?</strong> String is immutable (any operation creates a new object). StringBuffer is mutable (modifies in-place) and thread-safe (synchronized methods).</li>
+                <li><strong>What is the String Constant Pool (SCP)?</strong> A special memory zone inside the Java Heap designed to store unique string literals, optimizing memory reuse and reducing allocations.</li>
+                <li><strong>What is autoboxing and unboxing?</strong> Autoboxing is the automatic translation of primitive values to wrapper classes (e.g. `int` to `Integer`). Unboxing is the reverse (wrapper class to primitive).</li>
+                <li><strong>What is a functional interface?</strong> An interface with exactly one abstract method. It acts as the contract signature for Lambda Expressions.</li>
+                <li><strong>What is the purpose of the `@FunctionalInterface` annotation?</strong> It tells the compiler to verify that the annotated interface has exactly one abstract method, returning a compilation error if not.</li>
+                <li><strong>How does multithreading improve performance?</strong> By allowing concurrent executions of tasks, preventing CPU blocking (e.g. while waiting for I/O operations), and efficiently sharing JVM process memory.</li>
+                <li><strong>What is the difference between Runnable and Thread?</strong> Runnable is an interface containing only `run()`. Thread is a concrete class implementing Runnable. Implementing Runnable is preferred because it leaves the class free to inherit from another class.</li>
+                <li><strong>What does the join() method do?</strong> It blocks the executing thread (usually the main thread) until the target thread completely finishes its task.</li>
+                <li><strong>Does start() execute synchronously?</strong> No. Calling `start()` registers the thread with the OS/JVM scheduler and returns immediately. The thread runs asynchronously when scheduled.</li>
+                <li><strong>What is thread synchronization?</strong> A mechanism to prevent multiple threads from accessing shared resources concurrently (race condition), using `synchronized` blocks or methods.</li>
+            </ul>
+        </div>
+    </section>
+
+</div>
+
+<!-- Back to Top -->
+<button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+    // Back to top behavior
+    window.addEventListener('scroll', () => {
+        const btn = document.getElementById('backToTop');
+        btn.classList.toggle('visible', window.scrollY > 400);
+    });
+
+    // Active link highlighting via observer
+    const sections = document.querySelectorAll('.section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                navLinks.forEach(l => l.classList.remove('active'));
+                const activeLink = document.querySelector(`.nav-link[href="#${entry.target.id}"]`);
+                if (activeLink) activeLink.classList.add('active');
+            }
+        });
+    }, { rootMargin: '-20% 0px -70% 0px' });
+    sections.forEach(s => observer.observe(s));
+
+    // Mobile sidebar auto-close
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            if (window.innerWidth <= 900) {
+                document.getElementById('sidebar').classList.remove('open');
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

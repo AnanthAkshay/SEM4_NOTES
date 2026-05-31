@@ -1,0 +1,1793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit 1 — Java Basics & Exception Handling Exam Notes</title>
+    <meta name="description" content="Complete internal exam notes for Advanced Java Unit 1: OOP Basics, Inheritance, Packages, Interfaces, Exception Handling">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* ===== CSS RESET & ROOT ===== */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-primary: #0a0e1a;
+            --bg-secondary: #111827;
+            --bg-card: #1a2234;
+            --bg-card-hover: #1e2a40;
+            --bg-code: #0d1117;
+            --bg-inlinecode: #1e293b;
+            --text-primary: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --accent-blue: #3b82f6;
+            --accent-purple: #8b5cf6;
+            --accent-cyan: #06b6d4;
+            --accent-green: #10b981;
+            --accent-orange: #f59e0b;
+            --accent-red: #ef4444;
+            --accent-pink: #ec4899;
+            --border-color: #1e293b;
+            --border-accent: #2d3a52;
+            --gradient-1: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            --gradient-2: linear-gradient(135deg, #06b6d4, #3b82f6);
+            --gradient-3: linear-gradient(135deg, #8b5cf6, #ec4899);
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+            --shadow-md: 0 4px 14px rgba(0,0,0,0.4);
+            --shadow-lg: 0 10px 40px rgba(0,0,0,0.5);
+            --shadow-glow: 0 0 30px rgba(59,130,246,0.15);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 15px;
+            overflow-x: hidden;
+        }
+
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-primary); }
+        ::-webkit-scrollbar-thumb { background: var(--border-accent); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent-blue); }
+
+        /* ===== ANIMATED BACKGROUND ===== */
+        .bg-glow {
+            position: fixed;
+            top: -200px;
+            right: -200px;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(59,130,246,0.08) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+            animation: floatGlow 20s ease-in-out infinite;
+        }
+        .bg-glow-2 {
+            position: fixed;
+            bottom: -200px;
+            left: -200px;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(139,92,246,0.06) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+            animation: floatGlow 25s ease-in-out infinite reverse;
+        }
+        @keyframes floatGlow {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(50px, 30px); }
+        }
+
+        /* ===== SIDEBAR NAV ===== */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 280px;
+            height: 100vh;
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border-color);
+            padding: 24px 0;
+            overflow-y: auto;
+            z-index: 100;
+            transition: transform 0.3s ease;
+        }
+        .sidebar-header {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 12px;
+        }
+        .sidebar-header h2 {
+            font-size: 16px;
+            font-weight: 700;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .sidebar-header p {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+        .nav-section {
+            padding: 8px 16px 4px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-muted);
+        }
+        .nav-link {
+            display: block;
+            padding: 7px 20px 7px 24px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+        }
+        .nav-link:hover {
+            color: var(--accent-blue);
+            background: rgba(59,130,246,0.05);
+            border-left-color: var(--accent-blue);
+        }
+        .nav-link.active {
+            color: var(--accent-blue);
+            background: rgba(59,130,246,0.08);
+            border-left-color: var(--accent-blue);
+            font-weight: 500;
+        }
+        .badge {
+            display: inline-block;
+            font-size: 9px;
+            padding: 1px 6px;
+            border-radius: 10px;
+            margin-left: 6px;
+            font-weight: 600;
+            vertical-align: middle;
+        }
+        .badge-pyq { background: rgba(239,68,68,0.15); color: var(--accent-red); }
+        .badge-imp { background: rgba(245,158,11,0.15); color: var(--accent-orange); }
+
+        /* ===== MOBILE TOGGLE ===== */
+        .sidebar-toggle {
+            display: none;
+            position: fixed;
+            top: 16px;
+            left: 16px;
+            z-index: 200;
+            background: var(--bg-card);
+            border: 1px solid var(--border-accent);
+            color: var(--text-primary);
+            width: 42px;
+            height: 42px;
+            border-radius: var(--radius-sm);
+            font-size: 20px;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .main {
+            margin-left: 280px;
+            padding: 40px 48px 100px;
+            max-width: 960px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ===== HERO HEADER ===== */
+        .hero {
+            text-align: center;
+            padding: 56px 32px;
+            background: linear-gradient(135deg, rgba(59,130,246,0.1), rgba(139,92,246,0.1));
+            border: 1px solid var(--border-accent);
+            border-radius: var(--radius-xl);
+            margin-bottom: 48px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: var(--gradient-1);
+        }
+        .hero .unit-badge {
+            display: inline-block;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--accent-cyan);
+            background: rgba(6,182,212,0.1);
+            padding: 6px 16px;
+            border-radius: 20px;
+            border: 1px solid rgba(6,182,212,0.2);
+            margin-bottom: 16px;
+        }
+        .hero h1 {
+            font-size: 36px;
+            font-weight: 900;
+            letter-spacing: -1px;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 12px;
+        }
+        .hero p {
+            color: var(--text-secondary);
+            font-size: 16px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        /* ===== PART DIVIDER ===== */
+        .part-divider {
+            text-align: center;
+            margin: 64px 0 40px;
+            position: relative;
+        }
+        .part-divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0; right: 0;
+            height: 1px;
+            background: var(--border-accent);
+        }
+        .part-divider span {
+            position: relative;
+            display: inline-block;
+            background: var(--bg-primary);
+            padding: 8px 28px;
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            border: 1px solid var(--border-accent);
+            border-radius: 30px;
+        }
+        .part-divider.part-a span { color: var(--accent-cyan); border-color: rgba(6,182,212,0.3); }
+        .part-divider.part-b span { color: var(--accent-purple); border-color: rgba(139,92,246,0.3); }
+
+        /* ===== SECTION (TOPIC) ===== */
+        .section {
+            margin-bottom: 48px;
+            scroll-margin-top: 24px;
+        }
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 20px;
+        }
+        .section-number {
+            flex-shrink: 0;
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            font-weight: 800;
+            border-radius: 10px;
+            color: #fff;
+        }
+        .num-blue { background: var(--gradient-2); }
+        .num-purple { background: var(--gradient-3); }
+        .num-green { background: linear-gradient(135deg, #10b981, #06b6d4); }
+        .section-header h2 {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        /* ===== CARDS ===== */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            margin-bottom: 20px;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .card:hover {
+            border-color: var(--border-accent);
+            box-shadow: var(--shadow-md);
+        }
+        .card h3 {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .card h3 .icon { font-size: 18px; }
+        .card p, .card li {
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+        }
+        .card ul { padding-left: 20px; list-style: none; }
+        .card ul li::before {
+            content: '▸';
+            color: var(--accent-blue);
+            font-weight: bold;
+            margin-right: 8px;
+        }
+        .card ol { padding-left: 20px; }
+        .card ol li { color: var(--text-secondary); margin-bottom: 4px; }
+
+        /* ===== DEFINITION BOX ===== */
+        .def-box {
+            background: linear-gradient(135deg, rgba(59,130,246,0.06), rgba(139,92,246,0.06));
+            border: 1px solid rgba(59,130,246,0.15);
+            border-radius: var(--radius-md);
+            padding: 20px 24px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--accent-blue);
+        }
+        .def-box .label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--accent-blue);
+            margin-bottom: 6px;
+        }
+        .def-box p {
+            color: var(--text-primary);
+            font-size: 15px;
+        }
+
+        /* ===== EXAM TIP BOX ===== */
+        .tip-box {
+            background: rgba(16,185,129,0.06);
+            border: 1px solid rgba(16,185,129,0.15);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            margin-bottom: 16px;
+            border-left: 4px solid var(--accent-green);
+        }
+        .tip-box .label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--accent-green);
+            margin-bottom: 4px;
+        }
+        .tip-box p { color: var(--text-secondary); font-size: 14px; }
+
+        /* ===== WARNING BOX ===== */
+        .warn-box {
+            background: rgba(245,158,11,0.06);
+            border: 1px solid rgba(245,158,11,0.15);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            margin-bottom: 16px;
+            border-left: 4px solid var(--accent-orange);
+        }
+        .warn-box .label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--accent-orange);
+            margin-bottom: 4px;
+        }
+        .warn-box p { color: var(--text-secondary); font-size: 14px; }
+
+        /* ===== PYQ TAG ===== */
+        .pyq-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--accent-red);
+            background: rgba(239,68,68,0.1);
+            border: 1px solid rgba(239,68,68,0.2);
+            padding: 3px 10px;
+            border-radius: 20px;
+            margin-left: 8px;
+        }
+
+        /* ===== TABLES ===== */
+        .table-wrap {
+            overflow-x: auto;
+            margin-bottom: 20px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13.5px;
+        }
+        thead th {
+            background: var(--bg-card);
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 700;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--text-secondary);
+            border-bottom: 2px solid var(--border-accent);
+        }
+        tbody td {
+            padding: 10px 16px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+        tbody tr:hover { background: rgba(59,130,246,0.03); }
+        tbody tr:last-child td { border-bottom: none; }
+        td code, th code {
+            background: var(--bg-inlinecode);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        /* ===== DIFF TABLE ===== */
+        .diff-table {
+            border: 2px solid var(--accent-purple);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        .diff-table-header {
+            background: linear-gradient(135deg, rgba(139,92,246,0.15), rgba(236,72,153,0.1));
+            padding: 12px 16px;
+            font-weight: 800;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid rgba(139,92,246,0.2);
+        }
+        .diff-table thead th {
+            background: rgba(139,92,246,0.08);
+        }
+
+        /* ===== CODE BLOCKS ===== */
+        pre {
+            background: var(--bg-code);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 20px 24px;
+            margin-bottom: 16px;
+            overflow-x: auto;
+            position: relative;
+        }
+        pre code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            line-height: 1.65;
+            color: var(--text-primary);
+        }
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            background: var(--bg-inlinecode);
+            padding: 2px 7px;
+            border-radius: 5px;
+            color: var(--accent-cyan);
+        }
+
+        /* ===== Syntax Highlighting ===== */
+        .kw { color: #c678dd; }
+        .str { color: #98c379; }
+        .cm { color: #5c6370; font-style: italic; }
+        .fn { color: #61afef; }
+        .cls { color: #e5c07b; }
+        .num { color: #d19a66; }
+        .op { color: #56b6c2; }
+
+        /* ===== PROGRAM CARD ===== */
+        .program-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            margin-bottom: 32px;
+            box-shadow: var(--shadow-md);
+        }
+        .program-header {
+            padding: 20px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .program-header h3 {
+            font-size: 17px;
+            font-weight: 800;
+        }
+        .program-body { padding: 24px; }
+        .program-body pre {
+            margin: 16px -24px;
+            border-radius: 0;
+            border-left: none;
+            border-right: none;
+        }
+        .output-box {
+            background: rgba(16,185,129,0.06);
+            border: 1px solid rgba(16,185,129,0.15);
+            border-radius: var(--radius-sm);
+            padding: 14px 18px;
+            margin-top: 12px;
+        }
+        .output-box .label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--accent-green);
+            margin-bottom: 6px;
+        }
+        .output-box pre {
+            background: transparent;
+            border: none;
+            padding: 0;
+            margin: 0;
+        }
+        .output-box pre code { color: var(--accent-green); font-size: 13px; }
+
+        /* ===== VIVA QUESTIONS ===== */
+        .viva-list { counter-reset: viva-counter; list-style: none; padding: 0; }
+        .viva-list li {
+            counter-increment: viva-counter; padding: 12px 16px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-secondary); font-size: 14px;
+        }
+        .viva-list li:last-child { border-bottom: none; }
+        .viva-list li::before {
+            content: counter(viva-counter); display: inline-flex;
+            align-items: center; justify-content: center;
+            width: 24px; height: 24px; background: rgba(59,130,246,0.15);
+            color: var(--accent-blue); font-size: 11px; font-weight: 700;
+            border-radius: 6px; margin-right: 12px; flex-shrink: 0;
+        }
+        .viva-list li strong { color: var(--text-primary); }
+
+        /* ===== BACK TO TOP ===== */
+        .back-to-top {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            width: 44px;
+            height: 44px;
+            background: var(--gradient-1);
+            border: none;
+            border-radius: 50%;
+            color: #fff;
+            font-size: 20px;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            z-index: 200;
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .back-to-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .back-to-top:hover { transform: translateY(-3px); }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 900px) {
+            .sidebar { transform: translateX(-100%); }
+            .sidebar.open { transform: translateX(0); box-shadow: var(--shadow-lg); }
+            .sidebar-toggle { display: flex; }
+            .main { margin-left: 0; padding: 24px 20px 80px; }
+            .hero h1 { font-size: 26px; }
+            .program-body pre { margin: 16px -16px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="bg-glow"></div>
+<div class="bg-glow-2"></div>
+
+<!-- Mobile Toggle -->
+<button class="sidebar-toggle" id="sidebarToggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰</button>
+
+<!-- Sidebar Navigation -->
+<nav class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+        <h2>📘 Unit 1 Notes</h2>
+        <p>Java Basics • Exam Ready</p>
+    </div>
+
+    <div class="nav-section">Part A — OOP Basics</div>
+    <a class="nav-link" href="#classes">Classes & Objects</a>
+    <a class="nav-link" href="#constructors">Constructors</a>
+    <a class="nav-link" href="#overloading">Method Overloading</a>
+    <a class="nav-link" href="#static-final">Static & Final</a>
+    <a class="nav-link" href="#inheritance">Inheritance Features</a>
+    <a class="nav-link" href="#polymorphism">Overriding & Dispatch</a>
+    <a class="nav-link" href="#abstract">Abstract Classes</a>
+
+    <div class="nav-section">Part B — Packages & Exceptions</div>
+    <a class="nav-link" href="#packages">Packages & Protection</a>
+    <a class="nav-link" href="#interfaces">Interfaces</a>
+    <a class="nav-link" href="#exceptions">Exception Basics</a>
+    <a class="nav-link" href="#exception-flow">Handling Keywords</a>
+    <a class="nav-link" href="#custom-exceptions">Custom Exceptions</a>
+
+    <div class="nav-section">Programs & Viva</div>
+    <a class="nav-link" href="#programs">Key Programs</a>
+    <a class="nav-link" href="#viva">Viva Q&A</a>
+</nav>
+
+<!-- Main Content -->
+<div class="main">
+
+    <!-- Hero -->
+    <header class="hero" id="top">
+        <div class="unit-badge">Unit I — Core Java</div>
+        <h1>Java Basics & Exception Handling</h1>
+        <p>Comprehensive internal exam notes covering classes, inheritance, packages, interfaces, and rigorous exception handling mechanisms.</p>
+    </header>
+
+    <!-- ============================== -->
+    <!-- PART A: CORE OOP BASICS        -->
+    <!-- ============================== -->
+    <div class="part-divider part-a"><span id="oop-basics">Part A — Core OOP in Java</span></div>
+
+    <!-- 1. CLASSES & OBJECTS -->
+    <section class="section" id="classes">
+        <div class="section-header">
+            <div class="section-number num-blue">1</div>
+            <h2>Classes and Objects (Deep Memory &amp; Lifecycle Mechanics)</h2>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definitions</div>
+            <p><strong>Class:</strong> A logical template, blueprint, or user-defined prototype that encapsulates the variables (states) and methods (behaviors) common to all objects of its type. It is a compile-time concept and occupies no physical memory.</p>
+            <p style="margin-top: 10px;"><strong>Object:</strong> A physical, runtime instance of a class. It has a distinct identity, state, and behavior, and resides directly within the JVM's Heap memory.</p>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">📦</span> Stack vs Heap Memory Allocation</h3>
+            <p>Java divides runtime data storage into two primary segments to manage object references and object data:</p>
+            
+            <div class="table-wrap" style="margin-top: 12px;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Specification</th>
+                            <th>Stack Memory (Local &amp; References)</th>
+                            <th>Heap Memory (Dynamic Objects)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Data Stored</strong></td>
+                            <td>Local variables, primitive values, and 32/64-bit object references (memory addresses).</td>
+                            <td>All class instances (actual objects), arrays, and instance variable fields.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Allocation Rule</strong></td>
+                            <td>LIFO (Last-In-First-Out) execution. Allocated per method call (thread stack frame).</td>
+                            <td>Dynamic allocation at runtime using the <code>new</code> keyword on a global pool.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Lifecycle</strong></td>
+                            <td>Automatic cleanup. Memory is reclaimed instantly when the method exits.</td>
+                            <td>Reclaimed asynchronously by the Garbage Collector when objects are unreachable.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Scope Visibility</strong></td>
+                            <td>Private. Accessible only within the executing thread/method frame.</td>
+                            <td>Global. Shared among all threads in the active Java application.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">⚡</span> The new Keyword: Behind the Scenes</h3>
+            <p>When you write <code>Student s = new Student("Akshay");</code>, the JVM executes four consecutive phases:</p>
+            <ol>
+                <li><strong>Memory Allocation:</strong> The JVM allocates a contiguous block of memory on the <strong>Heap</strong> large enough to hold all instance variables of the <code>Student</code> class and its superclasses.</li>
+                <li><strong>Default Initialization:</strong> Instantly initializes all allocated instance fields to their standard defaults (e.g. numeric types to <code>0/0.0</code>, booleans to <code>false</code>, object references to <code>null</code>).</li>
+                <li><strong>Constructor Execution:</strong> Invokes the targeted constructor, executing constructor chaining (via `super()`) and custom field binding to establish the object's initialized state.</li>
+                <li><strong>Reference Return:</strong> Yields the absolute memory address of the created heap object. The assignment operator (<code>=</code>) binds this reference address to the reference variable <code>s</code> located on the active <strong>Stack</strong> frame.</li>
+            </ol>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">♻️</span> Garbage Collection (GC) Triggers</h3>
+            <p>An object is eligible for garbage collection (GC) when it becomes <strong>unreachable</strong>—meaning there are zero active stack reference variables pointing to it. GC is triggered in three common scenarios:</p>
+            <ul>
+                <li><strong>Reference Reassignment:</strong>
+                    <pre><code><span class="cls">Student</span> s1 = <span class="kw">new</span> <span class="cls">Student</span>(<span class="str">"Rahul"</span>);
+s1 = <span class="kw">new</span> <span class="cls">Student</span>(<span class="str">"Priya"</span>); <span class="cm">// The first Student object ("Rahul") is now orphaned and eligible for GC</span></code></pre>
+                </li>
+                <li><strong>Nullification (Explicit Dereferencing):</strong>
+                    <pre><code><span class="cls">Student</span> s2 = <span class="kw">new</span> <span class="cls">Student</span>(<span class="str">"Ananth"</span>);
+s2 = <span class="kw">null</span>; <span class="cm">// The "Ananth" Student object is dereferenced and queued for reclamation</span></code></pre>
+                </li>
+                <li><strong>Scope Termination:</strong> When a local reference goes out of scope (e.g., when a method returns), the stack frame is popped. Any object created inside that method with only local references becomes immediately unreachable.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- 2. CONSTRUCTORS -->
+    <section class="section" id="constructors">
+        <div class="section-header">
+            <div class="section-number num-blue">2</div>
+            <h2>Constructors &amp; Copy Constructor Mechanics</h2>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definition</div>
+            <p>A <strong>Constructor</strong> is a special member block of code invoked implicitly to initialize an object. It shares the identical name of its class, lacks any explicit return type (including <code>void</code>), and is triggered using the <code>new</code> operator.</p>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🧱</span> Constructor Types &amp; the Copy Constructor Pattern</h3>
+            <ul>
+                <li><strong>Default Constructor:</strong> Injected automatically by the compiler <strong>only if</strong> zero constructors are defined by the programmer. It takes no arguments and calls the parent no-arg constructor (<code>super()</code>).</li>
+                <li><strong>Parameterized Constructor:</strong> Written by the developer to initialize instance variables with custom arguments at the time of creation.</li>
+                <li><strong>Copy Constructor:</strong> A parameterized constructor that accepts an object reference of its own class type. Used to create an independent duplicate (deep or shallow copy) of the passed object:
+                    <pre><code><span class="kw">class</span> <span class="cls">Point</span> {
+    <span class="kw">int</span> x, y;
+    
+    <span class="cls">Point</span>(<span class="kw">int</span> x, <span class="kw">int</span> y) { <span class="kw">this</span>.x = x; <span class="kw">this</span>.y = y; } <span class="cm">// Parameterized</span>
+    
+    <span class="cls">Point</span>(<span class="cls">Point</span> p) { <span class="kw">this</span>.x = p.x; <span class="kw">this</span>.y = p.y; }   <span class="cm">// Copy Constructor (Cloning)</span>
+}</code></pre>
+                </li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🎯</span> this Keyword: Namespace Shadowing &amp; Chaining</h3>
+            <p>The <code>this</code> reference variable represents the active object instance. It has three core compiler roles:</p>
+            <ul>
+                <li><strong>Resolving Instance Shadowing:</strong> When a local parameter shares the identical name as an instance variable, the local parameter "shadows" the instance variable. Prefixing the variable with <code>this.</code> bypasses local scope and targets heap instance memory.</li>
+                <li><strong>Constructor Chaining (<code>this()</code>):</strong> Invoking one constructor from another constructor within the same class. This facilitates code reuse. <strong>Rule:</strong> The call to <code>this()</code> must be the absolute first statement inside the constructor body.</li>
+                <li><strong>Constructor Propagation in Inheritance:</strong> In inheritance hierarchies, every subclass constructor must call a parent constructor. If the subclass constructor does not explicitly call <code>super()</code> or <code>this()</code> as its first line, the compiler automatically inserts <code>super();</code> (no-arg parent constructor call) at compilation time.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- 3. METHOD OVERLOADING -->
+    <section class="section" id="overloading">
+        <div class="section-header">
+            <div class="section-number num-blue">3</div>
+            <h2>Method Overloading &amp; Type Promotion Gaps</h2>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definition</div>
+            <p><strong>Method Overloading</strong> is the defining of multiple methods inside the identical class sharing the same name but with unique parameter signatures (different parameter counts, different types, or different ordering of types). It represents <strong>Compile-time (Static) Polymorphism</strong>, resolved during compilation.</p>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">📈</span> Automatic Type Promotion in Overloading</h3>
+            <p>If the compiler cannot find a method with an exact parameter type match, it automatically promotes (widens) the passed argument to the next compatible larger type according to this strict hierarchy:</p>
+            
+            <div class="diagram-box" style="margin: 15px 0;">
+<pre><code>  char ────────▶ int ────▶ long ────▶ float ────▶ double
+                 ▲
+  byte ──▶ short ┘</code></pre>
+            </div>
+            
+            <p>If you call a method with a <code>short</code> value and there is no method signature accepting a <code>short</code>, the compiler promotes the argument to <code>int</code>, then <code>long</code>, then <code>float</code>, then <code>double</code>, matching the first available signature.</p>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🚨</span> Type Promotion Ambiguity Gaps</h3>
+            <p>When multiple overloaded signatures can accept promoted arguments, compile-time ambiguity can occur, leading to a compile error:</p>
+            <pre><code><span class="kw">class</span> <span class="cls">AmbiguityDemo</span> {
+    <span class="kw">void</span> <span class="fn">calculate</span>(<span class="kw">int</span> a, <span class="kw">double</span> b) { }
+    <span class="kw">void</span> <span class="fn">calculate</span>(<span class="kw">double</span> a, <span class="kw">int</span> b) { }
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+        <span class="cls">AmbiguityDemo</span> demo = <span class="kw">new</span> <span class="cls">AmbiguityDemo</span>();
+        <span class="cm">// demo.calculate(10, 10); // COMPILE ERROR: reference to calculate is ambiguous</span>
+        <span class="cm">// Both 10s can be promoted to double in either method, leaving the compiler unable to decide.</span>
+    }
+}</code></pre>
+        </div>
+
+        <div class="warn-box">
+            <div class="label">⚠️ Overloading Signature Rules</div>
+            <p>Changing the **return type** or **thrown exceptions** of a method alone does not qualify as overloading. The parameter signature **must** differ. If the parameter signature is identical, the compiler flags a *method already defined* duplicate error.</p>
+        </div>
+    </section>
+
+    <!-- 4. STATIC & FINAL -->
+    <section class="section" id="static-final">
+        <div class="section-header">
+            <div class="section-number num-blue">4</div>
+            <h2>Understanding static, final, &amp; Initializer Blocks</h2>
+        </div>
+
+        <div class="diff-table">
+            <div class="diff-table-header">⭐ Modifiers Comparison — static vs final</div>
+            <div class="table-wrap" style="border:none;border-radius:0;margin-bottom:0;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Specification</th>
+                            <th>static Modifier (Class Scope)</th>
+                            <th>final Modifier (Immutability)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Variables</strong></td>
+                            <td>Shared globally across all object instances. Initialized once when class loads.</td>
+                            <td>Becomes a constant. Once assigned, its value is immutable.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Methods</strong></td>
+                            <td>Belongs to class. Invoked directly (<code>Class.method()</code>). Cannot access instance members (<code>this/super</code>).</td>
+                            <td>Inherited by subclasses, but <strong>cannot be overridden</strong>.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Blocks</strong></td>
+                            <td>Static block initializes static class fields. Runs once when classloader boots.</td>
+                            <td>— (N/A)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Classes</strong></td>
+                            <td>Used for nested static helper classes.</td>
+                            <td><strong>Cannot be inherited</strong> (prevents subclassing). E.g. <code>String</code>.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🏗️</span> Static Blocks vs Instance Initializers</h3>
+            <p>Java supports block-level initializers that execute automatically during class loading and object creation:</p>
+            <ul>
+                <li><strong>Static Initializer Block (<code>static { ... }</code>):</strong> Runs <strong>exactly once</strong> when the class is first loaded into memory by the JVM ClassLoader. It executes before the <code>main</code> method starts and before any object is created. Used to initialize complex static parameters.</li>
+                <li><strong>Instance Initializer Block (<code>{ ... }</code>):</strong> Runs for every single object instantiation. It executes immediately after the superclass constructor (<code>super()</code>) completes and <strong>before</strong> the subclass constructor body is executed.</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🔒</span> Compiler Constraints: Blank Finals &amp; Static Blank Finals</h3>
+            <p>Declaring a variable as <code>final</code> requires strict initialization rules governed by the compiler:</p>
+            
+            <div style="margin-top: 15px;">
+                <h4 style="font-size: 14.5px; color: var(--accent-cyan); margin-bottom: 6px;">1. Instance Blank Final Variables</h4>
+                <p>A final variable declared without an initial value is a "blank final". The compiler demands that a blank final <strong>must be assigned a value in every single constructor</strong> of the class. Failing to do so triggers a compile error: <em>variable might not have been initialized</em>.</p>
+                <pre><code><span class="kw">class</span> <span class="cls">Transaction</span> {
+    <span class="kw">final double</span> rate; <span class="cm">// Blank Final</span>
+    
+    <span class="cls">Transaction</span>() {
+        <span class="kw">this</span>.rate = <span class="num">0.05</span>; <span class="cm">// Initialized in Constructor</span>
+    }
+}</code></pre>
+            </div>
+
+            <div style="margin-top: 15px;">
+                <h4 style="font-size: 14.5px; color: var(--accent-cyan); margin-bottom: 6px;">2. Static Blank Final Variables</h4>
+                <p>A static variable declared with the <code>final</code> keyword but no initial value is a "static blank final". Since it belongs to class scope, it cannot be initialized in a constructor. It <strong>must be assigned a value inside a static initializer block</strong>, otherwise it fails compilation.</p>
+                <pre><code><span class="kw">class</span> <span class="cls">Config</span> {
+    <span class="kw">static final</span> <span class="cls">String</span> appID; <span class="cm">// Static Blank Final</span>
+    
+    <span class="kw">static</span> {
+        appID = <span class="str">"SYS_PROD_102"</span>; <span class="cm">// Initialized inside static block</span>
+    }
+}</code></pre>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. INHERITANCE FEATURES -->
+    <section class="section" id="inheritance">
+        <div class="section-header">
+            <div class="section-number num-blue">5</div>
+            <h2>Inheritance &amp; super Keyword (With Diamond Problem Mechanics)</h2>
+            <span class="pyq-tag">MSRIT SEE '24</span>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definition</div>
+            <p><strong>Inheritance:</strong> An object-oriented mechanism where a new class (subclass/derived class) inherits the state variables and method definitions of an existing class (superclass/base class). It establishes an <strong>IS-A relationship</strong> (e.g. <code>Dog IS-A Mammal</code>) using the <code>extends</code> keyword, maximizing code reusability and enabling dynamic polymorphism.</p>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🌟</span> The super Keyword</h3>
+            <p>The <code>super</code> keyword is an implicit reference variable pointing to the direct superclass instance. It serves three vital roles at the compiler level:</p>
+            <ul>
+                <li><strong>To invoke parent constructors:</strong> Invoked explicitly as <code>super()</code> or <code>super(arguments)</code>. It <strong>must</strong> be the absolute first statement inside a subclass constructor body.</li>
+                <li><strong>To access parent variables:</strong> Disambiguates instance fields when a subclass variable shadows a parent variable of the same name (e.g. <code>super.fieldName</code>).</li>
+                <li><strong>To execute parent methods:</strong> Calls overridden method definitions residing in the parent class scope from within the subclass (e.g. <code>super.methodName()</code>).</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🗺️</span> Standard Inheritance Typologies</h3>
+            <p>Java supports three primary class inheritance configurations:</p>
+            <ol>
+                <li><strong>Single Inheritance:</strong> A subclass inherits from exactly one superclass (Class B extends Class A).</li>
+                <li><strong>Multilevel Inheritance:</strong> A subclass inherits from a derived class, creating a linear inheritance chain (Class C extends Class B, which extends Class A).</li>
+                <li><strong>Hierarchical Inheritance:</strong> Multiple subclasses inherit directly from a single common superclass (Class B and Class C both extend Class A).</li>
+            </ol>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">♦️</span> Multiple Inheritance &amp; The Diamond Problem</h3>
+            <p>Java <strong>strictly prohibits multiple class-level inheritance</strong> (e.g. <code>class D extends B, C</code> is a compile-time error). This design decision avoids the infamous <strong>Diamond Problem</strong>:</p>
+            
+            <div class="diagram-box" style="margin: 15px 0; text-align: center;">
+<pre style="display: inline-block; text-align: left; background: var(--bg-card); padding: 12px; border-radius: 8px; border: 1px solid var(--border-color);">
+         [ Class A (fun()) ]
+            /          \
+           /            \
+    [ Class B ]      [ Class C ]  (Both override fun() uniquely)
+           \            /
+            \          /
+         [ Class D (extends B, C) ]
+              (Ambiguity! Which fun() does D inherit?)
+</pre>
+            </div>
+            
+            <div class="def-box" style="margin-top: 10px; border-left-color: var(--accent-red);">
+                <div class="label" style="color: var(--accent-red);">Why the Compiler Rejects This</div>
+                If a class <code>D</code> were allowed to extend both <code>B</code> and <code>C</code>, and both parent classes override a method <code>fun()</code> from <code>A</code>, a call to <code>new D().fun()</code> would create a direct structural conflict. The JVM cannot determine which implementation to invoke in the Virtual Method Table (vtable) lookup, causing severe runtime ambiguity. Hence, Java rejects multiple class inheritance to enforce safety and clean compilation.
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. OVERRIDING & DISPATCH -->
+    <section class="section" id="polymorphism">
+        <div class="section-header">
+            <div class="section-number num-blue">6</div>
+            <h2>Method Overriding &amp; Dynamic Method Dispatch (DMD)</h2>
+            <span class="pyq-tag">MSRIT SEE '25</span>
+        </div>
+
+        <div class="card">
+            <h3>🔄 Method Overriding Rules &amp; Covariant Returns</h3>
+            <p><strong>Method Overriding</strong> represents <strong>Runtime (Dynamic) Polymorphism</strong>, where a subclass implements its own specialized behavior for an inherited method. Overriding is subject to strict compiler constraints:</p>
+            <ul>
+                <li><strong>Identical Signatures:</strong> The subclass method name, parameters count, and exact types must be identical to the parent method.</li>
+                <li><strong>Access Modifier Constraints (Visibility Narrowing Rule):</strong> Subclass overridden methods **cannot assign a weaker/narrower access privilege** than their parent counterparts. They can only maintain or widen it.
+                    <div class="diagram-box" style="margin: 10px 0; font-size: 13px;">
+                        <code>private (narrowest) ──▶ default ──▶ protected ──▶ public (widest)</code>
+                    </div>
+                    <em>Example:</em> If the parent method is declared <code>protected</code>, the subclass overridden method must be declared <code>protected</code> or <code>public</code>. Declaring it with <code>default</code> or <code>private</code> triggers a compile-time visibility reduction error.
+                </li>
+                <li><strong>Covariant Return Types (Java 5+):</strong> While standard overriding requires identical return types, Java allows the subclass method to return a <strong>subtype</strong> of the type returned by the parent method:
+                    <pre><code><span class="kw">class</span> <span class="cls">Base</span> { <span class="cls">Base</span> <span class="fn">get</span>() { <span class="kw">return this</span>; } }
+<span class="kw">class</span> <span class="cls">Derived</span> <span class="kw">extends</span> <span class="cls">Base</span> {
+    <span class="annotation">@Override</span>
+    <span class="cls">Derived</span> <span class="fn">get</span>() { <span class="kw">return this</span>; } <span class="cm">// Legal Covariant Return (Derived IS-A Base)</span>
+}</code></pre>
+                </li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>⚡ Dynamic Method Dispatch (DMD) &amp; Reference Tracing</h3>
+            <p>DMD is the central mechanism by which a call to an overridden method is resolved at **runtime** using late-binding. This allows Java to decouple compile-time specifications from runtime behaviors.</p>
+            
+            <div class="def-box" style="margin-top: 10px; border-left-color: var(--accent-purple);">
+                <div class="label" style="color: var(--accent-purple);">The Golden Rule of DMD</div>
+                A superclass reference variable can point to any subclass object on the heap. When an overridden method is called, Java determines which version to execute <strong>based on the actual Heap Object Type at runtime</strong>, NOT the Stack Reference Type declared at compile-time.
+            </div>
+
+            <div style="margin-top: 15px;">
+                <h4 style="font-size: 14px; color: var(--accent-cyan); margin-bottom: 8px;">Compile-Time vs Runtime Type Tracing:</h4>
+                <pre><code><span class="cls">Parent</span> obj = <span class="kw">new</span> <span class="cls">Child</span>();
+obj.<span class="fn">show</span>();</code></pre>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Stage</th>
+                                <th>Type Checked</th>
+                                <th>Resolution Mechanics</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Compile-Time</strong></td>
+                                <td><code>Parent</code> (Reference Type)</td>
+                                <td>The compiler checks if the class <code>Parent</code> has declared the method <code>show()</code>. If not, compilation fails instantly (even if <code>Child</code> has it!). Only methods defined in the reference type can be called.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Runtime</strong></td>
+                                <td><code>Child</code> (Heap Object Type)</td>
+                                <td>The JVM looks up the actual object on the heap (which is <code>Child</code>) and invokes the subclass's overridden <code>show()</code> method via late-binding.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. ABSTRACT CLASSES -->
+    <section class="section" id="abstract">
+        <div class="section-header">
+            <div class="section-number num-blue">7</div>
+            <h2>Abstract Classes (Under the Hood)</h2>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definition</div>
+            <p>An <strong>Abstract Class</strong> is a restricted class declared with the <code>abstract</code> keyword that serves as an incomplete template. It **cannot be instantiated** (cannot create objects of it using <code>new</code>), but can declare abstract methods (methods lacking body blocks) that implementing subclasses are forced to define.</p>
+        </div>
+
+        <div class="diff-table">
+            <div class="diff-table-header">⭐ Comparative Analysis: Abstract Class vs Concrete Class</div>
+            <div class="table-wrap" style="border:none;border-radius:0;margin-bottom:0;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Specification</th>
+                            <th>Abstract Class</th>
+                            <th>Concrete Class</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Instantiation</strong></td>
+                            <td style="color:var(--accent-red); font-weight:600;">No. Throws compile-time error.</td>
+                            <td style="color:var(--accent-green); font-weight:600;">Yes. Directly using <code>new Class()</code>.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Abstract Methods</strong></td>
+                            <td>Allowed. Can contain 0 or more abstract methods.</td>
+                            <td style="color:var(--accent-red);">Strictly prohibited. All methods must have a body.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Inheritance Constraint</strong></td>
+                            <td>Forceful. Requires a subclass to inherit and implement abstract methods.</td>
+                            <td>Optional. Subclassing is allowed but not demanded.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Constructors</strong></td>
+                            <td style="color:var(--accent-green); font-weight:600;">Yes. Allowed to define constructors for chaining.</td>
+                            <td style="color:var(--accent-green); font-weight:600;">Yes. Standard constructors.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🏗️</span> Can Abstract Classes Have Constructors?</h3>
+            <p>Yes, abstract classes **can and do have constructors**. Although they cannot be instantiated directly via <code>new</code>, their constructors are implicitly triggered during subclass object creation through the standard **Constructor Chaining** pipeline:</p>
+            <pre><code><span class="kw">abstract class</span> <span class="cls">Device</span> {
+    <span class="cls">String</span> brand;
+    <span class="cls">Device</span>(<span class="cls">String</span> brand) { <span class="kw">this</span>.brand = brand; } <span class="cm">// Abstract class constructor</span>
+}
+<span class="kw">class</span> <span class="cls">Phone</span> <span class="kw">extends</span> <span class="cls">Device</span> {
+    <span class="cls">Phone</span>(<span class="cls">String</span> brand) {
+        <span class="kw">super</span>(brand); <span class="cm">// Triggers Device constructor to initialize heap variables</span>
+    }
+}</code></pre>
+            <p style="font-size: 13.5px; margin-top: 10px;">Abstract classes can also fully declare <strong>instance fields, static methods, static blocks, and instance initializer blocks</strong> to facilitate shared state configuration among all specialized subclasses.</p>
+        </div>
+    </section>
+
+    <!-- ============================== -->
+    <!-- PART B: PACKAGES & EXCEPTIONS  -->
+    <!-- ============================== -->
+    <div class="part-divider part-b"><span id="packages-exceptions">Part B — Packages, Interfaces &amp; Exceptions</span></div>
+
+    <!-- 8. PACKAGES & PROTECTION -->
+    <section class="section" id="packages">
+        <div class="section-header">
+            <div class="section-number num-purple">8</div>
+            <h2>Packages &amp; Access Protection Mechanics</h2>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definition</div>
+            <p>A <strong>Package</strong> is a structural namespace container that groups related classes, sub-packages, and interfaces together. It prevents class name collisions (namespace pollution) and manages access security controls across modular boundaries.</p>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">📦</span> Namespace Resolution: import pkg.* vs import pkg.Class</h3>
+            <p>Java supports two mechanisms for bringing external package dependencies into a file's scope:</p>
+            <ul>
+                <li><strong>Single-Type Import (<code>import pkg.Class;</code>):</strong> Directly imports one targeted class. Resolves any namespace ambiguity instantly if another package shares similar class names.</li>
+                <li><strong>On-Demand (Wildcard) Import (<code>import pkg.*;</code>):</strong> Compiles all public classes and interfaces within the package <code>pkg</code> into the compile scope.
+                    <div style="margin-top: 6px;">
+                        <strong>⚠️ Compile-Time Resolution Rule:</strong> Wildcard imports <strong>do not import sub-packages</strong> (e.g. <code>import java.*</code> does not bring in <code>java.util.*</code>). They are processed strictly at compile-time by the compiler, which translates short names to fully-qualified names in bytecode. Thus, they have <strong>zero performance overhead or memory size footprint at runtime</strong>.
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">⚔️</span> Resolving Package Namespace Clashes</h3>
+            <p>If two distinct packages share a class name (e.g., both <code>java.util.Date</code> and <code>java.sql.Date</code> exist), importing both wildcards triggers a compile clash. To resolve this, you must reference them using their absolute <strong>Fully Qualified Class Names (FQCN)</strong> in the source code:</p>
+            <pre><code><span class="cm">// Avoid ambiguous imports in headers, declare absolute paths in bodies</span>
+java.util.<span class="cls">Date</span> utilDate = <span class="kw">new</span> java.util.<span class="cls">Date</span>();
+java.sql.<span class="cls">Date</span> sqlDate = <span class="kw">new</span> java.sql.<span class="cls">Date</span>(System.<span class="fn">currentTimeMillis</span>());</code></pre>
+        </div>
+
+        <div class="card">
+            <h3>🛡️ The Ultimate Access Protection Matrix</h3>
+            <p>Java's 4 access levels across packaging boundaries are strictly governed by this master layout:</p>
+            <div class="table-wrap" style="margin-top:10px;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Access Modifier</th>
+                            <th>Same Class</th>
+                            <th>Same Package Subclass</th>
+                            <th>Same Package Non-subclass</th>
+                            <th>Different Package Subclass</th>
+                            <th>Different Package Non-subclass</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>private</code></td>
+                            <td style="color:var(--accent-green); font-weight:600;">Yes</td>
+                            <td style="color:var(--accent-red);">No</td>
+                            <td style="color:var(--accent-red);">No</td>
+                            <td style="color:var(--accent-red);">No</td>
+                            <td style="color:var(--accent-red);">No</td>
+                        </tr>
+                        <tr>
+                            <td><em>default</em> (omitted)</td>
+                            <td style="color:var(--accent-green); font-weight:600;">Yes</td>
+                            <td style="color:var(--accent-green); font-weight:600;">Yes</td>
+                            <td style="color:var(--accent-green); font-weight:600;">Yes</td>
+                            <td style="color:var(--accent-red);">No</td>
+                            <td style="color:var(--accent-red);">No</td>
+                        </tr>
+                        <tr>
+                            <td><code>protected</code></td>
+                            <td style="color:var(--accent-green); font-weight:600;">Yes</td>
+                            <td style="color:var(--accent-green); font-weight:600;">Yes</td>
+                            <td style="color:var(--accent-green); font-weight:600;">Yes</td>
+                            <td style="color:var(--accent-green); font-weight:600;">Yes *</td>
+                            <td style="color:var(--accent-red);">No</td>
+                        </tr>
+                        <tr>
+                            <td><code>public</code></td>
+                            <td style="color:var(--accent-green); font-weight:600;">Yes</td>
+                            <td style="color:var(--accent-green); font-weight:600;">Yes</td>
+                            <td style="color:var(--accent-green); font-weight:600;">Yes</td>
+                            <td style="color:var(--accent-green); font-weight:600;">Yes</td>
+                            <td style="color:var(--accent-green); font-weight:600;">Yes</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p style="font-size: 12.5px; color: var(--text-muted); margin-top: 8px;">* <strong>Compiler Protected Clause:</strong> In a different package, a subclass can access <code>protected</code> member fields only through inheritance—meaning inside the subclass body via subclass references or the `super` pointer. It cannot access protected members using an instance reference of the parent class itself inside that different package.</p>
+        </div>
+    </section>
+
+    <!-- 9. INTERFACES -->
+    <section class="section" id="interfaces">
+        <div class="section-header">
+            <div class="section-number num-purple">9</div>
+            <h2>Interfaces (Marker Interfaces &amp; Modern Methods)</h2>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definition</div>
+            <p>An <strong>Interface</strong> is a syntactical contract containing abstract specifications. It decouples **what** a class must do from **how** it does it, providing absolute **Loose Coupling** and facilitating **Multiple Inheritance** of behaviors in Java.</p>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🏷️</span> Marker (Tagging) Interfaces</h3>
+            <p>A <strong>Marker Interface</strong> is an interface that declares **absolutely zero methods or fields** (empty interface). It serves as a metadata "tag" or capability signal for the JVM, compiler, or libraries.</p>
+            <ul>
+                <li><strong>Common Examples:</strong> <code>java.io.Serializable</code>, <code>java.lang.Cloneable</code>, <code>java.util.RandomAccess</code>.</li>
+                <li><strong>Execution Mechanism:</strong> When a class implements <code>Cloneable</code>, it declares to the runtime that it permits the <code>Object.clone()</code> method to execute a bitwise clone. If a class calls <code>clone()</code> without implementing <code>Cloneable</code>, the JVM intercepts the execution and throws a checked <code>CloneNotSupportedException</code>.</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🚀</span> Modern Interface Evolution (Java 8 &amp; 9 Features)</h3>
+            <p>To prevent interfaces from becoming overly rigid, Java evolved interfaces to support concrete implementations:</p>
+            
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Method Type</th>
+                            <th>Modifier Syntax</th>
+                            <th>Overriding Permission</th>
+                            <th>Call Mechanics &amp; Purpose</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Default Methods (Java 8+)</strong></td>
+                            <td><code>default</code></td>
+                            <td style="color:var(--accent-green);">Allowed</td>
+                            <td>Allows adding new features to interfaces without breaking existing implementing classes (backward compatibility). Invoked on object instances.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Static Methods (Java 8+)</strong></td>
+                            <td><code>static</code></td>
+                            <td style="color:var(--accent-red);">Prohibited</td>
+                            <td>Serves as static helper/utility methods. Must be called directly via the Interface name: <code>InterfaceName.staticMethod()</code>.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Private Methods (Java 9+)</strong></td>
+                            <td><code>private</code></td>
+                            <td style="color:var(--accent-red);">Prohibited</td>
+                            <td>Encapsulates common helper logic shared among multiple default or static methods within the interface itself. Inaccessible to implementing classes.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div style="margin-top: 15px;">
+                <h4 style="font-size: 14px; color: var(--accent-cyan); margin-bottom: 6px;">Concrete Interface Method Implementation Demo:</h4>
+                <pre><code><span class="kw">interface</span> <span class="cls">SmartController</span> {
+    <span class="kw">void</span> <span class="fn">operate</span>(); <span class="cm">// Abstract contract</span>
+
+    <span class="kw">default void</span> <span class="fn">initialize</span>() {
+        <span class="fn">log</span>(<span class="str">"Booting controller..."</span>); <span class="cm">// Calls private helper</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"System Online."</span>);
+    }
+
+    <span class="kw">static void</span> <span class="fn">showVersion</span>() {
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"v2.1"</span>);
+    }
+
+    <span class="kw">private void</span> <span class="fn">log</span>(<span class="cls">String</span> message) {
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"[LOG]: "</span> + message); <span class="cm">// Encapsulated logic (Java 9)</span>
+    }
+}</code></pre>
+            </div>
+        </div>
+    </section>
+
+    <!-- 10. EXCEPTION BASICS -->
+    <section class="section" id="exceptions">
+        <div class="section-header">
+            <div class="section-number num-purple">10</div>
+            <h2>Exception Handling Basics (Deep Architecture)</h2>
+            <span class="pyq-tag">MSRIT CIE-1</span>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definition</div>
+            <p>An <strong>Exception</strong> is an unwanted or abnormal event that halts normal CPU instruction execution at runtime. Exception handling establishes a logical container structure to capture and handle these deviations gracefully, preventing OS-level program crashes.</p>
+        </div>
+
+        <div class="card">
+            <h3>🏗️ Strict Exception Hierarchy Map</h3>
+            <p>Every exceptional object extends the <code>Throwable</code> root class, which branches into two fundamentally separate streams:</p>
+            <pre><code>                  ┌────────────────────────┐
+                  │       Throwable        │  (Root Class of exceptions)
+                  └───────────┬────────────┘
+                              │
+                ┌─────────────┴─────────────┐
+                ▼                           ▼
+        ┌───────────────┐           ┌───────────────┐
+        │     Error     │           │   Exception   │ (Recoverable issues)
+        │(Unrecoverable)│           └───────┬───────┘
+        │e.g. OutOfMem, │                   │
+        │  StackOverflow│       ┌───────────┴───────────┐
+        └───────────────┘       ▼                       ▼
+                        ┌───────────────┐       ┌───────────────┐
+                        │RuntimeException│      │Checked/Compile│
+                        │  (Unchecked)  │       │  Exceptions   │
+                        │e.g. NullPoint,│       │e.g. IOExcept, │
+                        │ ArithmeticExc │       │  SQLException │
+                        └───────────────┘       └───────────────┘</code></pre>
+        </div>
+
+        <div class="diff-table">
+            <div class="diff-table-header">⭐ checked vs unchecked compiler mechanics</div>
+            <div class="table-wrap" style="border:none;border-radius:0;margin-bottom:0;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Metric</th>
+                            <th>Checked Exceptions (Compile-Time)</th>
+                            <th>Unchecked Exceptions (Runtime)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Compiler Check</strong></td>
+                            <td style="color:var(--accent-green); font-weight:600;">Forced. Compiler demands catching or declaring throwing.</td>
+                            <td style="color:var(--accent-red);">Silent. Compiler ignores checks during build.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Inheritance</strong></td>
+                            <td>Inherits directly from <code>Exception</code> (excluding <code>RuntimeException</code>).</td>
+                            <td>Inherits directly from <code>RuntimeException</code>.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Root Cause</strong></td>
+                            <td>Outside program control (e.g. Missing file, DB down, network socket drops).</td>
+                            <td>Programming bugs (e.g. Null dereference, index overflow, divide-by-zero).</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Examples</strong></td>
+                            <td><code>IOException</code>, <code>SQLException</code>, <code>FileNotFoundException</code></td>
+                            <td><code>NullPointerException</code>, <code>ArrayIndexOutOfBoundsException</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- 11. HANDLING KEYWORDS -->
+    <section class="section" id="exception-flow">
+        <div class="section-header">
+            <div class="section-number num-purple">11</div>
+            <h2>The Five Keywords &amp; Modern Catch Mechanics</h2>
+            <span class="pyq-tag">⭐ Critical Exam Topic</span>
+        </div>
+
+        <div class="card">
+            <h3>🔑 The Core Keywords: try, catch, finally, throw, throws</h3>
+            <ul>
+                <li><strong>try block:</strong> Monitors a scope of statements. Cannot stand alone; must be supported by a minimum of one <code>catch</code> block or a <code>finally</code> block.</li>
+                <li><strong>catch block:</strong> The handler routine. Activates ONLY when an exception matching its parameter type is thrown inside the try block. **Rule:** Catch hierarchy must be written from **most specific subclass (e.g. ArithmeticException) to most generic parent class (e.g. Exception)**, otherwise compile errors occur.</li>
+                <li><strong>finally block:</strong> Always executes, guaranteed. Runs whether an exception is caught, uncaught, or completely absent. **Purpose:** Closing physical handles (databases, files, stream buffers) to prevent memory leaks.</li>
+                <li><strong>throw:</strong> Explicitly triggers an exception object instance: <code>throw new MyException("msg");</code>.</li>
+                <li><strong>throws:</strong> Declares possible exceptions in a method signature to shift the handling responsibility up the call stack: <code>void read() throws IOException {}</code>.</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>⚡ Modern Java 7+ Catch Evolution: Multi-Catch Blocks</h3>
+            <p>To avoid repetitive catch-block code blocks handling similar logic, Java 7 introduced the **Multi-Catch** syntax using the pipe (<code>|</code>) character:</p>
+            <pre><code><span class="kw">try</span> {
+    <span class="kw">int</span> res = <span class="num">10</span> / <span class="cls">Integer</span>.<span class="fn">parseInt</span>(args[<span class="num">0</span>]);
+} <span class="kw">catch</span> (<span class="cls">ArithmeticException</span> | <span class="cls">NumberFormatException</span> | <span class="cls">ArrayIndexOutOfBoundsException</span> e) {
+    <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Invalid parameters supplied: "</span> + e.<span class="fn">getMessage</span>());
+    <span class="cm">// Compiler Rule: The exception variable 'e' in a multi-catch block is implicitly 'final'.</span>
+    <span class="cm">// Any attempt to reassign 'e' (e.g., e = new ArithmeticException()) results in a compile error.</span>
+}</code></pre>
+            <div class="warn-box" style="margin-top: 10px;">
+                <div class="label">⚠️ Multi-Catch Inheritance Conflict Rule</div>
+                You **cannot** combine classes in a multi-catch block if they share a direct parent-child relationship (e.g. <code>catch (ArithmeticException | Exception e)</code> is a compile error because <code>ArithmeticException</code> is already caught by <code>Exception</code>).
+            </div>
+        </div>
+    </section>
+
+    <!-- 12. TRY-WITH-RESOURCES & CUSTOM EXCEPTIONS -->
+    <section class="section" id="custom-exceptions">
+        <div class="section-header">
+            <div class="section-number num-purple">12</div>
+            <h2>Try-with-Resources &amp; Custom Exceptions</h2>
+        </div>
+
+        <div class="card">
+            <h3>🛡️ Automatic Resource Management: Try-with-Resources (Java 7+)</h3>
+            <p>Historically, closing resources in a <code>finally</code> block was extremely verbose and vulnerable to resource leaks if the <code>close()</code> method itself threw an exception. Java 7 introduced **Try-with-Resources**, which automatically invokes the <code>close()</code> method on resources declared in the try-header.</p>
+            
+            <div class="def-box" style="border-left-color: var(--accent-green);">
+                <div class="label" style="color: var(--accent-green);">The AutoCloseable Contract</div>
+                To be declared inside a try-with-resources header, the resource class **must implement the java.lang.AutoCloseable** (or its sub-interface <code>java.io.Closeable</code>) contract, which defines the single method: <code>public void close() throws Exception;</code>.
+            </div>
+
+            <pre><code><span class="cm">// The compiler automatically injects a hidden finally block to clean up resources</span>
+<span class="kw">try</span> (<span class="cls">BufferedReader</span> br = <span class="kw">new</span> <span class="cls">BufferedReader</span>(<span class="kw">new</span> <span class="cls">FileReader</span>(<span class="str">"data.txt"</span>))) {
+    <span class="cls">System</span>.out.<span class="fn">println</span>(br.<span class="fn">readLine</span>());
+} <span class="kw">catch</span> (<span class="cls">IOException</span> e) {
+    <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"File read failure: "</span> + e.<span class="fn">getMessage</span>());
+}</code></pre>
+
+            <div style="margin-top: 12px;">
+                <h4 style="font-size: 14.2px; color: var(--accent-cyan); margin-bottom: 5px;">🔥 Suppressed Exceptions Mechanics:</h4>
+                <p>If an exception is thrown inside the try-block (primary exception), and another exception occurs automatically during the resource's <code>close()</code> invocation (secondary exception):</p>
+                <ul>
+                    <li>The **primary exception is propagated** up the call stack so the programmer handles the primary business error first.</li>
+                    <li>The **secondary (close) exception is suppressed** (not discarded!) and attached silently to the primary exception. You can fetch suppressed exceptions using <code>e.getSuppressed()</code>.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>✍️ Professional Custom Exception Design</h3>
+            <p>To design a custom exception, inherit from <code>Exception</code> (to create a strict checked exception) or <code>RuntimeException</code> (to create a standard unchecked exception):</p>
+            <pre><code><span class="cm">// Checked Exception (Compiler forced)</span>
+<span class="kw">class</span> <span class="cls">InsufficentBalanceException</span> <span class="kw">extends</span> <span class="cls">Exception</span> {
+    <span class="kw">private double</span> deficit;
+    
+    <span class="cls">InsufficentBalanceException</span>(<span class="cls">String</span> msg, <span class="kw">double</span> deficit) {
+        <span class="kw">super</span>(msg); <span class="cm">// Pass the message to the Exception superclass</span>
+        <span class="kw">this</span>.deficit = deficit;
+    }
+    
+    <span class="kw">public double</span> <span class="fn">getDeficit</span>() { <span class="kw">return</span> deficit; }
+}</code></pre>
+        </div>
+
+        <div class="card">
+            <h3>🔗 Exception Chaining Architecture</h3>
+            <p>Exception chaining allows wrapping a low-level cause exception inside a high-level logical exception without losing the original stack trace details. Uses `initCause()` or parent Throwable constructors:</p>
+            <pre><code><span class="kw">try</span> {
+    <span class="cm">// Low-level JDBC DB Exception</span>
+    <span class="kw">throw new</span> <span class="cls">SQLException</span>(<span class="str">"Connection Timeout"</span>);
+} <span class="kw">catch</span> (<span class="cls">SQLException</span> dbEx) {
+    <span class="cm">// Wrap inside high-level business exception</span>
+    <span class="cls">BankingException</span> bankEx = <span class="kw">new</span> <span class="cls">BankingException</span>(<span class="str">"Transaction Failed"</span>);
+    bankEx.<span class="fn">initCause</span>(dbEx); <span class="cm">// Chains dbEx as the root cause</span>
+    <span class="kw">throw</span> bankEx;
+}</code></pre>
+        </div>
+    </section>
+
+    <!-- ============================== -->
+    <!-- PROGRAMS SECTION               -->
+    <!-- ============================== -->
+    <section class="section" id="programs">
+        <div class="part-divider part-a"><span>Exhaustive Program Walkthroughs</span></div>
+
+        <!-- PROGRAM 1 -->
+        <div class="program-card">
+            <div class="program-header">
+                <h3>1. Dynamic Method Dispatch & Polymorphism Demo</h3>
+                <span class="badge badge-imp">6 MARKS</span>
+            </div>
+            <div class="program-body">
+                <p>Demonstrates Runtime Polymorphism, Method Overriding, and the exact mechanics of Dynamic Method Dispatch (DMD).</p>
+<pre><code><span class="kw">class</span> <span class="cls">Shape</span> {
+    <span class="kw">void</span> <span class="fn">draw</span>() {
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Drawing generic shape..."</span>);
+    }
+}
+
+<span class="kw">class</span> <span class="cls">Circle</span> <span class="kw">extends</span> <span class="cls">Shape</span> {
+    <span class="annotation">@Override</span>
+    <span class="kw">void</span> <span class="fn">draw</span>() {
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Drawing a Circle ⭕"</span>);
+    }
+}
+
+<span class="kw">class</span> <span class="cls">Rectangle</span> <span class="kw">extends</span> <span class="cls">Shape</span> {
+    <span class="annotation">@Override</span>
+    <span class="kw">void</span> <span class="fn">draw</span>() {
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Drawing a Rectangle █"</span>);
+    }
+}
+
+<span class="kw">public class</span> <span class="cls">DMDDemo</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+        <span class="cls">Shape</span> s; <span class="cm">// Superclass reference variable</span>
+
+        s = <span class="kw">new</span> <span class="cls">Circle</span>();    <span class="cm">// points to Circle object</span>
+        s.<span class="fn">draw</span>();           <span class="cm">// runtime resolves to Circle's draw()</span>
+
+        s = <span class="kw">new</span> <span class="cls">Rectangle</span>(); <span class="cm">// points to Rectangle object</span>
+        s.<span class="fn">draw</span>();           <span class="cm">// runtime resolves to Rectangle's draw()</span>
+    }
+}</code></pre>
+                <div class="output-box">
+                    <div class="label">Program Output</div>
+                    <pre><code>Drawing a Circle ⭕
+Drawing a Rectangle █</code></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- PROGRAM 2 -->
+        <div class="program-card">
+            <div class="program-header">
+                <h3>2. Access Protection Across Packages</h3>
+                <span class="badge badge-imp">6 MARKS</span>
+            </div>
+            <div class="program-body">
+                <p>Demonstrates package visibility, custom class inheritance, and access levels across `package1` and `package2` boundary levels.</p>
+<pre><code><span class="cm">// File: package1/Base.java</span>
+<span class="kw">package</span> package1;
+<span class="kw">public class</span> <span class="cls">Base</span> {
+    <span class="kw">private int</span> pri = <span class="num">1</span>;
+    <span class="kw">int</span> def = <span class="num">2</span>;
+    <span class="kw">protected int</span> pro = <span class="num">3</span>;
+    <span class="kw">public int</span> pub = <span class="num">4</span>;
+
+    <span class="kw">public void</span> <span class="fn">show</span>() {
+        <span class="cls">System</span>.out.<span class="fn">println</span>(pri + def + pro + pub); <span class="cm">// All are accessible here</span>
+    }
+}
+
+<span class="cm">// File: package2/Sub.java</span>
+<span class="kw">package</span> package2;
+<span class="kw">import</span> package1.<span class="cls">Base</span>;
+
+<span class="kw">public class</span> <span class="cls">Sub</span> <span class="kw">extends</span> <span class="cls">Base</span> {
+    <span class="kw">public void</span> <span class="fn">checkAccess</span>() {
+        <span class="cm">// System.out.println(pri); // ERROR! private</span>
+        <span class="cm">// System.out.println(def); // ERROR! default (not in same package)</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(pro);    <span class="cm">// OK! protected accessible via inheritance</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(pub);    <span class="cm">// OK! public accessible globally</span>
+    }
+}</code></pre>
+            </div>
+        </div>
+
+        <!-- PROGRAM 3 -->
+        <div class="program-card">
+            <div class="program-header">
+                <h3>3. Custom Checked Exception & Chained Exception</h3>
+                <span class="badge badge-imp">6 MARKS</span>
+            </div>
+            <div class="program-body">
+                <p>Demonstrates writing a custom checked exception class, using `throw`/`throws` blocks, and chaining causes inside catches.</p>
+<pre><code><span class="cm">// Custom checked exception for invalid voting age</span>
+<span class="kw">class</span> <span class="cls">InvalidAgeException</span> <span class="kw">extends</span> <span class="cls">Exception</span> {
+    <span class="cls">InvalidAgeException</span>(<span class="cls">String</span> msg) {
+        <span class="kw">super</span>(msg);
+    }
+}
+
+<span class="kw">public class</span> <span class="cls">ExceptionDemo</span> {
+    <span class="kw">static void</span> <span class="fn">checkEligibility</span>(<span class="kw">int</span> age) <span class="kw">throws</span> <span class="cls">InvalidAgeException</span> {
+        <span class="kw">if</span> (age &lt; <span class="num">18</span>) {
+            <span class="kw">throw new</span> <span class="cls">InvalidAgeException</span>(<span class="str">"Age "</span> + age + <span class="str">" is below standard voting age 18!"</span>);
+        }
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Eligible to vote! 🗳️"</span>);
+    }
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+        <span class="kw">try</span> {
+            <span class="fn">checkEligibility</span>(<span class="num">15</span>);
+        } <span class="kw">catch</span> (<span class="cls">InvalidAgeException</span> e) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Caught exception: "</span> + e.<span class="fn">getMessage</span>());
+            
+            <span class="cm">// Chaining Exception example</span>
+            <span class="cls">RuntimeException</span> re = <span class="kw">new</span> <span class="cls">RuntimeException</span>(<span class="str">"System validation failure"</span>);
+            re.<span class="fn">initCause</span>(e); <span class="cm">// Setting cause chain</span>
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Root Cause: "</span> + re.<span class="fn">getCause</span>());
+        } <span class="kw">finally</span> {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Validation process completed! ✅"</span>);
+        }
+    }
+}</code></pre>
+                <div class="output-box">
+                    <div class="label">Program Output</div>
+                    <pre><code>Caught exception: Age 15 is below standard voting age 18!
+Root Cause: InvalidAgeException: Age 15 is below standard voting age 18!
+Validation process completed! ✅</code></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- PROGRAM 4 -->
+        <div class="program-card">
+            <div class="program-header">
+                <h3>4. Constructor Overloading &amp; Chaining Demo</h3>
+                <span class="badge badge-imp">6 MARKS</span>
+            </div>
+            <div class="program-body">
+                <p>Demonstrates constructor overloading with different signatures, and constructor chaining using `this()` to reuse initialization logic.</p>
+<pre><code><span class="kw">class</span> <span class="cls">Box</span> {
+    <span class="kw">double</span> width, height, depth;
+
+    <span class="cm">// No-arg constructor (Default values)</span>
+    <span class="cls">Box</span>() {
+        <span class="kw">this</span>(<span class="num">1.0</span>, <span class="num">1.0</span>, <span class="num">1.0</span>); <span class="cm">// Chain to 3-arg constructor</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Default Box created."</span>);
+    }
+
+    <span class="cm">// Constructor used when cube is created</span>
+    <span class="cls">Box</span>(<span class="kw">double</span> len) {
+        <span class="kw">this</span>(len, len, len); <span class="cm">// Chain to 3-arg constructor</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Cube created."</span>);
+    }
+
+    <span class="cm">// Parameterized constructor for custom dimensions</span>
+    <span class="cls">Box</span>(<span class="kw">double</span> w, <span class="kw">double</span> h, <span class="kw">double</span> d) {
+        <span class="kw">this</span>.width = w;
+        <span class="kw">this</span>.height = h;
+        <span class="kw">this</span>.depth = d;
+    }
+
+    <span class="kw">double</span> <span class="fn">volume</span>() {
+        <span class="kw">return</span> width * height * depth;
+    }
+}
+
+<span class="kw">public class</span> <span class="cls">OverloadDemo</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+        <span class="cls">Box</span> mybox1 = <span class="kw">new</span> <span class="cls">Box</span>();
+        <span class="cls">Box</span> mybox2 = <span class="kw">new</span> <span class="cls">Box</span>(<span class="num">5.0</span>);
+        <span class="cls">Box</span> mybox3 = <span class="kw">new</span> <span class="cls">Box</span>(<span class="num">3.0</span>, <span class="num">4.0</span>, <span class="num">6.0</span>);
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Vol of Box 1: "</span> + mybox1.<span class="fn">volume</span>());
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Vol of Box 2: "</span> + mybox2.<span class="fn">volume</span>());
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Vol of Box 3: "</span> + mybox3.<span class="fn">volume</span>());
+    }
+}</code></pre>
+                <div class="output-box">
+                    <div class="label">Program Output</div>
+                    <pre><code>Default Box created.
+Cube created.
+Vol of Box 1: 1.0
+Vol of Box 2: 125.0
+Vol of Box 3: 72.0</code></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- PROGRAM 5 -->
+        <div class="program-card">
+            <div class="program-header">
+                <h3>5. Multiple Inheritance using Interfaces</h3>
+                <span class="badge badge-imp">6 MARKS</span>
+            </div>
+            <div class="program-body">
+                <p>Demonstrates how interfaces resolve the multiple inheritance diamond problem in Java, allowing a class to implement multiple specifications.</p>
+<pre><code><span class="kw">interface</span> <span class="cls">Printable</span> {
+    <span class="kw">void</span> <span class="fn">print</span>();
+}
+
+<span class="kw">interface</span> <span class="cls">Showable</span> {
+    <span class="kw">void</span> <span class="fn">show</span>();
+}
+
+<span class="cm">// Class implementing multiple interfaces</span>
+<span class="kw">class</span> <span class="cls">Document</span> <span class="kw">implements</span> <span class="cls">Printable</span>, <span class="cls">Showable</span> {
+    <span class="annotation">@Override</span>
+    <span class="kw">public void</span> <span class="fn">print</span>() {
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Printing Document content... 🖨️"</span>);
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="kw">public void</span> <span class="fn">show</span>() {
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Showing Document on Screen... 🖥️"</span>);
+    }
+}
+
+<span class="kw">public class</span> <span class="cls">MultipleInheritanceDemo</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+        <span class="cls">Document</span> doc = <span class="kw">new</span> <span class="cls">Document</span>();
+        doc.<span class="fn">print</span>();
+        doc.<span class="fn">show</span>();
+
+        <span class="cm">// Interfaces as reference types (Polymorphism)</span>
+        <span class="cls">Printable</span> p = doc;
+        p.<span class="fn">print</span>();
+        <span class="cm">// p.show(); // ERROR! show() is not defined in Printable interface</span>
+    }
+}</code></pre>
+                <div class="output-box">
+                    <div class="label">Program Output</div>
+                    <pre><code>Printing Document content... 🖨️
+Showing Document on Screen... 🖥️
+Printing Document content... 🖨️</code></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- PROGRAM 6 -->
+        <div class="program-card">
+            <div class="program-header">
+                <h3>6. this Keyword &amp; Shadowing Demo</h3>
+                <span class="badge badge-imp">6 MARKS</span>
+            </div>
+            <div class="program-body">
+                <p>Demonstrates explicit use of `this` to resolve scope shadowing of instance variables by method/constructor parameters, and invoking current class methods.</p>
+<pre><code><span class="kw">class</span> <span class="cls">Employee</span> {
+    <span class="kw">int</span> id;
+    <span class="cls">String</span> name;
+    <span class="kw">double</span> salary;
+
+    <span class="cls">Employee</span>(<span class="kw">int</span> id, <span class="cls">String</span> name, <span class="kw">double</span> salary) {
+        <span class="kw">this</span>.id = id;             <span class="cm">// 'this.id' is instance variable; 'id' is parameter</span>
+        <span class="kw">this</span>.name = name;         <span class="cm">// 'this.name' is instance variable; 'name' is parameter</span>
+        <span class="kw">this</span>.salary = salary;
+    }
+
+    <span class="kw">void</span> <span class="fn">display</span>() {
+        <span class="cls">System</span>.out.<span class="fn">println</span>(id + <span class="str">" | "</span> + name + <span class="str">" | $"</span> + salary);
+    }
+
+    <span class="kw">void</span> <span class="fn">promote</span>(<span class="kw">double</span> increment) {
+        <span class="kw">this</span>.salary += increment;
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"PROMOTED: "</span>);
+        <span class="kw">this</span>.<span class="fn">display</span>();           <span class="cm">// 'this' used to call current instance method</span>
+    }
+}
+
+<span class="kw">public class</span> <span class="cls">ThisDemo</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+        <span class="cls">Employee</span> emp = <span class="kw">new</span> <span class="cls">Employee</span>(<span class="num">101</span>, <span class="str">"Ananth"</span>, <span class="num">75000.0</span>);
+        emp.<span class="fn">display</span>();
+        emp.<span class="fn">promote</span>(<span class="num">15000.0</span>);
+    }
+}</code></pre>
+                <div class="output-box">
+                    <div class="label">Program Output</div>
+                    <pre><code>101 | Ananth | $75000.0
+PROMOTED: 101 | Ananth | $90000.0</code></pre>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================== -->
+    <!-- VIVA QUESTIONS                 -->
+    <!-- ============================== -->
+    <section class="section" id="viva">
+        <div class="part-divider part-b"><span>Top 10 Viva/Interview Questions</span></div>
+        <div class="card">
+            <ul class="viva-list">
+                <li><strong>Why is the main method static in Java?</strong> It allows the JVM to execute the `main` method directly without instantiating the class, saving startup memory and bootstrap overhead.</li>
+                <li><strong>Can we overload the main method?</strong> Yes, but the JVM will only execute the standard signature: `public static void main(String[] args)`.</li>
+                <li><strong>What is the difference between abstract classes and interfaces?</strong> An abstract class can have constructors, instance fields, non-final variables, and concrete methods. An interface can only have static final constants, default/static methods, and abstract methods, and supports multiple inheritance.</li>
+                <li><strong>What happens if you don't handle a checked exception?</strong> The code will fail to compile. The compiler requires you to either catch it using try-catch or declare it in the method signature using the `throws` keyword.</li>
+                <li><strong>Can a catch block exist without a try block?</strong> No. A catch block must immediately follow a try block. A finally block is also dependent on the try block.</li>
+                <li><strong>Is `finally` always executed?</strong> Yes, except in case of hard VM shutdowns like `System.exit(0)` or extreme hardware power loss.</li>
+                <li><strong>What is the purpose of chained exceptions?</strong> It allows developers to propagate a high-level corporate exception while keeping the low-level technical root cause attached for debugging.</li>
+                <li><strong>What is naming clash in packages?</strong> When two classes share the same name in different packages. It is resolved by writing fully qualified names (e.g. `java.util.Date` vs `java.sql.Date`).</li>
+                <li><strong>Can an interface implement another interface?</strong> No, an interface can only **extend** another interface (multiple extensions are allowed). Classes **implement** interfaces.</li>
+                <li><strong>What is dynamic dispatch used for?</strong> It is the mechanism that supports runtime polymorphism, allowing clean interfaces and decoupling subclass behaviors.</li>
+            </ul>
+        </div>
+    </section>
+
+</div>
+
+<!-- Back to Top -->
+<button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+    // Back to top behavior
+    window.addEventListener('scroll', () => {
+        const btn = document.getElementById('backToTop');
+        btn.classList.toggle('visible', window.scrollY > 400);
+    });
+
+    // Active link highlighting via observer
+    const sections = document.querySelectorAll('.section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                navLinks.forEach(l => l.classList.remove('active'));
+                const activeLink = document.querySelector(`.nav-link[href="#${entry.target.id}"]`);
+                if (activeLink) activeLink.classList.add('active');
+            }
+        });
+    }, { rootMargin: '-20% 0px -70% 0px' });
+    sections.forEach(s => observer.observe(s));
+
+    // Mobile sidebar auto-close
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            if (window.innerWidth <= 900) {
+                document.getElementById('sidebar').classList.remove('open');
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

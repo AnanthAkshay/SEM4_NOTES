@@ -1,0 +1,267 @@
+
+--- SLIDE 1 ---
+Embedded Systems -
+An Introduction
+
+--- SLIDE 2 ---
+1. Introduction
+Today’s world
+is becoming more and more technology enabled and so the word “Embedded Systems” becoming more familiar and widely used.
+
+Embedded systems are the one that uses electronics along with sensors and actuators.
+We
+can even say, any high-end machinery that has electronics control is considered to be part of
+the
+embedded systems, just as a small hand-held electronic device.
+23-02-2026
+
+--- SLIDE 3 ---
+Definition of embedded systems
+Embedded system i
+s an
+electronic-based system which takes in information through sensors,
+process it and
+produces an output actuation.
+MODEL OF AN EMBEDDED SYSTEM
+23-02-2026
+
+--- SLIDE 4 ---
+Each system
+is meant for a particular task or set of tasks. This task set is not alterable later.
+Any electronic device of now has a processing unit which takes in sensor data, process it and then produces signals, which does some actuation. The “processing” is usually done by software.
+An
+embedded system has an electronics hardware with software embedded into it. This makes the processing unit to be a microprocessor.
+To get the sensor data,  input peripherals are needed, and for output actuation, output peripherals are needed. Adding such peripherals to a microprocessor, makes the processing unit to become a Microcontroller unit (MCU). We also use as
+SoC
+(System on Chip).
+Characteristics of embedded systems
+23-02-2026
+
+--- SLIDE 5 ---
+Characteristics of embedded
+systems
+Continued
+…
+Many embedded systems are
+part of a bigger systems- for example, washing machines, refrigerators, automobiles etc. are all controlled by embedded electronics.
+Many of them have to operate and produce results within a stipulated time. Thus, we say that some of them need to do time critical computations.
+Application wise- the domain is very fast. Some of them are placed in inaccessible areas, such as forests, some in extreme climatic conditions like
+in case
+of military and space applications. Some will be very simple, as Temperature sensors, pedometers etc..
+23-02-2026
+
+--- SLIDE 6 ---
+II. Design of an embedded system
+
+The embedded system design may be constrained by the following factors
+:
+
+The computing capability of the MCU used.
+The power dissipation allowed
+i.e
+
+refers to the maximum amount of power (in watts) that a device or component can safely dissipate as heat without being
+damaged.
+The size of the
+device.
+The memory ( RAM and ROM) capacity of the MCU.
+23-02-2026
+
+--- SLIDE 7 ---
+
+In view of design constraints involved, the smart phone is considered to be an embedded system as it is designed under the limited computing capacity of its
+processor.Very
+
+low power dissipation allowed, small size and limited size of memory.
+23-02-2026
+
+--- SLIDE 8 ---
+III.
+Applications
+
+Lets have some few applications for Embedded Systems
+Mobile Phones & Tablets:
+The range of smartphones and tablets available in the market is very large. The design of these devices satisfy all the criteria for being labelled as embedded
+systems
+
+Consumer electronics and Household Appliances:
+This is also a very important category. Cameras, Music Players, DVD players, remote controls, washing machines, refrigerators and many more.
+23-02-2026
+
+--- SLIDE 9 ---
+Applications
+Contd
+….
+Automotive Controls:
+This is the largest application field for embedded systems. It has electronic controls for engine, fuel system, windows, door, etc..  More advanced automobiles have navigation, parking assistance, cruise control, driverless cars.
+
+Other fields
+applications are banking (ATMs, Currency Counters) Aviation and Military, Toys and Robotics.
+23-02-2026
+
+--- SLIDE 10 ---
+1V.  Embedded processors
+The
+important component of Embedded
+system is the embedded processor.
+
+When peripherals are integrated into the same package, the processing unit is usually called as
+MCU (Microcontroller Control Unit).
+
+
+Many MCU’s are available that are classified based on their data bus widths.
+
+Some of the MCU names will be discussed based on their usage of specific applications and few are mentioned here.
+23-02-2026
+
+--- SLIDE 11 ---
+MCUs named are:
+
+*
+
+8
+Bit :
+8051,
+PIC
+
+(Peripheral
+Interface
+Controller)
+
+and the
+AVR(
+Alf and Vegard’s RISC
+processor)
+
+series are a few of the MCUs with 8-bit data bus width.
+They are popular in the academic field and for applications which do not need high-level computations.
+*
+16
+Bit :
+PIC and AVR series have 16-Bit chips as well. A very low power 16-Bits MCU is the MSP 430 which has become very popular in medical and other low power devices
+.
+23-02-2026
+
+--- SLIDE 12 ---
+MCUs named are:
+* 32 and 64 Bit:
+ARM
+is the most popular of the 32-bit MCUs, though there are many 32 PIC versions as well. Newest version of ARM for
+advanced
+applications are all 64 bit. Intel has developed 32 and 64 bit Atom and Quark processors that have started incorporating embedded systems.
+23-02-2026
+
+--- SLIDE 13 ---
+V. Operating
+system (OS)
+An
+Operating System (OS) is
+a system
+software that acts as an interface between the user and computer hardware.
+An OS is
+a
+software which acts as the manager of the system.
+
+As phone does many tasks, managing the task set efficiently by assigning priorities where necessary and avoiding conflicts is the role of the manager and OS does this efficiently.
+
+Such OS are embedded Operating Systems and they have to be small enough to reside inside the small ROM space available in the device.
+23-02-2026
+
+--- SLIDE 14 ---
+
+Some embedded applications are time critical, such as ABS (
+Anti-lock Braking
+System) in cars.
+
+Even soft drink vending machine works on deadline, which the application has to produce the correct result.
+
+If not, we say that the system failure has occurred.
+
+In order to manage that, it needs RTOS (Real Time Operating System) which imposes and ensures the timing criterion.
+An RTOS uses deadline-based task scheduling algorithm.
+So, most of the embedded systems around us is managed and controlled by RTOS.
+23-02-2026
+
+--- SLIDE 15 ---
+VI. Connectivity
+
+We
+use various protocols for communications.
+The
+idea of connectivity between devices without human intervention.
+The expectation is
+all
+devices will be connected through the internet and that many functions will be able to function efficiently without human intervention.
+23-02-2026
+This expectation  is the motivation behind the idea named
+Internet of Things (
+IoT
+)
+
+--- SLIDE 16 ---
+Internet of things (
+IoT
+)
+
+IoT
+is the scheme of things where devices are connected to the internet and sensor data may be uploaded to the web
+.
+Later these data can be used by the system to make actuations, ideally, without human intervention.
+Smart homes, smart cities, smart cars, smart factories etc. are some of the examples
+IoT
+All the
+IoT
+based devices need  internet connectivity and so Wi-Fi and/or Ethernet protocols will become necessity.
+23-02-2026
+
+--- SLIDE 17 ---
+The most important features of
+iot
+-based systems may be listed as:
+
+Sensing & Monitoring
+Decision making based on input data from many sensors
+Network connectivity
+Data storage and computation in the ‘cloud’
+23-02-2026
+
+--- SLIDE 18 ---
+
+Fig
+
+s
+hows
+components of a ‘smart home ‘ in which many appliances and facilities may be automated by the
+IoT
+
+concept.
+Besides Internet protocols, other short range protocols like: Bluetooth classic, BLE (Bluetooth Low Energy),
+Zigbee
+, NFC (Near Field Communication) etc. are also accessories in the
+IoT
+revolution.
+Cloud
+computing needs to be more widely adopted to make the
+IoT
+dream a reality.
+23-02-2026
+
+--- SLIDE 19 ---
+Cloud & its Realization
+During the talk of
+IoT
+, we could see that an immense amount of data is generated from the sensors that are deployed.
+Where could all this data be stored ?
+Where could computation and analytics using this data be done
+?
+For all this, its none other than ‘ Cloud’.
+23-02-2026
+
+--- SLIDE 20 ---
+
+The cloud is a ‘storage and computational ‘ support provided by an array of networked computers.
+If our local system does not have enough storage space, we save it in ‘cloud’
+Likewise, if our local computing device does not have enough computational capability, we can use the service of the ‘Cloud Computing Platform’.
+Thus providing computational platform.
+So cloud provides both Computational & Storage space support.
+23-02-2026

@@ -1,0 +1,115 @@
+
+--- PAGE 11 ---
+ 
+11 
+ 
+Ability Enhancement Course- IV 
+S.No. Course Code Course Name 
+1.  ISAEC491 UI/UX 
+2.  ISAEC492 Data Analytics with R Programming 
+ 
+ 
+ 
+ 
+ 
+B.E. in Information Science and Engineering 
+SCHEME OF TEACHING III SEMESTER Batch:2024 
+IV SEMESTER 
+Sl. 
+No. Course Code Course Name Teaching 
+Department 
+Category Credits Total  
+contact  
+hours /week 
+L T P Total L T P S* 
+1.  IS41 Statistics, Probability and Linear Programming Maths ASC 2 1 0 3 2 2 0 2 
+2.  IS42 Microcontrollers ISE PCC(IC) 3 0 1 4 3 0 2 3 
+3.  IS43 Design and Analysis of Algorithms ISE PCC 3 0 0 3 3 0 0 3 
+4.  IS44 Database Management Systems ISE PCC 3 0 0 3 3 0 0 3 
+5.  IS45 Advanced Java ISE PCC 3 0 0 3 3 0 0 3 
+6.  ISL46 Design and Analysis of Algorithms Lab ISE PCC 0 0 1 1 0 0 2 0 
+7.  ISL47 Database Management Systems Lab ISE PCC 0 0 1 1 0 0 2 0 
+8.  ISL48 Advanced Java Lab ISE PCC 0 0 1 1 0 0 2 0 
+9.  ISAEC49X Ability Enhancement Course - IV ISE        AEC 1 0 0 1 1 0 0 1 
+ Total 15 1 4 20 15 2 6 15 
+10.  INT410  Inter/ Intra Institutional Internship ISE NCMC 0 0 0 0     
+11.  AM41 Additional Mathematics II * Maths NCMC 0 0 0 0 3 
+
+--- PAGE 53 ---
+ 
+52 
+MICROCONTROLLERS 
+Course Code: IS42 Credits: 3:0:1 
+Pre – requisites: Computer Organization and Architecture Contact Hours: 45L + 30P+45S 
+Course Coordinator: Mr. Prashanth Kambli 
+ 
+ 
+Course Contents 
+Unit 1 
+ARM Embedded Systems, RISC design philosophy, ARM design philosophy, Introduction to Embedded 
+systems, Design of Embedded Systems, Applications, Embedded processors, Operating System, 
+Connectivity. Internal Components of System-on-chip, General Microprocessor unit, MCU PIN diagram, 
+Timers and Counters, Pulse width modulator. 
+Pedagogy:  Conceptual Learning using NPTEL video lectures and problem-solving sessions 
+Recommended Resources / Links: 
+1. Introduction to Embedded System Design - Course  
+2. https://a.impartus.com/ilc/#/video/id/3404203  
+ 
+Unit 2 
+Serial Communication, Direct Memory Access, Semiconductor Memory, Designing Low power systems, 
+BUS architecture. Embedded Systems – the Software, Endian-ness, Data Alignment and Memory Banks, 
+Peripheral I/O and Memory Mapped I/O, Load Store Architecture, Stack, FLAGS. 
+Pedagogy: Analytical Learning through NPTEL videos, illustrative case problems 
+Recommended Resources / Links:  
+1. DMA Introduction: Master – Slave Communication | Free Video Tutorial | Udemy 
+2. https://a.impartus.com/ilc/#/video/id/3510844 
+ 
+Unit 3 
+The Architecture of ARM 7, ARM 7 architecture, Interrupts and Exceptions, ARM7 pipeline, Advanced 
+Features. Assembly Programming of ARM7, Embedded program development, ARM7 Instruction set. 
+Pedagogy: Assembly programming learning skills and algorithm tracing 
+Recommended Resources / Links: 
+1. https://www.udemy.com/course/armv8-exception-level1/ 
+2. https://a.impartus.com/ilc/#/video/id/3542117 
+Laboratory Session:  Part A 1-5 programs.  
+Unit 4 
+Assembly Language Programming, Accessing Memory, Programming of ARM7 using C, ARM7 
+SOC. 
+
+--- PAGE 54 ---
+ 
+53 
+Pedagogy: Assembly programming in high level language learning skills for embedded systems 
+Recommended Resources / Links: 
+1. Microcontroller Embedded C Programming: Absolute Beginners | Udemy 
+2. https://a.impartus.com/ilc/#/course/1259590/1112 
+ 
+Laboratory Session: Part A 6-12 Programs and Part B 1-5 Programs 
+Unit 5 
+Architecture of ARM Cortex-M, Cortex-M Processors, Cortex-M0, Modes and States, Programming 
+Model, Memory Model, Nested Vetor Interrupt Controller, Power management using sleep modes. 
+Pedagogy: Conceptual Learning using NPTEL video lectures for cortex systems 
+Recommended Resources / Links:   
+1. Microprocessors and Microcontrollers: Arm Cortex-M0+ (using RP2040) – NPTEL+ 
+2. https://a.impartus.com/ilc/#/course/1259590/1112 
+ 
+Laboratory Session: Part B 6-9 Programs 
+Self-Learning: 
+Course-Project: Develop and Embedded system application using Raspberry Pi OR Aurdino OR Nuvuton 
+boards for to showcase real time working principle. 
+ 
+MICROCONTROLLER LAB 
+Part A 
+1. a. ALP to add first 10 odd numbers. Store sum in register.  
+    b. ALP to compute sum of squares of 5 numbers starting from 1. Write and use procedure SQU. Store sum 
+in register. 
+   2. a. ALP to add the first n even numbers. Store the result in a memory location.  
+       b. ALP to generate a geometric progression with a limit n. Display the results in memory. 
+   3. a. ALP to count the number of zeroes and ones in a binary number.  
+       b. ALP to find the average of ten 16-bit numbers stored in memory. 
+   4. a. ALP to find the factorial of a number.  
+       b. ALP to generate the first n Fibonacci numbers. 
+   5. ALP to find the sum of digits of a number. 
+   6. ALP to convert BCD number to binary. 
+   7. ALP to select a set of r objects from a set of n objects without considering the order of elements 
+        in a selection using combination method. 

@@ -1,0 +1,155 @@
+
+--- Page 1 ---
+IS43/IS45(O) 
+Page 2 of 3 
+ 
+ 
+ 
+ (Autonomous Institute, Affiliated to VTU) 
+(Approved by AICTE, New Delhi & Govt. of Karnataka)  
+Accredited by NBA & NAAC with ‘A+’ Grade 
+ 
+SEMESTER END EXAMINATIONS – AUGUST 2024 
+Program : B.E. – Information Science and 
+Engineering  Semester : IV 
+Course Name : Design and Analysis of Algorithms  Max. Marks : 100 
+Course Code : IS43 / IS45(O) Duration : 3 Hrs 
+ 
+Instructions to the Candidates: 
+ Answer one full question from each unit. 
+ 
+  UNIT - I   
+1. a) Explain with a neat diagram the fundamental steps involved in design 
+and analysis of algorithms. 
+CO1 (08) 
+ b) Write an algorithm to check if all the elements of an array is unique. 
+Analyze its time complexity.  
+CO1 (06) 
+ c) Give a general plan for analyzing time efficiency of recursive algorithms, 
+and analyze the time complexity for tower of Hanoi Puzzle. 
+CO (06) 
+     
+2. a) Explain the following notations (formal definition) O, Θ and Ω with an 
+example for each. 
+CO1 (08) 
+ b) Consider the following algorithm: 
+Algorithm Fun(n) 
+//Input: A positive decimal integer n 
+ 
+If n==1    return 1 
+else       return  Fun(⌊ n/2⌋) +1 
+ 
+i. What does this algorithm compute? 
+ii. What is its basic operation? 
+iii. How many times basic operation is executed? 
+iv. What is the efficiency class of this algorithm? 
+CO1 (08) 
+ c) Compare order of growth algorithm time class 1, n, n 2, n3, 2 n, n!, log2n, 
+nlog2n. 
+ 
+CO1 (04) 
+  UNIT - II   
+3. a) Illustrate, the tracing of merge sort algorithm for the following set of 
+numbers: 11, 6, 3, 24, 46, 22, 7. 
+CO2 (05) 
+ b) Illustrate, the tracing of bubble sort algorithm for the following set of 
+numbers: 1,16, 30, 4, 6, 2, 27. 
+CO2 (05) 
+ c) Write a quick sort algorithm and analyze its time complexity for the worst 
+and best case efficiency. 
+CO2 (10) 
+     
+4. a) Apply Horspool algorithm to determine the number of character 
+comparisons made for searching the pattern “ROB” in the text: “LIFE IS 
+FULL OF PROBLEM”. Write the horspool algorithm.  
+CO2 (08) 
+ b) Write an algorithm to sort the elements using quick sort method. Trace 
+quick sort algorithm for the given array of numbers, also show the tree 
+calls and compute average time complexity. 2, 7, 8, 3, 1, 9, 5, 6, 3 
+CO2 (08) 
+ c) Define brute force approach. Indicate why it is an important algorithm 
+design strategy. 
+CO2 (04) 
+     
+USN 1 M S        
+ 
+
+--- Page 2 ---
+IS43/IS45(O) 
+Page 2 of 3 
+ 
+   
+UNIT - III 
+  
+5. a) Solve the following instance of Knapsack problem using the bottom up 
+dynamic programming technique to obtain: 
+Optimal subset of items with the given data N=5,  
+[w1,w2,w3,w4,w5]=[10,20,30,40,50] and 
+[p1,p2,p3,p4,p5]=[20,30,66,40,60] and M=100. Give the time 
+complexity of Knapsack problem. 
+CO3 (07) 
+ b) State and explain Dijikstra’s algorithm to find single source shortest path 
+for a given graph. Apply the same for the following graph. Assume “a” as 
+the source vertex. 
+ 
+CO3 (08) 
+ c) Write Kruskal’s algorithm to construct minimum cost spanning tree.  CO3 (05) 
+     
+6. a) Explain how dynamic programming is used to compute all pair’s shortest 
+paths for a weighted digraph, and apply the same to compute all pair 
+shortest paths for the following graph. 
+ 
+CO3 (08) 
+ b) i) Construct a Huffman code for the following data: 
+character A B C D E 
+probability 0.4 0.1 0.2 0.14 0.16 
+ii) Encode the text ABACABAD using the code. 
+iii) Decode the text whose encoding is  100010111001010 using Huffman 
+code. 
+CO3 (08) 
+ c) Compare greedy and dynamic programming techniques.  CO3 (04) 
+     
+  UNIT- IV   
+7. a) Apply insertion sort for the following instance of an array  
+[50,30,10,40,20,80,90,60]. Compute its worst case time complexity. 
+CO4 (08) 
+ b) Design an algorithm for Breadth -First-search traversal. Determine the 
+BFS for the following and write topological sorting for the following using 
+source removal method. 
+ 
+CO4 (12) 
+     
+
+--- Page 3 ---
+IS43/IS45(O) 
+Page 2 of 3 
+ 
+     
+8. a) Differentiate between DFS and BFS. CO4 (05) 
+ b) What is topological sorting? Arrange the following graph nodes in 
+topological sorting using DFS. 
+ 
+CO4 (05) 
+ c) What are AVL trees? Discuss four different rotations with respect to AVL 
+tree. Construct AVL tree for the following list of elements:                                    
+3, 5, 11, 8, 4, 1, 12, 7, 2, 6, 10. 
+CO4 (10) 
+     
+  UNIT- V   
+9. a) What is a heap? Construct a heap for the list 1, 8, 6, 5, 3, 7, 4 by bottom 
+–up algorithm. And sort the  given list by using by heapsort. 
+CO5 (10) 
+ b) What is backtracking? Explain how backtracking can be used to solve      
+n-Queen’s problem and obtain one solution to 4 -Queen’s problem 
+showing the state Space tree. 
+CO5 (10) 
+     
+10. a) Apply branch and bound algorithm to solve the travelling salesman 
+problem for the given graph. 
+ 
+CO5 (10) 
+ b) Explain the following with an example: 
+(i) P-Problem (ii) NP-Problem  (iii) NP-Complete Problem   (iv)  NP-Hard. 
+CO5 (10) 
+ 
+******************************** 

@@ -1,0 +1,4383 @@
+
+--- SLIDE 1 ---
+ASSEMBLY
+
+PROGRAMING
+
+OF
+
+ARM7
+Chapter
+
+5
+
+--- SLIDE 2 ---
+INTRODUCTION
+Assembly
+
+Language
+
+Programming
+
+(ALP)
+
+is
+
+an
+
+efficient
+
+way
+
+of
+
+using
+
+the
+
+instruction
+
+set
+
+of
+
+a
+
+processor.
+Her
+e
+co
+din
+g
+i
+s
+d
+one	in	a
+s
+ymb
+o
+l
+i
+c
+l
+a
+n
+g
+u
+a
+g
+e
+w
+h
+ic
+h
+i
+s
+general
+l
+y
+referred
+
+to
+
+as
+
+“mnemonics”.
+These
+
+mnemonic
+
+are
+
+directly
+
+converted
+
+into
+machine
+
+language
+
+and
+
+are
+
+executed
+by
+
+the
+
+processor.
+Assembler:
+
+Tool
+
+that
+
+does
+
+the
+
+translation
+
+from
+
+assembly
+
+language
+
+to
+
+machine
+language.
+Means
+
+its
+
+process
+
+is
+
+one-to-one
+
+process
+
+such
+
+that,
+
+each
+
+mnemonic
+
+gets
+
+translated
+
+to
+
+only
+
+a
+
+specific
+
+machine
+code.
+
+--- SLIDE 3 ---
+5.1
+
+EMBEDDED
+
+PROGRAM
+
+DEVELOPMENT
+ARM
+is
+an
+embedded processor and
+the
+code
+which
+is
+developed
+has
+
+finally
+
+to
+
+be
+
+'burned'
+
+into
+
+its
+
+ROM.
+Code has
+to
+be
+developed,
+and thoroughly
+tested
+and
+verified
+to
+be
+
+correct
+
+and
+
+working.
+We
+need a host computer
+which
+is
+a PC, in which
+the development
+and
+
+testing
+
+of
+
+the
+
+code
+
+is
+
+done
+PC runs
+on an x86
+processor,
+but
+the
+program
+that we are
+working
+on
+is
+
+for
+
+another
+
+processor's
+
+Instruction
+
+Set
+Architecture
+
+(ISA),
+
+that
+
+is,
+
+ARM.
+when
+
+the
+
+assembly
+
+process
+is
+
+complete,
+the
+
+binary
+code
+
+that
+
+is
+
+obtained
+is of a processor
+which
+is not
+the
+host computer (x86). So
+the
+
+conversion
+is
+termed as
+'cross assembly'.
+If
+the source
+program
+is
+written
+
+in
+
+high
+
+level
+
+language,
+
+the
+translation
+
+is
+
+called
+
+`cross
+
+compiling'.
+
+--- SLIDE 4 ---
+5.1
+
+EMBEDDED
+
+PROGRAM
+
+DEVELOPMENT
+
+(CONTD..)
+The
+host PC should
+have
+an IDE (Integrated
+Development
+Environment)
+
+which
+is
+
+a
+
+programming
+
+environment
+
+that
+has
+
+a
+
+code
+
+editor,
+
+cross
+
+compiler
+and
+assembler,
+debugger,
+simulator and
+graphical
+user
+interface
+
+(GUI).
+Th
+e
+ID
+E	has	k
+n
+o
+w
+l
+e
+dg
+e
+o
+f
+th
+e	r
+e
+g
+i
+s
+t
+e
+r
+s,
+ins
+tr
+uc
+t
+io
+n	set,	memory	and
+peripheral
+
+mapping
+
+of
+
+the
+
+embedded
+
+processor
+
+for
+
+which
+
+it
+
+is
+
+used.
+IDE
+
+of
+
+8051
+cannot
+
+be used
+for
+
+ARM.
+Our
+
+approach
+
+is
+
+to
+
+use
+
+assembly
+
+programming
+
+for
+
+the
+
+ARM
+
+core,
+
+and
+
+C
+programming
+
+with
+
+peripherals
+
+--- SLIDE 5 ---
+POPUL
+A
+R IDES
+
+IN
+
+USE
+
+FO
+R
+
+V
+A
+R
+IOUS
+PROCESSORS.
+
+--- SLIDE 6 ---
+N
+O
+T
+E
+
+T
+O
+
+REMEMBER
+W
+h
+en	using
+th
+e	assemble
+r
+,
+th
+e	resul
+t
+s	of
+th
+e	prog
+r
+am
+a
+re
+ch
+e
+c
+k
+ed
+i
+n	registers
+and/or
+
+memory.
+When
+
+memory
+is
+
+being
+
+used,
+
+we
+
+may
+
+need
+
+to
+
+choose
+
+a
+
+specific
+
+processor,
+
+so
+
+that
+we
+
+can
+
+define
+
+the
+
+ROM and
+
+RAM
+spaces.
+We
+have	chosen	NXP's
+LPC
+214x	series,
+which
+has
+ROM
+starting	at	address
+Ox00000000
+
+and
+
+RAM
+
+at
+
+Ox40000000.
+
+--- SLIDE 7 ---
+5.1.1
+
+FEATURES
+
+OF
+
+ARMV4T
+
+ISA
+The
+
+version
+
+of
+
+ISA
+
+used
+
+for
+
+ARM7
+
+is
+
+v4T
+
+(the
+
+character
+
+'T'
+
+means
+
+that
+
+Thumb
+
+instructions
+
+are
+
+also
+
+included).
+Feature
+
+are:
+In
+
+general,
+
+all
+
+Instructions
+
+are
+
+of
+
+size
+
+32
+
+bits
+
+for
+
+ARM
+
+and
+
+16
+
+bits
+
+for
+THUMB,
+
+though
+
+there
+
+are
+a
+
+few
+exceptions.
+There
+is
+a
+barrel shifter
+in the ALU,
+as
+shown
+in
+Fig.
+5.1. This
+means
+
+that
+one of
+the
+operands
+may
+be shifted/rotated.
+This
+is
+useful for
+
+simplifying
+
+some
+
+types of
+
+operations.
+The
+use of
+the barrel shifter
+makes possible
+the combination
+of
+shift
+and
+
+ALU
+operations
+
+in
+
+a
+
+single
+
+instruction.
+All
+
+operands
+
+of
+
+data
+
+processing
+
+instructions
+
+are
+
+in
+
+registers.
+
+--- SLIDE 8 ---
+Only
+
+the
+
+load
+
+and
+store
+
+instructions
+
+access
+memory.
+Most
+
+other
+
+processors
+
+use
+
+condition
+
+checking
+
+only
+
+with
+
+branch
+
+instructions.
+In
+contrast,
+here we find
+that many
+other
+instructions
+
+have
+
+conditions
+
+appended
+
+to
+
+it
+There
+is
+a
+special
+technique
+for handling
+immediate
+instructions.
+There
+
+are
+
+instructions
+
+to
+
+load/store
+
+data
+
+in
+
+multiple
+
+registers.
+9.Arithmetic
+
+and
+
+logical
+
+instructions
+
+have
+
+a
+
+three
+
+operand
+
+format.
+
+--- SLIDE 9 ---
+SOME
+POINTS
+
+TO
+
+NOTE
+
+BEFORE
+
+WE
+
+START
+ASSEMBLY
+
+PROGRAMMING
+The processor can opt to use the big endian or little endian format
+In our discussion here, we choose the little endian format.
+8-bit (byte), 16-bit(half word) and 32-bit(word) data sizes are possible.
+Data alignment is necessary for efficiency.
+
+--- SLIDE 10 ---
+5.1.2
+
+ASSEMBLY
+
+LANGUAGE
+
+FORMAT
+A
+
+line
+
+in
+
+assembly
+
+language
+has
+
+the
+
+following
+
+format.
+L
+a
+bel
+SAM
+Opco
+d
+e  Add
+Ope
+r
+an
+d
+s
+R7,R6,R5
+;comments
+;add
+
+R6
+
+and
+
+R5
+
+&
+
+copy
+
+sum
+
+to
+
+R7
+SAM
+is the label, ADD is the opcode, and R7, R6, R5 are the operands.
+What is written after the semicolon is a comment.
+
+--- SLIDE 11 ---
+5.2	ARM7
+
+INSTRUCTION
+
+SET
+
+The
+
+instructions
+
+can
+
+be
+
+classified
+
+into
+
+the
+
+following
+
+different
+
+types:
+Data
+
+processing
+instructions
+Load
+
+store
+
+instructions
+
+—
+
+single
+
+register,
+
+multiple
+
+register
+Branch
+
+instructions
+Status
+
+register
+
+access instructions
+We
+
+will
+
+discuss
+
+only
+
+the
+
+first
+
+three
+
+types.
+
+--- SLIDE 12 ---
+5.2.1
+
+DATA
+
+PROCESSING
+
+INSTRUCTIONS
+This
+
+set
+
+includes
+
+move,
+
+arithmetic,
+
+logical
+
+and
+
+compare
+
+instructions.
+Lets
+
+start
+
+with
+
+the
+
+concept
+
+of
+
+the
+
+barrel
+
+shifter
+
+which
+
+is
+
+part
+
+of
+
+the
+
+ALU.
+A
+
+barrel
+
+shifter
+
+is
+
+a
+
+unit
+
+which
+
+can
+
+shift
+
+and
+
+rotate
+
+operands
+
+by
+
+any
+amount.
+Figure
+
+shows
+
+that
+
+when
+
+there
+
+are
+
+two
+
+source
+
+operands
+
+in
+
+the
+
+ALU,
+one
+of
+
+them
+
+may
+
+be
+shifted/rotated
+
+any
+number
+of
+
+times
+Note
+
+that
+
+the
+
+maximum
+
+size
+
+of
+
+any
+
+register
+
+is
+
+32
+
+bits
+s
+o
+t
+he
+b
+a
+r
+rel
+s
+h
+i
+f
+te
+r	ope
+r
+at
+i
+ons	a
+r
+e
+n
+ot	needed
+fo
+r	sh
+i
+ft/r
+o
+tat
+i
+o
+n
+s
+beyond
+
+32
+
+times.
+
+--- SLIDE 13 ---
+
+--- SLIDE 14 ---
+
+--- SLIDE 15 ---
+5.2.1.1
+
+LOGICAL
+SHIFT
+
+LEFT
+
+(LSL
+
+#n)
+When
+
+the
+
+shift
+
+amount
+
+is
+
+specified
+
+in
+
+the
+
+instruction,
+
+it
+
+is
+
+contained
+
+in
+
+a
+5-bit
+
+field
+
+which
+
+may
+
+take
+
+any
+
+value
+
+from
+
+0-31.
+A
+
+logical
+
+shift
+
+left
+
+(LSL)
+
+takes
+
+the
+
+contents
+
+of
+
+the
+
+specified
+
+register
+and
+
+shifts
+
+it
+
+left.
+A
+
+left
+
+shift
+
+by
+
+one
+
+bit
+
+position
+
+is
+
+equivalent
+
+to
+
+multiplication
+
+by
+
+2.
+For
+
+example,
+
+the
+
+effect
+
+of
+
+LSL
+
+#4
+
+causes
+
+a
+
+multiplication
+
+by
+
+2
+4
+,
+
+that
+
+is,
+
+by
+16.
+Th
+e
+l
+e
+ast
+s
+ig
+n
+i
+f
+ic
+a
+nt
+b
+i
+ts
+o
+f
+t
+he	r
+e
+s
+u
+l
+t	a
+r
+e	f
+i
+l
+l
+ed
+w
+i
+t
+h
+ze
+r
+o
+s
+,	and
+t
+he  high
+
+bits
+
+of
+
+the
+
+register
+
+are
+
+discarded.
+The
+most
+
+significant
+
+discarded
+
+bit
+
+goes
+
+into
+
+the
+
+Carry
+
+flag.
+
+--- SLIDE 16 ---
+
+--- SLIDE 17 ---
+EXAM
+P
+LE
+
+--- SLIDE 18 ---
+5.2.1.2
+
+LOGICAL
+
+SHIFT
+
+RIGHT
+
+(LSR
+
+#n)
+This
+
+is
+
+similar
+
+to
+
+LSL but
+
+the
+
+shifting
+
+is
+
+towards
+
+right.
+Shifting
+
+right
+
+by
+
+each
+
+bit
+
+position
+
+is
+
+equivalent
+
+to
+
+a
+
+division
+
+by
+2.
+Thus,
+
+LSR
+
+#5
+
+causes
+
+the
+
+data
+
+in
+
+the
+
+specified
+
+register
+
+to
+
+be
+
+divided
+
+by
+32.
+
+--- SLIDE 19 ---
+
+--- SLIDE 20 ---
+
+--- SLIDE 21 ---
+5.2.1.3
+
+ARITHMETIC
+
+SHIFT
+
+RIGHT
+
+(ASR
+
+#n)
+An arithmetic shift right
+(ASR)
+is
+similar
+to
+logical shift right, except
+
+that
+
+the
+
+high
+
+bits
+
+are
+
+filled
+
+with
+
+the
+
+MSB
+
+of
+
+the
+
+register
+
+instead
+
+of
+
+zeros.
+This
+
+preserves
+the
+
+sign
+in
+
+2's
+
+complement
+notation.
+
+Thus,
+
+sign
+
+extension
+is
+done on
+the
+data,
+along with
+it
+being divided
+by
+2 for
+each
+
+shift.
+Thus,
+
+ASR
+
+#4
+
+causes
+
+a
+
+division
+
+by
+
+16
+
+--- SLIDE 22 ---
+
+--- SLIDE 23 ---
+To
+show
+the
+difference
+between logical and arithmetic right
+shifts,
+consider
+
+A
+LSR
+
+and
+
+ASR
+
+where
+
+the
+
+value
+
+to
+
+be
+
+shifted is
+
+112
+
+and
+
+the
+
+shift
+
+is
+
+3
+
+places.
+
+T
+o
+k
+e
+e
+p
+
+th
+e ma
+t
+hemat
+i
+c
+s
+
+s
+i
+mple,
+
+w
+e
+
+wil
+l
+
+use 8
+-
+b
+i
+t
+
+numb
+er
+s
+.
+The
+
+bit
+
+pattern
+
+for
+
+112 is
+0111
+
+0000.
+Performing
+
+LSR
+#3
+transforms
+
+the
+
+bit pattern
+
+to
+
+be
+
+0000
+1110
+Result
+
+is
+
+14
+:
+14
+
+to
+
+base
+
+10
+Performing
+
+ASR
+#3
+
+again
+
+transforms
+
+the bit
+
+pattern
+
+to
+
+0000
+
+1110
+Now
+what
+happens if
+
+the
+number
+
+is
+
+-112?
+
+First
+
+create
+the
+
+2's
+
+complement
+
+bit
+
+pattern
+
+for
+
+-112
+
+by
+
+flipping
+
+the
+
+bit
+
+pattern
+
+of
+
+112
+
+and
+
+adding
+
+1.
+0111
+
+0000
+becomes
+
+(1000
+
+1111
+
++
+
+1)
+
+becomes
+
+1001 0000
+Now
+
+perform
+
+a
+
+LSR
+#3
+
+operation
+
+on
+
+1001
+
+0000.
+
+--- SLIDE 24 ---
+
+This
+
+shifts
+
+the
+
+bits
+3
+places
+
+to
+
+the
+right
+
+and
+
+fills
+
+in
+
+the
+
+vacated
+
+bits
+
+with
+
+0s:
+1001
+
+0000
+
+becomes
+0001
+
+0010
+which
+
+is
+
++18
+
+to
+
+Base
+
+10
+Now
+
+instead
+
+perform
+
+an
+
+ASR
+
+#3
+
+operation
+
+on
+
+1001 0000.
+This
+
+shifts
+
+the
+
+bits
+3
+places
+
+to
+
+the
+
+right
+
+and
+
+fills
+
+the
+
+vacated
+
+bits
+
+with
+
+copies
+
+of
+
+the
+
+most
+
+significant
+
+bit,
+
+i.e.
+
+1's.
+1001
+
+0000
+becomes
+
+1111
+
+0010
+
+which
+
+is
+
+-14
+to
+
+base
+10.
+
+--- SLIDE 25 ---
+5.2.1.4
+
+ROTATE
+
+RIGHT
+
+(ROR
+
+#n)
+R
+i
+ght
+s
+h
+i
+f
+t
+i
+ng	is
+d
+o
+ne	and
+t
+he
+b
+it
+s
+w
+h
+ic
+h	o
+v
+e
+r
+f
+l
+ow
+a
+re
+reintroduced
+
+at
+
+the
+left
+
+end
+
+of
+
+the
+
+register.
+The
+last
+
+bit
+
+shifted
+
+out,
+
+is
+
+put
+
+in
+
+the
+
+carry
+
+flag
+
+as
+
+well.
+The
+r
+e
+i
+s
+n
+o
+'
+rotate
+left
+'
+i
+nst
+r
+uc
+t
+ion
+,
+bec
+a
+use
+lef
+t	rot
+a
+t
+ion
+b
+y	n
+times
+
+can
+
+be
+achieved
+
+by
+rotating
+
+to
+the
+
+right
+
+(32
+—
+
+n)
+
+times.
+For
+
+example,
+
+rotating
+
+4
+
+times
+
+to
+
+the
+
+left
+
+is
+
+achieved
+
+by
+
+rotating
+
+32
+—
+
+4
+
+=
+28
+
+times
+
+to
+
+the
+
+right.
+
+--- SLIDE 26 ---
+
+--- SLIDE 27 ---
+5.2.1.5
+
+ROTATE
+
+RIGHT
+
+EXTENDED
+
+(RRX
+
+#n)
+RRX
+
+is
+
+a
+
+ROR
+
+operation
+
+with
+
+a
+
+crucial
+
+difference.
+It
+rotates
+the
+number
+to
+the
+right
+by
+one
+place
+but
+the
+original bit
+31
+is
+
+filled
+by
+the
+value
+of
+the Carry
+flag and
+the
+original bit
+
+0
+is
+moved
+into
+
+the
+
+Carry
+
+flag.
+This
+
+allows
+
+a
+
+33-bit
+
+rotation
+
+by
+
+using
+
+both
+
+the
+
+register
+
+and
+
+the
+
+carry
+
+flag.
+
+--- SLIDE 28 ---
+
+--- SLIDE 29 ---
+PROBLEMS
+Find
+
+the
+results
+
+of
+
+the
+
+following
+
+operations
+
+given
+
+the
+contents
+
+of
+
+R1=0x0089EF32,
+
+R2=0x80456730,
+
+R3=0x8
+1.
+LSL R1,#8
+2.
+
+LSR
+
+R1,#12
+ASR
+
+R2,R3
+ROR
+
+R2,R3
+
+--- SLIDE 30 ---
+ANSWERS
+
+--- SLIDE 31 ---
+5.2.1.6
+
+MOV
+Instruction
+
+(MOV,
+MVN)
+The
+
+most
+
+frequently
+
+used
+
+instruction
+
+in
+
+any
+
+processor
+
+is
+
+the
+
+one
+
+that
+
+copies
+
+from
+
+a
+
+source
+
+to
+
+a
+destination.
+In
+
+ARM,
+
+the
+
+`MOV'
+
+instruction
+
+does
+
+the
+
+copying
+
+of
+
+data
+
+to
+
+a
+
+destination
+
+register.
+The
+
+simplest
+
+formats
+
+of
+
+the
+
+MOV
+
+instruction
+
+are
+
+as
+
+follows:
+
+--- SLIDE 32 ---
+EXAMPLE
+
+1
+What is the content of the destination registers after the execution of the following instructions
+?
+R1 = 0
+R2 =
+0x896700FF
+MOV R3, R1
+MVN R4, R1
+MVN R5, R2
+MOV R6, #235
+SOLUTION
+R3 = 0
+R4 = 0xFFFFFFFF
+R5 = 0x7698FF00
+R6 = 0x000000EB
+(235 in 32-bit hexadecimal format)
+
+--- SLIDE 33 ---
+EXAMPLE
+
+2
+Find the result in the destination register after the execution of the following instructions, if:
+R6 = 0xFFEE1100 and R2 = 8
+MOV R10, R6, LSR #2
+MVN R9, R6, LSL #4
+MOV R8, R6, ASR R2
+Given:
+FF   EE   11   00
+11111111 11101110 00010001
+00000000
+1
+) MOV R10, R6, LSR #
+2
+
+Before:11111111
+11101110 00010001 00000000
+After
+LSR #
+2:R10=00111111
+11111011 10000100
+01000000=
+
+0x3FFB8440
+2)
+MVN R9, R6, LSL #
+4
+Before: 	11111111
+11101110 00010001 00000000
+After
+LSL #4
+: 11111110
+11100001 00010000
+00000000
+Before NOT:11111110
+11100001 00010000 00000000
+After NOT:00000001
+00011110 11101111
+11111111
+R9
+=
+0000 0001 00011 110 1110 1111 1111 1111= 0x011EEFFF
+3
+) MOV R8, R6, ASR R2 (R2 = 8)
+Before:11111111
+11101110 00010001 00000000
+After
+ASR #
+8:11111111
+11111111 11101110
+00010001
+R8 =
+1111 1111
+11111111 11101110
+00010001
+= 0xFFFFEE11
+
+--- SLIDE 34 ---
+5.2.1.7
+
+THE
+
+SUFFIX
+
+‘S’
+For
+
+any
+
+data
+
+processing
+
+instruction
+
+to
+
+have
+
+the
+
+capability
+
+to
+
+update
+
+the
+
+conditional
+
+flags,
+
+it
+
+must
+
+be
+suffixed
+
+with
+
+the
+
+character
+
+'S'.
+I
+f
+t
+h
+i
+s	s
+u
+f
+f
+i
+x	is
+n
+ot	ap
+p
+ended
+t
+o
+t
+he
+in
+s
+truc
+t
+i
+o
+n,
+t
+he	u
+p
+datin
+g
+o
+f
+f
+lags
+does
+
+not
+
+occur.
+For
+
+example, the
+MOV
+
+instruction
+
+may
+
+be appended
+
+as
+MOVS.
+Other	instructions	which
+we
+
+will
+see
+
+presently,
+may
+
+also	be
+
+appended
+
+with
+
+the
+
+suffix
+
+S
+
+--- SLIDE 35 ---
+
+--- SLIDE 36 ---
+5.2.1.8
+
+CONDITIONAL EXECUTION
+One
+of ARM's special features
+is
+that it can execute any
+instruction
+
+conditionally.
+The
+word conditionally
+implies
+that
+the state of
+the
+condition
+flags
+are
+
+checked before
+it is
+decided
+whether
+the instruction
+should be executed
+
+or
+
+not.
+If the
+required
+condition
+is not met, the
+instruction
+becomes a NOP
+(No
+
+Operation).
+
+--- SLIDE 37 ---
+LIST
+
+OF
+
+CONDITION
+
+CODES
+
+and
+
+the
+
+FLAGS
+
+UPDATED
+
+CORRESPONDINGLY
+
+--- SLIDE 38 ---
+Format
+
+of
+
+a
+Data
+
+Processing
+
+Instruction
+Figure
+
+shows
+the
+
+instruction
+
+format
+
+of
+
+a
+typical
+
+data
+
+processing instruction.
+Looking
+
+at
+
+Fig,
+
+we
+
+see
+
+that
+
+four
+
+bits
+
+are
+
+allocated
+
+to
+
+specify
+
+the
+
+condition.
+
+Th
+e	in
+s
+tr
+u
+cti
+on	pro
+d
+uces	a	result
+b
+y	pe
+r
+fo
+r
+mi
+n
+g	a
+spe
+c
+ified	ari
+t
+hme
+t
+ic
+o
+r	log
+i
+c
+a
+l
+operatio
+n on
+
+on
+e
+
+or
+
+tw
+o
+
+op
+e
+rand
+s
+.
+
+Th
+e first
+
+op
+e
+rand
+
+i
+s al
+w
+ays
+
+a
+
+register
+
+(R
+n
+)
+.
+The second
+
+operand
+may
+
+be
+
+a
+shifted
+
+register
+
+(Rm)
+or
+
+a
+
+rotated
+
+8
+
+bit
+
+immediate
+
+value.
+Rd
+
+is
+the
+
+destination
+
+register.
+The
+flag
+bits
+
+in
+
+the
+
+CPSR
+
+may
+
+be
+
+updated
+if
+
+the
+
+instructions
+
+has
+been
+appended
+
+with
+
+‘S'.
+Otherwise,
+
+the
+
+flags are
+
+not
+
+affected.
+
+--- SLIDE 39 ---
+How
+Do
+
+We
+
+Use
+
+Conditional
+
+Execution?
+Let us
+take
+a few
+examples.
+
+MOVEQ
+
+R2,R4
+The
+above
+
+instruction
+checks
+
+the
+flags
+
+associated
+
+with
+
+the
+
+condition `EQ:( equal). Referring
+to
+Table
+5.3,
+we
+see
+that
+the
+Z
+
+flag
+
+should
+
+be
+
+set
+(Z=1),
+
+is
+
+the
+
+condition
+
+specified.
+After
+
+this
+
+instruction
+is
+
+fetched
+
+and
+
+decoded,
+
+the
+
+condition
+
+(whether
+Z flag is set)
+is
+checked before this instruction comes
+to
+
+the execution
+stage.
+If
+found to be true,
+the
+execution
+of
+copying
+
+the
+content of
+R4
+to
+R2
+is
+done. But if
+Z=0,
+the
+instruction
+simply
+
+becomes
+
+an
+
+NOP,
+
+that
+
+is,
+
+it
+
+does
+
+not
+
+get
+
+executed.
+
+--- SLIDE 40 ---
+MOVHI
+
+R5,R6
+Before
+
+it
+
+is
+
+decided
+
+whether
+
+these
+
+instructions
+
+should
+
+be
+
+executed
+
+or
+
+not,
+
+the
+
+flags
+associated
+
+with
+
+the
+
+'HI'
+
+condition
+
+is
+
+looked
+
+at.
+
+Table
+5.3
+shows
+
+that
+
+C=1
+
+and Z=0
+are
+
+the
+
+conditions.
+
+If
+a previous
+instruction
+had
+updated
+the flags and
+these conditions
+
+are
+met,
+
+the
+MOVHI
+
+instruction
+gets
+
+executed
+
+—
+
+otherwise
+
+it
+
+becomes
+a
+
+NOR
+
+--- SLIDE 41 ---
+W
+h
+at
+
+Ar
+e
+
+T
+h
+e
+
+Pro
+s
+
+An
+d
+
+Con
+s
+
+O
+f
+
+Such
+
+Cond
+i
+tional  Execution
+
+(Which
+
+Is
+
+Not
+
+Done
+
+Inmost
+
+Other
+
+ISAs)?
+The
+
+plus
+
+points
+
+(pros)
+
+are:
+Most
+
+ISAs
+use
+
+conditions
+
+only
+
+with
+branch
+
+instructions.
+
+Here,
+
+conditions
+may
+
+be
+
+appended
+to
+
+any
+
+other
+
+instruction,
+and
+
+the
+
+condition evaluation hardware
+is
+shared for many instructions. The
+
+end
+result
+is
+that the effective
+number of
+instructions
+in
+the ISA
+
+becomes
+more
+
+than
+
+as
+seen
+
+directly.
+
+This
+
+is
+achieved
+
+without
+
+additional
+
+hardware.
+Codes
+
+become
+
+dense
+
+and
+
+branching
+
+is
+
+avoided
+
+to
+
+a
+great
+
+extent
+By
+
+avoiding
+branching
+
+(unless
+
+absolutely
+
+necessary),
+
+pipeline
+
+stalling
+
+is
+
+prevented
+
+--- SLIDE 42 ---
+W
+h
+at
+
+Ar
+e
+
+T
+h
+e
+
+Pro
+s
+
+An
+d
+
+Con
+s
+
+O
+f
+
+Such
+
+Cond
+i
+tional  Execution
+
+(Which
+
+Is
+
+Not
+
+Done
+
+Inmost
+
+Other
+
+ISAs)?
+The
+
+minus
+points
+
+(cons)
+is:
+When
+
+an
+instruction
+
+becomes
+a
+
+NOP,
+
+one
+
+cycle
+
+time
+
+is wasted.
+This
+
+is
+
+because,
+even
+
+though
+
+execution
+
+of
+the
+
+instruction
+
+is
+
+not
+
+done,
+'fetching
+
+and
+decoding'
+
+cannot
+
+be
+
+avoided.
+
+--- SLIDE 43 ---
+5.2.1.9
+
+ARITHMETIC
+
+AND
+LOGICAL
+
+INSTRUCTIONS
+The
+
+general
+
+format
+
+is
+<opcode>{cond}{S}Rd,Rn<Op2>
+where,
+Rd
+is the
+
+destination
+register,
+and
+Rn
+and
+Op2
+are
+the source
+
+operands.
+
+--- SLIDE 44 ---
+5.2.1.9
+
+ADDITION
+
+AND
+
+SUBTRACTION
+lists
+
+of
+
+addition
+
+and
+
+subtraction
+
+instructions
+
+of
+
+this
+
+ISA
+
+--- SLIDE 45 ---
+
+--- SLIDE 46 ---
+
+--- SLIDE 47 ---
+EXAM
+P
+LE
+
+--- SLIDE 48 ---
+SOLUTION
+BIC instruction Rd
+= Rn AND (NOT Operand2)
+
+--- SLIDE 49 ---
+5.2.1.10
+
+COMPARE
+
+Instruction
+There
+
+are
+
+four
+
+instructions
+
+for
+
+comparison.
+Table
+shows
+
+the
+
+list
+
+and
+
+the
+
+operations
+
+performed
+
+for
+
+each
+
+of
+
+them.
+The
+
+important
+
+feature
+
+of
+
+these
+
+instructions
+
+is
+
+that
+
+they
+
+do
+not
+
+produce
+
+a
+
+result
+
+—
+they
+
+only
+
+update the
+
+flags.
+Thus,
+
+the
+`S'
+suffix
+
+is
+not
+
+needed
+for
+
+them.
+The format
+
+for
+
+these
+
+instructions
+
+is
+<opcode>{cond}Rn,
+
+Operand2
+
+--- SLIDE 50 ---
+
+--- SLIDE 51 ---
+PROBLEM
+
+--- SLIDE 52 ---
+SOLUTION
+
+--- SLIDE 53 ---
+PROBLEM
+
+--- SLIDE 54 ---
+SOLUTION
+
+--- SLIDE 55 ---
+PROBLEM
+
+--- SLIDE 56 ---
+
+--- SLIDE 57 ---
+5.2.1.11
+
+MULTIPLICATION
+There
+
+are
+
+two
+
+basic
+
+multiplication
+
+instructions.
+One
+is
+
+‘Multiply’
+
+and
+
+the
+other
+
+is
+
+‘Multiply
+
+and
+
+Accumulate’
+The
+
+word
+
+‘Accumulate’
+indicates
+
+‘Addition’
+Instruction
+
+format
+
+for
+
+the
+both
+
+is:
+MUL{<cond>}{S}
+
+Rd,
+
+Rm,
+
+Rs
+
+MLA{<cond>}{S}
+
+Rd,Rm,
+
+Rs,
+
+Rn
+;Rd
+
+=
+
+Rm
+*
+Rs
+;Rd=
+
+(Rm
+
+*
+
+Rs)
+
++
+
+Rn
+
+--- SLIDE 58 ---
+
+--- SLIDE 59 ---
+PROBLEM
+
+--- SLIDE 60 ---
+
+--- SLIDE 61 ---
+
+--- SLIDE 62 ---
+5.2.1.12
+
+DIVISION
+There
+
+is
+no
+
+explicit
+
+divide
+
+instruction
+
+in
+
+t
+h
+is
+
+ISA
+Division
+
+can
+
+be
+
+accomplished
+
+by
+
+repeated
+
+subtraction
+
+i.e
+
+.
+DIV
+
+MOV
+QUOTIENT,#0
+LOOP3
+SUBS DIVIDEND,DIVIDEND,DIVISOR
+ADDPL QUOTIENT,QUOTIENT,#1
+BPL
+LOOP3
+ADDMI REMAINDER,DIVIDEND,DIVISOR
+BX LR
+
+--- SLIDE 63 ---
+5.2.1.13
+
+BRANCH
+Instruction
+
+B
+r
+anch
+i
+nstruc
+t
+io
+n
+s	a
+r
+e
+t
+he	ones
+t
+h
+at
+g
+i
+v
+e
+t
+he
+powe
+r
+of
+decision
+
+making
+
+to
+
+a
+
+computer.
+F
+or	AR
+M
+,
+t
+he
+r
+e	are
+n
+o
+j
+u
+m
+p
+o
+r	c
+a
+ll
+in
+s
+truc
+t
+i
+o
+ns
+a
+s
+i
+n
+t
+he
+case
+
+of
+
+other
+
+processors.
+The
+
+branch
+
+instruction
+
+with
+
+the
+
+mnemonic
+
+'B'
+
+suffices
+
+for
+
+all
+
+jumping
+
+operations
+
+and
+
+procedure
+
+calls.
+
+--- SLIDE 64 ---
+5.2.1.13.1
+
+BRANCH
+
+(B)
+The
+
+general
+format
+
+of
+
+a
+branch
+
+instruction
+
+is
+
+‘B
+
+label'
+'label'
+
+corresponds
+
+to
+
+the
+
+address of
+
+the
+
+target
+
+location.
+
+Condition
+
+codes
+
+may
+
+be
+
+appended
+
+to
+
+make
+
+it
+
+a
+
+conditional
+
+branch
+
+instruction.
+The
+
+assembler
+
+finds
+
+the
+
+target
+
+address
+
+with
+
+the
+
+use
+
+of
+
+the
+
+offset
+
+specified
+
+in
+
+the
+
+instruction.
+
+--- SLIDE 65 ---
+
+--- SLIDE 66 ---
+5.2
+.
+1.
+1
+3.2
+
+BRA
+N
+C
+H
+
+Wit
+h
+
+LI
+N
+K (B
+L
+)
+This instruction
+saves
+the current
+PC into
+the Link
+register
+(R14).
+Thus,
+
+BL
+
+facilitates
+
+subroutine/procedure
+
+calls.
+When
+this instruction
+is encountered,
+branching
+occurs
+to
+
+the target
+address and
+the
+'return
+address'
+(the
+address
+to
+
+which control
+must
+come back
+after the procedure is
+ended),
+
+is
+
+saved
+
+in
+
+the
+
+link
+
+register.
+
+--- SLIDE 67 ---
+5.2
+.
+1.
+1
+3.
+3
+
+BRA
+N
+C
+H
+
+Wit
+h
+
+LI
+N
+K
+Exchange
+(B
+L
+X
+)
+BLX in
+ARM
+BLX
+= Branch with Link and Exchange
+It’s used for:
+Function call (like BL)
+Switching instruction set (ARM ↔
+Thumb)
+Syntax : BLX label
+
+1. Branch
+Jumps to target address (label or register)
+2. Link
+Stores return address in LR (R14)
+3
+. Exchange
+Switches instruction set depending on LSB of target
+address(0/1) or(ARM/Thumb mode)
+
+--- SLIDE 68 ---
+Assembly language programming
+Unit
+-IV
+Chapter-5
+
+--- SLIDE 69 ---
+5.3 Assembly language programming
+Now we can start assembly programming using the
+Keil
+
+Microvision
+V assembler.
+The step-by-step method of using this IDE for Assembly Language
+
+--- SLIDE 70 ---
+5.3.1 Assembler
+Directives
+
+For each assembler, there are 'directives'.
+They are specific for an assembler and are non-executable statements, which means that they don't cause any `execution' by the processor.
+Directives are related solely to the assembler.
+We need a few directives of the
+Keil
+Assembler to get started in assembly programming.
+
+--- SLIDE 71 ---
+5.3.1.1 AREA
+
+The
+“AREA”
+directive instructs the assembler to assemble a new code or data section".
+The above is a statement given in the user manual of
+Keil
+
+Microvi­sion
+.
+It implies that the assembler understands two types of information —code and data.
+Data is usually stored in R/W memory (RAM) while code is in Read only memory (ROM).
+The assembler requires the names of these areas of code or data.
+
+--- SLIDE 72 ---
+
+Typical statements that use the AREA directive are
+AREA LINEAR, CODE, Read only
+AREA NOTE, DATA, R/W
+
+It is not mandatory to use the words 'Read Only' and `R/W' because by default, data is in R/W memory and code is in Read Only Memory.
+Code is always in ROM, though data is also allowed to be stored there.
+As a matter of fact, the R/W memory is volatile and is used only for intermediate storage of data in the course of instruction execution
+
+--- SLIDE 73 ---
+5.3.1.2 ENTRY
+
+The ENTRY directive marks the first instruction to be executed within an application.
+Because an application cannot have more than one entry point, the ENTRY directive can appear in only one of the source modules.
+
+--- SLIDE 74 ---
+5.3.1.3 END
+This directive is the last line in an assembly module and it indicates that the assembler need not read
+beyondthat
+
+line.
+
+--- SLIDE 75 ---
+5.3.1.4 DCB, DCW
+and
+DCD
+The ARM processor has a word length of 32 bits, but it can handle data of 8 bits (byte) and 16 bits (half word) also.
+The
+Keil
+assembler, however, uses the notations of byte, word and double word for 8 bits, 16 bits and 32 bits, respectively.
+The directives used are DCB for data byte, DCW for data word and DCD for data double word.
+The following lines show how these directives are used.
+These directives are used by the assembler to store data in ROM.
+
+--- SLIDE 76 ---
+Example
+B
+AG DCB 0x32, 56, Ox7E
+BAG DCW Ox2234, Ox ED37, Ox9067
+BOG DCD Ox DE345678,
+0
+x34009812
+The first line says that three bytes are to be stored in contiguous loca­
+tions with labels, RAG, RAG+1, and RAG+2. Recollect that each address
+always corresponds to one byte of data. The second line indicates that 16
+bit data is being stored in locations BAG, BAG+2 and BAG+4. The third
+line states that 32 bit data is to be stored in addresses with labels BOG
+and BOG+4.
+
+--- SLIDE 77 ---
+5.3.1.5
+equ
+The EQU directive is for equating a label to a constant.
+When the label is encountered by the assembler during the process of assembly, it is replaced by its actual value.
+Examples of the usage of this directive are
+RAPID	EQU 65
+STRT_ADDR EQU Ox84000000
+
+--- SLIDE 78 ---
+
+--- SLIDE 79 ---
+AREA ODD, CODE, READONLY
+ENTRY
+MOV R1,#1
+;R1=1
+MOV R2,#9
+;R2=9, the counter
+MOV R3,#1
+;R3=1
+BACKK ADD R3,R3,#2        ;R3 has the odd numbers
+ADD R1,R1,R3       ;R1 contains the final sum
+SUBS R2,R2,#1      ;R2 is the counter for 10 numbers
+BNE BACKK ;repeat the addition until R2=0
+GO          B GO
+END
+
+--- SLIDE 80 ---
+5.4
+Accessing
+memory
+We already know that ARM is a load-store architecture.
+This means that only the load and store instructions access memory directly.
+There are load/store instructions with single registers, as well as with multiple registers.
+
+--- SLIDE 81 ---
+5.4.1 Single register data transfer
+The word 'load' indicates that data from memory is to be moved to a register. `Store' means that data from a register is saved in memory
+The format for a load/store instruction is
+LDR/STR {<
+cond
+>}<Rd>, <addressing mode>
+The operation of load/ store has a register Rd in which the data is placed. The `addressing mode' implies that an effective address is generated by address calculation.
+
+--- SLIDE 82 ---
+Example
+LDR R2, [R7]
+; copy into R2, the content of memory, as pointed by R7
+STR R2, [R7]
+; store the content of R2, into the address pointed by R7
+The address of the memory location for the load/store operation is placed in a
+register, called the base register. The address may be generated and put into
+the base register in various calculation formats using shifting, adding offsets,
+summing the contents of more registers etc.
+
+--- SLIDE 83 ---
+Find the effective address of memory as specified by the following instructions
+LDR R4, [R7, ROR #4]
+STR R7, [R3, R4, LSL #2]
+LDR R6, [R2, #4]
+STR R8, [R1, R2, ASR #6]
+LDR R1,[R7,R6]
+
+--- SLIDE 84 ---
+The effective address is R7=R7 rotated right 4 times.
+The effective address is R3=R3+R4 rotated left logically 2 times.
+The effective address is R2=R2+4
+The effective address is R1+R2 right shifted (arithmetically) 6 times
+The effective address is R7=R7+R6
+
+--- SLIDE 85 ---
+5.4.2 Loading/Storing data of different lengths
+Data to be loaded or stored may be in bytes, half words (16 bits) or words (32 bits).
+Data may be signed or unsigned, as well.
+To make this explicit, the load and store instructions may be appended with the characters, B for byte, H for half word and S for signed.
+
+--- SLIDE 86 ---
+Instruction
+Meaning
+LDR
+Load Word
+LDRH
+Load Half Word
+LDRSH
+Load Signed Half Word
+LDRB
+Load Byte
+LDRSB
+Load Signed Byte
+STR
+Store Word
+STRH
+Store Half Word
+STRB
+Store Byte
+Load/Store instructions
+
+--- SLIDE 87 ---
+
+How is data accessed from memory with the following instructions, given that R7=0x00004400 and that memory contents are as given in Table
+(assume the little endian scheme)?
+Address
+Data
+0x00004400
+89
+0x00004401
+E6
+0x00004402
+F3
+0x00004403
+94
+LDR R3, [R7]
+LDRB R3,[R7]
+LDRH R3, [R7]
+LDRSH R3, [R7]
+
+--- SLIDE 88 ---
+LDR R3,
+[R7]
+This instruction pertains to a word (32 bits) of data to be loaded into the destination register. After the execution of the above instruction, R3=0x94F3E689.
+LDRB
+R3, [R7]
+After the execution of the above instruction, R3=0x00000089. This is because only a byte of the data will be taken from memory and so the lowest byte of the word (in the lowest address) pointed by R7, is loaded to R3.
+LDRH R3, [R7]
+After the execution of the above instruction, R3=0x0000E689. This is because the half word of the data will be taken from memory and the lower 16 bits of the word pointed by R7, is loaded to R3.
+LDRSH R3, [R7]
+After the execution of the above instruction, R3=OxFFFFE689. The lower half word of the data is OxE689. The instruction LDRSH considers this to be a 'signed
+halfword
+' and when loading it to a 32-bit register, the sign bit is extended to the upper 16 bits.
+
+--- SLIDE 89 ---
+
+The content of registers, R6 and R3, and memory are as given below. R6= 0x40002200, R3=0x3498CE56
+Address
+Data
+0x40002200
+00
+0x40002201
+00
+0x40002202
+00
+0x40002203
+00
+Show the content of memory after the execution of the following instructions
+STRB R3, [R6]
+STRH R3, [R6]
+STR R3, [R6]
+
+--- SLIDE 90 ---
+STRB R3, [R6]
+Address
+Data
+0x40002200
+56
+0x40002201
+00
+0x40002202
+00
+0x40002203
+00
+STRH R3, [R6]
+Address
+Data
+0x40002200
+56
+0x40002201
+CE
+0x40002202
+00
+0x40002203
+00
+STR R3, [R6]
+Address
+Data
+0x40002200
+56
+0x40002201
+CE
+0x40002202
+98
+0x40002203
+34
+
+--- SLIDE 91 ---
+5.4.3 Pre Indexing, Post Indexing and Write Back
+Consider the Instruction
+STR R0, [R7,#2] and LDR R0,[R7,ROR #4]
+In the first instruction, it calculates the effective address as R7=R7+2.
+In the second instruction, it calculates the address as R7=R7 ROR #4.
+
+--- SLIDE 92 ---
+What is the content of R7 after the execution of previous instruction?
+
+The content of R7 remains the same as it was before the instruction execution.
+Means the address calculation before, no change in R7
+
+--- SLIDE 93 ---
+Write Back(!):
+If it necessary to save the effective address into the base registers,
+Instruction should have the concept of “ Write Back”.
+Means the instruction need to have with the sign “ !”.
+Write back instruction is:
+STR R0, [R7,#2]!    and    LDR R0,[R7,ROR #4]!
+
+--- SLIDE 94 ---
+Examples
+What is the content of the base register R6 after the execution of each 0f the following instructions, given that R6=0x44001100 and R2 = 0x02.
+LDR R2,[R6,#0x0056]!
+STR
+R1,[
+R6,R2]!
+LDR  R3,[R6,LSL #4)
+
+--- SLIDE 95 ---
+1 .  LDR R2,[R6,#0x0056]!
+
+The effective address is calculated as R6= R6+0x0056 = Ox44001 156, because of write back, this number will be saved in R6 after instruction  execution.
+2.
+STR
+R1,[
+R6,R2]!
+The effective address is calculated as R6=R6+R2 = Ox44001102 because of write back, this number will be saved in R6 after instruction execution.
+3
+. LDR R3,[R6,LSL #4]
+The effective address is calculated as R6=R6, LSL# 4. Because the instruction does not have the write back feature (!), after instruction execution, R6 will retain its previous content of Ox44001100.
+
+--- SLIDE 96 ---
+5.4.4 Post Indexing
+In this mode, the effective address calculation  is done after the execution of the specific instruction.
+Thus, write back is inherently implied.
+Take the case of the instruction LDR R2, [R7], #2
+Here the data pointed by the content of R7 is first copied to R2.
+After that, the content of R7 (which is the base register) is changed to R7 +2.
+
+--- SLIDE 97 ---
+5.4.5 Immediate mode of addressing
+This is the mode when an immediate data is used as an operand.
+Consider the instruction
+MOV R1, #10
+; move data 10 to R1
+ADD R4, R2, #3
+; Add 3 to the content of R2, and save the sum in R4
+These instructions seems to be ok. But there is an unseen issues involved
+
+--- SLIDE 98 ---
+What is the biggest constant that can be used in the immediate mode?
+All instructions of ARM are to have same size 32 bits
+If an immediate data is to be included, it must fit in the 32-Bit size allocated for a data processing instruction.
+Means the larger sizes of constants cannot be used in immediate data.
+
+--- SLIDE 99 ---
+The figure 5.10 shows the format of  a typical data processing instructions of ARM.
+If bit 25 is’0’ ,it is understood that the operand2 is a register.
+If bit 25 is’1’,the operand2 is immediate data.
+12bit space is allocated for operand2.
+
+--- SLIDE 100 ---
+The 12bit space is arranged as a four  bit rotate value and an eight bit immediate value as shown in figure 5.11.
+The rotation bit field is only 4 bits .
+Internally this rotation field is multiplied by 2,and thus becomes the case of an 8 bit number multiplied an even number of times to get a new number.
+The operation must be done in a 32 bit space.
+
+--- SLIDE 101 ---
+
+--- SLIDE 102 ---
+
+--- SLIDE 103 ---
+
+--- SLIDE 104 ---
+
+--- SLIDE 105 ---
+When we want larger constant, it is not possible to write it in an instruction like MOV R1, #n, where n is  constant
+Need to use the immediate mode in such a way that the constant that we need is obtained by the ARM rotation scheme
+Not possible by programmer to find out exact 8-bit number which will produce a bigger size constant
+So Assembler will come to an assistant here.
+for that, a pseudo instruction is provided
+The format is        LDR Rd, =constant    ; where Rd is destination register
+ex:     LDR R1, =0x44444444
+
+--- SLIDE 106 ---
+
+But all constants are not obtainable by such a scheme.
+Consider 0x77777777.
+This constant cannot be generated in this way.
+In such a case, the assembler is used to store the required constant in memory and take it from memory using the LDR instruction.
+The area in memory where such constants are loaded is called a “literal pool”.
+programmer need only write the pseudo instruction.
+The assembler
+wil
+handle the matter in an efficient manner.
+The sequence of actions that follow is highlighted below.
+Take the case of needing a constant 0x77777777.
+The pseudo instruction we write is
+LDR R1
+,=0x77777777
+
+--- SLIDE 107 ---
+
+--- SLIDE 108 ---
+Space for literal pool
+is:
+After the END directive, so that it can be stored in ROM in the space after the code.
+If the program is large and the pseudo instruction for it is far away from the end of the program, the literal pool may be beyond the range of +/-4KB.
+In such cases a directive LTORG(Origin of literal pool) is used.
+This directive may be included in the program to specify where we want the literal pool to be.
+Placing LTORG in this place gives a warning message ‘Literal pool in executable area’.
+
+--- SLIDE 109 ---
+Literal pool are to be place in location in such a way that the processor does not consider them as instructions.
+They are best placed after unconditional branch instructions.
+
+--- SLIDE 110 ---
+5.4.6 Read Only and Read/Write Memory
+We know that ROM is for code and RAM is for temporary storage of data.
+It is important to realize that data in RAM is accessed using instructions of the processor
+while data is placed in ROM using assembler directives like DCD, DCB etc.
+From ROM data can be brought to RAM by
+fisrt
+loading it to registers using Load (LDR) instructions
+Later store them using STR instructions
+
+--- SLIDE 111 ---
+
+Block data transfer using multiple registers:
+This ISA allows multiple registers to be loaded from contiguous memory locations, with the use of just one instructions.
+Similarly ,the content of Multiple registers may be saved into consecutive locations in memory. Such instructions are referred to as multiple load/store instructions.
+LDM {
+cond
+}address-mode Rn{!},
+reg
+-list{^}
+Cond:  is an optional condition
+address-mode: specifies how the memory is sequenced.
+Rn: is the base register for the load operation.
+! : Specifies base register write back
+i.e
+the address in the base register is updated after the transfer.(if the base register is in the register list then no need to specify write back)
+Reg
+-list: List of symbolic register names and register ranges enclosed in braces.There must be at least one register in the list.
+^ :This is not to be used in the user/system mode. It is meant for use in the privileged mode
+.
+
+
+--- SLIDE 112 ---
+
+Addressing modes of the multiple load/store instructions:
+These modes indicates how to change the memory address after each word transfer.
+The addressing modes are:
+IA:Increment
+After
+IB :Increment before
+DA:Decrement
+After
+DB:Decrement
+Before
+Instructions are
+LDMIA R7! {R0-R5}
+
+--- SLIDE 113 ---
+
+--- SLIDE 114 ---
+
+--- SLIDE 115 ---
+The STM instruction:
+Syntax:    STM{
+cond
+} address-mode Rn!, reg-list{^}
+The operation is just the reverse of the LDM instruction.
+Here the contents of the registers are stored in memory location indexed by the base register.
+STMDB
+R1!,{R7,R2-R4
+} if R1=
+0X44400088
+The
+base register is R1,It contains the number 0X44400088.Since the DB suffix is used
+, The
+R1 register is decremented by 4 and it contains the number 0X44400084.
+The data in R7 is saved to this location.
+The content of R1 is decremented by 4 and the data in R4 is save in this address.
+These operation of decrementing the base register is repeated for storing the data in R3 and R2.
+At the end of the execution of the instruction, the value in R1 is the final updated
+value because write back is stipulated.
+
+
+--- SLIDE 116 ---
+
+--- SLIDE 117 ---
+LDMIA  SP!,{R0-R5}  ;Increment after is also for popping from a full descending stack.
+Before we use a stack, the stack pointer has to be initialized to the top of the stack to the topmost location in memory that we decide our stack to be.
+
+--- SLIDE 118 ---
+What does this program do?
+AREA     FDSTCK,CODE,READONLY
+ENTRY
+LDR  SP,=0X40000030
+MOV R0,#5
+MOV R1.#6
+MOV R2,#7
+STMDB SP!, {R0-R2}
+LDMIA  SP!, {R9,R4-R5}
+GO 	B 	GO
+END
+
+--- SLIDE 119 ---
+
+--- SLIDE 120 ---

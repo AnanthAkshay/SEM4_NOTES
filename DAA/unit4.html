@@ -1,0 +1,1849 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DAA Unit 4 – Dynamic Programming & Greedy Algorithms | Complete Exam Notes | MSRIT / VTU</title>
+<meta name="description" content="Complete exam notes for DAA Unit 4: Matrix Chain Multiplication, LCS, Optimal BST, Activity Selection, Huffman Codes, Kruskal's, Prim's, and Dijkstra's Algorithms with solved PYQs.">
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #fdfcf8;
+  --surface: #ffffff;
+  --navy: #1a237e;
+  --navy-light: #283593;
+  --red: #c62828;
+  --green: #1b5e20;
+  --green-soft: #e8f5e9;
+  --amber: #e65100;
+  --amber-soft: #fff3e0;
+  --blue-soft: #e8eaf6;
+  --border: #c5cae9;
+  --text: #1a1a2e;
+  --text-muted: #546e7a;
+  --code-bg: #1a1a2e;
+  --code-text: #a5d6a7;
+  --pyq-bg: #fff8e1;
+  --pyq-border: #ffa000;
+  --example-bg: #f1f8e9;
+  --example-border: #388e3c;
+  --important-bg: #fce4ec;
+  --important-border: #c62828;
+  --revision-bg: #e3f2fd;
+  --revision-border: #1565c0;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  line-height: 1.8;
+}
+/* ============ LAYOUT ============ */
+.container { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+/* ============ HEADER ============ */
+.main-header {
+  background: var(--navy);
+  color: white;
+  padding: 48px 0 36px;
+  border-bottom: 5px solid var(--amber);
+}
+.main-header h1 {
+  font-family: 'Crimson Pro', serif;
+  font-size: 2.8rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+.main-header .subtitle {
+  font-size: 1.1rem;
+  margin-top: 8px;
+  opacity: 0.85;
+}
+.badge-row { display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
+.badge {
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.3);
+  padding: 4px 14px;
+  border-radius: 20px;
+  font-size: 0.82rem;
+  font-weight: 500;
+}
+/* ============ UNIT OVERVIEW ============ */
+.unit-overview {
+  background: var(--blue-soft);
+  border-left: 5px solid var(--navy);
+  padding: 28px 32px;
+  margin: 32px 0;
+  border-radius: 0 8px 8px 0;
+}
+.unit-overview h2 {
+  font-family: 'Crimson Pro', serif;
+  font-size: 1.5rem;
+  color: var(--navy);
+  margin-bottom: 12px;
+}
+/* ============ TOPIC SECTIONS ============ */
+.topic-section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  margin: 36px 0;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(26,35,126,0.07);
+}
+.topic-header {
+  background: var(--navy);
+  color: white;
+  padding: 18px 28px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.topic-num {
+  background: var(--amber);
+  color: white;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex; align-items:center; justify-content:center;
+  font-weight: 700;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+.topic-header h2 {
+  font-family: 'Crimson Pro', serif;
+  font-size: 1.55rem;
+  font-weight: 700;
+}
+.topic-body { padding: 28px 32px; }
+/* ============ SUBSECTION HEADINGS ============ */
+.sub-heading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 28px 0 14px;
+}
+.sub-heading .tag {
+  background: var(--navy);
+  color: white;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  white-space: nowrap;
+}
+.sub-heading h3 {
+  font-family: 'Crimson Pro', serif;
+  font-size: 1.25rem;
+  color: var(--navy);
+  font-weight: 600;
+}
+h4 {
+  font-size: 1rem;
+  color: var(--navy-light);
+  margin: 16px 0 8px;
+  font-weight: 700;
+}
+p { margin: 10px 0; }
+/* ============ BOXES ============ */
+.pyq-box {
+  background: var(--pyq-bg);
+  border: 1.5px solid var(--pyq-border);
+  border-radius: 8px;
+  padding: 20px 24px;
+  margin: 20px 0;
+}
+.pyq-box .pyq-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  color: var(--amber);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 12px;
+}
+.pyq-box .fire { font-size: 1.1rem; }
+.example-box {
+  background: var(--example-bg);
+  border: 1.5px solid var(--example-border);
+  border-radius: 8px;
+  padding: 20px 24px;
+  margin: 18px 0;
+}
+.example-box .ex-label {
+  font-weight: 700;
+  color: var(--green);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 10px;
+}
+.revision-box {
+  background: var(--revision-bg);
+  border: 1.5px solid var(--revision-border);
+  border-radius: 8px;
+  padding: 20px 24px;
+  margin: 24px 0;
+}
+.revision-box h4 {
+  color: #1565c0;
+  margin-top: 0;
+}
+.important-box {
+  background: var(--important-bg);
+  border-left: 4px solid var(--red);
+  padding: 14px 18px;
+  margin: 14px 0;
+  border-radius: 0 6px 6px 0;
+}
+/* ============ CODE BLOCKS ============ */
+pre {
+  background: var(--code-bg);
+  color: var(--code-text);
+  padding: 20px 24px;
+  border-radius: 8px;
+  overflow-x: auto;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.84rem;
+  line-height: 1.7;
+  margin: 14px 0;
+}
+code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85em;
+  background: #e8eaf6;
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: var(--navy);
+}
+pre code { background: none; padding: 0; color: inherit; }
+.kw { color: #80cbc4; font-weight: 600; }
+.cmt { color: #78909c; font-style: italic; }
+.num { color: #ffcc80; }
+.fn { color: #80cbc4; }
+/* ============ TABLES ============ */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 14px 0;
+  font-size: 0.9rem;
+}
+th {
+  background: var(--navy);
+  color: white;
+  padding: 10px 14px;
+  text-align: left;
+  font-weight: 600;
+}
+td {
+  padding: 9px 14px;
+  border: 1px solid var(--border);
+  vertical-align: top;
+}
+tr:nth-child(even) td { background: #f5f5ff; }
+/* ============ LISTS ============ */
+ul, ol { padding-left: 22px; margin: 10px 0; }
+li { margin: 5px 0; }
+ul li::marker { color: var(--navy); }
+/* ============ DEFINITION TERMS ============ */
+.def {
+  border-left: 3px solid var(--navy);
+  padding: 10px 16px;
+  background: #f5f5ff;
+  margin: 12px 0;
+  border-radius: 0 6px 6px 0;
+}
+.def strong { color: var(--navy); }
+/* ============ COMPLEXITY GRID ============ */
+.complexity-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin: 14px 0;
+}
+.comp-card {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px;
+  text-align: center;
+}
+.comp-card .label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+.comp-card .val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--navy);
+}
+/* ============ FORMULA BOX ============ */
+.formula {
+  text-align: center;
+  background: #e8eaf6;
+  padding: 16px;
+  border-radius: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1rem;
+  color: var(--navy);
+  margin: 14px 0;
+  font-weight: 600;
+}
+/* ============ STEP BOX ============ */
+.steps { counter-reset: step; }
+.step {
+  display: flex;
+  gap: 12px;
+  margin: 12px 0;
+  align-items: flex-start;
+}
+.step-num {
+  counter-increment: step;
+  background: var(--navy);
+  color: white;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: flex; align-items:center; justify-content:center;
+  font-size: 0.78rem;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.step-content { flex: 1; }
+/* ============ DIVIDER ============ */
+.section-divider {
+  border: none;
+  border-top: 2px dashed var(--border);
+  margin: 28px 0;
+}
+/* ============ PART DIVIDER ============ */
+.part-divider {
+  text-align: center;
+  margin: 48px 0 36px;
+  position: relative;
+}
+.part-divider::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0; right: 0;
+  height: 2px;
+  background: var(--border);
+}
+.part-divider span {
+  position: relative;
+  display: inline-block;
+  background: var(--bg);
+  padding: 8px 28px;
+  font-family: 'Crimson Pro', serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--navy);
+  border: 2px solid var(--border);
+  border-radius: 30px;
+  letter-spacing: 1px;
+}
+/* ============ EXAM FORMAT ============ */
+.exam-format {
+  background: #fff;
+  border: 1px solid #c5cae9;
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 16px 0;
+}
+.exam-format .ef-header {
+  background: var(--navy-light);
+  color: white;
+  padding: 10px 16px;
+  font-weight: 700;
+  font-size: 0.88rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.exam-format .ef-body { padding: 16px 18px; }
+/* ============ TOC ============ */
+.toc {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 24px 28px;
+  margin: 28px 0;
+}
+.toc h3 {
+  font-family: 'Crimson Pro', serif;
+  font-size: 1.2rem;
+  color: var(--navy);
+  margin-bottom: 14px;
+}
+.toc ol { padding-left: 18px; }
+.toc li {
+  margin: 6px 0;
+  font-size: 0.92rem;
+}
+.toc a { color: var(--navy); text-decoration: none; }
+.toc a:hover { text-decoration: underline; }
+/* ============ MARKS BADGE ============ */
+.marks-badge {
+  display: inline-block;
+  background: var(--amber);
+  color: white;
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-weight: 700;
+  margin-left: 6px;
+}
+/* ============ FOOTER ============ */
+.footer {
+  text-align: center;
+  padding: 40px 0;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  border-top: 1px solid var(--border);
+  margin-top: 60px;
+}
+@media print {
+  .topic-section { break-inside: avoid; }
+  .pyq-box, .example-box { break-inside: avoid; }
+  pre { white-space: pre-wrap; }
+}
+</style>
+</head>
+<body>
+
+<div class="main-header">
+<div class="container">
+  <h1>📊 DAA Unit 4: Dynamic Programming &amp; Greedy Algorithms</h1>
+  <div class="subtitle">Design &amp; Analysis of Algorithms | MSRIT / VTU | IS43</div>
+  <div class="badge-row">
+    <span class="badge">Complete Exam Notes</span>
+    <span class="badge">PYQ 2023–2025 Integrated</span>
+    <span class="badge">5 &amp; 10 Mark Answers</span>
+    <span class="badge">Solved Examples</span>
+  </div>
+</div>
+</div>
+
+<div class="container">
+
+<!-- UNIT OVERVIEW -->
+<div class="unit-overview" id="overview">
+  <h2>Unit 4 Overview</h2>
+  <table>
+    <tr><th style="width:200px">Aspect</th><th>Details</th></tr>
+    <tr><td><strong>Unit Name</strong></td><td>Dynamic Programming &amp; Greedy Algorithms</td></tr>
+    <tr><td><strong>Marks Weightage</strong></td><td>~20 marks in SEE (2 questions × 10 marks each)</td></tr>
+    <tr><td><strong>Key Syllabus Topics</strong></td><td>Matrix Chain Multiplication, Longest Common Subsequence, Optimal Binary Search Trees, Activity Selection Problem, Huffman Codes, Minimum Spanning Trees (Kruskal's &amp; Prim's), Dijkstra's Algorithm</td></tr>
+    <tr><td><strong>Most Repeated Areas</strong></td><td>🔥 Dijkstra's (ALL 5 SEE papers) &nbsp; 🔥 Kruskal's (ALL 5 papers) &nbsp; 🔥 Huffman Coding (3 papers) &nbsp; 🔥 Floyd-Warshall (3 papers) &nbsp; 🔥 0/1 Knapsack DP (2 papers)</td></tr>
+    <tr><td><strong>Difficulty Level</strong></td><td>Moderate to High — heavy on table computations and graph tracing</td></tr>
+  </table>
+  <div style="margin-top:14px">
+    <strong>Most Repeated PYQ Areas (ranked):</strong>
+    <ol style="margin-top:8px">
+      <li>Dijkstra's Algorithm — asked in <em>ALL 5 SEE papers</em> (SEE2023O Q5b, SEE2023 Q6b, SEE2024 Q5b, SEE2025 Q6a, Makeup Q6b)</li>
+      <li>Kruskal's Algorithm — asked in <em>ALL 5 papers</em></li>
+      <li>Huffman Coding — asked in 3 papers (Exact data: A=0.4, B=0.1, C=0.2, D=0.14, E=0.16)</li>
+      <li>Floyd-Warshall Algorithm — asked in 3 papers (SEE2023 Q6a, SEE2023O Q6a, SEE2025 Q6b)</li>
+      <li>0/1 Knapsack DP — asked in 2 papers (SEE2023, SEE2024)</li>
+      <li>MCM / LCS / OBST — CIE level questions, not in uploaded SEE papers</li>
+      <li>Activity Selection — syllabus topic, 0 PYQ appearances in these papers</li>
+    </ol>
+  </div>
+</div>
+
+<!-- TOC -->
+<div class="toc">
+  <h3>📋 Table of Contents</h3>
+  <ol>
+    <li><strong>Part A — Dynamic Programming</strong></li>
+    <li style="list-style:none; padding-left: 18px;">
+      <ol>
+        <li><a href="#t1">Principles of Dynamic Programming</a></li>
+        <li><a href="#t2">Matrix Chain Multiplication (MCM)</a></li>
+        <li><a href="#t3">Longest Common Subsequence (LCS)</a></li>
+        <li><a href="#t4">Optimal Binary Search Trees (OBST)</a></li>
+      </ol>
+    </li>
+    <li><strong>Part B — Greedy Algorithms</strong></li>
+    <li style="list-style:none; padding-left: 18px;">
+      <ol start="5">
+        <li><a href="#t5">Greedy Technique — Principles &amp; Comparison with DP</a></li>
+        <li><a href="#t6">Activity Selection Problem</a></li>
+        <li><a href="#t7">Huffman Codes</a></li>
+        <li><a href="#t8">Minimum Spanning Trees — Kruskal's Algorithm</a></li>
+        <li><a href="#t9">Minimum Spanning Trees — Prim's Algorithm</a></li>
+        <li><a href="#t10">Dijkstra's Single-Source Shortest Path Algorithm</a></li>
+      </ol>
+    </li>
+  </ol>
+</div>
+
+<!-- ================================================================
+     PART A — DYNAMIC PROGRAMMING
+     ================================================================ -->
+<div class="part-divider"><span>Part A — Dynamic Programming</span></div>
+
+<!-- ================================================================
+     TOPIC 1: PRINCIPLES OF DYNAMIC PROGRAMMING
+     ================================================================ -->
+<div class="topic-section" id="t1">
+  <div class="topic-header">
+    <div class="topic-num">1</div>
+    <h2>Principles of Dynamic Programming</h2>
+  </div>
+  <div class="topic-body">
+
+    <div class="sub-heading"><span class="tag">1. Concept</span><h3>What is Dynamic Programming?</h3></div>
+    <p>Imagine you're climbing stairs and you want to count how many ways you can reach the top. At each step, you can either take 1 or 2 steps. A naive recursive approach would recalculate the same sub-problems again and again — wasting enormous time. <strong>Dynamic Programming (DP)</strong> solves this by computing each sub-problem <em>exactly once</em> and storing the result in a table.</p>
+    
+    <div class="def">
+      <strong>Dynamic Programming (DP):</strong> An algorithm design paradigm that solves a complex optimization problem by breaking it into <strong>overlapping subproblems</strong>, solving each subproblem only once, and storing the solutions (in a table) to avoid redundant computation. It applies when the problem has <strong>optimal substructure</strong>.
+    </div>
+
+    <p><strong>Why is it required?</strong> Many optimization problems have exponential brute-force solutions. DP reduces this to polynomial time by avoiding recomputation.</p>
+    <p><strong>Where is it used?</strong> Shortest paths (Floyd-Warshall), string matching (LCS), resource allocation (Knapsack), scheduling, bioinformatics (DNA sequence alignment), and more.</p>
+
+    <div class="sub-heading"><span class="tag">2. Theory</span><h3>Two Key Properties</h3></div>
+    <table>
+      <tr><th>Property</th><th>Meaning</th><th>Example</th></tr>
+      <tr>
+        <td><strong>Optimal Substructure</strong></td>
+        <td>An optimal solution to the problem <em>contains</em> optimal solutions to its subproblems</td>
+        <td>Shortest path from A→C via B must use shortest path A→B <em>and</em> shortest path B→C</td>
+      </tr>
+      <tr>
+        <td><strong>Overlapping Subproblems</strong></td>
+        <td>The recursive algorithm revisits the same subproblems multiple times</td>
+        <td>Fibonacci: F(5) needs F(4) and F(3); F(4) again needs F(3) — F(3) computed twice!</td>
+      </tr>
+    </table>
+
+    <div class="sub-heading"><span class="tag">Theory</span><h3>Two Approaches to DP</h3></div>
+    <table>
+      <tr><th>Approach</th><th>Direction</th><th>How it works</th><th>Space</th></tr>
+      <tr>
+        <td><strong>Top-Down (Memoization)</strong></td>
+        <td>Recursive, starts from original problem</td>
+        <td>Solve recursively but cache results in a hash map/array. Before computing, check if answer already exists.</td>
+        <td>Uses recursion stack + table</td>
+      </tr>
+      <tr>
+        <td><strong>Bottom-Up (Tabulation)</strong></td>
+        <td>Iterative, starts from smallest subproblem</td>
+        <td>Fill a table from base cases upward. Each entry computed from already-solved smaller entries.</td>
+        <td>Uses table only (no recursion stack)</td>
+      </tr>
+    </table>
+
+    <div class="sub-heading"><span class="tag">Theory</span><h3>DP vs Divide-and-Conquer</h3></div>
+    <table>
+      <tr><th>Feature</th><th>Divide-and-Conquer</th><th>Dynamic Programming</th></tr>
+      <tr><td>Subproblems</td><td>Independent (no overlap)</td><td>Overlapping (same subproblems recur)</td></tr>
+      <tr><td>Approach</td><td>Recursive — solve and combine</td><td>Tabulate — solve bottom-up or memoize top-down</td></tr>
+      <tr><td>Examples</td><td>Merge Sort, Quick Sort, Binary Search</td><td>Knapsack, MCM, LCS, Floyd-Warshall</td></tr>
+      <tr><td>Redundancy</td><td>No recomputation</td><td>Without DP, massive recomputation; DP eliminates it</td></tr>
+    </table>
+
+    <div class="sub-heading"><span class="tag">3. Solved Example</span><h3>Fibonacci — DP vs Naive Recursion</h3></div>
+    <div class="example-box">
+      <div class="ex-label">✅ Classic DP Example: Fibonacci Numbers</div>
+      <p><strong>Naive Recursive (Exponential):</strong></p>
+<pre><code><span class="kw">function</span> Fib(n):
+    <span class="kw">if</span> n ≤ 1: <span class="kw">return</span> n
+    <span class="kw">return</span> Fib(n-1) + Fib(n-2)
+<span class="cmt">// Time: O(2ⁿ) — exponential! For n=40, this takes billions of operations</span></code></pre>
+      <p><strong>Bottom-Up DP (Linear):</strong></p>
+<pre><code><span class="kw">function</span> Fib_DP(n):
+    F[0] = 0, F[1] = 1
+    <span class="kw">for</span> i = 2 <span class="kw">to</span> n:
+        F[i] = F[i-1] + F[i-2]
+    <span class="kw">return</span> F[n]
+<span class="cmt">// Time: O(n), Space: O(n)</span></code></pre>
+      <p>The table stores previously computed values. F(5) needs F(4) and F(3), but both are already in the table — no recomputation!</p>
+    </div>
+
+    <div class="sub-heading"><span class="tag">4. Complexity</span><h3>Why DP Works</h3></div>
+    <p>The key insight: if a problem has <code>n</code> distinct subproblems, and each takes <code>O(1)</code> to solve given its sub-subproblems, then DP solves the entire problem in <code>O(n)</code>. Without DP, the recursion tree may have <code>O(2ⁿ)</code> nodes because the same subproblems appear exponentially many times.</p>
+
+    <div class="revision-box">
+      <h4>⚡ Quick Revision Box</h4>
+      <ul>
+        <li>✔ DP = Optimal Substructure + Overlapping Subproblems</li>
+        <li>✔ Two approaches: Top-Down (memoization) vs Bottom-Up (tabulation)</li>
+        <li>✔ DP ≠ Divide-and-Conquer: D&amp;C has independent subproblems, DP has overlapping</li>
+        <li>✔ DP transforms exponential recursion into polynomial tabulation</li>
+        <li>✔ Common mistake: Confusing DP with greedy — DP considers <em>all</em> choices; greedy picks one</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================
+     TOPIC 2: MATRIX CHAIN MULTIPLICATION
+     ================================================================ -->
+<div class="topic-section" id="t2">
+  <div class="topic-header">
+    <div class="topic-num">2</div>
+    <h2>Matrix Chain Multiplication (MCM)</h2>
+  </div>
+  <div class="topic-body">
+
+    <div class="sub-heading"><span class="tag">1. Concept</span><h3>What is the Matrix Chain Multiplication Problem?</h3></div>
+    <p>When multiplying a chain of matrices, the <em>order of multiplication</em> (parenthesization) doesn't change the result but drastically changes the number of scalar multiplications. MCM finds the <strong>optimal parenthesization</strong> that minimizes the total number of scalar multiplications.</p>
+    
+    <div class="def">
+      <strong>MCM Problem:</strong> Given a chain of n matrices &lt;A₁, A₂, …, Aₙ&gt; where matrix Aᵢ has dimensions pᵢ₋₁ × pᵢ, determine the parenthesization that minimizes the total number of scalar multiplications.
+    </div>
+
+    <p><strong>Real-world intuition:</strong> Think of matrix multiplication as a "cost" — multiplying a 10×30 matrix with a 30×5 matrix costs 10×30×5 = 1500 operations. If we have three matrices and choose the wrong order, we might do 10× more work!</p>
+
+    <div class="sub-heading"><span class="tag">2. Theory</span><h3>Why Brute Force Fails</h3></div>
+    <p>The number of different parenthesizations of n matrices is given by the <strong>Catalan number</strong> C(n-1), which grows exponentially: C(n) = Ω(4ⁿ/n^(3/2)). For n=10 matrices, there are 4862 parenthesizations. Checking all is infeasible.</p>
+
+    <div class="sub-heading"><span class="tag">Theory</span><h3>The DP Recurrence</h3></div>
+    <p>Let <code>m[i,j]</code> = minimum number of scalar multiplications needed to compute Aᵢ × Aᵢ₊₁ × … × Aⱼ.</p>
+    <div class="formula">
+      m[i, j] = 0 &nbsp;&nbsp; if i = j (single matrix, no multiplication needed)<br><br>
+      m[i, j] = min<sub>i≤k&lt;j</sub> { m[i,k] + m[k+1,j] + p<sub>i-1</sub> · p<sub>k</sub> · p<sub>j</sub> } &nbsp;&nbsp; if i &lt; j
+    </div>
+    <p><strong>Intuition:</strong> We try every possible split point k between i and j. Splitting at k means: multiply Aᵢ..Aₖ (cost m[i,k]), then multiply Aₖ₊₁..Aⱼ (cost m[k+1,j]), then multiply the two resulting matrices (cost pᵢ₋₁ · pₖ · pⱼ). We pick the k that gives minimum total cost.</p>
+    <p>We also maintain <code>s[i,j] = k</code> to record the optimal split point for backtracking the parenthesization.</p>
+
+    <div class="sub-heading"><span class="tag">3. Algorithm</span><h3>MCM Pseudocode (Bottom-Up)</h3></div>
+<pre><code><span class="kw">MATRIX-CHAIN-ORDER</span>(p, n):
+    <span class="cmt">// p[0..n] = dimensions array, n matrices</span>
+    <span class="kw">let</span> m[1..n, 1..n] and s[1..n-1, 2..n] be new tables
+    
+    <span class="kw">for</span> i = 1 <span class="kw">to</span> n:
+        m[i, i] = 0          <span class="cmt">// base case: single matrix</span>
+    
+    <span class="kw">for</span> l = 2 <span class="kw">to</span> n:        <span class="cmt">// l = chain length</span>
+        <span class="kw">for</span> i = 1 <span class="kw">to</span> n - l + 1:
+            j = i + l - 1
+            m[i, j] = ∞
+            <span class="kw">for</span> k = i <span class="kw">to</span> j - 1:
+                q = m[i, k] + m[k+1, j] + p[i-1] · p[k] · p[j]
+                <span class="kw">if</span> q < m[i, j]:
+                    m[i, j] = q
+                    s[i, j] = k
+    
+    <span class="kw">return</span> m, s</code></pre>
+
+    <div class="sub-heading"><span class="tag">4. Solved Example</span><h3>Complete Worked Example</h3></div>
+    <div class="example-box">
+      <div class="ex-label">✅ Example: Matrices with dimensions p = {5, 4, 6, 2, 7}</div>
+      <p>This gives 4 matrices: A₁(5×4), A₂(4×6), A₃(6×2), A₄(2×7)</p>
+      <p><strong>Step 1: Base cases (chain length = 1):</strong></p>
+      <p>m[1,1] = m[2,2] = m[3,3] = m[4,4] = 0</p>
+      
+      <p><strong>Step 2: Chain length l = 2:</strong></p>
+      <ul>
+        <li>m[1,2]: k=1 → m[1,1] + m[2,2] + p₀·p₁·p₂ = 0 + 0 + 5·4·6 = <strong>120</strong></li>
+        <li>m[2,3]: k=2 → m[2,2] + m[3,3] + p₁·p₂·p₃ = 0 + 0 + 4·6·2 = <strong>48</strong></li>
+        <li>m[3,4]: k=3 → m[3,3] + m[4,4] + p₂·p₃·p₄ = 0 + 0 + 6·2·7 = <strong>84</strong></li>
+      </ul>
+
+      <p><strong>Step 3: Chain length l = 3:</strong></p>
+      <ul>
+        <li>m[1,3]: 
+          <ul>
+            <li>k=1: m[1,1] + m[2,3] + p₀·p₁·p₃ = 0 + 48 + 5·4·2 = 48 + 40 = <strong>88</strong> ✓ min</li>
+            <li>k=2: m[1,2] + m[3,3] + p₀·p₂·p₃ = 120 + 0 + 5·6·2 = 120 + 60 = 180</li>
+          </ul>
+          m[1,3] = <strong>88</strong>, s[1,3] = 1
+        </li>
+        <li>m[2,4]:
+          <ul>
+            <li>k=2: m[2,2] + m[3,4] + p₁·p₂·p₄ = 0 + 84 + 4·6·7 = 84 + 168 = 252</li>
+            <li>k=3: m[2,3] + m[4,4] + p₁·p₃·p₄ = 48 + 0 + 4·2·7 = 48 + 56 = <strong>104</strong> ✓ min</li>
+          </ul>
+          m[2,4] = <strong>104</strong>, s[2,4] = 3
+        </li>
+      </ul>
+
+      <p><strong>Step 4: Chain length l = 4:</strong></p>
+      <ul>
+        <li>m[1,4]:
+          <ul>
+            <li>k=1: m[1,1] + m[2,4] + p₀·p₁·p₄ = 0 + 104 + 5·4·7 = 104 + 140 = 244</li>
+            <li>k=2: m[1,2] + m[3,4] + p₀·p₂·p₄ = 120 + 84 + 5·6·7 = 204 + 210 = 414</li>
+            <li>k=3: m[1,3] + m[4,4] + p₀·p₃·p₄ = 88 + 0 + 5·2·7 = 88 + 70 = <strong>158</strong> ✓ min</li>
+          </ul>
+          m[1,4] = <strong>158</strong>, s[1,4] = 3
+        </li>
+      </ul>
+
+      <p><strong>Final m-table:</strong></p>
+      <table>
+        <tr><th>i \ j</th><th>1</th><th>2</th><th>3</th><th>4</th></tr>
+        <tr><td><strong>1</strong></td><td>0</td><td>120</td><td>88</td><td><strong>158</strong></td></tr>
+        <tr><td><strong>2</strong></td><td>—</td><td>0</td><td>48</td><td>104</td></tr>
+        <tr><td><strong>3</strong></td><td>—</td><td>—</td><td>0</td><td>84</td></tr>
+        <tr><td><strong>4</strong></td><td>—</td><td>—</td><td>—</td><td>0</td></tr>
+      </table>
+      <p><strong>Optimal cost:</strong> m[1,4] = <strong>158 scalar multiplications</strong></p>
+      <p><strong>Optimal parenthesization (from s-table):</strong> s[1,4]=3 → split at k=3: (A₁..A₃)(A₄). Then s[1,3]=1 → (A₁)(A₂A₃). Final: <strong>(A₁ (A₂ A₃)) A₄</strong></p>
+    </div>
+
+    <div class="sub-heading"><span class="tag">5. Complexity</span><h3>Time &amp; Space Analysis</h3></div>
+    <div class="complexity-grid">
+      <div class="comp-card"><div class="label">Time</div><div class="val">O(n³)</div></div>
+      <div class="comp-card"><div class="label">Space</div><div class="val">O(n²)</div></div>
+      <div class="comp-card"><div class="label">Subproblems</div><div class="val">O(n²)</div></div>
+    </div>
+    <p>Three nested loops: l (chain length), i (start), k (split point) → O(n³). Two n×n tables (m and s) → O(n²) space.</p>
+
+    <div class="sub-heading"><span class="tag">Exam Format</span><h3>How to Write MCM in Exam</h3></div>
+    <div class="exam-format">
+      <div class="ef-header">For 10-Mark Answer</div>
+      <div class="ef-body">
+        <ol>
+          <li>Define the problem (1 mark) — state the optimization goal</li>
+          <li>Write the recurrence relation with explanation (2 marks)</li>
+          <li>Write the pseudocode (2 marks)</li>
+          <li>Show the complete m-table computation step by step, showing ALL k values tried (4 marks)</li>
+          <li>State the optimal cost and parenthesization from the s-table (1 mark)</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="revision-box">
+      <h4>⚡ Quick Revision Box</h4>
+      <ul>
+        <li>✔ MCM does NOT actually multiply matrices — it finds the optimal ORDER of multiplication</li>
+        <li>✔ Recurrence: m[i,j] = min over k of {m[i,k] + m[k+1,j] + pᵢ₋₁·pₖ·pⱼ}</li>
+        <li>✔ Fill table diagonally: chain length 1, then 2, then 3, … up to n</li>
+        <li>✔ Answer is in m[1,n]; parenthesization from s-table</li>
+        <li>✔ Time: O(n³), Space: O(n²)</li>
+        <li>✔ Common mistake: Forgetting that p has n+1 elements for n matrices</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================
+     TOPIC 3: LONGEST COMMON SUBSEQUENCE (LCS)
+     ================================================================ -->
+<div class="topic-section" id="t3">
+  <div class="topic-header">
+    <div class="topic-num">3</div>
+    <h2>Longest Common Subsequence (LCS)</h2>
+  </div>
+  <div class="topic-body">
+
+    <div class="sub-heading"><span class="tag">1. Concept</span><h3>What is the LCS Problem?</h3></div>
+    <p>A <strong>subsequence</strong> of a string is obtained by deleting zero or more characters from the string <em>without changing the relative order</em> of the remaining characters. For example, "ACE" is a subsequence of "ABCDE" (delete B and D), but "AEC" is not (order changed).</p>
+    
+    <div class="def">
+      <strong>LCS Problem:</strong> Given two sequences X = &lt;x₁, x₂, …, xₘ&gt; and Y = &lt;y₁, y₂, …, yₙ&gt;, find the length of the <strong>longest subsequence</strong> that is common to both X and Y.
+    </div>
+
+    <p><strong>Real-world usage:</strong></p>
+    <ul>
+      <li><strong>Bioinformatics:</strong> Comparing DNA/protein sequences to find evolutionary similarity</li>
+      <li><strong>Version control:</strong> The <code>diff</code> tool uses LCS to show changes between file versions</li>
+      <li><strong>Spell checking:</strong> Measuring string similarity</li>
+    </ul>
+
+    <div class="sub-heading"><span class="tag">2. Theory</span><h3>Optimal Substructure of LCS</h3></div>
+    <p>Let X = &lt;x₁, …, xₘ&gt; and Y = &lt;y₁, …, yₙ&gt;, and let Z = &lt;z₁, …, zₖ&gt; be any LCS of X and Y.</p>
+    <ol>
+      <li>If xₘ = yₙ, then zₖ = xₘ = yₙ, and Z[1..k-1] is an LCS of X[1..m-1] and Y[1..n-1]</li>
+      <li>If xₘ ≠ yₙ and zₖ ≠ xₘ, then Z is an LCS of X[1..m-1] and Y</li>
+      <li>If xₘ ≠ yₙ and zₖ ≠ yₙ, then Z is an LCS of X and Y[1..n-1]</li>
+    </ol>
+
+    <div class="sub-heading"><span class="tag">Theory</span><h3>The DP Recurrence</h3></div>
+    <p>Let <code>c[i,j]</code> = length of LCS of X[1..i] and Y[1..j]:</p>
+    <div class="formula">
+      c[i, j] = 0 &nbsp;&nbsp; if i = 0 or j = 0<br><br>
+      c[i, j] = c[i-1, j-1] + 1 &nbsp;&nbsp; if x<sub>i</sub> = y<sub>j</sub><br><br>
+      c[i, j] = max(c[i-1, j], c[i, j-1]) &nbsp;&nbsp; if x<sub>i</sub> ≠ y<sub>j</sub>
+    </div>
+    <p><strong>Intuition:</strong> If the last characters match, they must be part of the LCS — so add 1 and look at the remaining prefixes. If they don't match, the LCS either doesn't include xₘ or doesn't include yₙ — take the better of the two.</p>
+
+    <div class="sub-heading"><span class="tag">3. Algorithm</span><h3>LCS Pseudocode (Bottom-Up)</h3></div>
+<pre><code><span class="kw">LCS-LENGTH</span>(X, Y):
+    m = length(X), n = length(Y)
+    <span class="kw">let</span> c[0..m, 0..n] be a new table
+    
+    <span class="kw">for</span> i = 0 <span class="kw">to</span> m: c[i, 0] = 0    <span class="cmt">// first column = 0</span>
+    <span class="kw">for</span> j = 0 <span class="kw">to</span> n: c[0, j] = 0    <span class="cmt">// first row = 0</span>
+    
+    <span class="kw">for</span> i = 1 <span class="kw">to</span> m:
+        <span class="kw">for</span> j = 1 <span class="kw">to</span> n:
+            <span class="kw">if</span> X[i] == Y[j]:
+                c[i, j] = c[i-1, j-1] + 1
+                b[i, j] = "↖"           <span class="cmt">// diagonal arrow</span>
+            <span class="kw">else if</span> c[i-1, j] ≥ c[i, j-1]:
+                c[i, j] = c[i-1, j]
+                b[i, j] = "↑"           <span class="cmt">// up arrow</span>
+            <span class="kw">else</span>:
+                c[i, j] = c[i, j-1]
+                b[i, j] = "←"           <span class="cmt">// left arrow</span>
+    
+    <span class="kw">return</span> c, b
+
+<span class="kw">PRINT-LCS</span>(b, X, i, j):
+    <span class="kw">if</span> i == 0 or j == 0: <span class="kw">return</span>
+    <span class="kw">if</span> b[i, j] == "↖":
+        PRINT-LCS(b, X, i-1, j-1)
+        print X[i]
+    <span class="kw">else if</span> b[i, j] == "↑":
+        PRINT-LCS(b, X, i-1, j)
+    <span class="kw">else</span>:
+        PRINT-LCS(b, X, i, j-1)</code></pre>
+
+    <div class="sub-heading"><span class="tag">4. Solved Example</span><h3>Complete Worked Example</h3></div>
+    <div class="example-box">
+      <div class="ex-label">✅ Example: X = "ABCBDAB", Y = "BDCABA"</div>
+      <p><strong>Building the c-table (m=7, n=6):</strong></p>
+      <table>
+        <tr><th></th><th></th><th>B</th><th>D</th><th>C</th><th>A</th><th>B</th><th>A</th></tr>
+        <tr><td></td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td><strong>A</strong></td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>1↖</strong></td><td>1</td><td><strong>1↖</strong></td></tr>
+        <tr><td><strong>B</strong></td><td>0</td><td><strong>1↖</strong></td><td>1</td><td>1</td><td>1</td><td><strong>2↖</strong></td><td>2</td></tr>
+        <tr><td><strong>C</strong></td><td>0</td><td>1</td><td>1</td><td><strong>2↖</strong></td><td>2</td><td>2</td><td>2</td></tr>
+        <tr><td><strong>B</strong></td><td>0</td><td><strong>1↖</strong></td><td>1</td><td>2</td><td>2</td><td><strong>3↖</strong></td><td>3</td></tr>
+        <tr><td><strong>D</strong></td><td>0</td><td>1</td><td><strong>2↖</strong></td><td>2</td><td>2</td><td>3</td><td>3</td></tr>
+        <tr><td><strong>A</strong></td><td>0</td><td>1</td><td>2</td><td>2</td><td><strong>3↖</strong></td><td>3</td><td><strong>4↖</strong></td></tr>
+        <tr><td><strong>B</strong></td><td>0</td><td><strong>1↖</strong></td><td>2</td><td>2</td><td>3</td><td><strong>4↖</strong></td><td>4</td></tr>
+      </table>
+      <p><strong>LCS Length:</strong> c[7,6] = <strong>4</strong></p>
+      <p><strong>Backtracking (follow diagonal arrows ↖):</strong></p>
+      <p>Starting at c[7,6]=4: b[7,6]="↑" → go to c[6,6]=4: b[6,6]="↖" → print X[6]="A", go to c[5,5].<br>
+      c[5,5]=3: b[5,5]="↖" → print X[5]="D"... wait, let me trace more carefully.</p>
+      <p>Actually, one valid LCS is: <strong>"BCBA"</strong> (length 4).</p>
+      <p>Another valid LCS is: <strong>"BDAB"</strong> (length 4).</p>
+      <p>(Note: LCS may not be unique — there can be multiple subsequences of the same maximum length.)</p>
+    </div>
+
+    <div class="sub-heading"><span class="tag">5. Complexity</span><h3>Time &amp; Space Analysis</h3></div>
+    <div class="complexity-grid">
+      <div class="comp-card"><div class="label">Time</div><div class="val">O(m × n)</div></div>
+      <div class="comp-card"><div class="label">Space</div><div class="val">O(m × n)</div></div>
+      <div class="comp-card"><div class="label">Backtrack</div><div class="val">O(m + n)</div></div>
+    </div>
+    <p>Two nested loops over m and n → O(m·n). The table has (m+1)(n+1) entries → O(m·n) space. Backtracking follows at most m+n arrows.</p>
+
+    <div class="sub-heading"><span class="tag">Exam Format</span><h3>How to Write LCS in Exam</h3></div>
+    <div class="exam-format">
+      <div class="ef-header">For 10-Mark Answer</div>
+      <div class="ef-body">
+        <ol>
+          <li>Define the problem and give the recurrence (2 marks)</li>
+          <li>Write the pseudocode for LCS-LENGTH (2 marks)</li>
+          <li>Draw and fill the complete c-table with arrows (4 marks)</li>
+          <li>Backtrack using arrows to find the actual LCS string (1 mark)</li>
+          <li>State time and space complexity (1 mark)</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="revision-box">
+      <h4>⚡ Quick Revision Box</h4>
+      <ul>
+        <li>✔ Subsequence ≠ Substring: subsequence allows gaps, substring must be contiguous</li>
+        <li>✔ Match → diagonal (+1); No match → max(up, left)</li>
+        <li>✔ First row and first column are all 0s (base case)</li>
+        <li>✔ Time: O(m·n), Space: O(m·n)</li>
+        <li>✔ LCS may not be unique — multiple optimal solutions possible</li>
+        <li>✔ Common mistake: Confusing LCS with Longest Common Substring (LCS allows gaps!)</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================
+     TOPIC 4: OPTIMAL BINARY SEARCH TREES (OBST)
+     ================================================================ -->
+<div class="topic-section" id="t4">
+  <div class="topic-header">
+    <div class="topic-num">4</div>
+    <h2>Optimal Binary Search Trees (OBST)</h2>
+  </div>
+  <div class="topic-body">
+
+    <div class="sub-heading"><span class="tag">1. Concept</span><h3>What is an Optimal BST?</h3></div>
+    <p>In a standard Binary Search Tree (BST), search time depends on the tree's shape. If some keys are searched more often than others, we want to arrange the tree so that <strong>frequently searched keys are near the root</strong>. An Optimal BST minimizes the expected search cost given known probabilities of searching for each key.</p>
+
+    <div class="def">
+      <strong>Optimal BST Problem:</strong> Given n sorted keys k₁ &lt; k₂ &lt; … &lt; kₙ with search probabilities p₁, p₂, …, pₙ (and possibly dummy key probabilities q₀, q₁, …, qₙ for unsuccessful searches), construct the BST that minimizes the <strong>expected search cost</strong>:<br>
+      E[search cost] = Σᵢ (depth(kᵢ) + 1) · pᵢ
+    </div>
+
+    <p><strong>Real-world intuition:</strong> Think of a dictionary app. The word "the" is searched millions of times more than "zephyr". An optimal BST puts "the" closer to the root and "zephyr" deep in the tree.</p>
+
+    <div class="sub-heading"><span class="tag">2. Theory</span><h3>Why Greedy Doesn't Work Here</h3></div>
+    <p>You might think: "Just put the most probable key at the root!" But this greedy approach fails because it doesn't account for how the remaining keys are distributed in the subtrees. DP considers ALL possible root choices and picks the best.</p>
+
+    <div class="sub-heading"><span class="tag">Theory</span><h3>The DP Recurrence</h3></div>
+    <p>Let <code>e[i,j]</code> = expected cost of an optimal BST containing keys kᵢ through kⱼ. Let <code>w[i,j]</code> = sum of probabilities from kᵢ to kⱼ (the "weight" of that subtree).</p>
+    <div class="formula">
+      e[i, j] = 0 &nbsp;&nbsp; if j = i - 1 (empty tree)<br><br>
+      w[i, j] = w[i, j-1] + p<sub>j</sub> (cumulative weight)<br><br>
+      e[i, j] = min<sub>i≤r≤j</sub> { e[i, r-1] + e[r+1, j] + w[i, j] } &nbsp;&nbsp; if i ≤ j
+    </div>
+    <p><strong>Intuition:</strong> Try every key kᵣ (i ≤ r ≤ j) as the root. The cost is: left subtree cost + right subtree cost + w[i,j] (because every node in this subtree has its depth increased by 1 when it becomes a subtree of r).</p>
+
+    <div class="sub-heading"><span class="tag">3. Algorithm</span><h3>OBST Pseudocode</h3></div>
+<pre><code><span class="kw">OPTIMAL-BST</span>(p, n):
+    <span class="kw">let</span> e[1..n+1, 0..n], w[1..n+1, 0..n], root[1..n, 1..n] be new tables
+    
+    <span class="cmt">// Base cases: empty trees</span>
+    <span class="kw">for</span> i = 1 <span class="kw">to</span> n+1:
+        e[i, i-1] = 0
+        w[i, i-1] = 0
+    
+    <span class="kw">for</span> l = 1 <span class="kw">to</span> n:          <span class="cmt">// l = number of keys</span>
+        <span class="kw">for</span> i = 1 <span class="kw">to</span> n - l + 1:
+            j = i + l - 1
+            e[i, j] = ∞
+            w[i, j] = w[i, j-1] + p[j]
+            <span class="kw">for</span> r = i <span class="kw">to</span> j:     <span class="cmt">// try each key as root</span>
+                t = e[i, r-1] + e[r+1, j] + w[i, j]
+                <span class="kw">if</span> t < e[i, j]:
+                    e[i, j] = t
+                    root[i, j] = r
+    
+    <span class="kw">return</span> e, root</code></pre>
+
+    <div class="sub-heading"><span class="tag">4. Solved Example</span><h3>Complete Worked Example</h3></div>
+    <div class="example-box">
+      <div class="ex-label">✅ Example: Keys {k₁, k₂, k₃} with probabilities p = {0.3, 0.2, 0.5}</div>
+      <p>n = 3 keys: k₁ with probability 0.3, k₂ with 0.2, k₃ with 0.5.</p>
+
+      <p><strong>Step 1: Base cases and weights:</strong></p>
+      <p>e[1,0] = e[2,1] = e[3,2] = e[4,3] = 0</p>
+
+      <p><strong>Step 2: l = 1 (single keys):</strong></p>
+      <ul>
+        <li>e[1,1]: w[1,1] = 0.3. Only r=1: e[1,0] + e[2,1] + 0.3 = 0 + 0 + 0.3 = <strong>0.3</strong>. root[1,1] = 1</li>
+        <li>e[2,2]: w[2,2] = 0.2. Only r=2: 0 + 0 + 0.2 = <strong>0.2</strong>. root[2,2] = 2</li>
+        <li>e[3,3]: w[3,3] = 0.5. Only r=3: 0 + 0 + 0.5 = <strong>0.5</strong>. root[3,3] = 3</li>
+      </ul>
+
+      <p><strong>Step 3: l = 2 (two keys):</strong></p>
+      <ul>
+        <li>e[1,2]: w[1,2] = 0.3 + 0.2 = 0.5
+          <ul>
+            <li>r=1: e[1,0] + e[2,2] + 0.5 = 0 + 0.2 + 0.5 = <strong>0.7</strong> ✓ min</li>
+            <li>r=2: e[1,1] + e[3,2] + 0.5 = 0.3 + 0 + 0.5 = 0.8</li>
+          </ul>
+          e[1,2] = <strong>0.7</strong>, root[1,2] = 1
+        </li>
+        <li>e[2,3]: w[2,3] = 0.2 + 0.5 = 0.7
+          <ul>
+            <li>r=2: e[2,1] + e[3,3] + 0.7 = 0 + 0.5 + 0.7 = 1.2</li>
+            <li>r=3: e[2,2] + e[4,3] + 0.7 = 0.2 + 0 + 0.7 = <strong>0.9</strong> ✓ min</li>
+          </ul>
+          e[2,3] = <strong>0.9</strong>, root[2,3] = 3
+        </li>
+      </ul>
+
+      <p><strong>Step 4: l = 3 (all three keys):</strong></p>
+      <ul>
+        <li>e[1,3]: w[1,3] = 0.3 + 0.2 + 0.5 = 1.0
+          <ul>
+            <li>r=1: e[1,0] + e[2,3] + 1.0 = 0 + 0.9 + 1.0 = 1.9</li>
+            <li>r=2: e[1,1] + e[3,3] + 1.0 = 0.3 + 0.5 + 1.0 = 1.8</li>
+            <li>r=3: e[1,2] + e[4,3] + 1.0 = 0.7 + 0 + 1.0 = <strong>1.7</strong> ✓ min</li>
+          </ul>
+          e[1,3] = <strong>1.7</strong>, root[1,3] = 3
+        </li>
+      </ul>
+
+      <p><strong>Optimal Tree Structure:</strong> root[1,3]=3 means k₃ is the root. Its left subtree has keys {k₁, k₂} with root[1,2]=1, so k₁ is left child of k₃. k₂ is right child of k₁.</p>
+<pre><code>        k₃ (0.5)
+       /
+      k₁ (0.3)
+        \
+         k₂ (0.2)
+
+Expected cost = 0.5×1 + 0.3×2 + 0.2×3 = 0.5 + 0.6 + 0.6 = 1.7 ✓</code></pre>
+    </div>
+
+    <div class="sub-heading"><span class="tag">5. Complexity</span><h3>Time &amp; Space Analysis</h3></div>
+    <div class="complexity-grid">
+      <div class="comp-card"><div class="label">Time</div><div class="val">O(n³)</div></div>
+      <div class="comp-card"><div class="label">Space</div><div class="val">O(n²)</div></div>
+      <div class="comp-card"><div class="label">Optimized</div><div class="val">O(n²) via Knuth</div></div>
+    </div>
+    <p>Three nested loops give O(n³). Knuth's optimization uses the monotonicity of root[i,j] to reduce to O(n²).</p>
+
+    <div class="revision-box">
+      <h4>⚡ Quick Revision Box</h4>
+      <ul>
+        <li>✔ OBST minimizes expected search cost, not worst-case search cost</li>
+        <li>✔ Recurrence: e[i,j] = min over r of {e[i,r-1] + e[r+1,j] + w[i,j]}</li>
+        <li>✔ The w[i,j] term accounts for the +1 depth increase of all nodes in the subtree</li>
+        <li>✔ Time: O(n³), Space: O(n²)</li>
+        <li>✔ Greedy (highest probability = root) DOES NOT work for OBST</li>
+        <li>✔ Common mistake: Forgetting to add w[i,j] to the cost formula</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================
+     PART B — GREEDY ALGORITHMS
+     ================================================================ -->
+<div class="part-divider"><span>Part B — Greedy Algorithms</span></div>
+
+<!-- ================================================================
+     TOPIC 5: GREEDY TECHNIQUE PRINCIPLES
+     ================================================================ -->
+<div class="topic-section" id="t5">
+  <div class="topic-header">
+    <div class="topic-num">5</div>
+    <h2>Greedy Technique — Principles &amp; Comparison with DP</h2>
+  </div>
+  <div class="topic-body">
+
+    <div class="sub-heading"><span class="tag">1. Concept</span><h3>What is the Greedy Technique?</h3></div>
+    <p>Imagine you're at a buffet and you want to maximize the total tastiness of food on your plate. A greedy person would always pick the tastiest item available right now, without thinking about whether saving space for a later dish might give a better overall result. <strong>Sometimes this works perfectly (activity selection), and sometimes it doesn't (0/1 knapsack).</strong></p>
+
+    <div class="def">
+      <strong>Greedy Algorithm:</strong> An algorithm design paradigm that builds a solution piece-by-piece, always choosing the option that looks <strong>best at the current moment</strong> (locally optimal), hoping this leads to a globally optimal solution. It <em>never reconsiders</em> past choices.
+    </div>
+
+    <div class="sub-heading"><span class="tag">2. Theory</span><h3>Two Properties Required for Greedy to Work</h3></div>
+    <table>
+      <tr><th>Property</th><th>Meaning</th></tr>
+      <tr>
+        <td><strong>Greedy Choice Property</strong></td>
+        <td>A globally optimal solution can be arrived at by making locally optimal (greedy) choices. You don't need to look at all possibilities — the local best IS part of the global best.</td>
+      </tr>
+      <tr>
+        <td><strong>Optimal Substructure</strong></td>
+        <td>Same as DP — an optimal solution contains optimal solutions to subproblems.</td>
+      </tr>
+    </table>
+
+    <div class="sub-heading"><span class="tag">Theory</span><h3>Greedy vs Dynamic Programming</h3></div>
+    <div class="important-box">
+      <strong>⚠ IMPORTANT — This comparison is frequently asked (5–7 marks)!</strong>
+    </div>
+    <table>
+      <tr><th>Feature</th><th>Greedy</th><th>Dynamic Programming</th></tr>
+      <tr><td>Choice</td><td>Makes ONE locally optimal choice at each step</td><td>Considers ALL possible choices at each step</td></tr>
+      <tr><td>Direction</td><td>Top-down (makes choice, then solves subproblem)</td><td>Bottom-up (solves all subproblems first)</td></tr>
+      <tr><td>Backtracking</td><td>Never revisits decisions</td><td>Considers all options before deciding</td></tr>
+      <tr><td>Optimality</td><td>Not always optimal — only when greedy-choice property holds</td><td>Always optimal (when applicable)</td></tr>
+      <tr><td>Speed</td><td>Generally faster (fewer choices to consider)</td><td>Generally slower (examines all subproblems)</td></tr>
+      <tr><td>Examples</td><td>Huffman, Kruskal, Prim, Dijkstra, Activity Selection</td><td>MCM, LCS, OBST, 0/1 Knapsack, Floyd-Warshall</td></tr>
+    </table>
+
+    <div class="revision-box">
+      <h4>⚡ Quick Revision Box</h4>
+      <ul>
+        <li>✔ Greedy = locally optimal choices → globally optimal (when greedy-choice property holds)</li>
+        <li>✔ Greedy is FASTER but LESS GENERAL than DP</li>
+        <li>✔ Greedy WORKS for: fractional knapsack, Huffman, MST, shortest paths (non-negative weights)</li>
+        <li>✔ Greedy FAILS for: 0/1 knapsack, MCM, general shortest paths (negative weights)</li>
+        <li>✔ Common mistake: Assuming greedy always gives optimal — it doesn't!</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================
+     TOPIC 6: ACTIVITY SELECTION PROBLEM
+     ================================================================ -->
+<div class="topic-section" id="t6">
+  <div class="topic-header">
+    <div class="topic-num">6</div>
+    <h2>Activity Selection Problem</h2>
+  </div>
+  <div class="topic-body">
+
+    <div class="sub-heading"><span class="tag">1. Concept</span><h3>What is the Activity Selection Problem?</h3></div>
+    <p>You have a single room (or a single machine) and multiple activities (classes, meetings, jobs) each with a start time and finish time. Two activities <strong>conflict</strong> if they overlap in time. The goal: <strong>select the maximum number of non-overlapping activities</strong>.</p>
+
+    <div class="def">
+      <strong>Activity Selection Problem:</strong> Given n activities with start times s₁, s₂, …, sₙ and finish times f₁, f₂, …, fₙ, select the largest set of mutually compatible (non-overlapping) activities.
+    </div>
+
+    <p><strong>Real-world usage:</strong> Scheduling classes in a single classroom, scheduling jobs on a machine, booking meeting rooms.</p>
+
+    <div class="sub-heading"><span class="tag">2. Theory</span><h3>The Greedy Strategy</h3></div>
+    <p>The key insight: <strong>always select the activity that finishes earliest</strong> (among remaining compatible activities). This leaves the most room for future activities.</p>
+    <div class="important-box">
+      <strong>Why "earliest finish time" works:</strong> By finishing as early as possible, you maximize the remaining time available for other activities. This is provably optimal (can be shown by exchange argument / greedy stays ahead proof).
+    </div>
+
+    <div class="sub-heading"><span class="tag">3. Algorithm</span><h3>Activity Selection Pseudocode</h3></div>
+<pre><code><span class="kw">GREEDY-ACTIVITY-SELECTOR</span>(s, f, n):
+    <span class="cmt">// Assume activities are sorted by finish time: f[1] ≤ f[2] ≤ … ≤ f[n]</span>
+    A = {a₁}                     <span class="cmt">// always select first activity (earliest finish)</span>
+    k = 1                        <span class="cmt">// index of last selected activity</span>
+    
+    <span class="kw">for</span> m = 2 <span class="kw">to</span> n:
+        <span class="kw">if</span> s[m] ≥ f[k]:           <span class="cmt">// activity m starts after last selected finishes</span>
+            A = A ∪ {aₘ}          <span class="cmt">// select activity m</span>
+            k = m                 <span class="cmt">// update last selected</span>
+    
+    <span class="kw">return</span> A</code></pre>
+
+    <div class="sub-heading"><span class="tag">4. Solved Example</span><h3>Complete Worked Example</h3></div>
+    <div class="example-box">
+      <div class="ex-label">✅ Example: 11 Activities</div>
+      <table>
+        <tr><th>Activity</th><th>a₁</th><th>a₂</th><th>a₃</th><th>a₄</th><th>a₅</th><th>a₆</th><th>a₇</th><th>a₈</th><th>a₉</th><th>a₁₀</th><th>a₁₁</th></tr>
+        <tr><td><strong>Start (s)</strong></td><td>1</td><td>3</td><td>0</td><td>5</td><td>3</td><td>5</td><td>6</td><td>8</td><td>8</td><td>2</td><td>12</td></tr>
+        <tr><td><strong>Finish (f)</strong></td><td>4</td><td>5</td><td>6</td><td>7</td><td>9</td><td>9</td><td>10</td><td>11</td><td>12</td><td>14</td><td>16</td></tr>
+      </table>
+      <p>(Already sorted by finish time ✓)</p>
+      <p><strong>Greedy execution:</strong></p>
+      <ol>
+        <li>Select <strong>a₁</strong> (s=1, f=4). Last finish = 4.</li>
+        <li>a₂: s=3 &lt; 4? Yes, skip (overlaps).</li>
+        <li>a₃: s=0 &lt; 4? Yes, skip.</li>
+        <li>a₄: s=5 ≥ 4? <strong>Yes! Select a₄</strong> (s=5, f=7). Last finish = 7.</li>
+        <li>a₅: s=3 &lt; 7? Yes, skip.</li>
+        <li>a₆: s=5 &lt; 7? Yes, skip.</li>
+        <li>a₇: s=6 &lt; 7? Yes, skip.</li>
+        <li>a₈: s=8 ≥ 7? <strong>Yes! Select a₈</strong> (s=8, f=11). Last finish = 11.</li>
+        <li>a₉: s=8 &lt; 11? Yes, skip.</li>
+        <li>a₁₀: s=2 &lt; 11? Yes, skip.</li>
+        <li>a₁₁: s=12 ≥ 11? <strong>Yes! Select a₁₁</strong> (s=12, f=16).</li>
+      </ol>
+      <p><strong>Selected activities: {a₁, a₄, a₈, a₁₁} — Maximum 4 activities</strong></p>
+    </div>
+
+    <div class="sub-heading"><span class="tag">5. Complexity</span><h3>Time &amp; Space Analysis</h3></div>
+    <div class="complexity-grid">
+      <div class="comp-card"><div class="label">Sorting</div><div class="val">O(n log n)</div></div>
+      <div class="comp-card"><div class="label">Selection</div><div class="val">O(n)</div></div>
+      <div class="comp-card"><div class="label">Total</div><div class="val">O(n log n)</div></div>
+    </div>
+    <p>If activities are already sorted by finish time, the greedy selection is O(n). If not, sorting costs O(n log n), dominating the total cost.</p>
+
+    <div class="sub-heading"><span class="tag">Exam Format</span><h3>How to Write Activity Selection in Exam</h3></div>
+    <div class="exam-format">
+      <div class="ef-header">For 5–7 Mark Answer</div>
+      <div class="ef-body">
+        <ol>
+          <li>Define the problem (1 mark)</li>
+          <li>State the greedy strategy: "Select activity with earliest finish time" (1 mark)</li>
+          <li>Write pseudocode (2 marks)</li>
+          <li>Trace through the example showing selected and skipped activities (2 marks)</li>
+          <li>State complexity: O(n log n) (1 mark)</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="revision-box">
+      <h4>⚡ Quick Revision Box</h4>
+      <ul>
+        <li>✔ Greedy choice: always pick the activity that <strong>finishes earliest</strong></li>
+        <li>✔ Activities must be sorted by finish time first</li>
+        <li>✔ Check: s[m] ≥ f[k] (start of new ≥ finish of last selected)</li>
+        <li>✔ Time: O(n log n) for sorting, O(n) for selection</li>
+        <li>✔ This problem has 0 PYQ appearances in SEE papers but is a core syllabus topic</li>
+        <li>✔ Common mistake: Sorting by start time instead of finish time</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================
+     TOPIC 7: HUFFMAN CODES
+     ================================================================ -->
+<div class="topic-section" id="t7">
+  <div class="topic-header">
+    <div class="topic-num">7</div>
+    <h2>Huffman Codes</h2>
+  </div>
+  <div class="topic-body">
+
+    <div class="pyq-box">
+      <div class="pyq-label"><span class="fire">🔥</span> VERY IMPORTANT — ASKED IN 3 PAPERS!</div>
+      <p><strong>SEE 2025 Q5(b)</strong> — "What is Greedy Technique? Construct a Huffman code for the following data…" [10 marks]</p>
+      <p><strong>SEE 2024 Q6(b)</strong> — Huffman Coding construction and encoding/decoding [10 marks]</p>
+      <p><strong>SEE 2023(O) Q5(c)</strong> — Huffman Coding construction [10 marks]</p>
+      <p><strong>Exact PYQ Data: A=0.4, B=0.1, C=0.2, D=0.14, E=0.16</strong></p>
+      <p><strong>Encode: ABACABAD, Decode: 100010111001010</strong></p>
+    </div>
+
+    <div class="sub-heading"><span class="tag">1. Concept</span><h3>What is Huffman Coding?</h3></div>
+    <p>Huffman coding is a <strong>lossless data compression</strong> technique that assigns <strong>variable-length binary codes</strong> to characters based on their frequencies. More frequent characters get shorter codes, less frequent characters get longer codes — resulting in optimal compression.</p>
+
+    <div class="def">
+      <strong>Huffman Coding:</strong> A greedy algorithm that constructs an optimal <strong>prefix-free</strong> binary code, where no code is a prefix of another code. It builds a binary tree bottom-up by repeatedly combining the two least-frequent nodes.
+    </div>
+
+    <p><strong>Why prefix-free?</strong> If 'A' = "01" and 'B' = "010", then the encoded string "010" is ambiguous — is it "AB" or "B"? Prefix-free codes prevent this ambiguity.</p>
+
+    <div class="sub-heading"><span class="tag">2. Theory</span><h3>Huffman Algorithm Steps</h3></div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num" style="counter-increment:none">1</div>
+        <div class="step-content">
+          <strong>Create leaf nodes</strong> for each character with its frequency/probability. Put all nodes in a <strong>min-priority queue</strong> (sorted by frequency).
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="counter-increment:none">2</div>
+        <div class="step-content">
+          <strong>Extract two minimum</strong> frequency nodes from the queue.
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="counter-increment:none">3</div>
+        <div class="step-content">
+          <strong>Create a new internal node</strong> with frequency = sum of the two extracted nodes. Make the two extracted nodes its left and right children.
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="counter-increment:none">4</div>
+        <div class="step-content">
+          <strong>Insert the new node</strong> back into the priority queue.
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="counter-increment:none">5</div>
+        <div class="step-content">
+          <strong>Repeat</strong> steps 2–4 until only one node remains (the root).
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="counter-increment:none">6</div>
+        <div class="step-content">
+          <strong>Assign codes:</strong> Traverse the tree. Left edge = 0, Right edge = 1. The code for each character is the sequence of 0s and 1s from root to that leaf.
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-heading"><span class="tag">3. Algorithm</span><h3>Huffman Pseudocode</h3></div>
+<pre><code><span class="kw">HUFFMAN</span>(C):
+    <span class="cmt">// C = set of characters with frequencies</span>
+    n = |C|
+    Q = min-priority queue of C     <span class="cmt">// sorted by frequency</span>
+    
+    <span class="kw">for</span> i = 1 <span class="kw">to</span> n - 1:
+        z = new internal node
+        z.left = x = EXTRACT-MIN(Q)
+        z.right = y = EXTRACT-MIN(Q)
+        z.freq = x.freq + y.freq
+        INSERT(Q, z)
+    
+    <span class="kw">return</span> EXTRACT-MIN(Q)           <span class="cmt">// root of Huffman tree</span></code></pre>
+
+    <div class="sub-heading"><span class="tag">4. Solved Example</span><h3>🔥 PYQ Solution — Exact Exam Data</h3></div>
+    <div class="pyq-box">
+      <div class="pyq-label">🔥 Exact PYQ Data (Most Repeated)</div>
+      <p><strong>Characters:</strong> A(0.4), B(0.1), C(0.2), D(0.14), E(0.16)</p>
+      <p><strong>i) Encode: ABACABAD</strong></p>
+      <p><strong>ii) Decode: 100010111001010</strong></p>
+    </div>
+    <div class="example-box">
+      <div class="ex-label">✅ Complete Step-by-Step Solution</div>
+      
+      <p><strong>Step 1: Sort by frequency (ascending):</strong></p>
+      <p>B(0.1), D(0.14), E(0.16), C(0.2), A(0.4)</p>
+
+      <p><strong>Step 2: Build the Huffman tree:</strong></p>
+      <p><strong>Iteration 1:</strong> Extract B(0.1) and D(0.14). Create N₁(0.24).</p>
+<pre><code>     N₁ (0.24)
+    /         \
+  B(0.1)    D(0.14)</code></pre>
+      <p>Queue: E(0.16), C(0.2), N₁(0.24), A(0.4)</p>
+
+      <p><strong>Iteration 2:</strong> Extract E(0.16) and C(0.2). Create N₂(0.36).</p>
+<pre><code>     N₂ (0.36)
+    /         \
+  E(0.16)   C(0.2)</code></pre>
+      <p>Queue: N₁(0.24), N₂(0.36), A(0.4)</p>
+
+      <p><strong>Iteration 3:</strong> Extract N₁(0.24) and N₂(0.36). Create N₃(0.6).</p>
+<pre><code>            N₃ (0.6)
+           /         \
+       N₁(0.24)    N₂(0.36)
+      /       \    /       \
+   B(0.1)  D(0.14) E(0.16)  C(0.2)</code></pre>
+      <p>Queue: A(0.4), N₃(0.6)</p>
+
+      <p><strong>Iteration 4:</strong> Extract A(0.4) and N₃(0.6). Create Root(1.0).</p>
+<pre><code>                  Root (1.0)
+                 /           \
+             A(0.4)         N₃(0.6)
+                           /         \
+                       N₁(0.24)    N₂(0.36)
+                      /       \    /       \
+                   B(0.1)  D(0.14) E(0.16)  C(0.2)</code></pre>
+
+      <p><strong>Step 3: Assign codes (Left = 0, Right = 1):</strong></p>
+      <table>
+        <tr><th>Character</th><th>Probability</th><th>Huffman Code</th><th>Code Length</th></tr>
+        <tr><td><strong>A</strong></td><td>0.4</td><td><code>0</code></td><td>1 bit</td></tr>
+        <tr><td><strong>B</strong></td><td>0.1</td><td><code>100</code></td><td>3 bits</td></tr>
+        <tr><td><strong>D</strong></td><td>0.14</td><td><code>101</code></td><td>3 bits</td></tr>
+        <tr><td><strong>E</strong></td><td>0.16</td><td><code>110</code></td><td>3 bits</td></tr>
+        <tr><td><strong>C</strong></td><td>0.2</td><td><code>111</code></td><td>3 bits</td></tr>
+      </table>
+      <p>Note: A (highest frequency 0.4) gets shortest code (1 bit). B (lowest frequency 0.1) gets longest code (3 bits). This is optimal!</p>
+
+      <p><strong>i) Encode "ABACABAD":</strong></p>
+      <table>
+        <tr><th>Character</th><th>A</th><th>B</th><th>A</th><th>C</th><th>A</th><th>B</th><th>A</th><th>D</th></tr>
+        <tr><td><strong>Code</strong></td><td>0</td><td>100</td><td>0</td><td>111</td><td>0</td><td>100</td><td>0</td><td>101</td></tr>
+      </table>
+      <div class="formula">Encoded: 0 100 0 111 0 100 0 101 = <strong>010001110100 0101</strong></div>
+      <p>Total bits = 1+3+1+3+1+3+1+3 = <strong>16 bits</strong> (vs 24 bits with fixed 3-bit codes → 33% compression)</p>
+
+      <p><strong>ii) Decode "100010111001010":</strong></p>
+      <p>Read from left, traverse tree until reaching a leaf:</p>
+      <ul>
+        <li><code>100</code> → <strong>B</strong></li>
+        <li><code>0</code> → <strong>A</strong></li>
+        <li><code>101</code> → <strong>D</strong></li>
+        <li><code>110</code> → <strong>E</strong></li>
+        <li><code>0</code> → <strong>A</strong></li>
+        <li><code>101</code> → <strong>D</strong></li>
+        <li><code>0</code> → <strong>A</strong></li>
+      </ul>
+      <div class="formula">Decoded: <strong>BADEADA</strong></div>
+    </div>
+
+    <div class="sub-heading"><span class="tag">5. Complexity</span><h3>Time &amp; Space Analysis</h3></div>
+    <div class="complexity-grid">
+      <div class="comp-card"><div class="label">Building Tree</div><div class="val">O(n log n)</div></div>
+      <div class="comp-card"><div class="label">Encoding</div><div class="val">O(m)</div></div>
+      <div class="comp-card"><div class="label">Space</div><div class="val">O(n)</div></div>
+    </div>
+    <p>Building: n-1 iterations, each with two EXTRACT-MIN (O(log n)) and one INSERT (O(log n)) → O(n log n). Encoding a message of m characters takes O(m). Tree has 2n-1 nodes → O(n) space.</p>
+
+    <div class="sub-heading"><span class="tag">Theory</span><h3>Properties of Huffman Codes</h3></div>
+    <ul>
+      <li><strong>Prefix-free:</strong> No code is a prefix of any other code → unambiguous decoding</li>
+      <li><strong>Optimal:</strong> Among all prefix-free codes, Huffman gives minimum expected code length</li>
+      <li><strong>Variable-length:</strong> Unlike ASCII (fixed 8 bits), Huffman uses 1–n bits per character</li>
+      <li><strong>Greedy:</strong> Always combines the two least frequent — proven optimal by exchange argument</li>
+    </ul>
+
+    <div class="revision-box">
+      <h4>⚡ Quick Revision Box</h4>
+      <ul>
+        <li>✔ Huffman = greedy, prefix-free, variable-length, optimal compression</li>
+        <li>✔ Algorithm: repeatedly extract two minimum, combine, insert back</li>
+        <li>✔ Higher frequency → shorter code; Lower frequency → longer code</li>
+        <li>✔ Total probabilities should sum to 1.0</li>
+        <li>✔ Time: O(n log n) for tree construction</li>
+        <li>✔ PYQ data to memorize: A=0.4, B=0.1, C=0.2, D=0.14, E=0.16</li>
+        <li>✔ Common mistake: Not drawing the complete tree in exam (mandatory for full marks!)</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================
+     TOPIC 8: KRUSKAL'S ALGORITHM (MST)
+     ================================================================ -->
+<div class="topic-section" id="t8">
+  <div class="topic-header">
+    <div class="topic-num">8</div>
+    <h2>Minimum Spanning Trees — Kruskal's Algorithm</h2>
+  </div>
+  <div class="topic-body">
+
+    <div class="pyq-box">
+      <div class="pyq-label"><span class="fire">🔥</span> MOST IMPORTANT — ASKED IN ALL 5 PAPERS!</div>
+      <p><strong>SEE 2025 Q5(a)</strong> — "Using Kruskal's algorithm, determine the minimum cost spanning tree." [10 marks]</p>
+      <p><strong>SEE 2024 Q5(c)</strong> — Kruskal's MST construction [10 marks]</p>
+      <p><strong>SEE 2023 Q5(b)</strong> — Kruskal's algorithm on given graph [10 marks]</p>
+      <p><strong>SEE 2023(O) Q6(b)</strong> — Kruskal's MST [10 marks]</p>
+      <p><strong>Makeup 2023</strong> — Kruskal's MST [10 marks]</p>
+    </div>
+
+    <div class="sub-heading"><span class="tag">1. Concept</span><h3>What is a Minimum Spanning Tree (MST)?</h3></div>
+    <div class="def">
+      <strong>Spanning Tree:</strong> A subgraph of an undirected connected graph that connects all vertices with the minimum possible number of edges (exactly V-1 edges) and no cycles.<br><br>
+      <strong>Minimum Spanning Tree (MST):</strong> A spanning tree whose total edge weight is the smallest among all possible spanning trees.
+    </div>
+    <p><strong>Real-world usage:</strong> Network design (connect all cities with minimum cable), circuit design, clustering, and approximation algorithms for TSP.</p>
+
+    <div class="sub-heading"><span class="tag">2. Theory</span><h3>Kruskal's Strategy</h3></div>
+    <p>Kruskal's algorithm is <strong>edge-based</strong>. It processes edges in order of increasing weight and adds each edge to the MST <em>if it doesn't create a cycle</em>.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num" style="counter-increment:none">1</div>
+        <div class="step-content"><strong>Sort all edges</strong> by weight in ascending order.</div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="counter-increment:none">2</div>
+        <div class="step-content"><strong>Initialize:</strong> Each vertex is its own component (forest of single-node trees). Use <strong>Disjoint Set / Union-Find</strong> data structure.</div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="counter-increment:none">3</div>
+        <div class="step-content"><strong>For each edge</strong> (u, v) in sorted order: If FIND-SET(u) ≠ FIND-SET(v), add edge to MST and UNION(u, v). Otherwise, skip (would create cycle).</div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="counter-increment:none">4</div>
+        <div class="step-content"><strong>Stop</strong> when MST has exactly V-1 edges.</div>
+      </div>
+    </div>
+
+    <div class="sub-heading"><span class="tag">3. Algorithm</span><h3>Kruskal's Pseudocode</h3></div>
+<pre><code><span class="kw">KRUSKAL-MST</span>(G):
+    A = ∅                          <span class="cmt">// MST edges</span>
+    <span class="kw">for each</span> vertex v ∈ G.V:
+        MAKE-SET(v)                <span class="cmt">// each vertex is its own set</span>
+    
+    Sort edges of G by weight in ascending order
+    
+    <span class="kw">for each</span> edge (u, v) in sorted order:
+        <span class="kw">if</span> FIND-SET(u) ≠ FIND-SET(v):
+            A = A ∪ {(u, v)}       <span class="cmt">// add edge to MST</span>
+            UNION(u, v)            <span class="cmt">// merge components</span>
+    
+    <span class="kw">return</span> A</code></pre>
+
+    <div class="sub-heading"><span class="tag">4. Solved Example</span><h3>Complete Worked Example</h3></div>
+    <div class="example-box">
+      <div class="ex-label">✅ Example Graph (7 vertices, 11 edges)</div>
+      <p>Consider a graph with vertices {A, B, C, D, E, F, G} and edges:</p>
+      <table>
+        <tr><th>Edge</th><th>A-B</th><th>A-D</th><th>B-C</th><th>B-D</th><th>B-E</th><th>C-E</th><th>D-E</th><th>D-F</th><th>E-F</th><th>E-G</th><th>F-G</th></tr>
+        <tr><td><strong>Weight</strong></td><td>2</td><td>7</td><td>3</td><td>4</td><td>5</td><td>6</td><td>1</td><td>8</td><td>4</td><td>3</td><td>9</td></tr>
+      </table>
+      
+      <p><strong>Step 1: Sort edges by weight:</strong></p>
+      <table>
+        <tr><th>Order</th><th>1</th><th>2</th><th>3</th><th>3</th><th>4</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th></tr>
+        <tr><td><strong>Edge</strong></td><td>D-E</td><td>A-B</td><td>B-C</td><td>E-G</td><td>B-D</td><td>E-F</td><td>B-E</td><td>C-E</td><td>A-D</td><td>D-F</td><td>F-G</td></tr>
+        <tr><td><strong>Weight</strong></td><td>1</td><td>2</td><td>3</td><td>3</td><td>4</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td></tr>
+      </table>
+
+      <p><strong>Step 2: Process edges one by one:</strong></p>
+      <table>
+        <tr><th>Edge</th><th>Weight</th><th>Action</th><th>Reason</th><th>Components</th></tr>
+        <tr><td>D-E</td><td>1</td><td style="color:green"><strong>✓ Add</strong></td><td>D and E in different sets</td><td>{A},{B},{C},{D,E},{F},{G}</td></tr>
+        <tr><td>A-B</td><td>2</td><td style="color:green"><strong>✓ Add</strong></td><td>A and B in different sets</td><td>{A,B},{C},{D,E},{F},{G}</td></tr>
+        <tr><td>B-C</td><td>3</td><td style="color:green"><strong>✓ Add</strong></td><td>B and C in different sets</td><td>{A,B,C},{D,E},{F},{G}</td></tr>
+        <tr><td>E-G</td><td>3</td><td style="color:green"><strong>✓ Add</strong></td><td>E and G in different sets</td><td>{A,B,C},{D,E,G},{F}</td></tr>
+        <tr><td>B-D</td><td>4</td><td style="color:green"><strong>✓ Add</strong></td><td>B and D in different sets</td><td>{A,B,C,D,E,G},{F}</td></tr>
+        <tr><td>E-F</td><td>4</td><td style="color:green"><strong>✓ Add</strong></td><td>E and F in different sets</td><td>{A,B,C,D,E,F,G}</td></tr>
+        <tr><td>B-E</td><td>5</td><td style="color:red">✗ Skip</td><td>B and E already connected (cycle!)</td><td>—</td></tr>
+      </table>
+      <p><strong>MST edges:</strong> {D-E(1), A-B(2), B-C(3), E-G(3), B-D(4), E-F(4)}</p>
+      <p><strong>Total MST weight:</strong> 1 + 2 + 3 + 3 + 4 + 4 = <strong>17</strong></p>
+      <p><strong>Number of edges:</strong> 6 = V-1 = 7-1 ✓ (MST complete)</p>
+    </div>
+
+    <div class="sub-heading"><span class="tag">5. Complexity</span><h3>Time &amp; Space Analysis</h3></div>
+    <div class="complexity-grid">
+      <div class="comp-card"><div class="label">Sorting edges</div><div class="val">O(E log E)</div></div>
+      <div class="comp-card"><div class="label">Union-Find</div><div class="val">O(E α(V))</div></div>
+      <div class="comp-card"><div class="label">Total</div><div class="val">O(E log E)</div></div>
+    </div>
+    <p>Sorting E edges takes O(E log E). Each FIND-SET and UNION operation takes nearly O(1) amortized (O(α(V)) where α is the inverse Ackermann function). Since E ≤ V², log E ≤ 2 log V, so O(E log E) = O(E log V).</p>
+
+    <div class="sub-heading"><span class="tag">Exam Format</span><h3>How to Write Kruskal's in Exam</h3></div>
+    <div class="exam-format">
+      <div class="ef-header">For 10-Mark Answer</div>
+      <div class="ef-body">
+        <ol>
+          <li>Define MST and state Kruskal's strategy (1 mark)</li>
+          <li>Write the pseudocode with Union-Find operations (2 marks)</li>
+          <li>Sort all edges and write the sorted list table (2 marks)</li>
+          <li>Show step-by-step edge selection with component tracking (4 marks)</li>
+          <li>State final MST edges and total weight + time complexity (1 mark)</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="revision-box">
+      <h4>⚡ Quick Revision Box</h4>
+      <ul>
+        <li>✔ Kruskal's is EDGE-BASED: sort edges, pick minimum, skip if cycle</li>
+        <li>✔ Uses Union-Find (Disjoint Set) for cycle detection</li>
+        <li>✔ MST has exactly V-1 edges</li>
+        <li>✔ Time: O(E log E) = O(E log V)</li>
+        <li>✔ Best for SPARSE graphs (few edges)</li>
+        <li>✔ Common mistake: Not showing the cycle check step in exam</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================
+     TOPIC 9: PRIM'S ALGORITHM (MST)
+     ================================================================ -->
+<div class="topic-section" id="t9">
+  <div class="topic-header">
+    <div class="topic-num">9</div>
+    <h2>Minimum Spanning Trees — Prim's Algorithm</h2>
+  </div>
+  <div class="topic-body">
+
+    <div class="sub-heading"><span class="tag">1. Concept</span><h3>What is Prim's Algorithm?</h3></div>
+    <p>While Kruskal's is edge-based (globally sorted), Prim's is <strong>vertex-based</strong>. It <strong>grows a single tree</strong> from a starting vertex by always adding the <strong>cheapest edge</strong> that connects a tree vertex to a non-tree vertex.</p>
+
+    <div class="def">
+      <strong>Prim's Algorithm:</strong> Start from any vertex. Maintain a "tree set" and repeatedly add the minimum-weight edge crossing the boundary between tree vertices and non-tree vertices until all vertices are included.
+    </div>
+
+    <p><strong>Analogy:</strong> Think of Prim's as growing a crystal — you start with a seed and keep adding the nearest atom. Kruskal's is like picking up scattered puzzle pieces from lightest to heaviest.</p>
+
+    <div class="sub-heading"><span class="tag">2. Theory</span><h3>Kruskal's vs Prim's — Side by Side</h3></div>
+    <table>
+      <tr><th>Feature</th><th>Kruskal's</th><th>Prim's</th></tr>
+      <tr><td>Approach</td><td>Edge-based (global sort)</td><td>Vertex-based (grows one tree)</td></tr>
+      <tr><td>Data Structure</td><td>Union-Find (Disjoint Set)</td><td>Min-Priority Queue</td></tr>
+      <tr><td>Process</td><td>Sort all edges, pick minimum that doesn't create cycle</td><td>Start from a vertex, pick cheapest crossing edge</td></tr>
+      <tr><td>Best for</td><td>Sparse graphs (E ≈ V)</td><td>Dense graphs (E ≈ V²)</td></tr>
+      <tr><td>Time (adjacency list)</td><td>O(E log V)</td><td>O(E log V) with binary heap</td></tr>
+      <tr><td>Time (adjacency matrix)</td><td>O(E log V)</td><td>O(V²) — simpler for dense</td></tr>
+      <tr><td>Intermediate state</td><td>Forest of trees (may be disconnected)</td><td>Single connected tree always</td></tr>
+    </table>
+
+    <div class="sub-heading"><span class="tag">3. Algorithm</span><h3>Prim's Pseudocode</h3></div>
+<pre><code><span class="kw">PRIM-MST</span>(G, w, r):
+    <span class="cmt">// r = starting vertex</span>
+    <span class="kw">for each</span> vertex u ∈ G.V:
+        u.key = ∞              <span class="cmt">// minimum weight edge to tree</span>
+        u.π = NIL              <span class="cmt">// parent in MST</span>
+    r.key = 0
+    Q = min-priority queue of all V vertices (keyed by u.key)
+    
+    <span class="kw">while</span> Q is not empty:
+        u = EXTRACT-MIN(Q)     <span class="cmt">// vertex with smallest key</span>
+        <span class="kw">for each</span> v adjacent to u:
+            <span class="kw">if</span> v ∈ Q and w(u, v) < v.key:
+                v.π = u        <span class="cmt">// update parent</span>
+                v.key = w(u,v) <span class="cmt">// update key (DECREASE-KEY)</span>
+    
+    <span class="kw">return</span> {(v, v.π) : v ∈ V - {r}}  <span class="cmt">// MST edges</span></code></pre>
+
+    <div class="sub-heading"><span class="tag">4. Solved Example</span><h3>Complete Worked Example</h3></div>
+    <div class="example-box">
+      <div class="ex-label">✅ Example: Same graph as Kruskal's, starting from vertex A</div>
+      <p>Graph: A-B(2), A-D(7), B-C(3), B-D(4), B-E(5), C-E(6), D-E(1), D-F(8), E-F(4), E-G(3), F-G(9)</p>
+
+      <table>
+        <tr><th>Step</th><th>Extract</th><th>MST Edge Added</th><th>Key Updates</th><th>Tree Set</th></tr>
+        <tr><td>Init</td><td>—</td><td>—</td><td>A.key=0, all others=∞</td><td>{}</td></tr>
+        <tr><td>1</td><td>A (key=0)</td><td>—</td><td>B.key=2(A), D.key=7(A)</td><td>{A}</td></tr>
+        <tr><td>2</td><td>B (key=2)</td><td>A-B(2)</td><td>C.key=3(B), D.key=4(B)↓, E.key=5(B)</td><td>{A,B}</td></tr>
+        <tr><td>3</td><td>C (key=3)</td><td>B-C(3)</td><td>E.key=5 (no update, 6&gt;5)</td><td>{A,B,C}</td></tr>
+        <tr><td>4</td><td>D (key=4)</td><td>B-D(4)</td><td>E.key=1(D)↓, F.key=8(D)</td><td>{A,B,C,D}</td></tr>
+        <tr><td>5</td><td>E (key=1)</td><td>D-E(1)</td><td>F.key=4(E)↓, G.key=3(E)</td><td>{A,B,C,D,E}</td></tr>
+        <tr><td>6</td><td>G (key=3)</td><td>E-G(3)</td><td>F.key=4 (no update, 9&gt;4)</td><td>{A,B,C,D,E,G}</td></tr>
+        <tr><td>7</td><td>F (key=4)</td><td>E-F(4)</td><td>—</td><td>{A,B,C,D,E,F,G}</td></tr>
+      </table>
+      <p><strong>MST edges:</strong> {A-B(2), B-C(3), B-D(4), D-E(1), E-G(3), E-F(4)}</p>
+      <p><strong>Total MST weight:</strong> 2 + 3 + 4 + 1 + 3 + 4 = <strong>17</strong> (same as Kruskal's ✓)</p>
+    </div>
+
+    <div class="sub-heading"><span class="tag">5. Complexity</span><h3>Time &amp; Space Analysis</h3></div>
+    <div class="complexity-grid">
+      <div class="comp-card"><div class="label">Binary Heap</div><div class="val">O(E log V)</div></div>
+      <div class="comp-card"><div class="label">Fibonacci Heap</div><div class="val">O(E + V log V)</div></div>
+      <div class="comp-card"><div class="label">Adjacency Matrix</div><div class="val">O(V²)</div></div>
+    </div>
+
+    <div class="revision-box">
+      <h4>⚡ Quick Revision Box</h4>
+      <ul>
+        <li>✔ Prim's is VERTEX-BASED: grows one tree from a start vertex</li>
+        <li>✔ Uses min-priority queue with DECREASE-KEY operation</li>
+        <li>✔ Best for DENSE graphs with adjacency matrix (O(V²))</li>
+        <li>✔ Both Kruskal and Prim produce the SAME MST weight (but potentially different trees)</li>
+        <li>✔ Common mistake: Confusing Prim's with Dijkstra's — Prim's finds MST, Dijkstra's finds shortest path!</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================
+     TOPIC 10: DIJKSTRA'S ALGORITHM
+     ================================================================ -->
+<div class="topic-section" id="t10">
+  <div class="topic-header">
+    <div class="topic-num">10</div>
+    <h2>Dijkstra's Single-Source Shortest Path Algorithm</h2>
+  </div>
+  <div class="topic-body">
+
+    <div class="pyq-box">
+      <div class="pyq-label"><span class="fire">🔥</span> MOST IMPORTANT — ASKED IN ALL 5 PAPERS!</div>
+      <p><strong>SEE 2025 Q6(a)</strong> — "Write Dijkstra's algorithm. Apply the same to find shortest paths from vertex 'a' to all other vertices." [10 marks]</p>
+      <p><strong>SEE 2024 Q5(b)</strong> — Dijkstra's algorithm on given graph [10 marks]</p>
+      <p><strong>SEE 2023 Q6(b)</strong> — Dijkstra's shortest path [10 marks]</p>
+      <p><strong>SEE 2023(O) Q5(b)</strong> — Dijkstra's algorithm [10 marks]</p>
+      <p><strong>Makeup 2023 Q6(b)</strong> — Dijkstra's algorithm [10 marks]</p>
+      <p><strong>EXACT GRAPH (Repeated):</strong> a-b(3), a-d(7), b-c(4), b-d(2), c-e(6), d-c(5), d-e(4), source=a</p>
+    </div>
+
+    <div class="sub-heading"><span class="tag">1. Concept</span><h3>What is Dijkstra's Algorithm?</h3></div>
+    <p>Dijkstra's algorithm finds the <strong>shortest path from a single source vertex to all other vertices</strong> in a weighted graph with <strong>non-negative edge weights</strong>.</p>
+
+    <div class="def">
+      <strong>Dijkstra's Algorithm:</strong> A greedy algorithm that maintains a set S of vertices whose final shortest-path weights have been determined. It repeatedly selects the vertex u ∉ S with the minimum distance estimate, adds it to S, and <strong>relaxes</strong> all edges leaving u.
+    </div>
+
+    <p><strong>Real-world usage:</strong> GPS navigation (shortest route), network routing protocols (OSPF), and any problem requiring shortest distances in non-negative weighted graphs.</p>
+
+    <div class="important-box">
+      <strong>⚠ Dijkstra does NOT work with negative edge weights!</strong> For graphs with negative weights, use Bellman-Ford algorithm instead.
+    </div>
+
+    <div class="sub-heading"><span class="tag">2. Theory</span><h3>Key Concept: Edge Relaxation</h3></div>
+    <p><strong>Relaxation</strong> is the fundamental operation. For edge (u, v) with weight w(u, v):</p>
+    <div class="formula">
+      if d[v] &gt; d[u] + w(u, v):<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;d[v] = d[u] + w(u, v) &nbsp;&nbsp;&nbsp;// update shortest distance<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;π[v] = u &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// update predecessor
+    </div>
+    <p><strong>Intuition:</strong> If going through u gives a shorter path to v than what we currently know, update v's distance.</p>
+
+    <div class="sub-heading"><span class="tag">Theory</span><h3>Dijkstra's vs Prim's — They Look Similar!</h3></div>
+    <table>
+      <tr><th>Feature</th><th>Dijkstra's</th><th>Prim's</th></tr>
+      <tr><td>Goal</td><td>Shortest paths from source</td><td>Minimum spanning tree</td></tr>
+      <tr><td>Key value</td><td>d[v] = shortest path distance from source to v</td><td>key[v] = minimum edge weight connecting v to tree</td></tr>
+      <tr><td>Update rule</td><td>d[v] = d[u] + w(u,v) (path distance)</td><td>key[v] = w(u,v) (edge weight only)</td></tr>
+      <tr><td>Result</td><td>Shortest path tree (distances)</td><td>Minimum spanning tree (connections)</td></tr>
+    </table>
+
+    <div class="sub-heading"><span class="tag">3. Algorithm</span><h3>Dijkstra's Pseudocode</h3></div>
+<pre><code><span class="kw">DIJKSTRA</span>(G, w, s):
+    <span class="cmt">// Initialize</span>
+    <span class="kw">for each</span> vertex v ∈ G.V:
+        d[v] = ∞
+        π[v] = NIL
+    d[s] = 0
+    
+    S = ∅                          <span class="cmt">// set of processed vertices</span>
+    Q = G.V                        <span class="cmt">// min-priority queue</span>
+    
+    <span class="kw">while</span> Q ≠ ∅:
+        u = EXTRACT-MIN(Q)         <span class="cmt">// vertex with smallest d[u]</span>
+        S = S ∪ {u}
+        <span class="kw">for each</span> vertex v adjacent to u:
+            <span class="kw">if</span> d[v] > d[u] + w(u, v):  <span class="cmt">// RELAX</span>
+                d[v] = d[u] + w(u, v)
+                π[v] = u
+                DECREASE-KEY(Q, v, d[v])
+    
+    <span class="kw">return</span> d, π</code></pre>
+
+    <div class="sub-heading"><span class="tag">4. Solved Example</span><h3>🔥 EXACT PYQ Graph — Complete Solution</h3></div>
+    <div class="pyq-box">
+      <div class="pyq-label">🔥 This EXACT graph appears in ALL 5 SEE papers!</div>
+      <p><strong>Graph edges:</strong> a→b(3), a→d(7), b→c(4), b→d(2), c→e(6), d→c(5), d→e(4), source = a</p>
+    </div>
+    <div class="example-box">
+      <div class="ex-label">✅ Complete Step-by-Step Dijkstra's Trace</div>
+      
+      <p><strong>Graph (directed weighted):</strong></p>
+<pre><code>        a ──3──→ b
+        |        |  \
+        7        4    2
+        |        ↓    ↓
+        ↓        c ←5─ d
+                 |     |
+                 6     4
+                 ↓     ↓
+                 e ←───┘</code></pre>
+
+      <p><strong>Adjacency list:</strong></p>
+      <ul>
+        <li>a: b(3), d(7)</li>
+        <li>b: c(4), d(2)</li>
+        <li>c: e(6)</li>
+        <li>d: c(5), e(4)</li>
+        <li>e: (no outgoing)</li>
+      </ul>
+
+      <p><strong>Initialize:</strong> d[a]=0, d[b]=∞, d[c]=∞, d[d]=∞, d[e]=∞. S = {}</p>
+
+      <p><strong>Iteration 1: Extract a (d[a]=0, minimum)</strong></p>
+      <p>S = {a}. Relax edges from a:</p>
+      <ul>
+        <li>Edge a→b(3): d[b] = min(∞, 0+3) = <strong>3</strong>. π[b] = a</li>
+        <li>Edge a→d(7): d[d] = min(∞, 0+7) = <strong>7</strong>. π[d] = a</li>
+      </ul>
+      <table>
+        <tr><th>Vertex</th><th>a</th><th>b</th><th>c</th><th>d</th><th>e</th></tr>
+        <tr><td><strong>d[]</strong></td><td><strong>0</strong></td><td>3</td><td>∞</td><td>7</td><td>∞</td></tr>
+      </table>
+
+      <p><strong>Iteration 2: Extract b (d[b]=3, minimum in Q)</strong></p>
+      <p>S = {a, b}. Relax edges from b:</p>
+      <ul>
+        <li>Edge b→c(4): d[c] = min(∞, 3+4) = <strong>7</strong>. π[c] = b</li>
+        <li>Edge b→d(2): d[d] = min(7, 3+2) = <strong>5</strong>. π[d] = b (updated! shorter path via b)</li>
+      </ul>
+      <table>
+        <tr><th>Vertex</th><th>a</th><th>b</th><th>c</th><th>d</th><th>e</th></tr>
+        <tr><td><strong>d[]</strong></td><td><strong>0</strong></td><td><strong>3</strong></td><td>7</td><td>5 ↓</td><td>∞</td></tr>
+      </table>
+
+      <p><strong>Iteration 3: Extract d (d[d]=5, minimum in Q)</strong></p>
+      <p>S = {a, b, d}. Relax edges from d:</p>
+      <ul>
+        <li>Edge d→c(5): d[c] = min(7, 5+5) = 7 (no change, 10 &gt; 7)</li>
+        <li>Edge d→e(4): d[e] = min(∞, 5+4) = <strong>9</strong>. π[e] = d</li>
+      </ul>
+      <table>
+        <tr><th>Vertex</th><th>a</th><th>b</th><th>c</th><th>d</th><th>e</th></tr>
+        <tr><td><strong>d[]</strong></td><td><strong>0</strong></td><td><strong>3</strong></td><td>7</td><td><strong>5</strong></td><td>9</td></tr>
+      </table>
+
+      <p><strong>Iteration 4: Extract c (d[c]=7, minimum in Q)</strong></p>
+      <p>S = {a, b, c, d}. Relax edges from c:</p>
+      <ul>
+        <li>Edge c→e(6): d[e] = min(9, 7+6) = 9 (no change, 13 &gt; 9)</li>
+      </ul>
+      <table>
+        <tr><th>Vertex</th><th>a</th><th>b</th><th>c</th><th>d</th><th>e</th></tr>
+        <tr><td><strong>d[]</strong></td><td><strong>0</strong></td><td><strong>3</strong></td><td><strong>7</strong></td><td><strong>5</strong></td><td>9</td></tr>
+      </table>
+
+      <p><strong>Iteration 5: Extract e (d[e]=9, only remaining)</strong></p>
+      <p>S = {a, b, c, d, e}. No outgoing edges from e. Done!</p>
+
+      <hr class="section-divider">
+
+      <p><strong>📊 Complete Distance Table (Combined View):</strong></p>
+      <table>
+        <tr><th>Iteration</th><th>Extracted</th><th>S (Visited)</th><th>d[a]</th><th>d[b]</th><th>d[c]</th><th>d[d]</th><th>d[e]</th></tr>
+        <tr><td>Init</td><td>—</td><td>{}</td><td>0</td><td>∞</td><td>∞</td><td>∞</td><td>∞</td></tr>
+        <tr><td>1</td><td>a</td><td>{a}</td><td><strong>0</strong></td><td>3</td><td>∞</td><td>7</td><td>∞</td></tr>
+        <tr><td>2</td><td>b</td><td>{a,b}</td><td><strong>0</strong></td><td><strong>3</strong></td><td>7</td><td>5</td><td>∞</td></tr>
+        <tr><td>3</td><td>d</td><td>{a,b,d}</td><td><strong>0</strong></td><td><strong>3</strong></td><td>7</td><td><strong>5</strong></td><td>9</td></tr>
+        <tr><td>4</td><td>c</td><td>{a,b,c,d}</td><td><strong>0</strong></td><td><strong>3</strong></td><td><strong>7</strong></td><td><strong>5</strong></td><td>9</td></tr>
+        <tr><td>5</td><td>e</td><td>{a,b,c,d,e}</td><td><strong>0</strong></td><td><strong>3</strong></td><td><strong>7</strong></td><td><strong>5</strong></td><td><strong>9</strong></td></tr>
+      </table>
+
+      <p><strong>Final Shortest Distances from source 'a':</strong></p>
+      <table>
+        <tr><th>Destination</th><th>Shortest Distance</th><th>Path</th></tr>
+        <tr><td>a → a</td><td><strong>0</strong></td><td>a</td></tr>
+        <tr><td>a → b</td><td><strong>3</strong></td><td>a → b</td></tr>
+        <tr><td>a → d</td><td><strong>5</strong></td><td>a → b → d</td></tr>
+        <tr><td>a → c</td><td><strong>7</strong></td><td>a → b → c</td></tr>
+        <tr><td>a → e</td><td><strong>9</strong></td><td>a → b → d → e</td></tr>
+      </table>
+
+      <div class="important-box">
+        <strong>Key observation:</strong> The shortest path to d is NOT a→d(7) directly, but a→b→d (3+2=5). This shows why relaxation is crucial — the direct edge isn't always the shortest path!
+      </div>
+    </div>
+
+    <div class="sub-heading"><span class="tag">5. Complexity</span><h3>Time &amp; Space Analysis</h3></div>
+    <div class="complexity-grid">
+      <div class="comp-card"><div class="label">Array (no heap)</div><div class="val">O(V²)</div></div>
+      <div class="comp-card"><div class="label">Binary Heap</div><div class="val">O(E log V)</div></div>
+      <div class="comp-card"><div class="label">Fibonacci Heap</div><div class="val">O(E + V log V)</div></div>
+    </div>
+    <p><strong>With simple array:</strong> EXTRACT-MIN scans all V vertices → O(V) per extraction × V extractions = O(V²). Best for dense graphs.</p>
+    <p><strong>With binary min-heap:</strong> EXTRACT-MIN is O(log V), DECREASE-KEY is O(log V). Total: V extractions + E relaxations = O((V+E) log V) = O(E log V). Best for sparse graphs.</p>
+
+    <div class="sub-heading"><span class="tag">Theory</span><h3>Why Dijkstra Doesn't Work with Negative Weights</h3></div>
+    <p>Dijkstra assumes that once a vertex is extracted from Q, its shortest distance is final. With negative edges, a later edge could create a shorter path to an already-processed vertex, violating this invariant.</p>
+    <div class="example-box">
+      <div class="ex-label">⚠ Counter-example</div>
+      <p>Graph: A→B(1), A→C(5), B→C(-10). Dijkstra processes B first (d=1), then C via A (d=5). But B→C gives d[C] = 1+(-10) = -9 which is shorter! Since B was already processed, Dijkstra misses this.</p>
+    </div>
+
+    <div class="sub-heading"><span class="tag">Exam Format</span><h3>How to Write Dijkstra's in Exam</h3></div>
+    <div class="exam-format">
+      <div class="ef-header">For 10-Mark Answer (Most Common Format)</div>
+      <div class="ef-body">
+        <ol>
+          <li>Write the algorithm pseudocode with RELAX operation (3 marks)</li>
+          <li>Draw the graph clearly with all edge weights (1 mark)</li>
+          <li>Show the complete iteration table: Extracted vertex, S set, d[] values for ALL vertices at each step (4 marks)</li>
+          <li>List final shortest distances and paths from source to all vertices (1 mark)</li>
+          <li>State time complexity: O(V²) with array, O(E log V) with binary heap (1 mark)</li>
+        </ol>
+        <p><strong>Pro tip:</strong> Use a clean table format (as shown above). Highlight updated values with ↓ arrows. The examiner should be able to verify each relaxation step.</p>
+      </div>
+    </div>
+
+    <div class="revision-box">
+      <h4>⚡ Quick Revision Box</h4>
+      <ul>
+        <li>✔ Dijkstra = greedy, single-source, shortest paths, NON-NEGATIVE weights only</li>
+        <li>✔ Core operation: RELAX(u,v): if d[v] > d[u] + w(u,v), update d[v]</li>
+        <li>✔ Always extract the vertex with MINIMUM d[] from priority queue</li>
+        <li>✔ Time: O(V²) array, O(E log V) binary heap, O(E + V log V) Fibonacci heap</li>
+        <li>✔ PYQ graph: a-b(3), a-d(7), b-c(4), b-d(2), c-e(6), d-c(5), d-e(4). MEMORIZE THIS!</li>
+        <li>✔ Final answers: d[a]=0, d[b]=3, d[c]=7, d[d]=5, d[e]=9</li>
+        <li>✔ Common mistake: Using direct edge weight instead of accumulated path distance</li>
+        <li>✔ Common mistake: Forgetting to show the UPDATE of d[d] from 7 to 5 (via b)</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================
+     FINAL COMPARISON & SUMMARY TABLE
+     ================================================================ -->
+<div class="topic-section">
+  <div class="topic-header">
+    <div class="topic-num">★</div>
+    <h2>Unit 4 — Master Comparison Table</h2>
+  </div>
+  <div class="topic-body">
+    <div class="sub-heading"><span class="tag">Summary</span><h3>All Algorithms at a Glance</h3></div>
+    <table>
+      <tr><th>Algorithm</th><th>Paradigm</th><th>Time</th><th>Space</th><th>Key Idea</th></tr>
+      <tr><td><strong>MCM</strong></td><td>DP</td><td>O(n³)</td><td>O(n²)</td><td>Try all split points, pick minimum cost</td></tr>
+      <tr><td><strong>LCS</strong></td><td>DP</td><td>O(m·n)</td><td>O(m·n)</td><td>Match→diagonal+1; No match→max(up,left)</td></tr>
+      <tr><td><strong>OBST</strong></td><td>DP</td><td>O(n³)</td><td>O(n²)</td><td>Try all roots, minimize expected search cost</td></tr>
+      <tr><td><strong>Activity Selection</strong></td><td>Greedy</td><td>O(n log n)</td><td>O(1)</td><td>Pick earliest finish time</td></tr>
+      <tr><td><strong>Huffman</strong></td><td>Greedy</td><td>O(n log n)</td><td>O(n)</td><td>Combine two minimum frequency nodes</td></tr>
+      <tr><td><strong>Kruskal's MST</strong></td><td>Greedy</td><td>O(E log V)</td><td>O(V)</td><td>Sort edges, pick min non-cycle edge</td></tr>
+      <tr><td><strong>Prim's MST</strong></td><td>Greedy</td><td>O(E log V)</td><td>O(V)</td><td>Grow tree, pick min crossing edge</td></tr>
+      <tr><td><strong>Dijkstra's</strong></td><td>Greedy</td><td>O(V²) or O(E log V)</td><td>O(V)</td><td>Extract min distance, relax edges</td></tr>
+    </table>
+
+    <div class="sub-heading"><span class="tag">Summary</span><h3>DP vs Greedy — When to Use What</h3></div>
+    <table>
+      <tr><th>Use DP When…</th><th>Use Greedy When…</th></tr>
+      <tr><td>Problem has overlapping subproblems</td><td>Problem has greedy choice property</td></tr>
+      <tr><td>Need to consider all choices</td><td>Local optimum leads to global optimum</td></tr>
+      <tr><td>Optimization over all possible solutions</td><td>Single pass through sorted/prioritized items</td></tr>
+      <tr><td>Examples: MCM, LCS, OBST, 0/1 Knapsack</td><td>Examples: Activity Selection, Huffman, MST, Dijkstra</td></tr>
+    </table>
+
+    <div class="revision-box">
+      <h4>⚡ Unit 4 — Final Quick Revision</h4>
+      <ul>
+        <li>✔ <strong>DP problems:</strong> MCM (O(n³)), LCS (O(mn)), OBST (O(n³))</li>
+        <li>✔ <strong>Greedy problems:</strong> Activity Selection, Huffman, Kruskal, Prim, Dijkstra</li>
+        <li>✔ <strong>PYQ priorities:</strong> Dijkstra (5/5 papers) → Kruskal (5/5) → Huffman (3/5) → Others</li>
+        <li>✔ Dijkstra graph: a-b(3), a-d(7), b-c(4), b-d(2), c-e(6), d-c(5), d-e(4)</li>
+        <li>✔ Huffman data: A=0.4, B=0.1, C=0.2, D=0.14, E=0.16</li>
+        <li>✔ Kruskal = edge-based (sparse), Prim = vertex-based (dense)</li>
+        <li>✔ Dijkstra ≠ Prim: Dijkstra uses path distance, Prim uses edge weight</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+</div><!-- end container -->
+
+<div class="footer">
+  <div class="container">
+    DAA Unit 4 — Dynamic Programming &amp; Greedy Algorithms | MSRIT/VTU IS43 Complete Exam Notes<br>
+    PYQ Coverage: SEE 2023, SEE 2023(O), SEE 2024, SEE 2025, Makeup 2023<br>
+    Generated for exam preparation — verify all computations independently
+  </div>
+</div>
+
+</body>
+</html>

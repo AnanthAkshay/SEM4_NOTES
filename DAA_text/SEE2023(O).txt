@@ -1,0 +1,150 @@
+
+--- Page 1 ---
+ IS44(O) 
+Page 1 of 3 
+ 
+ 
+ 
+ (Autonomous Institute, Affiliated to VTU) 
+(Approved by AICTE, New Delhi & Govt. of Karnataka)  
+Accredited by NBA & NAAC with ‘A+’ Grade 
+ 
+SEMESTER END EXAMINATIONS – AUGUST / SEPTEMBER 2023 
+Program : B.E. -  Information Science and 
+Engineering Semester : IV 
+Course Name : Design and Analysis of Algorithms Max. Marks : 100 
+Course Code : IS44(O) Duration : 3 Hrs 
+ 
+Instructions to the Candidates: 
+ Answer one full question from each unit. 
+ 
+ 
+  UNIT - I   
+1. a) Consider the following algorithm: 
+Algorithm MatMul(A[1…n],B[1..n],C[1…n]) 
+//Multiplies two square matrices A and B 
+//Result: C[1…n]. 
+for i=1 to n do 
+for j=1 to n do 
+C[i][j]=0 
+for k=1 to n do 
+C[i][j]=C[i][j]+A[i][k]*B[k][j] 
+return C 
+i)What is its basic operation? 
+ii)How many times is the basic operation executed? 
+iii)What is the efficiency class of this algorithm? 
+CO1 (08) 
+ b) Explain in brief the basic Asymptotic notations and illustrate with  
+figures. 
+CO1 (12) 
+     
+2. a) Discuss the various stages of algorithm design and analysis 
+process using flow chart. 
+CO1 (10) 
+ b) Write the general plan for analyzing time efficiency of recursive 
+algorithms. Mathematically analyze factorial of a given number and 
+find its time complexity. 
+CO1 (10) 
+     
+  UNIT - II   
+3. a) Design a brute force algorithm for selection sort and 
+Mathematically analyze its worst and best case efficiency classes. 
+CO2 (10) 
+ b) With appropriate examples and shift tables, illustrate the four 
+cases(situations)that occur while searching a pattern in the text 
+using Horspool’s Algorithm. Write code for Horspool’s shift table as 
+well as String Matching Algorithm. 
+CO2 (10) 
+     
+4. a) Design a recursive algorithm for Merge sort and analyze the 
+efficiency of Merge sort for worst case time complexity using 
+backward substitution method and also by applying Master’s 
+Theorem. 
+CO2 (10) 
+ b) Discuss how Quick sort works to sort an array? Write an algorithm 
+of Quick sort and trace for the following data set 
+‘E’.’X’,’A’,’M’,’P’,’L’,’E’. 
+CO2 (10) 
+     
+     
+USN 1 M S        
+ 
+
+--- Page 2 ---
+ IS44(O) 
+Page 2 of 3 
+ 
+ 
+  UNIT - III   
+5. a) Solve the following instance of Knapsack problem with the given 
+capacity W=8 using dynamic programming. And also given the 
+Number of  items=4,Weight={2,3,4,5},Profit={1,2,5,6} selected. 
+CO3 (06) 
+ b) State and explain Dijikstra’s algorithm to find single source 
+shortest path for a given graph. Apply the same for the following 
+graph. Assume “a” as the source vertex. 
+ 
+CO3 (07) 
+ c) i) Construct a Huffman code for the following data: 
+character A B C D E 
+probability 0.4 0.1 0.2 0.14 0.16 
+ii) Encode the text ABACABAD using the code. 
+iii)Decode the text whose encoding is 100010111001010 using 
+Huffman code. 
+CO3 (07) 
+     
+6. a) Explain how dynamic programming is used to compute all pair’s 
+shortest paths for a weighted digraph, and apply the Floyd’s 
+algorithm to compute all pair shortest paths for the following 
+graph. 
+ 
+CO3 (10) 
+ b) Write the Kruskal’s algorithm to find the minimum cost spanning 
+tree. Trace the algorithm for the graph shown below. 
+ 
+CO3 (10) 
+     
+  UNIT- IV   
+7. a) Define AVL tree. Explain the various types of rotations that can be  
+performed to balance the tree. Construct AVL tree for the given list 
+of elements: 60, 1, 10, 30, 100, 90, 80. 
+CO4 (08) 
+ b) Explain the differences between DFS and BFS. CO4 (05) 
+ c) What is transform and conquer? Discuss the three variations of 
+transform and conquer technique. 
+CO4 (07) 
+--- Page 3 ---
+ IS44(O) 
+Page 3 of 3 
+ 
+     
+8. a) Design an algorithm to search an element using insertion sort and 
+find its best, worst and average case time complexity. 
+CO4 (08) 
+ b) What is Josephus problem? Illustrate with an example the different 
+methods of solving Josephus problem. Find J(9) using any one of 
+the methods. 
+CO4 (06) 
+ c) Construct 2-3 tree for the list 9,5,8,3,2,4,7. CO4 (06) 
+     
+  UNIT - V   
+9. a) Differentiate between back tracking and branch -and-bound design 
+techniques. 
+CO5 (05) 
+ b) How does backtracking design technique solve difficult 
+combinatorial problems. Draw the complete state -space tree for 
+solving 4-queens problem using backtracking. 
+CO5 (10) 
+ c) Explain heap and its vital properties. CO5 (05) 
+     
+10. a) Construct a heap for the list 1, 8, 6, 5, 3, 7, 4 by the bottom -up 
+algorithm. Sort the contents of the list using heapsort. 
+CO5 (10) 
+ b) What is the need of approximation algorithms? How do you 
+quantify the accuracy of an approximation algorithm? 
+CO5 (05) 
+ c) Define the following: (i) Tractable problems (ii) Class P (iii) Class 
+NP (iv) Polynomial reduction (v) NP complete problems. 
+CO5 (05) 
+ 
+******************************** 

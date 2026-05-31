@@ -1,0 +1,853 @@
+
+--- SLIDE 1 ---
+Programming of ARM7 Peripherals using C
+1
+
+--- SLIDE 2 ---
+6.1 ARM7
+SoC
+ARM ICs are available, manufactured by companies such as NXP, ST Microelectronics, Atmel
+etc
+Currently all have switched to the latest Cortex Series
+ARM7 is still widely used processor
+We choose SoC of NXP which is popular in the industry
+NXP ARM7 portfolio includes the LPC2100, LPC2200, LPC2300, LPC2400
+We will choose LPC214x series which have made their
+venture in
+many important applications
+This series consists of LPC2141, LPC2142, LPC2146, LPC2144 and LPC2148
+The Keil IDE has ‘simulation’ capabilities and we can simulate the working of few peripherals available.
+2
+
+--- SLIDE 3 ---
+Features of LPC 214x series
+16-bit/32-bit ARM7TDMI-S microcontroller in a tiny LQFP64 package
+8 kB to 40 kB of on-chip static RAM and 32kB-512 kB of on-chip flash memory
+128-bit wide interface/accelerator enables high-speed 60 MHz operation
+In-system programming/Application Programming via on-chip boot loader software. Single flash sector or full chip erase in
+ms.
+The LPC2146/2148 provide 8kb of on chip RAM accessible to USB  by DMA.
+Embedded ICE RT and Embedded Trace interfaces offer real-time debugging with the on-chip Real Monitor software and high-speed tracing of instructions execution.
+USB 2.0 Full-speed compliant device controller with 2kB of endpoint RAM
+One or two 10-bit ADCs provide a total of 6/14 analog inputs with conversion times as slow 2.44micro seconds per channel.
+3
+
+--- SLIDE 4 ---
+Features of LPC 214x series
+contd
+…
+Single 10-bit DAC providers provides variable analog output.
+Two 32-bit timers/external event counters, PWM unit and watchdog.
+Low power Real-Time Clock (RTC) with independent power and 32 kHz clock input.
+Multiple serial interfaces including two UARTs, two Fast 12C bus, SPI and SSP with buffering and variable data length capabilities
+Vectored Interrupt Controller (VIC) with configurable priorities and vector addresses.
+Up to 45 of 5 V tolerant fast general purpose I/O pins in a tiny LQFP64 package
+Up to 21 external interrupt pins available
+4
+
+--- SLIDE 5 ---
+Features of LPC 214x series
+contd
+…
+60 MHz maximum CPU clock available from programmable on-chip PLL
+On-chip integrated oscillator operates with an external crystal from 1 MHz to 25 MHz
+Power saving modes include Idle and Power-down
+Individual enable/disable of peripheral functions as well as peripheral clock scaling
+Processor wake-up from Power-down mode via external interrupt of BOD
+Single power supply chip with Power On Reset and Brown Out detector circuits
+5
+
+--- SLIDE 6 ---
+Important Features
+16-bit/32-bit ARM7TDMI-S microcontroller is the core.
+8KB-40KB of on chip static RAM and 32 KB to 512 KB of on-chip flash memory
+One/two 10-bit ADCs with 6/14 analog input pins
+10-bit DAC
+Timers – two 32-bit timers/external counters
+PWM unit, with 6 output pins and a Watch dog timer
+6
+
+--- SLIDE 7 ---
+Important Features
+contd
+…
+Real-Time Clock (RTC) with independent power and 32 kHz clock input
+Serial Communication – Two UARTs, two SPI and Synchronous Serial Port and two I2C
+Vectored Interrupt Controller with configurable priorities
+The external crystal can have frequencies from 1MHz to 25 MHz
+Low power modes for power saving
+Power on Reset and Brown out Reset circuits
+Two PLLs
+7
+
+--- SLIDE 8 ---
+8
+
+--- SLIDE 9 ---
+Few peripherals
+Processor
+Processor used in this chip family is ARM7TDMI-S with ARM and THUMB instruction capabilities.
+Memory map
+The processor core has 32 address lines (internal to the chip)
+Memory addressing capability is 2
+32
+= 4 GB.
+All peripherals are also mapped to this memory since memory mapped I/O technique
+Flash memory
+The amount of flash memory is not the same for all members of the family
+Accordingly LPC2141/ 2/4/8 incorporates a 32kb,64kb,128kb,256kb and 512 kb flash memory system respectively.
+This memory may be used for code and data storage. It starts from 0x00000000
+On-chip static RAM
+LPC214x provides 8/16/32 kB of static RAM. It starts from 0x40000000
+System control block
+Many functions are not related to any specific peripheral, but are common to the chip as a whole
+Functions: Crystal oscillator, VPB divider, External Interrupt Inputs, PLL, Power Control, Reset, Wakeup Timer
+9
+
+--- SLIDE 10 ---
+Memory map of LPC214x
+10
+
+--- SLIDE 11 ---
+Few peripherals
+11
+AHB –Advanced High Speed Peripheral Bus
+VPB –VLSI peripheral Bus
+
+--- SLIDE 12 ---
+Few peripherals
+System control block
+Many functions are not related to any specific peripheral, but are common to the chip as a whole
+Functions: Crystal oscillator, VPB divider, External Interrupt Inputs, Phase locked loop(PLL), Power Control, Reset, Wakeup Timer
+12
+
+--- SLIDE 13 ---
+Crystal oscillator and PLL
+There are various options for the oscillator which supplies the system clock.
+External frequency by connecting an external oscillator, supplying a 50% duty cycle signal in the range of 1-50 MHz
+There is also an on-board oscillator and for that an external crystal with frequency in the range of 1-30 MHz is allowed.
+There are two PLLs and on is used entirely for the generation of the system clock, noted as CCLK.
+The PLL accepts an input clock frequency in the range of 10-25MHz, which is multiplied to get a range of 10-60 MHz for the core clock
+The core clock  is used entirely for generation of system clock noted as CCLK.
+The PLL accepts an input clock frequency in the range of 10MHz to 25MHz only, which is multiplied to get a range of 10-60MHz for the core clock.
+13
+
+--- SLIDE 14 ---
+VPB divider
+Volume Parameter Block(VPB)
+Usually, peripherals do not work at the high frequency that the core operates at.
+So the core clock is generally slowed down to one half or one fourth for use by peripherals.
+The default condition at reset is for the VPB bus to run at one quarter speed.
+The VPB divider determines the relationship between the processor core clock CCLK and the peripheral clock PCLK.
+Another reason to do the frequency division is to reduce power dissipation.
+14
+
+--- SLIDE 15 ---
+VPB divider connection
+15
+
+--- SLIDE 16 ---
+Low power modes
+The LPC214x supports two low power modes
+
+Idle mode
+Power-down mode.
+In idle mode, instruction execution is suspended until either a Reset or interrupt occurs.
+Peripherals can continue to operate are during Idle mode and may generate interrupts to cause the processor to resume execution.
+This mode eliminates power used by the processor itself, memory systems and related controllers and internal buses.
+In power-down mode, the oscillator is shut down and the chip receives no internal clocks.
+The processor state and registers, peripheral registers and internal SRAM values are preserved throughout this mode and the logic levels of chip pins remain unchanged.
+This state can be exited and normal operation can be resumed by Reset or interrupt.
+Chip power consumption is nearly zero.
+16
+
+--- SLIDE 17 ---
+Wake up timer
+If the processor has gone to any of the low power modes, it will be awakened by a stimuli like an interrupt or reset signal.
+When wake up occurs, code execution for the required application should start.
+The function of the wakeup timer is to monitor the crystal oscillator to ensure that it is safe to begin code execution
+Once a clock is detected wakeup timer counts 4096 clocks.
+When the onboard modules initialization is complete, the processor is allowed to execute instructions.
+The function of the wakeup timer is to produce a standard amount of delay.
+17
+
+--- SLIDE 18 ---
+RESET
+There are two sources for Reset.
+One is the reset pin and other is the watchdog reset
+The RESET pin is a Schmitt Trigger input
+Reset occurs by one of these sources, the first action is of the starting of the wakeup timer
+The process of resetting continues until the on-chip circuitry is initialized and a fixed number of clocks have occurred after the oscillator starts running.
+18
+
+--- SLIDE 19 ---
+Reset sources and wake up timer
+19
+
+--- SLIDE 20 ---
+What does the glitch filter do?
+Removes unwanted high or low pulses from an input pin.
+Reset glitch filter allows the processor to ignore external reset pulses that are very short
+There should be minimum duration for the RESET pulse.
+When the internal reset is removed, the processor begins executing at address 0x0
+20
+
+--- SLIDE 21 ---
+Memory mapping control
+Pins
+Function
+Bits of PINSEL0 register
+Values
+Port 0.0
+GPIO
+1:0
+00
+Port 0.1
+RxD
+of UART0
+3:2
+01
+Port 0.2
+Capture
+5:4
+10
+Port 0.14
+SDA
+29:28
+11
+21
+
+--- SLIDE 22 ---
+Memory mapping control
+contd
+…
+The interrupt vectors are all at the lower end of the memory map, beginning at address0X00000000.
+There is not enough space in that region to write the ISR of each of the interrupts
+These vectors may be mapped to other parts of the flash memory, or to the on-chip RAM
+22
+
+--- SLIDE 23 ---
+Internal Bus
+Fig 6.6 shows the internal bus structure of the LPC214X family.
+The fastest bus which is the ARM local bus and it connects the ARM core to memory.
+Any high-speed GPIO may also use this bus.
+The system functions and the VIC (Vectored Interrupt Controller) are on AHB bus, while the peripherals use the low-speed VPB bus.
+Bridges are interfacing circuitry which convert one bus standard to another.
+Thus there is an AHB bridge which acts as an intermediary between the highest speed local bus and the AHB.
+The other bridge is the AHB to VPB bridge.
+23
+
+--- SLIDE 24 ---
+Internal bus
+24
+
+--- SLIDE 25 ---
+Pheripherals
+The Peripherals:
+Initially, will understand the method of operation of each peripheral.
+Then simulate their working using
+keil
+simulator
+25
+
+--- SLIDE 26 ---
+General purpose input output
+The LPC 214x chips have two I/O ports designated as Port 0 and Port 1.
+Both are 32-bit I/O ports, but each pin of them can be configured and used individually as an input or output pin, except P0.31 which is an output only pin
+Pins P0.24, P0.26, P0.27 are not available.
+In Port1, pins P1.0 through 15 are not available.
+P1.16 to P1.25 are reserved.
+26
+
+--- SLIDE 27 ---
+Pin select block
+The pin connect block allows selected pins of the microcontroller to have more than one function.
+In LPC chip, each pin has four functions, selectable by the bits in pin select register.
+The pin connect block allows selected pins of the microcontroller to have more than one function.
+There are three Pin Select registers in this chip designated as PINSEL0, PINSEL1, PINSEL2.
+Each of these 32 bit registers can handle 16 pins .
+27
+
+--- SLIDE 28 ---
+Four functions of P0.19
+PinSelect
+1 Reg bits
+Port Pin no
+Value
+Pin function
+7:6
+P0.19
+00
+GPIO Port 0.19
+01
+Match 1.2 (Timer 1)
+10
+MOSI1 (SSP)
+11
+Capture 1.2 (Timer 1)
+28
+
+--- SLIDE 29 ---
+Relevant bits of PINSEL0
+Pins
+Functions
+Bits of PINSEL0
+Values
+Port 0.0
+GPIO
+1:0
+00
+Port 0.1
+RxD
+of UART0
+3:2
+01
+Port 0.2
+Timer0 Capture
+5:4
+10
+Port 0.14
+SDA(I2C pin)
+29:28
+11
+29
+
+--- SLIDE 30 ---
+Using GPIO pins
+30
+Refer figure 6.7 from text book, which shows the conceptual view of chip with port1 I/O pins.
+As mentioned earlier that, pins 0-15 of port 1 are not available, pins p1.16 to p1.25 are reserved. Compared to port 1, for port 0, more number of pins are available for use as I/O
+Each pin can be used for four different functions ,but the default functionality is as a GPIO pin.
+It can be addressed individually and has the following attributes associated with it:
+It may be an input or output pin
+If it is an input pin, it reads in value (0 or 1) from outside the chip.
+If it is an output pin, it may be set or cleared by software.
+
+--- SLIDE 31 ---
+Using GPIO pins
+There are four registers associates with each GPIO
+A direction register (IODIR) in which we can decide whether it is to be an output or input pin
+If the pin is an output pin, there is a ‘Set’ register (IOSET) in which we can make a pin to have a logic level of ‘1’ on it.
+If the pin is an output pin, a ‘clear’ register (IOCLR) is available in which we can make a pin to have a logic level of ‘0’ on it.
+A ‘PIN’ register (IOPIN) register in which we can read the actual logic levels on the pin.
+We can use this register for doing set/clear functions for the output port, but not on individual pins.
+31
+
+--- SLIDE 32 ---
+Functions of GPIO registers
+IOPIN: GPIO Port Pin value register
+IOSET: GPIO Port Output Set register
+IODIR: GPIO Port Direction control register
+IOCLR: GPIO Port Output Clear register
+32
+
+--- SLIDE 33 ---
+Functions of GPIO registers
+33
+
+--- SLIDE 34 ---
+IPOIN register
+Port pins that are configured to perform only digital functions.
+It will give the logic value of the pin irrespective of the pin whether the pin is an input or output, and as GPIO or an alternate digital function.
+If a pin has an analog function as one of its options , the pin state cannot be read if the analog configuration is selected.
+Selecting the pin as an analog input disconnects the digital features of the pin .In that case , the pin value read in the IOPIN register is not valid.
+It is possible to write to the IOPIN register and then it stores the value in the port output register, bypassing the need to use both IOSET and IOCLR registers to obtain entire written value.
+This feature should be used carefully in an application since it affects the entire port.
+The IOPIN register may be used to write a value in the IO port register. But it cannot be used for toggling individual pin outputs.
+34
+
+--- SLIDE 35 ---
+Functions of GPIO registers
+35
+Solution:
+
+--- SLIDE 36 ---
+Functions of GPIO registers
+36
+
+--- SLIDE 37 ---
+Output wave forms at P0.0
+37
+
+--- SLIDE 38 ---
+Output wave forms at P1.28
+38
+
+--- SLIDE 39 ---
+Output wave forms at P1.28
+39
+
+--- SLIDE 40 ---
+6.1.5.2 Timers
+The LPC214x family has two Timer/Counter units – Timer 0 and Timer 1, both of which are identical in features.
+It is designed to count cycles of the peripheral clock (PCLK) or an externally-supplied clock.
+In the PCLK unit is timer and in external clock unit is counter.
+The timer module can optionally generate interrupts or perform other actions at specified time values, based on four match registers.
+It also includes four capture inputs to trap the timer value when an input signal transitions, optionally generating an interrupt.
+40
+
+--- SLIDE 41 ---
+Operation as an interval timer
+Each timer is 32-bit Timer/Counter with a programmable 32-bit
+Prescaler
+.
+The steps are as follows:
+A number is loaded into a ‘Timer Count’ register (TC)
+There is a match register into which another number is loaded
+The Timer Count Register is given a Count Enable (CE) signal and then it starts counting up, once per cycle of PCLK
+The TC register value increases, and when it becomes equal to the number in the match register, we say that a ‘match’ occurs.
+The event that follows the ‘match’ can be predecided by bit settings in the match control register(MCR).
+The possibilities are
+Stop Timer: Generate interrupt if operating in the interrupt mode
+Reset timer count register Generate interrupt if operating in the interrupt mode
+Continuous operation with optional interrupt generation on match
+41
+
+--- SLIDE 42 ---
+Registers for using the timer in the polled mode
+42
+
+--- SLIDE 43 ---
+Operation as an interval timer
+43
+
+--- SLIDE 44 ---
+6.1.5.2.2
+Registers
+for timing operation
+There are two timers Timer0 and Timer1.For each timer , there are separate set of registers which are identified by adding 0 or 1 to the register name.
+TIMER COUNT (TC) REGISTER: This register increments by 1 for every PCLK or every pre-scaled PCLK.
+TIMER CONTROL REGISTER (TCR): This register controls the above mentioned Timer Count Register.
+There are two such registers, corresponding to Timer0 and Timer1
+i.e
+T0CR and T1CR.
+TC can be enabled, disabled and reset using the TCR.
+Setting bit0, enables counting
+i.e
+count enable signal to start counting
+Bit1 is reset bit and when it is made 1 the Timer Count Register is reset at the next cycle of PCLK
+44
+
+--- SLIDE 45 ---
+Registers for timing operation
+MATCH REGISTERS – MR0 to MR3: There are four match registers, which are 32 bits in length and can be loaded with numbers.
+One of them can be used for a timer operation.
+When the timer count register increments to become equal to the number in the match register, a match is said to have occurred.
+MATCH CONTROL REGISTERS (MCR): The bit configuration of the Match Control Register determines the course of action following a ‘match’.
+45
+
+--- SLIDE 46 ---
+Registers
+for timing operation
+46
+There are 4 match register .For each three bits of the MCR are used shown in fig 6.13  The next three bits of MCR are allocated for MR1 and  so on.
+
+--- SLIDE 47 ---
+Generating Square wave
+Koushik S, Dept. of ISE, MSRIT
+47
+
+--- SLIDE 48 ---
+Generating Square wave  steps
+48
+
+--- SLIDE 49 ---
+Frequency Calculation
+For calculation of the time period, we need a reference clock signal CCLK.
+Let use CCLK of 50 MHz it is divided by 4, to get a PCLK of 12.5
+MHz.
+This translates to a PCLK period of T  0.08 µs.
+The wait function creates a delay. The amount of delay is dependent on the number loaded in the Match register
+Load a value of 0x34FF (13567) in T0MR1
+The timer count register starts from 0 and counts up to 13,567 when match occurs.
+Thus, 13567+1 = 13568 cycles of PCLK have to pass before match occurs.
+Thus, the delay obtained by this value in T0MR1 is 13567 x 0.08 = 1085 µs = 1.085
+ms.
+49
+
+--- SLIDE 50 ---
+Frequency Calculation
+contd
+…
+During this time, all the pins of Port 0 have one logic level. Then the pin toggles to the alternate logic level.
+Thus, the time period of the square waveform T, is 1.085 x 2 = 2.170
+ms.
+The frequency of the waveform is the reciprocal of the timer = 1/T = 0.460
+KHz
+= 460 Hz
+50
+
+--- SLIDE 51 ---
+Vectored Interrupt Controller
+The Vectored Interrupt Controller (VIC) takes 32 interrupt request inputs and
+programmably
+assigns them into three categories – FIQ, Vectored IRQ and non-vectored IRQ.
+FIQ requests have the highest priority. If more than one request is assigned to FIQ, the VIC does the
+ORing
+of the requests to produce FIQ signal to the processor.
+Vector IRQ have the middle priority, but only 16 of the 32 requests can be assigned to this category. Any of the 32 requests can be assigned to any of the 16 vectored IRQ slots, among which slot 0 has the highest priority and slot 15 has lowest priority.
+Non-vectored IRQ have the lowest priority
+The VIC performs
+ORing
+of the requests from all the vectored and non vectored IRQ’s to produce the IRQ signal to the ARM processor.
+51
+
+--- SLIDE 52 ---
+Interrupt Sources
+52
+
+--- SLIDE 53 ---
+Important registers of VIC
+Interrupt Enable Register (VIC Interrupt Enable)
+This is a read/write accessible register.
+This register controls the decision of which of the 32 interrupt requests.
+Example:
+VIC Int Enable = 0x00000010; //Enable the TIMER-0 interrupt by making bit 4=1
+53
+
+--- SLIDE 54 ---
+Bit Definitions of VIC
+54
+
+--- SLIDE 55 ---
+Vector control register (VIC
+Vect
+CntIO-15)
+Vector control register (VIC
+Vect
+CntIO-15)
+Only 6 bits of this register are to be used.
+They are lower 6 ones
+In Table 6.7, Timer 0 is allotted the number 4.
+Table 6.6 illustrates how this register is to be configured
+Thus, Example 6.7 uses the code line VICVectCnt14 = 0x00000024
+55
+
+--- SLIDE 56 ---
+Vector address register (VIC
+VectAdd
+)
+Vector address register (VIC
+VectAdd
+):
+These are read/write accessible registers.
+These registers hold the addresses of the interrupt service routines (ISRs) for the vectored IRQ slots.
+VICVectAddr4 = (unsigned) Timer0isr;  //set the timer ISR vector address
+56
+
+--- SLIDE 57 ---
+Timer 0 interrupt register (T0IR)
+Timer0 interrupt register (T0IR)
+This register has bits for each of the matching states of MR0 to MR3.
+When a timer operates in the interrupt mode and a match occurs, an interrupt is generated, and the corresponding flag bit is T0IR is set.
+To ‘clear’ it, a ‘1’ must be written into this same register.
+Then only will the interrupt flag be ‘reset’
+T01R = 0x01
+57
+
+--- SLIDE 58 ---
+Timer 0 interrupt register (T0IR)
+Bit
+Symbol
+Description
+0
+MR0 Interrupt
+Interrupt flag for match channel 0.
+1
+MR1 Interrupt
+Interrupt flag for match channel 1.
+2
+MR2 Interrupt
+Interrupt flag for match channel 2.
+3
+MR3 Interrupt
+Interrupt flag for match channel 3.
+58
+
+--- SLIDE 59 ---
+Pulse Width Modulator
+59
+Pulse Width Modulator:
+All advanced MCUs have PWM as a separate unit.
+In LPC214x, if the PWM mode is not enabled, the unit behaves as a timer.
+There is a facility to obtain 6 PWM waveforms simultaneously from MCU.
+There are specific pins assigned as the output pins.
+Pin select registers are to be used for enabling the pins to work as PWM output pins.
+
+--- SLIDE 60 ---
+Pulse Width Modulator
+60
+
+--- SLIDE 61 ---
+Pulse Width Modulator
+contd
+…
+61
+Find the appropriate PINSEL registers and the values to be used to select PWm6,PWM5 and PWM4.
+
+--- SLIDE 62 ---
+Pulse Width Modulator
+62
+Functions of PWM:
+Concept of match registers are used here like timer. There is a match register MR0.
+The number loaded into MR0 determines the pulse repetition rate of PWM waveform.
+MR0 determines the time period T of the waveform. There are 6 other match registers MR1 to MR6.
+They are used for deciding ON period of each of 6 PWM signals PWM1 to PWM6.
+Fig 6.16 shows a pulse stream in which t is the ON period and
+T,the
+pulse
+period.The
+duty cycle is defined as
+Duty cycle = t/T x 100 %
+
+If six PWM outputs are used in the single edge controlled scheme, all of them go  high at the same time, but the fall time of the pulse are different and determined by the values in registers MR1 to MR6.
+
+--- SLIDE 63 ---
+How does the PWM unit function?
+PWM Channel
+T set by (T)
+On
+time by (t)
+1
+Match 0
+Match 1
+2
+Match 0
+Match 2
+3
+Match 0
+Match 3
+4
+Match 0
+Match 4
+5
+Match 0
+Match 5
+6
+Match 0
+Match 6
+63
+Fig 6.17shows the case of three PWM outputs generated using the single edge controlled scheme.MR1 to MR3are used for determining the ON times of each of the pulse trains(see table 6.10)
+Table6.10PWM channels and corresponding match registers for the single edge controlled scheme
+
+--- SLIDE 64 ---
+PWM waveform
+64
+
+--- SLIDE 65 ---
+PWM waveform
+65
+
+--- SLIDE 66 ---
+PWM waveform
+66
+
+--- SLIDE 67 ---
+Registers of PWM unit
+The PWM unit is a timer, which has a Timer Count register.
+The value of which is compared to the various match registers, and actions are initiated accordingly.
+When using the PWM unit, we do not load anything in this Timer Count Register, instead, all operations are done by the use of the match registers
+67
+
+--- SLIDE 68 ---
+PWM Control Register (PWMPCR)
+The PWM Control Register is used to enable and select the type of each PWM channel.
+This register enables or disables the six PWM outputs, and also choose between double and single edge control. Bits 0, 1, 7 and 8-15 are unused.
+Table 6.13 shows the state of the bits of PWMPCR for choosing between single and double edge control.
+68
+
+--- SLIDE 69 ---
+PWM Control Register (PWMPCR)
+contd
+…
+69
+
+--- SLIDE 70 ---
+PWM Timer Control Register (PWMTCR)
+70
+The functions of each of the bits is shown in fig 6.18.
+Bit 0- counter enable
+: when set, the PWM Timer counter and PWM
+prescale
+counter are enabled for counting. When 0, counters are disabled.
+Bit 1- Counter Reset
+: When set, the PWM timer count register and the PWM
+prescale
+counter are synchronously
+resey
+on the next positive edge of PCLK. Counters remain reset until this bit is made 0.
+Bit 2:
+reserved.
+Bit 3- PWM Enable
+: when set, PWM is enables, if 0, PWM unit acts as a timer.
+Bit 4-15
+: Reserved
+The PWM match register that determines the PWM rate(MR0) must be set prior to the PWM being enabled.
+
+--- SLIDE 71 ---
+PWM Latch Enable Register (PWMLER)
+PWM Latch Enable Register (PWMLER)
+It is an 8-bit register used to control the update of the PWM match registers when they are used for PWM generation.
+When software writes to the location of a PWM match register while the timer is in PWM mode, the value is held in a shadow register.
+When a PWM Match 0 event occurs, the contents of shadow registers will be transferred to the actual match registers if the corresponding bit in the latch enable register has been set.
+At that point, the new values will take effect and determine the course of the next PWM cycle. Once the transfer of new corresponding bit in the PWMLER is set and a PWM Match 0 event occurs.
+71
+
+--- SLIDE 72 ---
+PWM match Registers
+PWM Match Registers - PWMMR0 – PWMMR6
+The 32-bit PWM Match register values are continuously compared to the PWM Timer Counter value.
+When the two values are equal, actions can be triggered automatically.
+The action possibilities are to generate an interrupt reset the PWM Timer Counter, or stop the timer.
+72
+
+--- SLIDE 73 ---
+PWM
+prescale
+register (PWMPR)
+The 32-bit PWM
+Prescale
+Register specifies the number by which the PCLK is slowed down, similar to the case of the Timer.
+There are many other registers for PWM, but here we will generate PWM output signals with these few registers.
+73
+
+--- SLIDE 74 ---
+Universal asynchronous receiver/transmitter
+A UART is a mandatory unit in every MCU.
+In LPC 214x chip, there are two UARTs in the chip – UART0 and UART1.
+The UART is a unit which does serial transmission on the in
+TxD
+and serial reception on the pin
+RxD
+.
+For the chip there are two transmit and receive pins each.
+74
+
+--- SLIDE 75 ---
+Serial data transmission and reception
+The mechanism employed in serial data transmission and reception:
+Inside the MCU, all data communication is done in parallel.
+Data is moved around as either 32, 16 or 8 bits.
+Thus, when data is to be transmitted or received serially, there is a parallel to serial (and vice versa) conversion involved.
+For transmission, the data from a buffer register is converted to serial form, framed by adding the start, stop and parity bits and sent on the
+TxD
+pin.
+In reception ,the bits received are kept in a buffer (named the hold register),de-framed, parallelized and moved as one byte to the CPU.
+Reception and transmission are done at a rate commonly known as the baud rate.
+There is a baud rate generator inside.
+Baud rate can be decided by a calculation depending on the value of certain numbers in the UART registers.
+The UART can work in the polled mode or in the interrupt mode.
+75
+
+--- SLIDE 76 ---
+Serial data transmission and reception
+contd
+Figure below shows the conceptual view of the UART operation.
+In transmission, there is a Transmit FIFO in which the bytes to be transmitted are stored.
+The 8-bit register Transmit Hold Register(THR) is the top byte of the UART transmit FIFO.
+The top byte is the newest character in the Transmit FIFO and can be written via the bus interface.
+The LSB represents the first bit to be transmitted.
+From THR, the data is framed and serialized.
+The TSR (Transmit Shift Register) does the serialization of data, and sends it out, bit by bit on the
+TxD
+pin.
+76
+
+--- SLIDE 77 ---
+Serial data transmission and reception
+contd
+77
+
+--- SLIDE 78 ---
+Serial data transmission and reception
+contd
+Reception is similar.
+The received serial data comes in the Receiver Shift Register (RSR)
+It is
+deframed
+, parallelized and saved in the receiver FIFO.
+The Receiver Buffer Register (RBR) is the top byte of the UART receiver FIFO
+The top byte of the Receive FIFO contains the oldest character received and can be read via the bus interface.
+The LSB represents the oldest received bit.
+If the character received is less than 8 bits, the unused MSBs are padded with zeroes.
+78
+
+--- SLIDE 79 ---
+The BAUD Rate Generator
+Transmission and reception rates are referred to as TCLK and RCLK.
+These clocks are generated by the BRG (Baud Rate Generator) and these rates can be fixed by a formula.
+79
+
+--- SLIDE 80 ---
+Registers of UART0
+U0DLL and U0DLM – Divisor Latch registers:
+Both of them hold 8-bit values.
+These register together from a 16-bit divisor value which is used in baud rate generation.
+U0DML holds the upper 8-bits and U0DLL holds the lower 8-bits
+Since these form a divisor value and division by zero is invalid, the starting value for U0DLL is 0x01 (and not 0x00), i.e. the starting value in combined formation is 0x0001.
+In order to access and use these registers properly, DLAB bit in U0LCR must be first set to 1.
+The factor MULVAL/(MULVAL + DIVADDVAL) depends on the
+prescaler
+and another register.
+80
+
+--- SLIDE 81 ---
+Registers of UAER0
+contd
+81
+The formula for baud rate calculation is
+Using this formula ,for a system with PCLK=20 MHz,
+UoDLM
+=0x00 and
+UoDLL
+=0x5D  ,DIVADDVAL=2 and MULVAL=5.
+The UART baud rate=9600bauds.
+
+--- SLIDE 82 ---
+UART0 transmit holding register (U0THR)
+This is an 8-bit register and part of the transmit buffer.
+It is the top most byte of this buffer, and new characters are to be loaded into this register for being transmitted.
+The data to be transmitted is written into this ‘write only’ register.
+82
+
+--- SLIDE 83 ---
+UART0 FIFO control registers(U0FCR)
+This is a 8-bit register
+Bit 0: E: This bit must be set for enabling the Tx and Rx FIFOs
+Bit 1: Rx FIFO Reset: This must be set, to clear all bytes in UART0 RX FIFO and reset the pointer logic. This bit is self-clearing.
+Bit 2: Tx FIFO Reset: This must be set to clear all bytes in UART0 Tx FIFO and reset the pointer logic. This bit is self-clearing.
+Bit 7 and 6: Rx trigger level: these two bits determine how many receiver FIFO characters must be written before an interrupt is activated
+83
+
+--- SLIDE 84 ---
+UART0 line control register (U0LCR)
+The U0LCR is an 8-bit register which determines the format of the data character that is to be transmitted or received.
+The bits used here are:
+Bit 1: 0: These two bits have been chosen to be ‘11’ to indicate 8-bit character length.
+Bit 2: This is made ‘0’ to select one stop bit.
+Bit 7: This is the Divisor Latch Access Bit (DLAB) and is set, to enable the use of divisor latch.
+Other bits of this register pertain to parity and break control.
+These have been disabled by making these bits to be ‘0’.
+Thus we have U0LCR = 1000 0011 = 0x83
+84
+
+--- SLIDE 85 ---
+UART0 line status register (U0LSR)
+The U0LSR is a read-only register that provides status information regarding the UART0 Transmitter and Receiver blocks.
+85
+
+--- SLIDE 86 ---
+UART0 pins in the
+PINSEL0 register
+86
+Pinselect
+register (PINSEL0)
+This register has been discussed earlier. P0.0(
+TxD
+) and P0.1(
+RxD
+) are the relevant pins of UART0, PINSEL0=0x05 is to be used. See table 6.14
+
+--- SLIDE 87 ---
+The program simulates serial communication. A character string written in the program is transmitted, received and is displayed in the serial window.
+87

@@ -1,0 +1,86 @@
+
+--- Page 1 ---
+TERM DATE 
+RAMAIAH Institute of Technology 
+Q. NO 
+MAX MARKS: 30 
+b C 
+Programme: BE-Information Science & Engineering 
+:17-06-2025 
+2 a. 
+3rd March 2025-21st June 2025 
+Faculty Signature with initials (All faculty handling the subject) 
+Dept. of Information Science &% Engineering 
+Mobile Phones are banned Instructions to Candidates: Answer any TWO full questions. 
+Internal Assessment -I| 
+TIME:9:15am-10:15am 
+A 
+1a. Apply Warshall's algorithm to find transitive closure for the below given graph. 
+5 
+B 
+Semester: 4 
+Questions 
+tree for the following graph. 6 
+Give the comparison between BFS and DFS with an example problem. 
+2 
+Construct state space tree for solving the four Queen's problern by back tracking. 
+B 
+Apply Kruskal's algorithm to construct a minimum spanning E 
+COURSE NAME: Design and Analysis of Algorithms COURSE CODE: IS43 PORTIONS 
+9 
+3 
+Marks: 15x2=30 Blooms Levels (L1 to L6)* 
+L2 
+L17 -L42 
+L3 CO3 
+L3 
+L3 
+CO Marks 
+CO4 COS 
+CO3 
+5 
+5 5 
+5 
+--- Page 2 ---
+2 c. 
+3 a. 
+2 b. Obtain topological sorting for a given graph by using source removal method. 
+b. 
+RAMAIAH 
+C. 
+Institute of Technology 
+3 
+Apply Heapsort for the list [9,7, 1,8,3, 6,2,4,10,5] using Bottom up approach. 
+6 
+Dept. of Information Science & Engineering 
+Apply Dijkstras algorithm to find the single source shortest path problem with vertex "a" as the source. 
+5 
+i. P problem Define the following ii. NP problem 
+4 f 
+D7 
+4 
+ii. NP complete problem 
+2 
+Character A Probability 0.4 0.2 
+5 
+A message consisting of the characters given in the table below has to be transmitted over a network in secure manner. 
+8 
+M 
+02 
+D4 
+6 
+R 
+{D3 
+i. Encode the text RAMA_RAMA using Huffman codes i. Decode the text whose encoding is 1000101 0.30.1 
+L3 CO4 
+L3 CO5 
+L4 CO3 
+L3 
+L2 *LI -Remember, IL2 -Understand, L3-Apply, L4-Analyze, L5-Evaluate, L6-Create 
+CO4 
+CO5 
+5 
+5 
+5 
+5 
+5 
