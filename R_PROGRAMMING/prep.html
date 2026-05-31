@@ -239,246 +239,2784 @@ li { margin-bottom: 6px; }
     </div>
     <div class="section-body" id="body-mcqs">
       
+      <!-- ==================== UNIT 1 MCQS (1-50) ==================== -->
+      <h3 style="margin: 20px 0 15px; color: var(--accent); font-family: 'Inter', sans-serif; font-size: 1.15rem; border-bottom: 2px dashed var(--border); padding-bottom: 6px; display: flex; align-items: center; gap: 8px;">
+        <span>📘 Unit 1: Introduction to R &amp; Programming Basics</span>
+        <span style="background: rgba(108, 99, 255, 0.15); color: var(--accent); font-size: 0.75rem; padding: 2px 8px; border-radius: 12px; font-weight: 700;">Q1-Q50</span>
+      </h3>
+
       <div class="mcq">
-        <div class="q">1. Which function is used to apply a function to subsets of a vector grouped by a factor?</div>
+        <div class="q">1. Which organization is primarily responsible for maintaining the official CRAN package repository?</div>
         <div class="opts">
-          <div>A. aggregate()</div>
-          <div>B. tapply()</div>
+          <div>A. Microsoft R Group</div>
+          <div>B. The R Foundation &amp; R Core Team</div>
+          <div>C. RStudio PBC (Posit)</div>
+          <div>D. The Apache Software Foundation</div>
+        </div>
+        <div class="ans">✅ Answer: B. The R Foundation &amp; R Core Team</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">2. In the RStudio 4-pane layout, which pane contains the active workspace environment, history, and connections tab by default?</div>
+        <div class="opts">
+          <div>A. Top-Left Pane</div>
+          <div>B. Bottom-Left Pane</div>
+          <div>C. Top-Right Pane</div>
+          <div>D. Bottom-Right Pane</div>
+        </div>
+        <div class="ans">✅ Answer: C. Top-Right Pane</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">3. What is the standard keyboard shortcut in RStudio on Windows to run the currently highlighted line(s) of code from the Editor in the Console?</div>
+        <div class="opts">
+          <div>A. F5</div>
+          <div>B. Ctrl + Enter</div>
+          <div>C. Alt + R</div>
+          <div>D. Shift + F6</div>
+        </div>
+        <div class="ans">✅ Answer: B. Ctrl + Enter</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">4. Which function should you use to find the absolute directory path where the main R engine is installed on your local machine?</div>
+        <div class="opts">
+          <div>A. R.home()</div>
+          <div>B. getwd()</div>
+          <div>C. system.file()</div>
+          <div>D. .libPaths()</div>
+        </div>
+        <div class="ans">✅ Answer: A. R.home()</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">5. If you want to install an R package from a locally downloaded compressed zip or tarball file, how must you configure install.packages()?</div>
+        <div class="opts">
+          <div>A. install.packages("pkg_path", repos = NULL, type = "source")</div>
+          <div>B. install.packages("pkg_path", local = TRUE)</div>
+          <div>C. install.packages("pkg_path", source = TRUE)</div>
+          <div>D. install.packages("pkg_path", repos = "local")</div>
+        </div>
+        <div class="ans">✅ Answer: A. install.packages("pkg_path", repos = NULL, type = "source")</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">6. What will the command system.file(package = "ggplot2") return?</div>
+        <div class="opts">
+          <div>A. A list of all functions inside ggplot2</div>
+          <div>B. The absolute file path to where the ggplot2 package library is locally installed</div>
+          <div>C. The internet URL of the ggplot2 CRAN mirror</div>
+          <div>D. The version info metadata of the package</div>
+        </div>
+        <div class="ans">✅ Answer: B. The absolute file path to where the ggplot2 package library is locally installed</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">7. What is the double colon operator (::) used for in R packages?</div>
+        <div class="opts">
+          <div>A. Defining a new namespace inside a custom class</div>
+          <div>B. Accessing an exported function from a package without loading the package into the search path first</div>
+          <div>C. Defining double-inheritance classes</div>
+          <div>D. Forcing lazy loading of a package dataset</div>
+        </div>
+        <div class="ans">✅ Answer: B. Accessing an exported function from a package without loading the package into the search path first (e.g., package::function)</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">8. What is the fundamental operational difference between calling library(pkg) and require(pkg)?</div>
+        <div class="opts">
+          <div>A. library() loads packages asynchronously while require() loads them synchronously</div>
+          <div>B. require() is used only inside custom functions while library() can only be called from scripts</div>
+          <div>C. library() throws a fatal error if the package is missing, whereas require() displays a warning and returns a logical value</div>
+          <div>D. require() loads packages directly into the global environment while library() keeps them isolated</div>
+        </div>
+        <div class="ans">✅ Answer: C. library() throws a fatal error if the package is missing, whereas require() displays a warning and returns a logical value (TRUE if package found, FALSE if missing)</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">9. When RStudio is opened within a created .Rproj file directory, what does getwd() return by default upon startup?</div>
+        <div class="opts">
+          <div>A. The user's system Document home folder</div>
+          <div>B. The R system installation directory</div>
+          <div>C. The absolute path of the directory containing that active .Rproj file</div>
+          <div>D. An empty character string</div>
+        </div>
+        <div class="ans">✅ Answer: C. The absolute path of the directory containing that active .Rproj file</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">10. Which package contains standard statistical computing operations like mean, median, sd, and basic tests and is loaded automatically in R?</div>
+        <div class="opts">
+          <div>A. stats</div>
+          <div>B. base</div>
+          <div>C. graphics</div>
+          <div>D. utils</div>
+        </div>
+        <div class="ans">✅ Answer: A. stats</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">11. What is the default storage type (typeof) of a numeric variable created via assignment like x &lt;- 5?</div>
+        <div class="opts">
+          <div>A. "integer"</div>
+          <div>B. "double"</div>
+          <div>C. "character"</div>
+          <div>D. "list"</div>
+        </div>
+        <div class="ans">✅ Answer: B. "double"</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">12. How do you explicitly allocate a value as a 32-bit integer in the environment instead of a double float?</div>
+        <div class="opts">
+          <div>A. x &lt;- as.integer(5L)</div>
+          <div>B. x &lt;- 5L</div>
+          <div>C. x &lt;- int(5)</div>
+          <div>D. x &lt;- 5i</div>
+        </div>
+        <div class="ans">✅ Answer: B. x &lt;- 5L (Using the L suffix)</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">13. What is the value and class of the operation: Inf - Inf?</div>
+        <div class="opts">
+          <div>A. Value: 0 | Class: "numeric"</div>
+          <div>B. Value: NaN | Class: "numeric"</div>
+          <div>C. Value: -Inf | Class: "numeric"</div>
+          <div>D. Value: NA | Class: "logical"</div>
+        </div>
+        <div class="ans">✅ Answer: B. Value: NaN | Class: "numeric"</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">14. Which function would you invoke to check if a loaded variable represents a vector of raw binary bytes?</div>
+        <div class="opts">
+          <div>A. is.binary()</div>
+          <div>B. is.byte()</div>
+          <div>C. is.raw()</div>
+          <div>D. is.hex()</div>
+        </div>
+        <div class="ans">✅ Answer: C. is.raw()</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">15. What will the logical check is.numeric(5L) return?</div>
+        <div class="opts">
+          <div>A. TRUE</div>
+          <div>B. FALSE</div>
+          <div>C. NA</div>
+          <div>D. Warning message</div>
+        </div>
+        <div class="ans">✅ Answer: A. TRUE (Since integers are numeric, though they are stored as integer class)</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">16. Which data structure in R is one-dimensional and can hold elements of heterogeneous datatypes simultaneously?</div>
+        <div class="opts">
+          <div>A. Vector</div>
+          <div>B. Matrix</div>
+          <div>C. List</div>
+          <div>D. Data Frame</div>
+        </div>
+        <div class="ans">✅ Answer: C. List</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">17. A Data Frame is mathematically classified as having which combination of dimensions and element consistency?</div>
+        <div class="opts">
+          <div>A. 1D and Homogeneous</div>
+          <div>B. 2D and Homogeneous</div>
+          <div>C. 1D and Heterogeneous</div>
+          <div>D. 2D and Heterogeneous</div>
+        </div>
+        <div class="ans">✅ Answer: D. 2D and Heterogeneous (columns can differ in types, but all elements of a single column must be same)</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">18. Which function displays a compact, text-based structural diagnostic summary of an object, outlining names, classes, sizes, and previews?</div>
+        <div class="opts">
+          <div>A. summary()</div>
+          <div>B. str()</div>
+          <div>C. typeof()</div>
+          <div>D. class()</div>
+        </div>
+        <div class="ans">✅ Answer: B. str()</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">19. How does R store character strings internally to minimize physical RAM consumption?</div>
+        <div class="opts">
+          <div>A. In a localized local block allocation for each vector slot</div>
+          <div>B. In a global character string pool, where vector elements only store integer pointers to the unique strings</div>
+          <div>C. As compressed binary chunks that are unpacked upon runtime calls</div>
+          <div>D. Inside a virtual SQLite temporary system database</div>
+        </div>
+        <div class="ans">✅ Answer: B. In a global character string pool, where vector elements only store integer pointers to the unique strings</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">20. Which function allows an analyst to evaluate the active bytes memory size occupied by an R variable object?</div>
+        <div class="opts">
+          <div>A. size()</div>
+          <div>B. object.size()</div>
+          <div>C. memory.limit()</div>
+          <div>D. ram.used()</div>
+        </div>
+        <div class="ans">✅ Answer: B. object.size()</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">21. What does calling the function args(mean) in the console do?</div>
+        <div class="opts">
+          <div>A. Runs a statistical calculation of the mean</div>
+          <div>B. Lists all historical arguments sent to mean during active sessions</div>
+          <div>C. Displays the names, ordering, and default parameter values of the mean function</div>
+          <div>D. Lists all packages that contain a "mean" function</div>
+        </div>
+        <div class="ans">✅ Answer: C. Displays the names, ordering, and default parameter values of the mean function</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">22. If you want to check only the first 10 rows of a heavy data frame named sales_data, which command is correct?</div>
+        <div class="opts">
+          <div>A. tail(sales_data, 10)</div>
+          <div>B. head(sales_data, 10)</div>
+          <div>C. sales_data[1:10]</div>
+          <div>D. summary(sales_data, n = 10)</div>
+        </div>
+        <div class="ans">✅ Answer: B. head(sales_data, 10)</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">23. What is the return value of tail(sales_data, -5)?</div>
+        <div class="opts">
+          <div>A. The last 5 rows of sales_data</div>
+          <div>B. An error message due to negative index</div>
+          <div>C. All rows of sales_data EXCEPT the first 5 rows</div>
+          <div>D. The first 5 columns of the data frame</div>
+        </div>
+        <div class="ans">✅ Answer: C. All rows of sales_data EXCEPT the first 5 rows</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">24. What statistical outputs are returned when invoking summary() on a numeric vector?</div>
+        <div class="opts">
+          <div>A. Mean, Mode, Median, SD, and Range</div>
+          <div>B. Minimum, 1st Quartile, Median, Mean, 3rd Quartile, and Maximum</div>
+          <div>C. Sum, Squared Sum, standard deviation, and count</div>
+          <div>D. Standard Error, Variance, skewness, kurtosis, and count</div>
+        </div>
+        <div class="ans">✅ Answer: B. Minimum, 1st Quartile, Median, Mean, 3rd Quartile, and Maximum</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">25. Which function lists the character names of all active variables and functions in the Global Environment?</div>
+        <div class="opts">
+          <div>A. search()</div>
+          <div>B. ls()</div>
+          <div>C. objects.active()</div>
+          <div>D. env()</div>
+        </div>
+        <div class="ans">✅ Answer: B. ls()</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">26. How do you programmatically check the exact installed version of a package like "dplyr" loaded in your system?</div>
+        <div class="opts">
+          <div>A. packageVersion("dplyr")</div>
+          <div>B. version("dplyr")</div>
+          <div>C. dplyr.version()</div>
+          <div>D. getPkgVersion("dplyr")</div>
+        </div>
+        <div class="ans">✅ Answer: A. packageVersion("dplyr")</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">27. What is the core difference between the original Rgui software and the modern RStudio editor?</div>
+        <div class="opts">
+          <div>A. Rgui runs code faster because it bypasses compiling</div>
+          <div>B. Rgui is the official basic menu-driven editor bundled directly with R; RStudio is a feature-rich, multi-panel 3rd-party IDE</div>
+          <div>C. RStudio contains its own independent compiler and interpreter separate from R</div>
+          <div>D. Rgui can only handle data frames smaller than 10MB</div>
+        </div>
+        <div class="ans">✅ Answer: B. Rgui is the official basic menu-driven editor bundled directly with R; RStudio is a feature-rich, multi-panel 3rd-party IDE</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">28. What will typeof(c("a", 1, TRUE)) return?</div>
+        <div class="opts">
+          <div>A. "logical"</div>
+          <div>B. "double"</div>
+          <div>C. "character"</div>
+          <div>D. "list"</div>
+        </div>
+        <div class="ans">✅ Answer: C. "character" (due to automatic implicit coercion hierarchy)</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">29. How many dimensions does a standard R vector have?</div>
+        <div class="opts">
+          <div>A. 1 Dimension</div>
+          <div>B. 0 Dimensions (returns NULL for dimAttribute)</div>
+          <div>C. 2 Dimensions</div>
+          <div>D. Dynamic dimensions depending on length</div>
+        </div>
+        <div class="ans">✅ Answer: B. 0 Dimensions (Standard vectors in R are strictly 1-dimensional lists of elements but do not have a "dim" attribute; calling dim(vector) returns NULL)</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">30. What is the role of the command ls.str()?</div>
+        <div class="opts">
+          <div>A. Lists only string variables in the workspace</div>
+          <div>B. Lists all objects in the environment and immediately calls str() on each object</div>
+          <div>C. Cleans all string variables from active workspace</div>
+          <div>D. Reorganizes environment alphabetically by datatype class</div>
+        </div>
+        <div class="ans">✅ Answer: B. Lists all objects in the environment and immediately calls str() on each object</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">31. If you want to remove an active package namespace (like "ggplot2") from your active session search path, which command is correct?</div>
+        <div class="opts">
+          <div>A. remove.packages("package:ggplot2")</div>
+          <div>B. detach("package:ggplot2", unload = TRUE)</div>
+          <div>C. library.unload("ggplot2")</div>
+          <div>D. rm(package:ggplot2)</div>
+        </div>
+        <div class="ans">✅ Answer: B. detach("package:ggplot2", unload = TRUE)</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">32. What is the historical purpose of running options(stringsAsFactors = FALSE) in legacy R scripts (prior to R version 4.0.0)?</div>
+        <div class="opts">
+          <div>A. Speeds up data calculations by 50%</div>
+          <div>B. Prevents R from converting text strings into ordered factors automatically during data imports</div>
+          <div>C. Disables regular expressions in character vectors</div>
+          <div>D. Forces all factor variables to convert to raw integers</div>
+        </div>
+        <div class="ans">✅ Answer: B. Prevents R from converting text strings into ordered factors automatically during data imports</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">33. Which base R function opens a web browser to search for local HTML help documentations?</div>
+        <div class="opts">
+          <div>A. help.search()</div>
+          <div>B. help.start()</div>
+          <div>C. browseHelp()</div>
+          <div>D. doc.html()</div>
+        </div>
+        <div class="ans">✅ Answer: B. help.start()</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">34. What will length(NULL) evaluate to in the R console?</div>
+        <div class="opts">
+          <div>A. NA</div>
+          <div>B. 0</div>
+          <div>C. NULL</div>
+          <div>D. Error</div>
+        </div>
+        <div class="ans">✅ Answer: B. 0</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">35. What is the return value of logical(0)?</div>
+        <div class="opts">
+          <div>A. FALSE</div>
+          <div>B. NA</div>
+          <div>C. An empty logical vector with length 0</div>
+          <div>D. NULL</div>
+        </div>
+        <div class="ans">✅ Answer: C. An empty logical vector with length 0</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">36. What is the core behavioral difference between nchar(x, type = "chars") and nchar(x, type = "bytes") on multi-byte unicode strings?</div>
+        <div class="opts">
+          <div>A. They are identical in all systems</div>
+          <div>B. "chars" counts actual characters; "bytes" counts byte allocations (which will be larger for non-ASCII characters)</div>
+          <div>C. "bytes" only evaluates numerical columns</div>
+          <div>D. "chars" returns character pointers from the global pool</div>
+        </div>
+        <div class="ans">✅ Answer: B. "chars" counts actual characters; "bytes" counts byte allocations (which will be larger for non-ASCII characters)</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">37. How can you display a list of all built-in datasets available in currently loaded active R libraries?</div>
+        <div class="opts">
+          <div>A. datasets()</div>
+          <div>B. data()</div>
+          <div>C. show.data()</div>
+          <div>D. list.datasets()</div>
+        </div>
+        <div class="ans">✅ Answer: B. data()</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">38. What does calling the command find("plot") return?</div>
+        <div class="opts">
+          <div>A. The row locations of "plot" in your active data frame</div>
+          <div>B. The character index where the word "plot" is stored</div>
+          <div>C. The search path package environment namespace containing that function (e.g., "package:graphics")</div>
+          <div>D. A list of all active plotting panels</div>
+        </div>
+        <div class="ans">✅ Answer: C. The search path package environment namespace containing that function (e.g., "package:graphics")</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">39. What are the two classes associated with the object returned by Sys.time()?</div>
+        <div class="opts">
+          <div>A. "Date" and "Time"</div>
+          <div>B. "POSIXct" and "POSIXt"</div>
+          <div>C. "character" and "numeric"</div>
+          <div>D. "timestamp" and "double"</div>
+        </div>
+        <div class="ans">✅ Answer: B. "POSIXct" and "POSIXt"</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">40. In package installations, what is the core CRAN mirror selection rule?</div>
+        <div class="opts">
+          <div>A. Always choose the "USA (Iowa)" mirror since it updates first</div>
+          <div>B. Choose a geographically close mirror to minimize download latency and optimize network routes</div>
+          <div>C. Only choose mirror sites that host proprietary packages</div>
+          <div>D. Mirrors are assigned automatically by base R and cannot be configured by the user</div>
+        </div>
+        <div class="ans">✅ Answer: B. Choose a geographically close mirror to minimize download latency and optimize network routes</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">41. What will the logical check is.vector(list(a = 1)) evaluate to?</div>
+        <div class="opts">
+          <div>A. FALSE (Lists are lists, not vectors)</div>
+          <div>B. TRUE (Lists are technically generic/heterogeneous vectors in R)</div>
+          <div>C. NA</div>
+          <div>D. Warning message</div>
+        </div>
+        <div class="ans">✅ Answer: B. TRUE (R classifies lists as generic vectors, as opposed to atomic vectors)</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">42. Which function converts raw binary byte sequences back into a normal readable character string?</div>
+        <div class="opts">
+          <div>A. rawToChar()</div>
+          <div>B. raw.character()</div>
+          <div>C. as.character(raw_var)</div>
+          <div>D. binaryToText()</div>
+        </div>
+        <div class="ans">✅ Answer: A. rawToChar()</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">43. What is a CRAN package repository?</div>
+        <div class="opts">
+          <div>A. A local R repository stored in binary packages</div>
+          <div>B. A worldwide network of FTP/web servers hosting identical R distributions, source codes, extensions, and documentations</div>
+          <div>C. RStudio's proprietary package database server</div>
+          <div>D. A repository holding legacy R scripts for graphics processing</div>
+        </div>
+        <div class="ans">✅ Answer: B. A worldwide network of FTP/web servers hosting identical R distributions, source codes, extensions, and documentations</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">44. What does search() return?</div>
+        <div class="opts">
+          <div>A. Google search queries for package documentation</div>
+          <div>B. A character vector showing the names of packages and environments in the active lookup search path</div>
+          <div>C. Active files located in the current working directory</div>
+          <div>D. Stored command history log of the Console</div>
+        </div>
+        <div class="ans">✅ Answer: B. A character vector showing the names of packages and environments in the active lookup search path</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">45. Which base function can run an entire external R script file from disk, executing all its statements inside the active session?</div>
+        <div class="opts">
+          <div>A. run()</div>
+          <div>B. execute()</div>
+          <div>C. source()</div>
+          <div>D. import()</div>
+        </div>
+        <div class="ans">✅ Answer: C. source()</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">46. How do you programmatically check if R is currently running in interactive terminal mode?</div>
+        <div class="opts">
+          <div>A. is.interactive()</div>
+          <div>B. interactive()</div>
+          <div>C. sessionInfo()$interactive</div>
+          <div>D. console.mode()</div>
+        </div>
+        <div class="ans">✅ Answer: B. interactive()</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">47. What does typeof(NA) return in base R?</div>
+        <div class="opts">
+          <div>A. "logical"</div>
+          <div>B. "character"</div>
+          <div>C. "double"</div>
+          <div>D. "missing"</div>
+        </div>
+        <div class="ans">✅ Answer: A. "logical"</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">48. What will the logical check is.integer(5) return?</div>
+        <div class="opts">
+          <div>A. TRUE</div>
+          <div>B. FALSE</div>
+          <div>C. NA</div>
+          <div>D. Warning message</div>
+        </div>
+        <div class="ans">✅ Answer: B. FALSE (Because decimal inputs are double class by default unless declared with L suffix)</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">49. Which command returns a detailed matrix containing information of all packages currently installed on your local hard drive?</div>
+        <div class="opts">
+          <div>A. show.packages()</div>
+          <div>B. list.packages()</div>
+          <div>C. installed.packages()</div>
+          <div>D. package.list()</div>
+        </div>
+        <div class="ans">✅ Answer: C. installed.packages()</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">50. What is the role of the special `.Rprofile` file?</div>
+        <div class="opts">
+          <div>A. A system configuration profile that tracks hardware specifications</div>
+          <div>B. A user-specific customization script that runs automatically every time an R session initializes</div>
+          <div>C. A log file storing packages download statistics</div>
+          <div>D. A backup copy of the global environment</div>
+        </div>
+        <div class="ans">✅ Answer: B. A user-specific customization script that runs automatically every time an R session initializes</div>
+      </div>
+
+      <!-- ==================== UNIT 2 MCQS (51-100) ==================== -->
+      <h3 style="margin: 30px 0 15px; color: var(--accent2); font-family: 'Inter', sans-serif; font-size: 1.15rem; border-bottom: 2px dashed var(--border); padding-bottom: 6px; display: flex; align-items: center; gap: 8px;">
+        <span>📙 Unit 2: Loading &amp; Handling Data in R</span>
+        <span style="background: rgba(255, 107, 157, 0.15); color: var(--accent2); font-size: 0.75rem; padding: 2px 8px; border-radius: 12px; font-weight: 700;">Q51-Q100</span>
+      </h3>
+
+      <div class="mcq">
+        <div class="q">51. Why does R face severe memory (RAM) limitations compared to SQL databases?</div>
+        <div class="opts">
+          <div>A. R is restricted to 32-bit compilation on Windows</div>
+          <div>B. R loads the entire active workspace and all active data frames completely into physical memory (RAM) for computations</div>
+          <div>C. R does not support multi-threading for garbage collection</div>
+          <div>D. The interpreter blocks variables larger than 2GB</div>
+        </div>
+        <div class="ans">✅ Answer: B. R loads the entire active workspace and all active data frames completely into physical memory (RAM) for computations</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">52. Which package provides high-speed, memory-mapped data ingestion via the fread() function?</div>
+        <div class="opts">
+          <div>A. readr</div>
+          <div>B. data.table</div>
+          <div>C. dplyr</div>
+          <div>D. utils</div>
+        </div>
+        <div class="ans">✅ Answer: B. data.table (specifically optimized for rapid I/O)</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">53. In lexical scoping, how is the operational search boundary of a free variable determined?</div>
+        <div class="opts">
+          <div>A. By the order of functional calls on the runtime stack</div>
+          <div>B. At compile-time by the spatial/lexical position where the function was initially defined</div>
+          <div>C. Dynamically at runtime based on environment memory footprint</div>
+          <div>D. By the order of packages listed in the search() vector</div>
+        </div>
+        <div class="ans">✅ Answer: B. At compile-time by the spatial/lexical position where the function was initially defined</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">54. In the environment chain hierarchy of R, what environment acts as the parent of the Global Environment?</div>
+        <div class="opts">
+          <div>A. The Empty Environment</div>
+          <div>B. The base package environment</div>
+          <div>C. The environment of the last loaded package in the search path</div>
+          <div>D. The parent system execution shell</div>
+        </div>
+        <div class="ans">✅ Answer: C. The environment of the last loaded package in the search path</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">55. What is the structural implication of "lazy evaluation" in R function arguments?</div>
+        <div class="opts">
+          <div>A. Functions compile lazily upon session closure</div>
+          <div>B. Arguments are only evaluated at the exact line of execution they are first referenced/used inside the function</div>
+          <div>C. Unused variables are automatically deleted from RAM</div>
+          <div>D. Functions execute on background threads to prevent main lag</div>
+        </div>
+        <div class="ans">✅ Answer: B. Arguments are only evaluated at the exact line of execution they are first referenced/used inside the function</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">56. What does the logical check is.na(NaN) return?</div>
+        <div class="opts">
+          <div>A. TRUE</div>
+          <div>B. FALSE</div>
+          <div>C. NA</div>
+          <div>D. Warning message</div>
+        </div>
+        <div class="ans">✅ Answer: A. TRUE (Since NaN values are mathematically missing, R considers them as NA too)</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">57. What does the logical check is.nan(NA) return?</div>
+        <div class="opts">
+          <div>A. TRUE</div>
+          <div>B. FALSE</div>
+          <div>C. NA</div>
+          <div>D. Warning message</div>
+        </div>
+        <div class="ans">✅ Answer: B. FALSE (NA stands for unobserved data, not mathematically undefined operations, so it is NOT NaN)</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">58. What is the class of NA_character_?</div>
+        <div class="opts">
+          <div>A. "logical"</div>
+          <div>B. "character"</div>
+          <div>C. "missing"</div>
+          <div>D. "character_na"</div>
+        </div>
+        <div class="ans">✅ Answer: B. "character"</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">59. What will mean(c(1, 2, NA), na.rm = TRUE) evaluate to?</div>
+        <div class="opts">
+          <div>A. NA</div>
+          <div>B. 1.5</div>
+          <div>C. 1.0</div>
+          <div>D. 3.0</div>
+        </div>
+        <div class="ans">✅ Answer: B. 1.5</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">60. What does complete.cases(data.frame(x = c(1, NA), y = c(2, 3))) return?</div>
+        <div class="opts">
+          <div>A. c(FALSE, TRUE)</div>
+          <div>B. c(TRUE, FALSE)</div>
+          <div>C. c(TRUE, TRUE)</div>
+          <div>D. 1</div>
+        </div>
+        <div class="ans">✅ Answer: B. c(TRUE, FALSE) (Row 1 contains no NA, Row 2 contains NA in x)</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">61. What is the automatic coercion hierarchy from highest representation to lowest in homogeneous vectors?</div>
+        <div class="opts">
+          <div>A. character ➔ integer ➔ numeric ➔ logical</div>
+          <div>B. character ➔ numeric ➔ integer ➔ logical</div>
+          <div>C. logical ➔ integer ➔ numeric ➔ character</div>
+          <div>D. numeric ➔ character ➔ integer ➔ logical</div>
+        </div>
+        <div class="ans">✅ Answer: B. character ➔ numeric ➔ integer ➔ logical</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">62. If you create a vector: c(TRUE, 2.5, "test"), what will the data types of the elements coerce to?</div>
+        <div class="opts">
+          <div>A. logical, numeric, character</div>
+          <div>B. all numeric</div>
+          <div>C. all character</div>
+          <div>D. all logical</div>
+        </div>
+        <div class="ans">✅ Answer: C. all character (resulting in c("TRUE", "2.5", "test"))</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">63. What will calling as.integer(5.99) output in R?</div>
+        <div class="opts">
+          <div>A. 6 (rounding up)</div>
+          <div>B. 5 (truncating towards zero)</div>
+          <div>C. NA</div>
+          <div>D. Error</div>
+        </div>
+        <div class="ans">✅ Answer: B. 5 (truncating towards zero)</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">64. What will as.numeric("MSRIT") evaluate to?</div>
+        <div class="opts">
+          <div>A. 0</div>
+          <div>B. NA, along with a warning "NAs introduced by coercion"</div>
+          <div>C. A random numeric hash value</div>
+          <div>D. Error and script termination</div>
+        </div>
+        <div class="ans">✅ Answer: B. NA, along with a warning "NAs introduced by coercion"</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">65. If you execute: c(10, 20, 30, 40) + c(1, 2), what is the resulting vector based on the Recycling Rule?</div>
+        <div class="opts">
+          <div>A. c(11, 22)</div>
+          <div>B. c(11, 22, 31, 42)</div>
+          <div>C. c(11, 22, 30, 40)</div>
+          <div>D. Error due to length mismatch</div>
+        </div>
+        <div class="ans">✅ Answer: B. c(11, 22, 31, 42) (The shorter vector is recycled to c(1, 2, 1, 2))</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">66. Under what condition does the recycling of vectors throw a warning in the R Console?</div>
+        <div class="opts">
+          <div>A. Whenever any vector is recycled</div>
+          <div>B. If the length of the longer vector is not a perfect mathematical multiple of the shorter vector's length</div>
+          <div>C. If the vectors contain character elements</div>
+          <div>D. If the vectors have length zero</div>
+        </div>
+        <div class="ans">✅ Answer: B. If the length of the longer vector is not a perfect mathematical multiple of the shorter vector's length</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">67. What index represents the very first element of any R vector or structure?</div>
+        <div class="opts">
+          <div>A. 0</div>
+          <div>B. 1</div>
+          <div>C. -1</div>
+          <div>D. R does not use numeric indices</div>
+        </div>
+        <div class="ans">✅ Answer: B. 1</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">68. What does vector slicing using a negative index do (e.g. x[-2])?</div>
+        <div class="opts">
+          <div>A. Returns the second element from the end of the vector</div>
+          <div>B. Returns all elements of the vector EXCEPT the element at index 2</div>
+          <div>C. Reverses the order of the vector</div>
+          <div>D. Converts the vector to empty logical values</div>
+        </div>
+        <div class="ans">✅ Answer: B. Returns all elements of the vector EXCEPT the element at index 2</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">69. What is the default filling direction of cells when creating a matrix using matrix(1:6, nrow=2)?</div>
+        <div class="opts">
+          <div>A. Row-by-row (Row-major)</div>
+          <div>B. Column-by-column (Column-major)</div>
+          <div>C. Alternating diagonal cells</div>
+          <div>D. Random distribution</div>
+        </div>
+        <div class="ans">✅ Answer: B. Column-by-column (Column-major)</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">70. Which function transposes a matrix, swapping rows and columns?</div>
+        <div class="opts">
+          <div>A. transpose()</div>
+          <div>B. t()</div>
+          <div>C. rev()</div>
+          <div>D. flip()</div>
+        </div>
+        <div class="ans">✅ Answer: B. t()</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">71. Which operator is used to perform mathematically valid matrix dot product multiplication in R?</div>
+        <div class="opts">
+          <div>A. *</div>
+          <div>B. %*%</div>
+          <div>C. %/%</div>
+          <div>D. .*.</div>
+        </div>
+        <div class="ans">✅ Answer: B. %*% (The asterisk * performs element-wise multiplication)</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">72. Which function connects two matrices by pasting them together as columns?</div>
+        <div class="opts">
+          <div>A. rbind()</div>
+          <div>B. cbind()</div>
+          <div>C. merge()</div>
+          <div>D. concat()</div>
+        </div>
+        <div class="ans">✅ Answer: B. cbind() (Column bind)</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">73. Why are group functions like rowSums() preferred over apply(M, 1, sum)?</div>
+        <div class="opts">
+          <div>A. apply() does not handle NA values</div>
+          <div>B. rowSums() is pre-compiled in underlying C code, making it dramatically faster for large matrices</div>
+          <div>C. rowSums() does not require matrix conversions</div>
+          <div>D. apply() is restricted to data frames only</div>
+        </div>
+        <div class="ans">✅ Answer: B. rowSums() is pre-compiled in underlying C code, making it dramatically faster for large matrices</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">74. How do you create an ordinal factor in R where the category levels have a mathematical order?</div>
+        <div class="opts">
+          <div>A. factor(x, levels = c("Low", "High"), ordered = TRUE)</div>
+          <div>B. factor(x, levels = c("Low", "High"), sorted = TRUE)</div>
+          <div>C. ordinal(x, levels = c("Low", "High"))</div>
+          <div>D. factor(x, order = TRUE)</div>
+        </div>
+        <div class="ans">✅ Answer: A. factor(x, levels = c("Low", "High"), ordered = TRUE)</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">75. What will levels(factor(c("high", "low", "high"))) output?</div>
+        <div class="opts">
+          <div>A. c("high", "low", "high")</div>
+          <div>B. c("high", "low")</div>
+          <div>C. c("low", "high") (sorted alphabetically by default)</div>
+          <div>D. 1 2</div>
+        </div>
+        <div class="ans">✅ Answer: C. c("low", "high") (alphabetic sort default)</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">76. What is the fundamental difference between an R list and an atomic vector?</div>
+        <div class="opts">
+          <div>A. Vectors are loaded in RAM, lists are stored on disk</div>
+          <div>B. Vectors are strictly homogeneous; lists are heterogeneous and can store any data type or shape inside their elements</div>
+          <div>C. Vectors have fixed dimensions; lists are dynamically resizable</div>
+          <div>D. Vectors use 1-based indexing; lists use 0-based indexing</div>
+        </div>
+        <div class="ans">✅ Answer: B. Vectors are strictly homogeneous; lists are heterogeneous and can store any data type or shape inside their elements</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">77. If L is a list, what does L[1] return?</div>
+        <div class="opts">
+          <div>A. The raw value of the first element in L</div>
+          <div>B. A sublist containing the first element</div>
+          <div>C. An integer index pointer</div>
+          <div>D. The first column of L</div>
+        </div>
+        <div class="ans">✅ Answer: B. A sublist containing the first element</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">78. If L is a list, what does L[[1]] return?</div>
+        <div class="opts">
+          <div>A. A sublist containing the first element</div>
+          <div>B. The actual raw object/value stored inside the first element of L</div>
+          <div>C. The character name of the first element</div>
+          <div>D. The first row of L</div>
+        </div>
+        <div class="ans">✅ Answer: B. The actual raw object/value stored inside the first element of L</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">79. Which operator is a shorthand for list element extraction by name (e.g. L[["salary"]])?</div>
+        <div class="opts">
+          <div>A. @</div>
+          <div>B. $</div>
+          <div>C. %</div>
+          <div>D. &amp;</div>
+        </div>
+        <div class="ans">✅ Answer: B. $ (e.g., L$salary)</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">80. What is the structural difference between sort(x) and order(x)?</div>
+        <div class="opts">
+          <div>A. sort(x) sorts character strings; order(x) sorts numeric vectors</div>
+          <div>B. sort(x) returns the actual sorted values; order(x) returns the vector of index permutations that would place the values in order</div>
+          <div>C. order(x) permanently modifies the object in RAM; sort(x) only displays it</div>
+          <div>D. sort(x) runs in descending order; order(x) runs in ascending order</div>
+        </div>
+        <div class="ans">✅ Answer: B. sort(x) returns the actual sorted values; order(x) returns the vector of index permutations that would place the values in order</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">81. Which base R function is used to merge two data frames based on matching key columns?</div>
+        <div class="opts">
+          <div>A. join()</div>
+          <div>B. merge()</div>
+          <div>C. combine()</div>
+          <div>D. cbind()</div>
+        </div>
+        <div class="ans">✅ Answer: B. merge()</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">82. What does calling the command rm(list = ls()) do?</div>
+        <div class="opts">
+          <div>A. Re-installs all loaded library files</div>
+          <div>B. Wipes out the entire active workspace environment in memory, deleting all defined variables</div>
+          <div>C. Triggers a full garbage collection without deleting variables</div>
+          <div>D. Prints structural diagnostics of the workspace</div>
+        </div>
+        <div class="ans">✅ Answer: B. Wipes out the entire active workspace environment in memory, deleting all defined variables</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">83. How are factors stored internally in R's memory system?</div>
+        <div class="opts">
+          <div>A. As raw character bytes</div>
+          <div>B. As integer vectors with a "levels" attribute containing character strings</div>
+          <div>C. Inside lookup tables in a temp folder</div>
+          <div>D. As binary bit streams</div>
+        </div>
+        <div class="ans">✅ Answer: B. As integer vectors with a "levels" attribute containing character strings</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">84. How can you set or modify the names of a vector v?</div>
+        <div class="opts">
+          <div>A. v$names &lt;- c("a", "b")</div>
+          <div>B. names(v) &lt;- c("a", "b")</div>
+          <div>C. setNames(v, c("a", "b")) (only sets and returns, does not modify in-place unless assigned)</div>
+          <div>D. Both B and C are correct</div>
+        </div>
+        <div class="ans">✅ Answer: D. Both B and C are correct</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">85. If you index a vector of length 4 with v[c(TRUE, FALSE)], how does R interpret this indexing?</div>
+        <div class="opts">
+          <div>A. Returns only the first element</div>
+          <div>B. Recycles the logical index to c(TRUE, FALSE, TRUE, FALSE), returning elements 1 and 3</div>
+          <div>C. Throws a dimensional mismatch error</div>
+          <div>D. Returns elements 1 and 2</div>
+        </div>
+        <div class="ans">✅ Answer: B. Recycles the logical index to c(TRUE, FALSE, TRUE, FALSE), returning elements 1 and 3</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">86. If you execute: matrix(1:6, nrow = 2, byrow = TRUE), what is the first row?</div>
+        <div class="opts">
+          <div>A. c(1, 2)</div>
+          <div>B. c(1, 3, 5)</div>
+          <div>C. c(1, 2, 3)</div>
+          <div>D. c(1, 4)</div>
+        </div>
+        <div class="ans">✅ Answer: C. c(1, 2, 3)</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">87. Which function calculates the determinant of a square matrix?</div>
+        <div class="opts">
+          <div>A. determinant()</div>
+          <div>B. det()</div>
+          <div>C. mdet()</div>
+          <div>D. solve()</div>
+        </div>
+        <div class="ans">✅ Answer: B. det()</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">88. Which function calculates the mathematical inverse of a square matrix?</div>
+        <div class="opts">
+          <div>A. inv()</div>
+          <div>B. solve()</div>
+          <div>C. det()</div>
+          <div>D. t()</div>
+        </div>
+        <div class="ans">✅ Answer: B. solve() (When called as solve(A), it solves AX=I for X, which is the inverse)</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">89. What is the value of typeof(factor(c("A", "B")))?</div>
+        <div class="opts">
+          <div>A. "character"</div>
+          <div>B. "factor"</div>
+          <div>C. "integer"</div>
+          <div>D. "double"</div>
+        </div>
+        <div class="ans">✅ Answer: C. "integer" (Factors are stored internally as integer codes)</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">90. What is the value of class(list(1, 2))?</div>
+        <div class="opts">
+          <div>A. "vector"</div>
+          <div>B. "list"</div>
+          <div>C. "heterogeneous"</div>
+          <div>D. "collection"</div>
+        </div>
+        <div class="ans">✅ Answer: B. "list"</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">91. What is the length of list(a = 1, b = c(2, 3))?</div>
+        <div class="opts">
+          <div>A. 3</div>
+          <div>B. 2</div>
+          <div>C. 1</div>
+          <div>D. 0</div>
+        </div>
+        <div class="ans">✅ Answer: B. 2 (The elements of the list are 'a' and 'b')</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">92. Which function combines elements of vectors into a character string?</div>
+        <div class="opts">
+          <div>A. paste()</div>
+          <div>B. concat()</div>
+          <div>C. merge()</div>
+          <div>D. join()</div>
+        </div>
+        <div class="ans">✅ Answer: A. paste()</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">93. What is the default separator in paste()?</div>
+        <div class="opts">
+          <div>A. Comma</div>
+          <div>B. Empty string ""</div>
+          <div>C. Single space " "</div>
+          <div>D. Tab</div>
+        </div>
+        <div class="ans">✅ Answer: C. Single space " "</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">94. Which function checks if two R objects are exactly identical down to storage type attributes?</div>
+        <div class="opts">
+          <div>A. identical()</div>
+          <div>B. ==</div>
+          <div>C. equals()</div>
+          <div>D. same()</div>
+        </div>
+        <div class="ans">✅ Answer: A. identical()</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">95. What is the return value of NULL + 1?</div>
+        <div class="opts">
+          <div>A. 1</div>
+          <div>B. numeric(0) (An empty numeric vector)</div>
+          <div>C. NULL</div>
+          <div>D. NA</div>
+        </div>
+        <div class="ans">✅ Answer: B. numeric(0)</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">96. What does all(c(TRUE, FALSE, TRUE)) return?</div>
+        <div class="opts">
+          <div>A. TRUE</div>
+          <div>B. FALSE</div>
+          <div>C. NA</div>
+          <div>D. Warning</div>
+        </div>
+        <div class="ans">✅ Answer: B. FALSE</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">97. What does any(c(TRUE, FALSE, TRUE)) return?</div>
+        <div class="opts">
+          <div>A. TRUE</div>
+          <div>B. FALSE</div>
+          <div>C. NA</div>
+          <div>D. Warning</div>
+        </div>
+        <div class="ans">✅ Answer: A. TRUE</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">98. What is the result of 5 &gt; 3 &amp;&amp; 4 &lt; 2?</div>
+        <div class="opts">
+          <div>A. TRUE</div>
+          <div>B. FALSE</div>
+          <div>C. NA</div>
+          <div>D. Warning</div>
+        </div>
+        <div class="ans">✅ Answer: B. FALSE</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">99. What is the difference between &amp; and &amp;&amp; logical operators in R?</div>
+        <div class="opts">
+          <div>A. &amp; is for strings, &amp;&amp; is for integers</div>
+          <div>B. &amp; performs element-wise operations on vectors; &amp;&amp; is scalar only, performs short-circuit evaluation</div>
+          <div>C. &amp;&amp; operates asynchronously</div>
+          <div>D. &amp; does not support boolean evaluations</div>
+        </div>
+        <div class="ans">✅ Answer: B. &amp; performs element-wise operations on vectors; &amp;&amp; is scalar only, performs short-circuit evaluation</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">100. How do you check the dimensions of a matrix M?</div>
+        <div class="opts">
+          <div>A. size(M)</div>
+          <div>B. dim(M)</div>
+          <div>C. dimensions(M)</div>
+          <div>D. shape(M)</div>
+        </div>
+        <div class="ans">✅ Answer: B. dim(M) (Returns c(rows, cols))</div>
+      </div>
+
+      <!-- ==================== UNIT 3 MCQS (101-150) ==================== -->
+      <h3 style="margin: 30px 0 15px; color: var(--accent3); font-family: 'Inter', sans-serif; font-size: 1.15rem; border-bottom: 2px dashed var(--border); padding-bottom: 6px; display: flex; align-items: center; gap: 8px;">
+        <span>📗 Unit 3: Data I/O &amp; Aggregations</span>
+        <span style="background: rgba(0, 212, 170, 0.15); color: var(--accent3); font-size: 0.75rem; padding: 2px 8px; border-radius: 12px; font-weight: 700;">Q101-Q150</span>
+      </h3>
+
+      <div class="mcq">
+        <div class="q">101. Which base R data aggregation function is designed to return a clean rectangular Data Frame output?</div>
+        <div class="opts">
+          <div>A. tapply()</div>
+          <div>B. aggregate()</div>
           <div>C. lapply()</div>
+          <div>D. apply()</div>
+        </div>
+        <div class="ans">✅ Answer: B. aggregate()</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">102. Which aggregation function applies a custom function to a vector grouped by factor levels, returning an array/vector?</div>
+        <div class="opts">
+          <div>A. apply()</div>
+          <div>B. tapply()</div>
+          <div>C. aggregate()</div>
           <div>D. sapply()</div>
         </div>
         <div class="ans">✅ Answer: B. tapply()</div>
       </div>
 
       <div class="mcq">
-        <div class="q">2. What is the default separator in read.csv()?</div>
+        <div class="q">103. In aggregate(salary ~ dept, data = df, FUN = mean), what does the formula salary ~ dept denote?</div>
         <div class="opts">
-          <div>A. Tab</div>
-          <div>B. Space</div>
-          <div>C. Comma</div>
-          <div>D. Semicolon</div>
+          <div>A. Subtract dept from salary</div>
+          <div>B. salary is the target variable to summarize, grouped by the levels of factor dept</div>
+          <div>C. dept is the numeric target, grouped by salary</div>
+          <div>D. Load salary and dept sequentially</div>
         </div>
-        <div class="ans">✅ Answer: C. Comma</div>
+        <div class="ans">✅ Answer: B. salary is the target variable to summarize, grouped by the levels of factor dept</div>
       </div>
 
       <div class="mcq">
-        <div class="q">3. Which of the following is NOT a valid data type in R?</div>
+        <div class="q">104. What is the default column name separator parameter for read.table()?</div>
         <div class="opts">
-          <div>A. Numeric</div>
-          <div>B. Character</div>
-          <div>C. Logical</div>
-          <div>D. Decimal</div>
+          <div>A. Comma ","</div>
+          <div>B. Semicolon ";"</div>
+          <div>C. Tab "\t"</div>
+          <div>D. Any whitespace (spaces, tabs, newlines)</div>
         </div>
-        <div class="ans">✅ Answer: D. Decimal (R uses "numeric" for decimals)</div>
+        <div class="ans">✅ Answer: D. Any whitespace (spaces, tabs, newlines)</div>
       </div>
 
       <div class="mcq">
-        <div class="q">4. What does dim(df) return?</div>
+        <div class="q">105. How do you prevent R from automatically converting character vectors to factors in read.csv() in base R?</div>
         <div class="opts">
-          <div>A. Column names</div>
-          <div>B. Number of rows and columns</div>
-          <div>C. Data types</div>
-          <div>D. Summary statistics</div>
+          <div>A. stringsAsFactors = FALSE</div>
+          <div>B. convertStrings = FALSE</div>
+          <div>C. as.factor = FALSE</div>
+          <div>D. charAsChar = TRUE</div>
         </div>
-        <div class="ans">✅ Answer: B. Number of rows and columns</div>
+        <div class="ans">✅ Answer: A. stringsAsFactors = FALSE (Default behavior changed to FALSE starting from R 4.0.0)</div>
       </div>
 
       <div class="mcq">
-        <div class="q">5. Which function removes rows with NA values?</div>
+        <div class="q">106. Which standard package is widely used to import and parse XML documents into R data objects?</div>
         <div class="opts">
-          <div>A. rm.na()</div>
-          <div>B. delete.na()</div>
-          <div>C. na.omit()</div>
-          <div>D. remove.na()</div>
+          <div>A. xml2</div>
+          <div>B. XML</div>
+          <div>C. rxml</div>
+          <div>D. Both A and B work</div>
         </div>
-        <div class="ans">✅ Answer: C. na.omit()</div>
+        <div class="ans">✅ Answer: D. Both A and B work (xml2 is the modern tidyverse choice; XML is the classic base choice)</div>
       </div>
 
       <div class="mcq">
-        <div class="q">6. R has a built-in function for mode (most frequent value)?</div>
+        <div class="q">107. Which function from jsonlite parses a JSON string or file directly into an R data structure?</div>
         <div class="opts">
-          <div>A. TRUE — mode()</div>
-          <div>B. FALSE — no built-in function</div>
-          <div>C. TRUE — freq()</div>
-          <div>D. TRUE — most()</div>
+          <div>A. read.json()</div>
+          <div>B. fromJSON()</div>
+          <div>C. parse_json()</div>
+          <div>D. importJSON()</div>
         </div>
-        <div class="ans">✅ Answer: B. FALSE — R's mode() returns storage type, not statistical mode!</div>
+        <div class="ans">✅ Answer: B. fromJSON()</div>
       </div>
 
       <div class="mcq">
-        <div class="q">7. Which ggplot2 function creates a scatter plot?</div>
+        <div class="q">108. In database connectivity, what is the role of the DBI package?</div>
         <div class="opts">
-          <div>A. geom_bar()</div>
-          <div>B. geom_line()</div>
-          <div>C. geom_point()</div>
-          <div>D. geom_scatter()</div>
+          <div>A. It installs a database on your hard drive</div>
+          <div>B. It acts as a database-independent interface defining standard database classes and functions in R</div>
+          <div>C. It speeds up SQLite reads</div>
+          <div>D. It encrypts passwords</div>
         </div>
-        <div class="ans">✅ Answer: C. geom_point()</div>
+        <div class="ans">✅ Answer: B. It acts as a database-independent interface defining standard database classes and functions in R</div>
       </div>
 
       <div class="mcq">
-        <div class="q">8. What does the formula salary ~ dept mean in aggregate()?</div>
+        <div class="q">109. Which function should be called to close a DBI database connection conn?</div>
         <div class="opts">
-          <div>A. salary depends on dept</div>
-          <div>B. Summarize salary grouped by dept</div>
-          <div>C. Compare salary and dept</div>
-          <div>D. Filter salary where dept exists</div>
+          <div>A. close(conn)</div>
+          <div>B. dbClose(conn)</div>
+          <div>C. dbDisconnect(conn)</div>
+          <div>D. disconnect(conn)</div>
         </div>
-        <div class="ans">✅ Answer: B. Summarize salary grouped by dept</div>
+        <div class="ans">✅ Answer: C. dbDisconnect(conn)</div>
       </div>
 
       <div class="mcq">
-        <div class="q">9. Which database is file-based and does NOT require a server?</div>
+        <div class="q">110. How do you execute a non-query SQL command (like INSERT, UPDATE, or CREATE TABLE) using DBI?</div>
         <div class="opts">
-          <div>A. MySQL</div>
-          <div>B. PostgreSQL</div>
-          <div>C. SQLite</div>
-          <div>D. Oracle</div>
+          <div>A. dbGetQuery(conn, sql)</div>
+          <div>B. dbSendQuery(conn, sql)</div>
+          <div>C. dbExecute(conn, sql)</div>
+          <div>D. dbRun(conn, sql)</div>
         </div>
-        <div class="ans">✅ Answer: C. SQLite</div>
+        <div class="ans">✅ Answer: C. dbExecute(conn, sql)</div>
       </div>
 
       <div class="mcq">
-        <div class="q">10. What does head(df, 3) return?</div>
+        <div class="q">111. Which DBI function executes a SELECT query, fetches all resulting rows, and returns them as an R Data Frame in one call?</div>
         <div class="opts">
-          <div>A. Last 3 rows</div>
-          <div>B. First 3 rows</div>
-          <div>C. 3 random rows</div>
-          <div>D. 3 columns</div>
+          <div>A. dbSendQuery()</div>
+          <div>B. dbGetQuery()</div>
+          <div>C. dbFetch()</div>
+          <div>D. dbReadTable()</div>
         </div>
-        <div class="ans">✅ Answer: B. First 3 rows</div>
+        <div class="ans">✅ Answer: B. dbGetQuery()</div>
       </div>
 
       <div class="mcq">
-        <div class="q">11. Which function is used for Min-Max normalization in R?</div>
+        <div class="q">112. What does dbReadTable(conn, "employees") do?</div>
         <div class="opts">
-          <div>A. normalize()</div>
-          <div>B. scale()</div>
-          <div>C. No built-in — write custom function</div>
-          <div>D. minmax()</div>
+          <div>A. Opens the SQL database "employees"</div>
+          <div>B. Reads the entire "employees" SQL table and imports it directly as a local R Data Frame</div>
+          <div>C. Prints table column details to the console</div>
+          <div>D. Backs up the table to CSV</div>
         </div>
-        <div class="ans">✅ Answer: C. No built-in — scale() does z-score standardization, not min-max</div>
+        <div class="ans">✅ Answer: B. Reads the entire "employees" SQL table and imports it directly as a local R Data Frame</div>
       </div>
 
       <div class="mcq">
-        <div class="q">12. What does complete.cases(df) return?</div>
+        <div class="q">113. What is the role of Pentaho Data Integration (PDI) in business analytics architectures?</div>
         <div class="opts">
-          <div>A. Count of NAs</div>
-          <div>B. Logical vector — TRUE for rows with no NAs</div>
-          <div>C. Cleaned data frame</div>
-          <div>D. Column names with NAs</div>
+          <div>A. It installs database drivers in R</div>
+          <div>B. It acts as an ETL (Extract, Transform, and Load) tool to design graphical pipelines moving data between database servers</div>
+          <div>C. It compiles ggplot2 graphics to HTML</div>
+          <div>D. It performs statistical regressions</div>
         </div>
-        <div class="ans">✅ Answer: B. Logical vector — TRUE for rows with no NAs</div>
+        <div class="ans">✅ Answer: B. It acts as an ETL (Extract, Transform, and Load) tool to design graphical pipelines moving data between database servers</div>
       </div>
 
       <div class="mcq">
-        <div class="q">13. Which R function converts continuous data to discrete categories?</div>
+        <div class="q">114. Which enterprise reporting tool can ingest data, format PDF/HTML dashboards, and run R visualization nodes?</div>
+        <div class="opts">
+          <div>A. JasperReports Server</div>
+          <div>B. Spoon</div>
+          <div>C. SQLite Studio</div>
+          <div>D. DBI</div>
+        </div>
+        <div class="ans">✅ Answer: A. JasperReports Server</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">115. What is the difference between read.csv() and read.csv2()?</div>
+        <div class="opts">
+          <div>A. read.csv2() is for binary files</div>
+          <div>B. read.csv() expects comma separators and period decimals; read.csv2() expects semicolon separators and comma decimals for European locales</div>
+          <div>C. read.csv2() executes twice as fast</div>
+          <div>D. read.csv() is legacy, read.csv2() is tidyverse</div>
+        </div>
+        <div class="ans">✅ Answer: B. read.csv() expects comma separators and period decimals; read.csv2() expects semicolon separators and comma decimals for European locales</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">116. How does tapply() handle NA grouping elements by default?</div>
+        <div class="opts">
+          <div>A. Replaces NA with "Missing"</div>
+          <div>B. Ignores the NA grouping levels by default</div>
+          <div>C. Throws a fatal crash</div>
+          <div>D. Imputes using group mean</div>
+        </div>
+        <div class="ans">✅ Answer: B. Ignores the NA grouping levels by default</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">117. What will aggregate(x ~ y + z, data = df, FUN = sum) do?</div>
+        <div class="opts">
+          <div>A. Summarizes x grouped by unique combinations of y and z levels</div>
+          <div>B. Adds y and z to x</div>
+          <div>C. Performs a 3-way correlation matrix</div>
+          <div>D. Throws an error due to multiple factors</div>
+        </div>
+        <div class="ans">✅ Answer: A. Summarizes x grouped by unique combinations of y and z levels</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">118. Which argument in read.table() specifies the number of rows at the beginning of the file to skip before starting ingestion?</div>
+        <div class="opts">
+          <div>A. skip</div>
+          <div>B. start</div>
+          <div>C. offset</div>
+          <div>D. ignore</div>
+        </div>
+        <div class="ans">✅ Answer: A. skip</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">119. What does the nrows parameter do in read.table()?</div>
+        <div class="opts">
+          <div>A. Returns the row count of the file</div>
+          <div>B. Specifies the maximum number of rows to read from the file</div>
+          <div>C. Sets the matrix dimensions</div>
+          <div>D. Pre-allocates active RAM blocks</div>
+        </div>
+        <div class="ans">✅ Answer: B. Specifies the maximum number of rows to read from the file</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">120. Which tidyverse package is designed specifically for fast writing of flat files?</div>
+        <div class="opts">
+          <div>A. readxl</div>
+          <div>B. readr (using write_csv)</div>
+          <div>C. dplyr</div>
+          <div>D. dbplyr</div>
+        </div>
+        <div class="ans">✅ Answer: B. readr (using write_csv)</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">121. How do you import a specific sheet from an Excel workbook (.xlsx)?</div>
+        <div class="opts">
+          <div>A. readxl::read_excel("path.xlsx", sheet = "SheetName")</div>
+          <div>B. read.xlsx("path.xlsx", tab = "SheetName")</div>
+          <div>C. openxlsx::read("path.xlsx", sheet = 1)</div>
+          <div>D. Both A and C are correct</div>
+        </div>
+        <div class="ans">✅ Answer: A. readxl::read_excel("path.xlsx", sheet = "SheetName")</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">122. What does dbListTables(conn) return?</div>
+        <div class="opts">
+          <div>A. A dataframe listing tables and column sizes</div>
+          <div>B. A character vector containing the names of all tables inside the connected SQL database</div>
+          <div>C. Active database connections</div>
+          <div>D. SQL queries history log</div>
+        </div>
+        <div class="ans">✅ Answer: B. A character vector containing the names of all tables inside the connected SQL database</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">123. What is the fundamental difference between dbSendQuery() and dbGetQuery()?</div>
+        <div class="opts">
+          <div>A. dbSendQuery() runs asynchronously</div>
+          <div>B. dbSendQuery() executes the query and returns a result object but does NOT fetch records to R; dbGetQuery() executes and fetches all rows immediately</div>
+          <div>C. dbGetQuery() is only for SQL servers</div>
+          <div>D. dbSendQuery() is restricted to INSERT statements</div>
+        </div>
+        <div class="ans">✅ Answer: B. dbSendQuery() executes the query and returns a result object but does NOT fetch records to R; dbGetQuery() executes and fetches all rows immediately</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">124. How do you fetch a specific batch of 10 rows from an active query result set res?</div>
+        <div class="opts">
+          <div>A. dbFetch(res, n = 10)</div>
+          <div>B. fetch(res, 10)</div>
+          <div>C. dbGetQuery(res, limit = 10)</div>
+          <div>D. dbRead(res, rows = 10)</div>
+        </div>
+        <div class="ans">✅ Answer: A. dbFetch(res, n = 10)</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">125. What is the purpose of the dbClearResult(res) function?</div>
+        <div class="opts">
+          <div>A. Deletes the SQL table database from disk</div>
+          <div>B. Frees database resources and handles associated with an active query result set res</div>
+          <div>C. Commits a transaction</div>
+          <div>D. Wipes out the local data frame in R environment</div>
+        </div>
+        <div class="ans">✅ Answer: B. Frees database resources and handles associated with an active query result set res</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">126. Which database-specific driver package is required to connect to a local SQLite database?</div>
+        <div class="opts">
+          <div>A. dbSQLite</div>
+          <div>B. RSQLite</div>
+          <div>C. RSQL</div>
+          <div>D. DBI</div>
+        </div>
+        <div class="ans">✅ Answer: B. RSQLite</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">127. Which driver package interfaces R to PostgreSQL database systems?</div>
+        <div class="opts">
+          <div>A. RPostgres</div>
+          <div>B. RPostgreSQL</div>
+          <div>C. pgSQL</div>
+          <div>D. Both A and B work</div>
+        </div>
+        <div class="ans">✅ Answer: D. Both A and B work</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">128. What is the standard default networking port used by PostgreSQL servers?</div>
+        <div class="opts">
+          <div>A. 3306</div>
+          <div>B. 5432</div>
+          <div>C. 1433</div>
+          <div>D. 8080</div>
+        </div>
+        <div class="ans">✅ Answer: B. 5432 (3306 is MySQL default)</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">129. How do you write a local R data frame df into a SQL table named "salaries" using DBI?</div>
+        <div class="opts">
+          <div>A. dbWriteTable(conn, "salaries", df)</div>
+          <div>B. dbWrite(conn, df, table = "salaries")</div>
+          <div>C. dbInsertTable(conn, "salaries", df)</div>
+          <div>D. dbExport(df, conn, "salaries")</div>
+        </div>
+        <div class="ans">✅ Answer: A. dbWriteTable(conn, "salaries", df)</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">130. What is the primary analytical difference between R Commander and Rattle?</div>
+        <div class="opts">
+          <div>A. R Commander is strictly for data mining</div>
+          <div>B. R Commander is a general statistical graphical menu; Rattle is focused specifically on data mining, predictive modeling, and machine learning</div>
+          <div>C. Rattle requires internet connection</div>
+          <div>D. R Commander runs compiled models</div>
+        </div>
+        <div class="ans">✅ Answer: B. R Commander is a general statistical graphical menu; Rattle is focused specifically on data mining, predictive modeling, and machine learning</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">131. In the Rattle GUI interface, which tab is utilized to load/ingest files or database connections?</div>
+        <div class="opts">
+          <div>A. Explore Tab</div>
+          <div>B. Data Tab</div>
+          <div>C. Transform Tab</div>
+          <div>D. Log Tab</div>
+        </div>
+        <div class="ans">✅ Answer: B. Data Tab</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">132. What occurs within the Rattle "Log" tab as you perform various point-and-click operations?</div>
+        <div class="opts">
+          <div>A. It stores warning messages and errors</div>
+          <div>B. It automatically generates and saves the corresponding, executable R source code representing your visual actions</div>
+          <div>C. It prints active memory usages</div>
+          <div>D. It records database table schemas</div>
+        </div>
+        <div class="ans">✅ Answer: B. It automatically generates and saves the corresponding, executable R source code representing your visual actions</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">133. Which component of Pentaho is Spoon?</div>
+        <div class="opts">
+          <div>A. A report server</div>
+          <div>B. The graphical design tool for creating PDI jobs and transformations (ETL pipelines)</div>
+          <div>C. The database storage engine</div>
+          <div>D. R visualization connector</div>
+        </div>
+        <div class="ans">✅ Answer: B. The graphical design tool for creating PDI jobs and transformations (ETL pipelines)</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">134. How does JasperReports Server ingest multi-dimensional R data sets for enterprise reports?</div>
+        <div class="opts">
+          <div>A. Via local flat text files only</div>
+          <div>B. Using data sources such as JDBC SQL connectors, XML web services, or specialized Mondrian OLAP schemas</div>
+          <div>C. By converting ggplot2 charts to vector matrices</div>
+          <div>D. Through direct R console integrations</div>
+        </div>
+        <div class="ans">✅ Answer: B. Using data sources such as JDBC SQL connectors, XML web services, or specialized Mondrian OLAP schemas</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">135. What is the class of the object returned when calling dbConnect(RSQLite::SQLite())?</div>
+        <div class="opts">
+          <div>A. "SQLiteConnection" (inherits from "DBIConnection")</div>
+          <div>B. "database_conn"</div>
+          <div>C. "list"</div>
+          <div>D. "pointer"</div>
+        </div>
+        <div class="ans">✅ Answer: A. "SQLiteConnection" (inherits from "DBIConnection")</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">136. What is the default behavioral effect of calling write.table(df, file="out.txt", row.names = FALSE)?</div>
+        <div class="opts">
+          <div>A. Writes df separated by tabs without index labels</div>
+          <div>B. Writes df separated by spaces, excluding the R-generated sequential row number indices</div>
+          <div>C. Compresses the data frame</div>
+          <div>D. Removes factor columns</div>
+        </div>
+        <div class="ans">✅ Answer: B. Writes df separated by spaces, excluding the R-generated sequential row number indices</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">137. Which function displays a graphical file selection explorer dialog in the active OS, returning the selected file's absolute path?</div>
+        <div class="opts">
+          <div>A. file.choose()</div>
+          <div>B. choose.file()</div>
+          <div>C. file.open()</div>
+          <div>D. path.select()</div>
+        </div>
+        <div class="ans">✅ Answer: A. file.choose()</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">138. What does cat("Data Logged\n", file = "log.txt", append = TRUE) do?</div>
+        <div class="opts">
+          <div>A. Overwrites "log.txt" with "Data Logged\n"</div>
+          <div>B. Appends the text string "Data Logged\n" to the end of the existing file "log.txt"</div>
+          <div>C. Prints string to console only</div>
+          <div>D. Triggers error if file exists</div>
+        </div>
+        <div class="ans">✅ Answer: B. Appends the text string "Data Logged\n" to the end of the existing file "log.txt"</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">139. Which function from the xml2 library parses an XML flat file or URL?</div>
+        <div class="opts">
+          <div>A. read_xml()</div>
+          <div>B. xmlParse()</div>
+          <div>C. import_xml()</div>
+          <div>D. parse_xml()</div>
+        </div>
+        <div class="ans">✅ Answer: A. read_xml() (xmlParse is the older XML library equivalent)</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">140. How do you find specific nodes using XPath query selectors in R via xml2?</div>
+        <div class="opts">
+          <div>A. xml_find_all()</div>
+          <div>B. xml_find_first()</div>
+          <div>C. Both A and B are correct</div>
+          <div>D. xpathApply() (only in legacy XML package)</div>
+        </div>
+        <div class="ans">✅ Answer: C. Both A and B are correct</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">141. What is the output of jsonlite::toJSON(df, pretty = TRUE)?</div>
+        <div class="opts">
+          <div>A. A serialized binary vector</div>
+          <div>B. A cleanly indented, readable JSON formatted character string representing the data frame rows</div>
+          <div>C. An exported JSON file saved to the disk directory</div>
+          <div>D. An encrypted key pair</div>
+        </div>
+        <div class="ans">✅ Answer: B. A cleanly indented, readable JSON formatted character string representing the data frame rows</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">142. What happens if you run dbConnect(RMySQL::MySQL()) without installing RMySQL from CRAN?</div>
+        <div class="opts">
+          <div>A. R automatically downloads it in the background</div>
+          <div>B. R throws a fatal error "package RMySQL not found"</div>
+          <div>C. The command routes through SQLite drivers instead</div>
+          <div>D. The script executes on system default drivers</div>
+        </div>
+        <div class="ans">✅ Answer: B. R throws a fatal error "package RMySQL not found"</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">143. In Pentaho Mondrian BI workflows, what are Mondrian schemas primarily designed to represent?</div>
+        <div class="opts">
+          <div>A. Relational database flat schemas</div>
+          <div>B. Multi-dimensional analytical OLAP cubes (dimensions, hierarchies, levels, and measures) mapped on relational tables</div>
+          <div>C. Raw JSON arrays</div>
+          <div>D. R ggplot2 themes configurations</div>
+        </div>
+        <div class="ans">✅ Answer: B. Multi-dimensional analytical OLAP cubes (dimensions, hierarchies, levels, and measures) mapped on relational tables</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">144. What does the parameter fill = TRUE specify inside the read.table() function?</div>
+        <div class="opts">
+          <div>A. Colors all blank cells in red</div>
+          <div>B. Automatically appends empty fields to rows containing unequal counts of column elements to prevent an ingestion layout crash</div>
+          <div>C. Automatically imputes NAs with mean</div>
+          <div>D. Auto-fits column widths in active memory</div>
+        </div>
+        <div class="ans">✅ Answer: B. Automatically appends empty fields to rows containing unequal counts of column elements to prevent an ingestion layout crash</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">145. Why is count not a direct parameter inside the aggregate() function?</div>
+        <div class="opts">
+          <div>A. R does not count factors</div>
+          <div>B. aggregate() relies on pre-defined R summary functions (like length for row count, sum, or mean) rather than SQL-like keywords</div>
+          <div>C. aggregate() is strictly for averages</div>
+          <div>D. Count is a dplyr function only</div>
+        </div>
+        <div class="ans">✅ Answer: B. aggregate() relies on pre-defined R summary functions (like length for row count, sum, or mean) rather than SQL-like keywords</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">146. How do you check if a specific table named "users" exists in a SQL database connection conn?</div>
+        <div class="opts">
+          <div>A. dbExistsTable(conn, "users")</div>
+          <div>B. tableExists(conn, "users")</div>
+          <div>C. dbCheckTable(conn, "users")</div>
+          <div>D. is.table(conn, "users")</div>
+        </div>
+        <div class="ans">✅ Answer: A. dbExistsTable(conn, "users") (returns TRUE/FALSE)</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">147. What will tapply(1:10, rep(1:2, each=5), sum) return?</div>
+        <div class="opts">
+          <div>A. A dataframe of sums</div>
+          <div>B. A list containing 15 and 40</div>
+          <div>C. A named array/vector where group "1" has sum 15, and group "2" has sum 40</div>
+          <div>D. 55</div>
+        </div>
+        <div class="ans">✅ Answer: C. A named array/vector where group "1" has sum 15, and group "2" has sum 40</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">148. Which R package features a point-and-click drag-and-drop web UI to automatically generate ggplot2 graphs from data frames?</div>
+        <div class="opts">
+          <div>A. ggplotGUI</div>
+          <div>B. Esquisse</div>
+          <div>C. Rattle</div>
+          <div>D. Plotly</div>
+        </div>
+        <div class="ans">✅ Answer: B. Esquisse</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">149. What is the default output container structure of the base R by() function?</div>
+        <div class="opts">
+          <div>A. A vector of indices</div>
+          <div>B. An object of class "by", which is essentially a list-like collection containing split-applied operational outputs</div>
+          <div>C. A structured matrix</div>
+          <div>D. A standard data frame</div>
+        </div>
+        <div class="ans">✅ Answer: B. An object of class "by", which is essentially a list-like collection containing split-applied operational outputs</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">150. What is the computational advantage of connecting R to databases via DBI over loading massive flat CSVs?</div>
+        <div class="opts">
+          <div>A. Databases use less CPU during math</div>
+          <div>B. It allows executing SQL queries to filter and aggregate records on the database server side first, transferring only needed row subsets into R's active RAM</div>
+          <div>C. Relational databases support factors natively</div>
+          <div>D. There is no memory advantage</div>
+        </div>
+        <div class="ans">✅ Answer: B. It allows executing SQL queries to filter and aggregate records on the database server side first, transferring only needed row subsets into R's active RAM</div>
+      </div>
+
+      <!-- ==================== UNIT 4 MCQS (151-200) ==================== -->
+      <h3 style="margin: 30px 0 15px; color: var(--accent4); font-family: 'Inter', sans-serif; font-size: 1.15rem; border-bottom: 2px dashed var(--border); padding-bottom: 6px; display: flex; align-items: center; gap: 8px;">
+        <span>📕 Unit 4: Exploring Data Frames &amp; EDA</span>
+        <span style="background: rgba(255, 217, 61, 0.15); color: var(--accent4); font-size: 0.75rem; padding: 2px 8px; border-radius: 12px; font-weight: 700;">Q151-Q200</span>
+      </h3>
+
+      <div class="mcq">
+        <div class="q">151. What is the fundamental R data structure class of any individual column inside a Data Frame?</div>
+        <div class="opts">
+          <div>A. A sub-data frame</div>
+          <div>B. A homogeneous vector</div>
+          <div>C. A heterogeneous list</div>
+          <div>D. A dimensional matrix</div>
+        </div>
+        <div class="ans">✅ Answer: B. A homogeneous vector (Since all elements in a column must share the same type)</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">152. Which diagnostic function returns a logical vector identifying duplicate rows inside a Data Frame?</div>
+        <div class="opts">
+          <div>A. unique()</div>
+          <div>B. duplicated()</div>
+          <div>C. duplicates()</div>
+          <div>D. is.duplicate()</div>
+        </div>
+        <div class="ans">✅ Answer: B. duplicated() (Returns TRUE for second and subsequent identical rows)</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">153. For a standard Data Frame, what is the conceptual difference between calling names(df) and colnames(df)?</div>
+        <div class="opts">
+          <div>A. names() lists row indices, colnames() lists columns</div>
+          <div>B. There is no difference; both functions return the identical character vector of column header names</div>
+          <div>C. colnames() is only valid for matrices</div>
+          <div>D. names() extracts list attributes</div>
+        </div>
+        <div class="ans">✅ Answer: B. There is no difference; both functions return the identical character vector of column header names</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">154. What diagnostic information does str() show for a categorical Factor column in a data frame?</div>
+        <div class="opts">
+          <div>A. String lengths and values</div>
+          <div>B. The class type "Factor", the number of levels, and a preview of levels as internal integer codes</div>
+          <div>C. Statistical percentiles</div>
+          <div>D. Number of unique text arrays</div>
+        </div>
+        <div class="ans">✅ Answer: B. The class type "Factor", the number of levels, and a preview of levels as internal integer codes</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">155. Which R diagnostic function automatically returns descriptive statistics, outline summaries, and counts of NAs for all columns?</div>
+        <div class="opts">
+          <div>A. str()</div>
+          <div>B. summary()</div>
+          <div>C. head()</div>
+          <div>D. describe()</div>
+        </div>
+        <div class="ans">✅ Answer: B. summary()</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">156. What does the call ncol(df) evaluate to if the data frame contains zero columns?</div>
+        <div class="opts">
+          <div>A. NA</div>
+          <div>B. 0</div>
+          <div>C. NULL</div>
+          <div>D. Error</div>
+        </div>
+        <div class="ans">✅ Answer: B. 0</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">157. Which index slicing command correctly extracts rows 1 to 5 and columns 2 to 4 from a data frame df?</div>
+        <div class="opts">
+          <div>A. df[2:4, 1:5]</div>
+          <div>B. df[1:5, 2:4]</div>
+          <div>C. df[c(1:5), c(2:4)]</div>
+          <div>D. Both B and C are correct</div>
+        </div>
+        <div class="ans">✅ Answer: D. Both B and C are correct</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">158. How do you extract rows from data frame df where the numeric column "age" exceeds 30, safely avoiding returning empty NA padded rows?</div>
+        <div class="opts">
+          <div>A. df[df$age &gt; 30, ]</div>
+          <div>B. df[which(df$age &gt; 30), ]</div>
+          <div>C. subset(df, age &gt; 30)</div>
+          <div>D. Both B and C are safe methods</div>
+        </div>
+        <div class="ans">✅ Answer: D. Both B and C are safe methods (Method A will include empty NA rows if there are missing values in age; which() avoids this by stripping NA indices)</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">159. Why does standard logical indexing like df$age > 30 include NA rows in slicing results, whereas which() does not?</div>
+        <div class="opts">
+          <div>A. NA is larger than 30 in R's hierarchy</div>
+          <div>B. Slicing with logical values containing NAs returns NA rows; which() converts logical TRUEs into integer row indices, completely discarding NA cases</div>
+          <div>C. which() runs in background threads</div>
+          <div>D. logical indexing is legacy</div>
+        </div>
+        <div class="ans">✅ Answer: B. Slicing with logical values containing NAs returns NA rows; which() converts logical TRUEs into integer row indices, completely discarding NA cases</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">160. How do you rename the first column header of a Data Frame df to "ID"?</div>
+        <div class="opts">
+          <div>A. df$names[1] &lt;- "ID"</div>
+          <div>B. colnames(df)[1] &lt;- "ID"</div>
+          <div>C. names(df)[1] &lt;- "ID"</div>
+          <div>D. Both B and C work</div>
+        </div>
+        <div class="ans">✅ Answer: D. Both B and C work</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">161. In the base R merge(df1, df2) function, which parameter specifies the joining key column that exists in both data frames?</div>
+        <div class="opts">
+          <div>A. key</div>
+          <div>B. on</div>
+          <div>C. by</div>
+          <div>D. match</div>
+        </div>
+        <div class="ans">✅ Answer: C. by</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">162. How do you perform a Right Outer Join using the merge() function in R?</div>
+        <div class="opts">
+          <div>A. merge(x, y, right = TRUE)</div>
+          <div>B. merge(x, y, all.y = TRUE)</div>
+          <div>C. merge(x, y, join = "right")</div>
+          <div>D. merge(x, y, all.x = TRUE)</div>
+        </div>
+        <div class="ans">✅ Answer: B. merge(x, y, all.y = TRUE) (Keeps all records from y/Right, padding missing elements in x/Left with NA)</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">163. What is the automatic default behavior of merge(x, y) if you completely omit the "by" parameter?</div>
+        <div class="opts">
+          <div>A. It joins on row index positions</div>
+          <div>B. It merges on all columns that share the exact same names across both data frames</div>
+          <div>C. Throws a missing parameter error</div>
+          <div>D. Performs a cartesian cross product</div>
+        </div>
+        <div class="ans">✅ Answer: B. It merges on all columns that share the exact same names across both data frames</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">164. Which function binds two data frames horizontally side-by-side, without evaluating key keys?</div>
+        <div class="opts">
+          <div>A. rbind()</div>
+          <div>B. cbind()</div>
+          <div>C. merge()</div>
+          <div>D. join()</div>
+        </div>
+        <div class="ans">✅ Answer: B. cbind()</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">165. What does a Full Outer Join accomplish in relational merges?</div>
+        <div class="opts">
+          <div>A. Returns only matching rows</div>
+          <div>B. Returns all rows from both data frames, matching records where keys align, and padding unmatched elements with NA (using all=TRUE)</div>
+          <div>C. Excludes all matching keys</div>
+          <div>D. Concatenates structures row-wise</div>
+        </div>
+        <div class="ans">✅ Answer: B. Returns all rows from both data frames, matching records where keys align, and padding unmatched elements with NA (using all=TRUE)</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">166. How does R define the Interquartile Range (IQR) mathematically?</div>
+        <div class="opts">
+          <div>A. Q3 + Q1</div>
+          <div>B. Q3 - Q1 (the range of the middle 50% of the dataset)</div>
+          <div>C. (Q3 - Q1) / 2</div>
+          <div>D. Maximum - Minimum</div>
+        </div>
+        <div class="ans">✅ Answer: B. Q3 - Q1 (the range of the middle 50% of the dataset)</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">167. According to Tukey's boxplot method, what boundaries define extreme outliers?</div>
+        <div class="opts">
+          <div>A. Below Q1 - 1.5*IQR or above Q3 + 1.5*IQR</div>
+          <div>B. Below Q1 - 3*IQR or above Q3 + 3*IQR</div>
+          <div>C. Mean ± 3*SD</div>
+          <div>D. Median ± 2*MAD</div>
+        </div>
+        <div class="ans">✅ Answer: B. Below Q1 - 3*IQR or above Q3 + 3*IQR</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">168. According to boxplot statistics, what are the limits for identifying mild outliers?</div>
+        <div class="opts">
+          <div>A. Below Q1 - 1.5*IQR or above Q3 + 1.5*IQR</div>
+          <div>B. Below Q1 - 3*IQR or above Q3 + 3*IQR</div>
+          <div>C. Mean ± 1.5*SD</div>
+          <div>D. Min/Max ranges</div>
+        </div>
+        <div class="ans">✅ Answer: A. Below Q1 - 1.5*IQR or above Q3 + 1.5*IQR</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">169. How do you programmatically compute the 75th percentile (Q3) of a numeric vector x?</div>
+        <div class="opts">
+          <div>A. quantile(x, 0.75)</div>
+          <div>B. percentile(x, 75)</div>
+          <div>C. summary(x)["3rd Qu."]</div>
+          <div>D. Both A and C are correct</div>
+        </div>
+        <div class="ans">✅ Answer: D. Both A and C are correct</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">170. Which diagnostic helper function returns the exact values of outliers inside a numeric vector x?</div>
+        <div class="opts">
+          <div>A. outliers(x)</div>
+          <div>B. boxplot.stats(x)$out</div>
+          <div>C. get.outliers(x)</div>
+          <div>D. sd(x)</div>
+        </div>
+        <div class="ans">✅ Answer: B. boxplot.stats(x)$out</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">171. Why does R's built-in mean() output NA if the vector contains a single missing NA value?</div>
+        <div class="opts">
+          <div>A. NA is mathematically zero</div>
+          <div>B. To maintain mathematical veracity; an unknown element makes the total average unknown unless explicitly ignored using na.rm = TRUE</div>
+          <div>C. It is a bug in base package compilers</div>
+          <div>D. R does not calculate averages of integer types containing NA</div>
+        </div>
+        <div class="ans">✅ Answer: B. To maintain mathematical veracity; an unknown element makes the total average unknown unless explicitly ignored using na.rm = TRUE</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">172. How do you count the grand total of missing values (NAs/NaNs) across all rows and columns in a data frame df?</div>
+        <div class="opts">
+          <div>A. count(is.na(df))</div>
+          <div>B. sum(is.na(df))</div>
+          <div>C. colSums(is.na(df))</div>
+          <div>D. rowSums(is.na(df))</div>
+        </div>
+        <div class="ans">✅ Answer: B. sum(is.na(df)) (Since is.na(df) returns a logical matrix, sum() coerces TRUE to 1, counting all NAs)</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">173. What is the denominator used in R's var() function to calculate sample variance for a vector of size n?</div>
+        <div class="opts">
+          <div>A. n</div>
+          <div>B. n - 1 (Bessel's correction for unbiased sample estimate)</div>
+          <div>C. n + 1</div>
+          <div>D. Square root of n</div>
+        </div>
+        <div class="ans">✅ Answer: B. n - 1 (Bessel's correction for unbiased sample estimate)</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">174. Which function directly calculates the sample standard deviation in R?</div>
+        <div class="opts">
+          <div>A. std()</div>
+          <div>B. sd()</div>
+          <div>C. variance()</div>
+          <div>D. standard_deviation()</div>
+        </div>
+        <div class="ans">✅ Answer: B. sd() (which is the square root of var())</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">175. Why does calling mode(x) on a vector in R NOT return the statistical mode (most frequent value)?</div>
+        <div class="opts">
+          <div>A. R does not have a console mode</div>
+          <div>B. mode() is a system function that returns the internal storage mode of the R object in memory, not the statistical frequency</div>
+          <div>C. mode() calculates the median instead</div>
+          <div>D. Factors block statistical modes</div>
+        </div>
+        <div class="ans">✅ Answer: B. mode() is a system function that returns the internal storage mode of the R object in memory, not the statistical frequency</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">176. What key logical operations are combined to write a custom statistical mode function?</div>
+        <div class="opts">
+          <div>A. unique() and tabulate(match(x, unique_vals))</div>
+          <div>B. count() and group_by()</div>
+          <div>C. table() and which.max()</div>
+          <div>D. Both A and C are valid strategies</div>
+        </div>
+        <div class="ans">✅ Answer: D. Both A and C are valid strategies (table() + which.max() is simpler; unique() + tabulate() is much faster on heavy vectors)</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">177. What does subset(df, age &gt; 30, select = c(name, salary)) do?</div>
+        <div class="opts">
+          <div>A. Groups df rows where age > 30</div>
+          <div>B. Extracts rows where age > 30, returning a data frame with ONLY the name and salary columns</div>
+          <div>C. Deletes columns name and salary for age > 30</div>
+          <div>D. Modifies age in place in RAM</div>
+        </div>
+        <div class="ans">✅ Answer: B. Extracts rows where age > 30, returning a data frame with ONLY the name and salary columns</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">178. What class of object is returned when invoking quantile(x)?</div>
+        <div class="opts">
+          <div>A. A sublist</div>
+          <div>B. A named numeric vector containing values at 0%, 25%, 50%, 75%, and 100% percentiles</div>
+          <div>C. A single value</div>
+          <div>D. An ordered factor</div>
+        </div>
+        <div class="ans">✅ Answer: B. A named numeric vector containing values at 0%, 25%, 50%, 75%, and 100% percentiles</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">179. How do you find the numeric row indices of all rows in df that contain at least one NA value?</div>
+        <div class="opts">
+          <div>A. which(is.na(df))</div>
+          <div>B. which(!complete.cases(df))</div>
+          <div>C. rowSums(is.na(df))</div>
+          <div>D. na.omit(df)</div>
+        </div>
+        <div class="ans">✅ Answer: B. which(!complete.cases(df))</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">180. What type of join is executed when calling merge(df1, df2, by = "ID") by default?</div>
+        <div class="opts">
+          <div>A. Left Join</div>
+          <div>B. Inner Join</div>
+          <div>C. Full Join</div>
+          <div>D. Cross Join</div>
+        </div>
+        <div class="ans">✅ Answer: B. Inner Join (returns only matching keys)</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">181. What does row.names(df) do?</div>
+        <div class="opts">
+          <div>A. Lists column headers</div>
+          <div>B. Gets or sets the character-based identifiers of the rows of a data frame</div>
+          <div>C. Calculates the row totals</div>
+          <div>D. Reverses row ordering</div>
+        </div>
+        <div class="ans">✅ Answer: B. Gets or sets the character-based identifiers of the rows of a data frame</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">182. How do you completely remove a column named "salary" from data frame df in base R?</div>
+        <div class="opts">
+          <div>A. df$salary &lt;- NULL</div>
+          <div>B. remove(df$salary)</div>
+          <div>C. df$salary &lt;- NA</div>
+          <div>D. delete(df, "salary")</div>
+        </div>
+        <div class="ans">✅ Answer: A. df$salary &lt;- NULL (Deletes the vector and updates the dimensions of the data frame in-place)</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">183. What is the value of dim(df)[1]?</div>
+        <div class="opts">
+          <div>A. Number of columns</div>
+          <div>B. Number of rows (equivalent to nrow(df))</div>
+          <div>C. Total count of cells</div>
+          <div>D. Memory size in bytes</div>
+        </div>
+        <div class="ans">✅ Answer: B. Number of rows (equivalent to nrow(df))</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">184. What happens if you try to call cbind() on two data frames that possess different numbers of rows?</div>
+        <div class="opts">
+          <div>A. R recycles the shorter data frame</div>
+          <div>B. R throws a fatal error because of row dimension mismatch</div>
+          <div>C. Pads missing cells with NA</div>
+          <div>D. Converts the output to a list</div>
+        </div>
+        <div class="ans">✅ Answer: B. R throws a fatal error because of row dimension mismatch</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">185. What does the structural diagnostic output of str() print for a Data Frame?</div>
+        <div class="opts">
+          <div>A. Only variable types</div>
+          <div>B. The class "data.frame", number of rows and columns, column names, datatypes, and a preview of the first few values</div>
+          <div>C. SQL schemas</div>
+          <div>D. Graphical tree diagrams</div>
+        </div>
+        <div class="ans">✅ Answer: B. The class "data.frame", number of rows and columns, column names, datatypes, and a preview of the first few values</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">186. Which tidyverse package is widely known as the standard tool for rapid data frame manipulation and cleaning?</div>
+        <div class="opts">
+          <div>A. ggplot2</div>
+          <div>B. dplyr</div>
+          <div>C. readr</div>
+          <div>D. tidyr</div>
+        </div>
+        <div class="ans">✅ Answer: B. dplyr</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">187. What dplyr function corresponds to the SQL SELECT query operation?</div>
+        <div class="opts">
+          <div>A. filter()</div>
+          <div>B. select()</div>
+          <div>C. arrange()</div>
+          <div>D. mutate()</div>
+        </div>
+        <div class="ans">✅ Answer: B. select()</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">188. What dplyr function corresponds to the SQL WHERE query operation?</div>
+        <div class="opts">
+          <div>A. select()</div>
+          <div>B. filter()</div>
+          <div>C. group_by()</div>
+          <div>D. summarise()</div>
+        </div>
+        <div class="ans">✅ Answer: B. filter()</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">189. Which function should be invoked to quickly check if a vector contains ANY NA value, without returning full index details?</div>
+        <div class="opts">
+          <div>A. is.na()</div>
+          <div>B. anyNA()</div>
+          <div>C. complete.cases()</div>
+          <div>D. sum(is.na())</div>
+        </div>
+        <div class="ans">✅ Answer: B. anyNA() (highly optimized in compiled C, faster than running any(is.na(x)))</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">190. What does median(c(1, 2, 1000)) return?</div>
+        <div class="opts">
+          <div>A. 334.33</div>
+          <div>B. 2 (proving that the median is robust against extreme outliers compared to the mean)</div>
+          <div>C. 500</div>
+          <div>D. NA</div>
+        </div>
+        <div class="ans">✅ Answer: B. 2 (proving that the median is robust against extreme outliers compared to the mean)</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">191. What mathematical method does R's quantile() function utilize by default to compute percentiles on real-world datasets?</div>
+        <div class="opts">
+          <div>A. Nearest rank method</div>
+          <div>B. Linear interpolation between sorted values</div>
+          <div>C. Standard normal approximations</div>
+          <div>D. Bootstrapping counts</div>
+        </div>
+        <div class="ans">✅ Answer: B. Linear interpolation between sorted values</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">192. Which function computes both the minimum and maximum values of an object in one vector return?</div>
+        <div class="opts">
+          <div>A. minmax()</div>
+          <div>B. range()</div>
+          <div>C. summary()</div>
+          <div>D. limits()</div>
+        </div>
+        <div class="ans">✅ Answer: B. range() (Returns a vector: c(min, max))</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">193. How do you find the index position of the highest numerical value inside vector x?</div>
+        <div class="opts">
+          <div>A. max(x)</div>
+          <div>B. which.max(x)</div>
+          <div>C. order(x)[length(x)]</div>
+          <div>D. Both B and C are correct</div>
+        </div>
+        <div class="ans">✅ Answer: D. Both B and C are correct (which.max directly returns it; order sorts indices and last points to max)</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">194. How do you find the index position of the lowest numerical value inside vector x?</div>
+        <div class="opts">
+          <div>A. min(x)</div>
+          <div>B. which.min(x)</div>
+          <div>C. order(x)[1]</div>
+          <div>D. Both B and C are correct</div>
+        </div>
+        <div class="ans">✅ Answer: D. Both B and C are correct</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">195. What is the effect of calling scale(x, center = TRUE, scale = FALSE)?</div>
+        <div class="opts">
+          <div>A. Centers the data by subtracting the mean, but does NOT divide by the standard deviation (standardize variance)</div>
+          <div>B. Rescales the vector between 0 and 1</div>
+          <div>C. Leaves the vector unchanged</div>
+          <div>D. Divides elements by standard deviation without centering</div>
+        </div>
+        <div class="ans">✅ Answer: A. Centers the data by subtracting the mean, but does NOT divide by the standard deviation (standardize variance)</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">196. How do you calculate the arithmetic means for all columns of a data frame df having only numeric variables?</div>
+        <div class="opts">
+          <div>A. rowMeans(df)</div>
+          <div>B. colMeans(df)</div>
+          <div>C. apply(df, 2, mean)</div>
+          <div>D. Both B and C are correct</div>
+        </div>
+        <div class="ans">✅ Answer: D. Both B and C are correct</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">197. What does calling sapply(df, is.numeric) do?</div>
+        <div class="opts">
+          <div>A. Converts df columns to numbers</div>
+          <div>B. Returns a named logical vector indicating which column variables of df are numeric class</div>
+          <div>C. Removes character columns</div>
+          <div>D. Prints column statistics</div>
+        </div>
+        <div class="ans">✅ Answer: B. Returns a named logical vector indicating which column variables of df are numeric class</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">198. How do you replace all NA elements inside column "age" of data frame df with the value 0?</div>
+        <div class="opts">
+          <div>A. df$age &lt;- 0</div>
+          <div>B. df$age[is.na(df$age)] &lt;- 0</div>
+          <div>C. df$age[df$age == NA] &lt;- 0</div>
+          <div>D. na.omit(df$age) &lt;- 0</div>
+        </div>
+        <div class="ans">✅ Answer: B. df$age[is.na(df$age)] &lt;- 0 (Must use is.na(); checking == NA returns NA logically)</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">199. What does the function is.data.frame(x) verify?</div>
+        <div class="opts">
+          <div>A. Creates a new data frame</div>
+          <div>B. Returns TRUE if the object x belongs to the "data.frame" class; FALSE otherwise</div>
+          <div>C. Returns columns count</div>
+          <div>D. Converts a matrix to data frame</div>
+        </div>
+        <div class="ans">✅ Answer: B. Returns TRUE if the object x belongs to the "data.frame" class; FALSE otherwise</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">200. What is the default naming convention assigned to rows when creating a data frame in R?</div>
+        <div class="opts">
+          <div>A. Empty strings ""</div>
+          <div>B. Character representations of sequence integers starting from 1: "1", "2", "3", ...</div>
+          <div>C. R_1, R_2, R_3...</div>
+          <div>D. Row indices are left completely NULL</div>
+        </div>
+        <div class="ans">✅ Answer: B. Character representations of sequence integers starting from 1: "1", "2", "3", ...</div>
+      </div>
+
+      <!-- ==================== UNIT 5 MCQS (201-250) ==================== -->
+      <h3 style="margin: 30px 0 15px; color: var(--accent3); font-family: 'Inter', sans-serif; font-size: 1.15rem; border-bottom: 2px dashed var(--border); padding-bottom: 6px; display: flex; align-items: center; gap: 8px;">
+        <span>📘 Unit 5: Visualizations &amp; ggplot2</span>
+        <span style="background: rgba(0, 212, 170, 0.15); color: var(--accent3); font-size: 0.75rem; padding: 2px 8px; border-radius: 12px; font-weight: 700;">Q201-Q250</span>
+      </h3>
+
+      <div class="mcq">
+        <div class="q">201. Which base R graphics function is specifically designed to create histograms showing density or frequency counts of continuous data?</div>
+        <div class="opts">
+          <div>A. barplot()</div>
+          <div>B. hist()</div>
+          <div>C. plot()</div>
+          <div>D. geom_histogram()</div>
+        </div>
+        <div class="ans">✅ Answer: B. hist()</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">202. What does calling plot(x, y) produce if both variables x and y are numeric vectors?</div>
+        <div class="opts">
+          <div>A. A bar chart</div>
+          <div>B. A scatter plot</div>
+          <div>C. A line chart</div>
+          <div>D. A boxplot</div>
+        </div>
+        <div class="ans">✅ Answer: B. A scatter plot</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">203. Which base graphic function accepts formula notation (e.g. weight ~ group) to show numeric distributions split by factor groups?</div>
+        <div class="opts">
+          <div>A. hist()</div>
+          <div>B. boxplot()</div>
+          <div>C. barplot()</div>
+          <div>D. plot()</div>
+        </div>
+        <div class="ans">✅ Answer: B. boxplot()</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">204. How do you append a main title heading to any base R plot?</div>
+        <div class="opts">
+          <div>A. plot(..., title = "Title")</div>
+          <div>B. plot(..., main = "Title")</div>
+          <div>C. plot(..., header = "Title")</div>
+          <div>D. title("Title") (as a separate call only)</div>
+        </div>
+        <div class="ans">✅ Answer: B. plot(..., main = "Title") (Although calling title("Title") afterwards also overlays it)</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">205. In base graphics, which parameter changes the plotting symbol shape (e.g. circles, squares, triangles) inside a scatter plot?</div>
+        <div class="opts">
+          <div>A. symbol</div>
+          <div>B. pch</div>
+          <div>C. lty</div>
+          <div>D. type</div>
+        </div>
+        <div class="ans">✅ Answer: B. pch (Point Character, accepts integer values from 0 to 25)</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">206. In base graphics, what does the parameter col control?</div>
+        <div class="opts">
+          <div>A. Number of columns in multi-plots</div>
+          <div>B. The color of points, lines, borders, or text elements</div>
+          <div>C. Column selections</div>
+          <div>D. Label rotation degrees</div>
+        </div>
+        <div class="ans">✅ Answer: B. The color of points, lines, borders, or text elements</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">207. Who initially authored the conceptual framework of the "Grammar of Graphics" published in 1999?</div>
+        <div class="opts">
+          <div>A. Hadley Wickham</div>
+          <div>B. Leland Wilkinson</div>
+          <div>C. John Tukey</div>
+          <div>D. Robert Gentleman</div>
+        </div>
+        <div class="ans">✅ Answer: B. Leland Wilkinson (Hadley Wickham built ggplot2 as a programmatic implementation of this book)</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">208. What is the fundamental conceptual design philosophy behind ggplot2?</div>
+        <div class="opts">
+          <div>A. Speeding up plotting using hardware accelerators</div>
+          <div>B. Creating graphs by adding modular layers (data, aesthetic mappings, geometries, scales, coordinates, and themes)</div>
+          <div>C. Plotting 3D matrices</div>
+          <div>D. Running charts in web browsers only</div>
+        </div>
+        <div class="ans">✅ Answer: B. Creating graphs by adding modular layers (data, aesthetic mappings, geometries, scales, coordinates, and themes)</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">209. What is the core role of the aes() function in ggplot2 plotting workflows?</div>
+        <div class="opts">
+          <div>A. Adjusting fonts and background borders</div>
+          <div>B. Mapping data variables to visual aesthetic properties (x, y coordinate axes, color gradients, shapes, sizes)</div>
+          <div>C. Defining the geometry type</div>
+          <div>D. Rendering grids</div>
+        </div>
+        <div class="ans">✅ Answer: B. Mapping data variables to visual aesthetic properties (x, y coordinate axes, color gradients, shapes, sizes)</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">210. Which ggplot2 geometric layer is used to create a Box-and-Whisker plot?</div>
+        <div class="opts">
+          <div>A. geom_box()</div>
+          <div>B. geom_boxplot()</div>
+          <div>C. geom_whisker()</div>
+          <div>D. geom_bar()</div>
+        </div>
+        <div class="ans">✅ Answer: B. geom_boxplot()</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">211. Which layer is designed to display continuous probability density curves of a numeric variable?</div>
+        <div class="opts">
+          <div>A. geom_line()</div>
+          <div>B. geom_density()</div>
+          <div>C. geom_histogram()</div>
+          <div>D. geom_freqpoly()</div>
+        </div>
+        <div class="ans">✅ Answer: B. geom_density()</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">212. How do you facet / split a ggplot2 visual into a grid of independent subpanels based on levels of a categorical variable "gender"?</div>
+        <div class="opts">
+          <div>A. facet_wrap(~ gender)</div>
+          <div>B. split_plot(gender)</div>
+          <div>C. grid_panels(gender)</div>
+          <div>D. facet_grid(gender)</div>
+        </div>
+        <div class="ans">✅ Answer: A. facet_wrap(~ gender)</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">213. What operator must be utilized to append geometric layers, labels, and themes to a base ggplot() object?</div>
+        <div class="opts">
+          <div>A. Pipe operator %&gt;%</div>
+          <div>B. Plus operator +</div>
+          <div>C. Double colon ::</div>
+          <div>D. Semicolon ;</div>
+        </div>
+        <div class="ans">✅ Answer: B. Plus operator +</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">214. How do you configure customized axis labels and chart titles inside a ggplot2 call?</div>
+        <div class="opts">
+          <div>A. xlabs() and ylabs() calls</div>
+          <div>B. title() overlays</div>
+          <div>C. labs(title = "...", x = "...", y = "...")</div>
+          <div>D. Both A and C work</div>
+        </div>
+        <div class="ans">✅ Answer: C. labs(title = "...", x = "...", y = "...")</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">215. What visual/logical difference occurs when mapping color = "red" INSIDE aes() versus setting color = "red" OUTSIDE aes()?</div>
+        <div class="opts">
+          <div>A. Inside aes() is twice as fast</div>
+          <div>B. Inside aes() maps the constant string "red" as a category level, drawing a legend; setting it outside aes() directly colors the geometry red without legends</div>
+          <div>C. Outside aes() throws a compilation warning</div>
+          <div>D. There is no visual difference</div>
+        </div>
+        <div class="ans">✅ Answer: B. Inside aes() maps the constant string "red" as a category level, drawing a legend; setting it outside aes() directly colors the geometry red without legends</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">216. Which ggplot2 geometry represents statistical model fits, overlaying standard errors and confidence intervals?</div>
+        <div class="opts">
+          <div>A. geom_line()</div>
+          <div>B. geom_smooth()</div>
+          <div>C. geom_regression()</div>
+          <div>D. geom_model()</div>
+        </div>
+        <div class="ans">✅ Answer: B. geom_smooth()</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">217. Which R function parses a continuous numeric vector and groups values into ordered categorical factor bins?</div>
         <div class="opts">
           <div>A. factor()</div>
           <div>B. cut()</div>
           <div>C. discrete()</div>
-          <div>D. as.category()</div>
+          <div>D. split()</div>
         </div>
         <div class="ans">✅ Answer: B. cut()</div>
       </div>
 
       <div class="mcq">
-        <div class="q">14. IQR stands for?</div>
+        <div class="q">218. What does calling cut(x, breaks = 3) do?</div>
         <div class="opts">
-          <div>A. Internal Quality Range</div>
-          <div>B. Inter-Quartile Range</div>
-          <div>C. Interquartile Ratio</div>
-          <div>D. Index Quality Range</div>
+          <div>A. Splices the vector into 3 smaller vectors</div>
+          <div>B. Automatically divides the numeric range of x into 3 equal-width ordered interval categories</div>
+          <div>C. Deletes elements outside 3 standard deviations</div>
+          <div>D. Orders elements ascendingly</div>
         </div>
-        <div class="ans">✅ Answer: B. Inter-Quartile Range (Q3 - Q1)</div>
+        <div class="ans">✅ Answer: B. Automatically divides the numeric range of x into 3 equal-width ordered interval categories</div>
       </div>
 
       <div class="mcq">
-        <div class="q">15. Which package is used to read Excel files in R?</div>
+        <div class="q">219. What class type is returned when running the cut() operation?</div>
         <div class="opts">
-          <div>A. readxl</div>
-          <div>B. xlsx</div>
-          <div>C. excel</div>
-          <div>D. Both A and B</div>
+          <div>A. "numeric"</div>
+          <div>B. "ordered factor" (inheriting from "factor")</div>
+          <div>C. "character"</div>
+          <div>D. "list"</div>
         </div>
-        <div class="ans">✅ Answer: D. Both readxl and xlsx packages work</div>
+        <div class="ans">✅ Answer: B. "ordered factor" (inheriting from "factor")</div>
       </div>
 
       <div class="mcq">
-        <div class="q">16. What does set.seed(42) do?</div>
+        <div class="q">220. What is the role of the labels parameter in the cut() function?</div>
         <div class="opts">
-          <div>A. Sets random seed for reproducibility</div>
-          <div>B. Creates 42 random numbers</div>
-          <div>C. Sets the sample size</div>
-          <div>D. Initializes a dataset</div>
+          <div>A. Sets the plot axis tags</div>
+          <div>B. Replaces default mathematical interval notation labels (like "(0, 10]") with user-defined names (like "Low", "Medium", "High")</div>
+          <div>C. Groups datasets alphabetically</div>
+          <div>D. Counts element frequency</div>
         </div>
-        <div class="ans">✅ Answer: A. Sets random seed for reproducibility</div>
+        <div class="ans">✅ Answer: B. Replaces default mathematical interval notation labels (like "(0, 10]") with user-defined names (like "Low", "Medium", "High")</div>
       </div>
 
       <div class="mcq">
-        <div class="q">17. In merge(df1, df2, by="ID", all.x=TRUE), what type of join is performed?</div>
+        <div class="q">221. What is the exact mathematical boundary range of a Min-Max normalized variable?</div>
         <div class="opts">
-          <div>A. Inner join</div>
-          <div>B. Right join</div>
-          <div>C. Left join</div>
-          <div>D. Full outer join</div>
+          <div>A. [-1, 1]</div>
+          <div>B. [0, 1]</div>
+          <div>C. Mean of 0, standard deviation of 1</div>
+          <div>D. Dynamic boundaries depending on size</div>
         </div>
-        <div class="ans">✅ Answer: C. Left join (keeps all rows from df1)</div>
+        <div class="ans">✅ Answer: B. [0, 1]</div>
       </div>
 
       <div class="mcq">
-        <div class="q">18. Which function reads JSON data in R?</div>
+        <div class="q">222. What is the correct formula for Min-Max normalization of vector x?</div>
         <div class="opts">
-          <div>A. read.json()</div>
-          <div>B. fromJSON() from jsonlite</div>
-          <div>C. json.read()</div>
-          <div>D. parseJSON()</div>
+          <div>A. (x - mean(x)) / sd(x)</div>
+          <div>B. (x - min(x)) / (max(x) - min(x))</div>
+          <div>C. x / sum(x)</div>
+          <div>D. log(x)</div>
         </div>
-        <div class="ans">✅ Answer: B. fromJSON() from jsonlite package</div>
+        <div class="ans">✅ Answer: B. (x - min(x)) / (max(x) - min(x))</div>
       </div>
 
       <div class="mcq">
-        <div class="q">19. A data frame column can have different data types?</div>
+        <div class="q">223. What statistical standardization is computed when running the base call scale(x) with default parameters?</div>
         <div class="opts">
-          <div>A. TRUE — each row can have different types</div>
-          <div>B. FALSE — all columns must be same type</div>
-          <div>C. TRUE — each column can have different types</div>
-          <div>D. FALSE — only numeric data allowed</div>
+          <div>A. Min-Max normalization</div>
+          <div>B. Z-score standardization (subtracts vector mean, divides by standard deviation, giving mean=0, SD=1)</div>
+          <div>C. Log transformations</div>
+          <div>D. Decimal scaling</div>
         </div>
-        <div class="ans">✅ Answer: C. Each column can have a different data type (unlike matrices)</div>
+        <div class="ans">✅ Answer: B. Z-score standardization (subtracts vector mean, divides by standard deviation, giving mean=0, SD=1)</div>
       </div>
 
       <div class="mcq">
-        <div class="q">20. A value is an outlier if it is beyond:</div>
+        <div class="q">224. What is the formula for Z-score standardization?</div>
         <div class="opts">
-          <div>A. Q1 - IQR or Q3 + IQR</div>
-          <div>B. Q1 - 1.5*IQR or Q3 + 1.5*IQR</div>
-          <div>C. Mean ± 2*SD</div>
-          <div>D. Min - 1 or Max + 1</div>
+          <div>A. (x - min(x)) / (max(x) - min(x))</div>
+          <div>B. (x - mean(x)) / sd(x)</div>
+          <div>C. (x - median(x)) / mad(x)</div>
+          <div>D. x - mean(x)</div>
         </div>
-        <div class="ans">✅ Answer: B. Q1 - 1.5*IQR or Q3 + 1.5*IQR</div>
+        <div class="ans">✅ Answer: B. (x - mean(x)) / sd(x)</div>
       </div>
 
       <div class="mcq">
-        <div class="q">21. Which ggplot2 layer adds labels and title?</div>
+        <div class="q">225. Why is scaling / standardizing continuous variables highly critical prior to executing K-means or KNN modeling?</div>
         <div class="opts">
-          <div>A. geom_text()</div>
-          <div>B. labs()</div>
-          <div>C. title()</div>
-          <div>D. label()</div>
+          <div>A. It makes the algorithms run twice as fast</div>
+          <div>B. It standardizes variables having different scales, ensuring columns with massive absolute values do not mathematically dominate distance calculations</div>
+          <div>C. It converts text columns to factors</div>
+          <div>D. It eliminates missing data values</div>
         </div>
-        <div class="ans">✅ Answer: B. labs(title="...", x="...", y="...")</div>
+        <div class="ans">✅ Answer: B. It standardizes variables having different scales, ensuring columns with massive absolute values do not mathematically dominate distance calculations</div>
       </div>
 
       <div class="mcq">
-        <div class="q">22. What is the default value of header in read.table()?</div>
+        <div class="q">226. What does set.seed(123) accomplish inside reproducible R scripts?</div>
         <div class="opts">
-          <div>A. TRUE</div>
-          <div>B. FALSE</div>
-          <div>C. NULL</div>
-          <div>D. NA</div>
+          <div>A. Creates 123 random integers</div>
+          <div>B. Forces R's pseudo-random number generator to start at a locked seed, guaranteeing identical outputs every time random selections are run</div>
+          <div>C. Speeds up data parsing processes</div>
+          <div>D. Reserves RAM blocks</div>
         </div>
-        <div class="ans">✅ Answer: B. FALSE (unlike read.csv which defaults to TRUE)</div>
+        <div class="ans">✅ Answer: B. Forces R's pseudo-random number generator to start at a locked seed, guaranteeing identical outputs every time random selections are run</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">227. How do you draw a random sample of 70% of row indices from a data frame df?</div>
+        <div class="opts">
+          <div>A. sample(1:nrow(df), 0.7)</div>
+          <div>B. sample(1:nrow(df), size = 0.7 * nrow(df))</div>
+          <div>C. sample(df, 0.7)</div>
+          <div>D. df[sample(0.7), ]</div>
+        </div>
+        <div class="ans">✅ Answer: B. sample(1:nrow(df), size = 0.7 * nrow(df))</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">228. Why is a Train-Test split performed in data science?</div>
+        <div class="opts">
+          <div>A. To check for missing values</div>
+          <div>B. To train models on one subset of data and validate generalized performance on an independent unseen subset, detecting overfitting</div>
+          <div>C. To double matrix sizes</div>
+          <div>D. To scale categories</div>
+        </div>
+        <div class="ans">✅ Answer: B. To train models on one subset of data and validate generalized performance on an independent unseen subset, detecting overfitting</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">229. What is the standard ratio division used in classical train-test splits?</div>
+        <div class="opts">
+          <div>A. 50/50</div>
+          <div>B. Usually 70% Train, 30% Test (or 80/20)</div>
+          <div>C. 99% Train, 1% Test</div>
+          <div>D. 100% Train only</div>
+        </div>
+        <div class="ans">✅ Answer: B. Usually 70% Train, 30% Test (or 80/20)</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">230. Which base function plots bar charts of categorical counts?</div>
+        <div class="opts">
+          <div>A. barplot(x)</div>
+          <div>B. barplot(table(x))</div>
+          <div>C. plot(x)</div>
+          <div>D. hist(x)</div>
+        </div>
+        <div class="ans">✅ Answer: B. barplot(table(x)) (Must pass categorical frequencies computed by table(), otherwise it attempts to plot raw vector values)</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">231. What does the parameter las = 2 represent inside base R plotting function parameters?</div>
+        <div class="opts">
+          <div>A. Sets line style to dashed</div>
+          <div>B. Rotates all axis labels to be strictly perpendicular to the axis line (highly useful for long categorical labels)</div>
+          <div>C. Sets grid spacing</div>
+          <div>D. Colors bars in blue</div>
+        </div>
+        <div class="ans">✅ Answer: B. Rotates all axis labels to be strictly perpendicular to the axis line (highly useful for long categorical labels)</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">232. How do you overlay a continuous density curve on top of an active base histogram?</div>
+        <div class="opts">
+          <div>A. lines(density(x)) (called after plotting hist(x, probability = TRUE))</div>
+          <div>B. overlay(density(x))</div>
+          <div>C. plot(density(x))</div>
+          <div>D. hist(density(x))</div>
+        </div>
+        <div class="ans">✅ Answer: A. lines(density(x)) (called after plotting hist(x, probability = TRUE))</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">233. What does geom_histogram(binwidth = 5) specify in ggplot2?</div>
+        <div class="opts">
+          <div>A. Bins continuous variables in groups of 5 counts</div>
+          <div>B. Creates histogram bars that represent 5 units along the x-axis scale range</div>
+          <div>C. Draws exactly 5 bars</div>
+          <div>D. Adjusts line widths</div>
+        </div>
+        <div class="ans">✅ Answer: B. Creates histogram bars that represent 5 units along the x-axis scale range</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">234. Which preset theme replaces default grey backgrounds with clean minimalist white layouts and grids in ggplot2?</div>
+        <div class="opts">
+          <div>A. theme_void()</div>
+          <div>B. theme_bw()</div>
+          <div>C. theme_classic() (completely removes grids)</div>
+          <div>D. Both B and C are valid choices</div>
+        </div>
+        <div class="ans">✅ Answer: D. Both B and C are valid choices</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">235. Which ggplot2 helper function directly exports the active plot canvas to a local hard drive image or PDF?</div>
+        <div class="opts">
+          <div>A. saveplot()</div>
+          <div>B. ggsave()</div>
+          <div>C. png()</div>
+          <div>D. export_ggplot()</div>
+        </div>
+        <div class="ans">✅ Answer: B. ggsave()</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">236. How does ggsave("chart.png") deduce what image codec or format to write during saving?</div>
+        <div class="opts">
+          <div>A. It always saves as PNG default</div>
+          <div>B. It automatically parses the file name extension (e.g. .png, .pdf, .jpeg, .svg) and writes the correct format</div>
+          <div>C. Prompts a file dialog box</div>
+          <div>D. Requires an explicit format parameter</div>
+        </div>
+        <div class="ans">✅ Answer: B. It automatically parses the file name extension (e.g. .png, .pdf, .jpeg, .svg) and writes the correct format</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">237. Which aesthetic mapping parameter is used to color the interior fill area of closed geometries (like bars, boxes, or areas)?</div>
+        <div class="opts">
+          <div>A. color</div>
+          <div>B. fill</div>
+          <div>C. bg</div>
+          <div>D. paint</div>
+        </div>
+        <div class="ans">✅ Answer: B. fill</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">238. In ggplot2 mapping parameters, what does the parameter color control on solid bars or boxplots?</div>
+        <div class="opts">
+          <div>A. The interior fill color</div>
+          <div>B. The color of the boundary outlines, points, or drawing lines only</div>
+          <div>C. The gridlines color</div>
+          <div>D. Background canvas tint</div>
+        </div>
+        <div class="ans">✅ Answer: B. The color of the boundary outlines, points, or drawing lines only</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">239. What does the parameter alpha control inside a geometric layer call?</div>
+        <div class="opts">
+          <div>A. Font sizes</div>
+          <div>B. The transparency of the geometry elements, ranging from 0 (fully transparent) to 1 (solid opaque)</div>
+          <div>C. Sorting categories alphabetically</div>
+          <div>D. Legend layout alignment</div>
+        </div>
+        <div class="ans">✅ Answer: B. The transparency of the geometry elements, ranging from 0 (fully transparent) to 1 (solid opaque)</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">240. Which coordinate layer is added to flip coordinates, rotating x-axis and y-axis elements 90 degrees?</div>
+        <div class="opts">
+          <div>A. coord_rotate()</div>
+          <div>B. coord_flip()</div>
+          <div>C. scale_x_reverse()</div>
+          <div>D. coord_polar()</div>
+        </div>
+        <div class="ans">✅ Answer: B. coord_flip()</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">241. What statistical data range does the solid rectangular box of a Boxplot outline?</div>
+        <div class="opts">
+          <div>A. Minimum to Maximum</div>
+          <div>B. The middle 50% of the observations, spanning from the 1st Quartile (Q1) to the 3rd Quartile (Q3)</div>
+          <div>C. Mean ± 1 Standard Deviation</div>
+          <div>D. The range of mild outliers</div>
+        </div>
+        <div class="ans">✅ Answer: B. The middle 50% of the observations, spanning from the 1st Quartile (Q1) to the 3rd Quartile (Q3)</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">242. In a boxplot, what does the bold horizontal line inside the box represent?</div>
+        <div class="opts">
+          <div>A. The Mean</div>
+          <div>B. The Median (50th percentile)</div>
+          <div>C. The Mode</div>
+          <div>D. Standard Error</div>
+        </div>
+        <div class="ans">✅ Answer: B. The Median (50th percentile)</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">243. How do you specify custom segment intervals inside the cut() function?</div>
+        <div class="opts">
+          <div>A. Passing a numeric vector of boundary thresholds to the breaks parameter (e.g. breaks = c(0, 10, 50, 100))</div>
+          <div>B. Passing segment sizes to the size parameter</div>
+          <div>C. Using the intervals parameter</div>
+          <div>D. Setting labels inside cut()</div>
+        </div>
+        <div class="ans">✅ Answer: A. Passing a numeric vector of boundary thresholds to the breaks parameter (e.g. breaks = c(0, 10, 50, 100))</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">244. What happens when a numeric element lands exactly on a boundary threshold in cut(x, breaks)?</div>
+        <div class="opts">
+          <div>A. It splits between both bins</div>
+          <div>B. By default, intervals are closed on the right and open on the left (a, b], so the element belongs to the lower category (unless right = FALSE is set)</div>
+          <div>C. R throws an element conflict warning</div>
+          <div>D. It is assigned to NA</div>
+        </div>
+        <div class="ans">✅ Answer: B. By default, intervals are closed on the right and open on the left (a, b], so the element belongs to the lower category (unless right = FALSE is set)</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">245. What happens when you pass a multi-column Matrix into the scale() function?</div>
+        <div class="opts">
+          <div>A. Standardizes all matrix cells as one vector</div>
+          <div>B. Centers and standardizes each column of the matrix independently</div>
+          <div>C. Throws a dimensional input error</div>
+          <div>D. Converts the matrix to a factor</div>
+        </div>
+        <div class="ans">✅ Answer: B. Centers and standardizes each column of the matrix independently</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">246. How do you perform random sampling of elements without allowing duplicate selections?</div>
+        <div class="opts">
+          <div>A. sample(x, size, replace = TRUE)</div>
+          <div>B. sample(x, size, replace = FALSE)</div>
+          <div>C. sample(x, size)</div>
+          <div>D. Both B and C are correct</div>
+        </div>
+        <div class="ans">✅ Answer: D. Both B and C are correct (Default parameter is replace = FALSE)</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">247. What is the visual consequence of choosing sample(x, size, replace = TRUE)?</div>
+        <div class="opts">
+          <div>A. Draws faster from RAM</div>
+          <div>B. Allows elements to be drawn multiple times (enabling duplication inside the output sample)</div>
+          <div>C. Discards factors levels</div>
+          <div>D. Throws warning messages</div>
+        </div>
+        <div class="ans">✅ Answer: B. Allows elements to be drawn multiple times (enabling duplication inside the output sample)</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">248. Which R package is highly utilized in predictive analytics for partition splitting, cross-validation, and hyperparameter tuning?</div>
+        <div class="opts">
+          <div>A. dplyr</div>
+          <div>B. caret</div>
+          <div>C. ggplot2</div>
+          <div>D. forecast</div>
+        </div>
+        <div class="ans">✅ Answer: B. caret</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">249. In ggplot2, how do you overlay a linear regression line on a scatter plot?</div>
+        <div class="opts">
+          <div>A. geom_smooth(method = "lm")</div>
+          <div>B. geom_line(type = "regression")</div>
+          <div>C. geom_smooth(method = "loess")</div>
+          <div>D. geom_abline() (only handles raw manual intercept/slope)</div>
+        </div>
+        <div class="ans">✅ Answer: A. geom_smooth(method = "lm")</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">250. What mathematical regression method is fitted by geom_smooth() if you completely omit the method parameter for datasets having under 1000 observations?</div>
+        <div class="opts">
+          <div>A. Linear regression model (lm)</div>
+          <div>B. Local polynomial regression (loess)</div>
+          <div>C. Generalized additive models (gam)</div>
+          <div>D. Spline interpolations</div>
+        </div>
+        <div class="ans">✅ Answer: B. Local polynomial regression (loess)</div>
       </div>
 
     </div>
