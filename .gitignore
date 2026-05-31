@@ -1,0 +1,17 @@
+# Compiled class files
+*.class
+
+# Compiled package directories at the root only
+/Company/
+/PayrollManagement/
+/application/
+/books/
+/customerui/
+/generics/
+/jdbcui/
+/missedcalls/
+/palindrome/
+/password/
+/queue/
+/stringoperations/
+/studentui/

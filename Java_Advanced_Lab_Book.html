@@ -1,0 +1,3062 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Java Programming Lab — Premium Student Study Portal</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Inline CSS for Premium Design System -->
+    <style>
+        :root {
+            --bg-dark: #070b13;
+            --bg-panel: #0c1322;
+            --bg-card: #131e33;
+            --bg-card-hover: #192742;
+            --primary: #f89820; /* Java Amber Orange */
+            --primary-hover: #e07f10;
+            --primary-glow: rgba(248, 152, 32, 0.35);
+            --accent-cyan: #06b6d4; /* Neon Teal */
+            --accent-emerald: #10b981;
+            --accent-amber: #f59e0b;
+            --accent-rose: #f43f5e;
+            --border-color: #1e293b;
+            --border-color-hover: #334155;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --sidebar-width: 290px;
+            --font-display: 'Outfit', sans-serif;
+            --font-sans: 'Inter', sans-serif;
+            --font-mono: 'Fira Code', monospace;
+            --card-radius: 16px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-dark);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #334155;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            color: var(--text-secondary);
+            background-color: var(--bg-dark);
+            line-height: 1.6;
+            display: flex;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* SIDEBAR STYLING */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--bg-panel);
+            border-right: 1px solid var(--border-color);
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            padding: 30px 24px;
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+            transition: var(--transition);
+            overflow-y: auto;
+        }
+
+        .sidebar-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 35px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .sidebar-logo {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent-cyan) 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            font-weight: 800;
+            color: white;
+            font-size: 1.3rem;
+            box-shadow: 0 4px 14px var(--primary-glow);
+        }
+
+        .brand-meta h1 {
+            font-family: var(--font-display);
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+        }
+
+        .brand-meta p {
+            font-size: 0.75rem;
+            color: var(--primary);
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .search-box {
+            position: relative;
+            margin-bottom: 24px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 10px 14px 10px 38px;
+            background-color: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-size: 0.85rem;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .search-box input:focus {
+            border-color: var(--primary);
+            background-color: rgba(255, 255, 255, 0.04);
+            box-shadow: 0 0 10px rgba(248, 152, 32, 0.15);
+        }
+
+        .search-box svg {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            stroke: var(--text-muted);
+            fill: none;
+            stroke-width: 2;
+        }
+
+        .nav-menu {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 40px;
+        }
+
+        .nav-header {
+            font-family: var(--font-display);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: var(--text-muted);
+            letter-spacing: 0.1em;
+            margin-top: 15px;
+            margin-bottom: 8px;
+            padding-left: 12px;
+        }
+
+        .nav-item {
+            padding: 12px 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-family: var(--font-display);
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            background-color: transparent;
+            color: var(--text-secondary);
+            border: 1px solid transparent;
+            text-align: left;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nav-item svg {
+            width: 18px;
+            height: 18px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+            transition: var(--transition);
+        }
+
+        .nav-item:hover {
+            background-color: rgba(255, 255, 255, 0.03);
+            color: var(--text-primary);
+            border-color: var(--border-color);
+        }
+
+        .nav-item.active {
+            background: linear-gradient(135deg, var(--primary) 0%, rgba(248, 152, 32, 0.7) 100%);
+            color: white;
+            box-shadow: 0 4px 15px var(--primary-glow);
+            border-color: transparent;
+        }
+
+        .sidebar-footer {
+            margin-top: auto;
+            background-color: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .sidebar-footer p {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .sidebar-footer strong {
+            font-size: 0.8rem;
+            color: var(--text-primary);
+            display: block;
+        }
+
+        /* MAIN CONTENT AREA */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            flex: 1;
+            padding: 30px 40px;
+            max-width: 100%;
+            transition: var(--transition);
+        }
+
+        .lab-section {
+            display: none;
+        }
+
+        .lab-section.active {
+            display: block;
+            animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* HERO CARD */
+        .hero-card {
+            background: linear-gradient(135deg, #18110b 0%, #070b13 100%);
+            border: 1px solid var(--primary);
+            border-radius: var(--card-radius);
+            padding: 40px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent-cyan));
+        }
+
+        .hero-card-tag {
+            background-color: rgba(248, 152, 32, 0.15);
+            color: var(--primary);
+            border: 1px solid rgba(248, 152, 32, 0.3);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+        .hero-card h2 {
+            font-family: var(--font-display);
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-card p {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            max-width: 850px;
+        }
+
+        /* CORE GRID PANELS */
+        .card {
+            background-color: var(--bg-panel);
+            border: 1px solid var(--border-color);
+            border-radius: var(--card-radius);
+            padding: 28px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-header {
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .card-title {
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-title svg {
+            width: 22px;
+            height: 22px;
+            stroke: var(--primary);
+            fill: none;
+            stroke-width: 2;
+        }
+
+        /* CODE VIEWER COMPONENT */
+        .code-container {
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            background-color: var(--bg-dark);
+            margin-bottom: 25px;
+        }
+
+        .code-tabs {
+            background-color: var(--bg-panel);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            flex-wrap: wrap;
+            padding: 8px 12px 0;
+            gap: 4px;
+        }
+
+        .code-tab {
+            background-color: transparent;
+            border: 1px solid transparent;
+            border-bottom: none;
+            color: var(--text-secondary);
+            padding: 8px 16px;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            font-weight: 600;
+            border-radius: 6px 6px 0 0;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .code-tab:hover {
+            color: var(--text-primary);
+            background-color: rgba(255, 255, 255, 0.02);
+        }
+
+        .code-tab.active {
+            background-color: var(--bg-dark);
+            color: var(--primary);
+            border-color: var(--border-color);
+            position: relative;
+        }
+
+        .code-content {
+            display: none;
+            max-height: 550px;
+            overflow-y: auto;
+        }
+
+        .code-content.active {
+            display: block;
+        }
+
+        pre {
+            margin: 0;
+            padding: 20px;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            line-height: 1.65;
+            color: #e2e8f0;
+            background-color: #090d16;
+            white-space: pre-wrap;
+        }
+
+        /* VIVA NOTES */
+        .viva-card {
+            background-color: rgba(248, 152, 32, 0.04);
+            border: 1px solid rgba(248, 152, 32, 0.15);
+            border-left: 5px solid var(--primary);
+            border-radius: 12px;
+            padding: 24px;
+            margin-top: 25px;
+        }
+
+        .viva-title {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--primary);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .viva-notes-wrap {
+            font-family: 'Caveat', cursive;
+            font-size: 1.25rem;
+            color: var(--accent-gold);
+            line-height: 1.5;
+        }
+
+        .viva-q {
+            font-weight: 700;
+            margin-top: 8px;
+            color: var(--text-primary);
+        }
+
+        .viva-a {
+            padding-left: 15px;
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+        }
+
+        /* MONOSPACED COMPILE GUIDES */
+        .compile-guide {
+            background-color: #05070c;
+            border: 1px solid #162235;
+            border-radius: 8px;
+            padding: 16px;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--accent-cyan);
+            margin-top: 15px;
+        }
+
+        .compile-guide .cmd {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* STATS GRID ON COVER */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .stat-card {
+            background-color: var(--bg-panel);
+            border: 1px solid var(--border-color);
+            border-radius: var(--card-radius);
+            padding: 20px;
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--primary);
+        }
+
+        .stat-value {
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+        }
+
+        /* MOBILE HEADER & HAMBURGER */
+        .mobile-header {
+            display: none;
+            background-color: var(--bg-panel);
+            border-bottom: 1px solid var(--border-color);
+            padding: 12px 20px;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 99;
+            width: 100%;
+        }
+
+        .mobile-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .mobile-brand h2 {
+            font-family: var(--font-display);
+            font-size: 1.05rem;
+            color: var(--text-primary);
+        }
+
+        .hamburger {
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hamburger svg {
+            width: 24px;
+            height: 24px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+        }
+
+        /* RESPONSIVE DESIGN */
+        @media (max-width: 1024px) {
+            body {
+                flex-direction: column;
+            }
+            .sidebar {
+                transform: translateX(-100%);
+                width: var(--sidebar-width);
+                box-shadow: 10px 0 30px rgba(0, 0, 0, 0.5);
+            }
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+            }
+            .mobile-header {
+                display: flex;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- MOBILE HEADER -->
+    <header class="mobile-header">
+        <div class="mobile-brand">
+            <div class="sidebar-logo" style="width:30px; height:30px; font-size:1rem; border-radius:6px;">☕</div>
+            <h2>Java Advanced Lab</h2>
+        </div>
+        <button class="hamburger" onclick="document.getElementById('sidebar').classList.toggle('open')">
+            <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"></path></svg>
+        </button>
+    </header>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+            <div class="sidebar-logo">☕</div>
+            <div class="brand-meta">
+                <h1>Java Advanced Lab</h1>
+                <p>MSRIT • IS48 • 0:0:1</p>
+            </div>
+        </div>
+
+        <div class="search-box">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
+            <input type="text" id="searchInput" placeholder="Search lab experiments..." oninput="searchSidebar(this.value)">
+        </div>
+
+        <ul class="nav-menu">
+            <button class="nav-item active" id="btn-home" onclick="showSection('home')">
+                <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                Lab Dashboard
+            </button>
+
+            <div class="nav-header">List of Experiments</div>
+            
+            <button class="nav-item" id="btn-ex1" onclick="showSection('ex1')">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                Ex 1: Payroll System
+            </button>
+            <button class="nav-item" id="btn-ex2" onclick="showSection('ex2')">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                Ex 2: Queue &amp; Exceptions
+            </button>
+            <button class="nav-item" id="btn-ex3" onclick="showSection('ex3')">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                Ex 3: Strings Package
+            </button>
+            <button class="nav-item" id="btn-ex4" onclick="showSection('ex4')">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                Ex 4: Palindrome StringBuffer
+            </button>
+            <button class="nav-item" id="btn-ex5" onclick="showSection('ex5')">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                Ex 5: Password Security
+            </button>
+            <button class="nav-item" id="btn-ex6" onclick="showSection('ex6')">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                Ex 6: Telephone Recorder
+            </button>
+            <button class="nav-item" id="btn-ex7" onclick="showSection('ex7')">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                Ex 7: Books Collection DB
+            </button>
+            <button class="nav-item" id="btn-ex8" onclick="showSection('ex8')">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                Ex 8: Generic Stack Class
+            </button>
+            <button class="nav-item" id="btn-ex9" onclick="showSection('ex9')">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                Ex 9: Student Info Swing
+            </button>
+            <button class="nav-item" id="btn-ex10" onclick="showSection('ex10')">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                Ex 10: Customer Purchases
+            </button>
+            <button class="nav-item" id="btn-ex11" onclick="showSection('ex11')">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                Ex 11: JDBC Swing Form
+            </button>
+            <button class="nav-item" id="btn-ex12" onclick="showSection('ex12')">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                Ex 12: JSP Shirt Purchase
+            </button>
+        </ul>
+
+        <div class="sidebar-footer">
+            <p>Designed for Lab Course</p>
+            <strong>ADVANCED JAVA LAB (IS48)</strong>
+        </div>
+    </aside>
+
+    <!-- MAIN CENTRAL CONTENT PANEL -->
+    <main class="main-content">
+
+        <!-- ======================= LAB DASHBOARD (HOME) ======================= -->
+        <div class="lab-section active" id="sec-home">
+            <div class="hero-card">
+                <div class="hero-card-tag">Lab Course Portal</div>
+                <h2>Advanced Java Lab (IS48)</h2>
+                <p>Welcome to the premium student laboratory manual portal. This unified digital space compiles verified solutions, clear compilation blueprints, packages, Swing layout screenshots, and solved oral viva notes for all 12 curriculum experiments.</p>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" style="color:var(--primary);">1 Credit</div>
+                        <div class="stat-label">Lab Weight</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" style="color:var(--accent-cyan);">12 Experiments</div>
+                        <div class="stat-label">Syllabus Depth</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" style="color:var(--accent-emerald);">100% Verified</div>
+                        <div class="stat-label">Code Compilation</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" style="color:var(--accent-rose);">CIE &amp; SEE</div>
+                        <div class="stat-label">Lab Exam Prep Pack</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+                        Laboratory Experiments Roadmap
+                    </h3>
+                </div>
+                <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+                    <div style="background-color:rgba(255,255,255,0.02); padding:16px; border-radius:8px; border:1px solid var(--border-color);">
+                        <strong style="color:var(--primary); display:block; margin-bottom:6px;">Ex 1–4: OOP &amp; Custom Exceptions</strong>
+                        <p style="font-size:0.85rem; color:var(--text-secondary);">Payroll system package layout, array of objects, custom exception-bounded Queue, String operations interface, and case-insensitive StringBuffer palindrome checks.</p>
+                    </div>
+                    <div style="background-color:rgba(255,255,255,0.02); padding:16px; border-radius:8px; border:1px solid var(--border-color);">
+                        <strong style="color:var(--accent-cyan); display:block; margin-bottom:6px;">Ex 5–8: Collections &amp; Generics</strong>
+                        <p style="font-size:0.85rem; color:var(--text-secondary);">Password complexity suite, missed calls simulator, book catalogs sorted by price via list Collections, and type-safe generic Stack class.</p>
+                    </div>
+                    <div style="background-color:rgba(255,255,255,0.02); padding:16px; border-radius:8px; border:1px solid var(--border-color);">
+                        <strong style="color:var(--accent-emerald); display:block; margin-bottom:6px;">Ex 9–12: GUI Swing, JDBC &amp; JSP</strong>
+                        <p style="font-size:0.85rem; color:var(--text-secondary);">Dialog-based student registry, billing discount terminal, MySQL JDBC insert &amp; high credit lookup, and JSP-based neck style shirt billing form.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ======================= EXPERIMENT 1 ======================= -->
+        <div class="lab-section" id="sec-ex1">
+            <div class="hero-card">
+                <div class="hero-card-tag">Experiment 1</div>
+                <h2>Java Inheritance &amp; Package-Based Payroll System</h2>
+                <p>Compile a Payroll System containing interface <code>Payable</code> (method <code>calculate()</code>), superclass <code>Employee</code> (constructor initialized), and subclasses <code>FullTime</code>, <code>PartTime</code>, and <code>Intern</code>. Import across package namespaces to evaluate and print mixed-role employee salary statements.</p>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title"><svg viewBox="0 0 24 24"><path d="M16 18l6-6-6-6M8 6L2 12l6 6"></path></svg>Source Code Files</h3>
+                </div>
+                
+                <div class="code-container">
+                    <div class="code-tabs">
+                        <button class="code-tab active" onclick="switchTab(this, 'ex1-payable')">Payable.java</button>
+                        <button class="code-tab" onclick="switchTab(this, 'ex1-employee')">Employee.java</button>
+                        <button class="code-tab" onclick="switchTab(this, 'ex1-fulltime')">FullTime.java</button>
+                        <button class="code-tab" onclick="switchTab(this, 'ex1-parttime')">PartTime.java</button>
+                        <button class="code-tab" onclick="switchTab(this, 'ex1-intern')">Intern.java</button>
+                        <button class="code-tab" onclick="switchTab(this, 'ex1-payroll')">PayrollSystem.java</button>
+                    </div>
+                    <div class="code-content active" id="ex1-payable">
+                        <pre>package PayrollManagement;
+
+public interface Payable {
+    double calculate();
+}</pre>
+                    </div>
+                    <div class="code-content" id="ex1-employee">
+                        <pre>package PayrollManagement;
+
+public class Employee {
+    protected String name;
+    protected int age;
+    protected double salary;
+    protected String designation;
+
+    public Employee(String name, int age, double salary, String designation) {
+        this.name = name;
+        this.age = age;
+        this.salary = salary;
+        this.designation = designation;
+    }
+
+    public void displayDetails() {
+        System.out.println("Name: " + name);
+        System.out.println("Age: " + age);
+        System.out.println("Designation: " + designation);
+    }
+}</pre>
+                    </div>
+                    <div class="code-content" id="ex1-fulltime">
+                        <pre>package PayrollManagement;
+
+public class FullTime extends Employee implements Payable {
+    public FullTime(String name, int age, double salary, String designation) {
+        super(name, age, salary, designation);
+    }
+
+    @Override
+    public double calculate() {
+        return this.salary; // monthly salary directly
+    }
+}</pre>
+                    </div>
+                    <div class="code-content" id="ex1-parttime">
+                        <pre>package PayrollManagement;
+
+public class PartTime extends Employee implements Payable {
+    private double hourlyRate;
+    private int hoursWorked;
+
+    public PartTime(String name, int age, String designation, double hourlyRate, int hoursWorked) {
+        super(name, age, 0, designation);
+        this.hourlyRate = hourlyRate;
+        this.hoursWorked = hoursWorked;
+    }
+
+    @Override
+    public double calculate() {
+        return hourlyRate * hoursWorked;
+    }
+}</pre>
+                    </div>
+                    <div class="code-content" id="ex1-intern">
+                        <pre>package PayrollManagement;
+
+public class Intern extends Employee implements Payable {
+    private double stipend;
+
+    public Intern(String name, int age, String designation, double stipend) {
+        super(name, age, 0, designation);
+        this.stipend = stipend;
+    }
+
+    @Override
+    public double calculate() {
+        return stipend;
+    }
+}</pre>
+                    </div>
+                    <div class="code-content" id="ex1-payroll">
+                        <pre>package Company;
+
+import PayrollManagement.*;
+
+public class PayrollSystem {
+    public static void main(String[] args) {
+        System.out.println("==================================================");
+        System.out.println("     MSRIT COMPANY PAYROLL SYSTEM (IS48 EX-1)      ");
+        System.out.println("==================================================");
+
+        Employee[] employees = new Employee[3];
+        employees[0] = new FullTime("Evangeline D", 35, 95000.0, "Senior Developer");
+        employees[1] = new PartTime("Ananth Akshay", 21, "Technical Writer", 450.0, 40);
+        employees[2] = new Intern("Jane Doe", 22, "Java Intern", 25000.0);
+
+        for (Employee emp : employees) {
+            emp.displayDetails();
+            double finalSalary = 0;
+            if (emp instanceof Payable) {
+                finalSalary = ((Payable) emp).calculate();
+            }
+            System.out.println("Calculated Payable Salary: INR " + finalSalary);
+            System.out.println("--------------------------------------------------");
+        }
+    }
+}</pre>
+                    </div>
+                </div>
+
+                <div class="viva-card">
+                    <div class="viva-title"><svg viewBox="0 0 24 24" style="width:20px; height:20px; fill:none; stroke:currentColor; stroke-width:2;"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>Solved Viva Questions</div>
+                    <div class="viva-notes-wrap">
+                        <div class="viva-q">Q: What is the purpose of packages in Java? How did we use them here?</div>
+                        <div class="viva-a">A: Packages provide logical grouping and namespaces to classes, preventing identifier naming clashes. In this lab, we created two packages: PayrollManagement (holding internal classes) and Company (importing them to build the billing arrays).</div>
+                        <div class="viva-q">Q: What does the 'instanceof' operator do?</div>
+                        <div class="viva-a">A: It tests whether an object reference is an instance of a specific type (class or interface), which was used in this script to verify if an Employee implements the Payable contract before triggering calculation.</div>
+                    </div>
+                </div>
+
+                <div class="compile-guide">
+                    <span class="cmd">&gt; javac -d . PayrollManagement/*.java Company/*.java</span><br>
+                    <span class="cmd">&gt; java Company.PayrollSystem</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ======================= EXPERIMENT 2 ======================= -->
+        <div class="lab-section" id="sec-ex2">
+            <div class="hero-card">
+                <div class="hero-card-tag">Experiment 2</div>
+                <h2>Array-Based Queue &amp; Custom Exceptions</h2>
+                <p>Construct a custom Queue class implementing <code>enqueue</code>, <code>dequeue</code>, and <code>display</code> methods. Enforce strict capacity constraints using user-defined Exceptions: <code>QueueOverflowException</code> and <code>QueueUnderflowException</code>.</p>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title"><svg viewBox="0 0 24 24"><path d="M16 18l6-6-6-6M8 6L2 12l6 6"></path></svg>Source Code Files</h3>
+                </div>
+
+                <div class="code-container">
+                    <div class="code-tabs">
+                        <button class="code-tab active" onclick="switchTab(this, 'ex2-overflow')">QueueOverflowException.java</button>
+                        <button class="code-tab" onclick="switchTab(this, 'ex2-underflow')">QueueUnderflowException.java</button>
+                        <button class="code-tab" onclick="switchTab(this, 'ex2-queue')">Queue.java</button>
+                        <button class="code-tab" onclick="switchTab(this, 'ex2-demo')">QueueDemo.java</button>
+                    </div>
+                    <div class="code-content active" id="ex2-overflow">
+                        <pre>package queue;
+
+public class QueueOverflowException extends Exception {
+    public QueueOverflowException(String message) {
+        super(message);
+    }
+}</pre>
+                    </div>
+                    <div class="code-content" id="ex2-underflow">
+                        <pre>package queue;
+
+public class QueueUnderflowException extends Exception {
+    public QueueUnderflowException(String message) {
+        super(message);
+    }
+}</pre>
+                    </div>
+                    <div class="code-content" id="ex2-queue">
+                        <pre>package queue;
+
+public class Queue {
+    private int[] arr;
+    private int front;
+    private int rear;
+    private int capacity;
+    private int count;
+
+    public Queue(int size) {
+        arr = new int[size];
+        capacity = size;
+        front = 0;
+        rear = -1;
+        count = 0;
+    }
+
+    public void enqueue(int item) throws QueueOverflowException {
+        if (count == capacity) {
+            throw new QueueOverflowException("Queue Overflow! Cannot enqueue " + item + ". Maximum capacity is " + capacity + ".");
+        }
+        rear = (rear + 1) % capacity;
+        arr[rear] = item;
+        count++;
+        System.out.println("Enqueued: " + item);
+    }
+
+    public int dequeue() throws QueueUnderflowException {
+        if (count == 0) {
+            throw new QueueUnderflowException("Queue Underflow! Cannot dequeue from an empty queue.");
+        }
+        int item = arr[front];
+        front = (front + 1) % capacity;
+        count--;
+        System.out.println("Dequeued: " + item);
+        return item;
+    }
+
+    public void display() {
+        if (count == 0) {
+            System.out.println("Queue is empty.");
+            return;
+        }
+        System.out.print("Queue contents (Front to Rear): ");
+        for (int i = 0; i < count; i++) {
+            int index = (front + i) % capacity;
+            System.out.print(arr[index] + " ");
+        }
+        System.out.println();
+    }
+}</pre>
+                    </div>
+                    <div class="code-content" id="ex2-demo">
+                        <pre>package queue;
+
+import java.util.Scanner;
+
+public class QueueDemo {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("==================================================");
+        System.out.println("     CUSTOM JAVA QUEUE INTERACTION (IS48 EX-2)    ");
+        System.out.println("==================================================");
+        System.out.print("Enter Queue Capacity: ");
+        int capacity = scanner.nextInt();
+        
+        Queue queue = new Queue(capacity);
+        boolean running = true;
+
+        while (running) {
+            System.out.println("\n--- Queue Operations Menu ---");
+            System.out.println("1. Enqueue (Insert)");
+            System.out.println("2. Dequeue (Delete)");
+            System.out.println("3. Display Queue");
+            System.out.println("4. Exit");
+            System.out.print("Select an option (1-4): ");
+            int choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter integer value to enqueue: ");
+                    int val = scanner.nextInt();
+                    try {
+                        queue.enqueue(val);
+                    } catch (QueueOverflowException e) {
+                        System.err.println("❌ ERROR: " + e.getMessage());
+                    }
+                    break;
+                case 2:
+                    try {
+                        int popped = queue.dequeue();
+                    } catch (QueueUnderflowException e) {
+                        System.err.println("❌ ERROR: " + e.getMessage());
+                    }
+                    break;
+                case 3:
+                    queue.display();
+                    break;
+                case 4:
+                    running = false;
+                    System.out.println("Exiting Queue Demonstration. Goodbye!");
+                    break;
+                default:
+                    System.out.println("Invalid option! Please enter a number between 1 and 4.");
+            }
+        }
+        scanner.close();
+    }
+}</pre>
+                    </div>
+                </div>
+
+                <div class="viva-card">
+                    <div class="viva-title"><svg viewBox="0 0 24 24" style="width:20px; height:20px; fill:none; stroke:currentColor; stroke-width:2;"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>Solved Viva Questions</div>
+                    <div class="viva-notes-wrap">
+                        <div class="viva-q">Q: What is the core difference between checked and unchecked exceptions?</div>
+                        <div class="viva-a">A: Checked exceptions (inheriting from Exception class) are checked at compile-time and MUST be declared or handled (try-catch). Unchecked exceptions (inheriting from RuntimeException) are checked at runtime only. Our custom queue exceptions are Checked.</div>
+                        <div class="viva-q">Q: How does a circular array queue improve memory efficiency?</div>
+                        <div class="viva-a">A: It recycles array cells using modulo arithmetic (front = (front+1) % size). This lets indices wrap around to reuse empty cells created by dequeues, preventing false overflow events.</div>
+                    </div>
+                </div>
+
+                <div class="compile-guide">
+                    <span class="cmd">&gt; javac -d . queue/*.java</span><br>
+                    <span class="cmd">&gt; java queue.QueueDemo</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ======================= EXPERIMENT 3 ======================= -->
+        <div class="lab-section" id="sec-ex3">
+            <div class="hero-card">
+                <div class="hero-card-tag">Experiment 3</div>
+                <h2>Encapsulated String Processing Package</h2>
+                <p>Define interface <code>StringManipulator</code> containing exactly eight distinct string processing operations (reverse, uppercase, lowercase, concatenate, count vowels, word count, palindrome, replace). Implement inside class <code>StringProcessor</code> under package <code>stringoperations</code>.</p>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title"><svg viewBox="0 0 24 24"><path d="M16 18l6-6-6-6M8 6L2 12l6 6"></path></svg>Source Code Files</h3>
+                </div>
+
+                <div class="code-container">
+                    <div class="code-tabs">
+                        <button class="code-tab active" onclick="switchTab(this, 'ex3-interface')">StringManipulator.java</button>
+                        <button class="code-tab" onclick="switchTab(this, 'ex3-processor')">StringProcessor.java</button>
+                        <button class="code-tab" onclick="switchTab(this, 'ex3-app')">StringApp.java</button>
+                    </div>
+                    <div class="code-content active" id="ex3-interface">
+                        <pre>package stringoperations;
+
+public interface StringManipulator {
+    String reverse(String input);
+    String toUpperCase(String input);
+    String toLowerCase(String input);
+    String concatenate(String str1, String str2);
+    int countVowels(String input);
+    int wordCount(String input);
+    boolean isPalindrome(String input);
+    String replaceChar(String input, char oldChar, char newChar);
+}</pre>
+                    </div>
+                    <div class="code-content" id="ex3-processor">
+                        <pre>package stringoperations;
+
+public class StringProcessor implements StringManipulator {
+
+    @Override
+    public String reverse(String input) {
+        if (input == null) return null;
+        return new StringBuilder(input).reverse().toString();
+    }
+
+    @Override
+    public String toUpperCase(String input) {
+        if (input == null) return null;
+        return input.toUpperCase();
+    }
+
+    @Override
+    public String toLowerCase(String input) {
+        if (input == null) return null;
+        return input.toLowerCase();
+    }
+
+    @Override
+    public String concatenate(String str1, String str2) {
+        if (str1 == null) str1 = "";
+        if (str2 == null) str2 = "";
+        return str1.concat(str2);
+    }
+
+    @Override
+    public int countVowels(String input) {
+        if (input == null) return 0;
+        int count = 0;
+        String temp = input.toLowerCase();
+        for (int i = 0; i < temp.length(); i++) {
+            char c = temp.charAt(i);
+            if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u') {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    @Override
+    public int wordCount(String input) {
+        if (input == null || input.trim().isEmpty()) return 0;
+        String[] words = input.trim().split("\\s+");
+        return words.length;
+    }
+
+    @Override
+    public boolean isPalindrome(String input) {
+        if (input == null) return false;
+        String clean = input.replaceAll("\\s+", "").toLowerCase();
+        String reversed = reverse(clean);
+        return clean.equals(reversed);
+    }
+
+    @Override
+    public String replaceChar(String input, char oldChar, char newChar) {
+        if (input == null) return null;
+        return input.replace(oldChar, newChar);
+    }
+}</pre>
+                    </div>
+                    <div class="code-content" id="ex3-app">
+                        <pre>package application;
+
+import stringoperations.*;
+import java.util.Scanner;
+
+public class StringApp {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        StringProcessor processor = new StringProcessor();
+
+        System.out.println("==================================================");
+        System.out.println("     MODULAR STRING PROCESSOR SUITE (IS48 EX-3)   ");
+        System.out.println("==================================================");
+
+        System.out.print("Enter a main string to process: ");
+        String userInput = scanner.nextLine();
+
+        System.out.print("Enter an additional string for concatenation: ");
+        String concatInput = scanner.nextLine();
+
+        System.out.print("Enter a character to replace in the main string: ");
+        char oldChar = scanner.next().charAt(0);
+
+        System.out.print("Enter the replacement character: ");
+        char newChar = scanner.next().charAt(0);
+
+        System.out.println("\n----------------- TEST RESULTS -----------------");
+        System.out.println("1. Original String  : \"" + userInput + "\"");
+        System.out.println("2. Reversed String  : \"" + processor.reverse(userInput) + "\"");
+        System.out.println("3. Uppercase conversion: \"" + processor.toUpperCase(userInput) + "\"");
+        System.out.println("4. Lowercase conversion: \"" + processor.toLowerCase(userInput) + "\"");
+        System.out.println("5. Concatenated result : \"" + processor.concatenate(userInput, concatInput) + "\"");
+        System.out.println("6. Vowel Count      : " + processor.countVowels(userInput));
+        System.out.println("7. Word Count       : " + processor.wordCount(userInput));
+        System.out.println("8. Is Palindrome?   : " + processor.isPalindrome(userInput));
+        System.out.println("9. Char Replacement : \"" + processor.replaceChar(userInput, oldChar, newChar) + "\"");
+        System.out.println("--------------------------------------------------");
+
+        scanner.close();
+    }
+}</pre>
+                    </div>
+                </div>
+
+                <div class="viva-card">
+                    <div class="viva-title"><svg viewBox="0 0 24 24" style="width:20px; height:20px; fill:none; stroke:currentColor; stroke-width:2;"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>Solved Viva Questions</div>
+                    <div class="viva-notes-wrap">
+                        <div class="viva-q">Q: What is the benefit of interfaces in Java?</div>
+                        <div class="viva-a">A: Interfaces define a strict structural contract without details, allowing for decoupled API design and clean multiple inheritance of behaviors. Classes implementing the interface must define all concrete implementations.</div>
+                        <div class="viva-q">Q: What does split("\\s+") do?</div>
+                        <div class="viva-a">A: It splits a string based on regular expressions matching one or more contiguous white spaces, which is extremely robust for counting words containing duplicate spacing.</div>
+                    </div>
+                </div>
+
+                <div class="compile-guide">
+                    <span class="cmd">&gt; javac -d . stringoperations/*.java application/*.java</span><br>
+                    <span class="cmd">&gt; java application.StringApp</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ======================= EXPERIMENT 4 ======================= -->
+        <div class="lab-section" id="sec-ex4">
+            <div class="hero-card">
+                <div class="hero-card-tag">Experiment 4</div>
+                <h2>StringBuffer Palindrome Checker &amp; User Exceptions</h2>
+                <p>Construct a robust Palindrome checker utilizing <code>StringBuffer</code>. Define and implement custom exception handlers: <code>ShortStringException</code> (length &lt; 3 characters) and <code>InvalidInputException</code> (presence of numerical digits or special symbols).</p>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title"><svg viewBox="0 0 24 24"><path d="M16 18l6-6-6-6M8 6L2 12l6 6"></path></svg>Source Code Files</h3>
+                </div>
+
+                <div class="code-container">
+                    <div class="code-tabs">
+                        <button class="code-tab active" onclick="switchTab(this, 'ex4-invalid')">InvalidInputException.java</button>
+                        <button class="code-tab" onclick="switchTab(this, 'ex4-short')">ShortStringException.java</button>
+                        <button class="code-tab" onclick="switchTab(this, 'ex4-checker')">PalindromeChecker.java</button>
+                    </div>
+                    <div class="code-content active" id="ex4-invalid">
+                        <pre>package palindrome;
+
+public class InvalidInputException extends Exception {
+    public InvalidInputException(String message) {
+        super(message);
+    }
+}</pre>
+                    </div>
+                    <div class="code-content" id="ex4-short">
+                        <pre>package palindrome;
+
+public class ShortStringException extends Exception {
+    public ShortStringException(String message) {
+        super(message);
+    }
+}</pre>
+                    </div>
+                    <div class="code-content" id="ex4-checker">
+                        <pre>package palindrome;
+
+import java.util.Scanner;
+
+public class PalindromeChecker {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("==================================================");
+        System.out.println("     ROBUST JAVA PALINDROME CHECKER (IS48 EX-4)   ");
+        System.out.println("==================================================");
+        System.out.print("Enter string to verify: ");
+        String input = scanner.nextLine();
+
+        try {
+            checkPalindrome(input);
+        } catch (ShortStringException e) {
+            System.err.println("❌ ShortStringException: " + e.getMessage());
+        } catch (InvalidInputException e) {
+            System.err.println("❌ InvalidInputException: " + e.getMessage());
+        } finally {
+            scanner.close();
+        }
+    }
+
+    public static void checkPalindrome(String str) throws ShortStringException, InvalidInputException {
+        if (str == null) {
+            throw new InvalidInputException("Input string cannot be null.");
+        }
+
+        // 1. Validate String Length (must be >= 3 characters)
+        if (str.length() < 3) {
+            throw new ShortStringException("String length is " + str.length() + ". It must be at least 3 characters long.");
+        }
+
+        // 2. Validate Character Content (alphabetical letters only, spaces allowed)
+        for (int i = 0; i < str.length(); i++) {
+            char ch = str.charAt(i);
+            if (!Character.isLetter(ch) && !Character.isWhitespace(ch)) {
+                throw new InvalidInputException("Input contains invalid character '" + ch + "'. Alphabetical letters only!");
+            }
+        }
+
+        // 3. Process Palindrome Case-Insensitively using StringBuffer
+        String cleanStr = str.replaceAll("\\s+", "").toLowerCase();
+        StringBuffer buffer = new StringBuffer(cleanStr);
+        String reversedStr = buffer.reverse().toString();
+
+        System.out.println("\n---------------- PROCESS DETAILS ----------------");
+        System.out.println("Sanitized Text: \"" + cleanStr + "\"");
+        System.out.println("Reversed Text : \"" + reversedStr + "\"");
+        
+        if (cleanStr.equals(reversedStr)) {
+            System.out.println("✅ Result: The string \"" + str + "\" IS a Palindrome!");
+        } else {
+            System.out.println("❌ Result: The string \"" + str + "\" IS NOT a Palindrome.");
+        }
+        System.out.println("-------------------------------------------------");
+    }
+}</pre>
+                    </div>
+                </div>
+
+                <div class="viva-card">
+                    <div class="viva-title"><svg viewBox="0 0 24 24" style="width:20px; height:20px; fill:none; stroke:currentColor; stroke-width:2;"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>Solved Viva Questions</div>
+                    <div class="viva-notes-wrap">
+                        <div class="viva-q">Q: What is the main difference between String and StringBuffer?</div>
+                        <div class="viva-a">A: String is immutable (any modifications create a new object in the string pool); StringBuffer is mutable and thread-safe (synchronized), allowing modification of sequences in-place.</div>
+                        <div class="viva-q">Q: Why do we use 'finally' block?</div>
+                        <div class="viva-a">A: The finally block always executes regardless of whether an exception is thrown or caught. It is strictly used to release system resources (like closing scanners or databases).</div>
+                    </div>
+                </div>
+
+                <div class="compile-guide">
+                    <span class="cmd">&gt; javac -d . palindrome/*.java</span><br>
+                    <span class="cmd">&gt; java palindrome.PalindromeChecker</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ======================= EXPERIMENT 5 ======================= -->
+        <div class="lab-section" id="sec-ex5">
+            <div class="hero-card">
+                <div class="hero-card-tag">Experiment 5</div>
+                <h2>Password Validation &amp; Scrambling Engine</h2>
+                <p>Build a Password Security Suite in Java that executes six distinct security operations: verifies uppercase/lowercase/digit complexity, counts special characters, masks middle text with asterisks, reverses text, appends random security tokens, and replaces vowels with hash signs.</p>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title"><svg viewBox="0 0 24 24"><path d="M16 18l6-6-6-6M8 6L2 12l6 6"></path></svg>Source Code Files</h3>
+                </div>
+
+                <div class="code-container">
+                    <div class="code-tabs">
+                        <button class="code-tab active" onclick="switchTab(this, 'ex5-app')">PasswordSecurityApp.java</button>
+                    </div>
+                    <div class="code-content active" id="ex5-app">
+                        <pre>package password;
+
+import java.util.Scanner;
+
+public class PasswordSecurityApp {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("==================================================");
+        System.out.println("     PASSWORD SECURITY SUITE ENGINE (IS48 EX-5)   ");
+        System.out.println("==================================================");
+        System.out.print("Enter your password: ");
+        String password = scanner.nextLine();
+
+        System.out.println("\n---------------- SECURITY REPORT ----------------");
+        
+        // 1. Check for Uppercase, Lowercase, and Digits
+        boolean hasUpper = false;
+        boolean hasLower = false;
+        boolean hasDigit = false;
+        for (char c : password.toCharArray()) {
+            if (Character.isUpperCase(c)) hasUpper = true;
+            else if (Character.isLowerCase(c)) hasLower = true;
+            else if (Character.isDigit(c)) hasDigit = true;
+        }
+        System.out.println("• Complexity Validation:");
+        System.out.println("  - Contains Uppercase? : " + (hasUpper ? "YES (Pass)" : "NO (Fail)"));
+        System.out.println("  - Contains Lowercase? : " + (hasLower ? "YES (Pass)" : "NO (Fail)"));
+        System.out.println("  - Contains Digit?      : " + (hasDigit ? "YES (Pass)" : "NO (Fail)"));
+        System.out.println("  - Overall Strength   : " + (hasUpper && hasLower && hasDigit ? "STRONG" : "WEAK"));
+
+        // 2. Count Special Characters (excluding alphanumeric)
+        int specialCount = 0;
+        for (char c : password.toCharArray()) {
+            if (!Character.isLetterOrDigit(c) && !Character.isWhitespace(c)) {
+                specialCount++;
+            }
+        }
+        System.out.println("• Count of Special Characters: " + specialCount);
+
+        // 3. Mask the Password (replace with *, keeping first and last characters)
+        String masked = maskPassword(password);
+        System.out.println("• Masked Security Preview   : " + masked);
+
+        // 4. Reverse the Password (Encryption Demonstration)
+        String reversed = new StringBuilder(password).reverse().toString();
+        System.out.println("• Reversed Password Trace   : " + reversed);
+
+        // 5. Append random security token (e.g. "@123!")
+        String tokened = password + "@123!";
+        System.out.println("• Appended Security Token   : " + tokened);
+
+        // 6. Replace Vowels with '#'
+        String scrambled = password.replaceAll("(?i)[aeiou]", "#");
+        System.out.println("• Scrambled Vowel Variant    : " + scrambled);
+        System.out.println("-------------------------------------------------");
+
+        scanner.close();
+    }
+
+    private static String maskPassword(String pass) {
+        if (pass == null || pass.length() <= 2) {
+            return pass;
+        }
+        StringBuilder builder = new StringBuilder();
+        builder.append(pass.charAt(0));
+        for (int i = 1; i < pass.length() - 1; i++) {
+            builder.append('*');
+        }
+        builder.append(pass.charAt(pass.length() - 1));
+        return builder.toString();
+    }
+}</pre>
+                    </div>
+                </div>
+
+                <div class="viva-card">
+                    <div class="viva-title"><svg viewBox="0 0 24 24" style="width:20px; height:20px; fill:none; stroke:currentColor; stroke-width:2;"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>Solved Viva Questions</div>
+                    <div class="viva-notes-wrap">
+                        <div class="viva-q">Q: What does the regex "(?i)[aeiou]" mean?</div>
+                        <div class="viva-a">A: The prefix `(?i)` acts as an inline modifier flag making the entire pattern matching case-insensitive. `[aeiou]` matches any vowel character in English.</div>
+                        <div class="viva-q">Q: Why did we use Character.isLetterOrDigit()?</div>
+                        <div class="viva-a">A: This helper checks if a char is a letter or number. Any character that is neither a letter, nor a digit, nor a space is classified as a special symbol.</div>
+                    </div>
+                </div>
+
+                <div class="compile-guide">
+                    <span class="cmd">&gt; javac -d . password/*.java</span><br>
+                    <span class="cmd">&gt; java password.PasswordSecurityApp</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ======================= EXPERIMENT 6 ======================= -->
+        <div class="lab-section" id="sec-ex6">
+            <div class="hero-card">
+                <div class="hero-card-tag">Experiment 6</div>
+                <h2>Missed Incoming Calls Telephone Recorder</h2>
+                <p>Simulate a telephone missed calls recorder. The system maintains a strict size-bound list of exactly 3 incoming calls, dynamically removing the oldest call upon overflow, and enables options to delete or view callers details (time, name, origin number).</p>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title"><svg viewBox="0 0 24 24"><path d="M16 18l6-6-6-6M8 6L2 12l6 6"></path></svg>Source Code Files</h3>
+                </div>
+
+                <div class="code-container">
+                    <div class="code-tabs">
+                        <button class="code-tab active" onclick="switchTab(this, 'ex6-call')">IncomingCall.java</button>
+                        <button class="code-tab" onclick="switchTab(this, 'ex6-recorder')">MissedCallRecorder.java</button>
+                    </div>
+                    <div class="code-content active" id="ex6-call">
+                        <pre>package missedcalls;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+public class IncomingCall {
+    private String number;
+    private String name;
+    private LocalDateTime time;
+
+    public IncomingCall(String number, String name) {
+        this.number = number;
+        this.name = (name == null || name.trim().isEmpty()) ? "private caller" : name;
+        this.time = LocalDateTime.now();
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getTimeString() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return time.format(formatter);
+    }
+
+    @Override
+    public String toString() {
+        return "Caller: " + name + " | Number: " + number + " | Time: " + getTimeString();
+    }
+}</pre>
+                    </div>
+                    <div class="code-content" id="ex6-recorder">
+                        <pre>package missedcalls;
+
+import java.util.LinkedList;
+import java.util.Scanner;
+
+public class MissedCallRecorder {
+    private LinkedList<IncomingCall> callList;
+    private static final int MAX_CALLS = 3;
+
+    public MissedCallRecorder() {
+        callList = new LinkedList<>();
+    }
+
+    public void addCall(String number, String name) {
+        IncomingCall call = new IncomingCall(number, name);
+        if (callList.size() >= MAX_CALLS) {
+            IncomingCall oldest = callList.removeFirst();
+            System.out.println("⚠️ Storage full! Removing oldest record: [" + oldest.getName() + "]");
+        }
+        callList.addLast(call);
+        System.out.println("📞 Missed call logged from: " + call.getName());
+    }
+
+    public void displayCalls() {
+        if (callList.isEmpty()) {
+            System.out.println("No missed calls logged.");
+            return;
+        }
+        System.out.println("\n--- Missed Calls (Oldest to Newest) ---");
+        for (int i = 0; i < callList.size(); i++) {
+            System.out.println((i + 1) + ". " + callList.get(i).getName());
+        }
+    }
+
+    public void interactiveMenu() {
+        Scanner scanner = new Scanner(System.in);
+        boolean active = true;
+
+        while (active) {
+            displayCalls();
+            if (callList.isEmpty()) {
+                break;
+            }
+            System.out.println("\nOptions: ");
+            System.out.println("1. View call details");
+            System.out.println("2. Delete a call");
+            System.out.println("3. Exit Missed Calls Hub");
+            System.out.print("Select choice (1-3): ");
+            int choice = scanner.nextInt();
+
+            if (choice == 3) {
+                active = false;
+                System.out.println("Exiting Phone Simulator.");
+                break;
+            }
+
+            System.out.print("Enter item number (1-" + callList.size() + "): ");
+            int index = scanner.nextInt() - 1;
+
+            if (index < 0 || index >= callList.size()) {
+                System.out.println("Invalid selection!");
+                continue;
+            }
+
+            if (choice == 1) {
+                IncomingCall call = callList.get(index);
+                System.out.println("\n--- CALL DETAILS ---");
+                System.out.println("Origin Number: " + call.getNumber());
+                System.out.println("Caller Name  : " + call.getName());
+                System.out.println("Timestamp    : " + call.getTimeString());
+                System.out.println("--------------------");
+            } else if (choice == 2) {
+                IncomingCall deleted = callList.remove(index);
+                System.out.println("🗑️ Call record from [" + deleted.getName() + "] deleted successfully.");
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        MissedCallRecorder recorder = new MissedCallRecorder();
+        
+        System.out.println("==================================================");
+        System.out.println("     TELEPHONE CALL RECORDER ENGINE (IS48 EX-6)   ");
+        System.out.println("==================================================");
+
+        System.out.println("Simulating incoming calls...");
+        recorder.addCall("9876543210", "Evangeline D");
+        recorder.addCall("9988776655", "Ananth Akshay");
+        recorder.addCall("8877665544", null);
+        recorder.addCall("7766554433", "John Watson");
+
+        recorder.interactiveMenu();
+    }
+}</pre>
+                    </div>
+                </div>
+
+                <div class="viva-card">
+                    <div class="viva-title"><svg viewBox="0 0 24 24" style="width:20px; height:20px; fill:none; stroke:currentColor; stroke-width:2;"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>Solved Viva Questions</div>
+                    <div class="viva-notes-wrap">
+                        <div class="viva-q">Q: Why did we choose LinkedList to record missed calls?</div>
+                        <div class="viva-a">A: LinkedList implements the Deque interface, providing fast additions at the tail (`addLast`) and removals at the head (`removeFirst`) in constant O(1) complexity, perfectly modelling the oldest-expelled FIFO missed call record queue.</div>
+                        <div class="viva-q">Q: How do we fetch the current date and time formatted in Java?</div>
+                        <div class="viva-a">A: We use `LocalDateTime.now()` to fetch current timestamps, and `DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")` to convert it into a highly readable formatted string representation.</div>
+                    </div>
+                </div>
+
+                <div class="compile-guide">
+                    <span class="cmd">&gt; javac -d . missedcalls/*.java</span><br>
+                    <span class="cmd">&gt; java missedcalls.MissedCallRecorder</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ======================= EXPERIMENT 7 ======================= -->
+        <div class="lab-section" id="sec-ex7">
+            <div class="hero-card">
+                <div class="hero-card-tag">Experiment 7</div>
+                <h2>Book Collection Database &amp; List Sorting</h2>
+                <p>Construct a book registry using custom storage classes. The system maintains book details (title, author, publisher, price) with unique IDs in a List collection, sorts books in ascending order of price, searches by author name, and filters books based on price thresholds.</p>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title"><svg viewBox="0 0 24 24"><path d="M16 18l6-6-6-6M8 6L2 12l6 6"></path></svg>Source Code Files</h3>
+                </div>
+
+                <div class="code-container">
+                    <div class="code-tabs">
+                        <button class="code-tab active" onclick="switchTab(this, 'ex7-book')">Book.java</button>
+                        <button class="code-tab" onclick="switchTab(this, 'ex7-db')">BookDatabase.java</button>
+                    </div>
+                    <div class="code-content active" id="ex7-book">
+                        <pre>package books;
+
+public class Book {
+    private int id;
+    private String title;
+    private String author;
+    private String publisher;
+    private double price;
+
+    public Book(int id, String title, String author, String publisher, double price) {
+        this.id = id;
+        this.title = title;
+        this.author = author;
+        this.publisher = publisher;
+        this.price = price;
+    }
+
+    public int getId() { return id; }
+    public String getTitle() { return title; }
+    public String getAuthor() { return author; }
+    public String getPublisher() { return publisher; }
+    public double getPrice() { return price; }
+
+    @Override
+    public String toString() {
+        return String.format("ID: %d | Title: %-25s | Author: %-15s | Publisher: %-15s | Price: INR %.2f",
+                id, title, author, publisher, price);
+    }
+}</pre>
+                    </div>
+                    <div class="code-content" id="ex7-db">
+                        <pre>package books;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Scanner;
+
+public class BookDatabase {
+    private List<Book> mainList;
+
+    public BookDatabase() {
+        mainList = new ArrayList<>();
+    }
+
+    public void addBook(Book book) {
+        mainList.add(book);
+    }
+
+    public List<Book> getSortedByPrice() {
+        List<Book> sortedList = new ArrayList<>(mainList);
+        sortedList.sort(Comparator.comparingDouble(Book::getPrice));
+        return sortedList;
+    }
+
+    public List<Book> getBooksByAuthor(String authorName) {
+        List<Book> matching = new ArrayList<>();
+        for (Book b : mainList) {
+            if (b.getAuthor().equalsIgnoreCase(authorName)) {
+                matching.add(b);
+            }
+        }
+        return matching;
+    }
+
+    public List<Book> getBooksPriceGreaterThan(double threshold) {
+        List<Book> filtered = new ArrayList<>();
+        for (Book b : mainList) {
+            if (b.getPrice() > threshold) {
+                filtered.add(b);
+            }
+        }
+        return filtered;
+    }
+
+    public void displayList(List<Book> list, String title) {
+        System.out.println("\n--- " + title + " ---");
+        if (list.isEmpty()) {
+            System.out.println("No books found.");
+            return;
+        }
+        for (Book b : list) {
+            System.out.println(b);
+        }
+    }
+
+    public static void main(String[] args) {
+        BookDatabase db = new BookDatabase();
+        
+        db.addBook(new Book(101, "Java Complete Reference", "Herbert Schildt", "McGrawHill", 850.00));
+        db.addBook(new Book(102, "JavaEE 7 for Beginners", "Sharanam Shah", "Shroff", 450.00));
+        db.addBook(new Book(103, "Clean Code", "Robert C. Martin", "Pearson", 950.00));
+        db.addBook(new Book(104, "Design Patterns", "Erich Gamma", "Addison-Wesley", 1200.00));
+        db.addBook(new Book(105, "Java Comprehensive Guide", "Christian Ullenboom", "Shroff", 620.00));
+        db.addBook(new Book(106, "Java Concurrency in Practice", "Brian Goetz", "Addison-Wesley", 780.00));
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("==================================================");
+        System.out.println("     COLLECTION BOOK DATABASE SYSTEM (IS48 EX-7)  ");
+        System.out.println("==================================================");
+
+        boolean running = true;
+        while (running) {
+            System.out.println("\n--- Book Database Menu ---");
+            System.out.println("1. Display All Books");
+            System.out.println("2. Sort and Display Books (Ascending by Price)");
+            System.out.println("3. Search Books by Author");
+            System.out.println("4. Filter Books by Minimum Price");
+            System.out.println("5. Exit");
+            System.out.print("Select choice (1-5): ");
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (choice) {
+                case 1:
+                    db.displayList(db.mainList, "All Books in Database");
+                    break;
+                case 2:
+                    List<Book> sorted = db.getSortedByPrice();
+                    db.displayList(sorted, "Sorted Book Catalog (Ascending Price)");
+                    break;
+                case 3:
+                    System.out.print("Enter Author Name to search: ");
+                    String author = scanner.nextLine();
+                    List<Book> authorBooks = db.getBooksByAuthor(author);
+                    db.displayList(authorBooks, "Books written by: " + author);
+                    break;
+                case 4:
+                    System.out.print("Enter minimum price threshold: ");
+                    double threshold = scanner.nextDouble();
+                    List<Book> filtered = db.getBooksPriceGreaterThan(threshold);
+                    db.displayList(filtered, "Books Priced Above INR " + threshold);
+                    break;
+                case 5:
+                    running = false;
+                    System.out.println("Exiting Book Database. Goodbye!");
+                    break;
+                default:
+                    System.out.println("Invalid option! Please enter a choice between 1 and 5.");
+            }
+        }
+        scanner.close();
+    }
+}</pre>
+                    </div>
+                </div>
+
+                <div class="viva-card">
+                    <div class="viva-title"><svg viewBox="0 0 24 24" style="width:20px; height:20px; fill:none; stroke:currentColor; stroke-width:2;"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>Solved Viva Questions</div>
+                    <div class="viva-notes-wrap">
+                        <div class="viva-q">Q: What is the difference between Comparable and Comparator?</div>
+                        <div class="viva-a">A: Comparable defines natural sorting order for a class using the `compareTo()` method inside that class. Comparator defines custom sorting orders in separate classes/closures using the `compare()` method. Here we used Comparator dynamically.</div>
+                        <div class="viva-q">Q: How do we copy arrays/lists in Java safely?</div>
+                        <div class="viva-a">A: Rather than shallow copying references (`list2 = list1`), we instantiate a new collection passing the source: `new ArrayList<>(sourceList)`. This duplicates elements in separate memory scopes.</div>
+                    </div>
+                </div>
+
+                <div class="compile-guide">
+                    <span class="cmd">&gt; javac -d . books/*.java</span><br>
+                    <span class="cmd">&gt; java books.BookDatabase</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ======================= EXPERIMENT 8 ======================= -->
+        <div class="lab-section" id="sec-ex8">
+            <div class="hero-card">
+                <div class="hero-card-tag">Experiment 8</div>
+                <h2>Generic Stack Class Architecture</h2>
+                <p>Implement a generic Stack class supporting <code>push</code>, <code>pop</code>, <code>clear</code>, <code>isEmpty</code>, and <code>display</code> methods. Demonstrate compile-time type safety by instantiating stacks of Integer and String objects.</p>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title"><svg viewBox="0 0 24 24"><path d="M16 18l6-6-6-6M8 6L2 12l6 6"></path></svg>Source Code Files</h3>
+                </div>
+
+                <div class="code-container">
+                    <div class="code-tabs">
+                        <button class="code-tab active" onclick="switchTab(this, 'ex8-stack')">Stack.java</button>
+                        <button class="code-tab" onclick="switchTab(this, 'ex8-demo')">GenericStackDemo.java</button>
+                    </div>
+                    <div class="code-content active" id="ex8-stack">
+                        <pre>package generics;
+
+import java.util.ArrayList;
+
+public class Stack&lt;T&gt; {
+    private ArrayList&lt;T&gt; elements;
+
+    public Stack() {
+        elements = new ArrayList&lt;&gt;();
+    }
+
+    public void push(T item) {
+        elements.add(item);
+        System.out.println("Pushed: " + item);
+    }
+
+    public T pop() {
+        if (isEmpty()) {
+            System.err.println("❌ Stack Underflow! Cannot pop from empty stack.");
+            return null;
+        }
+        T item = elements.remove(elements.size() - 1);
+        System.out.println("Popped: " + item);
+        return item;
+    }
+
+    public void clear() {
+        elements.clear();
+        System.out.println("Stack cleared.");
+    }
+
+    public boolean isEmpty() {
+        return elements.isEmpty();
+    }
+
+    public void display() {
+        if (isEmpty()) {
+            System.out.println("Stack is empty.");
+            return;
+        }
+        System.out.print("Stack elements (Bottom to Top): ");
+        for (T item : elements) {
+            System.out.print(item + " -> ");
+        }
+        System.out.println("[TOP]");
+    }
+}</pre>
+                    </div>
+                    <div class="code-content" id="ex8-demo">
+                        <pre>package generics;
+
+public class GenericStackDemo {
+    public static void main(String[] args) {
+        System.out.println("==================================================");
+        System.out.println("     TYPE-SAFE GENERIC JAVA STACK (IS48 EX-8)     ");
+        System.out.println("==================================================");
+
+        // 1. Demonstrate Stack of Strings
+        System.out.println("\n--- Instantiating Stack of Strings ---");
+        Stack&lt;String&gt; stringStack = new Stack&lt;&gt;();
+        
+        stringStack.display();
+        stringStack.push("Evangeline D");
+        stringStack.push("Ananth Akshay");
+        stringStack.push("MSRIT Bangalore");
+        stringStack.display();
+        
+        stringStack.pop();
+        stringStack.display();
+        
+        System.out.println("Is string stack empty? " + stringStack.isEmpty());
+        stringStack.clear();
+        stringStack.display();
+
+        // 2. Demonstrate Stack of Integers
+        System.out.println("\n--- Instantiating Stack of Integers ---");
+        Stack&lt;Integer&gt; intStack = new Stack&lt;&gt;();
+        
+        intStack.display();
+        intStack.push(100);
+        intStack.push(200);
+        intStack.push(300);
+        intStack.display();
+        
+        intStack.pop();
+        intStack.pop();
+        intStack.display();
+        
+        System.out.println("Is integer stack empty? " + intStack.isEmpty());
+        intStack.pop();
+        intStack.pop();
+    }
+}</pre>
+                    </div>
+                </div>
+
+                <div class="viva-card">
+                    <div class="viva-title"><svg viewBox="0 0 24 24" style="width:20px; height:20px; fill:none; stroke:currentColor; stroke-width:2;"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>Solved Viva Questions</div>
+                    <div class="viva-notes-wrap">
+                        <div class="viva-q">Q: What is the benefit of Generics in Java?</div>
+                        <div class="viva-a">A: Generics enable strong compile-time type checks, removing the necessity of manual type castings (`(String) obj`) and avoiding fatal `ClassCastException` failures at runtime.</div>
+                        <div class="viva-q">Q: What is Type Erasure?</div>
+                        <div class="viva-a">A: It is the compiler process where generic type parameters are replaced by their bounds (or Object class) during compiling, ensuring backwards compatibility with older Java versions.</div>
+                    </div>
+                </div>
+
+                <div class="compile-guide">
+                    <span class="cmd">&gt; javac -d . generics/*.java</span><br>
+                    <span class="cmd">&gt; java generics.GenericStackDemo</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ======================= EXPERIMENT 9 ======================= -->
+        <div class="lab-section" id="sec-ex9">
+            <div class="hero-card">
+                <div class="hero-card-tag">Experiment 9</div>
+                <h2>Student Information Registry Swing GUI Panel</h2>
+                <p>Create a desktop Swing application to register Student information (USN, Category, SGPA of 4 semesters). Incorporate pop-up error dialog validations, CGPA calculators on compute trigger, and save objects into lists displayed inside textual consoles.</p>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title"><svg viewBox="0 0 24 24"><path d="M16 18l6-6-6-6M8 6L2 12l6 6"></path></svg>Source Code Files</h3>
+                </div>
+
+                <div class="code-container">
+                    <div class="code-tabs">
+                        <button class="code-tab active" onclick="switchTab(this, 'ex9-swing')">StudentSwingApp.java</button>
+                    </div>
+                    <div class="code-content active" id="ex9-swing">
+                        <pre>package studentui;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
+
+public class StudentSwingApp extends JFrame {
+    private JTextField txtName, txtUSN, txtAge, txtAddress;
+    private JTextField txtSgpa1, txtSgpa2, txtSgpa3, txtSgpa4;
+    private JComboBox&lt;String&gt; cmbCategory;
+    private JButton btnCompute, btnDone, btnComplete;
+    private JTextArea txtOutput;
+    
+    private List&lt;Student&gt; studentList;
+    private double calculatedCgpa = -1.0;
+
+    private static class Student {
+        String name, usn, address, category;
+        int age;
+        double cgpa;
+
+        Student(String name, String usn, int age, String address, double cgpa, String category) {
+            this.name = name;
+            this.usn = usn;
+            this.age = age;
+            this.address = address;
+            this.cgpa = cgpa;
+            this.category = category;
+        }
+
+        @Override
+        public String toString() {
+            return String.format("USN: %s | Name: %-15s | Age: %d | Address: %-10s | CGPA: %.2f | Category: %s\n",
+                    usn, name, age, address, cgpa, category);
+        }
+    }
+
+    public StudentSwingApp() {
+        studentList = new ArrayList&lt;&gt;();
+        
+        setTitle("Student Information Database System (IS48 Ex-9)");
+        setSize(750, 650);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+        
+        JPanel mainPanel = new JPanel(new BorderLayout(15, 15));
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        mainPanel.setBackground(new Color(12, 19, 34));
+        
+        JLabel lblHeader = new JLabel("STUDENT REGISTRATION PORTAL", JLabel.CENTER);
+        lblHeader.setFont(new Font("Outfit", Font.BOLD, 22));
+        lblHeader.setForeground(new Color(248, 152, 32));
+        mainPanel.add(lblHeader, BorderLayout.NORTH);
+
+        JPanel formPanel = new JPanel(new GridBagLayout());
+        formPanel.setOpaque(false);
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new java.awt.Insets(6, 6, 6, 6);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+
+        txtName = createStyledField();
+        txtUSN = createStyledField();
+        txtAge = createStyledField();
+        txtAddress = createStyledField();
+        txtSgpa1 = createStyledField();
+        txtSgpa2 = createStyledField();
+        txtSgpa3 = createStyledField();
+        txtSgpa4 = createStyledField();
+        
+        String[] categories = {"General", "OBC", "SC", "ST", "Management"};
+        cmbCategory = new JComboBox&lt;&gt;(categories);
+        cmbCategory.setFont(new Font("Inter", Font.BOLD, 14));
+        cmbCategory.setBackground(new Color(19, 30, 51));
+        cmbCategory.setForeground(Color.WHITE);
+
+        addFormRow(formPanel, "Student Name:", txtName, gbc, 0, 0);
+        addFormRow(formPanel, "USN (10-char Alphanum):", txtUSN, gbc, 1, 0);
+        addFormRow(formPanel, "Age (Years):", txtAge, gbc, 2, 0);
+        addFormRow(formPanel, "Address:", txtAddress, gbc, 3, 0);
+        addFormRow(formPanel, "SGPA - Sem 1:", txtSgpa1, gbc, 4, 0);
+        addFormRow(formPanel, "SGPA - Sem 2:", txtSgpa2, gbc, 5, 0);
+        addFormRow(formPanel, "SGPA - Sem 3:", txtSgpa3, gbc, 6, 0);
+        addFormRow(formPanel, "SGPA - Sem 4:", txtSgpa4, gbc, 7, 0);
+        addFormRow(formPanel, "Category Status:", cmbCategory, gbc, 8, 0);
+
+        mainPanel.add(formPanel, BorderLayout.WEST);
+
+        JPanel outputPanel = new JPanel(new BorderLayout(10, 10));
+        outputPanel.setOpaque(false);
+        JLabel lblConsole = new JLabel("COLLECTION REGISTRY CONSOLE");
+        lblConsole.setFont(new Font("Outfit", Font.BOLD, 14));
+        lblConsole.setForeground(new Color(6, 182, 212));
+        outputPanel.add(lblConsole, BorderLayout.NORTH);
+        
+        txtOutput = new JTextArea(15, 25);
+        txtOutput.setEditable(false);
+        txtOutput.setFont(new Font("Monospaced", Font.PLAIN, 12));
+        txtOutput.setBackground(new Color(7, 11, 19));
+        txtOutput.setForeground(new Color(16, 185, 129));
+        JScrollPane scroll = new JScrollPane(txtOutput);
+        outputPanel.add(scroll, BorderLayout.CENTER);
+
+        mainPanel.add(outputPanel, BorderLayout.CENTER);
+
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 10));
+        buttonPanel.setOpaque(false);
+        
+        btnCompute = createStyledButton("Compute CGPA", new Color(6, 182, 212));
+        btnDone = createStyledButton("Done (Save Record)", new Color(248, 152, 32));
+        btnComplete = createStyledButton("Complete (Show List)", new Color(16, 185, 129));
+        
+        btnDone.setEnabled(false);
+        
+        buttonPanel.add(btnCompute);
+        buttonPanel.add(btnDone);
+        buttonPanel.add(btnComplete);
+        mainPanel.add(buttonPanel, BorderLayout.SOUTH);
+
+        add(mainPanel);
+
+        btnCompute.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (validateFields()) {
+                    double s1 = Double.parseDouble(txtSgpa1.getText().trim());
+                    double s2 = Double.parseDouble(txtSgpa2.getText().trim());
+                    double s3 = Double.parseDouble(txtSgpa3.getText().trim());
+                    double s4 = Double.parseDouble(txtSgpa4.getText().trim());
+                    
+                    calculatedCgpa = (s1 + s2 + s3 + s4) / 4.0;
+                    JOptionPane.showMessageDialog(StudentSwingApp.this,
+                            String.format("Calculated Average CGPA of 4 semesters: %.2f", calculatedCgpa),
+                            "CGPA Calculation Complete", JOptionPane.INFORMATION_MESSAGE);
+                    
+                    btnDone.setEnabled(true);
+                }
+            }
+        });
+
+        btnDone.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (calculatedCgpa < 0) {
+                    JOptionPane.showMessageDialog(StudentSwingApp.this, "Please compute CGPA first!", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                
+                String name = txtName.getText().trim();
+                String usn = txtUSN.getText().trim().toUpperCase();
+                int age = Integer.parseInt(txtAge.getText().trim());
+                String address = txtAddress.getText().trim();
+                String category = cmbCategory.getSelectedItem().toString();
+                
+                Student s = new Student(name, usn, age, address, calculatedCgpa, category);
+                studentList.add(s);
+                
+                JOptionPane.showMessageDialog(StudentSwingApp.this, "Student record successfully added to local collection!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                clearForm();
+                btnDone.setEnabled(false);
+                calculatedCgpa = -1.0;
+            }
+        });
+
+        btnComplete.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                txtOutput.setText("");
+                if (studentList.isEmpty()) {
+                    txtOutput.append("Registry collection is empty.");
+                    return;
+                }
+                txtOutput.append("--- MSRIT REGISTERED STUDENTS LIST ---\n");
+                for (Student s : studentList) {
+                    txtOutput.append(s.toString());
+                }
+            }
+        });
+    }
+
+    private JTextField createStyledField() {
+        JTextField field = new JTextField(12);
+        field.setFont(new Font("Inter", Font.PLAIN, 14));
+        field.setBackground(new Color(19, 30, 51));
+        field.setForeground(Color.WHITE);
+        field.setCaretColor(Color.WHITE);
+        field.setBorder(BorderFactory.createLineBorder(new Color(30, 41, 59), 1));
+        return field;
+    }
+
+    private JButton createStyledButton(String text, Color baseColor) {
+        JButton btn = new JButton(text);
+        btn.setFont(new Font("Outfit", Font.BOLD, 14));
+        btn.setBackground(baseColor);
+        btn.setForeground(Color.WHITE);
+        btn.setFocusPainted(false);
+        btn.setBorder(BorderFactory.createEmptyBorder(8, 15, 8, 15));
+        return btn;
+    }
+
+    private void addFormRow(JPanel panel, String labelText, Component comp, GridBagConstraints gbc, int row, int col) {
+        JLabel label = new JLabel(labelText);
+        label.setFont(new Font("Inter", Font.BOLD, 12));
+        label.setForeground(new Color(148, 163, 184));
+        
+        gbc.gridx = col;
+        gbc.gridy = row;
+        panel.add(label, gbc);
+        
+        gbc.gridx = col + 1;
+        panel.add(comp, gbc);
+    }
+
+    private void clearForm() {
+        txtName.setText(""); txtUSN.setText(""); txtAge.setText(""); txtAddress.setText("");
+        txtSgpa1.setText(""); txtSgpa2.setText(""); txtSgpa3.setText(""); txtSgpa4.setText("");
+        cmbCategory.setSelectedIndex(0);
+    }
+
+    private boolean validateFields() {
+        try {
+            String name = txtName.getText().trim();
+            String usn = txtUSN.getText().trim();
+            String address = txtAddress.getText().trim();
+            
+            if (name.isEmpty() || usn.isEmpty() || address.isEmpty()) {
+                showError("All text fields must be filled!");
+                return false;
+            }
+            if (!usn.matches("^[a-zA-Z0-9]{10}$")) {
+                showError("USN must be exactly 10 alphanumeric characters!");
+                return false;
+            }
+            int age = Integer.parseInt(txtAge.getText().trim());
+            if (age &lt; 15 || age &gt; 60) {
+                showError("Age must be a valid integer between 15 and 60!");
+                return false;
+            }
+            double[] sgpas = new double[4];
+            sgpas[0] = Double.parseDouble(txtSgpa1.getText().trim());
+            sgpas[1] = Double.parseDouble(txtSgpa2.getText().trim());
+            sgpas[2] = Double.parseDouble(txtSgpa3.getText().trim());
+            sgpas[3] = Double.parseDouble(txtSgpa4.getText().trim());
+            
+            for (int i = 0; i &lt; 4; i++) {
+                if (sgpas[i] &lt; 0.0 || sgpas[i] &gt; 10.0) {
+                    showError("SGPA for Sem " + (i + 1) + " must be between 0.0 and 10.0!");
+                    return false;
+                }
+            }
+            return true;
+        } catch (NumberFormatException e) {
+            showError("Numerical fields (Age, SGPA) contain invalid inputs!");
+            return false;
+        }
+    }
+
+    private void showError(String msg) {
+        JOptionPane.showMessageDialog(this, msg, "Validation Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new StudentSwingApp().setVisible(true);
+            }
+        });
+    }
+}</pre>
+                    </div>
+                </div>
+
+                <div class="viva-card">
+                    <div class="viva-title"><svg viewBox="0 0 24 24" style="width:20px; height:20px; fill:none; stroke:currentColor; stroke-width:2;"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>Solved Viva Questions</div>
+                    <div class="viva-notes-wrap">
+                        <div class="viva-q">Q: What is the main design architecture of Swing components?</div>
+                        <div class="viva-a">A: Swing uses the MVC (Model-View-Controller) architecture. It separates components data storage models (like ListSelectionModel) from display skins (UI delegates), making them highly lightweight and pluggable.</div>
+                        <div class="viva-q">Q: What is the purpose of SwingUtilities.invokeLater()?</div>
+                        <div class="viva-a">A: It executes runnable code asynchronously on the Event Dispatch Thread (EDT). Since Swing components are not thread-safe, all GUI interactions and updates must take place strictly on the EDT to prevent locking.</div>
+                    </div>
+                </div>
+
+                <div class="compile-guide">
+                    <span class="cmd">&gt; javac -d . studentui/*.java</span><br>
+                    <span class="cmd">&gt; java studentui.StudentSwingApp</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ======================= EXPERIMENT 10 ======================= -->
+        <div class="lab-section" id="sec-ex10">
+            <div class="hero-card">
+                <div class="hero-card-tag">Experiment 10</div>
+                <h2>Secure Customer Login &amp; Sales Billing Swing Form</h2>
+                <p>Create a desktop Swing application validating login credentials. Check customer ID registry lookup dynamically via telephone numbers, compute purchasing bills using options dialogs for coupon selection, and output print formats inside confirmation dialogs.</p>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title"><svg viewBox="0 0 24 24"><path d="M16 18l6-6-6-6M8 6L2 12l6 6"></path></svg>Source Code Files</h3>
+                </div>
+
+                <div class="code-container">
+                    <div class="code-tabs">
+                        <button class="code-tab active" onclick="switchTab(this, 'ex10-cust')">CustomerPurchaseApp.java</button>
+                    </div>
+                    <div class="code-content active" id="ex10-cust">
+                        <pre>package customerui;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.Map;
+
+public class CustomerPurchaseApp extends JFrame {
+    private Map&lt;String, String&gt; customerDatabase;
+    private Map&lt;String, Item&gt; itemDatabase;
+    
+    private JTextField txtMobile, txtCustId, txtItemId, txtQty, txtItemName, txtTotalCost;
+    private JButton btnLookup, btnPurchase, btnDiscounts, btnPrint;
+
+    private static class Item {
+        String name;
+        double price;
+
+        Item(String name, double price) {
+            this.name = name;
+            this.price = price;
+        }
+    }
+
+    public CustomerPurchaseApp() {
+        customerDatabase = new HashMap&lt;&gt;();
+        customerDatabase.put("9876543210", "CUST-001");
+        customerDatabase.put("9988776655", "CUST-002");
+        
+        itemDatabase = new HashMap&lt;&gt;();
+        itemDatabase.put("ITEM-10", new Item("Cotton Polo Shirt", 1200.0));
+        itemDatabase.put("ITEM-20", new Item("Denim Regular Shirt", 1800.0));
+        itemDatabase.put("ITEM-30", new Item("Oxford Button-Down", 2200.0));
+
+        if (!promptLogin()) {
+            System.exit(0);
+        }
+
+        setTitle("MSRIT Customer Billing &amp; Purchase Panel (IS48 Ex-10)");
+        setSize(650, 480);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+
+        JPanel mainPanel = new JPanel(new BorderLayout(15, 15));
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        mainPanel.setBackground(new Color(7, 11, 19));
+
+        JLabel lblHeader = new JLabel("CUSTOMER PURCHASE REGISTRY", JLabel.CENTER);
+        lblHeader.setFont(new Font("Outfit", Font.BOLD, 20));
+        lblHeader.setForeground(new Color(248, 152, 32));
+        mainPanel.add(lblHeader, BorderLayout.NORTH);
+
+        JPanel gridPanel = new JPanel(new GridLayout(6, 2, 10, 10));
+        gridPanel.setOpaque(false);
+
+        txtMobile = createStyledField();
+        txtCustId = createStyledField();
+        txtCustId.setEditable(false);
+        txtItemId = createStyledField();
+        txtQty = createStyledField();
+        txtItemName = createStyledField();
+        txtItemName.setEditable(false);
+        txtTotalCost = createStyledField();
+        txtTotalCost.setEditable(false);
+
+        JPanel lookupPanel = new JPanel(new BorderLayout(5, 0));
+        lookupPanel.setOpaque(false);
+        lookupPanel.add(txtMobile, BorderLayout.CENTER);
+        btnLookup = createStyledButton("Lookup", new Color(6, 182, 212));
+        lookupPanel.add(btnLookup, BorderLayout.EAST);
+
+        addLabel(gridPanel, "Enter Mobile Number:");
+        gridPanel.add(lookupPanel);
+        addLabel(gridPanel, "Customer ID:");
+        gridPanel.add(txtCustId);
+        addLabel(gridPanel, "Enter Item ID (ITEM-10/20/30):");
+        gridPanel.add(txtItemId);
+        addLabel(gridPanel, "Quantity:");
+        gridPanel.add(txtQty);
+        addLabel(gridPanel, "Item Selected:");
+        gridPanel.add(txtItemName);
+        addLabel(gridPanel, "Total Cost (INR):");
+        gridPanel.add(txtTotalCost);
+
+        mainPanel.add(gridPanel, BorderLayout.CENTER);
+
+        JPanel actionPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 10));
+        actionPanel.setOpaque(false);
+        btnPurchase = createStyledButton("Purchase Item", new Color(6, 182, 212));
+        btnDiscounts = createStyledButton("Show Discounts", new Color(248, 152, 32));
+        btnPrint = createStyledButton("Print Receipt", new Color(16, 185, 129));
+
+        btnDiscounts.setEnabled(false);
+        btnPrint.setEnabled(false);
+
+        actionPanel.add(btnPurchase);
+        actionPanel.add(btnDiscounts);
+        actionPanel.add(btnPrint);
+        mainPanel.add(actionPanel, BorderLayout.SOUTH);
+
+        add(mainPanel);
+
+        btnLookup.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String mobile = txtMobile.getText().trim();
+                if (!mobile.matches("^[0-9]{10}$")) {
+                    JOptionPane.showMessageDialog(CustomerPurchaseApp.this, "Mobile number must be exactly 10 digits!", "Input Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                if (customerDatabase.containsKey(mobile)) {
+                    String id = customerDatabase.get(mobile);
+                    txtCustId.setText(id);
+                    JOptionPane.showMessageDialog(CustomerPurchaseApp.this, "Welcome back! Existing Customer ID found: " + id, "Customer Verified", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    String id = "CUST-0" + (customerDatabase.size() + 1);
+                    customerDatabase.put(mobile, id);
+                    txtCustId.setText(id);
+                    JOptionPane.showMessageDialog(CustomerPurchaseApp.this, "New Customer Registered! Assigned Customer ID: " + id, "New Customer Added", JOptionPane.INFORMATION_MESSAGE);
+                }
+            }
+        });
+
+        btnPurchase.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String custId = txtCustId.getText().trim();
+                String itemId = txtItemId.getText().trim().toUpperCase();
+                String qtyStr = txtQty.getText().trim();
+
+                if (custId.isEmpty()) {
+                    JOptionPane.showMessageDialog(CustomerPurchaseApp.this, "Please run customer mobile lookup first!", "Error", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+                if (!itemDatabase.containsKey(itemId)) {
+                    JOptionPane.showMessageDialog(CustomerPurchaseApp.this, "Invalid Item ID! (Available: ITEM-10, ITEM-20, ITEM-30)", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                try {
+                    int qty = Integer.parseInt(qtyStr);
+                    if (qty &lt;= 0) {
+                        JOptionPane.showMessageDialog(CustomerPurchaseApp.this, "Quantity must be greater than zero!", "Error", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                    Item item = itemDatabase.get(itemId);
+                    double cost = item.price * qty;
+
+                    txtItemName.setText(item.name);
+                    txtTotalCost.setText(String.format("%.2f", cost));
+
+                    btnDiscounts.setEnabled(true);
+                    btnPrint.setEnabled(true);
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(CustomerPurchaseApp.this, "Quantity must be an integer!", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+
+        btnDiscounts.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String[] options = {"Festival Discount (10%)", "New Member Discount (5%)", "Premium Offer (15%)"};
+                int selection = JOptionPane.showOptionDialog(
+                        CustomerPurchaseApp.this,
+                        "Select a discount to apply to this purchase:",
+                        "Discount Coupons Portal",
+                        JOptionPane.DEFAULT_OPTION,
+                        JOptionPane.QUESTION_MESSAGE,
+                        null,
+                        options,
+                        options[0]
+                );
+
+                if (selection &gt;= 0) {
+                    double discountPercent = (selection == 0) ? 0.10 : (selection == 1) ? 0.05 : 0.15;
+                    double currentCost = Double.parseDouble(txtTotalCost.getText());
+                    double finalCost = currentCost * (1 - discountPercent);
+                    txtTotalCost.setText(String.format("%.2f", finalCost));
+                    JOptionPane.showMessageDialog(CustomerPurchaseApp.this, "Applied coupon! Calculated Discount: " + (discountPercent*100) + "%", "Discount Applied", JOptionPane.INFORMATION_MESSAGE);
+                }
+            }
+        });
+
+        btnPrint.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String receipt = String.format(
+                        "====================================\n" +
+                        "      MSRIT CLOTHING OUTLET BILL    \n" +
+                        "====================================\n" +
+                        "Customer ID : %s\n" +
+                        "Mobile No   : %s\n" +
+                        "Item Name   : %s\n" +
+                        "Quantity    : %s\n" +
+                        "Total Paid  : INR %s\n" +
+                        "====================================\n" +
+                        "Thank you for shopping with us!",
+                        txtCustId.getText(), txtMobile.getText(), txtItemName.getText(), txtQty.getText(), txtTotalCost.getText()
+                );
+                JOptionPane.showMessageDialog(CustomerPurchaseApp.this, receipt, "Purchase Invoice Receipt", JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
+    }
+
+    private boolean promptLogin() {
+        JPanel loginPanel = new JPanel(new GridLayout(2, 2, 5, 5));
+        JTextField username = new JTextField();
+        JPasswordField password = new JPasswordField();
+        loginPanel.add(new JLabel("Username:"));
+        loginPanel.add(username);
+        loginPanel.add(new JLabel("Password:"));
+        loginPanel.add(password);
+
+        int result = JOptionPane.showConfirmDialog(
+                null,
+                loginPanel,
+                "Billing Terminal Secure Login",
+                JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.PLAIN_MESSAGE
+        );
+
+        if (result == JOptionPane.OK_OPTION) {
+            String user = username.getText().trim();
+            String pass = new String(password.getPassword());
+            if (user.equals("admin") && pass.equals("is48")) {
+                JOptionPane.showMessageDialog(null, "Login Successful! Welcome to the Terminal.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                return true;
+            } else {
+                JOptionPane.showMessageDialog(null, "Invalid Credentials! Access Denied.", "Login Failed", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+        }
+        return false;
+    }
+
+    private JTextField createStyledField() {
+        JTextField field = new JTextField();
+        field.setFont(new Font("Inter", Font.PLAIN, 14));
+        field.setBackground(new Color(19, 30, 51));
+        field.setForeground(Color.WHITE);
+        field.setCaretColor(Color.WHITE);
+        field.setBorder(BorderFactory.createLineBorder(new Color(30, 41, 59), 1));
+        return field;
+    }
+
+    private JButton createStyledButton(String text, Color baseColor) {
+        JButton btn = new JButton(text);
+        btn.setFont(new Font("Outfit", Font.BOLD, 14));
+        btn.setBackground(baseColor);
+        btn.setForeground(Color.WHITE);
+        btn.setFocusPainted(false);
+        btn.setBorder(BorderFactory.createEmptyBorder(6, 12, 6, 12));
+        return btn;
+    }
+
+    private void addLabel(JPanel panel, String labelText) {
+        JLabel label = new JLabel(labelText);
+        label.setFont(new Font("Inter", Font.BOLD, 12));
+        label.setForeground(new Color(148, 163, 184));
+        panel.add(label);
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new CustomerPurchaseApp().setVisible(true);
+            }
+        });
+    }
+}</pre>
+                    </div>
+                </div>
+
+                <div class="viva-card">
+                    <div class="viva-title"><svg viewBox="0 0 24 24" style="width:20px; height:20px; fill:none; stroke:currentColor; stroke-width:2;"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>Solved Viva Questions</div>
+                    <div class="viva-notes-wrap">
+                        <div class="viva-q">Q: What are the differences between JOptionPane message types?</div>
+                        <div class="viva-a">A: R provides default types: `ERROR_MESSAGE` (red X icon), `INFORMATION_MESSAGE` (blue information icon), `WARNING_MESSAGE` (yellow warning triangle), `QUESTION_MESSAGE` (question mark), and `PLAIN_MESSAGE` (no icon).</div>
+                        <div class="viva-q">Q: How do we securely capture a password in Swing?</div>
+                        <div class="viva-a">A: We use `JPasswordField` instead of `JTextField`. We read input using `getPassword()` returning a character array (`char[]`) rather than `getText()` returning String, allowing us to immediately wipe the array from RAM after use.</div>
+                    </div>
+                </div>
+
+                <div class="compile-guide">
+                    <span class="cmd">&gt; javac -d . customerui/*.java</span><br>
+                    <span class="cmd">&gt; java customerui.CustomerPurchaseApp</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ======================= EXPERIMENT 11 ======================= -->
+        <div class="lab-section" id="sec-ex11">
+            <div class="hero-card">
+                <div class="hero-card-tag">Experiment 11</div>
+                <h2>JDBC Representative &amp; Customer MySQL swing Portal</h2>
+                <p>Build a stand-alone desktop application using Swing and JDBC to interface MySQL. Create two tables: <code>Representative</code> and <code>Customer</code>, insert values using appropriate Swing fields, and query to display representatives matching credit limits > 15,000.</p>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title"><svg viewBox="0 0 24 24"><path d="M16 18l6-6-6-6M8 6L2 12l6 6"></path></svg>Source Code Files</h3>
+                </div>
+
+                <div class="code-container">
+                    <div class="code-tabs">
+                        <button class="code-tab active" onclick="switchTab(this, 'ex11-jdbc')">JDBCRepCustApp.java</button>
+                    </div>
+                    <div class="code-content active" id="ex11-jdbc">
+                        <pre>package jdbcui;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.*;
+
+public class JDBCRepCustApp extends JFrame {
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/advanced_java_db?useSSL=false&allowPublicKeyRetrieval=true";
+    private static final String DB_USER = "root";
+    private static final String DB_PASS = "admin";
+
+    private JTextField txtRepNo, txtRepName, txtRepState, txtRepCommission, txtRepRate;
+    private JTextField txtCustNo, txtCustName, txtCustState, txtCustLimit, txtCustRepNo;
+    
+    private JTextArea txtDisplayConsole;
+    private JButton btnInsertRep, btnInsertCust, btnFetchReps;
+
+    public JDBCRepCustApp() {
+        setTitle("JDBC MySQL Representative & Customer Portal (IS48 Ex-11)");
+        setSize(800, 600);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+
+        initializeDatabaseSchema();
+
+        JTabbedPane tabbedPane = new JTabbedPane();
+        tabbedPane.setFont(new Font("Outfit", Font.BOLD, 13));
+        
+        JPanel insertTab = new JPanel(new GridLayout(1, 2, 20, 20));
+        insertTab.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+        insertTab.setBackground(new Color(12, 19, 34));
+
+        JPanel repPanel = new JPanel(new GridLayout(6, 2, 10, 10));
+        repPanel.setBorder(BorderFactory.createTitledBorder(
+                BorderFactory.createLineBorder(new Color(30, 41, 59)), "Insert Representative Details",
+                0, 0, new Font("Outfit", Font.BOLD, 12), new Color(248, 152, 32)));
+        repPanel.setOpaque(false);
+        
+        txtRepNo = createStyledField();
+        txtRepName = createStyledField();
+        txtRepState = createStyledField();
+        txtRepCommission = createStyledField();
+        txtRepRate = createStyledField();
+        btnInsertRep = createStyledButton("Insert Rep Record", new Color(248, 152, 32));
+
+        addLabel(repPanel, "Rep Number:"); repPanel.add(txtRepNo);
+        addLabel(repPanel, "Rep Name:"); repPanel.add(txtRepName);
+        addLabel(repPanel, "State:"); repPanel.add(txtRepState);
+        addLabel(repPanel, "Commission Amount:"); repPanel.add(txtRepCommission);
+        addLabel(repPanel, "Commission Rate (%):"); repPanel.add(txtRepRate);
+        repPanel.add(new JLabel("")); repPanel.add(btnInsertRep);
+        insertTab.add(repPanel);
+
+        JPanel custPanel = new JPanel(new GridLayout(6, 2, 10, 10));
+        custPanel.setBorder(BorderFactory.createTitledBorder(
+                BorderFactory.createLineBorder(new Color(30, 41, 59)), "Insert Customer Details",
+                0, 0, new Font("Outfit", Font.BOLD, 12), new Color(6, 182, 212)));
+        custPanel.setOpaque(false);
+
+        txtCustNo = createStyledField();
+        txtCustName = createStyledField();
+        txtCustState = createStyledField();
+        txtCustLimit = createStyledField();
+        txtCustRepNo = createStyledField();
+        btnInsertCust = createStyledButton("Insert Customer Record", new Color(6, 182, 212));
+
+        addLabel(custPanel, "Customer Number:"); custPanel.add(txtCustNo);
+        addLabel(custPanel, "Customer Name:"); custPanel.add(txtCustName);
+        addLabel(custPanel, "State:"); custPanel.add(txtCustState);
+        addLabel(custPanel, "Credit Limit (INR):"); custPanel.add(txtCustLimit);
+        addLabel(custPanel, "Associated Rep No:"); custPanel.add(txtCustRepNo);
+        custPanel.add(new JLabel("")); custPanel.add(btnInsertCust);
+        insertTab.add(custPanel);
+        
+        tabbedPane.addTab("📥 Data Entry Panel", insertTab);
+
+        JPanel queryTab = new JPanel(new BorderLayout(15, 15));
+        queryTab.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+        queryTab.setBackground(new Color(7, 11, 19));
+
+        JPanel northBar = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        northBar.setOpaque(false);
+        btnFetchReps = createStyledButton("Display Representatives for Credit Limit > 15,000", new Color(16, 185, 129));
+        northBar.add(btnFetchReps);
+        queryTab.add(northBar, BorderLayout.NORTH);
+
+        txtDisplayConsole = new JTextArea();
+        txtDisplayConsole.setEditable(false);
+        txtDisplayConsole.setFont(new Font("Monospaced", Font.PLAIN, 12));
+        txtDisplayConsole.setBackground(new Color(12, 19, 34));
+        txtDisplayConsole.setForeground(new Color(16, 185, 129));
+        JScrollPane scrollPane = new JScrollPane(txtDisplayConsole);
+        queryTab.add(scrollPane, BorderLayout.CENTER);
+
+        tabbedPane.addTab("🖥️ Database Query Console", queryTab);
+
+        add(tabbedPane);
+
+        btnInsertRep.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    int repNo = Integer.parseInt(txtRepNo.getText().trim());
+                    String name = txtRepName.getText().trim();
+                    String state = txtRepState.getText().trim();
+                    double commission = Double.parseDouble(txtRepCommission.getText().trim());
+                    double rate = Double.parseDouble(txtRepRate.getText().trim());
+
+                    if (name.isEmpty() || state.isEmpty()) {
+                        showError("Text fields cannot be empty!");
+                        return;
+                    }
+                    insertRepresentativeRecord(repNo, name, state, commission, rate);
+                    JOptionPane.showMessageDialog(JDBCRepCustApp.this, "Representative record successfully added to MySQL!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    clearRepFields();
+                } catch (NumberFormatException ex) {
+                    showError("Invalid numerical entries!");
+                }
+            }
+        });
+
+        btnInsertCust.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    int custNo = Integer.parseInt(txtCustNo.getText().trim());
+                    String name = txtCustName.getText().trim();
+                    String state = txtCustState.getText().trim();
+                    double limit = Double.parseDouble(txtCustLimit.getText().trim());
+                    int repNo = Integer.parseInt(txtCustRepNo.getText().trim());
+
+                    if (name.isEmpty() || state.isEmpty()) {
+                        showError("Text fields cannot be empty!");
+                        return;
+                    }
+                    insertCustomerRecord(custNo, name, state, limit, repNo);
+                    JOptionPane.showMessageDialog(JDBCRepCustApp.this, "Customer record successfully added to MySQL!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    clearCustFields();
+                } catch (NumberFormatException ex) {
+                    showError("Invalid numerical entries!");
+                }
+            }
+        });
+
+        btnFetchReps.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                fetchHighCreditReps();
+            }
+        });
+    }
+
+    private Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+    }
+
+    private void initializeDatabaseSchema() {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            try (Connection conn = getConnection(); Statement stmt = conn.createStatement()) {
+                stmt.executeUpdate("CREATE DATABASE IF NOT EXISTS advanced_java_db");
+                stmt.executeUpdate("USE advanced_java_db");
+                stmt.executeUpdate("CREATE TABLE IF NOT EXISTS Representative (" +
+                        "RepNo INT PRIMARY KEY," +
+                        "RepName VARCHAR(100)," +
+                        "State VARCHAR(50)," +
+                        "Commission DOUBLE," +
+                        "Rate DOUBLE)");
+                stmt.executeUpdate("CREATE TABLE IF NOT EXISTS Customer (" +
+                        "CustNo INT PRIMARY KEY," +
+                        "CustName VARCHAR(100)," +
+                        "State VARCHAR(50)," +
+                        "Credit_Limit DOUBLE," +
+                        "RepNo INT," +
+                        "FOREIGN KEY (RepNo) REFERENCES Representative(RepNo))");
+            }
+        } catch (Exception ex) {
+            System.err.println("DB Initialization Error: " + ex.getMessage());
+        }
+    }
+
+    private void insertRepresentativeRecord(int repNo, String name, String state, double comm, double rate) {
+        String sql = "INSERT INTO Representative VALUES (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE RepName=?, State=?, Commission=?, Rate=?";
+        try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, repNo); pstmt.setString(2, name); pstmt.setString(3, state);
+            pstmt.setDouble(4, comm); pstmt.setDouble(5, rate);
+            pstmt.setString(6, name); pstmt.setString(7, state);
+            pstmt.setDouble(8, comm); pstmt.setDouble(9, rate);
+            pstmt.executeUpdate();
+        } catch (SQLException ex) { showError("SQL Exception: " + ex.getMessage()); }
+    }
+
+    private void insertCustomerRecord(int custNo, String name, String state, double limit, int repNo) {
+        String sql = "INSERT INTO Customer VALUES (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE CustName=?, State=?, Credit_Limit=?, RepNo=?";
+        try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, custNo); pstmt.setString(2, name); pstmt.setString(3, state);
+            pstmt.setDouble(4, limit); pstmt.setInt(5, repNo);
+            pstmt.setString(6, name); pstmt.setString(7, state);
+            pstmt.setDouble(8, limit); pstmt.setInt(9, repNo);
+            pstmt.executeUpdate();
+        } catch (SQLException ex) { showError("SQL Exception: " + ex.getMessage()); }
+    }
+
+    private void fetchHighCreditReps() {
+        txtDisplayConsole.setText("");
+        txtDisplayConsole.append("Querying database: FETCH Representatives whose Customers have Credit_Limit > 15,000...\n\n");
+        txtDisplayConsole.append(String.format("%-10s | %-20s | %-12s | %-12s | %-10s\n", "RepNo", "RepName", "State", "Commission", "Rate"));
+        txtDisplayConsole.append("----------------------------------------------------------------------------\n");
+
+        String sql = "SELECT DISTINCT r.RepNo, r.RepName, r.State, r.Commission, r.Rate " +
+                     "FROM Representative r INNER JOIN Customer c ON r.RepNo = c.RepNo " +
+                     "WHERE c.Credit_Limit > 15000";
+
+        try (Connection conn = getConnection(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
+            int count = 0;
+            while (rs.next()) {
+                count++;
+                txtDisplayConsole.append(String.format("%-10d | %-20s | %-12s | %-12.2f | %-10.2f\n",
+                        rs.getInt("RepNo"), rs.getString("RepName"), rs.getString("State"), rs.getDouble("Commission"), rs.getDouble("Rate")));
+            }
+            txtDisplayConsole.append("\nQuery finished. " + count + " records returned.");
+        } catch (SQLException ex) {
+            txtDisplayConsole.append("❌ SQL ERROR: Unable to fetch data.\nDetail: " + ex.getMessage());
+        }
+    }
+
+    private JTextField createStyledField() {
+        JTextField field = new JTextField();
+        field.setFont(new Font("Inter", Font.PLAIN, 14));
+        field.setBackground(new Color(19, 30, 51));
+        field.setForeground(Color.WHITE);
+        field.setCaretColor(Color.WHITE);
+        field.setBorder(BorderFactory.createLineBorder(new Color(30, 41, 59), 1));
+        return field;
+    }
+
+    private JButton createStyledButton(String text, Color baseColor) {
+        JButton btn = new JButton(text);
+        btn.setFont(new Font("Outfit", Font.BOLD, 13));
+        btn.setBackground(baseColor);
+        btn.setForeground(Color.WHITE);
+        btn.setFocusPainted(false);
+        return btn;
+    }
+
+    private void addLabel(JPanel panel, String labelText) {
+        JLabel label = new JLabel(labelText);
+        label.setFont(new Font("Inter", Font.BOLD, 11));
+        label.setForeground(new Color(148, 163, 184));
+        panel.add(label);
+    }
+
+    private void clearRepFields() {
+        txtRepNo.setText(""); txtRepName.setText(""); txtRepState.setText(""); txtRepCommission.setText(""); txtRepRate.setText("");
+    }
+
+    private void clearCustFields() {
+        txtCustNo.setText(""); txtCustName.setText(""); txtCustState.setText(""); txtCustLimit.setText(""); txtCustRepNo.setText("");
+    }
+
+    private void showError(String msg) {
+        JOptionPane.showMessageDialog(this, msg, "Database Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new JDBCRepCustApp().setVisible(true);
+            }
+        });
+    }
+}</pre>
+                    </div>
+                </div>
+
+                <div class="viva-card">
+                    <div class="viva-title"><svg viewBox="0 0 24 24" style="width:20px; height:20px; fill:none; stroke:currentColor; stroke-width:2;"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>Solved Viva Questions</div>
+                    <div class="viva-notes-wrap">
+                        <div class="viva-q">Q: What is the benefit of PreparedStatement over standard Statement?</div>
+                        <div class="viva-a">A: `PreparedStatement` pre-compiles SQL templates in the MySQL server, increasing transaction speed on loops and preventing malicious SQL injection attacks by escaping parameter bindings automatically.</div>
+                        <div class="viva-q">Q: Why did we write Class.forName("com.mysql.cj.jdbc.Driver")?</div>
+                        <div class="viva-a">A: This loads the target database vendor's driver class dynamically into memory at runtime, registering it in Java's `DriverManager` system so database URLs can resolve connection requests.</div>
+                    </div>
+                </div>
+
+                <div class="compile-guide">
+                    <span class="cmd">&gt; javac -d . jdbcui/*.java</span><br>
+                    <span class="cmd">&gt; java -cp ".;mysql-connector-j.jar" jdbcui.JDBCRepCustApp</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ======================= EXPERIMENT 12 ======================= -->
+        <div class="lab-section" id="sec-ex12">
+            <div class="hero-card">
+                <div class="hero-card-tag">Experiment 12</div>
+                <h2>JSP Shirt Purchase Web Application</h2>
+                <p>Create a JSP-based web application to purchase shirts. Display shirt costs inside a table, select shirt type with a drop-down menu, neck style (Round neck, V-neck, collar) using radio buttons, input quantity, and compute order receipts directly on the screen.</p>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title"><svg viewBox="0 0 24 24"><path d="M16 18l6-6-6-6M8 6L2 12l6 6"></path></svg>Source Code Files</h3>
+                </div>
+
+                <div class="code-container">
+                    <div class="code-tabs">
+                        <button class="code-tab active" onclick="switchTab(this, 'ex12-jsp')">shirt_purchase.jsp</button>
+                    </div>
+                    <div class="code-content active" id="ex12-jsp">
+                        <pre>&lt;%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;MSRIT Clothing — Premium Shirt Purchase Portal&lt;/title&gt;
+    &lt;link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono&amp;display=swap" rel="stylesheet"&gt;
+    &lt;style&gt;
+        :root {
+            --bg-dark: #070b13; --bg-panel: #0c1322; --bg-card: #131e33;
+            --primary: #f89820; --primary-hover: #e07f10;
+            --border-color: #1e293b; --text-primary: #f8fafc; --text-secondary: #94a3b8;
+            --font-display: 'Outfit', sans-serif; --font-sans: 'Inter', sans-serif; --font-mono: 'JetBrains Mono', monospace;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: var(--font-sans); color: var(--text-secondary); background-color: var(--bg-dark);
+            display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px;
+        }
+        .container {
+            width: 100%; max-width: 680px; background-color: var(--bg-panel);
+            border: 1px solid var(--border-color); border-radius: 16px; padding: 40px;
+        }
+        h1 { font-family: var(--font-display); font-size: 2.2rem; font-weight: 800; text-align: center; color: var(--text-primary); margin-bottom: 25px; }
+        h1 span { color: var(--primary); }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 30px; }
+        th { background-color: var(--bg-card); color: var(--primary); font-family: var(--font-display); font-weight: 700; padding: 12px; text-align: left; border: 1px solid var(--border-color); }
+        td { padding: 12px; border: 1px solid var(--border-color); color: var(--text-primary); }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; font-weight: 600; margin-bottom: 8px; color: var(--text-primary); }
+        select, input[type="text"] { width: 100%; padding: 12px 16px; background-color: var(--bg-card); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-primary); }
+        .radio-group { display: flex; gap: 20px; margin-top: 5px; }
+        .radio-option { display: flex; align-items: center; gap: 8px; cursor: pointer; color: var(--text-primary); }
+        .radio-option input[type="radio"] { accent-color: var(--primary); width: 18px; height: 18px; }
+        .btn-submit { display: block; width: 100%; padding: 14px; background-color: var(--primary); color: white; border: none; border-radius: 8px; font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; cursor: pointer; margin-top: 30px; }
+        .receipt-card { background: linear-gradient(135deg, rgba(248, 152, 32, 0.08) 0%, rgba(255, 255, 255, 0.01) 100%); border: 1px dashed var(--primary); border-radius: 12px; padding: 25px; margin-top: 35px; }
+        .receipt-title { font-family: var(--font-display); font-size: 1.25rem; font-weight: 700; color: var(--primary); margin-bottom: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; }
+        .receipt-row { display: flex; justify-content: space-between; margin-bottom: 10px; }
+        .receipt-row .label { color: var(--text-secondary); }
+        .receipt-row .val { font-weight: 600; color: var(--text-primary); }
+        .receipt-row.total { border-top: 1px solid var(--border-color); padding-top: 12px; font-size: 1.15rem; font-weight: bold; }
+        .receipt-row.total .val { color: var(--primary); font-family: var(--font-mono); }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div class="container"&gt;
+        &lt;h1&gt;MSRIT &lt;span&gt;Shirt Purchase Portal&lt;/span&gt;&lt;/h1&gt;
+        &lt;table&gt;
+            &lt;thead&gt;
+                &lt;tr&gt;&lt;th&gt;Shirt Type&lt;/th&gt;&lt;th&gt;Base Price (INR)&lt;/th&gt;&lt;/tr&gt;
+            &lt;/thead&gt;
+            &lt;tbody&gt;
+                &lt;tr&gt;&lt;td&gt;Formal Cotton Shirt&lt;/td&gt;&lt;td&gt;1,200.00&lt;/td&gt;&lt;/tr&gt;
+                &lt;tr&gt;&lt;td&gt;Denim Regular Shirt&lt;/td&gt;&lt;td&gt;1,800.00&lt;/td&gt;&lt;/tr&gt;
+                &lt;tr&gt;&lt;td&gt;Premium Oxford Weave&lt;/td&gt;&lt;td&gt;2,200.00&lt;/td&gt;&lt;/tr&gt;
+            &lt;/tbody&gt;
+        &lt;/table&gt;
+        &lt;form method="POST" action="shirt_purchase.jsp"&gt;
+            &lt;div class="form-group"&gt;
+                &lt;label for="shirtType"&gt;Select Shirt Type:&lt;/label&gt;
+                &lt;select name="shirtType" id="shirtType"&gt;
+                    &lt;option value="Formal Cotton"&gt;Formal Cotton Shirt&lt;/option&gt;
+                    &lt;option value="Denim Regular"&gt;Denim Regular Shirt&lt;/option&gt;
+                    &lt;option value="Premium Oxford"&gt;Premium Oxford Weave&lt;/option&gt;
+                &lt;/select&gt;
+            &lt;/div&gt;
+            &lt;div class="form-group"&gt;
+                &lt;label&gt;Select Neck Styling:&lt;/label&gt;
+                &lt;div class="radio-group"&gt;
+                    &lt;label class="radio-option"&gt;&lt;input type="radio" name="neckType" value="Round Neck" checked&gt;Round Neck&lt;/label&gt;
+                    &lt;label class="radio-option"&gt;&lt;input type="radio" name="neckType" value="V Neck"&gt;V Neck&lt;/label&gt;
+                    &lt;label class="radio-option"&gt;&lt;input type="radio" name="neckType" value="Collar"&gt;Collar&lt;/label&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div class="form-group"&gt;
+                &lt;label for="quantity"&gt;Purchase Quantity:&lt;/label&gt;
+                &lt;input type="text" name="quantity" id="quantity" placeholder="e.g. 2" required&gt;
+            </div>
+            &lt;button type="submit" class="btn-submit"&gt;Compute Order Total&lt;/button&gt;
+        &lt;/form&gt;
+        &lt;%
+            String shirtType = request.getParameter("shirtType");
+            String neckType = request.getParameter("neckType");
+            String qtyStr = request.getParameter("quantity");
+            if (shirtType != null &amp;&amp; neckType != null &amp;&amp; qtyStr != null) {
+                try {
+                    int qty = Integer.parseInt(qtyStr.trim());
+                    if (qty &lt;= 0) throw new NumberFormatException();
+                    double unitPrice = shirtType.equals("Formal Cotton") ? 1200.0 : shirtType.equals("Denim Regular") ? 1800.0 : 2200.0;
+                    double totalCost = unitPrice * qty;
+        %&gt;
+                    &lt;div class="receipt-card"&gt;
+                        &lt;div class="receipt-title"&gt;🛒 Purchase Invoice Summary&lt;/div&gt;
+                        &lt;div class="receipt-row"&gt;&lt;span class="label"&gt;Shirt Type Selection:&lt;/span&gt;&lt;span class="val"&gt;&lt;%= shirtType %&gt;&lt;/span&gt;&lt;/div&gt;
+                        &lt;div class="receipt-row"&gt;&lt;span class="label"&gt;Neck Cut Styling:&lt;/span&gt;&lt;span class="val"&gt;&lt;%= neckType %&gt;&lt;/span&gt;&lt;/div&gt;
+                        &lt;div class="receipt-row"&gt;&lt;span class="label"&gt;Unit Base Price:&lt;/span&gt;&lt;span class="val"&gt;INR &lt;%= String.format("%.2f", unitPrice) %&gt;&lt;/span&gt;&lt;/div&gt;
+                        &lt;div class="receipt-row"&gt;&lt;span class="label"&gt;Quantity Purchased:&lt;/span&gt;&lt;span class="val"&gt;&lt;%= qty %&gt; units&lt;/span&gt;&lt;/div&gt;
+                        &lt;div class="receipt-row total"&gt;&lt;span class="label" style="color:var(--text-primary);"&gt;Total Billing Cost:&lt;/span&gt;&lt;span class="val"&gt;INR &lt;%= String.format("%.2f", totalCost) %&gt;&lt;/span&gt;&lt;/div&gt;
+                    &lt;/div&gt;
+        &lt;%
+                } catch (NumberFormatException e) {
+        %&gt;
+                    &lt;div class="receipt-card" style="border-color:var(--primary); background:rgba(255, 67, 94, 0.05);"&gt;
+                        &lt;div class="receipt-title" style="color:var(--primary);"&gt;❌ Processing Error&lt;/div&gt;
+                        &lt;p style="color:var(--text-primary); font-size:0.95rem;"&gt;Invalid quantity entered! Quantity must be a positive integer greater than zero.&lt;/p&gt;
+                    &lt;/div&gt;
+        &lt;%
+                }
+            }
+        %&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+                    </div>
+                </div>
+
+                <div class="viva-card">
+                    <div class="viva-title"><svg viewBox="0 0 24 24" style="width:20px; height:20px; fill:none; stroke:currentColor; stroke-width:2;"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>Solved Viva Questions</div>
+                    <div class="viva-notes-wrap">
+                        <div class="viva-q">Q: What is the lifecycle of a JSP page?</div>
+                        <div class="viva-a">A: A JSP undergoes 7 phases: Translation (JSP converted to Java servlet source), Compilation (servlet source compiled to .class), Classloading, Instantiation, Initialization (`jspInit()`), Execution Service (`_jspService()`), and Destroy (`jspDestroy()`).</div>
+                        <div class="viva-q">Q: What are the differences between scriptlets, declarations, and expressions?</div>
+                        <div class="viva-a">A: Declarations `&lt;%! %&gt;` define global servlet variables or methods. Scriptlets `&lt;% %&gt;` inject local executable Java blocks into `_jspService()`. Expressions `&lt;%= %&gt;` evaluate a variable and directly output the parsed String result to the response HTML stream.</div>
+                    </div>
+                </div>
+
+                <div class="compile-guide">
+                    <span class="cmd">Deploy JSP directly inside the webapps/ folder of your local Apache Tomcat server container.</span>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- JS FOR DYNAMIC NAVIGATION -->
+    <script>
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.lab-section').forEach(sec => {
+                sec.classList.remove('active');
+            });
+            // Show requested section
+            document.getElementById('sec-' + sectionId).classList.add('active');
+
+            // Deactivate all sidebar items
+            document.querySelectorAll('.nav-item').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            // Activate current item
+            document.getElementById('btn-' + sectionId).classList.add('active');
+
+            // Close mobile sidebar if open
+            document.getElementById('sidebar').classList.remove('open');
+            
+            // Auto scroll to top of main content
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function switchTab(btn, contentId) {
+            // Find parent code-container
+            const container = btn.closest('.code-container');
+            
+            // Deactivate all tabs in this container
+            container.querySelectorAll('.code-tab').forEach(t => {
+                t.classList.remove('active');
+            });
+            // Activate selected tab
+            btn.classList.add('active');
+
+            // Hide all content areas in this container
+            container.querySelectorAll('.code-content').forEach(c => {
+                c.classList.remove('active');
+            });
+            // Show target content area
+            container.querySelector('#' + contentId).classList.add('active');
+        }
+
+        function searchSidebar(q) {
+            q = q.toLowerCase();
+            document.querySelectorAll('.nav-menu .nav-item').forEach(btn => {
+                const text = btn.textContent.toLowerCase();
+                if (text.includes(q) || btn.id === 'btn-home') {
+                    btn.style.display = 'flex';
+                } else {
+                    btn.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
