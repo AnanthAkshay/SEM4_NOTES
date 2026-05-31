@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Data Analytics using R — Units 3, 4 & 5 | MSRIT Exam Notes</title>
-<meta name="description" content="Complete exam-oriented notes for Data Analytics using R covering Units 3, 4, and 5 for MSRIT B.E. ISE students.">
+<title>Data Analytics using R — Units 1, 3, 4 &amp; 5 | MSRIT Exam Notes</title>
+<meta name="description" content="Complete exam-oriented notes for Data Analytics using R covering Units 1, 3, 4, and 5 for MSRIT B.E. ISE students.">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Caveat:wght@500;600;700&display=swap');
 *{margin:0;padding:0;box-sizing:border-box}
@@ -175,7 +175,21 @@ strong{color:var(--text);font-weight:700}
 <div class="search-box"><input type="text" id="searchInput" placeholder="Search topics..." oninput="searchTopics(this.value)"></div>
 <nav>
 <div class="nav-unit">
-<div class="nav-unit-title active" onclick="toggleNav(this)"><span class="arrow">▶</span> Unit 3: Data I/O & Aggregation</div>
+<div class="nav-unit-title" onclick="toggleNav(this)"><span class="arrow">▶</span> Unit 1: Introduction & Basics</div>
+<div class="nav-links">
+<a href="#u1-intro">Introduction to R</a>
+<a href="#u1-install">Downloading &amp; Installing R</a>
+<a href="#u1-ides">IDEs and Text Editors</a>
+<a href="#u1-packages">Handling Packages in R</a>
+<a href="#u1-getting-started">Getting Started with R</a>
+<a href="#u1-directory">Working with Directory</a>
+<a href="#u1-datatypes">Data Types &amp; Structures</a>
+<a href="#u1-exploration">Commands for Data Exploration</a>
+<a href="#u1-programs">Unit 1 Programs</a>
+</div>
+</div>
+<div class="nav-unit">
+<div class="nav-unit-title active" onclick="toggleNav(this)"><span class="arrow">▶</span> Unit 3: Data I/O &amp; Aggregation</div>
 <div class="nav-links open">
 <a href="#u3-aggregate">aggregate() Function</a>
 <a href="#u3-tapply">tapply() Function</a>
@@ -234,7 +248,7 @@ strong{color:var(--text);font-weight:700}
 <!-- HERO -->
 <div class="hero">
 <h1>Data Analytics using R</h1>
-<p>Complete Exam Notes — Units 3, 4 & 5</p>
+<p>Complete Exam Notes — Units 1, 3, 4 &amp; 5</p>
 <span class="badge">🎓 MSRIT • ISE • ISALC492 • 2nd Internal Assessment</span>
 </div>
 
@@ -244,6 +258,456 @@ strong{color:var(--text);font-weight:700}
 <button class="ctrl-btn" onclick="collapseAll()">📁 Collapse All</button>
 <button class="ctrl-btn" onclick="showAllAnswers()">✅ Show MCQ Answers</button>
 <button class="ctrl-btn" onclick="hideAllAnswers()">❌ Hide MCQ Answers</button>
+</div>
+
+<!-- ============================================================== -->
+<!-- UNIT 1 -->
+<!-- ============================================================== -->
+<div class="unit-header u3" id="unit1" style="background: linear-gradient(135deg, #3a3bcf 0%, #22237d 100%)">
+<h2>📘 UNIT 1 — Introduction to R &amp; Programming Basics</h2>
+<p>R Ecosystem, IDEs, Package Handling, Working Directory, Data Types &amp; Structures, Data Exploration</p>
+</div>
+
+<!-- 1.1 Introduction to R -->
+<div class="section" id="u1-intro">
+<div class="section-head" onclick="toggleSection(this)">
+<h3><span class="tag tag-def">Definition</span> Introduction to R</h3>
+<span class="toggle">▼</span>
+</div>
+<div class="section-body">
+<div class="def-card">
+<h4>📖 What is R?</h4>
+<p>R is an <strong>open-source programming language</strong> and a software environment specifically designed for <strong>statistical computing, data analytics, and graphics</strong>. Created by Ross Ihaka and Robert Gentleman at the University of Auckland, New Zealand in 1993, R is named after the first names of its authors and is an implementation of the <strong>S programming language</strong>.</p>
+</div>
+
+<div class="viva-box">
+<p><strong>Q: Why is R preferred in data science over other general-purpose languages like C++ or Java?</strong></p>
+<p><strong>A:</strong> R is vector-based (operations apply to whole vectors without explicit loops), has built-in statistical constructs, has the massive CRAN package repository containing thousands of specialized analytical packages, and offers state-of-the-art visualization libraries like ggplot2.</p>
+</div>
+
+<h4>📌 Key Features of R</h4>
+<ul>
+<li><span class="hl">Interpreted Language</span> — Code is executed line-by-line in the R console without needing compilation, facilitating iterative scripting.</li>
+<li><span class="hl">Case-Sensitive</span> — Variable names <code>x</code> and <code>X</code> are treated as completely distinct.</li>
+<li><span class="hl">Vector-Based Architecture</span> — Vectors are the fundamental atomic data structures. Math operations automatically propagate across all elements natively.</li>
+<li><span class="hl">Extensible (CRAN Ecosystem)</span> — Over 18,000 packages are hosted on CRAN (Comprehensive R Archive Network) for domains ranging from genomic sequencing to social media sentiment analysis.</li>
+</ul>
+
+<div class="mnemonic">"V-I-P-E-C" &mdash; Vectorized, Interpreted, Packages, Extensible, Case-sensitive.</div>
+</div>
+</div>
+
+<!-- 1.2 Downloading and Installing R -->
+<div class="section" id="u1-install">
+<div class="section-head" onclick="toggleSection(this)">
+<h3><span class="tag tag-def">Definition</span> Downloading &amp; Installing R</h3>
+<span class="toggle">▼</span>
+</div>
+<div class="section-body">
+<div class="def-card">
+<h4>📖 What is CRAN?</h4>
+<p><strong>CRAN (Comprehensive R Archive Network)</strong> is a network of FTP and web servers around the world that store identical, up-to-date versions of code and documentation for R. It is the primary official repository for downloading R binaries and packages.</p>
+</div>
+
+<h4>📌 Installation Workflow</h4>
+<ol class="algo-steps">
+<li>Go to the official R Project website: <a href="https://www.r-project.org/" target="_blank" style="color:var(--accent3);">r-project.org</a>.</li>
+<li>Click on the <strong>CRAN mirror</strong> link and choose a mirror server geographically close to you.</li>
+<li>Select your Operating System (Windows, macOS, or Linux).
+  <ul>
+    <li>For Windows: Click <code>install R for the first time</code>, then download the latest executable binary installer (e.g., <code>R-4.x.x-win.exe</code>).</li>
+    <li>For macOS: Download the appropriate <code>.pkg</code> file matching your processor (Apple Silicon M1/M2/M3 or Intel).</li>
+  </ul>
+</li>
+<li>Run the installer with default settings. Once complete, you can launch the **R GUI/Console** directly to run interactive code.</li>
+</ol>
+
+<div class="viva-box">
+<p><strong>Q: What is the R Console?</strong></p>
+<p><strong>A:</strong> The R Console is the standard command-line interface (CLI) where R code is entered, evaluated line-by-line (Read-Eval-Print Loop &mdash; REPL), and output is displayed immediately.</p>
+</div>
+</div>
+</div>
+
+<!-- 1.3 IDEs and Text Editors -->
+<div class="section" id="u1-ides">
+<div class="section-head" onclick="toggleSection(this)">
+<h3><span class="tag tag-imp">Important</span> IDEs and Text Editors</h3>
+<span class="toggle">▼</span>
+</div>
+<div class="section-body">
+<div class="def-card">
+<h4>📖 What is RStudio?</h4>
+<p><strong>RStudio</strong> is the premier integrated development environment (IDE) for R. Built specifically for statistical computing, it is organized into four main panes to maximize development efficiency.</p>
+</div>
+
+<h4>📌 The 4 Panes of RStudio</h4>
+<table class="syntax-tbl">
+<tr><th>Pane Name</th><th>Purpose &amp; Features</th></tr>
+<tr><td><strong>Source Editor</strong></td><td>Writing, editing, and saving R scripts (.R files). Supports syntax highlighting and auto-complete.</td></tr>
+<tr><td><strong>Console</strong></td><td>Interactive execution of code. Type single lines and view instantaneous outputs.</td></tr>
+<tr><td><strong>Environment &amp; History</strong></td><td><strong>Environment:</strong> Lists active variables, vectors, lists, and data frames loaded in memory. <br><strong>History:</strong> Keeps a running log of all commands entered.</td></tr>
+<tr><td><strong>Files, Plots, Packages &amp; Help</strong></td><td><strong>Files:</strong> File explorer.<br><strong>Plots:</strong> View generated graphs.<br><strong>Packages:</strong> GUI to install/update packages.<br><strong>Help:</strong> Documentation search.</td></tr>
+</table>
+
+<h4>📌 Alternate Text Editors</h4>
+<p>While RStudio is the standard, developer-focused environments include:</p>
+<ul>
+<li><strong>VS Code:</strong> Fast and modern when coupled with the <code>R</code> extension and <code>languageserver</code> package.</li>
+<li><strong>Jupyter Notebooks:</strong> Popular for data storytelling by using the R kernel to interleave R code with markdown prose.</li>
+<li><strong>Notepad++ with NppToR:</strong> Lightweight Windows-only workflow that forwards lines of code from Notepad++ directly to the active R console.</li>
+</ul>
+</div>
+</div>
+
+<!-- 1.4 Handling Packages in R -->
+<div class="section" id="u1-packages">
+<div class="section-head" onclick="toggleSection(this)">
+<h3><span class="tag tag-imp">Important</span><span class="tag tag-pyq">PYQ</span> Handling Packages in R</h3>
+<span class="toggle">▼</span>
+</div>
+<div class="section-body">
+<div class="def-card">
+<h4>📖 What is a Package?</h4>
+<p>A package is a <strong>structured collection of R functions, compiled code, datasets, and documentation</strong> that extends R's core capabilities. Installed packages are stored in a local directory called a <strong>library</strong>.</p>
+</div>
+
+<div class="exam-box">
+<p>Expect questions asking you to list and explain package handling functions with exact code examples. Make sure to differentiate between installing a package once and loading it every session.</p>
+</div>
+
+<h4>📌 Core Package Commands</h4>
+<table class="syntax-tbl">
+<tr><th>Command</th><th>Syntax</th><th>Description</th></tr>
+<tr><td><strong>Install</strong></td><td><code>install.packages("package_name")</code></td><td>Downloads and compiles the package from CRAN. Only needs to be run <strong>once</strong>.</td></tr>
+<tr><td><strong>Load</strong></td><td><code>library(package_name)</code> or <code>require(package_name)</code></td><td>Loads package features into the current active session memory. Run <strong>every session</strong>.</td></tr>
+<tr><td><strong>Update</strong></td><td><code>update.packages()</code></td><td>Checks CRAN and updates all outdated packages installed in your library.</td></tr>
+<tr><td><strong>List Installed</strong></td><td><code>installed.packages()</code></td><td>Lists details (version, paths) of all packages currently installed locally.</td></tr>
+<tr><td><strong>Remove</strong></td><td><code>remove.packages("package_name")</code></td><td>Uninstalls the package and deletes its files from the local library directory.</td></tr>
+</table>
+
+<div class="viva-box">
+<p><strong>Q: What is the difference between library() and require()?</strong></p>
+<p><strong>A:</strong> <code>library()</code> will throw a fatal error and stop script execution if the package is missing. <code>require()</code> returns a logical value (TRUE if loaded, FALSE if missing) and throws a warning instead, making it ideal for conditional checks in scripts.</p>
+</div>
+
+<h4>📌 Example Code: Handling a package</h4>
+<div class="code-wrapper">
+<div class="code-header"><span class="lang">R</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+<pre><span class="cmt"># Install ggplot2 from CRAN</span>
+<span class="fn">install.packages</span>(<span class="str">"ggplot2"</span>)
+
+<span class="cmt"># Load package safely</span>
+<span class="kw">if</span> (<span class="fn">require</span>(ggplot2)) {
+  <span class="fn">print</span>(<span class="str">"ggplot2 loaded successfully!"</span>)
+} <span class="kw">else</span> {
+  <span class="fn">print</span>(<span class="str">"ggplot2 is missing. Installing now..."</span>)
+  <span class="fn">install.packages</span>(<span class="str">"ggplot2"</span>)
+}</pre>
+</div>
+</div>
+</div>
+
+<!-- 1.5 Getting Started with R -->
+<div class="section" id="u1-getting-started">
+<div class="section-head" onclick="toggleSection(this)">
+<h3><span class="tag tag-def">Definition</span> Getting Started with R</h3>
+<span class="toggle">▼</span>
+</div>
+<div class="section-body">
+<div class="def-card">
+<h4>📖 Assignment Operators</h4>
+<p>R supports multiple assignment operators, but the left arrow <code>&lt;-</code> is highly preferred for assigning values to variables.
+<ul>
+  <li><code>&lt;-</code> &mdash; Standard assignment operator (points left, readable, idiomatic).</li>
+  <li><code>=</code> &mdash; Supported but typically reserved for assigning arguments inside functions.</li>
+</ul>
+</p>
+</div>
+
+<h4>📌 Math &amp; Arithmetic Operators</h4>
+<table>
+<tr><th>Operator</th><th>Name</th><th>Example</th><th>Result</th></tr>
+<tr><td><code>+</code>, <code>-</code></td><td>Addition, Subtraction</td><td><code>5 + 3</code></td><td>8</td></tr>
+<tr><td><code>*</code>, <code>/</code></td><td>Multiplication, Division</td><td><code>10 / 4</code></td><td>2.5</td></tr>
+<tr><td><code>^</code> or <code>**</code></td><td>Exponentiation</td><td><code>2 ^ 3</code></td><td>8</td></tr>
+<tr><td><code>%%</code></td><td>Modulo (Remainder)</td><td><code>10 %% 3</code></td><td>1</td></tr>
+<tr><td><code>%/%</code></td><td>Integer Division</td><td><code>10 %/% 3</code></td><td>3</td></tr>
+</table>
+
+<h4>📌 Comments in R</h4>
+<p>Comments are prefixed with the hash <code>#</code> character. R does not have native multi-line comments. Write multiple commented lines sequentially:</p>
+<div class="code-wrapper">
+<div class="code-header"><span class="lang">R</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+<pre><span class="cmt"># This is a single-line comment.</span>
+<span class="cmt"># R does not support block comments,</span>
+<span class="cmt"># so each line must start with a '#'.</span>
+x &lt;- <span class="num">10</span> <span class="cmt"># Inline comment</span></pre>
+</div>
+
+<h4>📌 print() vs cat()</h4>
+<ul>
+<li><span class="hl">print()</span> &mdash; Standard printing of a single object. Displays line numbers/brackets <code>[1]</code> and string quotes.</li>
+<li><span class="hl">cat()</span> &mdash; Concatenates and prints multiple elements. Strips quotes and bracket numbers. Requires explicit newline characters <code>\n</code>.</li>
+</ul>
+
+<div class="code-wrapper">
+<div class="code-header"><span class="lang">R</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+<pre>name &lt;- <span class="str">"Akshay"</span>
+<span class="fn">print</span>(name)
+<span class="fn">cat</span>(<span class="str">"Hello, my name is"</span>, name, <span class="str">"\n"</span>)</pre>
+</div>
+<div class="output-block">[1] "Akshay"
+Hello, my name is Akshay </div>
+</div>
+</div>
+
+<!-- 1.6 Working with Directory -->
+<div class="section" id="u1-directory">
+<div class="section-head" onclick="toggleSection(this)">
+<h3><span class="tag tag-imp">Important</span> Working with Directory</h3>
+<span class="toggle">▼</span>
+</div>
+<div class="section-body">
+<div class="def-card">
+<h4>📖 Why working directory matters</h4>
+<p>The **working directory** is the default folder path on your storage drive where R will search for input files (like CSVs) to load, and where it will write output files (plots, text results).</p>
+</div>
+
+<h4>📌 Directory Commands</h4>
+<table class="syntax-tbl">
+<tr><th>Command</th><th>Description</th></tr>
+<tr><td><code>getwd()</code></td><td>Returns the absolute path of the current active working directory as a string.</td></tr>
+<tr><td><code>setwd("path")</code></td><td>Sets a new active working directory to the path specified in quotes.</td></tr>
+<tr><td><code>list.files()</code> or <code>dir()</code></td><td>Lists the names of all files and folders in the current working directory.</td></tr>
+</table>
+
+<div class="imp-box">
+<p><strong>CRITICAL WINDOWS PATH RULE:</strong> Windows paths copy as backslashes (e.g., <code>C:\data</code>). In R, backslashes act as escape characters. You <strong>MUST</strong> convert them to forward slashes (<code>C:/data</code>) or double backslashes (<code>C:\\data</code>) inside <code>setwd()</code>!</p>
+</div>
+
+<div class="prog-card">
+<div class="prog-head"><span class="prog-num">Program 1.7</span><h4>Working with Directory</h4></div>
+<div class="prog-body">
+<div class="code-wrapper">
+<div class="code-header"><span class="lang">R</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+<pre><span class="cmt"># Check current directory</span>
+current &lt;- <span class="fn">getwd</span>()
+<span class="fn">print</span>(current)
+
+<span class="cmt"># Set new directory (Notice forward slashes!)</span>
+<span class="fn">setwd</span>(<span class="str">"a:/SEM4_Complete/R_PROGRAMMING"</span>)
+
+<span class="cmt"># List all files in the folder</span>
+files &lt;- <span class="fn">list.files</span>()
+<span class="fn">print</span>(files)</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- 1.7 Data Types in R -->
+<div class="section" id="u1-datatypes">
+<div class="section-head" onclick="toggleSection(this)">
+<h3><span class="tag tag-imp">Important</span><span class="tag tag-pyq">PYQ</span> Data Types and Core Structures</h3>
+<span class="toggle">▼</span>
+</div>
+<div class="section-body">
+<div class="def-card">
+<h4>📖 Atomic Vectors vs Data Structures</h4>
+<p>All data in R is built upon **6 atomic vector types**. These atomic variables are organized into **6 core data structures** differing by dimension and element homogeneity.</p>
+</div>
+
+<div class="exam-box">
+<p>This is a foundational concept heavily tested in exam papers. Be prepared to explain: 1. The 5 standard atomic types with suffixes. 2. A comprehensive comparison of the data structures based on their dimensions (1D, 2D, Multi-D) and type homogeneity (homogeneous vs heterogeneous).</p>
+</div>
+
+<h4>📌 The 5 Primary Atomic Data Types</h4>
+<table class="syntax-tbl">
+<tr><th>Data Type</th><th>Description</th><th>Example</th><th>Type Check</th></tr>
+<tr><td><strong>Numeric</strong></td><td>Double precision decimal values (default).</td><td><code>10.5</code>, <code>3.14</code></td><td><code>is.numeric(x)</code></td></tr>
+<tr><td><strong>Integer</strong></td><td>Whole numbers. Requires capital <code>L</code> suffix.</td><td><code>10L</code>, <code>5L</code></td><td><code>is.integer(x)</code></td></tr>
+<tr><td><strong>Character</strong></td><td>Text strings in single or double quotes.</td><td><code>"MSRIT"</code>, <code>'ISE'</code></td><td><code>is.character(x)</code></td></tr>
+<tr><td><strong>Logical</strong></td><td>Boolean flags. Written in uppercase.</td><td><code>TRUE</code>, <code>FALSE</code>, <code>T</code>, <code>F</code></td><td><code>is.logical(x)</code></td></tr>
+<tr><td><strong>Complex</strong></td><td>Values with a real and imaginary part.</td><td><code>2 + 3i</code></td><td><code>is.complex(x)</code></td></tr>
+</table>
+
+<h4>📌 The 6 Core Data Structures Matrix</h4>
+<table>
+<thead>
+  <tr>
+    <th>Dimension</th>
+    <th>Homogeneous (Elements of same type)</th>
+    <th>Heterogeneous (Elements of different types)</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td class="td-hi">1D (Linear)</td>
+    <td><strong>Vector</strong> (Standard array; created using <code>c()</code>)</td>
+    <td><strong>List</strong> (Collection of keys/different data structures)</td>
+  </tr>
+  <tr>
+    <td class="td-hi">2D (Grid)</td>
+    <td><strong>Matrix</strong> (Row-Column grid of same type)</td>
+    <td><strong>Data Frame</strong> (Table where column types differ)</td>
+  </tr>
+  <tr>
+    <td class="td-hi">Multi-D</td>
+    <td><strong>Array</strong> (Generalised multi-layered matrices)</td>
+    <td><em>Not natively defined</em></td>
+  </tr>
+</tbody>
+</table>
+<p style="margin-top:10px;">• <strong>Factor:</strong> Special 1D vector structure optimized for storing categorical levels (e.g. <code>factor(c("Male", "Female"))</code>).</p>
+
+<h4>📌 Coercion &amp; Conversion Functions</h4>
+<p>Variables can be converted between types using the <code>as.*</code> family of functions:</p>
+<div class="code-wrapper">
+<div class="code-header"><span class="lang">R</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+<pre>x &lt;- <span class="num">5.7</span>
+as_int &lt;- <span class="fn">as.integer</span>(x)     <span class="cmt"># 5 (Truncates decimals)</span>
+as_char &lt;- <span class="fn">as.character</span>(x)  <span class="cmt"># "5.7"</span>
+as_log &lt;- <span class="fn">as.logical</span>(<span class="num">1</span>)     <span class="cmt"># TRUE (Any non-zero = TRUE)</span></pre>
+</div>
+</div>
+</div>
+
+<!-- 1.8 Commands for Data Exploration -->
+<div class="section" id="u1-exploration">
+<div class="section-head" onclick="toggleSection(this)">
+<h3><span class="tag tag-viva">Viva</span> Commands for Data Exploration</h3>
+<span class="toggle">▼</span>
+</div>
+<div class="section-body">
+<div class="def-card">
+<h4>📖 Why data exploration?</h4>
+<p>Before executing models, researchers run quick exploratory functions to check data types, check shape/sizes, inspect top/bottom samples, and get mathematical ranges.</p>
+</div>
+
+<h4>📌 Core Exploration Commands Toolkit</h4>
+<table class="syntax-tbl">
+<tr><th>Command</th><th>Purpose</th><th>Sample Output</th></tr>
+<tr><td><code>class(x)</code></td><td>Get the structural object type.</td><td><code>"data.frame"</code></td></tr>
+<tr><td><code>typeof(x)</code></td><td>Get the internal storage type of variables.</td><td><code>"double"</code>, <code>"list"</code></td></tr>
+<tr><td><code>str(x)</code></td><td>Show structural summary (columns, types, values).</td><td>Compact data overview</td></tr>
+<tr><td><code>summary(x)</code></td><td>Get detailed statistical ranges (quartiles, min, mean, max).</td><td>Quartile range limits</td></tr>
+<tr><td><code>head(x, n=6)</code></td><td>Display the first $n$ rows of a structure.</td><td>First 6 observations</td></tr>
+<tr><td><code>tail(x, n=6)</code></td><td>Display the final $n$ rows of a structure.</td><td>Last 6 observations</td></tr>
+<tr><td><code>length(x)</code></td><td>Get number of elements in a vector.</td><td>Total items count</td></tr>
+<tr><td><code>table(x)</code></td><td>Get a frequency count of unique categorical strings.</td><td>Category count grids</td></tr>
+</table>
+
+<div class="viva-box">
+<p><strong>Q: What is the main difference between str() and summary()?</strong></p>
+<p><strong>A:</strong> <code>str()</code> shows the technical layout &mdash; listing column data types and vector lengths. <code>summary()</code> shows statistical descriptions &mdash; computing means, medians, and ranges for numeric variables, and counting class/factor categories.</p>
+</div>
+</div>
+</div>
+
+<!-- 1.9 Unit 1 Programs -->
+<div class="section" id="u1-programs">
+<div class="section-head" onclick="toggleSection(this)">
+<h3><span class="tag tag-prog">Program</span> Unit 1 Programs Manual</h3>
+<span class="toggle">▼</span>
+</div>
+<div class="section-body">
+
+  <div class="prog-card">
+    <div class="prog-head"><span class="prog-num">Program 1.1</span><h4>Directory handling &amp; Basic math computations</h4></div>
+    <div class="prog-body">
+      <div class="code-wrapper">
+        <div class="code-header"><span class="lang">R</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+        <pre><span class="cmt"># Step 1: Manage Working Directory</span>
+<span class="fn">cat</span>(<span class="str">"Initial Directory:"</span>, <span class="fn">getwd</span>(), <span class="str">"\n"</span>)
+<span class="fn">setwd</span>(<span class="str">"a:/SEM4_Complete/R_PROGRAMMING"</span>)
+<span class="fn">cat</span>(<span class="str">"Updated Directory:"</span>, <span class="fn">getwd</span>(), <span class="str">"\n"</span>)
+
+<span class="cmt"># Step 2: Variables &amp; Arithmetic</span>
+a &lt;- <span class="num">17</span>
+b &lt;- <span class="num">5</span>
+
+sum_val &lt;- a + b
+mod_val &lt;- a %% b   <span class="cmt"># Modulo remainder</span>
+div_val &lt;- a %/% b  <span class="cmt"># Integer division</span>
+
+<span class="fn">cat</span>(<span class="str">"Sum:"</span>, sum_val, <span class="str">"\n"</span>)
+<span class="fn">cat</span>(<span class="str">"Remainder of 17/5:"</span>, mod_val, <span class="str">"\n"</span>)
+<span class="fn">cat</span>(<span class="str">"Integer quotient:"</span>, div_val, <span class="str">"\n"</span>)</pre>
+      </div>
+      <div class="output-block">Initial Directory: C:/Users/Akshay A 
+Updated Directory: a:/SEM4_Complete/R_PROGRAMMING 
+Sum: 22 
+Remainder of 17/5: 2 
+Integer quotient: 3 </div>
+    </div>
+  </div>
+
+  <div class="prog-card">
+    <div class="prog-head"><span class="prog-num">Program 1.2</span><h4>Atomic Vector Manipulation &amp; Homogeneous rules</h4></div>
+    <div class="prog-body">
+      <div class="code-wrapper">
+        <div class="code-header"><span class="lang">R</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+        <pre><span class="cmt"># 1. Create a numeric vector</span>
+num_vec &lt;- <span class="fn">c</span>(<span class="num">10</span>, <span class="num">20.5</span>, <span class="num">30L</span>)
+<span class="fn">print</span>(num_vec)
+<span class="fn">cat</span>(<span class="str">"Class:"</span>, <span class="fn">class</span>(num_vec), <span class="str">"| Type:"</span>, <span class="fn">typeof</span>(num_vec), <span class="str">"\n\n"</span>)
+
+<span class="cmt"># 2. Vector indexing (1-based!)</span>
+<span class="fn">cat</span>(<span class="str">"Second item:"</span>, num_vec[<span class="num">2</span>], <span class="str">"\n"</span>)
+<span class="fn">cat</span>(<span class="str">"Subset items 1 and 3:"</span>, num_vec[<span class="fn">c</span>(<span class="num">1</span>, <span class="num">3</span>)], <span class="str">"\n\n"</span>)
+
+<span class="cmt"># 3. Coercion rule demonstration (Implicitly casts mixed items to safest type)</span>
+mixed_vec &lt;- <span class="fn">c</span>(<span class="num">10</span>, <span class="str">"R Programming"</span>, <span class="kw">TRUE</span>)
+<span class="fn">print</span>(mixed_vec)
+<span class="fn">cat</span>(<span class="str">"Coerced Class:"</span>, <span class="fn">class</span>(mixed_vec), <span class="str">"| Type:"</span>, <span class="fn">typeof</span>(mixed_vec), <span class="str">"\n"</span>)</pre>
+      </div>
+      <div class="output-block">[1] 10.0 20.5 30.0
+Class: numeric | Type: double 
+
+Second item: 20.5 
+Subset items 1 and 3: 10 30 
+
+[1] "10"            "R Programming" "TRUE"         
+Coerced Class: character | Type: character </div>
+      <p><strong>Note:</strong> R vectors are homogeneous. When mixed with characters, numbers and boolean values are implicitly coerced (cast) to strings to keep the data structure uniform.</p>
+    </div>
+  </div>
+
+  <div class="prog-card">
+    <div class="prog-head"><span class="prog-num">Program 1.3</span><h4>Built-in Dataset exploration commands</h4></div>
+    <div class="prog-body">
+      <div class="code-wrapper">
+        <div class="code-header"><span class="lang">R</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+        <pre><span class="cmt"># Load built-in airquality dataset</span>
+<span class="fn">data</span>(airquality)
+
+<span class="cmt"># Explore properties</span>
+<span class="fn">cat</span>(<span class="str">"Data Structure Class:"</span>, <span class="fn">class</span>(airquality), <span class="str">"\n"</span>)
+<span class="fn">cat</span>(<span class="str">"Data Dimensions (Rows x Cols):"</span>, <span class="fn">dim</span>(airquality), <span class="str">"\n\n"</span>)
+
+<span class="cmt"># Inspect first 4 observations</span>
+<span class="fn">print</span>(<span class="fn">head</span>(airquality, <span class="num">4</span>))
+
+<span class="cmt"># Statistical summaries of columns</span>
+<span class="fn">print</span>(<span class="fn">summary</span>(airquality$Temp))</pre>
+      </div>
+      <div class="output-block">Data Structure Class: data.frame 
+Data Dimensions (Rows x Cols): 153 6 
+
+  Ozone Solar.R Wind Temp Month Day
+1    41     190  7.4   67     5   1
+2    36     118  8.0   72     5   2
+3    12     149 12.6   74     5   3
+4    18     313 11.5   62     5   4
+
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  56.00   72.00   79.00   77.88   85.00   97.00 </div>
+    </div>
+  </div>
+
+</div>
 </div>
 
 <!-- ============================================================== -->
