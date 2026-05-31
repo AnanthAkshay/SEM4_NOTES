@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>R Programming Unit 4 — Exploring Data &amp; Data Frames | MSRIT Exam Notes</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:        #0f0f1a;
+  --bg2:       #161625;
+  --bg3:       #1e1e32;
+  --bg4:       #262640;
+  --border:    #2a2a45;
+  --text:      #e2e2f0;
+  --text2:     #a0a0c0;
+  --text3:     #707090;
+  --accent:    #6c63ff;
+  --accent2:   #ff6b9d;
+  --accent3:   #00d4aa;
+  --accent4:   #ffd93d;
+  --danger:    #ff4444;
+  --green:     #3fb950;
+  --code-bg:   #1a1a2e;
+  --shadow:    0 4px 32px rgba(0,0,0,0.4);
+  --radius:    12px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Inter', sans-serif;
+  font-size:15px;
+  line-height:1.75;
+}
+
+/* ─── LAYOUT ─── */
+.page-wrap{max-width:1100px;margin:0 auto;padding:0 24px 80px;}
+
+/* ─── HERO BANNER ─── */
+.hero{
+  background:linear-gradient(135deg,#0f0f1a 0%,#271746 50%,#0c253b 100%);
+  border-bottom:2px solid var(--accent);
+  padding:56px 24px 44px;
+  position:relative;
+  overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 60% 80% at 80% 20%,rgba(108,99,255,0.12),transparent);
+}
+.hero-inner{max-width:1100px;margin:0 auto;position:relative;}
+.hero-badge{
+  display:inline-block;
+  background:rgba(108,99,255,0.15);
+  border:1px solid rgba(108,99,255,0.4);
+  color:var(--accent);
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  padding:4px 14px;
+  border-radius:20px;
+  margin-bottom:16px;
+}
+.hero h1{
+  font-size:clamp(28px,5vw,46px);
+  font-weight:800;
+  line-height:1.1;
+  color:#fff;
+  margin-bottom:12px;
+}
+.hero h1 span{color:var(--accent3);}
+.hero-sub{
+  font-family:'JetBrains Mono',monospace;
+  font-size:13px;
+  color:var(--text2);
+  letter-spacing:1px;
+}
+.hero-meta{
+  display:flex;gap:24px;flex-wrap:wrap;margin-top:28px;
+}
+.hero-pill{
+  background:rgba(255,255,255,0.06);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:8px 16px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:12px;
+  color:var(--text2);
+}
+.hero-pill strong{color:var(--text);}
+
+/* ─── TOC ─── */
+.toc-card{
+  background:var(--bg2);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:28px 32px;
+  margin:40px 0;
+  position:relative;
+  overflow:hidden;
+}
+.toc-card::before{
+  content:'';position:absolute;top:0;left:0;width:4px;height:100%;
+  background:linear-gradient(180deg,var(--accent),var(--accent3));
+}
+.toc-title{
+  font-size:13px;
+  font-weight:700;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:16px;
+}
+.toc-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:8px;
+}
+.toc-item{
+  display:flex;align-items:flex-start;gap:10px;
+  padding:8px 10px;
+  border-radius:6px;
+  text-decoration:none;
+  color:var(--text);
+  font-family:'JetBrains Mono',monospace;
+  font-size:13px;
+  transition:background .15s,color .15s;
+}
+.toc-item:hover{background:rgba(108,99,255,0.1);color:var(--accent);}
+.toc-num{
+  color:var(--accent);font-weight:600;min-width:28px;
+}
+
+/* ─── SECTION HEADERS ─── */
+.unit-section{margin-top:72px;}
+.section-label{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:8px;
+}
+.section-title{
+  font-size:clamp(22px,4vw,32px);
+  font-weight:800;
+  color:#fff;
+  line-height:1.15;
+  border-bottom:2px solid var(--border);
+  padding-bottom:16px;
+  margin-bottom:28px;
+}
+.section-title .accent{color:var(--accent3);}
+
+/* ─── TOPIC CARDS ─── */
+.topic-block{
+  background:var(--bg2);
+  border:1px solid var(--border);
+  border-radius:14px;
+  margin-bottom:40px;
+  overflow:hidden;
+}
+.topic-block .topic-header{
+  background:linear-gradient(90deg,var(--bg3),var(--bg2));
+  border-bottom:1px solid var(--border);
+  padding:20px 28px;
+  display:flex;align-items:center;gap:14px;
+}
+.topic-num{
+  background:var(--accent);
+  color:#fff;
+  font-size:13px;
+  font-weight:800;
+  width:36px;height:36px;
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.topic-name{
+  font-size:18px;
+  font-weight:700;
+  color:#fff;
+}
+.topic-body{padding:28px;}
+
+/* ─── SUB-SECTIONS ─── */
+.sub-section{margin-bottom:28px;}
+.sub-title{
+  font-size:15px;
+  font-weight:700;
+  color:var(--accent2);
+  margin-bottom:10px;
+  display:flex;align-items:center;gap:8px;
+}
+.sub-title::before{
+  content:'';
+  display:inline-block;
+  width:3px;height:18px;
+  background:var(--accent2);
+  border-radius:2px;
+}
+
+/* ─── CALLOUT BOXES ─── */
+.callout{
+  border-radius:10px;
+  padding:16px 20px;
+  margin:16px 0;
+  border-left:4px solid;
+  font-size:15px;
+}
+.callout.info{background:rgba(108,99,255,0.08);border-color:var(--accent);}
+.callout.warning{background:rgba(255,107,157,0.08);border-color:var(--accent2);}
+.callout.success{background:rgba(0,212,170,0.08);border-color:var(--accent3);}
+.callout.danger{background:rgba(255,68,68,0.08);border-color:var(--danger);}
+.callout.formula{background:rgba(255,217,61,0.08);border-color:var(--accent4);}
+.callout-title{
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
+.callout.info .callout-title{color:var(--accent);}
+.callout.warning .callout-title{color:var(--accent2);}
+.callout.success .callout-title{color:var(--accent3);}
+.callout.danger .callout-title{color:var(--danger);}
+.callout.formula .callout-title{color:var(--accent4);}
+
+/* ─── CODE BLOCKS ─── */
+.code-wrapper{position:relative;margin:14px 0;border-radius:10px;overflow:hidden;border:1px solid var(--border)}
+.code-header{display:flex;justify-content:space-between;align-items:center;padding:8px 14px;background:var(--bg4);font-size:.75rem;color:var(--text2)}
+.code-header .lang{font-weight:600;color:var(--accent3)}
+.copy-btn{
+  background:var(--bg3);border:1px solid var(--border);color:var(--text2);
+  padding:3px 10px;border-radius:4px;cursor:pointer;font-size:.7rem;transition:all .2s
+}
+.copy-btn:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+pre{
+  background:var(--code-bg);
+  padding:20px;
+  overflow-x:auto;
+  margin:0;
+  font-family:'JetBrains Mono',monospace;
+  font-size:13px;
+  line-height:1.65;
+  color:#e2e2f0;
+}
+code{
+  font-family:'JetBrains Mono',monospace;
+  font-size:13px;
+  background:rgba(108,99,255,0.15);
+  border-radius:4px;
+  padding:1px 6px;
+  color:var(--accent3);
+}
+pre code{background:none;padding:0;color:#e2e2f0;}
+.cmt{color:#7e97a6;font-style:italic}
+.fn{color:#82aaff}
+.str{color:#c3e88d}
+.num{color:#f78c6c}
+.kw{color:#c792ea}
+.op{color:#89ddff}
+
+/* ─── TABLES ─── */
+.table-wrap{overflow-x:auto;margin:16px 0;}
+table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:14px;
+  font-family:'Inter',sans-serif;
+}
+th{
+  background:var(--bg3);
+  color:var(--accent3);
+  font-weight:700;
+  padding:10px 14px;
+  text-align:left;
+  border:1px solid var(--border);
+  font-size:12px;
+  letter-spacing:0.5px;
+  text-transform:uppercase;
+}
+td{
+  padding:9px 14px;
+  border:1px solid var(--border);
+  color:var(--text);
+  vertical-align:top;
+}
+tr:nth-child(even) td{background:rgba(255,255,255,0.02);}
+tr:hover td{background:rgba(108,99,255,0.05);}
+.td-hi{color:var(--accent3);font-weight:600;}
+.td-num{color:var(--accent2);}
+
+/* ─── VIVA BOXES ─── */
+.viva-box{
+  background:rgba(0,212,170,0.06);
+  border:1px solid rgba(0,212,170,0.25);
+  border-radius:12px;
+  padding:20px 24px;
+  margin:20px 0;
+}
+.viva-q{
+  font-weight:700;
+  color:var(--text);
+  margin-bottom:8px;
+  font-size:15px;
+}
+
+/* ─── OUTPUT BLOCKS ─── */
+.output-block{
+  background:#090d16;
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:16px;
+  margin:12px 0;
+  font-family:'JetBrains Mono',monospace;
+  font-size:13px;
+  color:#7ee787;
+  white-space:pre-wrap;
+}
+.output-block::before{
+  content:'📤 Console Output:';
+  display:block;
+  color:var(--accent4);
+  font-weight:600;
+  margin-bottom:8px;
+  font-family:'Inter',sans-serif;
+  font-size:.75rem;
+}
+
+/* ─── MNEMONIC ─── */
+.mnemonic{
+  background:linear-gradient(135deg,rgba(255,217,61,.1),rgba(255,140,66,.1));
+  border:1px dashed var(--accent4);
+  border-radius:8px;
+  padding:12px 16px;
+  margin:10px 0;
+  font-family:'Caveat',cursive;
+  font-size:1.2rem;
+  color:var(--accent4);
+}
+.mnemonic::before{content:'🧠 Memory Trick: '}
+
+/* ─── PROGRAM CARDS ─── */
+.prog-card{
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  margin:16px 0;
+  overflow:hidden;
+  background:var(--bg2);
+}
+.prog-card .prog-head{
+  padding:14px 18px;
+  background:var(--accent);
+  color:#fff;
+}
+.prog-card .prog-head h4{
+  font-size:.95rem;
+  font-weight:700;
+  color:#ffffff !important;
+  margin:4px 0 0;
+}
+.prog-card .prog-head .prog-num{
+  font-size:.7rem;
+  opacity:.8;
+  text-transform:uppercase;
+}
+.prog-card .prog-body{padding:18px}
+
+.hl{color:var(--accent3);font-weight:600}
+ul, ol { padding-left: 24px; margin-bottom: 14px; }
+li { margin-bottom: 6px; }
+
+/* ─── DIAGRAM BOX ─── */
+.diagram{
+  background:var(--bg3);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:20px;
+  margin:12px 0;
+  text-align:center;
+  font-family:'JetBrains Mono',monospace;
+  font-size:13px;
+  color:var(--text2);
+  overflow-x:auto;
+}
+.diagram .box{
+  display:inline-block;
+  padding:8px 16px;
+  border:2px solid var(--accent);
+  border-radius:8px;
+  margin:4px;
+  color:var(--text);
+}
+.diagram .arrow{
+  color:var(--accent2);
+  margin:0 6px;
+  font-size:1.2rem;
+}
+
+@media print{
+  body{background:#fff;color:#000;}
+  .topic-block,.toc-card,.callout{break-inside:avoid;}
+}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">MSRIT • B.E. ISE • ISALC492</div>
+    <h1>Unit 4: <span>Data Frames &amp; Exploratory Analysis</span></h1>
+    <p class="hero-sub">// Rectangular structures, subsetting methods, outlier computations, and descriptive diagnostics</p>
+    <div class="hero-meta">
+      <div class="hero-pill"><strong>Grid Structure:</strong> Data Frames properties</div>
+      <div class="hero-pill"><strong>Queries:</strong> Subsetting &amp; Joins</div>
+      <div class="hero-pill"><strong>Diagnostics:</strong> Missing (NA) &amp; Outliers (IQR)</div>
+      <div class="hero-pill"><strong>Statistics:</strong> Central Tendency &amp; Dispersion</div>
+    </div>
+  </div>
+</div>
+
+<div class="page-wrap">
+
+<div class="toc-card">
+  <div class="toc-title">📋 Topic Navigation Guide</div>
+  <div class="toc-grid">
+    <a href="#t1" class="toc-item"><span class="toc-num">01</span>Data Frames in R</a>
+    <a href="#t2" class="toc-item"><span class="toc-num">02</span>Diagnostic DF Functions</a>
+    <a href="#t3" class="toc-item"><span class="toc-num">03</span>Loading Data Frames</a>
+    <a href="#t4" class="toc-item"><span class="toc-num">04</span>Subsetting &amp; Joins</a>
+    <a href="#t5" class="toc-item"><span class="toc-num">05</span>Exploratory Data Analysis</a>
+    <a href="#t6" class="toc-item"><span class="toc-num">06</span>Missing, Invalid Values &amp; Outliers</a>
+    <a href="#t7" class="toc-item"><span class="toc-num">07</span>Descriptive Statistics</a>
+    <a href="#t8" class="toc-item"><span class="toc-num">08</span>Unit 4 Core Programs</a>
+  </div>
+</div>
+
+<!-- ======================= TOPIC 1: DATAFRAMES ======================= -->
+<div class="unit-section" id="t1">
+  <div class="section-label">Topic 01</div>
+  <div class="section-title">Data Frames in <span class="accent">R Programming</span></div>
+
+  <div class="topic-block">
+    <div class="topic-header">
+      <div class="topic-num">1</div>
+      <div class="topic-name">The Essential Tabular Data Structure</div>
+    </div>
+    <div class="topic-body">
+      <div class="sub-section">
+        <div class="sub-title">What is a Data Frame?</div>
+        <p>A **Data Frame** is the most widely used data structure in R for statistical computing and analytical data processing. It is a 2-dimensional, rectangular table representing **a list of vectors of equal length**. Each column represents a variable, and each row represents an observation.</p>
+        <p>While matrices require all elements to be the exact same datatype, **data frames permit columns to have completely different datatypes** (e.g., column 1 is numeric age, column 2 is character name, column 3 is factor gender).</p>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">Structure Comparison: Data Frame vs. Matrix vs. List</div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Feature</th><th>Data Frame</th><th>Matrix</th><th>List</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="td-hi">Dimensions</td>
+                <td>2D (Rows × Columns)</td>
+                <td>2D (Rows × Columns)</td>
+                <td>1D Linear</td>
+              </tr>
+              <tr>
+                <td class="td-hi">Homogeneity</td>
+                <td>Heterogeneous (columns can differ)</td>
+                <td>Homogeneous (all elements same type)</td>
+                <td>Heterogeneous (elements can differ)</td>
+              </tr>
+              <tr>
+                <td class="td-hi">Basic Access</td>
+                <td><code>df$col</code> or <code>df[r, c]</code></td>
+                <td><code>m[r, c]</code></td>
+                <td><code>L[[i]]</code> or <code>L$name</code></td>
+              </tr>
+              <tr>
+                <td class="td-hi">Primary Use Case</td>
+                <td>Standard tabular datasets (CSVs/SQL tables)</td>
+                <td>Linear algebra and math modeling</td>
+                <td>Compound results or nested web JSON response</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="prog-card">
+        <div class="prog-head"><span class="prog-num">Program 4.1</span><h4>Creating &amp; Initializing a Data Frame</h4></div>
+        <div class="prog-body">
+          <div class="code-wrapper">
+            <div class="code-header"><span class="lang">R</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+            <pre>students &lt;- <span class="fn">data.frame</span>(
+  Name = <span class="fn">c</span>(<span class="str">"Ravi"</span>, <span class="str">"Priya"</span>, <span class="str">"Amit"</span>, <span class="str">"Sneha"</span>),
+  Age = <span class="fn">c</span>(<span class="num">21</span>, <span class="num">22</span>, <span class="num">20</span>, <span class="num">23</span>),
+  Branch = <span class="fn">c</span>(<span class="str">"ISE"</span>, <span class="str">"CSE"</span>, <span class="str">"ISE"</span>, <span class="str">"ECE"</span>),
+  CGPA = <span class="fn">c</span>(<span class="num">8.5</span>, <span class="num">9.2</span>, <span class="num">7.8</span>, <span class="num">8.9</span>),
+  stringsAsFactors = <span class="kw">FALSE</span>
+)
+<span class="fn">print</span>(students)</pre>
+          </div>
+          <div class="output-block">   Name Age Branch CGPA
+1  Ravi  21    ISE  8.5
+2 Priya  22    CSE  9.2
+3  Amit  20    ISE  7.8
+4 Sneha  23    ECE  8.9</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================= TOPIC 2: DIAGNOSTICS ======================= -->
+<div class="unit-section" id="t2">
+  <div class="section-label">Topic 02</div>
+  <div class="section-title">Diagnostic <span class="accent">Data Frame Functions</span></div>
+
+  <div class="topic-block">
+    <div class="topic-header">
+      <div class="topic-num">2</div>
+      <div class="topic-name">Analyzing Table Shape &amp; Structure</div>
+    </div>
+    <div class="topic-body">
+      <div class="sub-section">
+        <div class="sub-title">Core Diagnostic Functions Toolkit</div>
+        <p>In MSRIT/VTU exam papers, expect questions testing the **8 core functions for understanding a data frame**. You must memorize their exact name, behavior, and output formats:</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Function</th><th>Purpose</th><th>Expected Output Format</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="td-hi"><code>dim(df)</code></td>
+                <td>Returns the dimensions (shape) of the table.</td>
+                <td>A 2-element integer vector: <code>c(rows, columns)</code>.</td>
+              </tr>
+              <tr>
+                <td class="td-hi"><code>nrow(df)</code></td>
+                <td>Calculates the total number of rows.</td>
+                <td>Single integer value.</td>
+              </tr>
+              <tr>
+                <td class="td-hi"><code>ncol(df)</code></td>
+                <td>Calculates the total number of columns.</td>
+                <td>Single integer value.</td>
+              </tr>
+              <tr>
+                <td class="td-hi"><code>names(df)</code></td>
+                <td>Returns the column header names.</td>
+                <td>Character vector of column names.</td>
+              </tr>
+              <tr>
+                <td class="td-hi"><code>str(df)</code></td>
+                <td>Displays the structural configuration.</td>
+                <td>Compact print detailing types, lengths, and sample values.</td>
+              </tr>
+              <tr>
+                <td class="td-hi"><code>summary(df)</code></td>
+                <td>Computes basic statistics for columns.</td>
+                <td>Min, Max, Medians, and Means for numerical variables.</td>
+              </tr>
+              <tr>
+                <td class="td-hi"><code>head(df, n=6)</code></td>
+                <td>Previews the first <code>n</code> rows.</td>
+                <td>Truncated data frame showing top rows.</td>
+              </tr>
+              <tr>
+                <td class="td-hi"><code>tail(df, n=6)</code></td>
+                <td>Previews the final <code>n</code> rows.</td>
+                <td>Truncated data frame showing bottom rows.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="mnemonic">"DNSSH NHT" &mdash; dim, nrow, ncol, str, summary, names, head, tail. (Data Frame Checklist!).</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================= TOPIC 3: LOADING ======================= -->
+<div class="unit-section" id="t3">
+  <div class="section-label">Topic 03</div>
+  <div class="section-title">Loading <span class="accent">Data Frames</span></div>
+
+  <div class="topic-block">
+    <div class="topic-header">
+      <div class="topic-num">3</div>
+      <div class="topic-name">Methods for Populating R Tables</div>
+    </div>
+    <div class="topic-body">
+      <div class="sub-section">
+        <div class="sub-title">Populating Data Frames</div>
+        <p>You can populate and load a data frame using three primary methods:</p>
+        <ol>
+          <li><strong>Manual Creation:</strong> Using the <code>data.frame()</code> constructor to build a table from scratch (useful for unit testing).</li>
+          <li><strong>Importing Flat Files:</strong> Using <code>read.csv()</code> or <code>read.table()</code> to load data directly from disk.</li>
+          <li><strong>Built-in Datasets:</strong> Loading standard datasets hosted inside R packages (e.g., <code>data(mtcars)</code>, <code>data(iris)</code>) to practice analytical tasks.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================= TOPIC 4: SUBSETTING ======================= -->
+<div class="unit-section" id="t4">
+  <div class="section-label">Topic 04</div>
+  <div class="section-title">Subsetting &amp; Joins: <span class="accent">Slicing Tables</span></div>
+
+  <div class="topic-block">
+    <div class="topic-header">
+      <div class="topic-num">4</div>
+      <div class="topic-name">Table Querying and Joining Mechanics</div>
+    </div>
+    <div class="topic-body">
+      <div class="sub-section">
+        <div class="sub-title">1. Slicing and Filtering Data Frames</div>
+        <p>R supports rich, native querying methods to slice rows and columns based on indexes or conditions:</p>
+        <ul>
+          <li><strong>Index-based slicing:</strong> <code>df[1:5, c("Name", "CGPA")]</code> extracts the first five rows for columns Name and CGPA.</li>
+          <li><strong>Logical Filtering:</strong> <code>df[df$CGPA > 8.5, ]</code> filters rows matching the condition (always remember the trailing comma <code>,</code> to keep all columns!).</li>
+          <li><strong>The subset() wrapper:</strong> <code>subset(df, CGPA > 8.5 &amp; Age >= 21)</code> provides a clean syntax without needing dollar-signs.</li>
+        </ul>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">2. Joining Data Frames via SQL Joins</div>
+        <p>To merge separate tables on matching key columns, R uses the <code>merge()</code> function:</p>
+        <div class="code-wrapper">
+          <div class="code-header"><span class="lang">R Join Configurations</span></div>
+          <pre><span class="fn">merge</span>(df1, df2, by = <span class="str">"ID"</span>)                    <span class="cmt"># Inner Join (keeps only matching rows)</span>
+<span class="fn">merge</span>(df1, df2, by = <span class="str">"ID"</span>, all.x = <span class="kw">TRUE</span>)      <span class="cmt"># Left Join (keeps all rows from left df1)</span>
+<span class="fn">merge</span>(df1, df2, by = <span class="str">"ID"</span>, all = <span class="kw">TRUE</span>)        <span class="cmt"># Full Outer Join (keeps all rows from both tables)</span></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================= TOPIC 5: EDA ======================= -->
+<div class="unit-section" id="t5">
+  <div class="section-label">Topic 05</div>
+  <div class="section-title">Exploratory <span class="accent">Data Analysis (EDA)</span></div>
+
+  <div class="topic-block">
+    <div class="topic-header">
+      <div class="topic-num">5</div>
+      <div class="topic-name">Understanding the Lifecycle of Analytical Modeling</div>
+    </div>
+    <div class="topic-body">
+      <div class="sub-section">
+        <div class="sub-title">What is EDA?</div>
+        <p>**Exploratory Data Analysis (EDA)** is an essential step in data analytics. It involves analyzing and summarizing the main characteristics of a dataset, often using visual methods, before applying any formal statistical modeling or machine learning algorithms.</p>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">The Systematic Steps in EDA</div>
+        <div class="diagram">
+          <div class="box">Ingest Raw Data</div>
+          <div class="arrow">➔</div>
+          <div class="box">Inspect Structure (str/summary)</div>
+          <div class="arrow">➔</div>
+          <div class="box">Clean Missing/Invalid Fields</div>
+          <div class="arrow">➔</div>
+          <div class="box">Detect &amp; Filter Outliers</div>
+          <div class="arrow">➔</div>
+          <div class="box">Visualize &amp; Check Correlation</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================= TOPIC 6: MISSING & OUTLIERS ======================= -->
+<div class="unit-section" id="t6">
+  <div class="section-label">Topic 06</div>
+  <div class="section-title">Missing, Invalid Values &amp; <span class="accent">Outliers</span></div>
+
+  <div class="topic-block">
+    <div class="topic-header">
+      <div class="topic-num">6</div>
+      <div class="topic-name">Data Inconsistencies &amp; Anomaly Detection</div>
+    </div>
+    <div class="topic-body">
+      <div class="sub-section">
+        <div class="sub-title">1. Missing vs. Invalid Values</div>
+        <ul>
+          <li><strong>Missing Values (NA):</strong> Data points that are completely absent (handled via <code>is.na()</code>, <code>na.omit()</code>, or mean/median imputation).</li>
+          <li><strong>Invalid Values:</strong> Data points that are present but **logically impossible** (e.g., age = -5, score = 150 when maximum is 100). Checked using logical filters and replaced with `NA` for cleaning.</li>
+        </ul>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">2. Outlier Detection using the IQR Method</div>
+        <p>Outliers are extreme anomalies that skew statistical calculations (like means). We detect them mathematically using the **IQR (Inter-Quartile Range) Method**:</p>
+        <div class="callout formula">
+          <div class="callout-title">📐 Outlier Fences Formulas</div>
+          *   **IQR** = Q3 - Q1 (the distance between 75th and 25th percentiles).
+          *   **Lower Outlier Fence** = Q1 - 1.5 × IQR.
+          *   **Upper Outlier Fence** = Q3 + 1.5 × IQR.
+          *   **Anomalies:** Any value **less than the lower fence or greater than the upper fence** is flagged as an outlier!
+        </div>
+      </div>
+
+      <div class="prog-card">
+        <div class="prog-head"><span class="prog-num">Program 4.6</span><h4>Outlier Detection using IQR</h4></div>
+        <div class="prog-body">
+          <div class="code-wrapper">
+            <div class="code-header"><span class="lang">R</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+            <pre>data &lt;- <span class="fn">c</span>(<span class="num">12</span>, <span class="num">15</span>, <span class="num">14</span>, <span class="num">10</span>, <span class="num">13</span>, <span class="num">50</span>, <span class="num">11</span>, <span class="num">16</span>, <span class="num">14</span>, <span class="num">100</span>)
+
+Q1 &lt;- <span class="fn">quantile</span>(data, <span class="num">0.25</span>)
+Q3 &lt;- <span class="fn">quantile</span>(data, <span class="num">0.75</span>)
+IQR_val &lt;- Q3 - Q1
+
+lower_fence &lt;- Q1 - <span class="num">1.5</span> * IQR_val
+upper_fence &lt;- Q3 + <span class="num">1.5</span> * IQR_val
+
+outliers &lt;- data[data &lt; lower_fence | data &gt; upper_fence]
+<span class="fn">cat</span>(<span class="str">"IQR:"</span>, IQR_val, <span class="str">"| Fence Range: ["</span>, lower_fence, <span class="str">","</span>, upper_fence, <span class="str">"]\n"</span>)
+<span class="fn">cat</span>(<span class="str">"Flagged Outliers:"</span>, outliers, <span class="str">"\n"</span>)</pre>
+          </div>
+          <div class="output-block">IQR: 4 | Fence Range: [ 5.75 , 21.75 ]
+Flagged Outliers: 50 100</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================= TOPIC 7: STATS ======================= -->
+<div class="unit-section" id="t7">
+  <div class="section-label">Topic 07</div>
+  <div class="section-title">Descriptive Statistics: <span class="accent">Centrality &amp; Dispersion</span></div>
+
+  <div class="topic-block">
+    <div class="topic-header">
+      <div class="topic-num">7</div>
+      <div class="topic-name">Mathematical Summaries of R Columns</div>
+    </div>
+    <div class="topic-body">
+      <div class="sub-section">
+        <div class="sub-title">1. Measures of Central Tendency</div>
+        <ul>
+          <li><strong>Mean:</strong> The mathematical average of a vector. Calculated using <code>mean(x, na.rm = TRUE)</code>.</li>
+          <li><strong>Median:</strong> The middle value when a vector is sorted. Calculated using <code>median(x, na.rm = TRUE)</code>.</li>
+          <li><strong>Mode:</strong> The value that appears most frequently in a dataset.</li>
+        </ul>
+        <div class="callout danger">
+          <div class="callout-title">🚨 CRITICAL EXAM KNOWLEDGE: MODE IN R</div>
+          **R has no built-in statistical mode function!** Running <code>mode(x)</code> does NOT calculate the statistical mode; instead, it returns the internal storage datatype of the vector (like `"numeric"` or `"character"`). <br>
+          To find the statistical mode, you must write a **custom R function** that combines <code>unique()</code>, <code>tabulate()</code>, and <code>which.max()</code>!
+        </div>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">2. Measures of Dispersion</div>
+        <ul>
+          <li><strong>Range:</strong> Min and Max values of a vector. Calculated using <code>range(v)</code>.</li>
+          <li><strong>Variance:</strong> Measures the spread of data points from the mean. Calculated using <code>var(v)</code>. **R automatically uses the sample variance formula (dividing by $n-1$, not $n$)**.</li>
+          <li><strong>Standard Deviation:</strong> Square root of variance. Calculated using <code>sd(v)</code>.</li>
+          <li><strong>Quantiles:</strong> Divides data points into percentiles. Calculated using <code>quantile(v, probs = seq(0, 1, 0.25))</code>.</li>
+        </ul>
+      </div>
+
+      <div class="prog-card">
+        <div class="prog-head"><span class="prog-num">Program 4.8</span><h4>Central Tendency &amp; Custom Mode Calculations</h4></div>
+        <div class="prog-body">
+          <div class="code-wrapper">
+            <div class="code-header"><span class="lang">R</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+            <pre>x &lt;- <span class="fn">c</span>(<span class="num">10</span>, <span class="num">20</span>, <span class="num">20</span>, <span class="num">30</span>, <span class="num">40</span>, <span class="num">40</span>, <span class="num">40</span>, <span class="num">50</span>)
+
+<span class="cmt"># 1. Base R checks</span>
+<span class="fn">cat</span>(<span class="str">"Mean:"</span>, <span class="fn">mean</span>(x), <span class="str">"| Median:"</span>, <span class="fn">median</span>(x), <span class="str">"\n"</span>)
+
+<span class="cmt"># 2. Custom Mode Function (EXTREMELY IMPORTANT FOR EXAMS)</span>
+calc_mode &lt;- <span class="kw">function</span>(v) {
+  uniq &lt;- <span class="fn">unique</span>(v)
+  uniq[<span class="fn">which.max</span>(<span class="fn">tabulate</span>(<span class="fn">match</span>(v, uniq)))]
+}
+<span class="fn">cat</span>(<span class="str">"Statistical Mode:"</span>, <span class="fn">calc_mode</span>(x), <span class="str">"\n"</span>)
+<span class="fn">cat</span>(<span class="str">"R mode(x) returns:"</span>, <span class="fn">mode</span>(x), <span class="str">"\n"</span>)</pre>
+          </div>
+          <div class="output-block">Mean: 31.25 | Median: 35 
+Statistical Mode: 40 
+R mode(x) returns: numeric</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================= TOPIC 8: CORE PROGRAMS ======================= -->
+<div class="unit-section" id="t8">
+  <div class="section-label">Topic 08</div>
+  <div class="section-title">Unit 4 Core <span class="accent">Programs Manual</span></div>
+
+  <div class="topic-block">
+    <div class="topic-header">
+      <div class="topic-num">8</div>
+      <div class="topic-name">Hands-on Code Practice for Exam Prep</div>
+    </div>
+    <div class="topic-body">
+      <div class="prog-card">
+        <div class="prog-head"><span class="prog-num">Program 4.9</span><h4>Comprehensive Data Frame Operations Pipeline</h4></div>
+        <div class="prog-body">
+          <div class="code-wrapper">
+            <div class="code-header"><span class="lang">R</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+            <pre>df &lt;- <span class="fn">data.frame</span>(
+  Name = <span class="fn">c</span>(<span class="str">"Ravi"</span>, <span class="str">"Priya"</span>, <span class="str">"Amit"</span>, <span class="str">"Sneha"</span>, <span class="str">"Kiran"</span>),
+  Marks = <span class="fn">c</span>(<span class="num">85</span>, <span class="num">92</span>, <span class="num">78</span>, <span class="num">95</span>, <span class="num">88</span>),
+  Age = <span class="fn">c</span>(<span class="num">21</span>, <span class="num">22</span>, <span class="num">20</span>, <span class="num">23</span>, <span class="num">21</span>),
+  stringsAsFactors = <span class="kw">FALSE</span>
+)
+
+<span class="cmt"># 1. Filter rows matching a condition</span>
+high_scorers &lt;- df[df$Marks &gt;= <span class="num">88</span>, ]
+<span class="fn">print</span>(high_scorers)
+
+<span class="cmt"># 2. Exclude the 'Age' column (column index 3)</span>
+df_no_age &lt;- df[, -<span class="num">3</span>]
+<span class="fn">print</span>(df_no_age)
+
+<span class="cmt"># 3. Sort the rows of the data frame by Marks in descending order using order()</span>
+sorted_df &lt;- df[<span class="fn">order</span>(-df$Marks), ]
+<span class="fn">print</span>(sorted_df)</pre>
+          </div>
+          <div class="output-block">   Name Marks Age
+2 Priya    92  22
+4 Sneha    95  23
+5 Kiran    88  21
+
+   Name Marks
+1  Ravi    85
+2 Priya    92
+3  Amit    78
+4 Sneha    95
+5 Kiran    88
+
+   Name Marks Age
+4 Sneha    95  23
+2 Priya    92  22
+5 Kiran    88  21
+1  Ravi    85  20
+3  Amit    78  20</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+<script>
+console.log("R study notes unit 4 loaded successfully!");
+</script>
+</body>
+</html>

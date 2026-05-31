@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>R Programming Unit 2 — Loading &amp; Handling Data in R | MSRIT Exam Notes</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:        #0f0f1a;
+  --bg2:       #161625;
+  --bg3:       #1e1e32;
+  --bg4:       #262640;
+  --border:    #2a2a45;
+  --text:      #e2e2f0;
+  --text2:     #a0a0c0;
+  --text3:     #707090;
+  --accent:    #6c63ff;
+  --accent2:   #ff6b9d;
+  --accent3:   #00d4aa;
+  --accent4:   #ffd93d;
+  --danger:    #ff4444;
+  --green:     #3fb950;
+  --code-bg:   #1a1a2e;
+  --shadow:    0 4px 32px rgba(0,0,0,0.4);
+  --radius:    12px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Inter', sans-serif;
+  font-size:15px;
+  line-height:1.75;
+}
+
+/* ─── LAYOUT ─── */
+.page-wrap{max-width:1100px;margin:0 auto;padding:0 24px 80px;}
+
+/* ─── HERO BANNER ─── */
+.hero{
+  background:linear-gradient(135deg,#0f0f1a 0%,#1e1640 50%,#0f2b35 100%);
+  border-bottom:2px solid var(--accent);
+  padding:56px 24px 44px;
+  position:relative;
+  overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 60% 80% at 80% 20%,rgba(108,99,255,0.12),transparent);
+}
+.hero-inner{max-width:1100px;margin:0 auto;position:relative;}
+.hero-badge{
+  display:inline-block;
+  background:rgba(108,99,255,0.15);
+  border:1px solid rgba(108,99,255,0.4);
+  color:var(--accent);
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  padding:4px 14px;
+  border-radius:20px;
+  margin-bottom:16px;
+}
+.hero h1{
+  font-size:clamp(28px,5vw,46px);
+  font-weight:800;
+  line-height:1.1;
+  color:#fff;
+  margin-bottom:12px;
+}
+.hero h1 span{color:var(--accent3);}
+.hero-sub{
+  font-family:'JetBrains Mono',monospace;
+  font-size:13px;
+  color:var(--text2);
+  letter-spacing:1px;
+}
+.hero-meta{
+  display:flex;gap:24px;flex-wrap:wrap;margin-top:28px;
+}
+.hero-pill{
+  background:rgba(255,255,255,0.06);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:8px 16px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:12px;
+  color:var(--text2);
+}
+.hero-pill strong{color:var(--text);}
+
+/* ─── TOC ─── */
+.toc-card{
+  background:var(--bg2);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:28px 32px;
+  margin:40px 0;
+  position:relative;
+  overflow:hidden;
+}
+.toc-card::before{
+  content:'';position:absolute;top:0;left:0;width:4px;height:100%;
+  background:linear-gradient(180deg,var(--accent),var(--accent3));
+}
+.toc-title{
+  font-size:13px;
+  font-weight:700;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:16px;
+}
+.toc-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:8px;
+}
+.toc-item{
+  display:flex;align-items:flex-start;gap:10px;
+  padding:8px 10px;
+  border-radius:6px;
+  text-decoration:none;
+  color:var(--text);
+  font-family:'JetBrains Mono',monospace;
+  font-size:13px;
+  transition:background .15s,color .15s;
+}
+.toc-item:hover{background:rgba(108,99,255,0.1);color:var(--accent);}
+.toc-num{
+  color:var(--accent);font-weight:600;min-width:28px;
+}
+
+/* ─── SECTION HEADERS ─── */
+.unit-section{margin-top:72px;}
+.section-label{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:8px;
+}
+.section-title{
+  font-size:clamp(22px,4vw,32px);
+  font-weight:800;
+  color:#fff;
+  line-height:1.15;
+  border-bottom:2px solid var(--border);
+  padding-bottom:16px;
+  margin-bottom:28px;
+}
+.section-title .accent{color:var(--accent3);}
+
+/* ─── TOPIC CARDS ─── */
+.topic-block{
+  background:var(--bg2);
+  border:1px solid var(--border);
+  border-radius:14px;
+  margin-bottom:40px;
+  overflow:hidden;
+}
+.topic-header{
+  background:linear-gradient(90deg,var(--bg3),var(--bg2));
+  border-bottom:1px solid var(--border);
+  padding:20px 28px;
+  display:flex;align-items:center;gap:14px;
+}
+.topic-num{
+  background:var(--accent);
+  color:#fff;
+  font-size:13px;
+  font-weight:800;
+  width:36px;height:36px;
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.topic-name{
+  font-size:18px;
+  font-weight:700;
+  color:#fff;
+}
+.topic-body{padding:28px;}
+
+/* ─── SUB-SECTIONS ─── */
+.sub-section{margin-bottom:28px;}
+.sub-title{
+  font-size:15px;
+  font-weight:700;
+  color:var(--accent2);
+  margin-bottom:10px;
+  display:flex;align-items:center;gap:8px;
+}
+.sub-title::before{
+  content:'';
+  display:inline-block;
+  width:3px;height:18px;
+  background:var(--accent2);
+  border-radius:2px;
+}
+
+/* ─── CALLOUT BOXES ─── */
+.callout{
+  border-radius:10px;
+  padding:16px 20px;
+  margin:16px 0;
+  border-left:4px solid;
+  font-size:15px;
+}
+.callout.info{background:rgba(108,99,255,0.08);border-color:var(--accent);}
+.callout.warning{background:rgba(255,107,157,0.08);border-color:var(--accent2);}
+.callout.success{background:rgba(0,212,170,0.08);border-color:var(--accent3);}
+.callout.danger{background:rgba(255,68,68,0.08);border-color:var(--danger);}
+.callout.formula{background:rgba(255,217,61,0.08);border-color:var(--accent4);}
+.callout-title{
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
+.callout.info .callout-title{color:var(--accent);}
+.callout.warning .callout-title{color:var(--accent2);}
+.callout.success .callout-title{color:var(--accent3);}
+.callout.danger .callout-title{color:var(--danger);}
+.callout.formula .callout-title{color:var(--accent4);}
+
+/* ─── CODE BLOCKS ─── */
+.code-wrapper{position:relative;margin:14px 0;border-radius:10px;overflow:hidden;border:1px solid var(--border)}
+.code-header{display:flex;justify-content:space-between;align-items:center;padding:8px 14px;background:var(--bg4);font-size:.75rem;color:var(--text2)}
+.code-header .lang{font-weight:600;color:var(--accent3)}
+pre{
+  background:var(--code-bg);
+  padding:20px;
+  overflow-x:auto;
+  margin:0;
+  font-family:'JetBrains Mono',monospace;
+  font-size:13px;
+  line-height:1.65;
+  color:#e2e2f0;
+}
+code{
+  font-family:'JetBrains Mono',monospace;
+  font-size:13px;
+  background:rgba(108,99,255,0.15);
+  border-radius:4px;
+  padding:1px 6px;
+  color:var(--accent3);
+}
+pre code{background:none;padding:0;color:#e2e2f0;}
+.cmt{color:#7e97a6;font-style:italic}
+.fn{color:#82aaff}
+.str{color:#c3e88d}
+.num{color:#f78c6c}
+.kw{color:#c792ea}
+.op{color:#89ddff}
+
+/* ─── TABLES ─── */
+.table-wrap{overflow-x:auto;margin:16px 0;}
+table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:14px;
+  font-family:'Inter',sans-serif;
+}
+th{
+  background:var(--bg3);
+  color:var(--accent3);
+  font-weight:700;
+  padding:10px 14px;
+  text-align:left;
+  border:1px solid var(--border);
+  font-size:12px;
+  letter-spacing:0.5px;
+  text-transform:uppercase;
+}
+td{
+  padding:9px 14px;
+  border:1px solid var(--border);
+  color:var(--text);
+  vertical-align:top;
+}
+tr:nth-child(even) td{background:rgba(255,255,255,0.02);}
+tr:hover td{background:rgba(108,99,255,0.05);}
+.td-hi{color:var(--accent3);font-weight:600;}
+.td-num{color:var(--accent2);}
+
+/* ─── VIVA BOXES ─── */
+.viva-box{
+  background:rgba(0,212,170,0.06);
+  border:1px solid rgba(0,212,170,0.25);
+  border-radius:12px;
+  padding:20px 24px;
+  margin:20px 0;
+}
+.viva-header{
+  display:flex;align-items:center;gap:10px;
+  margin-bottom:12px;
+}
+.viva-badge{
+  background:var(--accent3);
+  color:#000;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  padding:2px 10px;
+  border-radius:4px;
+}
+.viva-q{
+  font-weight:700;
+  color:var(--text);
+  margin-bottom:8px;
+  font-size:15px;
+}
+
+/* ─── OUTPUT BLOCKS ─── */
+.output-block{
+  background:#090d16;
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:16px;
+  margin:12px 0;
+  font-family:'JetBrains Mono',monospace;
+  font-size:13px;
+  color:#7ee787;
+  white-space:pre-wrap;
+}
+.output-block::before{
+  content:'📤 Console Output:';
+  display:block;
+  color:var(--accent4);
+  font-weight:600;
+  margin-bottom:8px;
+  font-family:'Inter',sans-serif;
+  font-size:.75rem;
+}
+
+/* ─── MNEMONIC ─── */
+.mnemonic{
+  background:linear-gradient(135deg,rgba(255,217,61,.1),rgba(255,140,66,.1));
+  border:1px dashed var(--accent4);
+  border-radius:8px;
+  padding:12px 16px;
+  margin:10px 0;
+  font-family:'Caveat',cursive;
+  font-size:1.2rem;
+  color:var(--accent4);
+}
+.mnemonic::before{content:'🧠 Memory Trick: '}
+
+/* ─── PROGRAM CARDS ─── */
+.prog-card{
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  margin:16px 0;
+  overflow:hidden;
+  background:var(--bg2);
+}
+.prog-card .prog-head{
+  padding:14px 18px;
+  background:var(--accent);
+  color:#fff;
+}
+.prog-card .prog-head h4{
+  font-size:.95rem;
+  font-weight:700;
+  color:#ffffff !important;
+  margin:4px 0 0;
+}
+.prog-card .prog-head .prog-num{
+  font-size:.7rem;
+  opacity:.8;
+  text-transform:uppercase;
+}
+.prog-card .prog-body{padding:18px}
+
+.hl{color:var(--accent3);font-weight:600}
+ul, ol { padding-left: 24px; margin-bottom: 14px; }
+li { margin-bottom: 6px; }
+
+@media print{
+  body{background:#fff;color:#000;}
+  .topic-block,.toc-card,.callout{break-inside:avoid;}
+}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">MSRIT • B.E. ISE • ISALC492</div>
+    <h1>Unit 2: <span>Loading &amp; Handling Data in R</span></h1>
+    <p class="hero-sub">// Memory-Management, Missing Values, Structures Coercions &amp; Core Analytical Tasks</p>
+    <div class="hero-meta">
+      <div class="hero-pill"><strong>Foundations:</strong> Memory &amp; Challenges</div>
+      <div class="hero-pill"><strong>Operators:</strong> Scoping &amp; Coercion</div>
+      <div class="hero-pill"><strong>Data Blocks:</strong> Vector · Matrix · Factor · List</div>
+      <div class="hero-pill"><strong>Weightage:</strong> CIE-2 &amp; SEE Core Focus</div>
+    </div>
+  </div>
+</div>
+
+<div class="page-wrap">
+
+<div class="toc-card">
+  <div class="toc-title">📋 Unit 2 Navigation Roadmap</div>
+  <div class="toc-grid">
+    <a href="#t1" class="toc-item"><span class="toc-num">01</span>Data Processing Challenges</a>
+    <a href="#t2" class="toc-item"><span class="toc-num">02</span>Variables, Functions &amp; Scoping</a>
+    <a href="#t3" class="toc-item"><span class="toc-num">03</span>Missing Values (NA vs NaN)</a>
+    <a href="#t4" class="toc-item"><span class="toc-num">04</span>Structural Coercion (`as` Operator)</a>
+    <a href="#t5" class="toc-item"><span class="toc-num">05</span>Vectors &amp; Recycling Rules</a>
+    <a href="#t6" class="toc-item"><span class="toc-num">06</span>Matrices &amp; Group Operations</a>
+    <a href="#t7" class="toc-item"><span class="toc-num">07</span>Factors (Nominal &amp; Ordinal)</a>
+    <a href="#t8" class="toc-item"><span class="toc-num">08</span>Lists &amp; Subsetting (`[]` vs `[[]]`)</a>
+    <a href="#t9" class="toc-item"><span class="toc-num">09</span>Common Analytical Tasks</a>
+  </div>
+</div>
+
+<!-- ======================= TOPIC 1: CHALLENGES ======================= -->
+<div class="unit-section" id="t1">
+  <div class="section-label">Topic 01</div>
+  <div class="section-title">Challenges of <span class="accent">Analytical Data Processing</span></div>
+
+  <div class="topic-block">
+    <div class="topic-header">
+      <div class="topic-num">1</div>
+      <div class="topic-name">Ingesting &amp; Loading Messy Real-world Data</div>
+    </div>
+    <div class="topic-body">
+      <div class="sub-section">
+        <div class="sub-title">Why Data Handling is Challenging in R</div>
+        <p>Before any mathematical model can run, data must be loaded, cleaned, and correctly structured. Unlike database engines, **R loads all data entirely into the system's active RAM** for execution speed. This constraint amplifies four major analytical bottlenecks (the **4 Vs of Data Ingestion**):</p>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">The Four Main Analytical Processing Challenges</div>
+        <ul>
+          <li><span class="hl">1. Volume (Memory Limitation):</span> Since R keeps all working variables in physical RAM, trying to read a 16GB CSV file on an 8GB RAM computer triggers a fatal memory allocation crash.</li>
+          <li><span class="hl">2. Variety (Diverse Formats):</span> Real datasets are stored in highly heterogeneous styles: semi-structured CSVs, nested JSON logs, XML hierarchies, Excel sheets, and SQL tables. Standardizing these into a single rectangular data frame causes layout clashes.</li>
+          <li><span class="hl">3. Velocity (Processing Latency):</span> Loading thousands of files sequentially via traditional loops blocks the R interpreter thread, leading to high CPU latency. Special high-speed parsers (e.g. <code>data.table::fread()</code>) are required.</li>
+          <li><span class="hl">4. Veracity (Dirty Data &amp; Noise):</span> Missing values, incorrect datatypes (like an age written as <code>"twenty"</code>), and out-of-range anomalies (like a negative test score) must be handled immediately during loading.</li>
+        </ul>
+        <div class="mnemonic">"V-V-V-V" &mdash; Volume, Variety, Velocity, Veracity (Memory, Format, Speed, and Quality).</div>
+      </div>
+
+      <div class="viva-box">
+        <div class="viva-q">🗣️ Viva Check: What is the main memory limitation of R? How do we bypass it?</div>
+        <p><strong>A:</strong> R is single-threaded and loads all active data frames into the system memory (RAM). When the dataset size exceeds the available free RAM, R crashes. We bypass this using specialized libraries like <code>data.table</code>, database connections (<code>RSQLite</code>/<code>DBI</code>), or by streaming chunks of data.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================= TOPIC 2: SCOPING & FUNCTIONS ======================= -->
+<div class="unit-section" id="t2">
+  <div class="section-label">Topic 02</div>
+  <div class="section-title">Expressions, Variables &amp; <span class="accent">Functions Scoping</span></div>
+
+  <div class="topic-block">
+    <div class="topic-header">
+      <div class="topic-num">2</div>
+      <div class="topic-name">The Syntactic Execution Block in R</div>
+    </div>
+    <div class="topic-body">
+      <div class="sub-section">
+        <div class="sub-title">Variables and Workspace Lifecycle</div>
+        <p>R is a dynamically-typed language where variables are created immediately when a value is assigned. We use `<-` (standard assignment) to assign values. R manages all declared objects in an active space called the **Global Environment**.</p>
+        <div class="code-wrapper">
+          <div class="code-header"><span class="lang">R Workspace Commands</span></div>
+          <pre>x &lt;- <span class="num">10.5</span>
+y &lt;- <span class="str">"Data Analytics"</span>
+<span class="fn">ls</span>()             <span class="cmt"># Lists all active variables in the environment</span>
+<span class="fn">rm</span>(x)            <span class="cmt"># Deletes variable x from memory to free RAM</span>
+<span class="fn">rm</span>(list = <span class="fn">ls</span>())  <span class="cmt"># CRITICAL: Wipes out the entire active workspace</span></pre>
+        </div>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">Scoping Rules in R: Lexical Scoping</div>
+        <p>R strictly implements **Lexical (Static) Scoping**. This means that **the scope of a variable is determined at compile-time by its spatial position in the source code**, rather than by the runtime call stack. If a variable is not found inside a function block, R looks up one level to the environment where the function was **defined** (lexical parent), NOT where it was **called**.</p>
+        <div class="code-wrapper">
+          <div class="code-header"><span class="lang">Lexical Scoping Demo</span></div>
+          <pre>z &lt;- <span class="num">10</span>               <span class="cmt"># Global Scope</span>
+my_func &lt;- <span class="kw">function</span>() {
+  y &lt;- <span class="num">5</span>              <span class="cmt"># Local Scope</span>
+  <span class="kw">return</span>(z + y)       <span class="cmt"># z is looked up in the environment where my_func was defined (global)</span>
+}
+my_func()</pre>
+        </div>
+        <div class="output-block">[1] 15</div>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">Lazy Evaluation in R Functions</div>
+        <p>R implements **Lazy Evaluation**. This means that arguments inside function parameters are **only evaluated at the exact line they are first used in execution**, rather than when the function is initially invoked. If a parameter is never referenced, it will never trigger an error even if it is completely undefined!</p>
+        <div class="code-wrapper">
+          <div class="code-header"><span class="lang">Lazy Evaluation Example</span></div>
+          <pre>lazy_test &lt;- <span class="kw">function</span>(a, b) {
+  <span class="fn">print</span>(a)  <span class="cmt"># 'b' is never evaluated!</span>
+}
+<span class="fn">lazy_test</span>(<span class="str">"Hello, Lazy!"</span>, missing_variable_error)  <span class="cmt"># No error throws!</span></pre>
+        </div>
+        <div class="output-block">[1] "Hello, Lazy!"</div>
+      </div>
+
+      <div class="viva-box">
+        <div class="viva-q">🗣️ Viva Check: What is the differences between lexical scoping and dynamic scoping?</div>
+        <p><strong>A:</strong> In Lexical Scoping (used by R), a function searches for free variables in the environment where the function was <strong>created/defined</strong>. In Dynamic Scoping, it searches in the environment from which the function was <strong>invoked/called</strong>.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================= TOPIC 3: MISSING VALUES ======================= -->
+<div class="unit-section" id="t3">
+  <div class="section-label">Topic 03</div>
+  <div class="section-title">Missing Values Treatment: <span class="accent">NA vs. NaN</span></div>
+
+  <div class="topic-block">
+    <div class="topic-header">
+      <div class="topic-num">3</div>
+      <div class="topic-name">Handling Incomplete Datasets Natively</div>
+    </div>
+    <div class="topic-body">
+      <div class="sub-section">
+        <div class="sub-title">The Technical Difference: NA vs. NaN</div>
+        <p>R provides two distinct, built-in placeholders to model missing or corrupt data. These are NOT strings, and they occupy specific datatypes in memory:</p>
+        <ul>
+          <li><span class="hl">NA (Not Available):</span> Represents a <strong>missing, unobserved, or unknown value</strong>. (e.g. a student who missed the exam, so their score is unknown).</li>
+          <li><span class="hl">NaN (Not a Number):</span> Represents a <strong>mathematically undefined operation</strong> (e.g. dividing zero by zero <code>0/0</code> or computing square root of a negative number <code>sqrt(-1)</code>).</li>
+        </ul>
+        <div class="callout warning">
+          <div class="callout-title">⚠️ CRITICAL EXAM TRAP: checking NA vs NaN</div>
+          A <code>NaN</code> value is technically mathematically missing, so <code>is.na(NaN)</code> will evaluate to <strong>TRUE</strong>. <br>
+          However, an <code>NA</code> is just an unknown value, not mathematically invalid, so <code>is.nan(NA)</code> evaluates to <strong>FALSE</strong>!
+        </div>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">Atomic Types of NA in Memory</div>
+        <p>To preserve homogeneous structure in vectors, R natively has different typed NAs:</p>
+        <table class="syntax-tbl">
+          <tr><th>R Symbol</th><th>Underlying Datatype</th></tr>
+          <tr><td><code>NA_integer_</code></td><td>Integer type</td></tr>
+          <tr><td><code>NA_real_</code></td><td>Double / Numeric type (Default <code>NA</code>)</td></tr>
+          <tr><td><code>NA_character_</code></td><td>Character type</td></tr>
+          <tr><td><code>NA_complex_</code></td><td>Complex type</td></tr>
+        </table>
+      </div>
+
+      <div class="prog-card">
+        <div class="prog-head"><span class="prog-num">Program 2.1</span><h4>Missing &amp; Mathematical Undefined Values Verification</h4></div>
+        <div class="prog-body">
+          <div class="code-wrapper">
+            <div class="code-header"><span class="lang">R</span></div>
+            <pre>val_na &lt;- <span class="kw">NA</span>
+val_nan &lt;- <span class="num">0</span> / <span class="num">0</span>
+
+<span class="fn">cat</span>(<span class="str">"is.na(NA):"</span>, <span class="fn">is.na</span>(val_na), <span class="str">"\n"</span>)
+<span class="fn">cat</span>(<span class="str">"is.nan(NA):"</span>, <span class="fn">is.nan</span>(val_na), <span class="str">"\n"</span>)
+<span class="fn">cat</span>(<span class="str">"is.na(NaN):"</span>, <span class="fn">is.na</span>(val_nan), <span class="str">"\n"</span>)
+<span class="fn">cat</span>(<span class="str">"is.nan(NaN):"</span>, <span class="fn">is.nan</span>(val_nan), <span class="str">"\n"</span>)</pre>
+          </div>
+          <div class="output-block">is.na(NA): TRUE 
+is.nan(NA): FALSE 
+is.na(NaN): TRUE 
+is.nan(NaN): TRUE</div>
+        </div>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">Treatment Strategies for Missing Values</div>
+        <ol>
+          <li><strong>Omission (Strict Removal):</strong> Removing incomplete records from the dataset.
+            <ul>
+              <li><code>na.omit(df)</code> &mdash; Deletes any row containing one or more NAs.</li>
+              <li><code>complete.cases(df)</code> &mdash; Returns a logical vector where rows without NAs are TRUE.</li>
+            </ul>
+          </li>
+          <li><strong>Ignorance (Parameter level):</strong> Using <code>na.rm = TRUE</code> inside functions like <code>mean()</code>, <code>sum()</code>, <code>sd()</code> to ignore NAs during math calculation.</li>
+          <li><strong>Imputation (Replacement):</strong> Replacing NAs with central tendency measures (like Mean or Median) to prevent losing data rows.</li>
+        </ol>
+      </div>
+
+      <div class="prog-card">
+        <div class="prog-head"><span class="prog-num">Program 2.2</span><h4>Complete Missing Values Treatment Pipeline</h4></div>
+        <div class="prog-body">
+          <div class="code-wrapper">
+            <div class="code-header"><span class="lang">R</span></div>
+            <pre>scores &lt;- <span class="fn">c</span>(<span class="num">85</span>, <span class="kw">NA</span>, <span class="num">90</span>, <span class="num">75</span>, <span class="kw">NA</span>, <span class="num">95</span>)
+
+<span class="cmt"># 1. Math fails without na.rm</span>
+raw_mean &lt;- <span class="fn">mean</span>(scores) 
+<span class="fn">cat</span>(<span class="str">"Mean without handling:"</span>, raw_mean, <span class="str">"\n"</span>)
+
+<span class="cmt"># 2. Math succeeds with na.rm = TRUE</span>
+clean_mean &lt;- <span class="fn">mean</span>(scores, na.rm = <span class="kw">TRUE</span>)
+<span class="fn">cat</span>(<span class="str">"Mean with na.rm:"</span>, clean_mean, <span class="str">"\n"</span>)
+
+<span class="cmt"># 3. Imputation (Replace NA with Mean)</span>
+scores[<span class="fn">is.na</span>(scores)] &lt;- clean_mean
+<span class="fn">cat</span>(<span class="str">"Imputed Vector:"</span>, scores, <span class="str">"\n"</span>)</pre>
+          </div>
+          <div class="output-block">Mean without handling: NA 
+Mean with na.rm: 86.25 
+Imputed Vector: 85 86.25 90 75 86.25 95</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================= TOPIC 4: COERCION ======================= -->
+<div class="unit-section" id="t4">
+  <div class="section-label">Topic 04</div>
+  <div class="section-title">Structural Coercion: <span class="accent">The 'as' Operator</span></div>
+
+  <div class="topic-block">
+    <div class="topic-header">
+      <div class="topic-num">4</div>
+      <div class="topic-name">Changing Data Structures and Types</div>
+    </div>
+    <div class="topic-body">
+      <div class="sub-section">
+        <div class="sub-title">Implicit vs. Explicit Coercion</div>
+        <p>R enforces strict type uniformity in homogeneous vectors. If you attempt to mix data types, R will perform **Implicit Coercion** automatically to ensure no data is lost. You can also manually force type transitions using **Explicit Coercion** with the <code>as.*</code> operator family.</p>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">The Automatic Coercion Hierarchy</div>
+        <p>When mixing datatypes in a vector, R evaluates the items and casts all elements to the **lowest type in the chain** that can safely represent all values:</p>
+        <div class="diagram">
+          <div class="box">Logical (TRUE/FALSE)</div>
+          <div class="arrow">➔</div>
+          <div class="box">Integer (1L, 2L)</div>
+          <div class="arrow">➔</div>
+          <div class="box">Numeric (10.5, 3.14)</div>
+          <div class="arrow">➔</div>
+          <div class="box">Character ("Text", 'R')</div>
+        </div>
+        <p style="margin-top:14px;"><strong>Example:</strong> Mixing numeric and character converts all numbers to strings: <code>c(10.5, "A")</code> ➔ <code>c("10.5", "A")</code>.</p>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">Explicit Coercion via 'as' functions</div>
+        <p>R provides the `as.*` operator family to explicitly force an object from one structure or datatype to another:</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Target Structure</th><th>Conversion Operator</th><th>Behavior &amp; Rule</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="td-hi">Integer</td>
+                <td><code>as.integer(x)</code></td>
+                <td>Truncates all decimal digits (e.g., <code>5.9</code> becomes <code>5</code>). Converts <code>TRUE</code> to <code>1</code>, <code>FALSE</code> to <code>0</code>.</td>
+              </tr>
+              <tr>
+                <td class="td-hi">Numeric</td>
+                <td><code>as.numeric(x)</code></td>
+                <td>Converts compatible strings to floats. Non-digit strings yield <code>NA</code> with a warning.</td>
+              </tr>
+              <tr>
+                <td class="td-hi">Character</td>
+                <td><code>as.character(x)</code></td>
+                <td>Converts values, symbols, and dates directly to string representations in quotes.</td>
+              </tr>
+              <tr>
+                <td class="td-hi">Factor</td>
+                <td><code>as.factor(x)</code></td>
+                <td>Discovers all unique categories inside a vector and structures them as level identifiers.</td>
+              </tr>
+              <tr>
+                <td class="td-hi">Matrix</td>
+                <td><code>as.matrix(x)</code></td>
+                <td>Casts a tabular data frame into a uniform cell matrix, triggering implicit type coercion if columns differ.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="prog-card">
+        <div class="prog-head"><span class="prog-num">Program 2.3</span><h4>Manual Coercion &amp; Warning Generation Tracing</h4></div>
+        <div class="prog-body">
+          <div class="code-wrapper">
+            <div class="code-header"><span class="lang">R</span></div>
+            <pre>char_digits &lt;- <span class="str">"123"</span>
+char_alpha &lt;- <span class="str">"MSRIT"</span>
+
+<span class="cmt"># 1. Success Coercion</span>
+num_val &lt;- <span class="fn">as.numeric</span>(char_digits)
+<span class="fn">cat</span>(<span class="str">"Converted digits:"</span>, num_val, <span class="str">"| Type:"</span>, <span class="fn">class</span>(num_val), <span class="str">"\n"</span>)
+
+<span class="cmt"># 2. Failed Coercion (Introduces NA with warning)</span>
+fail_val &lt;- <span class="fn">as.numeric</span>(char_alpha)
+<span class="fn">cat</span>(<span class="str">"Converted alpha:"</span>, fail_val, <span class="str">"\n"</span>)</pre>
+          </div>
+          <div class="output-block">Converted digits: 123 | Type: numeric 
+Warning message: NAs introduced by coercion 
+Converted alpha: NA</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================= TOPIC 5: VECTORS ======================= -->
+<div class="unit-section" id="t5">
+  <div class="section-label">Topic 05</div>
+  <div class="section-title">Vectors: Homogeneous <span class="accent">1D Data Structures</span></div>
+
+  <div class="topic-block">
+    <div class="topic-header">
+      <div class="topic-num">5</div>
+      <div class="topic-name">The Core Foundation of R Execution</div>
+    </div>
+    <div class="topic-body">
+      <div class="sub-section">
+        <div class="sub-title">Vector Creation and Sequencing</div>
+        <p>A vector is a 1-dimensional array that holds elements of the same datatype. You can create vectors using the combine function <code>c()</code>, the colon sequence operator <code>:</code>, or specialized generator functions:</p>
+        <ul>
+          <li><strong>Sequence Generation:</strong> <code>seq(from, to, by, length.out)</code> creates regular sequences with decimal step sizes or a fixed final vector size.</li>
+          <li><strong>Replication Generation:</strong> <code>rep(x, times, each)</code> repeats elements. <code>times</code> repeats the whole vector, while <code>each</code> repeats individual items sequentially.</li>
+        </ul>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">1-Based Indexing and Vector Slicing</div>
+        <div class="callout warning">
+          <div class="callout-title">⚠️ IMPORTANT EXAM RULE: INDEXING IN R</div>
+          Unlike C, Java, or Python which use 0-based indexing, **R vector indices start at 1**. Slicing a vector behaves as follows:
+          <ul>
+            <li><code>v[3]</code> &mdash; Returns the 3rd element.</li>
+            <li><code>v[-2]</code> &mdash; A negative index **excludes** that item (returns all elements EXCEPT the 2nd one).</li>
+            <li><code>v[c(1, 4)]</code> &mdash; Returns elements at index 1 and 4.</li>
+            <li><code>v[v > 80]</code> &mdash; Logical indexing (returns elements satisfying the condition).</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">The Recycling Rule in Vector Arithmetic</div>
+        <p>When you perform mathematical operations on two vectors of unequal lengths, R does not throw an error. Instead, it applies the **Recycling Rule**: **R automatically repeats (recycles) the elements of the shorter vector from the beginning until it matches the length of the longer vector**.</p>
+        <div class="callout info">
+          <div class="callout-title">💡 Element Recycling Alert</div>
+          If the length of the longer vector is not a perfect multiple of the shorter vector's length, R still performs the calculation but displays a warning.
+        </div>
+      </div>
+
+      <div class="prog-card">
+        <div class="prog-head"><span class="prog-num">Program 2.4</span><h4>Vector Sequencing, Replication, and the Recycling Rule</h4></div>
+        <div class="prog-body">
+          <div class="code-wrapper">
+            <div class="code-header"><span class="lang">R</span></div>
+            <pre><span class="cmt"># 1. Advanced Sequence &amp; Replication</span>
+my_seq &lt;- <span class="fn">seq</span>(from = <span class="num">1</span>, to = <span class="num">3</span>, by = <span class="num">0.5</span>)
+my_rep &lt;- <span class="fn">rep</span>(<span class="fn">c</span>(<span class="num">10</span>, <span class="num">20</span>), each = <span class="num">2</span>)
+<span class="fn">print</span>(my_seq)
+<span class="fn">print</span>(my_rep)
+
+<span class="cmt"># 2. Recycling Rule: Exact Multiple</span>
+vec_long &lt;- <span class="fn">c</span>(<span class="num">10</span>, <span class="num">20</span>, <span class="num">30</span>, <span class="num">40</span>)
+vec_short &lt;- <span class="fn">c</span>(<span class="num">1</span>, <span class="num">2</span>)
+<span class="cmt"># vec_short is recycled to c(1, 2, 1, 2)</span>
+result &lt;- vec_long + vec_short
+<span class="fn">cat</span>(<span class="str">"Result of Addition:"</span>, result, <span class="str">"\n"</span>)</pre>
+          </div>
+          <div class="output-block">[1] 1.0 1.5 2.0 2.5 3.0
+[1] 10 10 20 20
+Result of Addition: 11 22 31 42</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================= TOPIC 6: MATRICES ======================= -->
+<div class="unit-section" id="t6">
+  <div class="section-label">Topic 06</div>
+  <div class="section-title">Matrices: Homogeneous <span class="accent">2D Grids</span></div>
+
+  <div class="topic-block">
+    <div class="topic-header">
+      <div class="topic-num">6</div>
+      <div class="topic-name">Grid Data &amp; Linear Algebra in R</div>
+    </div>
+    <div class="topic-body">
+      <div class="sub-section">
+        <div class="sub-title">Matrix Construction and Layouts</div>
+        <p>A matrix is a 2-dimensional grid of homogeneous elements. We build a matrix using the <code>matrix()</code> constructor. By default, **R fills matrices column-by-column (column-major)**. Set <code>byrow = TRUE</code> to change this behavior.</p>
+        <div class="code-wrapper">
+          <div class="code-header"><span class="lang">Matrix Declaration Syntax</span></div>
+          <pre>m &lt;- <span class="fn">matrix</span>(data = <span class="num">1</span>:<span class="num">6</span>, nrow = <span class="num">2</span>, ncol = <span class="num">3</span>, byrow = <span class="kw">FALSE</span>)</pre>
+        </div>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">Element-Wise Arithmetic vs. Matrix Multiplication</div>
+        <p>R supports two completely separate kinds of multiplications on matrices:</p>
+        <ul>
+          <li><span class="hl">Element-Wise Multiplication (*):</span> Multiplies cells at the identical positions (requires both matrices to have the exact same dimensions).</li>
+          <li><span class="hl">Matrix Dot Product (%*%):</span> Standard mathematical matrix multiplication. Requires columns of the first matrix to equal rows of the second.</li>
+        </ul>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">Matrix Row &amp; Column Summaries</div>
+        <p>Instead of using slow nested loops, R provides high-speed built-in functions to compute matrix sums and means:</p>
+        <ul>
+          <li><code>rowSums(m)</code> &mdash; Calculates the sum of each row.</li>
+          <li><code>colSums(m)</code> &mdash; Calculates the sum of each column.</li>
+          <li><code>rowMeans(m)</code> / <code>colMeans(m)</code> &mdash; Computes averages along rows and columns.</li>
+        </ul>
+      </div>
+
+      <div class="prog-card">
+        <div class="prog-head"><span class="prog-num">Program 2.5</span><h4>Matrix Operations, Transpose, and Summaries</h4></div>
+        <div class="prog-body">
+          <div class="code-wrapper">
+            <div class="code-header"><span class="lang">R</span></div>
+            <pre><span class="cmt"># 1. Create Matrix</span>
+mat &lt;- <span class="fn">matrix</span>(<span class="num">1</span>:<span class="num">6</span>, nrow = <span class="num">2</span>, byrow = <span class="kw">TRUE</span>)
+<span class="fn">print</span>(mat)
+
+<span class="cmt"># 2. Dimensions &amp; Names</span>
+<span class="fn">colnames</span>(mat) &lt;- <span class="fn">c</span>(<span class="str">"C1"</span>, <span class="str">"C2"</span>, <span class="str">"C3"</span>)
+<span class="fn">rownames</span>(mat) &lt;- <span class="fn">c</span>(<span class="str">"R1"</span>, <span class="str">"R2"</span>)
+<span class="fn">print</span>(mat)
+
+<span class="cmt"># 3. Row and Column Summaries</span>
+<span class="fn">cat</span>(<span class="str">"Row Sums:"</span>, <span class="fn">rowSums</span>(mat), <span class="str">"\n"</span>)
+<span class="fn">cat</span>(<span class="str">"Col Sums:"</span>, <span class="fn">colSums</span>(mat), <span class="str">"\n\n"</span>)
+
+<span class="cmt"># 4. Matrix Multiplication (%*%)</span>
+mat2 &lt;- <span class="fn">matrix</span>(<span class="fn">c</span>(<span class="num">1</span>,<span class="num">2</span>,<span class="num">3</span>,<span class="num">4</span>,<span class="num">5</span>,<span class="num">6</span>), nrow = <span class="num">3</span>) <span class="cmt"># 3x2 Matrix</span>
+mult_res &lt;- mat %*% mat2
+<span class="fn">print</span>(mult_res)</pre>
+          </div>
+          <div class="output-block">     [,1] [,2] [,3]
+[1,]    1    2    3
+[2,]    4    5    6
+
+   C1 C2 C3
+R1  1  2  3
+R2  4  5  6
+
+Row Sums: 6 15 
+Col Sums: 5 7 9 
+
+   [,1] [,2]
+R1   22   49
+R2   49  112</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================= TOPIC 7: FACTORS ======================= -->
+<div class="unit-section" id="t7">
+  <div class="section-label">Topic 07</div>
+  <div class="section-title">Factors: Categorical <span class="accent">Data Representation</span></div>
+
+  <div class="topic-block">
+    <div class="topic-header">
+      <div class="topic-num">7</div>
+      <div class="topic-name">Encoding Categorical Data Optimally</div>
+    </div>
+    <div class="topic-body">
+      <div class="sub-section">
+        <div class="sub-title">What is a Factor?</div>
+        <p>A **Factor** is a specialized data structure used to store and manage **categorical data**. Categorical variables have a fixed, predefined set of unique options, called **Levels**. Examples include: gender (Male, Female), grades (A, B, C, D), or status (High, Medium, Low).</p>
+        <div class="callout info">
+          <div class="callout-title">💡 Storage Optimization</div>
+          Under the hood, **R stores factors as an integer vector mapped to a lookup table of string levels**. This saves massive disk and RAM memory when working with large datasets!
+        </div>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">Nominal vs. Ordinal Categorical Variables</div>
+        <ul>
+          <li><strong>Nominal (Unordered):</strong> Categories that have no intrinsic order (e.g. <code>c("Apple", "Banana", "Cherry")</code>). Created using: <code>factor(v)</code>.</li>
+          <li><strong>Ordinal (Ordered):</strong> Categories that have a natural hierarchical order (e.g. <code>c("Low", "Medium", "High")</code>). Created by passing <code>ordered = TRUE</code> and specifying the levels in ascending order.</li>
+        </ul>
+      </div>
+
+      <div class="prog-card">
+        <div class="prog-head"><span class="prog-num">Program 2.6</span><h4>Creating Nominal and Ordinal Factors</h4></div>
+        <div class="prog-body">
+          <div class="code-wrapper">
+            <div class="code-header"><span class="lang">R</span></div>
+            <pre><span class="cmt"># 1. Nominal Factor</span>
+gender &lt;- <span class="fn">c</span>(<span class="str">"Male"</span>, <span class="str">"Female"</span>, <span class="str">"Female"</span>, <span class="str">"Male"</span>)
+f_gender &lt;- <span class="fn">factor</span>(gender)
+<span class="fn">print</span>(f_gender)
+<span class="fn">cat</span>(<span class="str">"Levels of Gender:"</span>, <span class="fn">levels</span>(f_gender), <span class="str">"\n\n"</span>)
+
+<span class="cmt"># 2. Ordinal Factor (Hierarchy: Low &lt; Med &lt; High)</span>
+feedback &lt;- <span class="fn">c</span>(<span class="str">"Medium"</span>, <span class="str">"Low"</span>, <span class="str">"High"</span>, <span class="str">"Low"</span>)
+f_feedback &lt;- <span class="fn">factor</span>(feedback, 
+                     levels = <span class="fn">c</span>(<span class="str">"Low"</span>, <span class="str">"Medium"</span>, <span class="str">"High"</span>), 
+                     ordered = <span class="kw">TRUE</span>)
+<span class="fn">print</span>(f_feedback)
+<span class="fn">cat</span>(<span class="str">"Max Feedback index:"</span>, <span class="fn">max</span>(f_feedback), <span class="str">"\n"</span>)</pre>
+          </div>
+          <div class="output-block">[1] Male   Female Female Male  
+Levels: Female Male
+Levels of Gender: Female Male 
+
+[1] Medium Low    High   Low   
+Levels: Low < Medium < High
+Max Feedback index: High</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================= TOPIC 8: LISTS ======================= -->
+<div class="unit-section" id="t8">
+  <div class="section-label">Topic 08</div>
+  <div class="section-title">Lists: Heterogeneous <span class="accent">1D Collections</span></div>
+
+  <div class="topic-block">
+    <div class="topic-header">
+      <div class="topic-num">8</div>
+      <div class="topic-name">The Flexible Container of Complex Structures</div>
+    </div>
+    <div class="topic-body">
+      <div class="sub-section">
+        <div class="sub-title">What is a List?</div>
+        <p>A **List** is a 1-dimensional **heterogeneous** data structure. Unlike vectors and matrices, **a list can store elements of completely different datatypes, shapes, and structures simultaneously** &mdash; including numeric constants, strings, vectors, matrices, factors, and even other nested lists!</p>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">The Crucial Distinction: Single Bracket [ ] vs. Double Bracket [[ ]]</div>
+        <div class="callout danger">
+          <div class="callout-title">🚨 HIGHEST WEIGHTAGE EXAM QUESTION</div>
+          Understanding how to extract data from lists is heavily tested in exam papers. Learn this difference:
+          <ul>
+            <li><span class="hl">Single Bracket L[i]:</span> Returns a **sub-list** containing the element. The outer wrapper remains a list! (Like receiving a box containing a present).</li>
+            <li><span class="hl">Double Bracket L[[i]]:</span> Extracts the **actual raw element/value** at that index. The list wrapper is stripped away. (Like unwrapping the box to get the actual present inside).</li>
+            <li><span class="hl">Dollar Operator L$name:</span> Equivalent to `L[["name"]]`. Extracts the raw named element directly.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="prog-card">
+        <div class="prog-head"><span class="prog-num">Program 2.7</span><h4>List Extraction Methods Tracing</h4></div>
+        <div class="prog-body">
+          <div class="code-wrapper">
+            <div class="code-header"><span class="lang">R</span></div>
+            <pre>student_list &lt;- <span class="fn">list</span>(
+  name = <span class="str">"Akshay"</span>,
+  scores = <span class="fn">c</span>(<span class="num">85</span>, <span class="num">92</span>, <span class="num">95</span>),
+  graduated = <span class="kw">TRUE</span>
+)
+
+<span class="cmt"># 1. Single Bracket Lookup</span>
+sub_list &lt;- student_list[<span class="num">2</span>]
+<span class="fn">cat</span>(<span class="str">"Class of L[2]:"</span>, <span class="fn">class</span>(sub_list), <span class="str">"\n"</span>)
+
+<span class="cmt"># 2. Double Bracket Lookup</span>
+raw_element &lt;- student_list[[<span class="num">2</span>]]
+<span class="fn">cat</span>(<span class="str">"Class of L[[2]]:"</span>, <span class="fn">class</span>(raw_element), <span class="str">"\n"</span>)
+
+<span class="cmt"># 3. Accessing elements inside the extracted vector</span>
+<span class="fn">cat</span>(<span class="str">"Second Score of Akshay:"</span>, student_list[[<span class="str">"scores"</span>]][<span class="num">2</span>], <span class="str">"\n"</span>)</pre>
+          </div>
+          <div class="output-block">Class of L[2]: list 
+Class of L[[2]]: numeric 
+Second Score of Akshay: 92</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================= TOPIC 9: TASKS ======================= -->
+<div class="unit-section" id="t9">
+  <div class="section-label">Topic 09</div>
+  <div class="section-title">Common <span class="accent">Analytical Tasks</span></div>
+
+  <div class="topic-block">
+    <div class="topic-header">
+      <div class="topic-num">9</div>
+      <div class="topic-name">Sorting, Ordering, Filtering &amp; Merging</div>
+    </div>
+    <div class="topic-body">
+      <div class="sub-section">
+        <div class="sub-title">Value Sorting vs. Index Ordering</div>
+        <p>R provides two built-in methods to organize vectors, but they behave very differently:</p>
+        <ul>
+          <li><code>sort(x)</code> &mdash; Returns the **actual sorted values** in ascending or descending order.</li>
+          <li><code>order(x)</code> &mdash; Returns the **permutation indices** that would sort the vector. This is extremely useful for sorting rows of a data frame based on values in a specific column!</li>
+        </ul>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">Merging Datasets via SQL-style Joins</div>
+        <p>The <code>merge()</code> function combines two data frames based on common key columns, functioning exactly like SQL joins:</p>
+        <ul>
+          <li><code>merge(x, y, by="ID")</code> &mdash; Inner Join (keeps only matching IDs).</li>
+          <li><code>merge(x, y, by="ID", all.x=TRUE)</code> &mdash; Left Join (keeps all records from the left table).</li>
+          <li><code>merge(x, y, by="ID", all=TRUE)</code> &mdash; Full Outer Join (keeps all records from both tables, filling mismatches with <code>NA</code>).</li>
+        </ul>
+      </div>
+
+      <div class="prog-card">
+        <div class="prog-head"><span class="prog-num">Program 2.8</span><h4>Sorting, Ordering, Filtering &amp; Merging Pipelines</h4></div>
+        <div class="prog-body">
+          <div class="code-wrapper">
+            <div class="code-header"><span class="lang">R</span></div>
+            <pre>ages &lt;- <span class="fn">c</span>(<span class="num">23</span>, <span class="num">19</span>, <span class="num">25</span>, <span class="num">21</span>)
+
+<span class="cmt"># 1. sort() vs order()</span>
+<span class="fn">cat</span>(<span class="str">"sort(ages):"</span>, <span class="fn">sort</span>(ages), <span class="str">"\n"</span>)
+<span class="fn">cat</span>(<span class="str">"order(ages):"</span>, <span class="fn">order</span>(ages), <span class="str">"\n"</span>)
+<span class="cmt"># Dry run check: ages[order(ages)] is equivalent to sort(ages)!</span>
+<span class="fn">cat</span>(<span class="str">"Manual index sorting:"</span>, ages[<span class="fn">order</span>(ages)], <span class="str">"\n\n"</span>)
+
+<span class="cmt"># 2. Merging Data Frames</span>
+df_students &lt;- <span class="fn">data.frame</span>(ID = <span class="num">1</span>:<span class="num">3</span>, Name = <span class="fn">c</span>(<span class="str">"Ravi"</span>, <span class="str">"Priya"</span>, <span class="str">"Amit"</span>))
+df_grades   &lt;- <span class="fn">data.frame</span>(ID = <span class="fn">c</span>(<span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>), Grade = <span class="fn">c</span>(<span class="str">"A"</span>, <span class="str">"B"</span>, <span class="str">"A"</span>))
+
+<span class="cmt"># Inner Join</span>
+inner_res &lt;- <span class="fn">merge</span>(df_students, df_grades, by = <span class="str">"ID"</span>)
+<span class="fn">print</span>(inner_res)
+
+<span class="cmt"># Left Join</span>
+left_res &lt;- <span class="fn">merge</span>(df_students, df_grades, by = <span class="str">"ID"</span>, all.x = <span class="kw">TRUE</span>)
+<span class="fn">print</span>(left_res)</pre>
+          </div>
+          <div class="output-block">sort(ages): 19 21 23 25 
+order(ages): 2 4 1 3 
+Manual index sorting: 19 21 23 25 
+
+  ID  Name Grade
+1  2 Priya     A
+2  3  Amit     B
+
+  ID  Name Grade
+1  1  Ravi  &lt;NA&gt;
+2  2 Priya     A
+3  3  Amit     B</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+<script>
+// Expand/collapse logic if loaded directly in browser
+console.log("R study notes unit 2 loaded successfully!");
+</script>
+</body>
+</html>

@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>R Programming Exam Prep Hub | MSRIT Exam Notes</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:        #0f0f1a;
+  --bg2:       #161625;
+  --bg3:       #1e1e32;
+  --bg4:       #262640;
+  --border:    #2a2a45;
+  --text:      #e2e2f0;
+  --text2:     #a0a0c0;
+  --text3:     #707090;
+  --accent:    #6c63ff;
+  --accent2:   #ff6b9d;
+  --accent3:   #00d4aa;
+  --accent4:   #ffd93d;
+  --danger:    #ff4444;
+  --green:     #3fb950;
+  --code-bg:   #1a1a2e;
+  --shadow:    0 4px 32px rgba(0,0,0,0.4);
+  --radius:    12px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Inter', sans-serif;
+  font-size:15px;
+  line-height:1.75;
+}
+
+/* ─── LAYOUT ─── */
+.page-wrap{max-width:1100px;margin:0 auto;padding:0 24px 80px;}
+
+/* ─── HERO BANNER ─── */
+.hero{
+  background:linear-gradient(135deg,#1f1338 0%,#3d142d 50%,#3a2c09 100%);
+  border-bottom:2px solid var(--accent2);
+  padding:56px 24px 44px;
+  position:relative;
+  overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 60% 80% at 80% 20%,rgba(255,107,157,0.12),transparent);
+}
+.hero-inner{max-width:1100px;margin:0 auto;position:relative;}
+.hero-badge{
+  display:inline-block;
+  background:rgba(255,107,157,0.15);
+  border:1px solid rgba(255,107,157,0.4);
+  color:var(--accent2);
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  padding:4px 14px;
+  border-radius:20px;
+  margin-bottom:16px;
+}
+.hero h1{
+  font-size:clamp(28px,5vw,46px);
+  font-weight:800;
+  line-height:1.1;
+  color:#fff;
+  margin-bottom:12px;
+}
+.hero h1 span{color:var(--accent4);}
+.hero-sub{
+  font-family:'JetBrains Mono',monospace;
+  font-size:13px;
+  color:var(--text2);
+  letter-spacing:1px;
+}
+
+/* ─── CONTROLS ─── */
+.controls{
+  display:flex;gap:12px;margin:32px 0 16px;flex-wrap:wrap;
+}
+.ctrl-btn{
+  padding:10px 20px;
+  background:var(--bg2);
+  border:1px solid var(--border);
+  color:var(--text);
+  font-family:'Inter',sans-serif;
+  font-size:13px;
+  font-weight:600;
+  border-radius:8px;
+  cursor:pointer;
+  transition:background .2s,border-color .2s;
+}
+.ctrl-btn:hover{background:var(--bg3);border-color:var(--accent);}
+.ctrl-btn.accent-btn{background:rgba(108,99,255,0.15);border-color:var(--accent);color:var(--text);}
+.ctrl-btn.accent-btn:hover{background:rgba(108,99,255,0.25);}
+
+/* ─── SECTION HEADERS ─── */
+.unit-section{margin-top:40px;}
+.section-title{
+  font-size:20px;
+  font-weight:800;
+  color:#fff;
+  border-bottom:2px solid var(--border);
+  padding-bottom:12px;
+  margin-bottom:20px;
+  display:flex;justify-content:space-between;align-items:center;
+  cursor:pointer;
+}
+
+/* ─── COLLAPSIBLE CONTENT ─── */
+.section-body{display:block;margin-bottom:32px;}
+.section-body.collapsed{display:none;}
+
+/* ─── MCQ CARDS ─── */
+.mcq{
+  background:var(--bg2);
+  border:1px solid var(--border);
+  border-left:4px solid var(--accent4);
+  border-radius:8px;
+  padding:20px;
+  margin-bottom:18px;
+}
+.mcq .q{font-weight:700;color:#fff;margin-bottom:12px;font-size:15px;}
+.mcq .opts{padding-left:14px;color:var(--text2);font-size:14px;}
+.mcq .opts div{padding:3px 0;}
+.mcq .ans{
+  margin-top:14px;
+  padding-top:10px;
+  border-top:1px solid var(--border);
+  color:var(--accent3);
+  font-weight:700;
+  font-size:14px;
+  display:none;
+}
+.mcq.show-ans .ans{display:block;}
+
+/* ─── VIVA BOXES ─── */
+.viva-box{
+  background:rgba(0,212,170,0.06);
+  border:1px solid rgba(0,212,170,0.2);
+  border-radius:10px;
+  padding:16px 20px;
+  margin-bottom:16px;
+}
+.viva-q{
+  font-weight:700;
+  color:#fff;
+  margin-bottom:8px;
+}
+.viva-a{
+  color:var(--text2);
+}
+
+/* ─── TABLES ─── */
+.table-wrap{overflow-x:auto;margin:16px 0;}
+table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:14px;
+}
+th{
+  background:var(--bg3);
+  color:var(--accent3);
+  font-weight:700;
+  padding:10px 14px;
+  text-align:left;
+  border:1px solid var(--border);
+  font-size:12px;
+  letter-spacing:0.5px;
+  text-transform:uppercase;
+}
+td{
+  padding:9px 14px;
+  border:1px solid var(--border);
+  color:var(--text);
+}
+tr:nth-child(even) td{background:rgba(255,255,255,0.02);}
+
+.mnemonic{
+  background:linear-gradient(135deg,rgba(255,217,61,.1),rgba(255,140,66,.1));
+  border:1px dashed var(--accent4);
+  border-radius:8px;
+  padding:12px 16px;
+  margin:10px 0;
+  font-family:'Caveat',cursive;
+  font-size:1.2rem;
+  color:var(--accent4);
+}
+.mnemonic::before{content:'🧠 Memory Trick: '}
+
+ul, ol { padding-left: 24px; margin-bottom: 14px; }
+li { margin-bottom: 6px; }
+.hl { color: var(--accent3); font-weight:600; }
+.tag {
+  display:inline-block;
+  padding:2px 8px;
+  border-radius:4px;
+  font-size:10px;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  margin-right:6px;
+  vertical-align:middle;
+}
+.tag-exam{background:rgba(255,107,157,0.15);color:var(--accent2);}
+.tag-viva{background:rgba(0,212,170,0.15);color:var(--accent3);}
+
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">MSRIT • B.E. ISE • STUDY KIT</div>
+    <h1>Exam <span>Preparation Hub</span></h1>
+    <p class="hero-sub">// Interactive MCQs, solved viva questions, expected questions list and revision sheets</p>
+  </div>
+</div>
+
+<div class="page-wrap">
+
+  <div class="controls">
+    <button class="ctrl-btn accent-btn" onclick="showAllAnswers()">✅ Reveal All Answers</button>
+    <button class="ctrl-btn" onclick="hideAllAnswers()">❌ Hide All Answers</button>
+    <button class="ctrl-btn" onclick="expandAllSections()">📂 Expand All Topics</button>
+    <button class="ctrl-btn" onclick="collapseAllSections()">📁 Collapse All Topics</button>
+  </div>
+
+  <!-- ======================= SECTION 1: MCQS ======================= -->
+  <div class="unit-section" id="sec-mcqs">
+    <div class="section-title" onclick="toggleSection('body-mcqs')">
+      <span>📝 MCQs (22 High-value Questions)</span>
+      <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-body" id="body-mcqs">
+      
+      <div class="mcq">
+        <div class="q">1. Which function is used to apply a function to subsets of a vector grouped by a factor?</div>
+        <div class="opts">
+          <div>A. aggregate()</div>
+          <div>B. tapply()</div>
+          <div>C. lapply()</div>
+          <div>D. sapply()</div>
+        </div>
+        <div class="ans">✅ Answer: B. tapply()</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">2. What is the default separator in read.csv()?</div>
+        <div class="opts">
+          <div>A. Tab</div>
+          <div>B. Space</div>
+          <div>C. Comma</div>
+          <div>D. Semicolon</div>
+        </div>
+        <div class="ans">✅ Answer: C. Comma</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">3. Which of the following is NOT a valid data type in R?</div>
+        <div class="opts">
+          <div>A. Numeric</div>
+          <div>B. Character</div>
+          <div>C. Logical</div>
+          <div>D. Decimal</div>
+        </div>
+        <div class="ans">✅ Answer: D. Decimal (R uses "numeric" for decimals)</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">4. What does dim(df) return?</div>
+        <div class="opts">
+          <div>A. Column names</div>
+          <div>B. Number of rows and columns</div>
+          <div>C. Data types</div>
+          <div>D. Summary statistics</div>
+        </div>
+        <div class="ans">✅ Answer: B. Number of rows and columns</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">5. Which function removes rows with NA values?</div>
+        <div class="opts">
+          <div>A. rm.na()</div>
+          <div>B. delete.na()</div>
+          <div>C. na.omit()</div>
+          <div>D. remove.na()</div>
+        </div>
+        <div class="ans">✅ Answer: C. na.omit()</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">6. R has a built-in function for mode (most frequent value)?</div>
+        <div class="opts">
+          <div>A. TRUE — mode()</div>
+          <div>B. FALSE — no built-in function</div>
+          <div>C. TRUE — freq()</div>
+          <div>D. TRUE — most()</div>
+        </div>
+        <div class="ans">✅ Answer: B. FALSE — R's mode() returns storage type, not statistical mode!</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">7. Which ggplot2 function creates a scatter plot?</div>
+        <div class="opts">
+          <div>A. geom_bar()</div>
+          <div>B. geom_line()</div>
+          <div>C. geom_point()</div>
+          <div>D. geom_scatter()</div>
+        </div>
+        <div class="ans">✅ Answer: C. geom_point()</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">8. What does the formula salary ~ dept mean in aggregate()?</div>
+        <div class="opts">
+          <div>A. salary depends on dept</div>
+          <div>B. Summarize salary grouped by dept</div>
+          <div>C. Compare salary and dept</div>
+          <div>D. Filter salary where dept exists</div>
+        </div>
+        <div class="ans">✅ Answer: B. Summarize salary grouped by dept</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">9. Which database is file-based and does NOT require a server?</div>
+        <div class="opts">
+          <div>A. MySQL</div>
+          <div>B. PostgreSQL</div>
+          <div>C. SQLite</div>
+          <div>D. Oracle</div>
+        </div>
+        <div class="ans">✅ Answer: C. SQLite</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">10. What does head(df, 3) return?</div>
+        <div class="opts">
+          <div>A. Last 3 rows</div>
+          <div>B. First 3 rows</div>
+          <div>C. 3 random rows</div>
+          <div>D. 3 columns</div>
+        </div>
+        <div class="ans">✅ Answer: B. First 3 rows</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">11. Which function is used for Min-Max normalization in R?</div>
+        <div class="opts">
+          <div>A. normalize()</div>
+          <div>B. scale()</div>
+          <div>C. No built-in — write custom function</div>
+          <div>D. minmax()</div>
+        </div>
+        <div class="ans">✅ Answer: C. No built-in — scale() does z-score standardization, not min-max</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">12. What does complete.cases(df) return?</div>
+        <div class="opts">
+          <div>A. Count of NAs</div>
+          <div>B. Logical vector — TRUE for rows with no NAs</div>
+          <div>C. Cleaned data frame</div>
+          <div>D. Column names with NAs</div>
+        </div>
+        <div class="ans">✅ Answer: B. Logical vector — TRUE for rows with no NAs</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">13. Which R function converts continuous data to discrete categories?</div>
+        <div class="opts">
+          <div>A. factor()</div>
+          <div>B. cut()</div>
+          <div>C. discrete()</div>
+          <div>D. as.category()</div>
+        </div>
+        <div class="ans">✅ Answer: B. cut()</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">14. IQR stands for?</div>
+        <div class="opts">
+          <div>A. Internal Quality Range</div>
+          <div>B. Inter-Quartile Range</div>
+          <div>C. Interquartile Ratio</div>
+          <div>D. Index Quality Range</div>
+        </div>
+        <div class="ans">✅ Answer: B. Inter-Quartile Range (Q3 - Q1)</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">15. Which package is used to read Excel files in R?</div>
+        <div class="opts">
+          <div>A. readxl</div>
+          <div>B. xlsx</div>
+          <div>C. excel</div>
+          <div>D. Both A and B</div>
+        </div>
+        <div class="ans">✅ Answer: D. Both readxl and xlsx packages work</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">16. What does set.seed(42) do?</div>
+        <div class="opts">
+          <div>A. Sets random seed for reproducibility</div>
+          <div>B. Creates 42 random numbers</div>
+          <div>C. Sets the sample size</div>
+          <div>D. Initializes a dataset</div>
+        </div>
+        <div class="ans">✅ Answer: A. Sets random seed for reproducibility</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">17. In merge(df1, df2, by="ID", all.x=TRUE), what type of join is performed?</div>
+        <div class="opts">
+          <div>A. Inner join</div>
+          <div>B. Right join</div>
+          <div>C. Left join</div>
+          <div>D. Full outer join</div>
+        </div>
+        <div class="ans">✅ Answer: C. Left join (keeps all rows from df1)</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">18. Which function reads JSON data in R?</div>
+        <div class="opts">
+          <div>A. read.json()</div>
+          <div>B. fromJSON() from jsonlite</div>
+          <div>C. json.read()</div>
+          <div>D. parseJSON()</div>
+        </div>
+        <div class="ans">✅ Answer: B. fromJSON() from jsonlite package</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">19. A data frame column can have different data types?</div>
+        <div class="opts">
+          <div>A. TRUE — each row can have different types</div>
+          <div>B. FALSE — all columns must be same type</div>
+          <div>C. TRUE — each column can have different types</div>
+          <div>D. FALSE — only numeric data allowed</div>
+        </div>
+        <div class="ans">✅ Answer: C. Each column can have a different data type (unlike matrices)</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">20. A value is an outlier if it is beyond:</div>
+        <div class="opts">
+          <div>A. Q1 - IQR or Q3 + IQR</div>
+          <div>B. Q1 - 1.5*IQR or Q3 + 1.5*IQR</div>
+          <div>C. Mean ± 2*SD</div>
+          <div>D. Min - 1 or Max + 1</div>
+        </div>
+        <div class="ans">✅ Answer: B. Q1 - 1.5*IQR or Q3 + 1.5*IQR</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">21. Which ggplot2 layer adds labels and title?</div>
+        <div class="opts">
+          <div>A. geom_text()</div>
+          <div>B. labs()</div>
+          <div>C. title()</div>
+          <div>D. label()</div>
+        </div>
+        <div class="ans">✅ Answer: B. labs(title="...", x="...", y="...")</div>
+      </div>
+
+      <div class="mcq">
+        <div class="q">22. What is the default value of header in read.table()?</div>
+        <div class="opts">
+          <div>A. TRUE</div>
+          <div>B. FALSE</div>
+          <div>C. NULL</div>
+          <div>D. NA</div>
+        </div>
+        <div class="ans">✅ Answer: B. FALSE (unlike read.csv which defaults to TRUE)</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ======================= SECTION 2: VIVA ======================= -->
+  <div class="unit-section" id="sec-viva">
+    <div class="section-title" onclick="toggleSection('body-viva')">
+      <span>🗣️ Solved Viva Voce Questions (16 Questions)</span>
+      <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-body" id="body-viva">
+      
+      <div class="viva-box">
+        <div class="viva-q">Q1: What is the difference between a data frame and a matrix?</div>
+        <div class="viva-a"><strong>A:</strong> Data frames allow different data types per column (heterogeneous); matrices require all elements to be the exact same type (homogeneous). Both are 2D structures.</div>
+      </div>
+
+      <div class="viva-box">
+        <div class="viva-q">Q2: What is the difference between aggregate() and tapply()?</div>
+        <div class="viva-a"><strong>A:</strong> <code>aggregate()</code> operates on data frames and returns data frames; <code>tapply()</code> operates on vectors and returns arrays or named vectors.</div>
+      </div>
+
+      <div class="viva-box">
+        <div class="viva-q">Q3: How do you handle missing values in R?</div>
+        <div class="viva-a"><strong>A:</strong> Use <code>is.na()</code> to detect them. We can remove them using <code>na.omit()</code> or <code>complete.cases()</code>, ignore them inside math calculations using <code>na.rm = TRUE</code>, or replace them with the column mean/median.</div>
+      </div>
+
+      <div class="viva-box">
+        <div class="viva-q">Q4: What is the Grammar of Graphics?</div>
+        <div class="viva-a"><strong>A:</strong> A framework that breaks a plot down into modular components: data, aesthetics (aes), geometries (geom), statistics, coordinates, and themes. Hadley Wickham's <code>ggplot2</code> is built on this.</div>
+      </div>
+
+      <div class="viva-box">
+        <div class="viva-q">Q5: What is EDA?</div>
+        <div class="viva-a"><strong>A:</strong> Exploratory Data Analysis &mdash; analyzing data to summarize its main characteristics, find patterns, detect anomalies, and check mathematical assumptions before modeling.</div>
+      </div>
+
+      <div class="viva-box">
+        <div class="viva-q">Q6: What is the difference between normalization and standardization?</div>
+        <div class="viva-a"><strong>A:</strong> Normalization rescales a column to <code>[0, 1]</code> using min-max. Standardization transforms a variable to have a mean of 0 and a standard deviation of 1 using <code>scale()</code>.</div>
+      </div>
+
+      <div class="viva-box">
+        <div class="viva-q">Q7: What is the use of set.seed() in R?</div>
+        <div class="viva-a"><strong>A:</strong> Makes random operations reproducible. Setting the seed ensures R's pseudo-random number generator outputs the exact same numbers every time the code runs.</div>
+      </div>
+
+      <div class="viva-box">
+        <div class="viva-q">Q8: Name 5 built-in datasets in R.</div>
+        <div class="viva-a"><strong>A:</strong> mtcars, iris, airquality, ChickWeight, ToothGrowth, USArrests.</div>
+      </div>
+
+      <div class="viva-box">
+        <div class="viva-q">Q9: What does the $ operator do in R?</div>
+        <div class="viva-a"><strong>A:</strong> Accesses a column of a data frame or an element of a list by name. e.g., <code>df$Name</code>.</div>
+      </div>
+
+      <div class="viva-box">
+        <div class="viva-q">Q10: What is the use of the cut() function?</div>
+        <div class="viva-a"><strong>A:</strong> Converts a continuous numeric variable into discrete categories/intervals (bins).</div>
+      </div>
+
+      <div class="viva-box">
+        <div class="viva-q">Q11: What are the types of joins supported in merge()?</div>
+        <div class="viva-a"><strong>A:</strong> Inner join (default), Left join (<code>all.x = TRUE</code>), Right join (<code>all.y = TRUE</code>), and Full outer join (<code>all = TRUE</code>).</div>
+      </div>
+
+      <div class="viva-box">
+        <div class="viva-q">Q12: What is an outlier and how do we detect it?</div>
+        <div class="viva-a"><strong>A:</strong> A data point significantly different from others. We detect it using boxplots or the IQR method (points lying below Q1 - 1.5×IQR or above Q3 + 1.5×IQR).</div>
+      </div>
+
+      <div class="viva-box">
+        <div class="viva-q">Q13: What is the difference between df["col"] and df$col?</div>
+        <div class="viva-a"><strong>A:</strong> <code>df["col"]</code> returns a single-column **data frame**. <code>df$col</code> (or <code>df[["col"]]</code>) returns a **vector**.</div>
+      </div>
+
+      <div class="viva-box">
+        <div class="viva-q">Q14: What is Rattle in R?</div>
+        <div class="viva-a"><strong>A:</strong> A tab-based graphical user interface (GUI) for data mining in R. It provides a point-and-click interface to explore, model, and evaluate data while generating the underlying R code.</div>
+      </div>
+
+      <div class="viva-box">
+        <div class="viva-q">Q15: What does str() show that summary() does not?</div>
+        <div class="viva-a"><strong>A:</strong> <code>str()</code> shows the technical layout &mdash; column names, types (character, numeric), and vector lengths. <code>summary()</code> shows statistical summaries like mean, median, and quartile boundaries.</div>
+      </div>
+
+      <div class="viva-box">
+        <div class="viva-q">Q16: What is the difference between NA and NULL in R?</div>
+        <div class="viva-a"><strong>A:</strong> <code>NA</code> is a placeholder representing a **missing value** (has a type, takes up space). <code>NULL</code> represents the **complete absence of a value** (empty object, has no type, takes zero space).</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ======================= SECTION 3: REVISION ======================= -->
+  <div class="unit-section" id="sec-revision">
+    <div class="section-title" onclick="toggleSection('body-revision')">
+      <span>⚡ Last-Minute Revision Checklist</span>
+      <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-body" id="body-revision">
+      
+      <h4>🔥 UNIT 3 &amp; 4 — Key Points</h4>
+      <ul>
+        <li><code>aggregate(y ~ x, data, FUN)</code> &mdash; group-wise data summarization ➔ returns a <strong>data frame</strong>.</li>
+        <li><code>tapply(X, INDEX, FUN)</code> &mdash; applies a function on a vector split by levels ➔ returns an <strong>array</strong>.</li>
+        <li><code>read.csv()</code>: defaults to <code>header=TRUE</code> and <code>sep=","</code>. Wrapper around <code>read.table()</code>.</li>
+        <li><code>read.table()</code>: defaults to <code>header=FALSE</code> and <code>sep=""</code> (whitespace).</li>
+        <li>Missing Values: <code>is.na(x)</code> detects NAs/NaNs. Treat using <code>na.omit()</code> or <code>na.rm = TRUE</code>.</li>
+        <li><strong>R has no built-in mode function!</strong> Write a custom function using <code>unique()</code> and <code>tabulate()</code>.</li>
+        <li>Outlier Boundaries: Below <code>Q1 - 1.5×IQR</code> or above <code>Q3 + 1.5×IQR</code>.</li>
+      </ul>
+
+      <h4>🔥 UNIT 5 — Key Points</h4>
+      <ul>
+        <li>Native Visualizations: <code>hist()</code> for histograms, <code>plot(x, y)</code> for scatter plots, <code>barplot()</code> for bar charts, <code>boxplot()</code> for boxplots.</li>
+        <li>ggplot2 syntax: <code>ggplot(data, aes(x, y, color)) + geom_*()</code>.</li>
+        <li>Min-Max Normalization: Binds values to a strict <code>[0, 1]</code> range.</li>
+        <li>Z-score Standardization: Rescales values to mean = 0, standard deviation = 1 using <code>scale()</code>.</li>
+        <li>Discretization: Use <code>cut()</code> to bin continuous variables into ordered categorical factors.</li>
+        <li>Validation: Train-Test Split (e.g., 70% train, 30% test) using <code>sample()</code>. Always run <code>set.seed()</code> first to lock reproducibility.</li>
+      </ul>
+
+      <div class="mnemonic">"DNSSH NHT" = dim, nrow, ncol, str, summary, names, head, tail &mdash; The 8 Data Frame diagnostic functions!</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// Expand/collapse logic
+function toggleSection(id) {
+  const body = document.getElementById(id);
+  body.classList.toggle('collapsed');
+  const icon = body.previousElementSibling.querySelector('.toggle-icon');
+  icon.textContent = body.classList.contains('collapsed') ? '▶' : '▼';
+}
+
+function expandAllSections() {
+  document.querySelectorAll('.section-body').forEach(b => {
+    b.classList.remove('collapsed');
+    b.previousElementSibling.querySelector('.toggle-icon').textContent = '▼';
+  });
+}
+
+function collapseAllSections() {
+  document.querySelectorAll('.section-body').forEach(b => {
+    b.classList.add('collapsed');
+    b.previousElementSibling.querySelector('.toggle-icon').textContent = '▶';
+  });
+}
+
+// MCQ reveal
+function showAllAnswers() {
+  document.querySelectorAll('.mcq').forEach(m => m.classList.add('show-ans'));
+}
+
+function hideAllAnswers() {
+  document.querySelectorAll('.mcq').forEach(m => m.classList.remove('show-ans'));
+}
+
+// Individual MCQ toggle click
+document.querySelectorAll('.mcq').forEach(m => {
+  m.addEventListener('click', () => {
+    m.classList.toggle('show-ans');
+  });
+});
+</script>
+</body>
+</html>

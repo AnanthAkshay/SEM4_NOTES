@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>R Programming Unit 1 — Introduction &amp; Basics | MSRIT Exam Notes</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:        #0f0f1a;
+  --bg2:       #161625;
+  --bg3:       #1e1e32;
+  --bg4:       #262640;
+  --border:    #2a2a45;
+  --text:      #e2e2f0;
+  --text2:     #a0a0c0;
+  --text3:     #707090;
+  --accent:    #6c63ff;
+  --accent2:   #ff6b9d;
+  --accent3:   #00d4aa;
+  --accent4:   #ffd93d;
+  --danger:    #ff4444;
+  --green:     #3fb950;
+  --code-bg:   #1a1a2e;
+  --shadow:    0 4px 32px rgba(0,0,0,0.4);
+  --radius:    12px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Inter', sans-serif;
+  font-size:15px;
+  line-height:1.75;
+}
+
+/* ─── LAYOUT ─── */
+.page-wrap{max-width:1100px;margin:0 auto;padding:0 24px 80px;}
+
+/* ─── HERO BANNER ─── */
+.hero{
+  background:linear-gradient(135deg,#0f0f1a 0%,#2b1a4a 40%,#0f2e29 100%);
+  border-bottom:2px solid var(--accent);
+  padding:56px 24px 44px;
+  position:relative;
+  overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 60% 80% at 80% 20%,rgba(108,99,255,0.12),transparent);
+}
+.hero-inner{max-width:1100px;margin:0 auto;position:relative;}
+.hero-badge{
+  display:inline-block;
+  background:rgba(108,99,255,0.15);
+  border:1px solid rgba(108,99,255,0.4);
+  color:var(--accent);
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  padding:4px 14px;
+  border-radius:20px;
+  margin-bottom:16px;
+}
+.hero h1{
+  font-size:clamp(28px,5vw,46px);
+  font-weight:800;
+  line-height:1.1;
+  color:#fff;
+  margin-bottom:12px;
+}
+.hero h1 span{color:var(--accent3);}
+.hero-sub{
+  font-family:'JetBrains Mono',monospace;
+  font-size:13px;
+  color:var(--muted);
+  letter-spacing:1px;
+}
+.hero-meta{
+  display:flex;gap:24px;flex-wrap:wrap;margin-top:28px;
+}
+.hero-pill{
+  background:rgba(255,255,255,0.06);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:8px 16px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:12px;
+  color:var(--text2);
+}
+.hero-pill strong{color:var(--text);}
+
+/* ─── TOC ─── */
+.toc-card{
+  background:var(--bg2);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:28px 32px;
+  margin:40px 0;
+  position:relative;
+  overflow:hidden;
+}
+.toc-card::before{
+  content:'';position:absolute;top:0;left:0;width:4px;height:100%;
+  background:linear-gradient(180deg,var(--accent),var(--accent3));
+}
+.toc-title{
+  font-size:13px;
+  font-weight:700;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:16px;
+}
+.toc-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:8px;
+}
+.toc-item{
+  display:flex;align-items:flex-start;gap:10px;
+  padding:8px 10px;
+  border-radius:6px;
+  text-decoration:none;
+  color:var(--text);
+  font-family:'JetBrains Mono',monospace;
+  font-size:13px;
+  transition:background .15s,color .15s;
+}
+.toc-item:hover{background:rgba(108,99,255,0.1);color:var(--accent);}
+.toc-num{
+  color:var(--accent);font-weight:600;min-width:28px;
+}
+
+/* ─── SECTION HEADERS ─── */
+.unit-section{margin-top:72px;}
+.section-label{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:8px;
+}
+.section-title{
+  font-size:clamp(22px,4vw,32px);
+  font-weight:800;
+  color:#fff;
+  line-height:1.15;
+  border-bottom:2px solid var(--border);
+  padding-bottom:16px;
+  margin-bottom:28px;
+}
+.section-title .accent{color:var(--accent3);}
+
+/* ─── TOPIC CARDS ─── */
+.topic-block{
+  background:var(--bg2);
+  border:1px solid var(--border);
+  border-radius:14px;
+  margin-bottom:40px;
+  overflow:hidden;
+}
+.topic-header{
+  background:linear-gradient(90deg,var(--bg3),var(--bg2));
+  border-bottom:1px solid var(--border);
+  padding:20px 28px;
+  display:flex;align-items:center;gap:14px;
+}
+.topic-num{
+  background:var(--accent);
+  color:#fff;
+  font-size:13px;
+  font-weight:800;
+  width:36px;height:36px;
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.topic-name{
+  font-size:18px;
+  font-weight:700;
+  color:#fff;
+}
+.topic-body{padding:28px;}
+
+/* ─── SUB-SECTIONS ─── */
+.sub-section{margin-bottom:28px;}
+.sub-title{
+  font-size:15px;
+  font-weight:700;
+  color:var(--accent2);
+  margin-bottom:10px;
+  display:flex;align-items:center;gap:8px;
+}
+.sub-title::before{
+  content:'';
+  display:inline-block;
+  width:3px;height:18px;
+  background:var(--accent2);
+  border-radius:2px;
+}
+
+/* ─── CALLOUT BOXES ─── */
+.callout{
+  border-radius:10px;
+  padding:16px 20px;
+  margin:16px 0;
+  border-left:4px solid;
+  font-size:15px;
+}
+.callout.info{background:rgba(108,99,255,0.08);border-color:var(--accent);}
+.callout.warning{background:rgba(255,107,157,0.08);border-color:var(--accent2);}
+.callout.success{background:rgba(0,212,170,0.08);border-color:var(--accent3);}
+.callout.danger{background:rgba(255,68,68,0.08);border-color:var(--danger);}
+.callout.formula{background:rgba(255,217,61,0.08);border-color:var(--accent4);}
+.callout-title{
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
+.callout.info .callout-title{color:var(--accent);}
+.callout.warning .callout-title{color:var(--accent2);}
+.callout.success .callout-title{color:var(--accent3);}
+.callout.danger .callout-title{color:var(--danger);}
+.callout.formula .callout-title{color:var(--accent4);}
+
+/* ─── CODE BLOCKS ─── */
+.code-wrapper{position:relative;margin:14px 0;border-radius:10px;overflow:hidden;border:1px solid var(--border)}
+.code-header{display:flex;justify-content:space-between;align-items:center;padding:8px 14px;background:var(--bg4);font-size:.75rem;color:var(--text2)}
+.code-header .lang{font-weight:600;color:var(--accent3)}
+pre{
+  background:var(--code-bg);
+  padding:20px;
+  overflow-x:auto;
+  margin:0;
+  font-family:'JetBrains Mono',monospace;
+  font-size:13px;
+  line-height:1.65;
+  color:#e2e2f0;
+}
+code{
+  font-family:'JetBrains Mono',monospace;
+  font-size:13px;
+  background:rgba(108,99,255,0.15);
+  border-radius:4px;
+  padding:1px 6px;
+  color:var(--accent3);
+}
+pre code{background:none;padding:0;color:#e2e2f0;}
+.cmt{color:#7e97a6;font-style:italic}
+.fn{color:#82aaff}
+.str{color:#c3e88d}
+.num{color:#f78c6c}
+.kw{color:#c792ea}
+.op{color:#89ddff}
+
+/* ─── TABLES ─── */
+.table-wrap{overflow-x:auto;margin:16px 0;}
+table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:14px;
+  font-family:'Inter',sans-serif;
+}
+th{
+  background:var(--bg3);
+  color:var(--accent3);
+  font-weight:700;
+  padding:10px 14px;
+  text-align:left;
+  border:1px solid var(--border);
+  font-size:12px;
+  letter-spacing:0.5px;
+  text-transform:uppercase;
+}
+td{
+  padding:9px 14px;
+  border:1px solid var(--border);
+  color:var(--text);
+  vertical-align:top;
+}
+tr:nth-child(even) td{background:rgba(255,255,255,0.02);}
+tr:hover td{background:rgba(108,99,255,0.05);}
+.td-hi{color:var(--accent3);font-weight:600;}
+.td-num{color:var(--accent2);}
+
+/* ─── VIVA BOXES ─── */
+.viva-box{
+  background:rgba(0,212,170,0.06);
+  border:1px solid rgba(0,212,170,0.25);
+  border-radius:12px;
+  padding:20px 24px;
+  margin:20px 0;
+}
+.viva-header{
+  display:flex;align-items:center;gap:10px;
+  margin-bottom:12px;
+}
+.viva-badge{
+  background:var(--accent3);
+  color:#000;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  padding:2px 10px;
+  border-radius:4px;
+}
+.viva-q{
+  font-weight:700;
+  color:var(--text);
+  margin-bottom:8px;
+  font-size:15px;
+}
+
+/* ─── OUTPUT BLOCKS ─── */
+.output-block{
+  background:#090d16;
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:16px;
+  margin:12px 0;
+  font-family:'JetBrains Mono',monospace;
+  font-size:13px;
+  color:#7ee787;
+  white-space:pre-wrap;
+}
+.output-block::before{
+  content:'📤 Output:';
+  display:block;
+  color:var(--accent4);
+  font-weight:600;
+  margin-bottom:8px;
+  font-family:'Inter',sans-serif;
+  font-size:.75rem;
+}
+
+/* ─── MNEMONIC ─── */
+.mnemonic{
+  background:linear-gradient(135deg,rgba(255,217,61,.1),rgba(255,140,66,.1));
+  border:1px dashed var(--accent4);
+  border-radius:8px;
+  padding:12px 16px;
+  margin:10px 0;
+  font-family:'Caveat',cursive;
+  font-size:1.2rem;
+  color:var(--accent4);
+}
+.mnemonic::before{content:'🧠 Memory Trick: '}
+
+/* ─── PROGRAM CARDS ─── */
+.prog-card{
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  margin:16px 0;
+  overflow:hidden;
+  background:var(--bg2);
+}
+.prog-card .prog-head{
+  padding:14px 18px;
+  background:var(--accent);
+  color:#fff;
+}
+.prog-card .prog-head h4{
+  font-size:.95rem;
+  font-weight:700;
+  color:#ffffff !important;
+  margin:4px 0 0;
+}
+.prog-card .prog-head .prog-num{
+  font-size:.7rem;
+  opacity:.8;
+  text-transform:uppercase;
+}
+.prog-card .prog-body{padding:18px}
+
+.hl{color:var(--accent3);font-weight:600}
+
+@media print{
+  body{background:#fff;color:#000;}
+  .topic-block,.toc-card,.callout{break-inside:avoid;}
+}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">MSRIT • B.E. ISE • ISALC492</div>
+    <h1>Unit 1: <span>Introduction to R &amp; Basics</span></h1>
+    <p class="hero-sub">// Data Analytics using R — Complete Comprehensive Study Guide</p>
+    <div class="hero-meta">
+      <div class="hero-pill"><strong>Topics:</strong> Installation · IDEs · Packages · Working Directory</div>
+      <div class="hero-pill"><strong>Foundations:</strong> Atomic Types · Structures · Coercion Rules</div>
+      <div class="hero-pill"><strong>Ref:</strong> CRAN &amp; Standard R Ecosystem</div>
+      <div class="hero-pill"><strong>Weightage:</strong> CIE &amp; SEE Core Foundations</div>
+    </div>
+  </div>
+</div>
+
+<div class="page-wrap">
+
+<div class="toc-card">
+  <div class="toc-title">📋 Topic Navigation Guide</div>
+  <div class="toc-grid">
+    <a href="#t1" class="toc-item"><span class="toc-num">01</span>Introduction to R</a>
+    <a href="#t2" class="toc-item"><span class="toc-num">02</span>Downloading &amp; Installing R</a>
+    <a href="#t3" class="toc-item"><span class="toc-num">03</span>IDEs and Text Editors</a>
+    <a href="#t4" class="toc-item"><span class="toc-num">04</span>Handling Packages in R</a>
+    <a href="#t5" class="toc-item"><span class="toc-num">05</span>Getting Started (Operators &amp; Printing)</a>
+    <a href="#t6" class="toc-item"><span class="toc-num">06</span>Working with Directory</a>
+    <a href="#t7" class="toc-item"><span class="toc-num">07</span>Data Types &amp; Core Structures</a>
+    <a href="#t8" class="toc-item"><span class="toc-num">08</span>Commands for Data Exploration</a>
+    <a href="#t9" class="toc-item"><span class="toc-num">09</span>Unit 1 Programs Manual</a>
+  </div>
+</div>
+
+<!-- ======================= TOPIC 1: INTRO ======================= -->
+<div class="unit-section" id="t1">
+  <div class="section-label">Topic 01</div>
+  <div class="section-title">Introduction to <span class="accent">R Programming</span></div>
+
+  <div class="topic-block">
+    <div class="topic-header">
+      <div class="topic-num">1</div>
+      <div class="topic-name">The R Language &amp; Ecosystem</div>
+    </div>
+    <div class="topic-body">
+      <div class="sub-section">
+        <div class="sub-title">What is R?</div>
+        <p>R is an <strong>open-source programming language</strong> and a software environment specifically designed for <strong>statistical computing, data analytics, and graphic visualizations</strong>. Created by Ross Ihaka and Robert Gentleman at the University of Auckland, New Zealand in 1993, R is named after the first names of its authors and is an implementation of the <strong>S programming language</strong> (created by John Chambers at Bell Labs).</p>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">Why do we need R? (Analytical Advantages)</div>
+        <p>Traditional general-purpose languages like Java and C++ require verbose loops and custom libraries to process tables and perform data calculations. R natively treats data collections as <strong>vectors</strong>, allowing you to run complex statistical analysis and data operations in a single line without writing loops.</p>
+        <div class="callout info">
+          <div class="callout-title">💡 Standard Data Analytics Powerhouse</div>
+          R provides direct, native tools for handling missing data, applying linear models, clustering, and performing statistical tests. Coupled with graphical packages like <code>ggplot2</code>, it is universally acknowledged as a premier environment for exploratory data analysis (EDA).
+        </div>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">Core Features of R</div>
+        <ul>
+          <li><span class="hl">Interpreted Language:</span> Code is evaluated line-by-line in the console, meaning there is no compilation step needed. This allows for extremely interactive scripting.</li>
+          <li><span class="hl">Case-Sensitive:</span> Identifiers <code>marks</code>, <code>Marks</code>, and <code>MARKS</code> represent three completely separate objects.</li>
+          <li><span class="hl">Vectorized Operations:</span> Functions automatically apply to every item in a vector without needing an explicit loop.</li>
+          <li><span class="hl">Massive Package Ecosystem:</span> Over 18,000 community-contributed packages are hosted on CRAN for domains ranging from advanced biostatistics to business analytics.</li>
+        </ul>
+        <div class="mnemonic">"V-I-P-E-C" &mdash; Vectorized, Interpreted, Packages, Extensible, Case-sensitive.</div>
+      </div>
+
+      <div class="viva-box">
+        <div class="viva-q">🗣️ Viva Check: What is S and how does it relate to R?</div>
+        <p><strong>A:</strong> S is a statistical programming language developed by John Chambers at Bell Laboratories. R is a modern, open-source, highly extended implementation of S. Most code written in S runs unmodified on R.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================= TOPIC 2: INSTALLATION ======================= -->
+<div class="unit-section" id="t2">
+  <div class="section-label">Topic 02</div>
+  <div class="section-title">Downloading &amp; <span class="accent">Installing R</span></div>
+
+  <div class="topic-block">
+    <div class="topic-header">
+      <div class="topic-num">2</div>
+      <div class="topic-name">Ecosystem Setup via CRAN</div>
+    </div>
+    <div class="topic-body">
+      <div class="sub-section">
+        <div class="sub-title">What is CRAN?</div>
+        <p><strong>CRAN (Comprehensive R Archive Network)</strong> is a global network of web servers that host identical, completely up-to-date versions of R binaries, source code, packages, and documentation. It is the official central repository for downloading everything in the R ecosystem.</p>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">Installation Workflow</div>
+        <ol class="algo-steps">
+          <li>Visit the official R project website: <a href="https://www.r-project.org/" target="_blank" style="color:var(--accent3)">r-project.org</a>.</li>
+          <li>Click the <code>download R</code> link under the Getting Started section to view the list of <strong>CRAN Mirrors</strong>.</li>
+          <li>Choose a mirror server geographically close to your location to ensure fast download speeds.</li>
+          <li>Select your operating system:
+            <ul>
+              <li><strong>Windows:</strong> Click <code>install R for the first time</code>, then download the latest executable installer (e.g., <code>R-4.x.x-win.exe</code>).</li>
+              <li><strong>macOS:</strong> Download the appropriate <code>.pkg</code> file matching your processor structure (Apple Silicon M1/M2/M3 or Intel).</li>
+              <li><strong>Linux:</strong> Install R using your distribution's terminal package manager (e.g., <code>sudo apt install r-base</code> for Ubuntu).</li>
+            </ul>
+          </li>
+          <li>Run the downloaded installer and complete the setup wizard using default options. This installs the core R engine and the default **R Console / GUI**.</li>
+        </ol>
+      </div>
+
+      <div class="viva-box">
+        <div class="viva-q">🗣️ Viva Check: What is the R Console?</div>
+        <p><strong>A:</strong> The R Console is the basic command-line interface (CLI) where you can type R commands directly. It evaluates code using the Read-Eval-Print Loop (REPL) mechanism and displays text outputs immediately.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================= TOPIC 3: IDEs ======================= -->
+<div class="unit-section" id="t3">
+  <div class="section-label">Topic 03</div>
+  <div class="section-title">IDEs and <span class="accent">Text Editors</span></div>
+
+  <div class="topic-block">
+    <div class="topic-header">
+      <div class="topic-num">3</div>
+      <div class="topic-name">Development Environments for R</div>
+    </div>
+    <div class="topic-body">
+      <div class="sub-section">
+        <div class="sub-title">RStudio: The Premier R IDE</div>
+        <p><strong>RStudio</strong> is the standard, globally preferred Integrated Development Environment (IDE) built specifically for R programming. It provides a visual, multi-paned environment that integrates your script editor, console, variable tracking, and graphic plots.</p>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">The Four Main Panes of RStudio</div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Pane Name</th><th>Purpose &amp; Description</th><th>Key Capabilities</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="td-hi">Source Editor</td>
+                <td>Writing, editing, and saving your script code (.R files).</td>
+                <td>Supports syntax highlighting, code auto-complete, and block execution.</td>
+              </tr>
+              <tr>
+                <td class="td-hi">R Console</td>
+                <td>Interactive environment where commands are executed.</td>
+                <td>Displays raw outputs and errors immediately upon evaluation.</td>
+              </tr>
+              <tr>
+                <td class="td-hi">Environment &amp; History</td>
+                <td>Tracks the active variables and running history logs.</td>
+                <td><strong>Environment:</strong> Lists variables, vectors, lists, and data frames currently loaded in memory. <br><strong>History:</strong> Running list of past executed commands.</td>
+              </tr>
+              <tr>
+                <td class="td-hi">Files, Plots, Packages &amp; Help</td>
+                <td>Multi-utility file explorer and graphical viewer.</td>
+                <td><strong>Files:</strong> Working folder manager.<br><strong>Plots:</strong> Graphical outputs.<br><strong>Packages:</strong> Visual manager for installs.<br><strong>Help:</strong> Accesses documentation.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">Alternative Development Environments</div>
+        <ul>
+          <li><strong>VS Code:</strong> Modern, fast editor when configured with the <code>R</code> extension and the <code>languageserver</code> package.</li>
+          <li><strong>Jupyter Notebooks:</strong> Extremely popular for data science stories, combining running R code blocks with descriptive markdown.</li>
+          <li><strong>Notepad++ with NppToR:</strong> Lightweight Windows configuration that forwards lines of code from Notepad++ directly to a running R Console.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================= TOPIC 4: PACKAGES ======================= -->
+<div class="unit-section" id="t4">
+  <div class="section-label">Topic 04</div>
+  <div class="section-title">Handling <span class="accent">Packages in R</span></div>
+
+  <div class="topic-block">
+    <div class="topic-header">
+      <div class="topic-num">4</div>
+      <div class="topic-name">Package Management &amp; Commands</div>
+    </div>
+    <div class="topic-body">
+      <div class="sub-section">
+        <div class="sub-title">What is a Package vs. a Library?</div>
+        <p>A <strong>package</strong> is a structured collection of R functions, compiled code, datasets, and documentation that extends R's baseline features. A <strong>library</strong> is the physical folder on your disk where these packages are unzipped and stored.</p>
+        <div class="callout warning">
+          <div class="callout-title">⚠️ Core Exam Note</div>
+          Expect questions testing package handling commands. Make sure you remember to write **package names in quotes** inside <code>install.packages()</code> but as **bare words (no quotes needed)** inside <code>library()</code>.
+        </div>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">Essential Package Commands</div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Action</th><th>Command Syntax</th><th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="td-hi">Install from CRAN</td>
+                <td><code>install.packages("pkg_name")</code></td>
+                <td>Downloads and compiles package files locally. Run <strong>once</strong>.</td>
+              </tr>
+              <tr>
+                <td class="td-hi">Load Package</td>
+                <td><code>library(pkg_name)</code></td>
+                <td>Loads package features into current active session memory. Run <strong>every session</strong>.</td>
+              </tr>
+              <tr>
+                <td class="td-hi">Check Loaded Packages</td>
+                <td><code>(.packages())</code></td>
+                <td>Lists the names of all packages currently active in memory.</td>
+              </tr>
+              <tr>
+                <td class="td-hi">Update Packages</td>
+                <td><code>update.packages()</code></td>
+                <td>Checks CRAN and updates outdated packages in your local folders.</td>
+              </tr>
+              <tr>
+                <td class="td-hi">Remove Package</td>
+                <td><code>remove.packages("pkg_name")</code></td>
+                <td>Deletes the package from your local library files.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="viva-box">
+        <div class="viva-q">🗣️ Viva Check: What is the difference between library() and require()?</div>
+        <p><strong>A:</strong> <code>library()</code> will throw a fatal error and stop script execution if the package is missing. <code>require()</code> returns a logical value (TRUE if loaded, FALSE if missing) and throws a warning instead. Thus, <code>require()</code> is widely used inside conditional statements.</p>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">Example Code: Safe Package Handling</div>
+        <div class="code-wrapper">
+          <div class="code-header"><span class="lang">R</span></div>
+          <pre><span class="cmt"># Conditional package loading</span>
+<span class="kw">if</span> (<span class="fn">require</span>(ggplot2)) {
+  <span class="fn">print</span>(<span class="str">"ggplot2 successfully loaded!"</span>)
+} <span class="kw">else</span> {
+  <span class="fn">print</span>(<span class="str">"ggplot2 missing. Installing now..."</span>)
+  <span class="fn">install.packages</span>(<span class="str">"ggplot2"</span>)
+  <span class="fn">library</span>(ggplot2)
+}</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================= TOPIC 5: GETTING STARTED ======================= -->
+<div class="unit-section" id="t5">
+  <div class="section-label">Topic 05</div>
+  <div class="section-title">Getting Started: <span class="accent">Operators &amp; Printing</span></div>
+
+  <div class="topic-block">
+    <div class="topic-header">
+      <div class="topic-num">5</div>
+      <div class="topic-name">R Syntax Foundations</div>
+    </div>
+    <div class="topic-body">
+      <div class="sub-section">
+        <div class="sub-title">Assignment Operators</div>
+        <p>R supports both <code>&lt;-</code> and <code>=</code> for variable assignment. However, the left arrow <code>&lt;-</code> is the standard, preferred assignment operator. The equals sign <code>=</code> is generally reserved for declaring argument values inside function calls.</p>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">Arithmetic &amp; Modulo Operators</div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Operator</th><th>Name</th><th>Example</th><th>Output</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td class="td-hi"><code>+</code>, <code>-</code></td><td>Addition, Subtraction</td><td><code>10 + 4.5</code></td><td class="td-num">14.5</td></tr>
+              <tr><td class="td-hi"><code>*</code>, <code>/</code></td><td>Multiplication, Division</td><td><code>10 / 4</code></td><td class="td-num">2.5</td></tr>
+              <tr><td class="td-hi"><code>^</code></td><td>Exponentiation</td><td><code>2 ^ 3</code></td><td class="td-num">8</td></tr>
+              <tr><td class="td-hi"><code>%%</code></td><td>Modulo (Remainder calculation)</td><td><code>17 %% 5</code></td><td class="td-num">2</td></tr>
+              <tr><td class="td-hi"><code>%/%</code></td><td>Integer Division (Quotient)</td><td><code>17 %/% 5</code></td><td class="td-num">3</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">Comments in R</div>
+        <p>R comments are declared using the hash <code>#</code> character. There are no block/multi-line comment constructs in R. Multi-line descriptions are composed of consecutive single commented lines:</p>
+        <div class="code-wrapper">
+          <div class="code-header"><span class="lang">R</span></div>
+          <pre><span class="cmt"># This is comment line 1</span>
+<span class="cmt"># This is comment line 2</span>
+marks &lt;- <span class="num">85</span>  <span class="cmt"># Inline comment</span></pre>
+        </div>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">Console Output: print() vs. cat()</div>
+        <ul>
+          <li><strong>print():</strong> Displays single values or objects. Prints quotes around strings and line markers like <code>[1]</code>.</li>
+          <li><strong>cat():</strong> Concatenates and prints multiple elements. Strips quotes and bracket numbers. Requires manual newline <code>\n</code> insertion.</li>
+        </ul>
+        <div class="code-wrapper">
+          <div class="code-header"><span class="lang">R</span></div>
+          <pre>name &lt;- <span class="str">"MSRIT"</span>
+<span class="fn">print</span>(name)
+<span class="fn">cat</span>(<span class="str">"Welcome to"</span>, name, <span class="str">"\n"</span>)</pre>
+        </div>
+        <div class="output-block">[1] "MSRIT"
+Welcome to MSRIT </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================= TOPIC 6: DIRECTORY ======================= -->
+<div class="unit-section" id="t6">
+  <div class="section-label">Topic 06</div>
+  <div class="section-title">Working with <span class="accent">Directories</span></div>
+
+  <div class="topic-block">
+    <div class="topic-header">
+      <div class="topic-num">6</div>
+      <div class="topic-name">File System Context in R</div>
+    </div>
+    <div class="topic-body">
+      <div class="sub-section">
+        <div class="sub-title">What is the Working Directory?</div>
+        <p>The **Working Directory** is the default folder context on your local storage drive where R will search for input files (like CSVs or text tables) to load, and where it will save all outputs (plots, output sheets).</p>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">Directory Commands</div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Command</th><th>Purpose</th><th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="td-hi"><code>getwd()</code></td>
+                <td>Get Working Directory</td>
+                <td>Returns the current absolute path context as a string.</td>
+              </tr>
+              <tr>
+                <td class="td-hi"><code>setwd("path")</code></td>
+                <td>Set Working Directory</td>
+                <td>Sets a new directory target. File path must be quoted.</td>
+              </tr>
+              <tr>
+                <td class="td-hi"><code>list.files()</code> or <code>dir()</code></td>
+                <td>List Files</td>
+                <td>Returns a character vector listing all filenames in the active folder.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout danger">
+          <div class="callout-title">🚨 CRITICAL WINDOWS PATH ERROR</div>
+          Windows file systems copy folder paths with backslashes (e.g. <code>C:\data</code>). In R, backslashes act as string escape characters. You <strong>MUST</strong> convert them to forward slashes (<code>C:/data</code>) or double backslashes (<code>C:\\data</code>) inside the <code>setwd()</code> path argument, else execution will fail!
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================= TOPIC 7: DATA TYPES ======================= -->
+<div class="unit-section" id="t7">
+  <div class="section-label">Topic 07</div>
+  <div class="section-title">Data Types &amp; <span class="accent">Core Structures</span></div>
+
+  <div class="topic-block">
+    <div class="topic-header">
+      <div class="topic-num">7</div>
+      <div class="topic-name">R Data Representation</div>
+    </div>
+    <div class="topic-body">
+      <div class="sub-section">
+        <div class="sub-title">The 5 Primary Atomic Data Types</div>
+        <p>Every single variable or element in R is composed of one of these atomic data types:</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Atomic Type</th><th>Description</th><th>Example</th><th>Type Verification</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="td-hi">Numeric</td>
+                <td>Double precision floating-point decimals (Default numeric type).</td>
+                <td><code>10.5</code>, <code>3.14</code></td>
+                <td><code>is.numeric(x)</code></td>
+              </tr>
+              <tr>
+                <td class="td-hi">Integer</td>
+                <td>Whole numbers. Requires the <code>L</code> suffix.</td>
+                <td><code>10L</code>, <code>5L</code></td>
+                <td><code>is.integer(x)</code></td>
+              </tr>
+              <tr>
+                <td class="td-hi">Character</td>
+                <td>Strings or text characters wrapped in quotes.</td>
+                <td><code>"R Language"</code>, <code>'A'</code></td>
+                <td><code>is.character(x)</code></td>
+              </tr>
+              <tr>
+                <td class="td-hi">Logical</td>
+                <td>Boolean variables. Must be capitalized.</td>
+                <td><code>TRUE</code>, <code>FALSE</code>, <code>T</code>, <code>F</code></td>
+                <td><code>is.logical(x)</code></td>
+              </tr>
+              <tr>
+                <td class="td-hi">Complex</td>
+                <td>Imaginary mathematical numbers.</td>
+                <td><code>3 + 2i</code></td>
+                <td><code>is.complex(x)</code></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">The 6 Core Data Structures</div>
+        <p>Atomic types are organized into standard operational data structures based on dimensions and type homogeneity:</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Dimension</th>
+                <th>Homogeneous (Elements of same type)</th>
+                <th>Heterogeneous (Elements of different types)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="td-hi">1D (Linear)</td>
+                <td><strong>Vector</strong> (Standard sequence; created using <code>c()</code>)</td>
+                <td><strong>List</strong> (Key-value bag of different types/structures)</td>
+              </tr>
+              <tr>
+                <td class="td-hi">2D (Grid)</td>
+                <td><strong>Matrix</strong> (Row-Column grid of same type)</td>
+                <td><strong>Data Frame</strong> (Table where column types can differ)</td>
+              </tr>
+              <tr>
+                <td class="td-hi">Multi-D</td>
+                <td><strong>Array</strong> (Multi-layered homogeneous grids)</td>
+                <td><em>Not natively defined</em></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="margin-top:10px;">• <strong>Factor:</strong> Special 1D structure for categorical variables with fixed **levels** (e.g. <code>factor(c("Male", "Female"))</code>).</p>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">Type Checking and Casting</div>
+        <p>Use the <code>is.*</code> family to verify types, and the <code>as.*</code> family to perform data casting (coercion):</p>
+        <div class="code-wrapper">
+          <div class="code-header"><span class="lang">R</span></div>
+          <pre>age &lt;- <span class="num">21.8</span>
+<span class="fn">is.numeric</span>(age)    <span class="cmt"># TRUE</span>
+<span class="fn">is.integer</span>(age)    <span class="cmt"># FALSE</span>
+
+age_int &lt;- <span class="fn">as.integer</span>(age)  <span class="cmt"># 21 (Decimal is truncated)</span>
+age_char &lt;- <span class="fn">as.character</span>(age) <span class="cmt"># "21.8"</span></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================= TOPIC 8: EXPLORATION ======================= -->
+<div class="unit-section" id="t8">
+  <div class="section-label">Topic 08</div>
+  <div class="section-title">Commands for <span class="accent">Data Exploration</span></div>
+
+  <div class="topic-block">
+    <div class="topic-header">
+      <div class="topic-num">8</div>
+      <div class="topic-name">Exploratory Data Analysis Toolkit</div>
+    </div>
+    <div class="topic-body">
+      <div class="sub-section">
+        <div class="sub-title">Essential Commands for Quick Inspection</div>
+        <p>Before implementing statistical models, run these commands to inspect data shapes and structures:</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Command</th><th>Purpose &amp; Description</th><th>Expected Output</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="td-hi"><code>class(x)</code></td>
+                <td>Returns the high-level structural type of an object.</td>
+                <td><code>"data.frame"</code>, <code>"matrix"</code></td>
+              </tr>
+              <tr>
+                <td class="td-hi"><code>typeof(x)</code></td>
+                <td>Returns the low-level base memory storage type.</td>
+                <td><code>"double"</code>, <code>"list"</code></td>
+              </tr>
+              <tr>
+                <td class="td-hi"><code>str(x)</code></td>
+                <td>Displays the detailed technical structure (dimensions, types, values).</td>
+                <td>Layout of columns and types</td>
+              </tr>
+              <tr>
+                <td class="td-hi"><code>summary(x)</code></td>
+                <td>Displays numerical statistical ranges (min, median, mean, max).</td>
+                <td>Quartile range stats</td>
+              </tr>
+              <tr>
+                <td class="td-hi"><code>head(x, n=6)</code></td>
+                <td>Prints the first $n$ rows of data.</td>
+                <td>First 6 rows of a table</td>
+              </tr>
+              <tr>
+                <td class="td-hi"><code>tail(x, n=6)</code></td>
+                <td>Prints the final $n$ rows of data.</td>
+                <td>Last 6 rows of a table</td>
+              </tr>
+              <tr>
+                <td class="td-hi"><code>length(x)</code></td>
+                <td>Returns the total count of elements in a vector.</td>
+                <td>Numeric item count</td>
+              </tr>
+              <tr>
+                <td class="td-hi"><code>table(x)</code></td>
+                <td>Displays a frequency table for categorical columns.</td>
+                <td>Category tally count</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="viva-box">
+        <div class="viva-q">🗣️ Viva Check: What is the difference between str() and summary()?</div>
+        <p><strong>A:</strong> <code>str()</code> shows the **technical structure** &mdash; listing column names, data classes, and lengths. <code>summary()</code> shows **statistical descriptions** &mdash; computing medians, means, and quartiles for numeric variables, and category counts for factors.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================= TOPIC 9: PROGRAMS ======================= -->
+<div class="unit-section" id="t9">
+  <div class="section-label">Topic 09</div>
+  <div class="section-title">Unit 1 <span class="accent">Programs Manual</span></div>
+
+  <!-- Program 1.1 -->
+  <div class="prog-card">
+    <div class="prog-head">
+      <span class="prog-num">Program 1.1</span>
+      <h4>Working Directory Management &amp; Arithmetic Modulo Operations</h4>
+    </div>
+    <div class="prog-body">
+      <div class="code-wrapper">
+        <div class="code-header"><span class="lang">R</span></div>
+        <pre><span class="cmt"># 1. Print and alter directory context</span>
+<span class="fn">cat</span>(<span class="str">"Initial Path:"</span>, <span class="fn">getwd</span>(), <span class="str">"\n"</span>)
+<span class="fn">setwd</span>(<span class="str">"a:/SEM4_Complete/R_PROGRAMMING"</span>)
+<span class="fn">cat</span>(<span class="str">"Modified Path:"</span>, <span class="fn">getwd</span>(), <span class="str">"\n\n"</span>)
+
+<span class="cmt"># 2. Arithmetic computations</span>
+a &lt;- <span class="num">19</span>
+b &lt;- <span class="num">5</span>
+
+sum_val &lt;- a + b
+remainder &lt;- a %% b   <span class="cmt"># Modulo remainder operator</span>
+quotient &lt;- a %/% b   <span class="cmt"># Integer division operator</span>
+
+<span class="fn">cat</span>(<span class="str">"Sum:"</span>, sum_val, <span class="str">"\n"</span>)
+<span class="fn">cat</span>(<span class="str">"Remainder of 19/5:"</span>, remainder, <span class="str">"\n"</span>)
+<span class="fn">cat</span>(<span class="str">"Quotient of 19/5:"</span>, quotient, <span class="str">"\n"</span>)</pre>
+      </div>
+      <div class="output-block">Initial Path: C:/Users/Akshay A 
+Modified Path: a:/SEM4_Complete/R_PROGRAMMING 
+
+Sum: 24 
+Remainder of 19/5: 4 
+Quotient of 19/5: 3 </div>
+    </div>
+  </div>
+
+  <!-- Program 1.2 -->
+  <div class="prog-card">
+    <div class="prog-head">
+      <span class="prog-num">Program 1.2</span>
+      <h4>Atomic Vectors &amp; Implicit Coercion Rule Tracing</h4>
+    </div>
+    <div class="prog-body">
+      <div class="code-wrapper">
+        <div class="code-header"><span class="lang">R</span></div>
+        <pre><span class="cmt"># 1. Numeric vector manipulation</span>
+num_vec &lt;- <span class="fn">c</span>(<span class="num">5</span>, <span class="num">12.5</span>, <span class="num">20L</span>)
+<span class="fn">print</span>(num_vec)
+<span class="fn">cat</span>(<span class="str">"Class:"</span>, <span class="fn">class</span>(num_vec), <span class="str">"| Type:"</span>, <span class="fn">typeof</span>(num_vec), <span class="str">"\n"</span>)
+<span class="fn">cat</span>(<span class="str">"Second Element:"</span>, num_vec[<span class="num">2</span>], <span class="str">"\n\n"</span>) <span class="cmt"># 1-based indexing</span>
+
+<span class="cmt"># 2. Coercion tracing: mixed atomic types</span>
+coerced_vec &lt;- <span class="fn">c</span>(<span class="num">100L</span>, <span class="str">"Data Analytics"</span>, <span class="kw">TRUE</span>)
+<span class="fn">print</span>(coerced_vec)
+<span class="fn">cat</span>(<span class="str">"Class after coercion:"</span>, <span class="fn">class</span>(coerced_vec), <span class="str">"| Type:"</span>, <span class="fn">typeof</span>(coerced_vec), <span class="str">"\n"</span>)</pre>
+      </div>
+      <div class="output-block">[1]  5.0 12.5 20.0
+Class: numeric | Type: double 
+Second Element: 12.5 
+
+[1] "100"            "Data Analytics" "TRUE"          
+Class after coercion: character | Type: character </div>
+      <p><strong>Vector Homogeneity Rule:</strong> In R, vectors are strictly homogeneous. When elements of different atomic types are initialized in <code>c()</code>, R automatically coerces (casts) them to the safest compatible type (in this case, strings/character), maintaining uniform structure.</p>
+    </div>
+  </div>
+
+  <!-- Program 1.3 -->
+  <div class="prog-card">
+    <div class="prog-head">
+      <span class="prog-num">Program 1.3</span>
+      <h4>Built-in Dataset Exploration &amp; Frequency Table Counts</h4>
+    </div>
+    <div class="prog-body">
+      <div class="code-wrapper">
+        <div class="code-header"><span class="lang">R</span></div>
+        <pre><span class="cmt"># 1. Load built-in airquality dataset</span>
+<span class="fn">data</span>(airquality)
+
+<span class="cmt"># 2. Get properties</span>
+<span class="fn">cat</span>(<span class="str">"Class:"</span>, <span class="fn">class</span>(airquality), <span class="str">"| Dimensions:"</span>, <span class="fn">dim</span>(airquality), <span class="str">"\n\n"</span>)
+
+<span class="cmt"># 3. View structure &amp; head</span>
+<span class="fn">print</span>(<span class="fn">head</span>(airquality, <span class="num">3</span>))
+<span class="fn">cat</span>(<span class="str">"\n"</span>)
+<span class="fn">print</span>(<span class="fn">summary</span>(airquality$Wind))</pre>
+      </div>
+      <div class="output-block">Class: data.frame | Dimensions: 153 6 
+
+  Ozone Solar.R Wind Temp Month Day
+1    41     190  7.4   67     5   1
+2    36     118  8.0   72     5   2
+3    12     149 12.6   74     5   3
+
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  1.700   7.400   9.700   9.958  11.500  20.700 </div>
+    </div>
+  </div>
+</div>
+
+</div>
+</body>
+</html>

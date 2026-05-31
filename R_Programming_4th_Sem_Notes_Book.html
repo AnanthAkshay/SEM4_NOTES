@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Analytics using R — Premium Student Study Portal</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Inline CSS for Premium Design System -->
+    <style>
+        :root {
+            --bg-dark: #060814;
+            --bg-panel: #0b0f24;
+            --bg-card: #121838;
+            --bg-card-hover: #1a224a;
+            --primary: #6c63ff; /* Cyber Indigo */
+            --primary-hover: #584dfc;
+            --primary-glow: rgba(108, 99, 255, 0.4);
+            --accent-cyan: #00d4aa; /* Neon Teal */
+            --accent-emerald: #10b981;
+            --accent-amber: #ffd93d;
+            --accent-rose: #ff6b9d; /* Bright Rose */
+            --border-color: #1a2035;
+            --border-color-hover: #2b345b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --sidebar-width: 290px;
+            --font-display: 'Outfit', sans-serif;
+            --font-sans: 'Inter', sans-serif;
+            --font-mono: 'Fira Code', monospace;
+            --card-radius: 16px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-dark);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1a2035;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #2b345b;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            color: var(--text-secondary);
+            background-color: var(--bg-dark);
+            line-height: 1.6;
+            display: flex;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* SIDEBAR STYLING */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--bg-panel);
+            border-right: 1px solid var(--border-color);
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            padding: 30px 24px;
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+            transition: var(--transition);
+            overflow-y: auto;
+        }
+
+        .sidebar-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 35px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .sidebar-logo {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent-cyan) 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            font-weight: 800;
+            color: white;
+            font-size: 1.3rem;
+            box-shadow: 0 4px 14px var(--primary-glow);
+        }
+
+        .brand-meta h1 {
+            font-family: var(--font-display);
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+        }
+
+        .brand-meta p {
+            font-size: 0.75rem;
+            color: var(--accent-cyan);
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .nav-menu {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 40px;
+        }
+
+        .nav-header {
+            font-family: var(--font-display);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: var(--text-muted);
+            letter-spacing: 0.1em;
+            margin-top: 15px;
+            margin-bottom: 8px;
+            padding-left: 12px;
+        }
+
+        .nav-item {
+            padding: 12px 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-family: var(--font-display);
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            background-color: transparent;
+            color: var(--text-secondary);
+            border: 1px solid transparent;
+            text-align: left;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nav-item svg {
+            width: 18px;
+            height: 18px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+            transition: var(--transition);
+        }
+
+        .nav-item:hover {
+            background-color: rgba(255, 255, 255, 0.03);
+            color: var(--text-primary);
+            border-color: var(--border-color);
+        }
+
+        .nav-item.active {
+            background: linear-gradient(135deg, var(--primary) 0%, rgba(108, 99, 255, 0.7) 100%);
+            color: white;
+            box-shadow: 0 4px 15px var(--primary-glow);
+            border-color: transparent;
+        }
+
+        .search-box {
+            position: relative;
+            margin-bottom: 24px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 10px 14px 10px 38px;
+            background-color: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-size: 0.85rem;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .search-box input:focus {
+            border-color: var(--primary);
+            background-color: rgba(255, 255, 255, 0.04);
+            box-shadow: 0 0 10px rgba(108, 99, 255, 0.15);
+        }
+
+        .search-box svg {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            stroke: var(--text-muted);
+            fill: none;
+            stroke-width: 2;
+        }
+
+        .sidebar-footer {
+            margin-top: auto;
+            background-color: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .sidebar-footer p {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .sidebar-footer strong {
+            font-size: 0.8rem;
+            color: var(--text-primary);
+            display: block;
+        }
+
+        /* MAIN CONTENT AREA */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            flex: 1;
+            padding: 30px 40px;
+            max-width: 100%;
+            transition: var(--transition);
+        }
+
+        .unit-section {
+            display: none;
+        }
+
+        .unit-section.active {
+            display: block;
+            animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* HERO CARDS */
+        .hero-card {
+            background: linear-gradient(135deg, #120e26 0%, #06050f 100%);
+            border: 1px solid var(--primary);
+            border-radius: var(--card-radius);
+            padding: 40px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent-cyan));
+        }
+
+        .hero-card-tag {
+            background-color: rgba(108, 99, 255, 0.2);
+            color: var(--accent-cyan);
+            border: 1px solid rgba(0, 212, 170, 0.3);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+        .hero-card h2 {
+            font-family: var(--font-display);
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-card p {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+        }
+
+        /* PDF/IFRAME VIEWER CONTAINER */
+        .pdf-viewer-container {
+            background-color: var(--bg-dark);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .pdf-viewer-header {
+            background-color: var(--bg-panel);
+            border-bottom: 1px solid var(--border-color);
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .pdf-viewer-title {
+            font-family: var(--font-display);
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .pdf-viewer-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-action {
+            background-color: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-family: var(--font-display);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-action:hover {
+            background-color: rgba(255, 255, 255, 0.06);
+            color: var(--text-primary);
+            border-color: var(--border-color-hover);
+        }
+
+        .btn-action.btn-accent {
+            background-color: rgba(108, 99, 255, 0.15);
+            border-color: var(--primary);
+            color: var(--text-primary);
+        }
+
+        .btn-action.btn-accent:hover {
+            background-color: rgba(108, 99, 255, 0.25);
+            box-shadow: 0 0 10px rgba(108, 99, 255, 0.2);
+        }
+
+        .pdf-iframe {
+            width: 100%;
+            height: 720px;
+            border: none;
+            background-color: var(--bg-dark);
+            transition: var(--transition);
+        }
+
+        /* Maximized Mode */
+        .pdf-viewer-container.maximized {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 9999;
+            border-radius: 0;
+            margin-bottom: 0;
+        }
+
+        .pdf-viewer-container.maximized .pdf-iframe {
+            height: calc(100vh - 58px);
+        }
+
+        /* MOBILE MENU HEADER & HAMBURGER */
+        .mobile-header {
+            display: none;
+            background-color: var(--bg-panel);
+            border-bottom: 1px solid var(--border-color);
+            padding: 12px 20px;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 99;
+            width: 100%;
+        }
+
+        .mobile-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .mobile-brand h2 {
+            font-family: var(--font-display);
+            font-size: 1.05rem;
+            color: var(--text-primary);
+        }
+
+        .hamburger {
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hamburger svg {
+            width: 24px;
+            height: 24px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+        }
+
+        /* RESPONSIVE DESIGN */
+        @media (max-width: 1024px) {
+            body {
+                flex-direction: column;
+            }
+            .sidebar {
+                transform: translateX(-100%);
+                width: var(--sidebar-width);
+                box-shadow: 10px 0 30px rgba(0, 0, 0, 0.5);
+            }
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+            }
+            .mobile-header {
+                display: flex;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- MOBILE HEADER -->
+    <header class="mobile-header">
+        <div class="mobile-brand">
+            <div class="sidebar-logo" style="width:30px; height:30px; font-size:1rem; border-radius:6px;">R</div>
+            <h2>R Analytics Portal</h2>
+        </div>
+        <button class="hamburger" onclick="document.getElementById('sidebar').classList.toggle('open')">
+            <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"></path></svg>
+        </button>
+    </header>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+            <div class="sidebar-logo">R</div>
+            <div class="brand-meta">
+                <h1>R Analytics Portal</h1>
+                <p>MSRIT • BE ISE</p>
+            </div>
+        </div>
+
+        <div class="search-box">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
+            <input type="text" id="searchInput" placeholder="Search topics..." oninput="searchSidebar(this.value)">
+        </div>
+
+        <ul class="nav-menu">
+            <div class="nav-header">Unit Study Notes</div>
+            
+            <button class="nav-item active" id="btn-unit1" onclick="showSection('unit1')">
+                <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg>
+                Unit 1: Basics &amp; Setup
+            </button>
+            
+            <button class="nav-item" id="btn-unit2" onclick="showSection('unit2')">
+                <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg>
+                Unit 2: Loading Data
+            </button>
+            
+            <button class="nav-item" id="btn-unit3" onclick="showSection('unit3')">
+                <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg>
+                Unit 3: I/O &amp; Aggregations
+            </button>
+            
+            <button class="nav-item" id="btn-unit4" onclick="showSection('unit4')">
+                <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg>
+                Unit 4: DFs &amp; EDA
+            </button>
+            
+            <button class="nav-item" id="btn-unit5" onclick="showSection('unit5')">
+                <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg>
+                Unit 5: ggplot2 &amp; Visuals
+            </button>
+
+            <div class="nav-header">Evaluation Hub</div>
+            
+            <button class="nav-item" id="btn-prep" onclick="showSection('prep')">
+                <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4M21 12a9 9 0 1 1-6.219-8.56"></path></svg>
+                Exam Preparation Hub
+            </button>
+        </ul>
+
+        <div class="sidebar-footer">
+            <p>Course Notes Developer</p>
+            <strong>Antigravity AI</strong>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT PANEL -->
+    <main class="main-content">
+
+        <!-- UNIT 1 -->
+        <div class="unit-section active" id="sec-unit1">
+            <div class="hero-card">
+                <div class="hero-card-tag">Unit 1</div>
+                <h2>Introduction to R &amp; Programming Basics</h2>
+                <p>Ecosystem overview: CRAN setup, RStudio 4-panes grid, library package handlers, working directory traps, standard atomic types, and data exploration commands.</p>
+            </div>
+            <div class="pdf-viewer-container" id="unit1-container">
+                <div class="pdf-viewer-header">
+                    <div class="pdf-viewer-title">Unit 1 — Solved Study Notes</div>
+                    <div class="pdf-viewer-actions">
+                        <button class="btn-action" onclick="toggleMaximize('unit1-container')">Maximize View</button>
+                        <a class="btn-action btn-accent" href="R_PROGRAMMING/unit1.html" download>Download Notes</a>
+                    </div>
+                </div>
+                <iframe class="pdf-iframe" src="R_PROGRAMMING/unit1.html"></iframe>
+            </div>
+        </div>
+
+        <!-- UNIT 2 -->
+        <div class="unit-section" id="sec-unit2">
+            <div class="hero-card">
+                <div class="hero-card-tag">Unit 2</div>
+                <h2>Loading &amp; Handling Data in R</h2>
+                <p>Core study: analytical processing constraints in memory, lexical scoping, lazy arguments evaluation, NAs vs NaNs diagnostics, data structure coercions hierarchy, vector recycling mechanics, matrices sums, factors categories, and lists subsetting.</p>
+            </div>
+            <div class="pdf-viewer-container" id="unit2-container">
+                <div class="pdf-viewer-header">
+                    <div class="pdf-viewer-title">Unit 2 — Solved Study Notes</div>
+                    <div class="pdf-viewer-actions">
+                        <button class="btn-action" onclick="toggleMaximize('unit2-container')">Maximize View</button>
+                        <a class="btn-action btn-accent" href="R_PROGRAMMING/unit2.html" download>Download Notes</a>
+                    </div>
+                </div>
+                <iframe class="pdf-iframe" src="R_PROGRAMMING/unit2.html"></iframe>
+            </div>
+        </div>
+
+        <!-- UNIT 3 -->
+        <div class="unit-section" id="sec-unit3">
+            <div class="hero-card">
+                <div class="hero-card-tag">Unit 3</div>
+                <h2>Data I/O &amp; Aggregations</h2>
+                <p>Core study: aggregate() split-apply-combine methods, tapply() vector categories, CSV vs table parameters, JSON/XML integrations, point-and-click R GUIs Commander/Rattle, and relational SQL connectors (SQLite/MySQL/PostgreSQL) with Pentaho BI workflows.</p>
+            </div>
+            <div class="pdf-viewer-container" id="unit3-container">
+                <div class="pdf-viewer-header">
+                    <div class="pdf-viewer-title">Unit 3 — Solved Study Notes</div>
+                    <div class="pdf-viewer-actions">
+                        <button class="btn-action" onclick="toggleMaximize('unit3-container')">Maximize View</button>
+                        <a class="btn-action btn-accent" href="R_PROGRAMMING/unit3.html" download>Download Notes</a>
+                    </div>
+                </div>
+                <iframe class="pdf-iframe" src="R_PROGRAMMING/unit3.html"></iframe>
+            </div>
+        </div>
+
+        <!-- UNIT 4 -->
+        <div class="unit-section" id="sec-unit4">
+            <div class="hero-card">
+                <div class="hero-card-tag">Unit 4</div>
+                <h2>Exploring Data Frames &amp; EDA</h2>
+                <p>Core study: data frames properties, indexing slicing, SQL joins merges, exploratory analysis steps, invalid data cleanings, IQR outliers equations, and central tendencies/dispersion stats calculations (custom mode calculations, sample variance).</p>
+            </div>
+            <div class="pdf-viewer-container" id="unit4-container">
+                <div class="pdf-viewer-header">
+                    <div class="pdf-viewer-title">Unit 4 — Solved Study Notes</div>
+                    <div class="pdf-viewer-actions">
+                        <button class="btn-action" onclick="toggleMaximize('unit4-container')">Maximize View</button>
+                        <a class="btn-action btn-accent" href="R_PROGRAMMING/unit4.html" download>Download Notes</a>
+                    </div>
+                </div>
+                <iframe class="pdf-iframe" src="R_PROGRAMMING/unit4.html"></iframe>
+            </div>
+        </div>
+
+        <!-- UNIT 5 -->
+        <div class="unit-section" id="sec-unit5">
+            <div class="hero-card">
+                <div class="hero-card-tag">Unit 5</div>
+                <h2>Visualizations &amp; ggplot2</h2>
+                <p>Core study: native base plots (histograms, boxplots, scatter/line plots), Grammar of Graphics layers via ggplot2, continuous-to-discrete cutting, min-max normalizations, z-score standardizations, and reproducible 70/30 train-test splits.</p>
+            </div>
+            <div class="pdf-viewer-container" id="unit5-container">
+                <div class="pdf-viewer-header">
+                    <div class="pdf-viewer-title">Unit 5 — Solved Study Notes</div>
+                    <div class="pdf-viewer-actions">
+                        <button class="btn-action" onclick="toggleMaximize('unit5-container')">Maximize View</button>
+                        <a class="btn-action btn-accent" href="R_PROGRAMMING/unit5.html" download>Download Notes</a>
+                    </div>
+                </div>
+                <iframe class="pdf-iframe" src="R_PROGRAMMING/unit5.html"></iframe>
+            </div>
+        </div>
+
+        <!-- PREPARATION HUB -->
+        <div class="unit-section" id="sec-prep">
+            <div class="hero-card" style="background: linear-gradient(135deg, #1f122e 0%, #06050f 100%); border-color: var(--accent-rose);">
+                <div class="hero-card-tag" style="background-color: rgba(255, 107, 157, 0.2); color: var(--accent-rose); border-color: rgba(255, 107, 157, 0.3);">Exams Kit</div>
+                <h2>Statistical R Evaluation &amp; Prep Hub</h2>
+                <p>Interactive self-evaluations: 20+ MCQs with click reveals, 15+ solved viva voce questions, practice programs list, expected CIE/SEE questions list, and last-minute revision sheet summaries.</p>
+            </div>
+            <div class="pdf-viewer-container" id="prep-container" style="border-color: var(--accent-rose);">
+                <div class="pdf-viewer-header" style="background-color: #170d1e;">
+                    <div class="pdf-viewer-title" style="color: var(--accent-rose);">Interactive Exam Evaluation Hub</div>
+                    <div class="pdf-viewer-actions">
+                        <button class="btn-action" onclick="toggleMaximize('prep-container')">Maximize View</button>
+                        <a class="btn-action btn-accent" href="R_PROGRAMMING/prep.html" download style="background-color: rgba(255, 107, 157, 0.15); border-color: var(--accent-rose);">Download Hub</a>
+                    </div>
+                </div>
+                <iframe class="pdf-iframe" src="R_PROGRAMMING/prep.html"></iframe>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- JS FOR DYNAMIC NAVIGATION -->
+    <script>
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.unit-section').forEach(sec => {
+                sec.classList.remove('active');
+            });
+            // Show requested section
+            document.getElementById('sec-' + sectionId).classList.add('active');
+
+            // Deactivate all sidebar items
+            document.querySelectorAll('.nav-item').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            // Activate current item
+            document.getElementById('btn-' + sectionId).classList.add('active');
+
+            // Close mobile sidebar if open
+            document.getElementById('sidebar').classList.remove('open');
+        }
+
+        function toggleMaximize(containerId) {
+            const container = document.getElementById(containerId);
+            container.classList.toggle('maximized');
+            
+            // Edit button text
+            const btn = container.querySelector('.pdf-viewer-header .btn-action');
+            if (container.classList.contains('maximized')) {
+                btn.textContent = 'Restore View';
+            } else {
+                btn.textContent = 'Maximize View';
+            }
+        }
+
+        function searchSidebar(q) {
+            q = q.toLowerCase();
+            document.querySelectorAll('.nav-menu .nav-item').forEach(btn => {
+                const text = btn.textContent.toLowerCase();
+                if (text.includes(q) || btn.id === 'btn-prep') {
+                    btn.style.display = 'flex';
+                } else {
+                    btn.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

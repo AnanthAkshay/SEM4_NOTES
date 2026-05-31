@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>R Programming Unit 3 — Data I/O &amp; Aggregation | MSRIT Exam Notes</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:        #0f0f1a;
+  --bg2:       #161625;
+  --bg3:       #1e1e32;
+  --bg4:       #262640;
+  --border:    #2a2a45;
+  --text:      #e2e2f0;
+  --text2:     #a0a0c0;
+  --text3:     #707090;
+  --accent:    #6c63ff;
+  --accent2:   #ff6b9d;
+  --accent3:   #00d4aa;
+  --accent4:   #ffd93d;
+  --danger:    #ff4444;
+  --green:     #3fb950;
+  --code-bg:   #1a1a2e;
+  --shadow:    0 4px 32px rgba(0,0,0,0.4);
+  --radius:    12px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Inter', sans-serif;
+  font-size:15px;
+  line-height:1.75;
+}
+
+/* ─── LAYOUT ─── */
+.page-wrap{max-width:1100px;margin:0 auto;padding:0 24px 80px;}
+
+/* ─── HERO BANNER ─── */
+.hero{
+  background:linear-gradient(135deg,#0f0f1a 0%,#241b4e 50%,#112a28 100%);
+  border-bottom:2px solid var(--accent);
+  padding:56px 24px 44px;
+  position:relative;
+  overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 60% 80% at 80% 20%,rgba(108,99,255,0.12),transparent);
+}
+.hero-inner{max-width:1100px;margin:0 auto;position:relative;}
+.hero-badge{
+  display:inline-block;
+  background:rgba(108,99,255,0.15);
+  border:1px solid rgba(108,99,255,0.4);
+  color:var(--accent);
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  padding:4px 14px;
+  border-radius:20px;
+  margin-bottom:16px;
+}
+.hero h1{
+  font-size:clamp(28px,5vw,46px);
+  font-weight:800;
+  line-height:1.1;
+  color:#fff;
+  margin-bottom:12px;
+}
+.hero h1 span{color:var(--accent3);}
+.hero-sub{
+  font-family:'JetBrains Mono',monospace;
+  font-size:13px;
+  color:var(--text2);
+  letter-spacing:1px;
+}
+.hero-meta{
+  display:flex;gap:24px;flex-wrap:wrap;margin-top:28px;
+}
+.hero-pill{
+  background:rgba(255,255,255,0.06);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:8px 16px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:12px;
+  color:var(--text2);
+}
+.hero-pill strong{color:var(--text);}
+
+/* ─── TOC ─── */
+.toc-card{
+  background:var(--bg2);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:28px 32px;
+  margin:40px 0;
+  position:relative;
+  overflow:hidden;
+}
+.toc-card::before{
+  content:'';position:absolute;top:0;left:0;width:4px;height:100%;
+  background:linear-gradient(180deg,var(--accent),var(--accent3));
+}
+.toc-title{
+  font-size:13px;
+  font-weight:700;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:16px;
+}
+.toc-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:8px;
+}
+.toc-item{
+  display:flex;align-items:flex-start;gap:10px;
+  padding:8px 10px;
+  border-radius:6px;
+  text-decoration:none;
+  color:var(--text);
+  font-family:'JetBrains Mono',monospace;
+  font-size:13px;
+  transition:background .15s,color .15s;
+}
+.toc-item:hover{background:rgba(108,99,255,0.1);color:var(--accent);}
+.toc-num{
+  color:var(--accent);font-weight:600;min-width:28px;
+}
+
+/* ─── SECTION HEADERS ─── */
+.unit-section{margin-top:72px;}
+.section-label{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:8px;
+}
+.section-title{
+  font-size:clamp(22px,4vw,32px);
+  font-weight:800;
+  color:#fff;
+  line-height:1.15;
+  border-bottom:2px solid var(--border);
+  padding-bottom:16px;
+  margin-bottom:28px;
+}
+.section-title .accent{color:var(--accent3);}
+
+/* ─── TOPIC CARDS ─── */
+.topic-block{
+  background:var(--bg2);
+  border:1px solid var(--border);
+  border-radius:14px;
+  margin-bottom:40px;
+  overflow:hidden;
+}
+.topic-header{
+  background:linear-gradient(90deg,var(--bg3),var(--bg2));
+  border-bottom:1px solid var(--border);
+  padding:20px 28px;
+  display:flex;align-items:center;gap:14px;
+}
+.topic-num{
+  background:var(--accent);
+  color:#fff;
+  font-size:13px;
+  font-weight:800;
+  width:36px;height:36px;
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.topic-name{
+  font-size:18px;
+  font-weight:700;
+  color:#fff;
+}
+.topic-body{padding:28px;}
+
+/* ─── SUB-SECTIONS ─── */
+.sub-section{margin-bottom:28px;}
+.sub-title{
+  font-size:15px;
+  font-weight:700;
+  color:var(--accent2);
+  margin-bottom:10px;
+  display:flex;align-items:center;gap:8px;
+}
+.sub-title::before{
+  content:'';
+  display:inline-block;
+  width:3px;height:18px;
+  background:var(--accent2);
+  border-radius:2px;
+}
+
+/* ─── CALLOUT BOXES ─── */
+.callout{
+  border-radius:10px;
+  padding:16px 20px;
+  margin:16px 0;
+  border-left:4px solid;
+  font-size:15px;
+}
+.callout.info{background:rgba(108,99,255,0.08);border-color:var(--accent);}
+.callout.warning{background:rgba(255,107,157,0.08);border-color:var(--accent2);}
+.callout.success{background:rgba(0,212,170,0.08);border-color:var(--accent3);}
+.callout.danger{background:rgba(255,68,68,0.08);border-color:var(--danger);}
+.callout.formula{background:rgba(255,217,61,0.08);border-color:var(--accent4);}
+.callout-title{
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
+.callout.info .callout-title{color:var(--accent);}
+.callout.warning .callout-title{color:var(--accent2);}
+.callout.success .callout-title{color:var(--accent3);}
+.callout.danger .callout-title{color:var(--danger);}
+.callout.formula .callout-title{color:var(--accent4);}
+
+/* ─── CODE BLOCKS ─── */
+.code-wrapper{position:relative;margin:14px 0;border-radius:10px;overflow:hidden;border:1px solid var(--border)}
+.code-header{display:flex;justify-content:space-between;align-items:center;padding:8px 14px;background:var(--bg4);font-size:.75rem;color:var(--text2)}
+.code-header .lang{font-weight:600;color:var(--accent3)}
+pre{
+  background:var(--code-bg);
+  padding:20px;
+  overflow-x:auto;
+  margin:0;
+  font-family:'JetBrains Mono',monospace;
+  font-size:13px;
+  line-height:1.65;
+  color:#e2e2f0;
+}
+code{
+  font-family:'JetBrains Mono',monospace;
+  font-size:13px;
+  background:rgba(108,99,255,0.15);
+  border-radius:4px;
+  padding:1px 6px;
+  color:var(--accent3);
+}
+pre code{background:none;padding:0;color:#e2e2f0;}
+.cmt{color:#7e97a6;font-style:italic}
+.fn{color:#82aaff}
+.str{color:#c3e88d}
+.num{color:#f78c6c}
+.kw{color:#c792ea}
+.op{color:#89ddff}
+
+/* ─── TABLES ─── */
+.table-wrap{overflow-x:auto;margin:16px 0;}
+table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:14px;
+  font-family:'Inter',sans-serif;
+}
+th{
+  background:var(--bg3);
+  color:var(--accent3);
+  font-weight:700;
+  padding:10px 14px;
+  text-align:left;
+  border:1px solid var(--border);
+  font-size:12px;
+  letter-spacing:0.5px;
+  text-transform:uppercase;
+}
+td{
+  padding:9px 14px;
+  border:1px solid var(--border);
+  color:var(--text);
+  vertical-align:top;
+}
+tr:nth-child(even) td{background:rgba(255,255,255,0.02);}
+tr:hover td{background:rgba(108,99,255,0.05);}
+.td-hi{color:var(--accent3);font-weight:600;}
+.td-num{color:var(--accent2);}
+
+/* ─── VIVA BOXES ─── */
+.viva-box{
+  background:rgba(0,212,170,0.06);
+  border:1px solid rgba(0,212,170,0.25);
+  border-radius:12px;
+  padding:20px 24px;
+  margin:20px 0;
+}
+.viva-header{
+  display:flex;align-items:center;gap:10px;
+  margin-bottom:12px;
+}
+.viva-badge{
+  background:var(--accent3);
+  color:#000;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  padding:2px 10px;
+  border-radius:4px;
+}
+.viva-q{
+  font-weight:700;
+  color:var(--text);
+  margin-bottom:8px;
+  font-size:15px;
+}
+
+/* ─── OUTPUT BLOCKS ─── */
+.output-block{
+  background:#090d16;
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:16px;
+  margin:12px 0;
+  font-family:'JetBrains Mono',monospace;
+  font-size:13px;
+  color:#7ee787;
+  white-space:pre-wrap;
+}
+.output-block::before{
+  content:'📤 Console Output:';
+  display:block;
+  color:var(--accent4);
+  font-weight:600;
+  margin-bottom:8px;
+  font-family:'Inter',sans-serif;
+  font-size:.75rem;
+}
+
+/* ─── MNEMONIC ─── */
+.mnemonic{
+  background:linear-gradient(135deg,rgba(255,217,61,.1),rgba(255,140,66,.1));
+  border:1px dashed var(--accent4);
+  border-radius:8px;
+  padding:12px 16px;
+  margin:10px 0;
+  font-family:'Caveat',cursive;
+  font-size:1.2rem;
+  color:var(--accent4);
+}
+.mnemonic::before{content:'🧠 Memory Trick: '}
+
+/* ─── PROGRAM CARDS ─── */
+.prog-card{
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  margin:16px 0;
+  overflow:hidden;
+  background:var(--bg2);
+}
+.prog-card .prog-head{
+  padding:14px 18px;
+  background:var(--accent);
+  color:#fff;
+}
+.prog-card .prog-head h4{
+  font-size:.95rem;
+  font-weight:700;
+  color:#ffffff !important;
+  margin:4px 0 0;
+}
+.prog-card .prog-head .prog-num{
+  font-size:.7rem;
+  opacity:.8;
+  text-transform:uppercase;
+}
+.prog-card .prog-body{padding:18px}
+
+.hl{color:var(--accent3);font-weight:600}
+ul, ol { padding-left: 24px; margin-bottom: 14px; }
+li { margin-bottom: 6px; }
+
+/* ─── DIAGRAM BOX ─── */
+.diagram{
+  background:var(--bg3);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:20px;
+  margin:12px 0;
+  text-align:center;
+  font-family:'JetBrains Mono',monospace;
+  font-size:13px;
+  color:var(--text2);
+  overflow-x:auto;
+}
+.diagram .box{
+  display:inline-block;
+  padding:8px 16px;
+  border:2px solid var(--accent);
+  border-radius:8px;
+  margin:4px;
+  color:var(--text);
+}
+.diagram .arrow{
+  color:var(--accent2);
+  margin:0 6px;
+  font-size:1.2rem;
+}
+
+@media print{
+  body{background:#fff;color:#000;}
+  .topic-block,.toc-card,.callout{break-inside:avoid;}
+}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">MSRIT • B.E. ISE • ISALC492</div>
+    <h1>Unit 3: <span>Data I/O &amp; Aggregation</span></h1>
+    <p class="hero-sub">// Formatted Aggregations, Group Apply, Files Parsers &amp; Enterprise Database Integrations</p>
+    <div class="hero-meta">
+      <div class="hero-pill"><strong>Functions:</strong> aggregate() &amp; tapply()</div>
+      <div class="hero-pill"><strong>Parsers:</strong> read.csv() vs. read.table()</div>
+      <div class="hero-pill"><strong>BI Tools:</strong> Pentaho &amp; JasperReports</div>
+      <div class="hero-pill"><strong>Databases:</strong> SQLite · MySQL · PostgreSQL</div>
+    </div>
+  </div>
+</div>
+
+<div class="page-wrap">
+
+<div class="toc-card">
+  <div class="toc-title">📋 Topic Navigation Guide</div>
+  <div class="toc-grid">
+    <a href="#t1" class="toc-item"><span class="toc-num">01</span>The aggregate() Function</a>
+    <a href="#t2" class="toc-item"><span class="toc-num">02</span>The tapply() Function</a>
+    <a href="#t3" class="toc-item"><span class="toc-num">03</span>Simple Analysis Variables</a>
+    <a href="#t4" class="toc-item"><span class="toc-num">04</span>Native Input &amp; Output</a>
+    <a href="#t5" class="toc-item"><span class="toc-num">05</span>read.csv() &amp; read.table()</a>
+    <a href="#t6" class="toc-item"><span class="toc-num">06</span>Excel, JSON &amp; XML</a>
+    <a href="#t7" class="toc-item"><span class="toc-num">07</span>Point &amp; Click R GUIs</a>
+    <a href="#t8" class="toc-item"><span class="toc-num">08</span>Connecting Databases</a>
+    <a href="#t9" class="toc-item"><span class="toc-num">09</span>Pentaho &amp; JasperDB</a>
+  </div>
+</div>
+
+<!-- ======================= TOPIC 1: AGGREGATE ======================= -->
+<div class="unit-section" id="t1">
+  <div class="section-label">Topic 01</div>
+  <div class="section-title">The <span class="accent">aggregate() Function</span></div>
+
+  <div class="topic-block">
+    <div class="topic-header">
+      <div class="topic-num">1</div>
+      <div class="topic-name">Group-wise Data Splitting &amp; Computation</div>
+    </div>
+    <div class="topic-body">
+      <div class="sub-section">
+        <div class="sub-title">What is aggregate()?</div>
+        <p>The <code>aggregate()</code> function in R is used to **split a data frame into subsets based on categorical grouping variables, apply a mathematical summary function on each subset, and combine the results back into a clean rectangular data frame**.</p>
+        <div class="callout warning">
+          <div class="callout-title">⚠️ HIGHEST SEE EXAM WEIGHTAGE</div>
+          Expect questions asking you to write complete, running code to summarize columns grouped by multiple factors using <code>aggregate()</code>.
+        </div>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">Syntax &amp; Parameters Mapping</div>
+        <table class="syntax-tbl">
+          <tr><th>Syntax Format</th><th>Usage Context</th></tr>
+          <tr><td class="td-hi"><code>aggregate(formula, data, FUN)</code></td><td>The standard, highly readable formula syntax: <code>value ~ group_factor</code>.</td></tr>
+          <tr><td class="td-hi"><code>aggregate(x, by, FUN)</code></td><td>The traditional vector-list format. <code>by</code> must be wrapped as a named <code>list()</code>.</td></tr>
+        </table>
+        <p style="margin-top:14px;"><strong>Parameters:</strong> <code>formula</code> denotes the mapping (e.g. <code>Salary ~ Dept</code>), <code>data</code> represents the active data frame, and <code>FUN</code> represents the target mathematical function (like <code>mean</code>, <code>sum</code>, <code>sd</code>, <code>length</code>).</p>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">Execution Pipeline: Split-Apply-Combine</div>
+        <div class="diagram">
+          <div class="box">Input Data Frame</div>
+          <div class="arrow">➔</div>
+          <div class="box">Split rows by Categorical Groups</div>
+          <div class="arrow">➔</div>
+          <div class="box">Apply FUN (e.g., mean) to Groups</div>
+          <div class="arrow">➔</div>
+          <div class="box">Combine back into Data Frame</div>
+        </div>
+      </div>
+
+      <div class="prog-card">
+        <div class="prog-head"><span class="prog-num">Program 3.1</span><h4>Single &amp; Multi-Factor aggregate() Calculations</h4></div>
+        <div class="prog-body">
+          <div class="code-wrapper">
+            <div class="code-header"><span class="lang">R</span></div>
+            <pre>emp &lt;- <span class="fn">data.frame</span>(
+  name = <span class="fn">c</span>(<span class="str">"Alice"</span>, <span class="str">"Bob"</span>, <span class="str">"Charlie"</span>, <span class="str">"David"</span>, <span class="str">"Eve"</span>),
+  dept = <span class="fn">c</span>(<span class="str">"IT"</span>, <span class="str">"HR"</span>, <span class="str">"IT"</span>, <span class="str">"HR"</span>, <span class="str">"IT"</span>),
+  gender = <span class="fn">c</span>(<span class="str">"F"</span>, <span class="str">"M"</span>, <span class="str">"M"</span>, <span class="str">"M"</span>, <span class="str">"F"</span>),
+  salary = <span class="fn">c</span>(<span class="num">50000</span>, <span class="num">45000</span>, <span class="num">55000</span>, <span class="num">48000</span>, <span class="num">60000</span>)
+)
+
+<span class="cmt"># 1. Formula Syntax: Mean salary grouped by dept</span>
+res1 &lt;- <span class="fn">aggregate</span>(salary ~ dept, data = emp, FUN = mean)
+<span class="fn">print</span>(res1)
+
+<span class="cmt"># 2. Multi-factor: Mean salary grouped by dept AND gender</span>
+res2 &lt;- <span class="fn">aggregate</span>(salary ~ dept + gender, data = emp, FUN = sum)
+<span class="fn">print</span>(res2)</pre>
+          </div>
+          <div class="output-block">  dept salary
+1   HR  46500
+2   IT  55000
+
+  dept gender salary
+1   HR      M  93000
+2   IT      F 110000
+3   IT      M  55000</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================= TOPIC 2: TAPPLY ======================= -->
+<div class="unit-section" id="t2">
+  <div class="section-label">Topic 02</div>
+  <div class="section-title">The <span class="accent">tapply() Function</span></div>
+
+  <div class="topic-block">
+    <div class="topic-header">
+      <div class="topic-num">2</div>
+      <div class="topic-name">Applying Functions on Vectors Split by Factors</div>
+    </div>
+    <div class="topic-body">
+      <div class="sub-section">
+        <div class="sub-title">What is tapply()?</div>
+        <p>The <code>tapply()</code> (Tagged Apply) function is used to **apply a summary function over subsets of a vector, where the subsets are defined by one or more categorical factors**. Unlike <code>aggregate()</code> which accepts and returns whole data frames, <code>tapply()</code> operates directly on **vectors** and returns an array or named vector.</p>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">Syntax &amp; Parameters Mapping</div>
+        <div class="code-wrapper">
+          <div class="code-header"><span class="lang">R</span></div>
+          <pre><span class="fn">tapply</span>(X, INDEX, FUN, ..., simplify = <span class="kw">TRUE</span>)</pre>
+        </div>
+        <ul>
+          <li><strong><code>X</code>:</strong> An atomic vector (usually numeric) containing the values to summarize.</li>
+          <li><strong><code>INDEX</code>:</strong> A factor or list of factors of the identical length as X used to group the elements.</li>
+          <li><strong><code>FUN</code>:</strong> The summary mathematical function to apply.</li>
+          <li><strong><code>simplify</code>:</strong> If <code>TRUE</code> (default), it returns a named vector or array. If <code>FALSE</code>, it returns a list.</li>
+        </ul>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">Comparison: aggregate() vs. tapply()</div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Feature</th><th><code>aggregate()</code></th><th><code>tapply()</code></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="td-hi">Primary Input</td>
+                <td>Data Frame</td>
+                <td>Atomic Vector + Group Factor Vector</td>
+              </tr>
+              <tr>
+                <td class="td-hi">Return Format</td>
+                <td>Data Frame (rectangular layout)</td>
+                <td>Named Vector, Array, or List</td>
+              </tr>
+              <tr>
+                <td class="td-hi">Formula Support</td>
+                <td>Yes (e.g. <code>y ~ x</code>)</td>
+                <td>No</td>
+              </tr>
+              <tr>
+                <td class="td-hi">Multi-column Operations</td>
+                <td>Yes, can summarize multiple columns simultaneously</td>
+                <td>No, only one target vector at a time</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="prog-card">
+        <div class="prog-head"><span class="prog-num">Program 3.2</span><h4>tapply() Tracing Marks by Subject</h4></div>
+        <div class="prog-body">
+          <div class="code-wrapper">
+            <div class="code-header"><span class="lang">R</span></div>
+            <pre>marks &lt;- <span class="fn">c</span>(<span class="num">85</span>, <span class="num">90</span>, <span class="num">78</span>, <span class="num">92</span>, <span class="num">88</span>, <span class="num">76</span>)
+sub   &lt;- <span class="fn">c</span>(<span class="str">"Math"</span>, <span class="str">"Sci"</span>, <span class="str">"Math"</span>, <span class="str">"Sci"</span>, <span class="str">"Math"</span>, <span class="str">"Sci"</span>)
+
+<span class="cmt"># Apply tapply to calculate average marks</span>
+res_vector &lt;- <span class="fn">tapply</span>(marks, sub, mean)
+<span class="fn">print</span>(res_vector)
+<span class="fn">cat</span>(<span class="str">"Returned Class:"</span>, <span class="fn">class</span>(res_vector), <span class="str">"\n"</span>)</pre>
+          </div>
+          <div class="output-block">    Math      Sci 
+83.66667 86.00000 
+Returned Class: array</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================= TOPIC 3: SIMPLE ANALYSIS ======================= -->
+<div class="unit-section" id="t3">
+  <div class="section-label">Topic 03</div>
+  <div class="section-title">Data &amp; Variable Structure <span class="accent">Diagnostics</span></div>
+
+  <div class="topic-block">
+    <div class="topic-header">
+      <div class="topic-num">3</div>
+      <div class="topic-name">Understanding Data &amp; Vector Layouts Natively</div>
+    </div>
+    <div class="topic-body">
+      <div class="sub-section">
+        <div class="sub-title">1. Describe Data Structure</div>
+        <p>Before modeling, we run built-in diagnostic functions to extract high-level metadata about loaded structures:</p>
+        <ul>
+          <li><code>class(x)</code> &mdash; Returns the structural object blueprint (e.g. <code>"data.frame"</code>, <code>"matrix"</code>).</li>
+          <li><code>typeof(x)</code> &mdash; Returns the low-level, physical C-level memory storage type (e.g. <code>"double"</code>, <code>"integer"</code>, <code>"list"</code>).</li>
+          <li><code>str(x)</code> &mdash; Displays structural details, data layout, dimensions, column types, and a value preview.</li>
+          <li><code>summary(x)</code> &mdash; Computes statistical summaries (Min, 1st Quartile, Median, Mean, 3rd Quartile, Max).</li>
+        </ul>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">2. Describe Variable Structure</div>
+        <p>We check individual columns using built-in assertions:</p>
+        <ul>
+          <li>Type checks: <code>is.numeric(v)</code>, <code>is.character(v)</code>, <code>is.factor(v)</code>, <code>is.logical(v)</code>.</li>
+          <li>Frequency counts for categories: <code>table(v)</code> counts the frequencies of unique categorical occurrences.</li>
+        </ul>
+      </div>
+
+      <div class="prog-card">
+        <div class="prog-head"><span class="prog-num">Program 3.3</span><h4>Complete Variable Structure Diagnostic Diagnostics</h4></div>
+        <div class="prog-body">
+          <div class="code-wrapper">
+            <div class="code-header"><span class="lang">R</span></div>
+            <pre>df &lt;- <span class="fn">data.frame</span>(
+  Name = <span class="fn">c</span>(<span class="str">"Ravi"</span>, <span class="str">"Priya"</span>, <span class="str">"Amit"</span>),
+  Age = <span class="fn">c</span>(<span class="num">21</span>, <span class="num">22</span>, <span class="num">20</span>),
+  Score = <span class="fn">c</span>(<span class="num">85.5</span>, <span class="num">92.0</span>, <span class="num">78.5</span>)
+)
+
+<span class="fn">cat</span>(<span class="str">"Object Class:"</span>, <span class="fn">class</span>(df), <span class="str">"| Storage Type:"</span>, <span class="fn">typeof</span>(df), <span class="str">"\n\n"</span>)
+<span class="fn">str</span>(df)
+<span class="fn">cat</span>(<span class="str">"\n"</span>)
+<span class="fn">print</span>(<span class="fn">summary</span>(df$Age))</pre>
+          </div>
+          <div class="output-block">Object Class: data.frame | Storage Type: list 
+
+'data.frame':	3 obs. of  3 variables:
+ $ Name : chr  "Ravi" "Priya" "Amit"
+ $ Age  : num  21 22 20
+ $ Score: num  85.5 92 78.5
+
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  20.00   20.50   21.00   21.00   21.50   22.00</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================= TOPIC 4: NATIVE I/O ======================= -->
+<div class="unit-section" id="t4">
+  <div class="section-label">Topic 04</div>
+  <div class="section-title">Input / Output: <span class="accent">Reading &amp; Writing Data</span></div>
+
+  <div class="topic-block">
+    <div class="topic-header">
+      <div class="topic-num">4</div>
+      <div class="topic-name">Handling Local Storage Media Natively</div>
+    </div>
+    <div class="topic-body">
+      <div class="sub-section">
+        <div class="sub-title">Overview of File Connectors</div>
+        <p>R supports rich connections to load and output datasets across diverse disk storage media:</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>File Format</th><th>Standard Read Function</th><th>Standard Write Function</th><th>Required Package</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="td-hi">CSV (Comma Delimited)</td>
+                <td><code>read.csv()</code></td>
+                <td><code>write.csv()</code></td>
+                <td>Built-in Base R</td>
+              </tr>
+              <tr>
+                <td class="td-hi">TSV (Tab Delimited) / TXT</td>
+                <td><code>read.table()</code></td>
+                <td><code>write.table()</code></td>
+                <td>Built-in Base R</td>
+              </tr>
+              <tr>
+                <td class="td-hi">Excel Spreadsheet</td>
+                <td><code>read_excel()</code></td>
+                <td><code>write_xlsx()</code></td>
+                <td><code>readxl</code> / <code>writexl</code></td>
+              </tr>
+              <tr>
+                <td class="td-hi">JSON (Web Objects)</td>
+                <td><code>fromJSON()</code></td>
+                <td><code>toJSON()</code></td>
+                <td><code>jsonlite</code></td>
+              </tr>
+              <tr>
+                <td class="td-hi">XML Structure</td>
+                <td><code>xmlParse()</code> / <code>xmlToDataFrame()</code></td>
+                <td><code>saveXML()</code></td>
+                <td><code>XML</code></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">Writeline and Output Redirection via sink()</div>
+        <p>To write simple text outputs or redirect all R console computations directly to a file, R uses the <code>sink()</code> connection:</p>
+        <div class="code-wrapper">
+          <div class="code-header"><span class="lang">R Output Redirection</span></div>
+          <pre><span class="fn">sink</span>(<span class="str">"session_logs.txt"</span>)  <span class="cmt"># Redirects all subsequent console outputs to a text file</span>
+<span class="fn">cat</span>(<span class="str">"Execution log check...\n"</span>)
+<span class="fn">print</span>(<span class="fn">summary</span>(mtcars$mpg))
+<span class="fn">sink</span>()                    <span class="cmt"># CRITICAL: Restores output redirection back to R console</span></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================= TOPIC 5: CSV VS TABLE ======================= -->
+<div class="unit-section" id="t5">
+  <div class="section-label">Topic 05</div>
+  <div class="section-title">The Tabular Parsers: <span class="accent">read.csv() vs. read.table()</span></div>
+
+  <div class="topic-block">
+    <div class="topic-header">
+      <div class="topic-num">5</div>
+      <div class="topic-name">Tabular Data Parsers and Parameter Maps</div>
+    </div>
+    <div class="topic-body">
+      <div class="sub-section">
+        <div class="sub-title">Comparison: read.csv() vs. read.table()</div>
+        <p>In exams, you are often asked to distinguish between the two primary tabular data parsers in R. Keep these differences in mind:</p>
+        <ul>
+          <li><span class="hl">read.table():</span> The parent, general-purpose tabular parser. It expects columns to be separated by **whitespace** (spaces or tabs) by default, and assumes **no header row is present** (<code>header = FALSE</code>) unless stated otherwise.</li>
+          <li><span class="hl">read.csv():</span> A convenient wrapper function built on top of <code>read.table()</code>. It defaults to a **comma separator** (<code>sep = ","</code>) and assumes **the first row contains column headers** (<code>header = TRUE</code>).</li>
+        </ul>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">Essential Parameters Checklist</div>
+        <table class="syntax-tbl">
+          <tr><th>Parameter</th><th>Purpose &amp; Behavior</th><th>Default values</th></tr>
+          <tr><td><code>file</code></td><td>The relative or absolute file path.</td><td>Required</td></tr>
+          <tr><td><code>header</code></td><td>Logical flag specifying if the first row contains column names.</td><td><code>TRUE</code> (read.csv) / <code>FALSE</code> (read.table)</td></tr>
+          <tr><td><code>sep</code></td><td>The character separator used to divide fields.</td><td><code>","</code> (read.csv) / <code>""</code> (whitespace in read.table)</td></tr>
+          <tr><td><code>stringsAsFactors</code></td><td>Should character vectors automatically convert to factors?</td><td><code>FALSE</code> (Standard in R 4.0+)</td></tr>
+          <tr><td><code>na.strings</code></td><td>Character vector specifying values to treat as <code>NA</code>.</td><td><code>"NA"</code></td></tr>
+          <tr><td><code>skip</code></td><td>Number of lines to skip at the top of the file before reading.</td><td><code>0</code></td></tr>
+        </table>
+      </div>
+
+      <div class="prog-card">
+        <div class="prog-head"><span class="prog-num">Program 3.4</span><h4>CSV Reading, Data Filtering, and Output Writing Pipeline</h4></div>
+        <div class="prog-body">
+          <div class="code-wrapper">
+            <div class="code-header"><span class="lang">R</span></div>
+            <pre><span class="cmt"># 1. Create a dummy CSV file to simulate loading</span>
+df_temp &lt;- <span class="fn">data.frame</span>(ID = <span class="num">1</span>:<span class="num">3</span>, Rank = <span class="fn">c</span>(<span class="num">10</span>, <span class="num">20</span>, <span class="kw">NA</span>))
+<span class="fn">write.csv</span>(df_temp, <span class="str">"temp_data.csv"</span>, row.names = <span class="kw">FALSE</span>)
+
+<span class="cmt"># 2. Read with customized NA strings and headers</span>
+df_read &lt;- <span class="fn">read.csv</span>(<span class="str">"temp_data.csv"</span>, header = <span class="kw">TRUE</span>, na.strings = <span class="fn">c</span>(<span class="str">"NA"</span>, <span class="str">""</span>))
+<span class="fn">print</span>(df_read)
+
+<span class="cmt"># 3. Clean-up local file</span>
+<span class="fn">unlink</span>(<span class="str">"temp_data.csv"</span>)</pre>
+          </div>
+          <div class="output-block">  ID Rank
+1  1   10
+2  2   20
+3  3   NA</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================= TOPIC 6: SEMI-STRUCTURED ======================= -->
+<div class="unit-section" id="t6">
+  <div class="section-label">Topic 06</div>
+  <div class="section-title">Excel Spreadsheets, <span class="accent">JSON &amp; XML</span></div>
+
+  <div class="topic-block">
+    <div class="topic-header">
+      <div class="topic-num">6</div>
+      <div class="topic-name">Handling Diverse Enterprise Data Formats</div>
+    </div>
+    <div class="topic-body">
+      <div class="sub-section">
+        <div class="sub-title">1. Excel Sheet Parsing via readxl</div>
+        <p>Base R cannot read Excel binaries (<code>.xlsx</code> / <code>.xls</code>) directly. We use Hadley Wickham's `readxl` library to load sheets without needing Java dependencies:</p>
+        <div class="code-wrapper">
+          <div class="code-header"><span class="lang">R Excel Parser</span></div>
+          <pre><span class="fn">library</span>(readxl)
+excel_sheets(<span class="str">"store_sales.xlsx"</span>)                       <span class="cmt"># Lists all sheet names inside the spreadsheet</span>
+df_sheet &lt;- <span class="fn">read_excel</span>(<span class="str">"store_sales.xlsx"</span>, sheet = <span class="num">1</span>)  <span class="cmt"># Loads sheet 1 into a data frame</span></pre>
+        </div>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">2. JSON Ingestion via jsonlite</div>
+        <p>Web APIs return data in JavaScript Object Notation (JSON). We use <code>jsonlite</code> to parse JSON arrays directly into clean R structures:</p>
+        <div class="code-wrapper">
+          <div class="code-header"><span class="lang">R JSON Parser</span></div>
+          <pre><span class="fn">library</span>(jsonlite)
+json_data &lt;- <span class="fn">fromJSON</span>(<span class="str">"https://api.github.com/users/octocat/repos"</span>)  <span class="cmt"># Automatically parses to a data frame</span>
+compact_json &lt;- <span class="fn">toJSON</span>(json_data, pretty = <span class="kw">TRUE</span>)                      <span class="cmt"># Converts data frame back to nested JSON</span></pre>
+        </div>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">3. XML Hierarchy Extraction via XML package</div>
+        <p>To parse markup configurations or XML trees, we use the `XML` package to parse nodes into a clean tabular data frame:</p>
+        <div class="code-wrapper">
+          <div class="code-header"><span class="lang">R XML Parser</span></div>
+          <pre><span class="fn">library</span>(XML)
+xml_doc &lt;- <span class="fn">xmlParse</span>(<span class="str">"config.xml"</span>)
+df_xml &lt;- <span class="fn">xmlToDataFrame</span>(xml_doc)  <span class="cmt"># Converts the child nodes into columns</span></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================= TOPIC 7: GUIs ======================= -->
+<div class="unit-section" id="t7">
+  <div class="section-label">Topic 07</div>
+  <div class="section-title">Visual Point &amp; Click: <span class="accent">R GUIs for Data Input</span></div>
+
+  <div class="topic-block">
+    <div class="topic-header">
+      <div class="topic-num">7</div>
+      <div class="topic-name">Graphical User Interfaces for Statistical Operations</div>
+    </div>
+    <div class="topic-body">
+      <div class="sub-section">
+        <div class="sub-title">Why use R GUIs?</div>
+        <p>While coding in RStudio is powerful, graphical interfaces (GUIs) make R accessible to non-programmers. These interfaces provide **point-and-click dialogs** to load, filter, and run regressions on datasets, while automatically printing the underlying R code.</p>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">The R GUIs Comparison Matrix</div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>GUI System</th><th>Primary Capabilities &amp; Features</th><th>Interface Structure</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="td-hi">RStudio</td>
+                <td>Standard, premier IDE for code writing, variable inspection, and visual plotting.</td>
+                <td>Multi-pane layout (Code, Console, Environment, Files/Plots).</td>
+              </tr>
+              <tr>
+                <td class="td-hi">R Commander (`Rcmdr`)</td>
+                <td>A classic statistical GUI. Provides drop-down menus for loading files, calculating means, running ANOVA tests, and plotting graphs. **Generates the corresponding R code in a separate history window**.</td>
+                <td>Traditional menu-driven desktop application windows.</td>
+              </tr>
+              <tr>
+                <td class="td-hi">Rattle</td>
+                <td>A visual tool for **Data Mining, Machine Learning, and Exploratory Data Analysis**. It features a tab-based layout to quickly build decision trees, cluster data using K-means, and evaluate models.</td>
+                <td>Tabbed controls interface (Data, Explore, Test, Model, Evaluate).</td>
+              </tr>
+              <tr>
+                <td class="td-hi">Deducer / RKWard</td>
+                <td>Visual dialogs for statistical testing and data manipulation. Designed to look similar to commercial packages like SPSS.</td>
+                <td>SPSS-style spreadsheet editors and analysis dialog boxes.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================= TOPIC 8: DATABASES ======================= -->
+<div class="unit-section" id="t8">
+  <div class="section-label">Topic 08</div>
+  <div class="section-title">Connecting to Databases: <span class="accent">MySQL, PostgreSQL &amp; SQLite</span></div>
+
+  <div class="topic-block">
+    <div class="topic-header">
+      <div class="topic-num">8</div>
+      <div class="topic-name">Database Connectivity &amp; SQL Queries</div>
+    </div>
+    <div class="topic-body">
+      <div class="sub-section">
+        <div class="sub-title">The DBI Driver Database Workflow</div>
+        <p>When working with large datasets, loading them from flat files becomes inefficient. Instead, R connects to SQL databases using the common **DBI (Database Interface)** package. We use the database-specific driver to establish the connection:</p>
+        <div class="diagram">
+          <div class="box">Install Driver (e.g. RSQLite)</div>
+          <div class="arrow">➔</div>
+          <div class="box">Connect via dbConnect()</div>
+          <div class="arrow">➔</div>
+          <div class="box">Query via dbGetQuery()</div>
+          <div class="arrow">➔</div>
+          <div class="box">Close via dbDisconnect()</div>
+        </div>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">Database System Connectors</div>
+        <table class="syntax-tbl">
+          <tr><th>Database Engine</th><th>Required Driver Package</th><th>Connection Call</th><th>Port</th></tr>
+          <tr><td><strong>SQLite</strong></td><td><code>RSQLite</code></td><td><code>dbConnect(RSQLite::SQLite(), "db_file.sqlite")</code></td><td>N/A (Local File)</td></tr>
+          <tr><td><strong>MySQL</strong></td><td><code>RMySQL</code></td><td><code>dbConnect(RMySQL::MySQL(), host, user, password)</code></td><td class="td-num">3306</td></tr>
+          <tr><td><strong>PostgreSQL</strong></td><td><code>RPostgreSQL</code></td><td><code>dbConnect(RPostgreSQL::PostgreSQL(), host, port, user)</code></td><td class="td-num">5432</td></tr>
+        </table>
+      </div>
+
+      <div class="prog-card">
+        <div class="prog-head"><span class="prog-num">Program 3.5</span><h4>Complete SQLite Database Read, Write, and Query Pipeline</h4></div>
+        <div class="prog-body">
+          <div class="code-wrapper">
+            <div class="code-header"><span class="lang">R</span></div>
+            <pre><span class="fn">library</span>(DBI)
+<span class="fn">library</span>(RSQLite)
+
+<span class="cmt"># 1. Establish an in-memory SQLite database connection (requires no server setup)</span>
+con &lt;- <span class="fn">dbConnect</span>(RSQLite::SQLite(), dbname = <span class="str">":memory:"</span>)
+
+<span class="cmt"># 2. Write a local data frame directly to a database table</span>
+<span class="fn">dbWriteTable</span>(con, <span class="str">"cars_table"</span>, mtcars)
+
+<span class="cmt"># 3. Query the database using standard SQL and close connection</span>
+res_sql &lt;- <span class="fn">dbGetQuery</span>(con, <span class="str">"SELECT mpg, cyl, hp FROM cars_table WHERE cyl = 6 LIMIT 3"</span>)
+<span class="fn">print</span>(res_sql)
+
+<span class="fn">dbDisconnect</span>(con)</pre>
+          </div>
+          <div class="output-block">   mpg cyl  hp
+1 21.0   6 110
+2 21.0   6 110
+3 21.4   6 110</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================= TOPIC 9: BI INTEGRATIONS ======================= -->
+<div class="unit-section" id="t9">
+  <div class="section-label">Topic 09</div>
+  <div class="section-title">Pentaho &amp; <span class="accent">JasperReports Integration</span></div>
+
+  <div class="topic-block">
+    <div class="topic-header">
+      <div class="topic-num">9</div>
+      <div class="topic-name">Enterprise Business Intelligence Tools</div>
+    </div>
+    <div class="topic-body">
+      <div class="sub-section">
+        <div class="sub-title">1. JasperReports Server Integration</div>
+        <p>**JasperReports** is a popular Java-based reporting engine used to generate pixel-perfect PDF reports and interactive dashboards. R integrates with JasperReports Server using the **`Rserve`** package. Rserve runs R as a TCP/IP server, allowing the Jasper Java application to send computational queries and retrieve statistical plots directly.</p>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">2. Pentaho BI Integration</div>
+        <p>**Pentaho** is an enterprise Business Intelligence suite popular for its ETL (Extract, Transform, Load) engine, Pentaho Data Integration (PDI, also known as Kettle). R scripts integrate directly into Pentaho ETL pipelines using the **WEKA plugin** or the **R Script Executor** component. This allows data engineers to clean, transform, and load database tables, route the data through an R script to generate predictions, and output the results directly into a visual dashboard.</p>
+        <div class="diagram">
+          <div class="box">Pentaho ETL Ingestion</div>
+          <div class="arrow">➔</div>
+          <div class="box">R Script Executor Step</div>
+          <div class="arrow">➔</div>
+          <div class="box">JasperReports Dashboard Rendering</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+<script>
+console.log("R study notes unit 3 loaded successfully!");
+</script>
+</body>
+</html>

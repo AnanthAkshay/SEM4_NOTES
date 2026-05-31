@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>R Programming Unit 5 — Visualization &amp; Data Management | MSRIT Exam Notes</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:        #0f0f1a;
+  --bg2:       #161625;
+  --bg3:       #1e1e32;
+  --bg4:       #262640;
+  --border:    #2a2a45;
+  --text:      #e2e2f0;
+  --text2:     #a0a0c0;
+  --text3:     #707090;
+  --accent:    #6c63ff;
+  --accent2:   #ff6b9d;
+  --accent3:   #00d4aa;
+  --accent4:   #ffd93d;
+  --danger:    #ff4444;
+  --green:     #3fb950;
+  --code-bg:   #1a1a2e;
+  --shadow:    0 4px 32px rgba(0,0,0,0.4);
+  --radius:    12px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Inter', sans-serif;
+  font-size:15px;
+  line-height:1.75;
+}
+
+/* ─── LAYOUT ─── */
+.page-wrap{max-width:1100px;margin:0 auto;padding:0 24px 80px;}
+
+/* ─── HERO BANNER ─── */
+.hero{
+  background:linear-gradient(135deg,#0f0f1a 0%,#281944 50%,#092621 100%);
+  border-bottom:2px solid var(--accent);
+  padding:56px 24px 44px;
+  position:relative;
+  overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 60% 80% at 80% 20%,rgba(108,99,255,0.12),transparent);
+}
+.hero-inner{max-width:1100px;margin:0 auto;position:relative;}
+.hero-badge{
+  display:inline-block;
+  background:rgba(108,99,255,0.15);
+  border:1px solid rgba(108,99,255,0.4);
+  color:var(--accent);
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  padding:4px 14px;
+  border-radius:20px;
+  margin-bottom:16px;
+}
+.hero h1{
+  font-size:clamp(28px,5vw,46px);
+  font-weight:800;
+  line-height:1.1;
+  color:#fff;
+  margin-bottom:12px;
+}
+.hero h1 span{color:var(--accent3);}
+.hero-sub{
+  font-family:'JetBrains Mono',monospace;
+  font-size:13px;
+  color:var(--text2);
+  letter-spacing:1px;
+}
+.hero-meta{
+  display:flex;gap:24px;flex-wrap:wrap;margin-top:28px;
+}
+.hero-pill{
+  background:rgba(255,255,255,0.06);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:8px 16px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:12px;
+  color:var(--text2);
+}
+.hero-pill strong{color:var(--text);}
+
+/* ─── TOC ─── */
+.toc-card{
+  background:var(--bg2);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:28px 32px;
+  margin:40px 0;
+  position:relative;
+  overflow:hidden;
+}
+.toc-card::before{
+  content:'';position:absolute;top:0;left:0;width:4px;height:100%;
+  background:linear-gradient(180deg,var(--accent),var(--accent3));
+}
+.toc-title{
+  font-size:13px;
+  font-weight:700;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:16px;
+}
+.toc-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:8px;
+}
+.toc-item{
+  display:flex;align-items:flex-start;gap:10px;
+  padding:8px 10px;
+  border-radius:6px;
+  text-decoration:none;
+  color:var(--text);
+  font-family:'JetBrains Mono',monospace;
+  font-size:13px;
+  transition:background .15s,color .15s;
+}
+.toc-item:hover{background:rgba(108,99,255,0.1);color:var(--accent);}
+.toc-num{
+  color:var(--accent);font-weight:600;min-width:28px;
+}
+
+/* ─── SECTION HEADERS ─── */
+.unit-section{margin-top:72px;}
+.section-label{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:8px;
+}
+.section-title{
+  font-size:clamp(22px,4vw,32px);
+  font-weight:800;
+  color:#fff;
+  line-height:1.15;
+  border-bottom:2px solid var(--border);
+  padding-bottom:16px;
+  margin-bottom:28px;
+}
+.section-title .accent{color:var(--accent3);}
+
+/* ─── TOPIC CARDS ─── */
+.topic-block{
+  background:var(--bg2);
+  border:1px solid var(--border);
+  border-radius:14px;
+  margin-bottom:40px;
+  overflow:hidden;
+}
+.topic-block .topic-header{
+  background:linear-gradient(90deg,var(--bg3),var(--bg2));
+  border-bottom:1px solid var(--border);
+  padding:20px 28px;
+  display:flex;align-items:center;gap:14px;
+}
+.topic-num{
+  background:var(--accent);
+  color:#fff;
+  font-size:13px;
+  font-weight:800;
+  width:36px;height:36px;
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.topic-name{
+  font-size:18px;
+  font-weight:700;
+  color:#fff;
+}
+.topic-body{padding:28px;}
+
+/* ─── SUB-SECTIONS ─── */
+.sub-section{margin-bottom:28px;}
+.sub-title{
+  font-size:15px;
+  font-weight:700;
+  color:var(--accent2);
+  margin-bottom:10px;
+  display:flex;align-items:center;gap:8px;
+}
+.sub-title::before{
+  content:'';
+  display:inline-block;
+  width:3px;height:18px;
+  background:var(--accent2);
+  border-radius:2px;
+}
+
+/* ─── CALLOUT BOXES ─── */
+.callout{
+  border-radius:10px;
+  padding:16px 20px;
+  margin:16px 0;
+  border-left:4px solid;
+  font-size:15px;
+}
+.callout.info{background:rgba(108,99,255,0.08);border-color:var(--accent);}
+.callout.warning{background:rgba(255,107,157,0.08);border-color:var(--accent2);}
+.callout.success{background:rgba(0,212,170,0.08);border-color:var(--accent3);}
+.callout.danger{background:rgba(255,68,68,0.08);border-color:var(--danger);}
+.callout.formula{background:rgba(255,217,61,0.08);border-color:var(--accent4);}
+.callout-title{
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
+.callout.info .callout-title{color:var(--accent);}
+.callout.warning .callout-title{color:var(--accent2);}
+.callout.success .callout-title{color:var(--accent3);}
+.callout.danger .callout-title{color:var(--danger);}
+.callout.formula .callout-title{color:var(--accent4);}
+
+/* ─── CODE BLOCKS ─── */
+.code-wrapper{position:relative;margin:14px 0;border-radius:10px;overflow:hidden;border:1px solid var(--border)}
+.code-header{display:flex;justify-content:space-between;align-items:center;padding:8px 14px;background:var(--bg4);font-size:.75rem;color:var(--text2)}
+.code-header .lang{font-weight:600;color:var(--accent3)}
+.copy-btn{
+  background:var(--bg3);border:1px solid var(--border);color:var(--text2);
+  padding:3px 10px;border-radius:4px;cursor:pointer;font-size:.7rem;transition:all .2s
+}
+.copy-btn:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+pre{
+  background:var(--code-bg);
+  padding:20px;
+  overflow-x:auto;
+  margin:0;
+  font-family:'JetBrains Mono',monospace;
+  font-size:13px;
+  line-height:1.65;
+  color:#e2e2f0;
+}
+code{
+  font-family:'JetBrains Mono',monospace;
+  font-size:13px;
+  background:rgba(108,99,255,0.15);
+  border-radius:4px;
+  padding:1px 6px;
+  color:var(--accent3);
+}
+pre code{background:none;padding:0;color:#e2e2f0;}
+.cmt{color:#7e97a6;font-style:italic}
+.fn{color:#82aaff}
+.str{color:#c3e88d}
+.num{color:#f78c6c}
+.kw{color:#c792ea}
+.op{color:#89ddff}
+
+/* ─── TABLES ─── */
+.table-wrap{overflow-x:auto;margin:16px 0;}
+table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:14px;
+  font-family:'Inter',sans-serif;
+}
+th{
+  background:var(--bg3);
+  color:var(--accent3);
+  font-weight:700;
+  padding:10px 14px;
+  text-align:left;
+  border:1px solid var(--border);
+  font-size:12px;
+  letter-spacing:0.5px;
+  text-transform:uppercase;
+}
+td{
+  padding:9px 14px;
+  border:1px solid var(--border);
+  color:var(--text);
+  vertical-align:top;
+}
+tr:nth-child(even) td{background:rgba(255,255,255,0.02);}
+tr:hover td{background:rgba(108,99,255,0.05);}
+.td-hi{color:var(--accent3);font-weight:600;}
+.td-num{color:var(--accent2);}
+
+/* ─── VIVA BOXES ─── */
+.viva-box{
+  background:rgba(0,212,170,0.06);
+  border:1px solid rgba(0,212,170,0.25);
+  border-radius:12px;
+  padding:20px 24px;
+  margin:20px 0;
+}
+.viva-q{
+  font-weight:700;
+  color:var(--text);
+  margin-bottom:8px;
+  font-size:15px;
+}
+
+/* ─── OUTPUT BLOCKS ─── */
+.output-block{
+  background:#090d16;
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:16px;
+  margin:12px 0;
+  font-family:'JetBrains Mono',monospace;
+  font-size:13px;
+  color:#7ee787;
+  white-space:pre-wrap;
+}
+.output-block::before{
+  content:'📤 Console Output:';
+  display:block;
+  color:var(--accent4);
+  font-weight:600;
+  margin-bottom:8px;
+  font-family:'Inter',sans-serif;
+  font-size:.75rem;
+}
+
+/* ─── MNEMONIC ─── */
+.mnemonic{
+  background:linear-gradient(135deg,rgba(255,217,61,.1),rgba(255,140,66,.1));
+  border:1px dashed var(--accent4);
+  border-radius:8px;
+  padding:12px 16px;
+  margin:10px 0;
+  font-family:'Caveat',cursive;
+  font-size:1.2rem;
+  color:var(--accent4);
+}
+.mnemonic::before{content:'🧠 Memory Trick: '}
+
+/* ─── PROGRAM CARDS ─── */
+.prog-card{
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  margin:16px 0;
+  overflow:hidden;
+  background:var(--bg2);
+}
+.prog-card .prog-head{
+  padding:14px 18px;
+  background:var(--accent);
+  color:#fff;
+}
+.prog-card .prog-head h4{
+  font-size:.95rem;
+  font-weight:700;
+  color:#ffffff !important;
+  margin:4px 0 0;
+}
+.prog-card .prog-head .prog-num{
+  font-size:.7rem;
+  opacity:.8;
+  text-transform:uppercase;
+}
+.prog-card .prog-body{padding:18px}
+
+.hl{color:var(--accent3);font-weight:600}
+ul, ol { padding-left: 24px; margin-bottom: 14px; }
+li { margin-bottom: 6px; }
+
+/* ─── DIAGRAM BOX ─── */
+.diagram{
+  background:var(--bg3);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:20px;
+  margin:12px 0;
+  text-align:center;
+  font-family:'JetBrains Mono',monospace;
+  font-size:13px;
+  color:var(--text2);
+  overflow-x:auto;
+}
+.diagram pre {
+  background: none; padding: 0; border: none;
+}
+
+@media print{
+  body{background:#fff;color:#000;}
+  .topic-block,.toc-card,.callout{break-inside:avoid;}
+}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">MSRIT • B.E. ISE • ISALC492</div>
+    <h1>Unit 5: <span>Visualization &amp; Data Management</span></h1>
+    <p class="hero-sub">// Native plots, layer-by-layer Grammar of Graphics, standardization pipelines, and train-test sampling</p>
+    <div class="hero-meta">
+      <div class="hero-pill"><strong>Charts:</strong> Native Base Plots</div>
+      <div class="hero-pill"><strong>Advanced:</strong> Hadley Wickham's ggplot2</div>
+      <div class="hero-pill"><strong>Processing:</strong> scale() &amp; cut()</div>
+      <div class="hero-pill"><strong>Validation:</strong> Train-Test Split (70/30)</div>
+    </div>
+  </div>
+</div>
+
+<div class="page-wrap">
+
+<div class="toc-card">
+  <div class="toc-title">📋 Topic Navigation Guide</div>
+  <div class="toc-grid">
+    <a href="#t1" class="toc-item"><span class="toc-num">01</span>Histograms &amp; Density Plots</a>
+    <a href="#t2" class="toc-item"><span class="toc-num">02</span>Scatter &amp; Line Plots</a>
+    <a href="#t3" class="toc-item"><span class="toc-num">03</span>Bar Charts, Box Plots &amp; Hexbin</a>
+    <a href="#t4" class="toc-item"><span class="toc-num">04</span>ggplot2 Basics (Grammar of Graphics)</a>
+    <a href="#t5" class="toc-item"><span class="toc-num">05</span>Data Cleaning Pipeline</a>
+    <a href="#t6" class="toc-item"><span class="toc-num">06</span>Data Transformations &amp; scale()</a>
+    <a href="#t7" class="toc-item"><span class="toc-num">07</span>Sampling &amp; Train-Test Splits</a>
+    <a href="#t8" class="toc-item"><span class="toc-num">08</span>Unit 5 Core Programs</a>
+  </div>
+</div>
+
+<!-- ======================= TOPIC 1: HISTOGRAMS ======================= -->
+<div class="unit-section" id="t1">
+  <div class="section-label">Topic 01</div>
+  <div class="section-title">Histograms &amp; <span class="accent">Density Plots</span></div>
+
+  <div class="topic-block">
+    <div class="topic-header">
+      <div class="topic-num">1</div>
+      <div class="topic-name">Visualizing Single Continuous Variables</div>
+    </div>
+    <div class="topic-body">
+      <div class="sub-section">
+        <div class="sub-title">1. Histograms</div>
+        <p>A **histogram** is used to represent the frequency distribution of a **single continuous variable**. It groups the continuous value range into sequential, non-overlapping intervals (called **bins** or breaks) and renders a bar with height proportional to the number of data points falling in each bin.</p>
+        <div class="code-wrapper">
+          <div class="code-header"><span class="lang">Base R hist() Syntax</span></div>
+          <pre><span class="fn">hist</span>(x, breaks, col, main, xlab, ylab, freq = <span class="kw">TRUE</span>)</pre>
+        </div>
+        <p><strong>Parameters:</strong> <code>breaks</code> specifies the bin count, <code>col</code> fills the bars with color, and <code>freq = FALSE</code> converts the y-axis from absolute frequencies to probability densities (crucial for overlaying density curves!).</p>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">2. Density Estimation Plots</div>
+        <p>A **density plot** is a smoothed version of a histogram. It uses **Kernel Density Estimation (KDE)** to calculate and render the continuous probability density function of a variable. In Base R, we calculate this using <code>density(v)</code> and render it using the <code>plot()</code> canvas connector.</p>
+      </div>
+
+      <div class="prog-card">
+        <div class="prog-head"><span class="prog-num">Program 5.1</span><h4>Histogram with Overlaid Kernel Density Curve</h4></div>
+        <div class="prog-body">
+          <div class="code-wrapper">
+            <div class="code-header"><span class="lang">R</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+            <pre>marks &lt;- <span class="fn">c</span>(<span class="num">45</span>, <span class="num">67</span>, <span class="num">78</span>, <span class="num">89</span>, <span class="num">92</span>, <span class="num">55</span>, <span class="num">71</span>, <span class="num">84</span>, <span class="num">63</span>, <span class="num">95</span>, <span class="num">50</span>, <span class="num">73</span>, <span class="num">88</span>, <span class="num">61</span>, <span class="num">76</span>)
+
+<span class="cmt"># 1. Render probability density histogram</span>
+<span class="fn">hist</span>(marks, freq = <span class="kw">FALSE</span>, col = <span class="str">"lightcoral"</span>, border = <span class="str">"white"</span>,
+     main = <span class="str">"Marks Density with KDE"</span>, xlab = <span class="str">"Score"</span>)
+
+<span class="cmt"># 2. Overlay KDE curve</span>
+<span class="fn">lines</span>(<span class="fn">density</span>(marks), col = <span class="str">"red"</span>, lwd = <span class="num">2</span>)</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================= TOPIC 2: SCATTER & LINE ======================= -->
+<div class="unit-section" id="t2">
+  <div class="section-label">Topic 02</div>
+  <div class="section-title">Scatter Plots &amp; <span class="accent">Line Plots</span></div>
+
+  <div class="topic-block">
+    <div class="topic-header">
+      <div class="topic-num">2</div>
+      <div class="topic-name">Visualizing Multi-Variable Relationships</div>
+    </div>
+    <div class="topic-body">
+      <div class="sub-section">
+        <div class="sub-title">1. Scatter Plots</div>
+        <p>A **scatter plot** maps the relationship between **two continuous variables** using cartesian dots. Each dot represents a single observation's coordinate. It is the primary tool to check for **correlations** (positive, negative, or none) between variables.</p>
+        <p><strong>Common Parameters:</strong> <code>pch</code> sets the shape of the points (e.g. <code>19</code> for solid circles), and <code>cex</code> adjusts point size.</p>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">2. Line Plots</div>
+        <p>A **line plot** connects individual data points sequentially. It is widely used to visualize **trends over time** (time series data). In Base R, we render this by passing <code>type = "l"</code> inside the <code>plot()</code> function.</p>
+      </div>
+
+      <div class="prog-card">
+        <div class="prog-head"><span class="prog-num">Program 5.2</span><h4>Scatter Plot with Linear Regression Trendline</h4></div>
+        <div class="prog-body">
+          <div class="code-wrapper">
+            <div class="code-header"><span class="lang">R</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+            <pre>height &lt;- <span class="fn">c</span>(<span class="num">150</span>, <span class="num">160</span>, <span class="num">165</span>, <span class="num">170</span>, <span class="num">175</span>, <span class="num">180</span>, <span class="num">155</span>, <span class="num">168</span>)
+weight &lt;- <span class="fn">c</span>(<span class="num">50</span>, <span class="num">60</span>, <span class="num">65</span>, <span class="num">70</span>, <span class="num">75</span>, <span class="num">82</span>, <span class="num">55</span>, <span class="num">68</span>)
+
+<span class="cmt"># Render scatter points</span>
+<span class="fn">plot</span>(height, weight, main = <span class="str">"Height vs. Weight"</span>, 
+     xlab = <span class="str">"Height (cm)"</span>, ylab = <span class="str">"Weight (kg)"</span>,
+     col = <span class="str">"blue"</span>, pch = <span class="num">19</span>, cex = <span class="num">1.5</span>)
+
+<span class="cmt"># Overlay fit line (lm performs linear model)</span>
+<span class="fn">abline</span>(<span class="fn">lm</span>(weight ~ height), col = <span class="str">"red"</span>, lwd = <span class="num">2</span>)</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================= TOPIC 3: BAR & BOX ======================= -->
+<div class="unit-section" id="t3">
+  <div class="section-label">Topic 03</div>
+  <div class="section-title">Bar Charts, Box Plots &amp; <span class="accent">Hexbin Plots</span></div>
+
+  <div class="topic-block">
+    <div class="topic-header">
+      <div class="topic-num">3</div>
+      <div class="topic-name">Categorical summaries and advanced grids</div>
+    </div>
+    <div class="topic-body">
+      <div class="sub-section">
+        <div class="sub-title">1. Bar Charts</div>
+        <p>A **bar chart** displays **categorical data** using rectangular bars. The height of each bar represents the category count or a summary value. We render this in Base R using `barplot()`.</p>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">2. Box Plots (Box-and-Whisker)</div>
+        <p>A **boxplot** is a compact visualization of a variable's **five-number summary**: Minimum, First Quartile (Q1), Median, Third Quartile (Q3), and Maximum. It visually flags outliers that lie beyond the fences.</p>
+        <div class="diagram">
+          <pre>
+  ┌─────┐
+  │     │      • ← Outlier
+──┤  Q3 ├──    ─ ← Upper Whisker (Q3 + 1.5*IQR)
+  │─────│      ─ ← Median (Q2)
+──┤  Q1 ├──    ─ ← Lower Whisker (Q1 - 1.5*IQR)
+  │     │
+  └─────┘
+          </pre>
+        </div>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">3. Hexbin Plots</div>
+        <p>Standard scatter plots become overcrowded when working with very large datasets. A **hexbin plot** solves this by dividing the 2D plane into regular hexagonal bins and using a color gradient to represent the density of points inside each hexagon.</p>
+      </div>
+
+      <div class="prog-card">
+        <div class="prog-head"><span class="prog-num">Program 5.3</span><h4>Boxplot Outliers Detection &amp; Extraction</h4></div>
+        <div class="prog-body">
+          <div class="code-wrapper">
+            <div class="code-header"><span class="lang">R</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+            <pre>values &lt;- <span class="fn">c</span>(<span class="num">12</span>, <span class="num">15</span>, <span class="num">14</span>, <span class="num">10</span>, <span class="num">13</span>, <span class="num">50</span>, <span class="num">11</span>, <span class="num">16</span>, <span class="num">14</span>, <span class="num">100</span>)
+
+<span class="cmt"># 1. Render Boxplot</span>
+<span class="fn">boxplot</span>(values, main = <span class="str">"Boxplot Diagnostics"</span>, col = <span class="str">"lightblue"</span>, horizontal = <span class="kw">TRUE</span>)
+
+<span class="cmt"># 2. Extract outliers programmatically</span>
+bp_info &lt;- <span class="fn">boxplot</span>(values, plot = <span class="kw">FALSE</span>)
+<span class="fn">cat</span>(<span class="str">"Extracted Outliers:"</span>, bp_info$out, <span class="str">"\n"</span>)</pre>
+          </div>
+          <div class="output-block">Extracted Outliers: 50 100</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================= TOPIC 4: GGPLOT2 ======================= -->
+<div class="unit-section" id="t4">
+  <div class="section-label">Topic 04</div>
+  <div class="section-title">The advanced plots: <span class="accent">ggplot2 Basics</span></div>
+
+  <div class="topic-block">
+    <div class="topic-header">
+      <div class="topic-num">4</div>
+      <div class="topic-name">Hadley Wickham's Grammar of Graphics</div>
+    </div>
+    <div class="topic-body">
+      <div class="sub-section">
+        <div class="sub-title">What is ggplot2?</div>
+        <p>The <code>ggplot2</code> package is the standard tool for advanced data visualization in R. It is based on Leland Wilkinson's **Grammar of Graphics**, which views a plot not as a single image, but as a modular assembly of layered components:</p>
+        <div class="diagram">
+          <div class="box">Data (Data Frame)</div>
+          <div class="arrow">+</div>
+          <div class="box">Aesthetic Mapping (aes: x, y, color)</div>
+          <div class="arrow">+</div>
+          <div class="box">Geometric Layers (geom_*: points, bars)</div>
+        </div>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">The Core ggplot2 Layers Roadmap</div>
+        <table class="syntax-tbl">
+          <tr><th>Layer Name</th><th>Purpose</th><th>Common Functions</th></tr>
+          <tr><td class="td-hi">Data &amp; Aesthetics</td><td>Specifies the dataset and maps columns to visual channels.</td><td><code>ggplot(df, aes(x=wt, y=mpg))</code></td></tr>
+          <tr><td class="td-hi">Geometries (geom)</td><td>Determines the visual shape used to render data points.</td><td><code>geom_point()</code>, <code>geom_line()</code>, <code>geom_boxplot()</code></td></tr>
+          <tr><td class="td-hi">Statistics (stat)</td><td>Applies computational transformations to the data.</td><td><code>stat_summary()</code>, <code>stat_smooth()</code></td></tr>
+          <tr><td class="td-hi">Labels &amp; Themes</td><td>Sets titles, axes labels, and overall plot styling.</td><td><code>labs()</code>, <code>theme_minimal()</code>, <code>theme_bw()</code></td></tr>
+        </table>
+      </div>
+
+      <div class="prog-card">
+        <div class="prog-head"><span class="prog-num">Program 5.4</span><h4>ggplot2 Multi-Layered Scatter &amp; Boxplot Pipelines</h4></div>
+        <div class="prog-body">
+          <div class="code-wrapper">
+            <div class="code-header"><span class="lang">R</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+            <pre><span class="fn">library</span>(ggplot2)
+
+<span class="cmt"># 1. Initialize data &amp; aesthetics mapping, add point and trend line geoms</span>
+<span class="fn">ggplot</span>(mtcars, <span class="fn">aes</span>(x = wt, y = mpg, color = <span class="fn">factor</span>(cyl))) +
+  <span class="fn">geom_point</span>(size = <span class="num">3</span>) +
+  <span class="fn">geom_smooth</span>(method = <span class="str">"lm"</span>, se = <span class="kw">FALSE</span>) +
+  <span class="fn">labs</span>(title = <span class="str">"MPG vs. Weight"</span>, x = <span class="str">"Weight"</span>, y = <span class="str">"Miles per Gallon"</span>, color = <span class="str">"Cylinders"</span>) +
+  <span class="fn">theme_minimal</span>()</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================= TOPIC 5: CLEANING ======================= -->
+<div class="unit-section" id="t5">
+  <div class="section-label">Topic 05</div>
+  <div class="section-title">Data Cleaning Pipeline: <span class="accent">Messy Data Treatment</span></div>
+
+  <div class="topic-block">
+    <div class="topic-header">
+      <div class="topic-num">5</div>
+      <div class="topic-name">Handling Missing and Invalid Fields</div>
+    </div>
+    <div class="topic-body">
+      <div class="sub-section">
+        <div class="sub-title">1. Missing Values (NA) Treatment Matrix</div>
+        <table class="syntax-tbl">
+          <tr><th>Imputation Strategy</th><th>Best Applied Context</th><th>R Implementation Call</th></tr>
+          <tr><td class="td-hi">Strict Deletion</td><td>Very few NAs present in a large dataset.</td><td><code>na.omit(df)</code></td></tr>
+          <tr><td class="td-hi">Mean Imputation</td><td>Numerical columns with no extreme outliers.</td><td><code>v[is.na(v)] &lt;- mean(v, na.rm=T)</code></td></tr>
+          <tr><td class="td-hi">Median Imputation</td><td>Skewed numerical columns with extreme outliers.</td><td><code>v[is.na(v)] &lt;- median(v, na.rm=T)</code></td></tr>
+          <tr><td class="td-hi">Constant Imputation</td><td>Categorical fields or when 0 is meaningful.</td><td><code>v[is.na(v)] &lt;- 0</code></td></tr>
+        </table>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">2. Duplicate Records Treatment</div>
+        <p>Duplicate rows skew data modeling. R provides the built-in <code>duplicated()</code> assertion to discover and filter out duplicate entries:</p>
+        <div class="code-wrapper">
+          <div class="code-header"><span class="lang">R duplicates clean</span></div>
+          <pre>duplicates_map &lt;- <span class="fn">duplicated</span>(df)  <span class="cmt"># Returns logical vector of duplicate checks</span>
+df_unique &lt;- df[!<span class="fn">duplicated</span>(df), ] <span class="cmt"># Retains only unique rows in the data frame</span></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================= TOPIC 6: TRANSFORMATION ======================= -->
+<div class="unit-section" id="t6">
+  <div class="section-label">Topic 06</div>
+  <div class="section-title">Data Transformations: <span class="accent">Normalization &amp; Standardization</span></div>
+
+  <div class="topic-block">
+    <div class="topic-header">
+      <div class="topic-num">6</div>
+      <div class="topic-name">Standardizing Variables Scales</div>
+    </div>
+    <div class="topic-body">
+      <div class="sub-section">
+        <div class="sub-title">Why transform data scales?</div>
+        <p>When dataset columns have completely different ranges (e.g. Salary in thousands, Age in double digits), algorithms may over-emphasize variables with larger absolute scales. We prevent this by transforming all variables to a **common scale** using two main methods:</p>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">Normalization vs. Standardization</div>
+        <table class="syntax-tbl">
+          <tr><th>Transformation</th><th>Mathematical Formula</th><th>Resulting Range</th><th>Base R function</th></tr>
+          <tr><td class="td-hi">Min-Max Normalization</td><td>$$x_{norm} = \frac{x - \min(x)}{\max(x) - \min(x)}$$</td><td>Strictly bounded to <code>[0, 1]</code>.</td><td>Custom function</td></tr>
+          <tr><td class="td-hi">Z-Score Standardization</td><td>$$x_{std} = \frac{x - \mu}{\sigma}$$</td><td>Mean = <code>0</code>, Standard Deviation = <code>1</code>.</td><td><code>scale(x)</code></td></tr>
+        </table>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">Continuous to Discrete Conversion via cut()</div>
+        <p>To convert numerical columns into categorical ranges (e.g., converting scores 0-100 to Grade levels), R uses the <code>cut()</code> function:</p>
+        <div class="code-wrapper">
+          <div class="code-header"><span class="lang">R cut() syntax</span></div>
+          <pre>grades &lt;- <span class="fn">cut</span>(scores, breaks = <span class="fn">c</span>(<span class="num">0</span>, <span class="num">40</span>, <span class="num">75</span>, <span class="num">100</span>), labels = <span class="fn">c</span>(<span class="str">"Fail"</span>, <span class="str">"FirstClass"</span>, <span class="str">"Distinction"</span>))</pre>
+        </div>
+      </div>
+
+      <div class="prog-card">
+        <div class="prog-head"><span class="prog-num">Program 5.5</span><h4>Data scaling &amp; discretization pipeline</h4></div>
+        <div class="prog-body">
+          <div class="code-wrapper">
+            <div class="code-header"><span class="lang">R</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+            <pre>age &lt;- <span class="fn">c</span>(<span class="num">20</span>, <span class="num">30</span>, <span class="num">40</span>, <span class="num">50</span>, <span class="num">60</span>)
+
+<span class="cmt"># 1. Custom Min-Max Normalization</span>
+normalize &lt;- <span class="kw">function</span>(x) { (x - <span class="fn">min</span>(x)) / (<span class="fn">max</span>(x) - <span class="fn">min</span>(x)) }
+<span class="fn">cat</span>(<span class="str">"Normalized:"</span>, <span class="fn">normalize</span>(age), <span class="str">"\n"</span>)
+
+<span class="cmt"># 2. Base R scale() (Standardization)</span>
+<span class="fn">cat</span>(<span class="str">"Standardized:"</span>, <span class="fn">as.vector</span>(<span class="fn">scale</span>(age)), <span class="str">"\n"</span>)</pre>
+          </div>
+          <div class="output-block">Normalized: 0 0.25 0.5 0.75 1 
+Standardized: -1.264911 -0.6324555 0 0.6324555 1.264911</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================= TOPIC 7: SAMPLING ======================= -->
+<div class="unit-section" id="t7">
+  <div class="section-label">Topic 07</div>
+  <div class="section-title">Sampling &amp; Validation: <span class="accent">Train-Test Splits</span></div>
+
+  <div class="topic-block">
+    <div class="topic-header">
+      <div class="topic-num">7</div>
+      <div class="topic-name">Reproducible Random Splitting Pipelines</div>
+    </div>
+    <div class="topic-body">
+      <div class="sub-section">
+        <div class="sub-title">1. Random Sampling via sample()</div>
+        <p>R uses the `sample(x, size, replace)` function to select random subsets from a vector. Setting <code>replace = TRUE</code> enables sampling with replacement, which is the foundation of bootstrap aggregation.</p>
+      </div>
+
+      <div class="sub-section">
+        <div class="sub-title">2. Train-Test Splits (70-30 / 80-20)</div>
+        <p>In machine learning, we split our data to avoid **overfitting**: we build the model on the **training set** (e.g. 70% of rows) and evaluate its performance on an unseen **testing set** (the remaining 30% of rows).</p>
+        <div class="callout danger">
+          <div class="callout-title">🚨 EXAM TRAP: REPRODUCIBILITY IN SAMPLING</div>
+          Because computers generate pseudo-random numbers, running a sampling function twice will yield different splits. You **MUST** run **`set.seed(n)`** immediately before sampling to lock R's random number generator. This ensures identical results every time the script is executed.
+        </div>
+      </div>
+
+      <div class="prog-card">
+        <div class="prog-head"><span class="prog-num">Program 5.6</span><h4>Reproducible 70/30 Train-Test Split</h4></div>
+        <div class="prog-body">
+          <div class="code-wrapper">
+            <div class="code-header"><span class="lang">R</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+            <pre><span class="fn">set.seed</span>(<span class="num">42</span>)  <span class="cmt"># Locks random number generator</span>
+
+<span class="fn">data</span>(iris)
+total_rows &lt;- <span class="fn">nrow</span>(iris)
+train_size &lt;- <span class="fn">round</span>(<span class="num">0.7</span> * total_rows)
+
+<span class="cmt"># Sample random row indexes</span>
+train_indexes &lt;- <span class="fn">sample</span>(<span class="num">1</span>:total_rows, size = train_size, replace = <span class="kw">FALSE</span>)
+
+train_set &lt;- iris[train_indexes, ]
+test_set  &lt;- iris[-train_indexes, ]
+
+<span class="fn">cat</span>(<span class="str">"Total dataset rows:"</span>, total_rows, <span class="str">"\n"</span>)
+<span class="fn">cat</span>(<span class="str">"Training set rows:"</span>, <span class="fn">nrow</span>(train_set), <span class="str">"\n"</span>)
+<span class="fn">cat</span>(<span class="str">"Testing set rows:"</span>, <span class="fn">nrow</span>(test_set), <span class="str">"\n"</span>)</pre>
+          </div>
+          <div class="output-block">Total dataset rows: 150 
+Training set rows: 105 
+Testing set rows: 45</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================= TOPIC 8: UNIT 5 PROGRAMS ======================= -->
+<div class="unit-section" id="t8">
+  <div class="section-label">Topic 08</div>
+  <div class="section-title">Unit 5 Core <span class="accent">Programs Manual</span></div>
+
+  <div class="topic-block">
+    <div class="topic-header">
+      <div class="topic-num">8</div>
+      <div class="topic-name">Hands-on Code Practice for Exam Prep</div>
+    </div>
+    <div class="topic-body">
+      <div class="prog-card">
+        <div class="prog-head"><span class="prog-num">Program 5.7</span><h4>Complete Data Preprocessing and Transformation Pipeline</h4></div>
+        <div class="prog-body">
+          <div class="code-wrapper">
+            <div class="code-header"><span class="lang">R</span><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+            <pre>messy_df &lt;- <span class="fn">data.frame</span>(
+  Name = <span class="fn">c</span>(<span class="str">"A"</span>, <span class="str">"B"</span>, <span class="str">"C"</span>, <span class="str">"D"</span>, <span class="str">"E"</span>, <span class="str">"A"</span>),
+  Age = <span class="fn">c</span>(<span class="num">21</span>, <span class="kw">NA</span>, <span class="num">22</span>, -<span class="num">5</span>, <span class="num">23</span>, <span class="num">21</span>),
+  Score = <span class="fn">c</span>(<span class="num">85</span>, <span class="num">90</span>, <span class="kw">NA</span>, <span class="num">78</span>, <span class="num">200</span>, <span class="num">85</span>),
+  stringsAsFactors = <span class="kw">FALSE</span>
+)
+
+<span class="cmt"># 1. Impute missing values</span>
+messy_df$Age[<span class="fn">is.na</span>(messy_df$Age)] &lt;- <span class="fn">mean</span>(messy_df$Age, na.rm = <span class="kw">TRUE</span>)
+messy_df$Score[<span class="fn">is.na</span>(messy_df$Score)] &lt;- <span class="fn">median</span>(messy_df$Score, na.rm = <span class="kw">TRUE</span>)
+
+<span class="cmt"># 2. Treat invalid values</span>
+messy_df$Age[messy_df$Age &lt; <span class="num">0</span>] &lt;- <span class="fn">median</span>(messy_df$Age, na.rm = <span class="kw">TRUE</span>)
+messy_df$Score[messy_df$Score &gt; <span class="num">100</span>] &lt;- <span class="num">100</span>
+
+<span class="cmt"># 3. Filter out duplicate rows</span>
+clean_df &lt;- messy_df[!<span class="fn">duplicated</span>(messy_df), ]
+<span class="fn">print</span>(clean_df)</pre>
+          </div>
+          <div class="output-block">  Name  Age Score
+1    A 21.0    85
+2    B 15.5    90
+3    C 22.0    85
+4    D 15.5    78
+5    E 23.0   100</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+<script>
+console.log("R study notes unit 5 loaded successfully!");
+</script>
+</body>
+</html>
