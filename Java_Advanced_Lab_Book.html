@@ -579,8 +579,236 @@
                 display: flex;
             }
         }
+
+        /* ==================== ECLIPSE EDITOR STYLING ==================== */
+        .eclipse-editor-wrapper {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #c5c5c5;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 25px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+        }
+
+        .eclipse-editor-header {
+            background-color: #f3f3f3;
+            border-bottom: 1px solid #d0d0d0;
+            display: flex;
+            padding: 5px 8px 0;
+            gap: 4px;
+            align-items: flex-end;
+            user-select: none;
+        }
+
+        .eclipse-tab {
+            background-color: #e4e4e4;
+            border: 1px solid #c5c5c5;
+            border-bottom: none;
+            color: #555555;
+            padding: 6px 14px;
+            font-family: var(--font-mono);
+            font-size: 0.78rem;
+            border-radius: 4px 4px 0 0;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 500;
+            position: relative;
+        }
+
+        .eclipse-tab.active {
+            background-color: #ffffff;
+            color: #000000;
+            font-weight: 600;
+            border-bottom: 1px solid #ffffff;
+            margin-bottom: -1px;
+            z-index: 2;
+        }
+
+        .eclipse-tab-close {
+            font-size: 0.7rem;
+            color: #999;
+            margin-left: 6px;
+            display: inline-block;
+            transition: color 0.2s;
+        }
+
+        .eclipse-tab:hover .eclipse-tab-close {
+            color: #c23934;
+        }
+
+        .eclipse-editor-body {
+            display: flex;
+            background-color: #ffffff;
+            max-height: 520px;
+            overflow-y: auto;
+            border-bottom: 1px solid #e5e7eb;
+            position: relative;
+        }
+
+        .line-numbers-gutter {
+            background-color: #f0f0f0;
+            border-right: 1px solid #d0d0d0;
+            padding: 20px 8px 20px 12px;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: #999999;
+            text-align: right;
+            user-select: none;
+            line-height: 1.65;
+            min-width: 45px;
+        }
+
+        .eclipse-editor-code-pane {
+            flex: 1;
+            overflow-x: auto;
+        }
+
+        .eclipse-editor-code-pane pre {
+            background-color: #ffffff !important;
+            color: #000000 !important;
+            padding: 20px 15px !important;
+            margin: 0 !important;
+            line-height: 1.65 !important;
+            white-space: pre !important;
+            font-family: var(--font-mono) !important;
+            font-size: 0.82rem !important;
+            overflow: visible !important;
+        }
+
+        /* Syntax colors */
+        .j-keyword { color: #7f0055 !important; font-weight: bold !important; }
+        .j-string { color: #2a00ff !important; }
+        .j-comment { color: #3f7f5f !important; font-style: italic !important; }
+        .j-annotation { color: #64748b !important; font-weight: bold !important; font-style: italic !important; }
+
+        /* Eclipse Styled Console Layout */
+        .eclipse-console {
+            background-color: #080c12;
+            border: 1px solid var(--border-color);
+            border-radius: var(--card-radius);
+            margin-top: 25px;
+            overflow: hidden;
+            font-family: var(--font-mono);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .eclipse-console-header {
+            background-color: #0f172a;
+            border-bottom: 1px solid var(--border-color);
+            padding: 10px 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+        }
+
+        .console-title-wrap {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--font-display);
+            font-weight: 600;
+        }
+
+        .console-title-wrap svg {
+            width: 16px;
+            height: 16px;
+            stroke: var(--primary);
+        }
+
+        .console-btn-group {
+            display: flex;
+            gap: 6px;
+        }
+
+        .console-tab-btn {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 4px 12px;
+            font-size: 0.72rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: var(--font-display);
+            font-weight: 600;
+        }
+
+        .console-tab-btn:hover {
+            color: var(--text-primary);
+            background-color: rgba(255,255,255,0.05);
+            border-color: var(--text-muted);
+        }
+
+        .console-tab-btn.active {
+            background-color: var(--primary);
+            color: #000000;
+            font-weight: 700;
+            border-color: transparent;
+            box-shadow: 0 0 8px var(--primary-glow);
+        }
+
+        .eclipse-console-body {
+            padding: 18px;
+            background-color: #070a0f;
+            color: #e2e8f0;
+            font-size: 0.82rem;
+            line-height: 1.6;
+            min-height: 140px;
+            white-space: pre-wrap;
+            display: none;
+        }
+
+        .eclipse-console-body.active {
+            display: block;
+            animation: slideUp 0.3s ease-out;
+        }
+        
+        .console-meta-info {
+            color: #64748b;
+            font-style: italic;
+            border-bottom: 1px dashed rgba(255,255,255,0.06);
+            padding-bottom: 8px;
+            margin-bottom: 12px;
+            font-size: 0.78rem;
+        }
+
+        /* Eclipse Guide styles */
+        .guide-step-card {
+            background-color: rgba(255,255,255,0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 16px;
+            transition: var(--transition);
+        }
+
+        .guide-step-card:hover {
+            border-color: var(--primary);
+            background-color: rgba(248, 152, 32, 0.02);
+        }
+
+        .guide-step-num {
+            background-color: rgba(248, 152, 32, 0.15);
+            color: var(--primary);
+            border: 1px solid rgba(248, 152, 32, 0.3);
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-right: 8px;
+        }
     </style>
 </head>
+
 <body>
 
     <!-- MOBILE HEADER -->
@@ -614,8 +842,13 @@
                 <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
                 Lab Dashboard
             </button>
+            <button class="nav-item" id="btn-eclipse" onclick="showSection('eclipse')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+                Eclipse Run Guide
+            </button>
 
             <div class="nav-header">List of Experiments</div>
+
             
             <button class="nav-item" id="btn-ex1" onclick="showSection('ex1')">
                 <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
@@ -722,6 +955,77 @@
                         <strong style="color:var(--accent-emerald); display:block; margin-bottom:6px;">Ex 9–12: GUI Swing, JDBC &amp; JSP</strong>
                         <p style="font-size:0.85rem; color:var(--text-secondary);">Dialog-based student registry, billing discount terminal, MySQL JDBC insert &amp; high credit lookup, and JSP-based neck style shirt billing form.</p>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ======================= ECLIPSE SETUP & RUN GUIDE ======================= -->
+        <div class="lab-section" id="sec-eclipse">
+            <div class="hero-card">
+                <div class="hero-card-tag">IDE Workflow Guide</div>
+                <h2>Setting up &amp; Running Java Programs in Eclipse IDE</h2>
+                <p>Learn how to establish standard JDK environments, configure package structures, attach external MySQL database drivers, and mount Tomcat web servers inside the classic Eclipse IDE workspace.</p>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+                        Step-by-Step Eclipse IDE Integration Blueprint
+                    </h3>
+                </div>
+
+                <div class="guide-step-card">
+                    <h4><span class="guide-step-num">1</span> Create a New Java Project</h4>
+                    <p style="font-size:0.9rem; color:var(--text-secondary); margin-top:8px;">
+                        Launch Eclipse IDE. Click on <strong>File &gt; New &gt; Java Project</strong>. Name your project (e.g., <code>Advanced_Java_Lab</code>). Under the "JRE" section, ensure JavaSE-17 or JavaSE-21 is selected. <strong style="color:var(--primary);">CRITICAL:</strong> In newer Eclipse versions, uncheck <em>"Create module-info.java file"</em> to prevent namespace access restrictions. Click <strong>Finish</strong>.
+                    </p>
+                </div>
+
+                <div class="guide-step-card">
+                    <h4><span class="guide-step-num">2</span> Establish Package &amp; Namespace Structures</h4>
+                    <p style="font-size:0.9rem; color:var(--text-secondary); margin-top:8px;">
+                        Java files rely on modular package spaces matching their directories. 
+                        Right-click on the <code>src</code> folder in the Project Explorer &gt; select <strong>New &gt; Package</strong>. Name the package exactly as declared at the top of the experiment files (e.g. <code>PayrollManagement</code>, <code>Company</code>, <code>queue</code>, <code>stringoperations</code>). Click <strong>Finish</strong>.
+                    </p>
+                </div>
+
+                <div class="guide-step-card">
+                    <h4><span class="guide-step-num">3</span> Populate Code Elements</h4>
+                    <p style="font-size:0.9rem; color:var(--text-secondary); margin-top:8px;">
+                        Right-click your newly created package &gt; select <strong>New &gt; Class</strong> (or <strong>Interface</strong>). 
+                        Enter the exact name of the file (e.g., <code>Payable</code> for the interface, <code>Employee</code> for the class). Copy and paste the respective source code from this portal. Eclipse will highlight compilation flags if names or packages do not match exactly.
+                    </p>
+                </div>
+
+                <div class="guide-step-card">
+                    <h4><span class="guide-step-num">4</span> Running Standard Java Programs</h4>
+                    <p style="font-size:0.9rem; color:var(--text-secondary); margin-top:8px;">
+                        To execute a program (e.g. <code>QueueDemo</code>, <code>PayrollSystem</code>, <code>PasswordSecurityApp</code>), open the Java file containing the <code>public static void main(String[] args)</code> entry. Right-click anywhere in the editor pane &gt; select <strong>Run As &gt; Java Application</strong>. The integrated **Eclipse Console Window** will open at the bottom to accept keyboard inputs.
+                    </p>
+                </div>
+
+                <div class="guide-step-card">
+                    <h4><span class="guide-step-num">5</span> Linking MySQL JDBC Drivers (For Ex 11: JDBC Rep-Cust)</h4>
+                    <p style="font-size:0.9rem; color:var(--text-secondary); margin-top:8px;">
+                        To prevent <code>ClassNotFoundException</code> or SQL Connection faults:
+                        <br>1. Download the MySQL Connector/J driver (e.g., <code>mysql-connector-j-8.x.x.jar</code>).
+                        <br>2. Right-click your Eclipse project in the explorer &gt; select <strong>Build Path &gt; Configure Build Path</strong>.
+                        <br>3. Select the <strong>Libraries</strong> tab &gt; click on <strong>Classpath</strong> &gt; click the <strong>Add External JARs...</strong> button.
+                        <br>4. Select your downloaded <code>.jar</code> file &gt; click <strong>Apply and Close</strong>.
+                    </p>
+                </div>
+
+                <div class="guide-step-card">
+                    <h4><span class="guide-step-num">6</span> Deploying Tomcat Server (For Ex 12: JSP Dynamic Web App)</h4>
+                    <p style="font-size:0.9rem; color:var(--text-secondary); margin-top:8px;">
+                        Eclipse requires an Enterprise Edition environment and an active Apache Tomcat Server to process JSP:
+                        <br>1. Make sure **Eclipse IDE for Enterprise Java and Web Developers** is installed.
+                        <br>2. Click <strong>File &gt; New &gt; Dynamic Web Project</strong>. Set the Target Runtime to <strong>Apache Tomcat v9.0 / v10.1</strong>.
+                        <br>3. Create a folder named <code>shirt_app</code> inside the project's <code>src/main/webapp/</code> or web root folder, and place <code>shirt_purchase.jsp</code> in it.
+                        <br>4. Open the **Servers** tab (Window &gt; Show View &gt; Servers) &gt; right-click in it &gt; select <strong>New &gt; Server</strong> &gt; map to your local Apache Tomcat folder.
+                        <br>5. Right-click <code>shirt_purchase.jsp</code> &gt; select <strong>Run As &gt; Run on Server</strong>.
+                    </p>
                 </div>
             </div>
         </div>
@@ -856,6 +1160,53 @@ public class PayrollSystem {
     }
 }</pre>
                     </div>
+                </div>
+
+                <!-- ECLIPSE STYLED CONSOLE -->
+                <div class="eclipse-console">
+                    <div class="eclipse-console-header">
+                        <div class="console-title-wrap">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
+                            <span>Console (Eclipse Workspace)</span>
+                        </div>
+                        <div class="console-btn-group">
+                            <button class="console-tab-btn active" onclick="switchConsoleTab(this, 'ex1-tc1')">Happy Path (Standard Run)</button>
+                            <button class="console-tab-btn" onclick="switchConsoleTab(this, 'ex1-tc2')">Alternative Scenarios</button>
+                        </div>
+                    </div>
+                    
+                    <div class="eclipse-console-body active" id="ex1-tc1">
+<div class="console-meta-info">&lt;terminated&gt; Company.PayrollSystem [Java Application] C:\Program Files\Java\jdk-21\bin\javaw.exe</div>==================================================
+     MSRIT COMPANY PAYROLL SYSTEM (IS48 EX-1)      
+==================================================
+Name: Evangeline D
+Age: 35
+Designation: Senior Developer
+Calculated Payable Salary: INR 95000.0
+--------------------------------------------------
+Name: Ananth Akshay
+Age: 21
+Designation: Technical Writer
+Calculated Payable Salary: INR 18000.0
+--------------------------------------------------
+Name: Jane Doe
+Age: 22
+Designation: Java Intern
+Calculated Payable Salary: INR 25000.0
+--------------------------------------------------</div>
+                    
+                    <div class="eclipse-console-body" id="ex1-tc2">
+<div class="console-meta-info">&lt;terminated&gt; Company.PayrollSystem [Java Application] C:\Program Files\Java\jdk-21\bin\javaw.exe</div>[Scenario: Creating employees with zero hours or stipends]
+Name: Muted Worker
+Age: 40
+Designation: Hourly Assistant
+Calculated Payable Salary: INR 0.0
+--------------------------------------------------
+Name: Volunteer
+Age: 19
+Designation: Unpaid Intern
+Calculated Payable Salary: INR 0.0
+--------------------------------------------------</div>
                 </div>
 
                 <div class="viva-card">
@@ -1026,6 +1377,140 @@ public class QueueDemo {
                     </div>
                 </div>
 
+                <!-- ECLIPSE STYLED CONSOLE -->
+                <div class="eclipse-console">
+                    <div class="eclipse-console-header">
+                        <div class="console-title-wrap">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
+                            <span>Console (Eclipse Workspace)</span>
+                        </div>
+                        <div class="console-btn-group">
+                            <button class="console-tab-btn active" onclick="switchConsoleTab(this, 'ex2-tc1')">Happy Path (Successful ops)</button>
+                            <button class="console-tab-btn" onclick="switchConsoleTab(this, 'ex2-tc2')">Queue Overflow Error</button>
+                            <button class="console-tab-btn" onclick="switchConsoleTab(this, 'ex2-tc3')">Queue Underflow Error</button>
+                        </div>
+                    </div>
+                    
+                    <div class="eclipse-console-body active" id="ex2-tc1">
+<div class="console-meta-info">&lt;terminated&gt; queue.QueueDemo [Java Application] C:\Program Files\Java\jdk-21\bin\javaw.exe</div>==================================================
+     CUSTOM JAVA QUEUE INTERACTION (IS48 EX-2)    
+==================================================
+Enter Queue Capacity: 3
+
+--- Queue Operations Menu ---
+1. Enqueue (Insert)
+2. Dequeue (Delete)
+3. Display Queue
+4. Exit
+Select an option (1-4): 1
+Enter integer value to enqueue: 10
+Enqueued: 10
+
+--- Queue Operations Menu ---
+1. Enqueue (Insert)
+2. Dequeue (Delete)
+3. Display Queue
+4. Exit
+Select an option (1-4): 1
+Enter integer value to enqueue: 20
+Enqueued: 20
+
+--- Queue Operations Menu ---
+1. Enqueue (Insert)
+2. Dequeue (Delete)
+3. Display Queue
+4. Exit
+Select an option (1-4): 3
+Queue contents (Front to Rear): 10 20 
+
+--- Queue Operations Menu ---
+1. Enqueue (Insert)
+2. Dequeue (Delete)
+3. Display Queue
+4. Exit
+Select an option (1-4): 2
+Dequeued: 10
+
+--- Queue Operations Menu ---
+1. Enqueue (Insert)
+2. Dequeue (Delete)
+3. Display Queue
+4. Exit
+Select an option (1-4): 3
+Queue contents (Front to Rear): 20 
+
+--- Queue Operations Menu ---
+1. Enqueue (Insert)
+2. Dequeue (Delete)
+3. Display Queue
+4. Exit
+Select an option (1-4): 4
+Exiting Queue Demonstration. Goodbye!</div>
+                    
+                    <div class="eclipse-console-body" id="ex2-tc2">
+<div class="console-meta-info">&lt;terminated&gt; queue.QueueDemo [Java Application] C:\Program Files\Java\jdk-21\bin\javaw.exe</div>==================================================
+     CUSTOM JAVA QUEUE INTERACTION (IS48 EX-2)    
+==================================================
+Enter Queue Capacity: 2
+
+--- Queue Operations Menu ---
+1. Enqueue (Insert)
+2. Dequeue (Delete)
+3. Display Queue
+4. Exit
+Select an option (1-4): 1
+Enter integer value to enqueue: 100
+Enqueued: 100
+
+--- Queue Operations Menu ---
+1. Enqueue (Insert)
+2. Dequeue (Delete)
+3. Display Queue
+4. Exit
+Select an option (1-4): 1
+Enter integer value to enqueue: 200
+Enqueued: 200
+
+--- Queue Operations Menu ---
+1. Enqueue (Insert)
+2. Dequeue (Delete)
+3. Display Queue
+4. Exit
+Select an option (1-4): 1
+Enter integer value to enqueue: 300
+❌ ERROR: Queue Overflow! Cannot enqueue 300. Maximum capacity is 2.
+
+--- Queue Operations Menu ---
+1. Enqueue (Insert)
+2. Dequeue (Delete)
+3. Display Queue
+4. Exit
+Select an option (1-4): 3
+Queue contents (Front to Rear): 100 200 </div>
+
+                    <div class="eclipse-console-body" id="ex2-tc3">
+<div class="console-meta-info">&lt;terminated&gt; queue.QueueDemo [Java Application] C:\Program Files\Java\jdk-21\bin\javaw.exe</div>==================================================
+     CUSTOM JAVA QUEUE INTERACTION (IS48 EX-2)    
+==================================================
+Enter Queue Capacity: 3
+
+--- Queue Operations Menu ---
+1. Enqueue (Insert)
+2. Dequeue (Delete)
+3. Display Queue
+4. Exit
+Select an option (1-4): 2
+❌ ERROR: Queue Underflow! Cannot dequeue from an empty queue.
+
+--- Queue Operations Menu ---
+1. Enqueue (Insert)
+2. Dequeue (Delete)
+3. Display Queue
+4. Exit
+Select an option (1-4): 3
+Queue is empty.</div>
+                </div>
+
                 <div class="viva-card">
                     <div class="viva-title"><svg viewBox="0 0 24 24" style="width:20px; height:20px; fill:none; stroke:currentColor; stroke-width:2;"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>Solved Viva Questions</div>
                     <div class="viva-notes-wrap">
@@ -1187,6 +1672,62 @@ public class StringApp {
                     </div>
                 </div>
 
+                <!-- ECLIPSE STYLED CONSOLE -->
+                <div class="eclipse-console">
+                    <div class="eclipse-console-header">
+                        <div class="console-title-wrap">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
+                            <span>Console (Eclipse Workspace)</span>
+                        </div>
+                        <div class="console-btn-group">
+                            <button class="console-tab-btn active" onclick="switchConsoleTab(this, 'ex3-tc1')">Happy Path (Standard Text)</button>
+                            <button class="console-tab-btn" onclick="switchConsoleTab(this, 'ex3-tc2')">Palindrome Input</button>
+                        </div>
+                    </div>
+                    
+                    <div class="eclipse-console-body active" id="ex3-tc1">
+<div class="console-meta-info">&lt;terminated&gt; application.StringApp [Java Application] C:\Program Files\Java\jdk-21\bin\javaw.exe</div>==================================================
+     MODULAR STRING PROCESSOR SUITE (IS48 EX-3)   
+==================================================
+Enter a main string to process: Ananth Akshay
+Enter an additional string for concatenation:  MSRIT
+Enter a character to replace in the main string: A
+Enter the replacement character: X
+
+----------------- TEST RESULTS -----------------
+1. Original String  : "Ananth Akshay"
+2. Reversed String  : "yahskA htnanA"
+3. Uppercase conversion: "ANANTH AKSHAY"
+4. Lowercase conversion: "ananth akshay"
+5. Concatenated result : "Ananth Akshay MSRIT"
+6. Vowel Count      : 4
+7. Word Count       : 2
+8. Is Palindrome?   : false
+9. Char Replacement : "Xnanth Xkshay"
+--------------------------------------------------</div>
+                    
+                    <div class="eclipse-console-body" id="ex3-tc2">
+<div class="console-meta-info">&lt;terminated&gt; application.StringApp [Java Application] C:\Program Files\Java\jdk-21\bin\javaw.exe</div>==================================================
+     MODULAR STRING PROCESSOR SUITE (IS48 EX-3)   
+==================================================
+Enter a main string to process: Radar
+Enter an additional string for concatenation:  Online
+Enter a character to replace in the main string: a
+Enter the replacement character: o
+
+----------------- TEST RESULTS -----------------
+1. Original String  : "Radar"
+2. Reversed String  : "radaR"
+3. Uppercase conversion: "RADAR"
+4. Lowercase conversion: "radar"
+5. Concatenated result : "Radar Online"
+6. Vowel Count      : 2
+7. Word Count       : 1
+8. Is Palindrome?   : true
+9. Char Replacement : "Rodor"
+--------------------------------------------------</div>
+                </div>
+
                 <div class="viva-card">
                     <div class="viva-title"><svg viewBox="0 0 24 24" style="width:20px; height:20px; fill:none; stroke:currentColor; stroke-width:2;"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>Solved Viva Questions</div>
                     <div class="viva-notes-wrap">
@@ -1304,6 +1845,49 @@ public class PalindromeChecker {
                     </div>
                 </div>
 
+                <!-- ECLIPSE STYLED CONSOLE -->
+                <div class="eclipse-console">
+                    <div class="eclipse-console-header">
+                        <div class="console-title-wrap">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
+                            <span>Console (Eclipse Workspace)</span>
+                        </div>
+                        <div class="console-btn-group">
+                            <button class="console-tab-btn active" onclick="switchConsoleTab(this, 'ex4-tc1')">Happy Path (Palindrome)</button>
+                            <button class="console-tab-btn" onclick="switchConsoleTab(this, 'ex4-tc2')">Invalid Characters Error</button>
+                            <button class="console-tab-btn" onclick="switchConsoleTab(this, 'ex4-tc3')">Short String Error</button>
+                        </div>
+                    </div>
+                    
+                    <div class="eclipse-console-body active" id="ex4-tc1">
+<div class="console-meta-info">&lt;terminated&gt; palindrome.PalindromeChecker [Java Application] C:\Program Files\Java\jdk-21\bin\javaw.exe</div>==================================================
+     ROBUST JAVA PALINDROME CHECKER (IS48 EX-4)   
+==================================================
+Enter string to verify: Madam
+
+---------------- PROCESS DETAILS ----------------
+Sanitized Text: "madam"
+Reversed Text : "madam"
+✅ Result: The string "Madam" IS a Palindrome!
+-------------------------------------------------</div>
+                    
+                    <div class="eclipse-console-body" id="ex4-tc2">
+<div class="console-meta-info">&lt;terminated&gt; palindrome.PalindromeChecker [Java Application] C:\Program Files\Java\jdk-21\bin\javaw.exe</div>==================================================
+     ROBUST JAVA PALINDROME CHECKER (IS48 EX-4)   
+==================================================
+Enter string to verify: r4d4r
+❌ InvalidInputException: Input contains invalid character '4'. Alphabetical letters only!
+-------------------------------------------------</div>
+
+                    <div class="eclipse-console-body" id="ex4-tc3">
+<div class="console-meta-info">&lt;terminated&gt; palindrome.PalindromeChecker [Java Application] C:\Program Files\Java\jdk-21\bin\javaw.exe</div>==================================================
+     ROBUST JAVA PALINDROME CHECKER (IS48 EX-4)   
+==================================================
+Enter string to verify: ok
+❌ ShortStringException: String length is 2. It must be at least 3 characters long.
+-------------------------------------------------</div>
+                </div>
+
                 <div class="viva-card">
                     <div class="viva-title"><svg viewBox="0 0 24 24" style="width:20px; height:20px; fill:none; stroke:currentColor; stroke-width:2;"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>Solved Viva Questions</div>
                     <div class="viva-notes-wrap">
@@ -1412,6 +1996,58 @@ public class PasswordSecurityApp {
     }
 }</pre>
                     </div>
+                </div>
+
+                <!-- ECLIPSE STYLED CONSOLE -->
+                <div class="eclipse-console">
+                    <div class="eclipse-console-header">
+                        <div class="console-title-wrap">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
+                            <span>Console (Eclipse Workspace)</span>
+                        </div>
+                        <div class="console-btn-group">
+                            <button class="console-tab-btn active" onclick="switchConsoleTab(this, 'ex5-tc1')">Happy Path (Strong Password)</button>
+                            <button class="console-tab-btn" onclick="switchConsoleTab(this, 'ex5-tc2')">Weak Password Scenario</button>
+                        </div>
+                    </div>
+                    
+                    <div class="eclipse-console-body active" id="ex5-tc1">
+<div class="console-meta-info">&lt;terminated&gt; password.PasswordSecurityApp [Java Application] C:\Program Files\Java\jdk-21\bin\javaw.exe</div>=================================================
+     PASSWORD SECURITY APPLICATION (IS48 EX-5)    
+=================================================
+Enter a password to evaluate: JavaP@ss123
+
+---------------- SECURITY ANALYSIS --------------
+• Complexity Validation:
+  - Contains Uppercase? : YES (Pass)
+  - Contains Lowercase? : YES (Pass)
+  - Contains Digit?      : YES (Pass)
+  - Overall Strength   : STRONG
+• Count of Special Characters: 1
+• Masked Security Preview   : J*********3
+• Reversed Password Trace   : 321ss@PavaJ
+• Appended Security Token   : JavaP@ss123@123!
+• Scrambled Vowel Variant    : J#v#P@ss123
+-------------------------------------------------</div>
+                    
+                    <div class="eclipse-console-body" id="ex5-tc2">
+<div class="console-meta-info">&lt;terminated&gt; password.PasswordSecurityApp [Java Application] C:\Program Files\Java\jdk-21\bin\javaw.exe</div>=================================================
+     PASSWORD SECURITY APPLICATION (IS48 EX-5)    
+=================================================
+Enter a password to evaluate: abcd
+
+---------------- SECURITY ANALYSIS --------------
+• Complexity Validation:
+  - Contains Uppercase? : NO (Fail)
+  - Contains Lowercase? : YES (Pass)
+  - Contains Digit?      : NO (Fail)
+  - Overall Strength   : WEAK
+• Count of Special Characters: 0
+• Masked Security Preview   : a**d
+• Reversed Password Trace   : dcba
+• Appended Security Token   : abcd@123!
+• Scrambled Vowel Variant    : #bcd
+-------------------------------------------------</div>
                 </div>
 
                 <div class="viva-card">
@@ -1581,6 +2217,65 @@ public class MissedCallRecorder {
     }
 }</pre>
                     </div>
+                </div>
+
+                <!-- ECLIPSE STYLED CONSOLE -->
+                <div class="eclipse-console">
+                    <div class="eclipse-console-header">
+                        <div class="console-title-wrap">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
+                            <span>Console (Eclipse Workspace)</span>
+                        </div>
+                        <div class="console-btn-group">
+                            <button class="console-tab-btn active" onclick="switchConsoleTab(this, 'ex6-tc1')">Happy Path (FIFO Eviction)</button>
+                            <button class="console-tab-btn" onclick="switchConsoleTab(this, 'ex6-tc2')">Interactive Menu Deletions</button>
+                        </div>
+                    </div>
+                    
+                    <div class="eclipse-console-body active" id="ex6-tc1">
+<div class="console-meta-info">&lt;terminated&gt; missedcalls.MissedCallRecorder [Java Application] C:\Program Files\Java\jdk-21\bin\javaw.exe</div>==================================================
+     TELEPHONE CALL RECORDER ENGINE (IS48 EX-6)   
+==================================================
+Simulating incoming calls...
+📞 LOG: Incoming missed call from [9876543210] Evangeline D
+📞 LOG: Incoming missed call from [9988776655] Ananth Akshay
+📞 LOG: Incoming missed call from [8877665544] Private Caller
+⚠️ WARNING: Missed Call buffer FULL (max 3). Oldest call [9876543210] evicted!
+📞 LOG: Incoming missed call from [7766554433] John Watson
+
+--- MISSED CALLS SIMULATION COMPLETE ---
+Active Missed Calls in Logger (Max 3):
+1. Number: 9988776655 | Name: Ananth Akshay | Time: 2026-05-31 16:10:14
+2. Number: 8877665544 | Name: Private Caller | Time: 2026-05-31 16:10:15
+3. Number: 7766554433 | Name: John Watson    | Time: 2026-05-31 16:10:17
+--------------------------------------------------</div>
+                    
+                    <div class="eclipse-console-body" id="ex6-tc2">
+<div class="console-meta-info">&lt;terminated&gt; missedcalls.MissedCallRecorder [Java Application] C:\Program Files\Java\jdk-21\bin\javaw.exe</div>====== MISSED CALLS INTERACTIVE CONSOLE MENU ======
+1. Display Missed Calls
+2. Delete Missed Call by Index
+3. Clear All Missed Calls
+4. Exit menu
+Select option (1-4): 1
+
+--- Current Missed Call Records (Oldest to Newest) ---
+[1] Number: 9988776655 | Name: Ananth Akshay | Time: 2026-05-31 16:10:14
+[2] Number: 8877665544 | Name: Private Caller | Time: 2026-05-31 16:10:15
+[3] Number: 7766554433 | Name: John Watson    | Time: 2026-05-31 16:10:17
+
+Select option (1-4): 2
+Enter index to delete: 2
+✅ Missed call at index 2 (Number: 8877665544) successfully removed!
+
+Select option (1-4): 1
+
+--- Current Missed Call Records (Oldest to Newest) ---
+[1] Number: 9988776655 | Name: Ananth Akshay | Time: 2026-05-31 16:10:14
+[2] Number: 7766554433 | Name: John Watson    | Time: 2026-05-31 16:10:17
+
+Select option (1-4): 4
+Exiting menu...
+--------------------------------------------------</div>
                 </div>
 
                 <div class="viva-card">
@@ -1766,6 +2461,72 @@ public class BookDatabase {
                     </div>
                 </div>
 
+                <!-- ECLIPSE STYLED CONSOLE -->
+                <div class="eclipse-console">
+                    <div class="eclipse-console-header">
+                        <div class="console-title-wrap">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
+                            <span>Console (Eclipse Workspace)</span>
+                        </div>
+                        <div class="console-btn-group">
+                            <button class="console-tab-btn active" onclick="switchConsoleTab(this, 'ex7-tc1')">Happy Path (Ascending Price Sort)</button>
+                            <button class="console-tab-btn" onclick="switchConsoleTab(this, 'ex7-tc2')">Filtered Queries</button>
+                        </div>
+                    </div>
+                    
+                    <div class="eclipse-console-body active" id="ex7-tc1">
+<div class="console-meta-info">&lt;terminated&gt; books.BookDatabase [Java Application] C:\Program Files\Java\jdk-21\bin\javaw.exe</div>==================================================
+     MSRIT BOOK DATABASE MANAGER (IS48 EX-7)      
+==================================================
+
+--- Book Database Operations Menu ---
+1. Display All Books
+2. Sort Books by Price (Ascending)
+3. Search Books by Author
+4. Filter Books by Minimum Price
+5. Exit
+Select an option (1-5): 2
+
+Sorting books in ascending order of price...
+✅ Sort Complete!
+
+--- Sorted Books List (Cheapest to Most Expensive) ---
+• ID: 102 | Title: "Effective Java" | Author: "Joshua Bloch" | Publisher: "Addison-Wesley" | Price: INR 599.00
+• ID: 104 | Title: "Head First Java" | Author: "Kathy Sierra" | Publisher: "O'Reilly Media" | Price: INR 649.00
+• ID: 101 | Title: "Java: The Complete Reference" | Author: "Herbert Schildt" | Publisher: "McGraw Hill" | Price: INR 850.00
+• ID: 103 | Title: "Java Concurrency in Practice" | Author: "Brian Goetz" | Publisher: "Addison-Wesley" | Price: INR 899.00
+------------------------------------------------------</div>
+                    
+                    <div class="eclipse-console-body" id="ex7-tc2">
+<div class="console-meta-info">&lt;terminated&gt; books.BookDatabase [Java Application] C:\Program Files\Java\jdk-21\bin\javaw.exe</div>==================================================
+     MSRIT BOOK DATABASE MANAGER (IS48 EX-7)      
+==================================================
+
+--- Book Database Operations Menu ---
+1. Display All Books
+2. Sort Books by Price (Ascending)
+3. Search Books by Author
+4. Filter Books by Minimum Price
+5. Exit
+Select an option (1-5): 3
+Enter author name to search: Herbert Schildt
+
+--- Books written by: Herbert Schildt ---
+• ID: 101 | Title: "Java: The Complete Reference" | Author: "Herbert Schildt" | Publisher: "McGraw Hill" | Price: INR 850.00
+------------------------------------------------------
+
+Select an option (1-5): 4
+Enter minimum price threshold: 700.0
+
+--- Books Priced Above INR 700.0 ---
+• ID: 101 | Title: "Java: The Complete Reference" | Author: "Herbert Schildt" | Publisher: "McGraw Hill" | Price: INR 850.00
+• ID: 103 | Title: "Java Concurrency in Practice" | Author: "Brian Goetz" | Publisher: "Addison-Wesley" | Price: INR 899.00
+------------------------------------------------------
+
+Select an option (1-5): 5
+Exiting Book Database. Goodbye!</div>
+                </div>
+
                 <div class="viva-card">
                     <div class="viva-title"><svg viewBox="0 0 24 24" style="width:20px; height:20px; fill:none; stroke:currentColor; stroke-width:2;"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>Solved Viva Questions</div>
                     <div class="viva-notes-wrap">
@@ -1896,6 +2657,65 @@ public class GenericStackDemo {
     }
 }</pre>
                     </div>
+                </div>
+
+                <!-- ECLIPSE STYLED CONSOLE -->
+                <div class="eclipse-console">
+                    <div class="eclipse-console-header">
+                        <div class="console-title-wrap">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
+                            <span>Console (Eclipse Workspace)</span>
+                        </div>
+                        <div class="console-btn-group">
+                            <button class="console-tab-btn active" onclick="switchConsoleTab(this, 'ex8-tc1')">Happy Path (Strings &amp; Integers Stacks)</button>
+                            <button class="console-tab-btn" onclick="switchConsoleTab(this, 'ex8-tc2')">Stack Underflow Error</button>
+                        </div>
+                    </div>
+                    
+                    <div class="eclipse-console-body active" id="ex8-tc1">
+<div class="console-meta-info">&lt;terminated&gt; generics.GenericStackDemo [Java Application] C:\Program Files\Java\jdk-21\bin\javaw.exe</div>==================================================
+     TYPE-SAFE GENERIC JAVA STACK (IS48 EX-8)     
+==================================================
+
+--- Instantiating Stack of Strings ---
+Stack is empty.
+Pushed: Evangeline D
+Pushed: Ananth Akshay
+Pushed: MSRIT Bangalore
+Stack elements (Bottom to Top): Evangeline D -> Ananth Akshay -> MSRIT Bangalore -> [TOP]
+Popped: MSRIT Bangalore
+Stack elements (Bottom to Top): Evangeline D -> Ananth Akshay -> [TOP]
+Is string stack empty? false
+Stack cleared.
+Stack is empty.
+
+--- Instantiating Stack of Integers ---
+Stack is empty.
+Pushed: 100
+Pushed: 200
+Pushed: 300
+Stack elements (Bottom to Top): 100 -> 200 -> 300 -> [TOP]
+Popped: 300
+Popped: 200
+Stack elements (Bottom to Top): 100 -> [TOP]
+Is integer stack empty? false</div>
+                    
+                    <div class="eclipse-console-body" id="ex8-tc2">
+<div class="console-meta-info">&lt;terminated&gt; generics.GenericStackDemo [Java Application] C:\Program Files\Java\jdk-21\bin\javaw.exe</div>==================================================
+     TYPE-SAFE GENERIC JAVA STACK (IS48 EX-8)     
+==================================================
+
+--- Instantiating Stack of Integers ---
+Stack is empty.
+Pushed: 100
+Pushed: 200
+Pushed: 300
+Stack elements (Bottom to Top): 100 -> 200 -> 300 -> [TOP]
+Popped: 300
+Popped: 200
+Popped: 100
+❌ Stack Underflow! Cannot pop from empty stack.
+Stack is empty.</div>
                 </div>
 
                 <div class="viva-card">
@@ -2206,6 +3026,58 @@ public class StudentSwingApp extends JFrame {
     }
 }</pre>
                     </div>
+                </div>
+
+                <!-- ECLIPSE STYLED CONSOLE -->
+                <div class="eclipse-console">
+                    <div class="eclipse-console-header">
+                        <div class="console-title-wrap">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
+                            <span>Console (Eclipse Workspace)</span>
+                        </div>
+                        <div class="console-btn-group">
+                            <button class="console-tab-btn active" onclick="switchConsoleTab(this, 'ex9-tc1')">Happy Path (Successful Register)</button>
+                            <button class="console-tab-btn" onclick="switchConsoleTab(this, 'ex9-tc2')">Validation Error (Out of Bounds SGPA)</button>
+                        </div>
+                    </div>
+                    
+                    <div class="eclipse-console-body active" id="ex9-tc1">
+<div class="console-meta-info">&lt;terminated&gt; studentui.StudentSwingApp [Java Application] C:\Program Files\Java\jdk-21\bin\javaw.exe</div>[Action: Admin fills details inside GUI fields]
+- Name: Akshay A
+- USN: 1MS22IS001
+- Age: 20
+- Address: Bangalore
+- SGPA Sem 1-4: 9.2, 9.5, 9.0, 9.4
+- Category: General
+
+[Event: User clicks "Compute CGPA"]
+- POPUP DIALOG: "Calculated Average CGPA of 4 semesters: 9.28" (Status: OK)
+- Action: "Done (Save Record)" button enabled.
+
+[Event: User clicks "Done (Save Record)"]
+- POPUP DIALOG: "Student record successfully added to local collection!" (Status: OK)
+- Action: Form cleared, record stored.
+
+[Event: User clicks "Complete (Show List)"]
+--- MSRIT REGISTERED STUDENTS LIST ---
+USN: 1MS22IS001 | Name: Akshay A       | Age: 20 | Address: Bangalore  | CGPA: 9.28 | Category: General
+--------------------------------------------------</div>
+                    
+                    <div class="eclipse-console-body" id="ex9-tc2">
+<div class="console-meta-info">&lt;terminated&gt; studentui.StudentSwingApp [Java Application] C:\Program Files\Java\jdk-21\bin\javaw.exe</div>[Action: Admin fills invalid details inside GUI fields]
+- Name: Akshay A
+- USN: 1MS22IS001
+- Age: 20
+- Address: Bangalore
+- SGPA Sem 1: 9.2
+- SGPA Sem 2: 9.5
+- SGPA Sem 3: 11.5 [INVALID]
+- SGPA Sem 4: 9.4
+
+[Event: User clicks "Compute CGPA"]
+- POPUP DIALOG: "❌ Validation Error: SGPA for Sem 3 must be between 0.0 and 10.0!" (Status: OK)
+- Action: Button "Done (Save Record)" remains disabled. Record not saved.
+--------------------------------------------------</div>
                 </div>
 
                 <div class="viva-card">
@@ -2521,6 +3393,67 @@ public class CustomerPurchaseApp extends JFrame {
                     </div>
                 </div>
 
+                <!-- ECLIPSE STYLED CONSOLE -->
+                <div class="eclipse-console">
+                    <div class="eclipse-console-header">
+                        <div class="console-title-wrap">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
+                            <span>Console (Eclipse Workspace)</span>
+                        </div>
+                        <div class="console-btn-group">
+                            <button class="console-tab-btn active" onclick="switchConsoleTab(this, 'ex10-tc1')">Happy Path (Successful Purchase)</button>
+                            <button class="console-tab-btn" onclick="switchConsoleTab(this, 'ex10-tc2')">Authentication Denied</button>
+                        </div>
+                    </div>
+                    
+                    <div class="eclipse-console-body active" id="ex10-tc1">
+<div class="console-meta-info">&lt;terminated&gt; customerui.CustomerPurchaseApp [Java Application] C:\Program Files\Java\jdk-21\bin\javaw.exe</div>[Action: Secure Login Prompt displays on startup]
+- Username input: admin
+- Password input: is48
+- POPUP DIALOG: "Login Successful! Welcome to the Terminal." (Status: OK)
+- Action: Main purchase terminal displays.
+
+[Action: Clerk fills customer details]
+- Mobile No: 9876543210
+- Event: clicks "Lookup Mobile"
+- POPUP DIALOG: "New Customer Registered! Assigned Customer ID: CUST-01" (Status: OK)
+
+[Action: Clerk inputs purchase item details]
+- Item ID: ITEM-10
+- Quantity: 2
+- Event: clicks "Purchase Item"
+- Action: Grid updates. Item Name: "Formal Cotton Shirt", Total Cost: 2400.00.
+
+[Action: Clerk applies discount coupon]
+- Event: clicks "Show Discounts"
+- Coupon Selection: clicks "Festival Discount (10%)"
+- POPUP DIALOG: "Applied coupon! Calculated Discount: 10.0%" (Status: OK)
+- Action: Total Cost updates to 2160.00.
+
+[Action: Clerk prints invoice receipt]
+- Event: clicks "Print Receipt"
+- POPUP DIALOG receipt details:
+====================================
+      MSRIT CLOTHING OUTLET BILL    
+====================================
+Customer ID : CUST-01
+Mobile No   : 9876543210
+Item Name   : Formal Cotton Shirt
+Quantity    : 2
+Total Paid  : INR 2160.00
+====================================
+Thank you for shopping with us!
+--------------------------------------------------</div>
+                    
+                    <div class="eclipse-console-body" id="ex10-tc2">
+<div class="console-meta-info">&lt;terminated&gt; customerui.CustomerPurchaseApp [Java Application] C:\Program Files\Java\jdk-21\bin\javaw.exe</div>[Action: Secure Login Prompt displays on startup]
+- Username input: admin
+- Password input: wrong_password
+- POPUP DIALOG: "❌ Invalid Credentials! Access Denied." (Status: OK)
+- Action: Program terminates securely. Access block complete.
+--------------------------------------------------</div>
+                </div>
+
                 <div class="viva-card">
                     <div class="viva-title"><svg viewBox="0 0 24 24" style="width:20px; height:20px; fill:none; stroke:currentColor; stroke-width:2;"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>Solved Viva Questions</div>
                     <div class="viva-notes-wrap">
@@ -2834,6 +3767,61 @@ public class JDBCRepCustApp extends JFrame {
                     </div>
                 </div>
 
+                <!-- ECLIPSE STYLED CONSOLE -->
+                <div class="eclipse-console">
+                    <div class="eclipse-console-header">
+                        <div class="console-title-wrap">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
+                            <span>Console (Eclipse Workspace)</span>
+                        </div>
+                        <div class="console-btn-group">
+                            <button class="console-tab-btn active" onclick="switchConsoleTab(this, 'ex11-tc1')">Happy Path (Database Operations)</button>
+                            <button class="console-tab-btn" onclick="switchConsoleTab(this, 'ex11-tc2')">Database Connection Error</button>
+                        </div>
+                    </div>
+                    
+                    <div class="eclipse-console-body active" id="ex11-tc1">
+<div class="console-meta-info">&lt;terminated&gt; jdbcui.JDBCRepCustApp [Java Application] C:\Program Files\Java\jdk-21\bin\javaw.exe</div>[Action: Establishing Database Connection]
+- Loading driver Class.forName("com.mysql.cj.jdbc.Driver")... (Success)
+- Connecting to jdbc:mysql://localhost:3306/msrit_db... (Success)
+
+[Action: User registers Representative in Form 1]
+- RepNo: 101
+- RepName: Mrs. Evangeline D
+- State: Karnataka
+- Commission: 12000.00
+- Rate: 0.15
+- Event: clicks "Insert Representative"
+- POPUP DIALOG: "Representative 101 successfully registered in Database!" (Status: OK)
+
+[Action: User registers Customer in Form 1]
+- CustNo: 501
+- CustName: Ananth Akshay
+- State: Karnataka
+- Credit Limit: 25000.00
+- RepNo: 101
+- Event: clicks "Insert Customer"
+- POPUP DIALOG: "Customer 501 successfully registered in Database!" (Status: OK)
+
+[Action: User queries High Credit Representatives in Form 2]
+- Event: clicks "Query Representatives"
+- Output display panel updates:
+RepNo      | RepName              | State        | Commission   | Rate      
+----------------------------------------------------------------------------
+101        | Mrs. Evangeline D    | Karnataka    | 12000.00     | 0.15      
+
+Query finished. 1 records returned.
+--------------------------------------------------</div>
+                    
+                    <div class="eclipse-console-body" id="ex11-tc2">
+<div class="console-meta-info">&lt;terminated&gt; jdbcui.JDBCRepCustApp [Java Application] C:\Program Files\Java\jdk-21\bin\javaw.exe</div>[Action: Establishing Database Connection]
+- Loading driver Class.forName("com.mysql.cj.jdbc.Driver")... (Success)
+- Connecting to jdbc:mysql://localhost:3306/msrit_db...
+- ❌ SQLException: Access denied for user 'root'@'localhost' (using password: YES)
+- POPUP DIALOG: "❌ Database Error: Connection could not be established. Please check MySQL server credentials." (Status: OK)
+--------------------------------------------------</div>
+                </div>
+
                 <div class="viva-card">
                     <div class="viva-title"><svg viewBox="0 0 24 24" style="width:20px; height:20px; fill:none; stroke:currentColor; stroke-width:2;"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>Solved Viva Questions</div>
                     <div class="viva-notes-wrap">
@@ -2985,6 +3973,53 @@ public class JDBCRepCustApp extends JFrame {
                     </div>
                 </div>
 
+                <!-- ECLIPSE STYLED CONSOLE -->
+                <div class="eclipse-console">
+                    <div class="eclipse-console-header">
+                        <div class="console-title-wrap">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
+                            <span>Console (Eclipse Workspace)</span>
+                        </div>
+                        <div class="console-btn-group">
+                            <button class="console-tab-btn active" onclick="switchConsoleTab(this, 'ex12-tc1')">Happy Path (Successful Invoice)</button>
+                            <button class="console-tab-btn" onclick="switchConsoleTab(this, 'ex12-tc2')">Quantity Parsing Error</button>
+                        </div>
+                    </div>
+                    
+                    <div class="eclipse-console-body active" id="ex12-tc1">
+<div class="console-meta-info">&lt;terminated&gt; shirt_purchase.jsp [Tomcat Web Engine] C:\apache-tomcat-9.0\bin\catalina.bat</div>[Request: HTTP POST parameters parsed dynamically]
+- shirtType : Formal Cotton
+- neckType  : Collar
+- quantity  : 3
+
+[Scriptlet Evaluation: Server computes billing totals]
+- unitPrice determined: INR 1200.00
+- totalCost evaluated : 1200.00 * 3 = INR 3600.00
+
+[Response Output: Dynamic invoice component renders on browser]
+🛒 Purchase Invoice Summary
+- Shirt Type Selection: Formal Cotton
+- Neck Cut Styling: Collar
+- Unit Base Price: INR 1200.00
+- Quantity Purchased: 3 units
+- Total Billing Cost: INR 3600.00
+--------------------------------------------------</div>
+                    
+                    <div class="eclipse-console-body" id="ex12-tc2">
+<div class="console-meta-info">&lt;terminated&gt; shirt_purchase.jsp [Tomcat Web Engine] C:\apache-tomcat-9.0\bin\catalina.bat</div>[Request: HTTP POST parameters parsed dynamically]
+- shirtType : Formal Cotton
+- neckType  : Collar
+- quantity  : -5 [INVALID]
+
+[Scriptlet Evaluation: Server catches parse exception]
+- NumberFormatException caught (quantity <= 0 or not an integer)
+
+[Response Output: Error banner renders on browser]
+❌ Processing Error
+- Invalid quantity entered! Quantity must be a positive integer greater than zero.
+--------------------------------------------------</div>
+                </div>
+
                 <div class="viva-card">
                     <div class="viva-title"><svg viewBox="0 0 24 24" style="width:20px; height:20px; fill:none; stroke:currentColor; stroke-width:2;"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>Solved Viva Questions</div>
                     <div class="viva-notes-wrap">
@@ -3003,7 +4038,7 @@ public class JDBCRepCustApp extends JFrame {
 
     </main>
 
-    <!-- JS FOR DYNAMIC NAVIGATION -->
+    <!-- JS FOR DYNAMIC NAVIGATION & ECLIPSE ACTIONS -->
     <script>
         function showSection(sectionId) {
             // Hide all sections
@@ -3028,35 +4063,204 @@ public class JDBCRepCustApp extends JFrame {
         }
 
         function switchTab(btn, contentId) {
-            // Find parent code-container
-            const container = btn.closest('.code-container');
+            // Find parent code-container (or eclipse-editor-code-pane)
+            const pane = btn.closest('.eclipse-editor-code-pane');
+            const wrapper = btn.closest('.eclipse-editor-wrapper');
             
-            // Deactivate all tabs in this container
-            container.querySelectorAll('.code-tab').forEach(t => {
-                t.classList.remove('active');
-            });
-            // Activate selected tab
-            btn.classList.add('active');
-
-            // Hide all content areas in this container
-            container.querySelectorAll('.code-content').forEach(c => {
+            // Hide all content areas in this pane
+            pane.querySelectorAll('.code-content').forEach(c => {
                 c.classList.remove('active');
             });
             // Show target content area
-            container.querySelector('#' + contentId).classList.add('active');
+            const activeContent = pane.querySelector('#' + contentId);
+            activeContent.classList.add('active');
+
+            // Find matching tab and activate it
+            // (the tab click handler already does this, but this is a fallback)
+        }
+
+        function switchConsoleTab(btn, bodyId) {
+            const consoleEl = btn.closest('.eclipse-console');
+            
+            // Deactivate all button siblings
+            consoleEl.querySelectorAll('.console-tab-btn').forEach(b => {
+                b.classList.remove('active');
+            });
+            // Activate clicked button
+            btn.classList.add('active');
+
+            // Hide all console body siblings
+            consoleEl.querySelectorAll('.eclipse-console-body').forEach(body => {
+                body.classList.remove('active');
+            });
+            // Show active console body
+            consoleEl.querySelector('#' + bodyId).classList.add('active');
         }
 
         function searchSidebar(q) {
             q = q.toLowerCase();
             document.querySelectorAll('.nav-menu .nav-item').forEach(btn => {
                 const text = btn.textContent.toLowerCase();
-                if (text.includes(q) || btn.id === 'btn-home') {
+                if (text.includes(q) || btn.id === 'btn-home' || btn.id === 'btn-eclipse') {
                     btn.style.display = 'flex';
                 } else {
                     btn.style.display = 'none';
                 }
             });
         }
+
+        /* LIGHTWEIGHT JAVA SYNTAX HIGHLIGHTER */
+        function highlightJava(code) {
+            // Escape HTML
+            let escaped = code
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;");
+
+            let placeholders = [];
+
+            // 1. Hide multi-line comments
+            escaped = escaped.replace(/\/\*[\s\S]*?\*\//g, function(match) {
+                placeholders.push('<span class="j-comment">' + match + '</span>');
+                return '___COMMENT_PLACEHOLDER_' + (placeholders.length - 1) + '___';
+            });
+
+            // 2. Hide single-line comments
+            escaped = escaped.replace(/\/\/.*/g, function(match) {
+                placeholders.push('<span class="j-comment">' + match + '</span>');
+                return '___COMMENT_PLACEHOLDER_' + (placeholders.length - 1) + '___';
+            });
+
+            // 3. Hide strings
+            escaped = escaped.replace(/"(\\.|[^"\\])*"/g, function(match) {
+                placeholders.push('<span class="j-string">' + match + '</span>');
+                return '___COMMENT_PLACEHOLDER_' + (placeholders.length - 1) + '___';
+            });
+
+            // 4. Hide characters
+            escaped = escaped.replace(/'(\\.|[^'\\])'/g, function(match) {
+                placeholders.push('<span class="j-string">' + match + '</span>');
+                return '___COMMENT_PLACEHOLDER_' + (placeholders.length - 1) + '___';
+            });
+
+            // 5. Annotations
+            escaped = escaped.replace(/@[A-Za-z0-9_]+/g, '<span class="j-annotation">$&</span>');
+
+            // 6. Keywords
+            const keywords = [
+                "package", "import", "public", "private", "protected", "class", "interface", 
+                "extends", "implements", "new", "return", "this", "super", "void", 
+                "double", "int", "boolean", "char", "float", "throw", "throws", "try", 
+                "catch", "finally", "if", "else", "while", "for", "switch", "case", 
+                "break", "continue", "default", "static", "final", "instanceof", "null",
+                "true", "false"
+            ];
+
+            keywords.forEach(function(kw) {
+                let regex = new RegExp('\\b' + kw + '\\b', 'g');
+                escaped = escaped.replace(regex, '<span class="j-keyword">' + kw + '</span>');
+            });
+
+            // 7. Restore strings & comments
+            for (let i = placeholders.length - 1; i >= 0; i--) {
+                escaped = escaped.replace('___COMMENT_PLACEHOLDER_' + i + '___', placeholders[i]);
+            }
+
+            return escaped;
+        }
+
+        // DYNAMICALLY BUILD ECLIPSE WORKSPACES ON DOM LOAD
+        document.addEventListener("DOMContentLoaded", () => {
+            // Highlight raw Java pre tags first
+            document.querySelectorAll('.code-container pre').forEach(pre => {
+                let rawCode = pre.textContent;
+                pre.innerHTML = highlightJava(rawCode);
+            });
+
+            // Restructure the containers into styled Eclipse Editor tabs
+            document.querySelectorAll('.code-container').forEach(container => {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'eclipse-editor-wrapper';
+
+                const header = document.createElement('div');
+                header.className = 'eclipse-editor-header';
+
+                const body = document.createElement('div');
+                body.className = 'eclipse-editor-body';
+
+                const gutter = document.createElement('div');
+                gutter.className = 'line-numbers-gutter';
+
+                const codePane = document.createElement('div');
+                codePane.className = 'eclipse-editor-code-pane';
+
+                // Move code blocks
+                const codeBlocks = Array.from(container.querySelectorAll('.code-content'));
+                codeBlocks.forEach(block => {
+                    codePane.appendChild(block);
+                });
+
+                // Generate tab buttons
+                const originalTabs = Array.from(container.querySelectorAll('.code-tab'));
+                originalTabs.forEach((origTab, idx) => {
+                    const tab = document.createElement('div');
+                    tab.className = 'eclipse-tab' + (origTab.classList.contains('active') ? ' active' : '');
+                    
+                    const tabText = origTab.textContent;
+                    const isInterface = tabText.toLowerCase().includes('interface') || tabText.toLowerCase().includes('payable') || tabText.toLowerCase().includes('manipulator');
+                    
+                    const iconChar = isInterface ? '🅸' : '🅲';
+                    const iconColor = isInterface ? 'var(--accent-cyan)' : 'var(--primary)';
+                    
+                    tab.innerHTML = `<span style="color:${iconColor}; font-weight:800; font-size:0.75rem; margin-right:2px;">${iconChar}</span> ${tabText} <span class="eclipse-tab-close">×</span>`;
+                    
+                    // Attach click behavior
+                    tab.onclick = () => {
+                        header.querySelectorAll('.eclipse-tab').forEach(t => t.classList.remove('active'));
+                        tab.classList.add('active');
+
+                        // Hide all sibling content panes
+                        codePane.querySelectorAll('.code-content').forEach(c => c.classList.remove('active'));
+                        
+                        // Show current matching block
+                        const targetBlock = codeBlocks[idx];
+                        targetBlock.classList.add('active');
+
+                        // Recalculate line numbers
+                        updateGutterNumbers(targetBlock, gutter);
+                    };
+
+                    header.appendChild(tab);
+                });
+
+                body.appendChild(gutter);
+                body.appendChild(codePane);
+
+                wrapper.appendChild(header);
+                wrapper.appendChild(body);
+
+                // Replace static markup
+                container.parentNode.replaceChild(wrapper, container);
+
+                // Initial line gutter computation
+                const activeBlock = codePane.querySelector('.code-content.active');
+                if (activeBlock) {
+                    updateGutterNumbers(activeBlock, gutter);
+                }
+            });
+        });
+
+        function updateGutterNumbers(contentBlock, gutterEl) {
+            const pre = contentBlock.querySelector('pre');
+            if (!pre) return;
+            const lines = pre.textContent.split('\n').length;
+            let gutterStr = '';
+            for (let i = 1; i <= lines; i++) {
+                gutterStr += i + '<br>';
+            }
+            gutterEl.innerHTML = gutterStr;
+        }
     </script>
+
 </body>
 </html>
