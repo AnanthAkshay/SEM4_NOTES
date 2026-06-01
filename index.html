@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="SEM4 COMPLETE - Integrated study portal for ISE Semester IV">
+  <title>SEM4 COMPLETE - ISE | Study Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to content</a>
+
+  <header class="site-header" id="top">
+    <nav class="nav container" aria-label="Main navigation">
+      <a href="#top" class="nav-brand">
+        <span class="nav-brand-icon" aria-hidden="true"><i class="fa-solid fa-graduation-cap"></i></span>
+        <span class="nav-brand-text">SEM4 COMPLETE<span class="nav-brand-sub"> - ISE</span></span>
+      </a>
+      <button type="button" class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navMenu" aria-label="Toggle menu">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="#top" class="nav-link">Home</a></li>
+        <li><a href="#subjects" class="nav-link">Subjects</a></li>
+        <li>
+          <a href="https://github.com/AnanthAkshay/SEM4_NOTES" class="nav-link nav-link-github" target="_blank" rel="noopener noreferrer">
+            <i class="fa-brands fa-github" aria-hidden="true"></i> GitHub
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-bg" aria-hidden="true"></div>
+      <div class="container hero-inner">
+        <p class="hero-eyebrow">Information Science &amp; Engineering · Semester IV</p>
+        <h1 id="hero-title" class="hero-title">SEM 4 COMPLETE STUDY PORTAL</h1>
+        <p class="hero-subtitle">
+          Integrated Study Material Repository for Information Science &amp; Engineering — Semester IV
+        </p>
+        <div class="hero-progress" aria-label="Overall study progress">
+          <div class="hero-progress-ring" id="globalProgressRing" data-progress="0">
+            <svg viewBox="0 0 120 120" role="img" aria-labelledby="progressLabel">
+              <title id="progressLabel">Overall progress</title>
+              <defs>
+                <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#3b82f6"/>
+                  <stop offset="100%" stop-color="#14b8a6"/>
+                </linearGradient>
+              </defs>
+              <circle class="ring-bg" cx="60" cy="60" r="52"></circle>
+              <circle class="ring-fill" cx="60" cy="60" r="52" id="globalProgressCircle"></circle>
+            </svg>
+            <span class="hero-progress-value" id="globalProgressText">0%</span>
+          </div>
+          <p class="hero-progress-caption"><span id="visitedCount">0</span> of 9 subjects opened</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="stats container" aria-label="Semester statistics">
+      <article class="stat-card glass">
+        <i class="fa-solid fa-book-open stat-icon" aria-hidden="true"></i>
+        <span class="stat-value">9</span>
+        <span class="stat-label">Subjects</span>
+      </article>
+      <article class="stat-card glass">
+        <i class="fa-solid fa-award stat-icon" aria-hidden="true"></i>
+        <span class="stat-value">20</span>
+        <span class="stat-label">Credits</span>
+      </article>
+    </section>
+
+    <section class="subjects-section container" id="subjects" aria-labelledby="subjects-heading">
+      <div class="section-header">
+        <h2 id="subjects-heading" class="section-title">Subject Repository</h2>
+        <p class="section-desc">Select a subject to open the full interactive notes book.</p>
+      </div>
+
+      <div class="toolbar">
+        <div class="search-wrap">
+          <i class="fa-solid fa-magnifying-glass search-icon" aria-hidden="true"></i>
+          <input
+            type="search"
+            id="searchInput"
+            class="search-input"
+            placeholder="Search subjects, topics, or labs…"
+            aria-label="Search subjects"
+            autocomplete="off"
+          >
+        </div>
+        <div class="filter-pills" role="group" aria-label="Filter by category">
+          <button type="button" class="filter-pill active" data-filter="all">All</button>
+          <button type="button" class="filter-pill" data-filter="theory">Theory</button>
+          <button type="button" class="filter-pill" data-filter="lab">Lab</button>
+          <button type="button" class="filter-pill" data-filter="mathematics">Mathematics</button>
+        </div>
+      </div>
+
+      <p class="search-empty hidden" id="searchEmpty" role="status">No subjects match your search.</p>
+
+      <div class="subject-grid" id="subjectGrid" role="list">
+        <!-- Cards injected by script.js -->
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <strong>SEM4 COMPLETE - ISE</strong>
+        <p>Information Science &amp; Engineering · Semester IV</p>
+      </div>
+      <button type="button" class="footer-reset" id="resetProgress">Reset progress</button>
+    </div>
+    <p class="footer-copy container">&copy; 2026 SEM4 Complete Study Portal. For academic use.</p>
+  </footer>
+
+  <!-- Exam timetables (PDFs at repo root) -->
+  <div class="timetable-fab-wrap">
+    <button
+      type="button"
+      class="timetable-fab"
+      id="timetableFab"
+      aria-expanded="false"
+      aria-controls="timetableMenu"
+      aria-label="View exam timetables"
+      title="Exam timetables"
+    >
+      <i class="fa-regular fa-calendar-check" aria-hidden="true"></i>
+      <span class="timetable-fab-label">Timetable</span>
+    </button>
+    <div class="timetable-menu glass hidden" id="timetableMenu" role="menu" aria-label="Exam timetable options">
+      <p class="timetable-menu-title">Exam timetables</p>
+      <button type="button" class="timetable-menu-item" data-pdf="Theory_exam_date.pdf" data-title="Theory / SEE Exam Timetable">
+        <i class="fa-solid fa-book" aria-hidden="true"></i>
+        <span>Theory / SEE timetable</span>
+      </button>
+      <button type="button" class="timetable-menu-item" data-pdf="4th Sem Practical Exam TT.pdf" data-title="Lab practical exam timetable">
+        <i class="fa-solid fa-flask" aria-hidden="true"></i>
+        <span>Lab practical timetable</span>
+      </button>
+      <a href="Theory_exam_date.pdf" target="_blank" rel="noopener noreferrer" class="timetable-menu-link">
+        <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i> Open theory PDF in new tab
+      </a>
+      <a href="4th%20Sem%20Practical%20Exam%20TT.pdf" target="_blank" rel="noopener noreferrer" class="timetable-menu-link">
+        <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i> Open lab PDF in new tab
+      </a>
+    </div>
+  </div>
+
+  <div class="timetable-modal hidden" id="timetableModal" role="dialog" aria-modal="true" aria-labelledby="timetableModalTitle">
+    <div class="timetable-modal-backdrop" id="timetableModalBackdrop"></div>
+    <div class="timetable-modal-box glass">
+      <header class="timetable-modal-header">
+        <h2 id="timetableModalTitle">Exam timetable</h2>
+        <button type="button" class="timetable-modal-close" id="timetableModalClose" aria-label="Close">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </header>
+      <iframe class="timetable-modal-iframe" id="timetableModalIframe" title="Exam timetable PDF"></iframe>
+    </div>
+  </div>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
