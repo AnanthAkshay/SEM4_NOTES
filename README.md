@@ -128,7 +128,7 @@ SEM4_NOTES/
 
 ## 👤 Author
 
-**Ananthakrishna Akshay**
+**Ananth Akshay**
 - GitHub: [@AnanthAkshay](https://github.com/AnanthAkshay)
 - Repo: [AnanthAkshay/SEM4_NOTES](https://github.com/AnanthAkshay/SEM4_NOTES)
 
