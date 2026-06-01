@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Design & Analysis of Algorithms — Premium Student Study Portal</title>
     
     <!-- Google Fonts -->
@@ -591,13 +591,25 @@
             }
         }
     </style>
+  <link rel="stylesheet" href="assets/css/variables.css">
+  <link rel="stylesheet" href="assets/css/portal.css">
+  <link rel="stylesheet" href="assets/css/maths-mobile.css">
+
 </head>
-<body>
+<body class="portal-enhanced portal-book" data-portal-base="">
+    <header class="mobile-header portal-mobile-header">
+        <div style="display:flex;align-items:center;gap:10px;">
+            <div class="sidebar-logo" style="width:32px;height:32px;font-size:1rem;border-radius:8px;">DA</div>
+            <h1 style="font-family:var(--font-display,Inter,sans-serif);font-size:1rem;font-weight:800;color:var(--text-primary,#f8fafc);line-height:1.1;">DAA Premium</h1>
+        </div>
+        <button type="button" class="btn-back-cover" id="mobile-back-btn" hidden onclick="portalGoHome()">
+            <svg viewBox="0 0 24 24" width="18" height="18"><path d="M19 12H5M12 19l-7-7 7-7" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+            Overview
+        </button>
+    </header>
 
-    <!-- Mobile Navigation Toggle -->
-    <button class="sidebar-toggle-master" id="sidebarToggleMaster" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰</button>
 
-    <!-- SIDEBAR NAVIGATION -->
+    <!-- SIDEBAR NAVIGATION (hidden — use dashboard cards) -->
     <div class="sidebar">
         <div class="sidebar-brand">
             <div class="sidebar-logo">DA</div>
@@ -654,7 +666,14 @@
     <!-- MAIN CENTRAL PORTAL CONTENT -->
     <div class="main-content">
 
-        <!-- ======================= SECTION: COURSE DASHBOARD (HOME) ======================= -->
+        
+        <div class="unit-nav-bar" id="unit-nav-bar" hidden>
+            <button type="button" class="btn-back-cover" onclick="portalGoHome()">
+                <svg viewBox="0 0 24 24" width="18" height="18"><path d="M19 12H5M12 19l-7-7 7-7" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+                Back to Course Overview
+            </button>
+        </div>
+<!-- ======================= SECTION: COURSE DASHBOARD (HOME) ======================= -->
         <div class="unit-section active" id="sec-home">
             <div class="cover-intro">
                 <h1>Design and Analysis of Algorithms</h1>
@@ -686,24 +705,33 @@
                         Course Syllabus Blueprint
                     </h3>
                 </div>
-                <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
-                    <div class="syllabus-item">
+                <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:16px;">Tap any card to open notes, numerics, or exam papers.</p>
+                <div class="portal-nav-grid" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px;">
+                    <div class="syllabus-item unit-nav-card portal-hub-card" role="button" tabindex="0" onclick="showSection('pyqs')" onkeydown="portalCardKey(event,'pyqs')">
+                        <div class="syllabus-title">CIE / SEE Papers Hub</div>
+                        <div class="syllabus-desc">Solved university exam papers.</div>
+                    </div>
+                    <div class="syllabus-item unit-nav-card portal-hub-card" role="button" tabindex="0" onclick="showSection('numerical')" onkeydown="portalCardKey(event,'numerical')">
+                        <div class="syllabus-title">Weekly Numerical Tests</div>
+                        <div class="syllabus-desc">Practice numerical solutions.</div>
+                    </div>
+                    <div class="syllabus-item unit-nav-card" role="button" tabindex="0" onclick="showSection('unit1')" onkeydown="portalCardKey(event,'unit1')">
                         <div class="syllabus-title">Unit 1: Foundations & Recurrences</div>
                         <div class="syllabus-desc">Algorithmic design steps, Asymptotic notations (O, Θ, Ω), recursive and non-recursive analysis, Tower of Hanoi recurrence, substitution method, recursion tree, Master Theorem, and probabilistic analysis.</div>
                     </div>
-                    <div class="syllabus-item">
+                    <div class="syllabus-item unit-nav-card" role="button" tabindex="0" onclick="showSection('unit2')" onkeydown="portalCardKey(event,'unit2')">
                         <div class="syllabus-title">Unit 2: Sorting, Medians & Pattern Matching</div>
                         <div class="syllabus-desc">Binary heap structures, HeapSort, Priority Queues, QuickSort tracing and tree of calls, Counting Sort, Radix Sort, Bucket Sort, Quick-Select, Median finding, and Horspool pattern matching.</div>
                     </div>
-                    <div class="syllabus-item">
+                    <div class="syllabus-item unit-nav-card" role="button" tabindex="0" onclick="showSection('unit3')" onkeydown="portalCardKey(event,'unit3')">
                         <div class="syllabus-title">Unit 3: Amortized Analysis & Advanced Heaps</div>
                         <div class="syllabus-desc">Amortized techniques (Aggregate, Accounting, Potential methods), Disjoint set union-find (Union by Rank & Path Compression), and Fibonacci Heaps structure, operations and graph applications.</div>
                     </div>
-                    <div class="syllabus-item">
+                    <div class="syllabus-item unit-nav-card" role="button" tabindex="0" onclick="showSection('unit4')" onkeydown="portalCardKey(event,'unit4')">
                         <div class="syllabus-title">Unit 4: Dynamic Programming & Greedy Algorithms</div>
                         <div class="syllabus-desc">Dynamic programming fundamentals, Matrix Chain Multiplication, Longest Common Subsequence, Optimal BST. Greedy techniques, Activity selection, Huffman coding, Kruskal and Prim MSTs, and Dijkstra's algorithm.</div>
                     </div>
-                    <div class="syllabus-item">
+                    <div class="syllabus-item unit-nav-card" role="button" tabindex="0" onclick="showSection('unit5')" onkeydown="portalCardKey(event,'unit5')">
                         <div class="syllabus-title">Unit 5: Graph Flows, Complexities & Shortest Paths</div>
                         <div class="syllabus-desc">BFS & DFS traversals, Topological sort, Strongly Connected Components (Kosaraju's), Bellman-Ford, Floyd-Warshall, Johnson's algorithm, Maximum flow (Ford-Fulkerson & Edmonds-Karp), P vs NP classes, and approximation algorithms.</div>
                     </div>
@@ -775,7 +803,8 @@
 
         <!-- ======================= SECTION: UNITS 1 - 5 GENERATOR ======================= -->
         <!-- UNIT 1 -->
-        <div class="unit-section" id="sec-unit1">
+        <span id="unit-1" class="portal-unit-anchor" aria-hidden="true"></span>
+        <div class="unit-section portal-unit-block" id="sec-unit1">
             <div class="hero-card">
                 <div class="hero-card-tag">Unit 1</div>
                 <h2>Foundations of Algorithms &amp; Divide-and-Conquer Recurrences</h2>
@@ -799,7 +828,8 @@
         </div>
 
         <!-- UNIT 2 -->
-        <div class="unit-section" id="sec-unit2">
+        <span id="unit-2" class="portal-unit-anchor" aria-hidden="true"></span>
+        <div class="unit-section portal-unit-block" id="sec-unit2">
             <div class="hero-card">
                 <div class="hero-card-tag">Unit 2</div>
                 <h2>Sorting, Medians &amp; Horspool Pattern Matching</h2>
@@ -822,7 +852,8 @@
         </div>
 
         <!-- UNIT 3 -->
-        <div class="unit-section" id="sec-unit3">
+        <span id="unit-3" class="portal-unit-anchor" aria-hidden="true"></span>
+        <div class="unit-section portal-unit-block" id="sec-unit3">
             <div class="hero-card">
                 <div class="hero-card-tag">Unit 3</div>
                 <h2>Amortized Analysis, Disjoint Sets &amp; Fibonacci Heaps</h2>
@@ -845,7 +876,8 @@
         </div>
 
         <!-- UNIT 4 -->
-        <div class="unit-section" id="sec-unit4">
+        <span id="unit-4" class="portal-unit-anchor" aria-hidden="true"></span>
+        <div class="unit-section portal-unit-block" id="sec-unit4">
             <div class="hero-card">
                 <div class="hero-card-tag">Unit 4</div>
                 <h2>Dynamic Programming, Greedy Design &amp; Shortest Paths</h2>
@@ -868,7 +900,8 @@
         </div>
 
         <!-- UNIT 5 -->
-        <div class="unit-section" id="sec-unit5">
+        <span id="unit-5" class="portal-unit-anchor" aria-hidden="true"></span>
+        <div class="unit-section portal-unit-block" id="sec-unit5">
             <div class="hero-card">
                 <div class="hero-card-tag">Unit 5</div>
                 <h2>Graph traversals, Network flows &amp; P vs NP Complexity</h2>
@@ -908,10 +941,9 @@
             });
             // Activate current item
             document.getElementById('btn-' + sectionId).classList.add('active');
-
+            if (typeof updatePortalBackBar === 'function') updatePortalBackBar(sectionId);
             // Close mobile sidebar if open
-            document.querySelector('.sidebar').classList.remove('open');
-        }
+            }
 
         function switchUnitSource(unitNum, sourceKey) {
             const sources = {
@@ -1018,5 +1050,9 @@
             }
         }
     </script>
+  <script src="assets/js/portal-core.js" defer></script>
+  <script src="assets/js/notes-enhancements.js" defer></script>
+  <script src="assets/js/book-navigation.js" defer></script>
+  <script src="assets/js/portal-back-nav.js"></script>
 </body>
 </html>

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Advanced Java Programming Lab — Premium Student Study Portal</title>
     
     <!-- Google Fonts -->
@@ -744,22 +744,26 @@
             margin-right: 8px;
         }
     </style>
+  <link rel="stylesheet" href="assets/css/variables.css">
+  <link rel="stylesheet" href="assets/css/portal.css">
+  <link rel="stylesheet" href="assets/css/maths-mobile.css">
+
 </head>
 
-<body>
-
-    <!-- MOBILE HEADER -->
-    <header class="mobile-header">
-        <div class="mobile-brand">
-            <div class="sidebar-logo" style="width:30px; height:30px; font-size:1rem; border-radius:6px;">☕</div>
-            <h2>Java Advanced Lab</h2>
+<body class="portal-enhanced portal-book" data-portal-base="">
+    <header class="mobile-header portal-mobile-header">
+        <div style="display:flex;align-items:center;gap:10px;">
+            <div class="sidebar-logo" style="width:32px;height:32px;font-size:1rem;border-radius:8px;">☕</div>
+            <h1 style="font-family:var(--font-display,Inter,sans-serif);font-size:1rem;font-weight:800;color:var(--text-primary,#f8fafc);line-height:1.1;">Java Advanced Lab</h1>
         </div>
-        <button class="hamburger" onclick="document.getElementById('sidebar').classList.toggle('open')">
-            <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"></path></svg>
+        <button type="button" class="btn-back-cover" id="mobile-back-btn" hidden onclick="portalGoHome()">
+            <svg viewBox="0 0 24 24" width="18" height="18"><path d="M19 12H5M12 19l-7-7 7-7" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+            Overview
         </button>
     </header>
 
-    <!-- SIDEBAR -->
+
+    <!-- SIDEBAR (hidden on mobile — use dashboard cards) -->
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-brand">
             <div class="sidebar-logo">☕</div>
@@ -846,7 +850,14 @@
     <!-- MAIN CENTRAL CONTENT PANEL -->
     <main class="main-content">
 
-        <!-- ======================= LAB DASHBOARD (HOME) ======================= -->
+        
+        <div class="unit-nav-bar" id="unit-nav-bar" hidden>
+            <button type="button" class="btn-back-cover" onclick="portalGoHome()">
+                <svg viewBox="0 0 24 24" width="18" height="18"><path d="M19 12H5M12 19l-7-7 7-7" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+                Back to Course Overview
+            </button>
+        </div>
+<!-- ======================= LAB DASHBOARD (HOME) ======================= -->
         <div class="lab-section active" id="sec-home">
             <div class="hero-card">
                 <div class="hero-card-tag">Lab Course Portal</div>
@@ -879,19 +890,21 @@
                         Laboratory Experiments Roadmap
                     </h3>
                 </div>
-                <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
-                    <div style="background-color:rgba(255,255,255,0.02); padding:16px; border-radius:8px; border:1px solid var(--border-color);">
-                        <strong style="color:var(--primary); display:block; margin-bottom:6px;">Ex 1–4: OOP &amp; Custom Exceptions</strong>
-                        <p style="font-size:0.85rem; color:var(--text-secondary);">Payroll system package layout, array of objects, custom exception-bounded Queue, String operations interface, and case-insensitive StringBuffer palindrome checks.</p>
-                    </div>
-                    <div style="background-color:rgba(255,255,255,0.02); padding:16px; border-radius:8px; border:1px solid var(--border-color);">
-                        <strong style="color:var(--accent-cyan); display:block; margin-bottom:6px;">Ex 5–8: Collections &amp; Generics</strong>
-                        <p style="font-size:0.85rem; color:var(--text-secondary);">Password complexity suite, missed calls simulator, book catalogs sorted by price via list Collections, and type-safe generic Stack class.</p>
-                    </div>
-                    <div style="background-color:rgba(255,255,255,0.02); padding:16px; border-radius:8px; border:1px solid var(--border-color);">
-                        <strong style="color:var(--accent-emerald); display:block; margin-bottom:6px;">Ex 9–12: GUI Swing, JDBC &amp; JSP</strong>
-                        <p style="font-size:0.85rem; color:var(--text-secondary);">Dialog-based student registry, billing discount terminal, MySQL JDBC insert &amp; high credit lookup, and JSP-based neck style shirt billing form.</p>
-                    </div>
+                <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:16px;">Tap any experiment to open solutions.</p>
+                <div class="portal-nav-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;">
+                    <div class="syllabus-item unit-nav-card" role="button" tabindex="0" onclick="showSection('eclipse')" onkeydown="portalCardKey(event,'eclipse')"><div class="syllabus-title">Eclipse Run Guide</div><div class="syllabus-desc">IDE setup workflow</div></div>
+                    <div class="syllabus-item unit-nav-card" role="button" tabindex="0" onclick="showSection('ex1')" onkeydown="portalCardKey(event,'ex1')"><div class="syllabus-title">Ex 1: Payroll System</div><div class="syllabus-desc">OOP package layout</div></div>
+                    <div class="syllabus-item unit-nav-card" role="button" tabindex="0" onclick="showSection('ex2')" onkeydown="portalCardKey(event,'ex2')"><div class="syllabus-title">Ex 2: Queue &amp; Exceptions</div><div class="syllabus-desc">Custom exception queue</div></div>
+                    <div class="syllabus-item unit-nav-card" role="button" tabindex="0" onclick="showSection('ex3')" onkeydown="portalCardKey(event,'ex3')"><div class="syllabus-title">Ex 3: Strings Package</div><div class="syllabus-desc">String operations</div></div>
+                    <div class="syllabus-item unit-nav-card" role="button" tabindex="0" onclick="showSection('ex4')" onkeydown="portalCardKey(event,'ex4')"><div class="syllabus-title">Ex 4: Palindrome StringBuffer</div><div class="syllabus-desc">Case-insensitive check</div></div>
+                    <div class="syllabus-item unit-nav-card" role="button" tabindex="0" onclick="showSection('ex5')" onkeydown="portalCardKey(event,'ex5')"><div class="syllabus-title">Ex 5: Password Security</div><div class="syllabus-desc">Password rules</div></div>
+                    <div class="syllabus-item unit-nav-card" role="button" tabindex="0" onclick="showSection('ex6')" onkeydown="portalCardKey(event,'ex6')"><div class="syllabus-title">Ex 6: Telephone Recorder</div><div class="syllabus-desc">Missed calls simulator</div></div>
+                    <div class="syllabus-item unit-nav-card" role="button" tabindex="0" onclick="showSection('ex7')" onkeydown="portalCardKey(event,'ex7')"><div class="syllabus-title">Ex 7: Books Collection DB</div><div class="syllabus-desc">Sorted book list</div></div>
+                    <div class="syllabus-item unit-nav-card" role="button" tabindex="0" onclick="showSection('ex8')" onkeydown="portalCardKey(event,'ex8')"><div class="syllabus-title">Ex 8: Generic Stack</div><div class="syllabus-desc">Type-safe stack</div></div>
+                    <div class="syllabus-item unit-nav-card" role="button" tabindex="0" onclick="showSection('ex9')" onkeydown="portalCardKey(event,'ex9')"><div class="syllabus-title">Ex 9: Student Info Swing</div><div class="syllabus-desc">Swing dialog UI</div></div>
+                    <div class="syllabus-item unit-nav-card" role="button" tabindex="0" onclick="showSection('ex10')" onkeydown="portalCardKey(event,'ex10')"><div class="syllabus-title">Ex 10: Customer Purchases</div><div class="syllabus-desc">Billing terminal</div></div>
+                    <div class="syllabus-item unit-nav-card" role="button" tabindex="0" onclick="showSection('ex11')" onkeydown="portalCardKey(event,'ex11')"><div class="syllabus-title">Ex 11: JDBC Swing Form</div><div class="syllabus-desc">MySQL JDBC</div></div>
+                    <div class="syllabus-item unit-nav-card" role="button" tabindex="0" onclick="showSection('ex12')" onkeydown="portalCardKey(event,'ex12')"><div class="syllabus-title">Ex 12: JSP Shirt Purchase</div><div class="syllabus-desc">JSP web form</div></div>
                 </div>
             </div>
         </div>
@@ -3376,6 +3389,7 @@ Query finished. 1 records returned.
 
     <!-- JS FOR DYNAMIC NAVIGATION & ECLIPSE ACTIONS -->
     <script>
+        window.portalHomeKeys = ['home'];
         function showSection(sectionId) {
             // Hide all sections
             document.querySelectorAll('.lab-section').forEach(sec => {
@@ -3390,10 +3404,8 @@ Query finished. 1 records returned.
             });
             // Activate current item
             document.getElementById('btn-' + sectionId).classList.add('active');
-
+            if (typeof updatePortalBackBar === 'function') updatePortalBackBar(sectionId);
             // Close mobile sidebar if open
-            document.getElementById('sidebar').classList.remove('open');
-            
             // Auto scroll to top of main content
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
@@ -3537,5 +3549,9 @@ Query finished. 1 records returned.
         });
     </script>
 
+  <script src="assets/js/portal-core.js" defer></script>
+  <script src="assets/js/notes-enhancements.js" defer></script>
+  <script src="assets/js/book-navigation.js" defer></script>
+  <script src="assets/js/portal-back-nav.js"></script>
 </body>
 </html>
