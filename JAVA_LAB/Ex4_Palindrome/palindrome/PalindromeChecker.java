@@ -48,7 +48,7 @@ public class PalindromeChecker {
         System.out.println("\n---------------- PROCESS DETAILS ----------------");
         System.out.println("Sanitized Text: \"" + cleanStr + "\"");
         System.out.println("Reversed Text : \"" + reversedStr + "\"");
-        
+
         if (cleanStr.equals(reversedStr)) {
             System.out.println("✅ Result: The string \"" + str + "\" IS a Palindrome!");
         } else {

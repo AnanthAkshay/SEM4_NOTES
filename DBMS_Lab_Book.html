@@ -1,0 +1,2659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DBMS Laboratory Manual | ISL47 — All 12 Experiments</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #070b13;
+            --bg-panel: #0c1322;
+            --bg-card: #131e33;
+            --bg-card-hover: #192742;
+            --primary: #f89820; /* Java Amber Orange */
+            --primary-hover: #e07f10;
+            --primary-glow: rgba(248, 152, 32, 0.35);
+            --accent-cyan: #06b6d4; /* Neon Teal */
+            --accent-emerald: #10b981;
+            --accent-amber: #f59e0b;
+            --accent-rose: #f43f5e;
+            --border-color: #1e293b;
+            --border-color-hover: #334155;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --sidebar-width: 290px;
+            --font-display: 'Outfit', sans-serif;
+            --font-sans: 'Inter', sans-serif;
+            --font-mono: 'Fira Code', monospace;
+            --card-radius: 16px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-dark);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #334155;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            color: var(--text-secondary);
+            background-color: var(--bg-dark);
+            line-height: 1.6;
+            display: flex;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* SIDEBAR STYLING */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--bg-panel);
+            border-right: 1px solid var(--border-color);
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            padding: 30px 24px;
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+            transition: var(--transition);
+            overflow-y: auto;
+        }
+
+        .sidebar-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 35px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .sidebar-logo {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent-cyan) 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            font-weight: 800;
+            color: white;
+            font-size: 1.3rem;
+            box-shadow: 0 4px 14px var(--primary-glow);
+        }
+
+        .brand-meta h1 {
+            font-family: var(--font-display);
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+        }
+
+        .brand-meta p {
+            font-size: 0.75rem;
+            color: var(--primary);
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .search-box {
+            position: relative;
+            margin-bottom: 24px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 10px 14px 10px 38px;
+            background-color: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-size: 0.85rem;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .search-box input:focus {
+            border-color: var(--primary);
+            background-color: rgba(255, 255, 255, 0.04);
+            box-shadow: 0 0 10px rgba(248, 152, 32, 0.15);
+        }
+
+        .search-box svg {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            stroke: var(--text-muted);
+            fill: none;
+            stroke-width: 2;
+        }
+
+        .nav-menu {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 40px;
+        }
+
+        .nav-header {
+            font-family: var(--font-display);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: var(--text-muted);
+            letter-spacing: 0.1em;
+            margin-top: 15px;
+            margin-bottom: 8px;
+            padding-left: 12px;
+        }
+
+        .nav-item {
+            padding: 12px 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-family: var(--font-display);
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            background-color: transparent;
+            color: var(--text-secondary);
+            border: 1px solid transparent;
+            text-align: left;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nav-item svg {
+            width: 18px;
+            height: 18px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+            transition: var(--transition);
+        }
+
+        .nav-item:hover {
+            background-color: rgba(255, 255, 255, 0.03);
+            color: var(--text-primary);
+            border-color: var(--border-color);
+        }
+
+        .nav-item.active {
+            background: linear-gradient(135deg, var(--primary) 0%, rgba(248, 152, 32, 0.7) 100%);
+            color: white;
+            box-shadow: 0 4px 15px var(--primary-glow);
+            border-color: transparent;
+        }
+
+        .sidebar-footer {
+            margin-top: auto;
+            background-color: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .sidebar-footer p {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .sidebar-footer strong {
+            font-size: 0.8rem;
+            color: var(--text-primary);
+            display: block;
+        }
+
+        /* MAIN CONTENT AREA */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            flex: 1;
+            padding: 30px 40px;
+            max-width: 100%;
+            transition: var(--transition);
+        }
+
+        .lab-section {
+            display: none;
+        }
+
+        .lab-section.active {
+            display: block;
+            animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* HERO CARD */
+        .hero-card {
+            background: linear-gradient(135deg, #18110b 0%, #070b13 100%);
+            border: 1px solid var(--primary);
+            border-radius: var(--card-radius);
+            padding: 40px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent-cyan));
+        }
+
+        .hero-card-tag {
+            background-color: rgba(248, 152, 32, 0.15);
+            color: var(--primary);
+            border: 1px solid rgba(248, 152, 32, 0.3);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+        .hero-card h2 {
+            font-family: var(--font-display);
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-card p {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            max-width: 850px;
+        }
+
+        /* CORE GRID PANELS */
+        .card {
+            background-color: var(--bg-panel);
+            border: 1px solid var(--border-color);
+            border-radius: var(--card-radius);
+            padding: 28px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-header {
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .card-title {
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-title svg {
+            width: 22px;
+            height: 22px;
+            stroke: var(--primary);
+            fill: none;
+            stroke-width: 2;
+        }
+
+        /* CODE VIEWER COMPONENT */
+        .code-container {
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            background-color: var(--bg-dark);
+            margin-bottom: 25px;
+        }
+
+        .code-tabs {
+            background-color: var(--bg-panel);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            flex-wrap: wrap;
+            padding: 8px 12px 0;
+            gap: 4px;
+        }
+
+        .code-tab {
+            background-color: transparent;
+            border: 1px solid transparent;
+            border-bottom: none;
+            color: var(--text-secondary);
+            padding: 8px 16px;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            font-weight: 600;
+            border-radius: 6px 6px 0 0;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .code-tab:hover {
+            color: var(--text-primary);
+            background-color: rgba(255, 255, 255, 0.02);
+        }
+
+        .code-tab.active {
+            background-color: var(--bg-dark);
+            color: var(--primary);
+            border: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--bg-dark);
+            margin-bottom: -1px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .code-content {
+            display: none;
+            position: relative;
+        }
+
+        .code-content.active {
+            display: block;
+        }
+
+        pre {
+            margin: 0;
+            padding: 20px;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            line-height: 1.65;
+            color: #e2e8f0;
+            background-color: #090d16;
+            white-space: pre-wrap;
+        }
+
+        /* VIVA NOTES */
+        .viva-card {
+            background-color: rgba(248, 152, 32, 0.04);
+            border: 1px solid rgba(248, 152, 32, 0.15);
+            border-left: 5px solid var(--primary);
+            border-radius: 12px;
+            padding: 24px;
+            margin-top: 25px;
+        }
+
+        .viva-title {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--primary);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .viva-notes-wrap {
+            font-family: 'Caveat', cursive;
+            font-size: 1.25rem;
+            color: var(--accent-gold);
+            line-height: 1.5;
+        }
+
+        .viva-q {
+            font-weight: 700;
+            margin-top: 8px;
+            color: var(--text-primary);
+        }
+
+        .viva-a {
+            padding-left: 15px;
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+        }
+
+        /* MONOSPACED COMPILE GUIDES */
+        .compile-guide {
+            background-color: #05070c;
+            border: 1px solid #162235;
+            border-radius: 8px;
+            padding: 16px;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--accent-cyan);
+            margin-top: 15px;
+        }
+
+        .compile-guide .cmd {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* STATS GRID ON COVER */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .stat-card {
+            background-color: var(--bg-panel);
+            border: 1px solid var(--border-color);
+            border-radius: var(--card-radius);
+            padding: 20px;
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--primary);
+        }
+
+        .stat-value {
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+        }
+
+        /* MOBILE HEADER & HAMBURGER */
+        .mobile-header {
+            display: none;
+            background-color: var(--bg-panel);
+            border-bottom: 1px solid var(--border-color);
+            padding: 12px 20px;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 99;
+            width: 100%;
+        }
+
+        .mobile-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .mobile-brand h2 {
+            font-family: var(--font-display);
+            font-size: 1.05rem;
+            color: var(--text-primary);
+        }
+
+        .hamburger {
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hamburger svg {
+            width: 24px;
+            height: 24px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+        }
+
+        /* RESPONSIVE DESIGN */
+        @media (max-width: 1024px) {
+            body {
+                flex-direction: column;
+            }
+            .sidebar {
+                transform: translateX(-100%);
+                width: var(--sidebar-width);
+                box-shadow: 10px 0 30px rgba(0, 0, 0, 0.5);
+            }
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+            }
+            .mobile-header {
+                display: flex;
+            }
+        }
+
+        /* ==================== CLEAN AND DIRECT CODE STYLING ==================== */
+        .code-copy-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 6px 10px;
+            font-size: 0.72rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: var(--font-display);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            z-index: 10;
+        }
+
+        .code-copy-btn:hover {
+            color: var(--text-primary);
+            background-color: rgba(255, 255, 255, 0.12);
+            border-color: var(--text-muted);
+        }
+
+        .code-copy-btn.copied {
+            background-color: rgba(16, 185, 129, 0.15);
+            border-color: var(--accent-emerald);
+            color: var(--accent-emerald);
+        }
+
+        /* Sleek VS Code Syntax Highlighting colors */
+        .j-keyword { color: #569cd6 !important; font-weight: bold !important; } /* Blue */
+        .j-string { color: #ce9178 !important; } /* Warm Orange/Brown */
+        .j-comment { color: #6A9955 !important; font-style: italic !important; } /* Standard Green */
+        .j-annotation { color: #dcdcaa !important; font-weight: bold !important; } /* Yellow/Gold */
+
+        /* Eclipse Styled Console Layout */
+        .eclipse-console {
+            background-color: #080c12;
+            border: 1px solid var(--border-color);
+            border-radius: var(--card-radius);
+            margin-top: 25px;
+            overflow: hidden;
+            font-family: var(--font-mono);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .eclipse-console-header {
+            background-color: #0f172a;
+            border-bottom: 1px solid var(--border-color);
+            padding: 10px 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+        }
+
+        .console-title-wrap {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--font-display);
+            font-weight: 600;
+        }
+
+        .console-title-wrap svg {
+            width: 16px;
+            height: 16px;
+            stroke: var(--primary);
+        }
+
+        .console-btn-group {
+            display: flex;
+            gap: 6px;
+        }
+
+        .console-tab-btn {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 4px 12px;
+            font-size: 0.72rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: var(--font-display);
+            font-weight: 600;
+        }
+
+        .console-tab-btn:hover {
+            color: var(--text-primary);
+            background-color: rgba(255,255,255,0.05);
+            border-color: var(--text-muted);
+        }
+
+        .console-tab-btn.active {
+            background-color: var(--primary);
+            color: #000000;
+            font-weight: 700;
+            border-color: transparent;
+            box-shadow: 0 0 8px var(--primary-glow);
+        }
+
+        .eclipse-console-body {
+            padding: 18px;
+            background-color: #070a0f;
+            color: #e2e8f0;
+            font-size: 0.82rem;
+            line-height: 1.6;
+            min-height: 140px;
+            white-space: pre-wrap;
+            display: none;
+        }
+
+        .eclipse-console-body.active {
+            display: block;
+            animation: slideUp 0.3s ease-out;
+        }
+        
+        .console-meta-info {
+            color: #64748b;
+            font-style: italic;
+            border-bottom: 1px dashed rgba(255,255,255,0.06);
+            padding-bottom: 8px;
+            margin-bottom: 12px;
+            font-size: 0.78rem;
+        }
+
+        /* Eclipse Guide styles */
+        .guide-step-card {
+            background-color: rgba(255,255,255,0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 16px;
+            transition: var(--transition);
+        }
+
+        .guide-step-card:hover {
+            border-color: var(--primary);
+            background-color: rgba(248, 152, 32, 0.02);
+        }
+
+        .guide-step-num {
+            background-color: rgba(248, 152, 32, 0.15);
+            color: var(--primary);
+            border: 1px solid rgba(248, 152, 32, 0.3);
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-right: 8px;
+        }
+    </style>
+    <style>
+        /* User experiment pages (from 1.html–12.html) */
+        .exp-panel {
+            background: #ffffff;
+            color: #1e293b;
+            padding: 32px 36px;
+            border-radius: 12px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
+            line-height: 1.65;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        .exp-panel h1, .exp-panel h2, .exp-panel h3 { color: #003366; }
+        .exp-panel h1 { font-size: 1.5rem; margin-bottom: 0.25rem; }
+        .exp-panel h2 { font-size: 1.2rem; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+        .exp-panel h3 { font-size: 1.05rem; margin-top: 1rem; }
+        .exp-panel p { margin: 0.6rem 0; }
+        .exp-panel ul, .exp-panel ol { margin: 0.6rem 0 0.6rem 1.5rem; }
+        .exp-panel table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 0.9rem;
+        }
+        .exp-panel table, .exp-panel th, .exp-panel td {
+            border: 1px solid #334155;
+        }
+        .exp-panel th {
+            background: #003366;
+            color: #fff;
+            padding: 10px;
+            text-align: left;
+        }
+        .exp-panel td { padding: 8px 10px; }
+        .exp-panel pre {
+            background: #f4f4f4;
+            color: #0f172a;
+            padding: 15px;
+            border-left: 5px solid #003366;
+            overflow: auto;
+            border-radius: 0 6px 6px 0;
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+        .exp-panel img {
+            max-width: 100%;
+            height: auto;
+        }
+        .lab-section { display: none; }
+        .lab-section.active { display: block; }
+        .main-content {
+            margin-left: var(--sidebar-width);
+            flex: 1;
+            padding: 28px 40px 60px;
+            max-width: 1100px;
+        }
+        @media print {
+            .sidebar { display: none !important; }
+            .main-content { margin-left: 0 !important; max-width: 100%; padding: 0; }
+            .lab-section { display: block !important; page-break-after: always; }
+            .exp-panel { box-shadow: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-brand">
+            <div class="sidebar-logo">DB</div>
+            <div class="brand-meta">
+                <h1>DBMS Lab</h1>
+                <p>ISL47 · Experiments 1–12</p>
+            </div>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item active" data-exp="0" onclick="showExp('cover', this)">Cover / Home</li>
+            <li class="nav-item" data-exp="1" onclick="showExp('experiment-1', this)">Experiment 1: Employee – Department – Project</li>
+            <li class="nav-item" data-exp="2" onclick="showExp('experiment-2', this)">Experiment 2: Part – Supplier – Supply</li>
+            <li class="nav-item" data-exp="3" onclick="showExp('experiment-3', this)">Experiment 3: Boat – Sailor – Reserves</li>
+            <li class="nav-item" data-exp="4" onclick="showExp('experiment-4', this)">Experiment 4: Customer – Branch – Account – Transaction</li>
+            <li class="nav-item" data-exp="5" onclick="showExp('experiment-5', this)">Experiment 5: Books – Student – Borrows</li>
+            <li class="nav-item" data-exp="6" onclick="showExp('experiment-6', this)">Experiment 6: Patient – Doctor – Appointment</li>
+            <li class="nav-item" data-exp="7" onclick="showExp('experiment-7', this)">Experiment 7: MongoDB Employee & Department</li>
+            <li class="nav-item" data-exp="8" onclick="showExp('experiment-8', this)">Experiment 8: MongoDB Patient & Doctor</li>
+            <li class="nav-item" data-exp="9" onclick="showExp('experiment-9', this)">Experiment 9: MongoDB Part–Supplier + PL/SQL Backup</li>
+            <li class="nav-item" data-exp="10" onclick="showExp('experiment-10', this)">Experiment 10: MongoDB Boat–Sailor + Weekend Trigger</li>
+            <li class="nav-item" data-exp="11" onclick="showExp('experiment-11', this)">Experiment 11: MongoDB Customer–Branch + Cursor</li>
+            <li class="nav-item" data-exp="12" onclick="showExp('experiment-12', this)">Experiment 12: MongoDB Books–Student + Exception</li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <div id="cover" class="lab-section active">
+            <div class="exp-panel">
+                <h1 align="center">DATABASE MANAGEMENT SYSTEMS LABORATORY</h1>
+                <h2 align="center">Course Code: ISL47</h2>
+                <p style="text-align:center;margin-top:24px;">
+                    Complete manual — <strong>Experiments 1 to 12</strong><br>
+                    Select an experiment from the sidebar.
+                </p>
+                <table style="margin-top:32px;">
+                    <tr><th>#</th><th>Title</th></tr>
+                    <tr><td>1</td><td>Employee – Department – Project</td></tr>
+                    <tr><td>2</td><td>Part – Supplier – Supply</td></tr>
+                    <tr><td>3</td><td>Boat – Sailor – Reserves</td></tr>
+                    <tr><td>4</td><td>Customer – Branch – Account – Transaction</td></tr>
+                    <tr><td>5</td><td>Books – Student – Borrows</td></tr>
+                    <tr><td>6</td><td>Patient – Doctor – Appointment</td></tr>
+                    <tr><td>7</td><td>MongoDB Employee & Department</td></tr>
+                    <tr><td>8</td><td>MongoDB Patient & Doctor</td></tr>
+                    <tr><td>9</td><td>MongoDB Part–Supplier + PL/SQL Backup</td></tr>
+                    <tr><td>10</td><td>MongoDB Boat–Sailor + Weekend Trigger</td></tr>
+                    <tr><td>11</td><td>MongoDB Customer–Branch + Cursor</td></tr>
+                    <tr><td>12</td><td>MongoDB Books–Student + Exception</td></tr>
+                </table>
+                <p style="margin-top:24px;font-size:0.9rem;color:#64748b;">
+                    Source: merged from <code>DBMS_LAB/1.html</code> … <code>12.html</code>
+                </p>
+            </div>
+        </div>
+        <div id="experiment-1" class="lab-section">
+            <div class="exp-panel">
+<h1 align="center">DATABASE MANAGEMENT SYSTEMS LAB</h1>
+<h2 align="center">Experiment 1</h2>
+
+<h2>Aim</h2>
+
+<p>
+To design an Employee–Department–Project database, create tables,
+insert data and perform SQL operations using Oracle SQL.
+</p>
+
+<h2>Problem Statement</h2>
+
+<p>
+Consider an Employee with a social security number (SSN) working on multiple projects
+with definite hours for each. Each Employee belongs to a Department.
+Each project is associated with some domain areas such as Database,
+Cloud and so on. Each Employee will be assigned to some project.
+</p>
+
+<h2>Constraints</h2>
+
+<ul>
+<li>SSN is Primary Key of Employee.</li>
+<li>DeptNo is Primary Key of Department.</li>
+<li>ProjectNo is Primary Key of Project.</li>
+<li>Each Employee belongs to one Department.</li>
+<li>Each Employee works on one or more Projects.</li>
+<li>Hours worked must be greater than 0.</li>
+<li>DeptNo and ProjectNo are Foreign Keys.</li>
+</ul>
+
+<h2>ER Diagram</h2>
+
+<div style="
+    text-align:center;
+    margin-top:20px;
+    margin-bottom:20px;
+">
+
+    <img
+        src="./DBMS_LAB/image1.png"
+        alt="Employee Department Project ER Diagram"
+        style="
+            width:100%;
+            max-width:1200px;
+            border:1px solid #ccc;
+            border-radius:10px;
+            padding:10px;
+            background:white;
+            box-shadow:0 0 10px rgba(0,0,0,0.1);
+        "
+    >
+
+</div>
+<h2>Schema Diagram</h2>
+
+<pre>
+
+DEPARTMENT
+--------------------
+DeptNo (PK)
+DeptName
+
+PROJECT
+--------------------
+ProjectNo (PK)
+ProjectName
+Domain
+
+EMPLOYEE
+--------------------
+SSN (PK)
+EmpName
+Salary
+DeptNo (FK)
+ProjectNo (FK)
+
+WORKS_ON
+--------------------
+SSN (FK)
+ProjectNo (FK)
+Hours
+
+</pre>
+
+<h2>Create Table Statements</h2>
+
+<pre>
+CREATE TABLE Department(
+DeptNo NUMBER PRIMARY KEY,
+DeptName VARCHAR2(30)
+);
+
+CREATE TABLE Project(
+ProjectNo NUMBER PRIMARY KEY,
+ProjectName VARCHAR2(30),
+Domain VARCHAR2(30)
+);
+
+CREATE TABLE Employee(
+SSN NUMBER PRIMARY KEY,
+EmpName VARCHAR2(30),
+Salary NUMBER,
+DeptNo NUMBER,
+ProjectNo NUMBER,
+FOREIGN KEY(DeptNo)
+REFERENCES Department(DeptNo),
+FOREIGN KEY(ProjectNo)
+REFERENCES Project(ProjectNo)
+);
+
+CREATE TABLE Works_On(
+SSN NUMBER,
+ProjectNo NUMBER,
+Hours NUMBER,
+PRIMARY KEY(SSN,ProjectNo),
+FOREIGN KEY(SSN)
+REFERENCES Employee(SSN),
+FOREIGN KEY(ProjectNo)
+REFERENCES Project(ProjectNo)
+);
+</pre>
+
+<h2>Insert Sample Data</h2>
+
+<pre>
+INSERT INTO Department VALUES(10,'CSE');
+INSERT INTO Department VALUES(20,'ISE');
+INSERT INTO Department VALUES(30,'ECE');
+
+INSERT INTO Project VALUES(101,'Library','Database');
+INSERT INTO Project VALUES(102,'AWS Portal','Cloud');
+INSERT INTO Project VALUES(103,'ERP','Database');
+
+INSERT INTO Employee VALUES(1001,'Ananth',50000,10,101);
+INSERT INTO Employee VALUES(1002,'Rahul',55000,10,103);
+INSERT INTO Employee VALUES(1003,'Sneha',60000,20,102);
+INSERT INTO Employee VALUES(1004,'Asha',65000,30,101);
+</pre>
+
+<h2>Query 1</h2>
+
+<p><b>Obtain details of employees assigned to Database project</b></p>
+
+<pre>
+SELECT E.*
+FROM Employee E
+JOIN Project P
+ON E.ProjectNo=P.ProjectNo
+WHERE P.Domain='Database';
+</pre>
+
+<h3>Output</h3>
+
+<table>
+<tr>
+<th>SSN</th>
+<th>EmpName</th>
+<th>Salary</th>
+<th>DeptNo</th>
+<th>ProjectNo</th>
+</tr>
+
+<tr>
+<td>1001</td>
+<td>Ananth</td>
+<td>50000</td>
+<td>10</td>
+<td>101</td>
+</tr>
+
+<tr>
+<td>1002</td>
+<td>Rahul</td>
+<td>55000</td>
+<td>10</td>
+<td>103</td>
+</tr>
+
+<tr>
+<td>1004</td>
+<td>Asha</td>
+<td>65000</td>
+<td>30</td>
+<td>101</td>
+</tr>
+</table>
+
+<h2>Query 2</h2>
+
+<p><b>Number of Employees in each Department</b></p>
+
+<pre>
+SELECT D.DeptNo,
+D.DeptName,
+COUNT(*) AS Employee_Count
+FROM Employee E
+JOIN Department D
+ON E.DeptNo=D.DeptNo
+GROUP BY D.DeptNo,D.DeptName;
+</pre>
+
+<h3>Output</h3>
+
+<table>
+<tr>
+<th>DeptNo</th>
+<th>DeptName</th>
+<th>Employee Count</th>
+</tr>
+
+<tr>
+<td>10</td>
+<td>CSE</td>
+<td>2</td>
+</tr>
+
+<tr>
+<td>20</td>
+<td>ISE</td>
+<td>1</td>
+</tr>
+
+<tr>
+<td>30</td>
+<td>ECE</td>
+<td>1</td>
+</tr>
+</table>
+
+<h2>Query 3</h2>
+
+<p><b>Update Project Details</b></p>
+
+<pre>
+UPDATE Employee
+SET ProjectNo=102
+WHERE SSN=1001;
+
+SELECT *
+FROM Employee
+WHERE SSN=1001;
+</pre>
+
+<h3>Output</h3>
+
+<table>
+<tr>
+<th>SSN</th>
+<th>EmpName</th>
+<th>Salary</th>
+<th>DeptNo</th>
+<th>ProjectNo</th>
+</tr>
+
+<tr>
+<td>1001</td>
+<td>Ananth</td>
+<td>50000</td>
+<td>10</td>
+<td>102</td>
+</tr>
+</table>
+
+<h2>Result</h2>
+
+<p>
+The Employee–Department–Project database was successfully designed,
+implemented and queried using Oracle SQL. All required operations
+were executed successfully and expected results were obtained.
+</p>
+            </div>
+        </div>
+        <div id="experiment-2" class="lab-section">
+            <div class="exp-panel">
+<h1 align="center">DATABASE MANAGEMENT SYSTEMS LAB</h1>
+<h2 align="center">Experiment 2</h2>
+
+<h2>Aim</h2>
+<p>To design and implement Supplier, Part and Supply relations and perform SQL operations.</p>
+
+<h2>Problem Statement</h2>
+<p>Consider the relations PART, SUPPLIER and SUPPLY. The Supplier relation holds information about suppliers. The attributes SID, SNAME and SADDR describe the supplier. The Part relation holds PID, PNAME and PCOLOR. The Supply relation contains SID and PID identifying the supplier and supplied part respectively along with Quantity.</p>
+
+<h2>Constraints</h2>
+<ul>
+<li>SID is Primary Key of Supplier.</li>
+<li>PID is Primary Key of Part.</li>
+<li>(SID,PID) is Primary Key of Supply.</li>
+<li>SID in Supply references Supplier(SID).</li>
+<li>PID in Supply references Part(PID).</li>
+<li>Quantity must be greater than 0.</li>
+<li>A supplier can supply many parts.</li>
+<li>A part can be supplied by many suppliers.</li>
+</ul>
+
+<h2>ER Diagram</h2>
+
+<div style="
+    text-align:center;
+    margin-top:20px;
+    margin-bottom:20px;
+">
+
+    <img
+        src="./DBMS_LAB/image2.png"
+        alt="Supplier Part Supply ER Diagram"
+        style="
+            width:100%;
+            max-width:1200px;
+            border:1px solid #ccc;
+            border-radius:10px;
+            padding:10px;
+            background:white;
+            box-shadow:0 0 10px rgba(0,0,0,0.1);
+        "
+    >
+
+</div>
+
+<h2>Schema Diagram</h2>
+
+<pre>
+
+SUPPLIER
+-------------------------
+SID        PK
+SNAME
+SADDR
+
+PART
+-------------------------
+PID        PK
+PNAME
+PCOLOR
+
+SUPPLY
+-------------------------
+SID        FK → SUPPLIER.SID
+PID        FK → PART.PID
+Quantity
+
+PRIMARY KEY (SID, PID)
+
+</pre>
+
+<h2>Create Table Statements</h2>
+<pre>
+CREATE TABLE Supplier(
+SID NUMBER PRIMARY KEY,
+SNAME VARCHAR2(30),
+SADDR VARCHAR2(50)
+);
+
+CREATE TABLE Part(
+PID NUMBER PRIMARY KEY,
+PNAME VARCHAR2(30),
+PCOLOR VARCHAR2(20)
+);
+
+CREATE TABLE Supply(
+SID NUMBER,
+PID NUMBER,
+Quantity NUMBER,
+PRIMARY KEY(SID,PID),
+FOREIGN KEY(SID) REFERENCES Supplier(SID),
+FOREIGN KEY(PID) REFERENCES Part(PID)
+);
+</pre>
+
+<h2>Insert Sample Data</h2>
+<pre>
+INSERT INTO Supplier VALUES(1,'ABC Suppliers','Bangalore');
+INSERT INTO Supplier VALUES(2,'XYZ Traders','Mysore');
+INSERT INTO Supplier VALUES(3,'PQR Industries','Hubli');
+
+INSERT INTO Part VALUES(101,'Bolt','Red');
+INSERT INTO Part VALUES(102,'Nut','Blue');
+INSERT INTO Part VALUES(103,'Washer','Green');
+INSERT INTO Part VALUES(104,'Pipe','Red');
+
+INSERT INTO Supply VALUES(1,101,500);
+INSERT INTO Supply VALUES(1,102,300);
+INSERT INTO Supply VALUES(2,103,200);
+INSERT INTO Supply VALUES(2,104,150);
+INSERT INTO Supply VALUES(3,101,250);
+</pre>
+
+<h2>Query 1</h2>
+<p><b>Obtain the details of parts supplied by supplier 'ABC Suppliers'</b></p>
+<pre>
+SELECT P.*
+FROM Part P
+JOIN Supply S ON P.PID=S.PID
+JOIN Supplier SP ON SP.SID=S.SID
+WHERE SP.SNAME='ABC Suppliers';
+</pre>
+
+<h3>Output</h3>
+<table>
+<tr><th>PID</th><th>PNAME</th><th>PCOLOR</th></tr>
+<tr><td>101</td><td>Bolt</td><td>Red</td></tr>
+<tr><td>102</td><td>Nut</td><td>Blue</td></tr>
+</table>
+
+<h2>Query 2</h2>
+<p><b>Obtain names of suppliers who supply 'Bolt'</b></p>
+<pre>
+SELECT SP.SNAME
+FROM Supplier SP
+JOIN Supply S ON SP.SID=S.SID
+JOIN Part P ON P.PID=S.PID
+WHERE P.PNAME='Bolt';
+</pre>
+
+<h3>Output</h3>
+<table>
+<tr><th>SNAME</th></tr>
+<tr><td>ABC Suppliers</td></tr>
+<tr><td>PQR Industries</td></tr>
+</table>
+
+<h2>Query 3</h2>
+<p><b>Delete parts which are in color Red</b></p>
+<pre>
+DELETE FROM Part
+WHERE PCOLOR='Red';
+</pre>
+
+<h3>Output After Deletion</h3>
+<table>
+<tr><th>PID</th><th>PNAME</th><th>PCOLOR</th></tr>
+<tr><td>102</td><td>Nut</td><td>Blue</td></tr>
+<tr><td>103</td><td>Washer</td><td>Green</td></tr>
+</table>
+
+<h2>Result</h2>
+<p>The Supplier-Part-Supply database was successfully designed and implemented. All required SQL queries executed successfully.</p>
+            </div>
+        </div>
+        <div id="experiment-3" class="lab-section">
+            <div class="exp-panel">
+<h1 align="center">DATABASE MANAGEMENT SYSTEMS LAB</h1>
+<h2 align="center">Experiment 3</h2>
+
+<h2>Aim</h2>
+<p>To design and implement BOAT, SAILOR and RESERVES relations and perform SQL queries.</p>
+
+<h2>Problem Statement</h2>
+<p>Consider the relations BOAT, SAILOR and RESERVES. Boats are identified by BID, color and name. Sailors are identified by SID, name and age. Sailors can reserve any number of boats and reservation details are stored in RESERVES.</p>
+
+<h2>Constraints</h2>
+<ul>
+<li>BID is Primary Key of BOAT.</li>
+<li>SID is Primary Key of SAILOR.</li>
+<li>(SID,BID,ReserveDate) uniquely identifies a reservation.</li>
+<li>SID in RESERVES references SAILOR(SID).</li>
+<li>BID in RESERVES references BOAT(BID).</li>
+<li>A sailor can reserve many boats.</li>
+<li>A boat can be reserved by many sailors.</li>
+</ul>
+
+<h2>ER Diagram</h2>
+
+<div style="
+    text-align:center;
+    margin-top:20px;
+    margin-bottom:20px;
+">
+
+    <img
+        src="./DBMS_LAB/image3.png"
+        style="
+            width:100%;
+            max-width:1200px;
+            border:1px solid #ccc;
+            border-radius:10px;
+            padding:10px;
+            background:white;
+            box-shadow:0 0 10px rgba(0,0,0,0.1);
+        "
+    >
+
+</div>
+
+<h2>Schema Diagram</h2>
+<pre>
+BOAT
+----------------------
+BID (PK)
+BName
+Color
+
+SAILOR
+----------------------
+SID (PK)
+SailorName
+Age
+
+RESERVES
+----------------------
+SID (FK)
+BID (FK)
+ReserveDate
+
+PK(SID,BID,ReserveDate)
+</pre>
+
+<h2>Create Table Statements</h2>
+<pre>
+CREATE TABLE Boat(
+BID NUMBER PRIMARY KEY,
+BName VARCHAR2(30),
+Color VARCHAR2(20)
+);
+
+CREATE TABLE Sailor(
+SID NUMBER PRIMARY KEY,
+SailorName VARCHAR2(30),
+Age NUMBER
+);
+
+CREATE TABLE Reserves(
+SID NUMBER,
+BID NUMBER,
+ReserveDate DATE,
+PRIMARY KEY(SID,BID,ReserveDate),
+FOREIGN KEY(SID) REFERENCES Sailor(SID),
+FOREIGN KEY(BID) REFERENCES Boat(BID)
+);
+</pre>
+
+<h2>Insert Sample Data</h2>
+<pre>
+INSERT INTO Boat VALUES(101,'Sea Queen','Red');
+INSERT INTO Boat VALUES(102,'Ocean Star','Blue');
+INSERT INTO Boat VALUES(103,'Wave Rider','Green');
+
+INSERT INTO Sailor VALUES(1,'Rahul',25);
+INSERT INTO Sailor VALUES(2,'Ananth',21);
+INSERT INTO Sailor VALUES(3,'Sneha',23);
+
+INSERT INTO Reserves VALUES(1,101,DATE '2025-01-10');
+INSERT INTO Reserves VALUES(1,102,DATE '2025-01-11');
+INSERT INTO Reserves VALUES(2,101,DATE '2025-01-12');
+INSERT INTO Reserves VALUES(3,101,DATE '2025-01-13');
+</pre>
+
+<h2>Query 1</h2>
+<p><b>Obtain details of boats reserved by 'Rahul'</b></p>
+<pre>
+SELECT B.*
+FROM Boat B
+JOIN Reserves R ON B.BID=R.BID
+JOIN Sailor S ON S.SID=R.SID
+WHERE S.SailorName='Rahul';
+</pre>
+
+<h3>Output</h3>
+<table>
+<tr><th>BID</th><th>BName</th><th>Color</th></tr>
+<tr><td>101</td><td>Sea Queen</td><td>Red</td></tr>
+<tr><td>102</td><td>Ocean Star</td><td>Blue</td></tr>
+</table>
+
+<h2>Query 2</h2>
+<p><b>Retrieve BID of boats reserved by all sailors</b></p>
+<pre>
+SELECT BID
+FROM Reserves
+GROUP BY BID
+HAVING COUNT(DISTINCT SID)=
+(SELECT COUNT(*) FROM Sailor);
+</pre>
+
+<h3>Output</h3>
+<table>
+<tr><th>BID</th></tr>
+<tr><td>101</td></tr>
+</table>
+
+<h2>Query 3</h2>
+<p><b>Find number of boats reserved by each sailor</b></p>
+<pre>
+SELECT S.SailorName,
+COUNT(R.BID) AS Boats_Reserved
+FROM Sailor S
+LEFT JOIN Reserves R
+ON S.SID=R.SID
+GROUP BY S.SailorName;
+</pre>
+
+<h3>Output</h3>
+<table>
+<tr><th>Sailor Name</th><th>Boats Reserved</th></tr>
+<tr><td>Rahul</td><td>2</td></tr>
+<tr><td>Ananth</td><td>1</td></tr>
+<tr><td>Sneha</td><td>1</td></tr>
+</table>
+
+<h2>Result</h2>
+<p>The Boat-Sailor-Reserves database was successfully designed and implemented. All required SQL queries were executed successfully.</p>
+            </div>
+        </div>
+        <div id="experiment-4" class="lab-section">
+            <div class="exp-panel">
+<h1 align="center">DATABASE MANAGEMENT SYSTEMS LAB</h1>
+<h2 align="center">Experiment 4</h2>
+
+<h2>Aim</h2>
+<p>To design and implement the Banking Database and perform SQL queries.</p>
+
+<h2>Problem Statement</h2>
+<p>Consider the Banking database consisting of CUSTOMER, BRANCH, ACCOUNT and TRANSACTION. A customer can have savings and current accounts. Transactions may be deposits or withdrawals.</p>
+
+<h2>Constraints</h2>
+<ul>
+<li>CustomerID is Primary Key of CUSTOMER.</li>
+<li>BranchID is Primary Key of BRANCH.</li>
+<li>AccountNo is Primary Key of ACCOUNT.</li>
+<li>TransactionID is Primary Key of TRANSACTION.</li>
+<li>Customer can have multiple accounts.</li>
+<li>Branch can maintain multiple accounts.</li>
+<li>Account belongs to one Customer and one Branch.</li>
+<li>Transaction belongs to one Account.</li>
+<li>AccountType can be Savings or Current.</li>
+</ul>
+
+<h2>ER Diagram</h2>
+<div style="
+    text-align:center;
+    margin-top:20px;
+    margin-bottom:20px;
+">
+
+    <img
+        src="./DBMS_LAB/image4.png"
+        style="
+            width:100%;
+            max-width:1200px;
+            border:1px solid #ccc;
+            border-radius:10px;
+            padding:10px;
+            background:white;
+            box-shadow:0 0 10px rgba(0,0,0,0.1);
+        "
+    >
+
+</div>
+
+<h2>Schema Diagram</h2>
+<pre>
+CUSTOMER
+-------------------------
+CustomerID (PK)
+CustomerName
+City
+
+BRANCH
+-------------------------
+BranchID (PK)
+BranchName
+Location
+
+ACCOUNT
+-------------------------
+AccountNo (PK)
+AccountType
+Balance
+CustomerID (FK)
+BranchID (FK)
+
+TRANSACTION_DETAILS
+-------------------------
+TransactionID (PK)
+TransType
+Amount
+AccountNo (FK)
+</pre>
+
+<h2>Create Table Statements</h2>
+<pre>
+CREATE TABLE Customer(
+CustomerID NUMBER PRIMARY KEY,
+CustomerName VARCHAR2(30),
+City VARCHAR2(30)
+);
+
+CREATE TABLE Branch(
+BranchID NUMBER PRIMARY KEY,
+BranchName VARCHAR2(30),
+Location VARCHAR2(30)
+);
+
+CREATE TABLE Account(
+AccountNo NUMBER PRIMARY KEY,
+AccountType VARCHAR2(20),
+Balance NUMBER,
+CustomerID NUMBER,
+BranchID NUMBER,
+FOREIGN KEY(CustomerID) REFERENCES Customer(CustomerID),
+FOREIGN KEY(BranchID) REFERENCES Branch(BranchID)
+);
+
+CREATE TABLE Transaction_Details(
+TransactionID NUMBER PRIMARY KEY,
+TransType VARCHAR2(20),
+Amount NUMBER,
+AccountNo NUMBER,
+FOREIGN KEY(AccountNo) REFERENCES Account(AccountNo)
+);
+</pre>
+
+<h2>Insert Sample Data</h2>
+<pre>
+INSERT INTO Customer VALUES(1,'Rahul','Bangalore');
+INSERT INTO Customer VALUES(2,'Ananth','Mysore');
+INSERT INTO Customer VALUES(3,'Sneha','Hubli');
+
+INSERT INTO Branch VALUES(101,'SBI Main','Bangalore');
+INSERT INTO Branch VALUES(102,'SBI City','Mysore');
+INSERT INTO Branch VALUES(103,'SBI North','Hubli');
+
+INSERT INTO Account VALUES(1001,'Savings',50000,1,101);
+INSERT INTO Account VALUES(1002,'Current',30000,1,101);
+INSERT INTO Account VALUES(1003,'Savings',25000,2,102);
+INSERT INTO Account VALUES(1004,'Savings',45000,3,103);
+
+INSERT INTO Transaction_Details VALUES(1,'Deposit',5000,1001);
+INSERT INTO Transaction_Details VALUES(2,'Withdrawal',1000,1001);
+INSERT INTO Transaction_Details VALUES(3,'Deposit',3000,1001);
+INSERT INTO Transaction_Details VALUES(4,'Deposit',2000,1002);
+INSERT INTO Transaction_Details VALUES(5,'Withdrawal',500,1003);
+INSERT INTO Transaction_Details VALUES(6,'Deposit',1000,1003);
+INSERT INTO Transaction_Details VALUES(7,'Deposit',2500,1004);
+</pre>
+
+<h2>Query 1</h2>
+<p><b>Obtain details of customers who have both Savings and Current Account.</b></p>
+<pre>
+SELECT C.*
+FROM Customer C
+WHERE C.CustomerID IN
+(
+SELECT CustomerID
+FROM Account
+GROUP BY CustomerID
+HAVING COUNT(DISTINCT AccountType)=2
+);
+</pre>
+
+<h3>Output</h3>
+<table>
+<tr><th>CustomerID</th><th>CustomerName</th><th>City</th></tr>
+<tr><td>1</td><td>Rahul</td><td>Bangalore</td></tr>
+</table>
+
+<h2>Query 2</h2>
+<p><b>Retrieve branch details and number of accounts in each branch.</b></p>
+<pre>
+SELECT B.BranchID,B.BranchName,
+COUNT(A.AccountNo) AS TotalAccounts
+FROM Branch B
+LEFT JOIN Account A
+ON B.BranchID=A.BranchID
+GROUP BY B.BranchID,B.BranchName;
+</pre>
+
+<h3>Output</h3>
+<table>
+<tr><th>BranchID</th><th>BranchName</th><th>Total Accounts</th></tr>
+<tr><td>101</td><td>SBI Main</td><td>2</td></tr>
+<tr><td>102</td><td>SBI City</td><td>1</td></tr>
+<tr><td>103</td><td>SBI North</td><td>1</td></tr>
+</table>
+
+<h2>Query 3</h2>
+<p><b>Obtain customers who have performed at least 3 transactions.</b></p>
+<pre>
+SELECT DISTINCT C.*
+FROM Customer C
+JOIN Account A ON C.CustomerID=A.CustomerID
+JOIN Transaction_Details T ON A.AccountNo=T.AccountNo
+GROUP BY C.CustomerID,C.CustomerName,C.City
+HAVING COUNT(T.TransactionID)>=3;
+</pre>
+
+<h3>Output</h3>
+<table>
+<tr><th>CustomerID</th><th>CustomerName</th><th>City</th></tr>
+<tr><td>1</td><td>Rahul</td><td>Bangalore</td></tr>
+</table>
+
+<h2>Query 4</h2>
+<p><b>Branches having accounts less than average.</b></p>
+<pre>
+SELECT B.BranchID,B.BranchName
+FROM Branch B
+LEFT JOIN Account A
+ON B.BranchID=A.BranchID
+GROUP BY B.BranchID,B.BranchName
+HAVING COUNT(A.AccountNo)
+<
+(
+SELECT AVG(AccountCount)
+FROM
+(
+SELECT COUNT(*) AccountCount
+FROM Account
+GROUP BY BranchID
+)
+);
+</pre>
+
+<h3>Output</h3>
+<table>
+<tr><th>BranchID</th><th>BranchName</th></tr>
+<tr><td>102</td><td>SBI City</td></tr>
+<tr><td>103</td><td>SBI North</td></tr>
+</table>
+
+<h2>Result</h2>
+<p>The Banking Database was successfully designed and implemented and all required SQL queries were executed successfully.</p>
+            </div>
+        </div>
+        <div id="experiment-5" class="lab-section">
+            <div class="exp-panel">
+<h1 align="center">DATABASE MANAGEMENT SYSTEMS LAB</h1>
+<h2 align="center">Experiment 5</h2>
+
+<h2>Aim</h2>
+<p>To design and implement the Library Book Lending System and perform SQL queries.</p>
+
+<h2>Problem Statement</h2>
+<p>Consider the Book Lending System consisting of BOOKS, STUDENT and BORROWS. Students can borrow any number of books. Book details include ISBN, Title, Author and Publisher.</p>
+
+<h2>Constraints</h2>
+<ul>
+<li>ISBN is Primary Key of BOOKS.</li>
+<li>StudentID is Primary Key of STUDENT.</li>
+<li>A student can borrow multiple books.</li>
+<li>A book can be borrowed by multiple students.</li>
+<li>ISBN in BORROWS references BOOKS(ISBN).</li>
+<li>StudentID in BORROWS references STUDENT(StudentID).</li>
+</ul>
+
+<h2>ER Diagram</h2>
+<div style="
+    text-align:center;
+    margin-top:20px;
+    margin-bottom:20px;
+">
+
+    <img
+        src="./DBMS_LAB/image5.png"
+        style="
+            width:100%;
+            max-width:1200px;
+            border:1px solid #ccc;
+            border-radius:10px;
+            padding:10px;
+            background:white;
+            box-shadow:0 0 10px rgba(0,0,0,0.1);
+        "
+    >
+
+</div>
+
+<h2>Schema Diagram</h2>
+<pre>
+BOOKS
+-------------------------
+ISBN (PK)
+Title
+Author
+Publisher
+
+STUDENT
+-------------------------
+StudentID (PK)
+StudentName
+Gender
+
+BORROWS
+-------------------------
+StudentID (FK)
+ISBN (FK)
+BorrowDate
+
+PK(StudentID, ISBN)
+</pre>
+
+<h2>Create Table Statements</h2>
+<pre>
+CREATE TABLE Books(
+ISBN VARCHAR2(10) PRIMARY KEY,
+Title VARCHAR2(50),
+Author VARCHAR2(30),
+Publisher VARCHAR2(30)
+);
+
+CREATE TABLE Student(
+StudentID NUMBER PRIMARY KEY,
+StudentName VARCHAR2(30),
+Gender VARCHAR2(10)
+);
+
+CREATE TABLE Borrows(
+StudentID NUMBER,
+ISBN VARCHAR2(10),
+BorrowDate DATE,
+PRIMARY KEY(StudentID,ISBN),
+FOREIGN KEY(StudentID)
+REFERENCES Student(StudentID),
+FOREIGN KEY(ISBN)
+REFERENCES Books(ISBN)
+);
+</pre>
+
+<h2>Insert Sample Data</h2>
+<pre>
+INSERT INTO Books VALUES('123','Database','Korth','McGrawHill');
+INSERT INTO Books VALUES('124','Operating System','Galvin','Wiley');
+INSERT INTO Books VALUES('125','Computer Networks','Tanenbaum','Pearson');
+
+INSERT INTO Student VALUES(1,'Rahul','Male');
+INSERT INTO Student VALUES(2,'Sneha','Female');
+INSERT INTO Student VALUES(3,'Ananth','Male');
+
+INSERT INTO Borrows VALUES(1,'123',DATE '2025-01-10');
+INSERT INTO Borrows VALUES(2,'123',DATE '2025-01-11');
+INSERT INTO Borrows VALUES(3,'124',DATE '2025-01-12');
+INSERT INTO Borrows VALUES(2,'125',DATE '2025-01-13');
+</pre>
+
+<h2>Query 1</h2>
+<p><b>Obtain names of students who borrowed ISBN 123 or ISBN 124.</b></p>
+<pre>
+SELECT DISTINCT S.StudentName
+FROM Student S
+JOIN Borrows B
+ON S.StudentID=B.StudentID
+WHERE B.ISBN IN ('123','124');
+</pre>
+
+<h3>Output</h3>
+<table>
+<tr><th>Student Name</th></tr>
+<tr><td>Rahul</td></tr>
+<tr><td>Sneha</td></tr>
+<tr><td>Ananth</td></tr>
+</table>
+
+<h2>Query 2</h2>
+<p><b>Obtain names of female students who borrowed Database books.</b></p>
+<pre>
+SELECT S.StudentName
+FROM Student S
+JOIN Borrows B
+ON S.StudentID=B.StudentID
+JOIN Books BK
+ON BK.ISBN=B.ISBN
+WHERE S.Gender='Female'
+AND BK.Title='Database';
+</pre>
+
+<h3>Output</h3>
+<table>
+<tr><th>Student Name</th></tr>
+<tr><td>Sneha</td></tr>
+</table>
+
+<h2>Query 3</h2>
+<p><b>Find number of books borrowed by each student.</b></p>
+<pre>
+SELECT S.StudentID,
+S.StudentName,
+COUNT(B.ISBN) AS BooksBorrowed
+FROM Student S
+LEFT JOIN Borrows B
+ON S.StudentID=B.StudentID
+GROUP BY S.StudentID,S.StudentName;
+</pre>
+
+<h3>Output</h3>
+<table>
+<tr><th>StudentID</th><th>Student Name</th><th>Books Borrowed</th></tr>
+<tr><td>1</td><td>Rahul</td><td>1</td></tr>
+<tr><td>2</td><td>Sneha</td><td>2</td></tr>
+<tr><td>3</td><td>Ananth</td><td>1</td></tr>
+</table>
+
+<h2>Result</h2>
+<p>The Library Book Lending database was successfully designed and implemented. All required SQL queries were executed successfully.</p>
+            </div>
+        </div>
+        <div id="experiment-6" class="lab-section">
+            <div class="exp-panel">
+<h1 align="center">DATABASE MANAGEMENT SYSTEMS LAB</h1>
+<h2 align="center">Experiment 6</h2>
+
+<h2>Aim</h2>
+<p>To design and implement the Hospital Management System and perform SQL queries.</p>
+
+<h2>Problem Statement</h2>
+<p>Consider the Hospital Management System with PATIENT, DOCTOR and APPOINTMENT relations. Each patient can consult doctors on a specific date. Doctor details include specialization and consultation information.</p>
+
+<h2>Constraints</h2>
+<ul>
+<li>PatientID is Primary Key of PATIENT.</li>
+<li>DoctorID is Primary Key of DOCTOR.</li>
+<li>AppointmentID is Primary Key of APPOINTMENT.</li>
+<li>A patient can consult multiple doctors.</li>
+<li>A doctor can consult multiple patients.</li>
+<li>PatientID in APPOINTMENT references PATIENT(PatientID).</li>
+<li>DoctorID in APPOINTMENT references DOCTOR(DoctorID).</li>
+</ul>
+
+<h2>ER Diagram</h2>
+<div style="
+    text-align:center;
+    margin-top:20px;
+    margin-bottom:20px;
+">
+
+    <img
+        src="./DBMS_LAB/image6.png"
+        style="
+            width:100%;
+            max-width:1200px;
+            border:1px solid #ccc;
+            border-radius:10px;
+            padding:10px;
+            background:white;
+            box-shadow:0 0 10px rgba(0,0,0,0.1);
+        "
+    >
+
+</div>
+
+<h2>Schema Diagram</h2>
+<pre>
+PATIENT
+-------------------------
+PatientID (PK)
+PatientName
+Age
+Gender
+
+DOCTOR
+-------------------------
+DoctorID (PK)
+DoctorName
+Specialization
+
+APPOINTMENT
+-------------------------
+AppointmentID (PK)
+PatientID (FK)
+DoctorID (FK)
+AppointmentDate
+</pre>
+
+<h2>Create Table Statements</h2>
+<pre>
+CREATE TABLE Patient(
+PatientID NUMBER PRIMARY KEY,
+PatientName VARCHAR2(30),
+Age NUMBER,
+Gender VARCHAR2(10)
+);
+
+CREATE TABLE Doctor(
+DoctorID NUMBER PRIMARY KEY,
+DoctorName VARCHAR2(30),
+Specialization VARCHAR2(30)
+);
+
+CREATE TABLE Appointment(
+AppointmentID NUMBER PRIMARY KEY,
+PatientID NUMBER,
+DoctorID NUMBER,
+AppointmentDate DATE,
+FOREIGN KEY(PatientID)
+REFERENCES Patient(PatientID),
+FOREIGN KEY(DoctorID)
+REFERENCES Doctor(DoctorID)
+);
+</pre>
+
+<h2>Insert Sample Data</h2>
+<pre>
+INSERT INTO Patient VALUES(1,'Rahul',25,'Male');
+INSERT INTO Patient VALUES(2,'Sneha',22,'Female');
+INSERT INTO Patient VALUES(3,'Ananth',21,'Male');
+
+INSERT INTO Doctor VALUES(101,'Dr. Kumar','Cardiology');
+INSERT INTO Doctor VALUES(102,'Dr. Sharma','Neurology');
+INSERT INTO Doctor VALUES(103,'Dr. Reddy','Orthopedics');
+
+INSERT INTO Appointment VALUES(1,1,101,DATE '2025-01-10');
+INSERT INTO Appointment VALUES(2,1,102,DATE '2025-01-11');
+INSERT INTO Appointment VALUES(3,2,101,DATE '2025-01-12');
+INSERT INTO Appointment VALUES(4,3,101,DATE '2025-01-13');
+</pre>
+
+<h2>Query 1</h2>
+<p><b>Retrieve details of doctors consulted by Rahul.</b></p>
+<pre>
+SELECT D.*
+FROM Doctor D
+JOIN Appointment A
+ON D.DoctorID=A.DoctorID
+JOIN Patient P
+ON P.PatientID=A.PatientID
+WHERE P.PatientName='Rahul';
+</pre>
+
+<h3>Output</h3>
+<table>
+<tr><th>DoctorID</th><th>DoctorName</th><th>Specialization</th></tr>
+<tr><td>101</td><td>Dr. Kumar</td><td>Cardiology</td></tr>
+<tr><td>102</td><td>Dr. Sharma</td><td>Neurology</td></tr>
+</table>
+
+<h2>Query 2</h2>
+<p><b>Find DoctorIDs of doctors consulted by all patients.</b></p>
+<pre>
+SELECT DoctorID
+FROM Appointment
+GROUP BY DoctorID
+HAVING COUNT(DISTINCT PatientID)=
+(SELECT COUNT(*) FROM Patient);
+</pre>
+
+<h3>Output</h3>
+<table>
+<tr><th>DoctorID</th></tr>
+<tr><td>101</td></tr>
+</table>
+
+<h2>Query 3</h2>
+<p><b>For each patient, find number of doctors consulted.</b></p>
+<pre>
+SELECT P.PatientName,
+COUNT(A.DoctorID) AS DoctorsConsulted
+FROM Patient P
+LEFT JOIN Appointment A
+ON P.PatientID=A.PatientID
+GROUP BY P.PatientName;
+</pre>
+
+<h3>Output</h3>
+<table>
+<tr><th>Patient Name</th><th>Doctors Consulted</th></tr>
+<tr><td>Rahul</td><td>2</td></tr>
+<tr><td>Sneha</td><td>1</td></tr>
+<tr><td>Ananth</td><td>1</td></tr>
+</table>
+
+<h2>Result</h2>
+<p>The Hospital Management System database was successfully designed and implemented. All required SQL queries were executed successfully.</p>
+            </div>
+        </div>
+        <div id="experiment-7" class="lab-section">
+            <div class="exp-panel">
+<h1 align="center">DATABASE MANAGEMENT SYSTEMS LAB</h1>
+<h2 align="center">Experiment 7</h2>
+
+<h2>Aim</h2>
+<p>To perform MongoDB operations on Employee and Department collections and implement salary increment logic.</p>
+
+<h2>Problem Statement</h2>
+<p>Create Employee and Department collections using MongoDB and perform the required queries. Also write a program to give employees in a department a 15% pay increase.</p>
+
+<h2>MongoDB Collections</h2>
+
+<pre>
+db.Department.insertMany([
+{DeptNo:10, DeptName:"CSE"},
+{DeptNo:20, DeptName:"ISE"}
+]);
+
+db.Employee.insertMany([
+{EmpID:1, EmpName:"Rahul", Salary:50000, DeptNo:10, ProjectNo:101},
+{EmpID:2, EmpName:"Ananth", Salary:60000, DeptNo:10, ProjectNo:102},
+{EmpID:3, EmpName:"Sneha", Salary:55000, DeptNo:20, ProjectNo:101}
+]);
+</pre>
+
+<h2>Query 1</h2>
+<p><b>List all employees of Department named 'CSE'</b></p>
+
+<pre>
+db.Employee.aggregate([
+{
+$lookup:{
+from:"Department",
+localField:"DeptNo",
+foreignField:"DeptNo",
+as:"Dept"
+}
+},
+{$unwind:"$Dept"},
+{$match:{"Dept.DeptName":"CSE"}}
+]);
+</pre>
+
+<h2>Query 2</h2>
+<p><b>Name employees working on Project Number 101</b></p>
+
+<pre>
+db.Employee.find(
+{ProjectNo:101},
+{_id:0,EmpName:1}
+);
+</pre>
+
+<h2>Program</h2>
+<p><b>Give all employees in Department 10 a 15% pay increase</b></p>
+
+<pre>
+var result = db.Employee.updateMany(
+{DeptNo:10},
+[
+{
+$set:{
+Salary:{
+$multiply:["$Salary",1.15]
+}
+}
+}
+]
+);
+
+print(result.modifiedCount +
+" employees were awarded the increase");
+</pre>
+
+<h2>Expected Output</h2>
+
+<pre>
+2 employees were awarded the increase
+</pre>
+
+<h2>Result</h2>
+<p>MongoDB collections were created successfully and the required operations were executed successfully.</p>
+            </div>
+        </div>
+        <div id="experiment-8" class="lab-section">
+            <div class="exp-panel">
+<h1 align="center">DATABASE MANAGEMENT SYSTEMS LAB</h1>
+<h2 align="center">Experiment 8</h2>
+
+<h2>Aim</h2>
+<p>To perform MongoDB operations on Patient and Doctor collections and update consultation fees.</p>
+
+<h2>Problem Statement</h2>
+<p>Create Patient and Doctor collections using MongoDB and perform the required queries. Also write a program that increases consultation fees of doctors in a given specialization by 20%.</p>
+
+<h2>Create Collections</h2>
+
+<pre>
+db.Doctor.insertMany([
+{
+DoctorID:101,
+DoctorName:"Dr. Kumar",
+Specialization:"Cardiology",
+Fee:500
+},
+{
+DoctorID:102,
+DoctorName:"Dr. Sharma",
+Specialization:"Neurology",
+Fee:700
+}
+]);
+
+db.Patient.insertMany([
+{
+PatientID:1,
+PatientName:"Rahul",
+DoctorID:101,
+AppointmentDate:"2025-01-10"
+},
+{
+PatientID:2,
+PatientName:"Sneha",
+DoctorID:101,
+AppointmentDate:"2025-01-10"
+},
+{
+PatientID:3,
+PatientName:"Ananth",
+DoctorID:102,
+AppointmentDate:"2025-01-12"
+}
+]);
+</pre>
+
+<h2>Query 1</h2>
+<p><b>List all patients treated by doctor 'Dr. Kumar'</b></p>
+
+<pre>
+var doctor =
+db.Doctor.findOne(
+{DoctorName:"Dr. Kumar"}
+);
+
+db.Patient.find(
+{DoctorID:doctor.DoctorID}
+);
+</pre>
+
+<h2>Query 2</h2>
+<p><b>Display names of patients who have appointment on '2025-01-10'</b></p>
+
+<pre>
+db.Patient.find(
+{AppointmentDate:"2025-01-10"},
+{_id:0,PatientName:1}
+);
+</pre>
+
+<h2>Program</h2>
+<p><b>Increase consultation fee of doctors in Cardiology by 20%</b></p>
+
+<pre>
+var result =
+db.Doctor.updateMany(
+{Specialization:"Cardiology"},
+{
+$mul:{Fee:1.20}
+}
+);
+
+print(
+result.modifiedCount +
+" doctors were updated"
+);
+</pre>
+
+<h2>Expected Output</h2>
+
+<pre>
+1 doctors were updated
+</pre>
+
+<h2>Result</h2>
+<p>MongoDB collections were created successfully and the required operations were executed successfully.</p>
+            </div>
+        </div>
+        <div id="experiment-9" class="lab-section">
+            <div class="exp-panel">
+<h1 align="center">DATABASE MANAGEMENT SYSTEMS LAB</h1>
+<h2 align="center">Experiment 9</h2>
+
+<h2>Aim</h2>
+<p>To perform MongoDB operations on Supplier, Part and Supply collections and implement a PL/SQL program.</p>
+
+<h2>Problem Statement</h2>
+<p>Create collections and perform MongoDB operations. Write a PL/SQL program to copy Shipment records to another table for a specified Part Number.</p>
+
+<h2>Create Collections</h2>
+
+<pre>
+db.Part.insertMany([
+{PID:101, PNAME:"Bolt", PCOLOR:"Red"},
+{PID:102, PNAME:"Nut", PCOLOR:"Blue"}
+]);
+
+db.Supplier.insertMany([
+{SID:1, SNAME:"ABC Suppliers"},
+{SID:2, SNAME:"XYZ Traders"}
+]);
+
+db.Supply.insertMany([
+{SID:1, PID:101, Quantity:500},
+{SID:2, PID:101, Quantity:300},
+{SID:2, PID:102, Quantity:200}
+]);
+</pre>
+
+<h2>Query 1</h2>
+<p><b>Update details of parts for a given PID.</b></p>
+
+<pre>
+db.Part.updateOne(
+{PID:101},
+{
+$set:{
+PNAME:"Steel Bolt",
+PCOLOR:"Green"
+}
+}
+);
+</pre>
+
+<h2>Query 2</h2>
+<p><b>Display all suppliers who supply Part PID = 101.</b></p>
+
+<pre>
+db.Supplier.aggregate([
+{
+$lookup:{
+from:"Supply",
+localField:"SID",
+foreignField:"SID",
+as:"SupplyDetails"
+}
+},
+{$unwind:"$SupplyDetails"},
+{$match:{"SupplyDetails.PID":101}}
+]);
+</pre>
+
+<h2>PL/SQL Program</h2>
+<p><b>Copy Shipment records to another table for a specified PID.</b></p>
+
+<pre>
+CREATE TABLE Shipment_Backup AS
+SELECT *
+FROM Supply
+WHERE 1=2;
+
+DECLARE
+v_pid NUMBER := 101;
+BEGIN
+
+INSERT INTO Shipment_Backup
+SELECT *
+FROM Supply
+WHERE PID = v_pid;
+
+COMMIT;
+
+DBMS_OUTPUT.PUT_LINE(
+'Records Copied Successfully'
+);
+
+END;
+/
+</pre>
+
+<h2>Expected Output</h2>
+
+<pre>
+Records Copied Successfully
+</pre>
+
+<h2>Result</h2>
+<p>MongoDB operations and PL/SQL program were executed successfully.</p>
+            </div>
+        </div>
+        <div id="experiment-10" class="lab-section">
+            <div class="exp-panel">
+<h1 align="center">DATABASE MANAGEMENT SYSTEMS LAB</h1>
+<h2 align="center">Experiment 10</h2>
+
+<h2>Aim</h2>
+<p>To perform MongoDB operations on Boat and Sailor collections and implement a database trigger.</p>
+
+<h2>Problem Statement</h2>
+<p>Create collections and perform MongoDB operations. Write a trigger to prevent modifications to EMPLOYEE table on weekends.</p>
+
+<h2>Create Collections</h2>
+
+<pre>
+db.Boat.insertMany([
+{BID:101, BName:"Sea Queen", Color:"Red"},
+{BID:102, BName:"Ocean Star", Color:"Blue"},
+{BID:103, BName:"Wave Rider", Color:"Red"}
+]);
+
+db.Sailor.insertMany([
+{SID:1, SailorName:"Rahul", Boats:[101,102]},
+{SID:2, SailorName:"Ananth", Boats:[101]},
+{SID:3, SailorName:"Sneha", Boats:[103]}
+]);
+</pre>
+
+<h2>Query 1</h2>
+<p><b>Obtain the number of boats reserved by sailor Rahul.</b></p>
+
+<pre>
+db.Sailor.aggregate([
+{$match:{SailorName:"Rahul"}},
+{
+$project:{
+SailorName:1,
+BoatCount:{$size:"$Boats"}
+}
+}
+]);
+</pre>
+
+<h2>Query 2</h2>
+<p><b>Retrieve boats of color Red.</b></p>
+
+<pre>
+db.Boat.find(
+{Color:"Red"}
+);
+</pre>
+
+<h2>Trigger Program</h2>
+<p><b>Raise an error if EMPLOYEE table is modified on Saturday or Sunday.</b></p>
+
+<pre>
+CREATE OR REPLACE TRIGGER trg_emp_weekend
+BEFORE INSERT OR UPDATE OR DELETE
+ON Employee
+FOR EACH ROW
+BEGIN
+
+IF TO_CHAR(SYSDATE,'DAY')
+IN ('SATURDAY','SUNDAY')
+THEN
+
+RAISE_APPLICATION_ERROR(
+-20001,
+'Modification Not Allowed On Weekend'
+);
+
+END IF;
+
+END;
+/
+</pre>
+
+<h2>Expected Output</h2>
+
+<pre>
+ORA-20001:
+Modification Not Allowed On Weekend
+</pre>
+
+<h2>Result</h2>
+<p>MongoDB operations and trigger execution were implemented successfully.</p>
+            </div>
+        </div>
+        <div id="experiment-11" class="lab-section">
+            <div class="exp-panel">
+<h1 align="center">DATABASE MANAGEMENT SYSTEMS LAB</h1>
+<h2 align="center">Experiment 11</h2>
+
+<h2>Aim</h2>
+<p>To perform MongoDB operations on Customer and Branch collections and demonstrate cursor usage in PL/SQL.</p>
+
+<h2>Problem Statement</h2>
+<p>Create Customer and Branch collections using MongoDB and perform the required operations. Use a cursor to copy contents from one table to another.</p>
+
+<h2>Create Collections</h2>
+
+<pre>
+db.Branch.insertMany([
+{BranchID:101, BranchName:"SBI Main"},
+{BranchID:102, BranchName:"SBI City"}
+]);
+
+db.Customer.insertMany([
+{
+CustomerID:1,
+CustomerName:"Rahul",
+BranchID:101,
+Accounts:[1001,1002]
+},
+{
+CustomerID:2,
+CustomerName:"Sneha",
+BranchID:102,
+Accounts:[1003]
+}
+]);
+</pre>
+
+<h2>Query 1</h2>
+<p><b>Find Branch Name for a given Branch_ID.</b></p>
+
+<pre>
+db.Branch.find(
+{BranchID:101},
+{_id:0,BranchName:1}
+);
+</pre>
+
+<h2>Query 2</h2>
+<p><b>List total number of accounts for each customer.</b></p>
+
+<pre>
+db.Customer.aggregate([
+{
+$project:{
+CustomerName:1,
+TotalAccounts:{
+$size:"$Accounts"
+}
+}
+}
+]);
+</pre>
+
+<h2>PL/SQL Program Using Cursor</h2>
+<p><b>Copy contents of one table to another table.</b></p>
+
+<pre>
+CREATE TABLE Customer_Backup(
+CustomerID NUMBER,
+CustomerName VARCHAR2(30)
+);
+
+DECLARE
+
+CURSOR c1 IS
+SELECT CustomerID,
+CustomerName
+FROM Customer;
+
+v_id Customer.CustomerID%TYPE;
+v_name Customer.CustomerName%TYPE;
+
+BEGIN
+
+OPEN c1;
+
+LOOP
+
+FETCH c1
+INTO v_id,v_name;
+
+EXIT WHEN c1%NOTFOUND;
+
+INSERT INTO Customer_Backup
+VALUES(v_id,v_name);
+
+END LOOP;
+
+CLOSE c1;
+
+COMMIT;
+
+DBMS_OUTPUT.PUT_LINE(
+'Records Copied Successfully'
+);
+
+END;
+/
+</pre>
+
+<h2>Expected Output</h2>
+
+<pre>
+Records Copied Successfully
+</pre>
+
+<h2>Result</h2>
+<p>MongoDB operations and cursor implementation were executed successfully.</p>
+            </div>
+        </div>
+        <div id="experiment-12" class="lab-section">
+            <div class="exp-panel">
+<h1 align="center">DATABASE MANAGEMENT SYSTEMS LAB</h1>
+<h2 align="center">Experiment 12</h2>
+
+<h2>Aim</h2>
+<p>To perform MongoDB operations on Books and Student collections and demonstrate user-defined exception handling in PL/SQL.</p>
+
+<h2>Problem Statement</h2>
+<p>Create collections and perform MongoDB operations. Write a PL/SQL program that accepts two numbers and raises a user-defined exception e_bigger if the first number is larger than the second.</p>
+
+<h2>Create Collections</h2>
+
+<pre>
+db.Books.insertMany([
+{
+ISBN:"123",
+Title:"Database",
+Author:"Korth",
+Publisher:"McGrawHill"
+},
+{
+ISBN:"124",
+Title:"Operating System",
+Author:"Galvin",
+Publisher:"Wiley"
+}
+]);
+
+db.Student.insertMany([
+{
+StudentID:1,
+StudentName:"Rahul",
+BorrowedBooks:["123"]
+},
+{
+StudentID:2,
+StudentName:"Sneha",
+BorrowedBooks:["123","124"]
+}
+]);
+</pre>
+
+<h2>Query 1</h2>
+<p><b>Obtain book details authored by Korth.</b></p>
+
+<pre>
+db.Books.find(
+{Author:"Korth"}
+);
+</pre>
+
+<h2>Query 2</h2>
+<p><b>Obtain names of students who have borrowed Database books.</b></p>
+
+<pre>
+db.Student.aggregate([
+{
+$lookup:{
+from:"Books",
+localField:"BorrowedBooks",
+foreignField:"ISBN",
+as:"BookInfo"
+}
+},
+{$unwind:"$BookInfo"},
+{$match:{"BookInfo.Title":"Database"}},
+{
+$project:{
+_id:0,
+StudentName:1
+}
+}
+]);
+</pre>
+
+<h2>PL/SQL Program</h2>
+<p><b>User-defined Exception e_bigger</b></p>
+
+<pre>
+DECLARE
+
+num1 NUMBER := 20;
+num2 NUMBER := 10;
+
+e_bigger EXCEPTION;
+
+BEGIN
+
+IF num1 > num2 THEN
+RAISE e_bigger;
+END IF;
+
+DBMS_OUTPUT.PUT_LINE(
+'First Number Is Not Larger'
+);
+
+EXCEPTION
+
+WHEN e_bigger THEN
+DBMS_OUTPUT.PUT_LINE(
+'First Number Is Larger Than Second Number'
+);
+
+END;
+/
+</pre>
+
+<h2>Expected Output</h2>
+
+<pre>
+First Number Is Larger Than Second Number
+</pre>
+
+<h2>Result</h2>
+<p>MongoDB operations and user-defined exception handling were executed successfully.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showExp(id, el) {
+            document.querySelectorAll('.lab-section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            const section = document.getElementById(id);
+            if (section) section.classList.add('active');
+            if (el) el.classList.add('active');
+            window.scrollTo(0, 0);
+        }
+        // Open experiment from URL hash e.g. #experiment-3
+        (function() {
+            const hash = location.hash.replace('#', '');
+            if (hash && document.getElementById(hash)) {
+                const item = document.querySelector('.nav-item[data-exp="' + hash.replace('experiment-','') + '"]');
+                showExp(hash, item);
+            }
+        })();
+    </script>
+</body>
+</html>

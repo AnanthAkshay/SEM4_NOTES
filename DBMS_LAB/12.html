@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>DBMS Lab Experiment 12</title>
+<style>
+body{font-family:Arial,sans-serif;margin:40px;background:#f5f5f5;line-height:1.6}
+.container{background:white;padding:30px;border-radius:10px;box-shadow:0 0 10px rgba(0,0,0,.1)}
+h1,h2,h3{color:#003366}
+pre{background:#f4f4f4;padding:15px;border-left:5px solid #003366;overflow:auto}
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1 align="center">DATABASE MANAGEMENT SYSTEMS LAB</h1>
+<h2 align="center">Experiment 12</h2>
+
+<h2>Aim</h2>
+<p>To perform MongoDB operations on Books and Student collections and demonstrate user-defined exception handling in PL/SQL.</p>
+
+<h2>Problem Statement</h2>
+<p>Create collections and perform MongoDB operations. Write a PL/SQL program that accepts two numbers and raises a user-defined exception e_bigger if the first number is larger than the second.</p>
+
+<h2>Create Collections</h2>
+
+<pre>
+db.Books.insertMany([
+{
+ISBN:"123",
+Title:"Database",
+Author:"Korth",
+Publisher:"McGrawHill"
+},
+{
+ISBN:"124",
+Title:"Operating System",
+Author:"Galvin",
+Publisher:"Wiley"
+}
+]);
+
+db.Student.insertMany([
+{
+StudentID:1,
+StudentName:"Rahul",
+BorrowedBooks:["123"]
+},
+{
+StudentID:2,
+StudentName:"Sneha",
+BorrowedBooks:["123","124"]
+}
+]);
+</pre>
+
+<h2>Query 1</h2>
+<p><b>Obtain book details authored by Korth.</b></p>
+
+<pre>
+db.Books.find(
+{Author:"Korth"}
+);
+</pre>
+
+<h2>Query 2</h2>
+<p><b>Obtain names of students who have borrowed Database books.</b></p>
+
+<pre>
+db.Student.aggregate([
+{
+$lookup:{
+from:"Books",
+localField:"BorrowedBooks",
+foreignField:"ISBN",
+as:"BookInfo"
+}
+},
+{$unwind:"$BookInfo"},
+{$match:{"BookInfo.Title":"Database"}},
+{
+$project:{
+_id:0,
+StudentName:1
+}
+}
+]);
+</pre>
+
+<h2>PL/SQL Program</h2>
+<p><b>User-defined Exception e_bigger</b></p>
+
+<pre>
+DECLARE
+
+num1 NUMBER := 20;
+num2 NUMBER := 10;
+
+e_bigger EXCEPTION;
+
+BEGIN
+
+IF num1 > num2 THEN
+RAISE e_bigger;
+END IF;
+
+DBMS_OUTPUT.PUT_LINE(
+'First Number Is Not Larger'
+);
+
+EXCEPTION
+
+WHEN e_bigger THEN
+DBMS_OUTPUT.PUT_LINE(
+'First Number Is Larger Than Second Number'
+);
+
+END;
+/
+</pre>
+
+<h2>Expected Output</h2>
+
+<pre>
+First Number Is Larger Than Second Number
+</pre>
+
+<h2>Result</h2>
+<p>MongoDB operations and user-defined exception handling were executed successfully.</p>
+
+</div>
+</body>
+</html>

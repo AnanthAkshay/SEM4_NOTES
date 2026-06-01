@@ -58,7 +58,7 @@ public class BookDatabase {
 
     public static void main(String[] args) {
         BookDatabase db = new BookDatabase();
-        
+
         // Add sample books
         db.addBook(new Book(101, "Java Complete Reference", "Herbert Schildt", "McGrawHill", 850.00));
         db.addBook(new Book(102, "JavaEE 7 for Beginners", "Sharanam Shah", "Shroff", 450.00));

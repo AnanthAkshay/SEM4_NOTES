@@ -1,0 +1,2126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit 1 — Introduction to DBMS & Entity Relationship Model Exam Notes</title>
+    <meta name="description" content="Complete university exam notes for DBMS Unit 1: Characteristics, 3-Schema Architecture, Data Independence, Languages, ER Model, 20 Solved ER Diagrams, and Revision Pack.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* ===== CSS RESET & ROOT ===== */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-primary: #0a0e1a;
+            --bg-secondary: #111827;
+            --bg-card: #1a2234;
+            --bg-card-hover: #1e2a40;
+            --bg-code: #0d1117;
+            --bg-inlinecode: #1e293b;
+            --text-primary: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --accent-blue: #06b6d4; /* Database Cyan Accent */
+            --accent-purple: #8b5cf6;
+            --accent-cyan: #22d3ee;
+            --accent-green: #10b981;
+            --accent-orange: #f59e0b;
+            --accent-red: #ef4444;
+            --accent-pink: #ec4899;
+            --border-color: #1e293b;
+            --border-accent: #2d3a52;
+            --gradient-1: linear-gradient(135deg, #06b6d4, #8b5cf6);
+            --gradient-2: linear-gradient(135deg, #22d3ee, #06b6d4);
+            --gradient-3: linear-gradient(135deg, #8b5cf6, #ec4899);
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+            --shadow-md: 0 4px 14px rgba(0,0,0,0.4);
+            --shadow-lg: 0 10px 40px rgba(0,0,0,0.5);
+            --shadow-glow: 0 0 30px rgba(6,182,212,0.15);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 15px;
+            overflow-x: hidden;
+        }
+
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-primary); }
+        ::-webkit-scrollbar-thumb { background: var(--border-accent); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent-blue); }
+
+        /* ===== ANIMATED BACKGROUND ===== */
+        .bg-glow {
+            position: fixed;
+            top: -200px;
+            right: -200px;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(6,182,212,0.08) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+            animation: floatGlow 20s ease-in-out infinite;
+        }
+        .bg-glow-2 {
+            position: fixed;
+            bottom: -200px;
+            left: -200px;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(139,92,246,0.06) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+            animation: floatGlow 25s ease-in-out infinite reverse;
+        }
+        @keyframes floatGlow {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(50px, 30px); }
+        }
+
+        /* ===== SIDEBAR NAV ===== */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 280px;
+            height: 100vh;
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border-color);
+            padding: 24px 0;
+            overflow-y: auto;
+            z-index: 100;
+            transition: transform 0.3s ease;
+        }
+        .sidebar-header {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 12px;
+        }
+        .sidebar-header h2 {
+            font-size: 16px;
+            font-weight: 700;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .sidebar-header p {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+        .nav-section {
+            padding: 8px 16px 4px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-muted);
+        }
+        .nav-link {
+            display: block;
+            padding: 7px 20px 7px 24px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+        }
+        .nav-link:hover {
+            color: var(--accent-blue);
+            background: rgba(6,182,212,0.05);
+            border-left-color: var(--accent-blue);
+        }
+        .nav-link.active {
+            color: var(--accent-blue);
+            background: rgba(6,182,212,0.08);
+            border-left-color: var(--accent-blue);
+            font-weight: 500;
+        }
+        .badge {
+            display: inline-block;
+            font-size: 9px;
+            padding: 1px 6px;
+            border-radius: 10px;
+            margin-left: 6px;
+            font-weight: 600;
+            vertical-align: middle;
+        }
+        .badge-pyq { background: rgba(239,68,68,0.15); color: var(--accent-red); }
+        .badge-imp { background: rgba(245,158,11,0.15); color: var(--accent-orange); }
+
+        /* ===== MOBILE TOGGLE ===== */
+        .sidebar-toggle {
+            display: none;
+            position: fixed;
+            top: 16px;
+            left: 16px;
+            z-index: 200;
+            background: var(--bg-card);
+            border: 1px solid var(--border-accent);
+            color: var(--text-primary);
+            width: 42px;
+            height: 42px;
+            border-radius: var(--radius-sm);
+            font-size: 20px;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .main {
+            margin-left: 280px;
+            padding: 40px 48px 100px;
+            max-width: 1050px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ===== HERO HEADER ===== */
+        .hero {
+            text-align: center;
+            padding: 56px 32px;
+            background: linear-gradient(135deg, rgba(6,182,212,0.1), rgba(139,92,246,0.1));
+            border: 1px solid var(--border-accent);
+            border-radius: var(--radius-xl);
+            margin-bottom: 48px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: var(--gradient-1);
+        }
+        .hero .unit-badge {
+            display: inline-block;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--accent-cyan);
+            background: rgba(6,182,212,0.1);
+            padding: 6px 16px;
+            border-radius: 20px;
+            border: 1px solid rgba(6,182,212,0.2);
+            margin-bottom: 16px;
+        }
+        .hero h1 {
+            font-size: 36px;
+            font-weight: 900;
+            letter-spacing: -1px;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 12px;
+        }
+        .hero p {
+            color: var(--text-secondary);
+            font-size: 16px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* ===== PART DIVIDER ===== */
+        .part-divider {
+            text-align: center;
+            margin: 64px 0 40px;
+            position: relative;
+        }
+        .part-divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0; right: 0;
+            height: 1px;
+            background: var(--border-accent);
+        }
+        .part-divider span {
+            position: relative;
+            display: inline-block;
+            background: var(--bg-primary);
+            padding: 8px 28px;
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            border: 1px solid var(--border-accent);
+            border-radius: 30px;
+        }
+        .part-divider.part-a span { color: var(--accent-cyan); border-color: rgba(6,182,212,0.3); }
+        .part-divider.part-b span { color: var(--accent-purple); border-color: rgba(139,92,246,0.3); }
+        .part-divider.part-c span { color: var(--accent-pink); border-color: rgba(236,72,153,0.3); }
+
+        /* ===== SECTION (TOPIC) ===== */
+        .section {
+            margin-bottom: 48px;
+            scroll-margin-top: 24px;
+        }
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 20px;
+        }
+        .section-number {
+            flex-shrink: 0;
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            font-weight: 800;
+            border-radius: 10px;
+            color: #fff;
+        }
+        .num-blue { background: var(--gradient-2); }
+        .num-purple { background: var(--gradient-3); }
+        .num-green { background: linear-gradient(135deg, #10b981, #06b6d4); }
+        .section-header h2 {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        /* ===== CARDS ===== */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            margin-bottom: 20px;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .card:hover {
+            border-color: var(--border-accent);
+            box-shadow: var(--shadow-md);
+        }
+        .card h3 {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .card h3 .icon { font-size: 18px; }
+        .card p, .card li {
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+        }
+        .card ul { padding-left: 20px; list-style: none; }
+        .card ul li::before {
+            content: '▸';
+            color: var(--accent-blue);
+            font-weight: bold;
+            margin-right: 8px;
+        }
+        .card ol { padding-left: 20px; }
+        .card ol li { color: var(--text-secondary); margin-bottom: 4px; }
+
+        /* ===== DEFINITION BOX ===== */
+        .def-box {
+            background: linear-gradient(135deg, rgba(6,182,212,0.06), rgba(139,92,246,0.06));
+            border: 1px solid rgba(6,182,212,0.15);
+            border-radius: var(--radius-md);
+            padding: 20px 24px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--accent-blue);
+        }
+        .def-box .label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--accent-blue);
+            margin-bottom: 6px;
+        }
+        .def-box p {
+            color: var(--text-primary);
+            font-size: 15px;
+        }
+
+        /* ===== EXAM TIP BOX ===== */
+        .tip-box {
+            background: rgba(16,185,129,0.06);
+            border: 1px solid rgba(16,185,129,0.15);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            margin-bottom: 16px;
+            border-left: 4px solid var(--accent-green);
+        }
+        .tip-box .label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--accent-green);
+            margin-bottom: 4px;
+        }
+        .tip-box p { color: var(--text-secondary); font-size: 14px; }
+
+        /* ===== WARNING BOX ===== */
+        .warn-box {
+            background: rgba(245,158,11,0.06);
+            border: 1px solid rgba(245,158,11,0.15);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            margin-bottom: 16px;
+            border-left: 4px solid var(--accent-orange);
+        }
+        .warn-box .label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--accent-orange);
+            margin-bottom: 4px;
+        }
+        .warn-box p { color: var(--text-secondary); font-size: 14px; }
+
+        /* ===== PYQ TAG ===== */
+        .pyq-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--accent-red);
+            background: rgba(239,68,68,0.1);
+            border: 1px solid rgba(239,68,68,0.2);
+            padding: 3px 10px;
+            border-radius: 20px;
+            margin-left: 8px;
+        }
+
+        /* ===== TABLES ===== */
+        .table-wrap {
+            overflow-x: auto;
+            margin-bottom: 20px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13.5px;
+        }
+        thead th {
+            background: var(--bg-card);
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 700;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--text-secondary);
+            border-bottom: 2px solid var(--border-accent);
+        }
+        tbody td {
+            padding: 10px 16px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+        tbody tr:hover { background: rgba(6,182,212,0.03); }
+        tbody tr:last-child td { border-bottom: none; }
+        td code, th code {
+            background: var(--bg-inlinecode);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        /* ===== DIFF TABLE ===== */
+        .diff-table {
+            border: 2px solid var(--accent-purple);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        .diff-table-header {
+            background: linear-gradient(135deg, rgba(139,92,246,0.15), rgba(236,72,153,0.1));
+            padding: 12px 16px;
+            font-weight: 800;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid rgba(139,92,246,0.2);
+        }
+        .diff-table thead th {
+            background: rgba(139,92,246,0.08);
+        }
+
+        /* ===== CODE BLOCKS ===== */
+        pre {
+            background: var(--bg-code);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 20px 24px;
+            margin-bottom: 16px;
+            overflow-x: auto;
+            position: relative;
+        }
+        pre code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            line-height: 1.65;
+            color: var(--text-primary);
+        }
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            background: var(--bg-inlinecode);
+            padding: 2px 7px;
+            border-radius: 5px;
+            color: var(--accent-cyan);
+        }
+
+        /* ===== Syntax Highlighting ===== */
+        .kw { color: #c678dd; }
+        .str { color: #98c379; }
+        .cm { color: #5c6370; font-style: italic; }
+        .fn { color: #61afef; }
+        .cls { color: #e5c07b; }
+        .num { color: #d19a66; }
+        .op { color: #56b6c2; }
+
+        /* ===== SOLVED PROBLEM BOX ===== */
+        .problem-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            margin-bottom: 32px;
+            box-shadow: var(--shadow-md);
+        }
+        .problem-header {
+            padding: 20px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border-color);
+            background: linear-gradient(135deg, rgba(6,182,212,0.1), rgba(139,92,246,0.02));
+        }
+        .problem-header h3 {
+            font-size: 17px;
+            font-weight: 800;
+        }
+        .problem-body { padding: 24px; }
+        .problem-body pre {
+            margin: 16px -24px;
+            border-radius: 0;
+            border-left: none;
+            border-right: none;
+        }
+
+        /* ===== VIVA QUESTIONS ===== */
+        .viva-list { counter-reset: viva-counter; list-style: none; padding: 0; }
+        .viva-list li {
+            counter-increment: viva-counter; padding: 12px 16px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-secondary); font-size: 14px;
+        }
+        .viva-list li:last-child { border-bottom: none; }
+        .viva-list li::before {
+            content: counter(viva-counter); display: inline-flex;
+            align-items: center; justify-content: center;
+            width: 24px; height: 24px; background: rgba(6,182,212,0.15);
+            color: var(--accent-blue); font-size: 11px; font-weight: 700;
+            border-radius: 6px; margin-right: 12px; flex-shrink: 0;
+        }
+        .viva-list li strong { color: var(--text-primary); }
+
+        /* ===== BACK TO TOP ===== */
+        .back-to-top {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            width: 44px;
+            height: 44px;
+            background: var(--gradient-1);
+            border: none;
+            border-radius: 50%;
+            color: #fff;
+            font-size: 20px;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            z-index: 200;
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .back-to-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .back-to-top:hover { transform: translateY(-3px); }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 900px) {
+            .sidebar { transform: translateX(-100%); }
+            .sidebar.open { transform: translateX(0); box-shadow: var(--shadow-lg); }
+            .sidebar-toggle { display: flex; }
+            .main { margin-left: 0; padding: 24px 20px 80px; }
+            .hero h1 { font-size: 26px; }
+            .problem-body pre { margin: 16px -16px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="bg-glow"></div>
+<div class="bg-glow-2"></div>
+
+<!-- Mobile Toggle -->
+<button class="sidebar-toggle" id="sidebarToggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰</button>
+
+<!-- Sidebar Navigation -->
+<nav class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+        <h2>📘 Unit 1 Notes</h2>
+        <p>DBMS Intro &amp; ER Model</p>
+    </div>
+
+    <div class="nav-section">Part A — Introduction</div>
+    <a class="nav-link" href="#intro-dbms">What is a DBMS?</a>
+    <a class="nav-link" href="#file-system">File Processing Flaws</a>
+    <a class="nav-link" href="#dbms-vs-file">DBMS vs. File System</a>
+    <a class="nav-link" href="#characteristics">Database Characteristics</a>
+    <a class="nav-link" href="#actors-scene">Actors on the Scene</a>
+    <a class="nav-link" href="#workers-behind">Workers Behind Scene</a>
+    <a class="nav-link" href="#advantages">10 Advantages of DBMS</a>
+    <a class="nav-link" href="#when-not-use">When NOT to Use DBMS</a>
+
+    <div class="nav-section">Part B — Architecture</div>
+    <a class="nav-link" href="#data-models">Data Model Classifications</a>
+    <a class="nav-link" href="#schemas-states">Schema vs. State</a>
+    <a class="nav-link" href="#three-schema">Three-Schema Architecture</a>
+    <a class="nav-link" href="#data-independence">Data Independence</a>
+    <a class="nav-link" href="#languages">Database Languages</a>
+    <a class="nav-link" href="#interfaces">User Interfaces</a>
+    <a class="nav-link" href="#classification">DBMS Classification</a>
+
+    <div class="nav-section">Part C — ER Model</div>
+    <a class="nav-link" href="#design-process">Conceptual Design Process</a>
+    <a class="nav-link" href="#entities-sets">Entity Types &amp; Sets</a>
+    <a class="nav-link" href="#attributes-types">Attributes &amp; Symbols</a>
+    <a class="nav-link" href="#keys-dbms">DBMS Keys Catalog</a>
+    <a class="nav-link" href="#relationships">Relationship Constraints</a>
+    <a class="nav-link" href="#weak-entities">Weak Entities Solved</a>
+    <a class="nav-link" href="#refining-design">Refining ER Schemas</a>
+
+    <div class="nav-section">Solved ER Cases</div>
+    <a class="nav-link" href="#er-1-5">Solved Cases 1 - 5</a>
+    <a class="nav-link" href="#er-6-10">Solved Cases 6 - 10</a>
+    <a class="nav-link" href="#er-1-20">Solved Cases 11 - 20</a>
+
+    <div class="nav-section">Exam &amp; Revision</div>
+    <a class="nav-link" href="#repeated-q">University Q&amp;A Pack</a>
+    <a class="nav-link" href="#last-night">Last-Night Revision Pack</a>
+</nav>
+
+<!-- Main Content -->
+<div class="main">
+
+    <!-- Hero -->
+    <header class="hero" id="top">
+        <div class="unit-badge">Unit I — Database Fundamentals</div>
+        <h1>Introduction to DBMS &amp; Entity Relationship Model</h1>
+        <p>Professional grade exam notes covering structural characteristics, three-schema mapping, logic abstractions, language parameters, complete ER attributes, and solved system catalogs.</p>
+    </header>
+
+    <!-- ============================== -->
+    <!-- PART A: INTRODUCTION TO DBMS   -->
+    <!-- ============================== -->
+    <div class="part-divider part-a"><span id="intro-to-dbms">Part A — Introduction to DBMS</span></div>
+
+    <!-- 1. What is a DBMS? -->
+    <section class="section" id="intro-dbms">
+        <div class="section-header">
+            <div class="section-number num-blue">1</div>
+            <h2>Introduction &amp; Core Concepts of DBMS</h2>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definitions</div>
+            <p><strong>Database:</strong> A logically coherent, organized collection of related data that represents some aspect of the real world (called a <strong>Mini-world</strong> or <strong>Universe of Discourse (UoD)</strong>). It must have an inherent meaning, a specific target audience, and must be designed, built, and populated with data for a dedicated purpose.</p>
+            <p style="margin-top: 10px;"><strong>Database Management System (DBMS):</strong> A comprehensive software system that facilitates the processes of defining, constructing, manipulating, sharing, protecting, and maintaining databases among various users and applications.</p>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">⚙️</span> Need for a DBMS</h3>
+            <p>In modern computing, data is a vital corporate asset. Without a centralized DBMS, organizations are forced to write ad-hoc file programs that lead to chaotic records. A DBMS provides a standardized runtime engine to manage data securely, handling millions of simultaneous operations without logical conflicts.</p>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">📊</span> Database Core Components Diagram</h3>
+            <p>The database environment operates as a multi-tier system separating application logic from raw disk files:</p>
+            <pre><code>+--------------------------------------------+
+|            Application Programs / Users    |
++--------------------------------------------+
+                      │  (Queries/API Calls)
+                      ▼
++--------------------------------------------+
+|        DBMS Software Engine                |
+|  [Query Parser]  [Constraint Validator]    |
+|  [Concurrency]   [Buffer / Lock Manager]   |
++--------------------------------------------+
+                      │  (File System Reads/Writes)
+                      ▼
++--------------------------------------------+
+|           Physical Database Storage        |
+|  [System Catalog]   [Raw Table Files]      |
+|  (Data Metadata)    (Physical Records)     |
++--------------------------------------------+</code></pre>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">💼</span> Real-Life Enterprise Example</h3>
+            <p><strong>Amazon Shopping System:</strong> Contains hundreds of tables (Customers, Orders, Products, Payments). If two customers try to buy the last remaining Xbox unit at the exact same millisecond, Amazon's underlying DBMS ensures that one transaction goes through successfully while the other is gracefully rolled back and updated. This guarantees zero financial discrepancy.</p>
+        </div>
+
+        <div class="tip-box">
+            <div class="label">💡 Exam Point (VTU Key terms)</div>
+            <p>When defining a database, always specify the term <strong>Mini-world</strong> or <strong>Universe of Discourse (UoD)</strong>. VTU paper checkers look for these explicit technical keywords to award full marks.</p>
+        </div>
+    </section>
+
+    <!-- 2. Traditional File Processing System -->
+    <section class="section" id="file-system">
+        <div class="section-header">
+            <div class="section-number num-blue">2</div>
+            <h2>Traditional File Processing Systems (TFPS) &amp; Their Flaws</h2>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definition</div>
+            <p>A <strong>Traditional File Processing System</strong> is a decentralized system where each functional department or application program maintains its own independent flat files (e.g., text, CSV, or custom binary files) on the operating system to store transactional records. No sharing mechanisms or centralized structural rules exist.</p>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">❌</span> The 8 Core Flaws of Traditional File Processing</h3>
+            <ol>
+                <li><strong>Data Redundancy and Inconsistency:</strong> Since each department has separate files, the same student's address might be stored in the Accounts file and the Hostel file. Changing it in one file leaves the other stale (Data Inconsistency).</li>
+                <li><strong>Program-Data Dependence:</strong> The structure of the data records is hardcoded directly inside the application program code (e.g., in C/C++ structs). Changing an address field from 30 characters to 40 characters requires modifying and recompiling all programs that read that file.</li>
+                <li><strong>Difficulty in Accessing Data:</strong> Fetching non-routine data (e.g., finding all employees who joined in May and live in Bangalore) requires writing a brand new, custom program from scratch since no query language like SQL exists.</li>
+                <li><strong>Data Isolation:</strong> Data is scattered across multiple file formats (some binary, some text), making it incredibly difficult to write integration code.</li>
+                <li><strong>Lack of Security (Unauthorized Access):</strong> Security is handled at the file level by the Operating System. It is impossible to restrict a user to view only their department's data within a shared file.</li>
+                <li><strong>Lack of Transactional Atomicity:</strong> If a system crashes halfway during a bank transfer program, money is debited from Account A but not credited to Account B, leaving the file corrupted.</li>
+                <li><strong>Concurrency Anomalies:</strong> If two booking operators attempt to write to the seat allocation file simultaneously, one operator's changes will silently overwrite the other's changes.</li>
+                <li><strong>Integrity Violations:</strong> Hardcoding business constraints (e.g., `Balance >= 500`) directly inside application scripts makes updates complex and error-prone.</li>
+            </ol>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🏢</span> Real-Life TFPS Example</h3>
+            <p>A university in 1980 maintained a `Students_List.txt` file inside the Library program and a `Student_Billing.csv` inside the Accounts program. When a student changed their name, they updated it at the Admin office, but the Library file continued to print their old name, causing confusion during book audits.</p>
+        </div>
+    </section>
+
+    <!-- 3. DBMS vs. File System -->
+    <section class="section" id="dbms-vs-file">
+        <div class="section-header">
+            <div class="section-number num-blue">3</div>
+            <h2>Comparison: DBMS vs. Traditional File System</h2>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🔄</span> Core Comparison Matrix (10 Marks Value)</h3>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Parameter of Comparison</th>
+                            <th>Traditional File Processing System (TFPS)</th>
+                            <th>Database Management System (DBMS)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Data Structure Description</strong></td>
+                            <td>Hardcoded within each program. Data lacks self-describing metadata.</td>
+                            <td>Stored separately in the System Catalog (Metadata catalog).</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Redundancy Control</strong></td>
+                            <td>High. Duplicate data across multiple files is common.</td>
+                            <td>Low. Controlled redundancy via relational schemas and normalization.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Program-Data Independence</strong></td>
+                            <td>Absent. Modifying data structures breaks programs.</td>
+                            <td>Present. Data abstraction shields programs from storage changes.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Querying Facility</strong></td>
+                            <td>Requires writing custom, compiled code (e.g., C++, Java).</td>
+                            <td>Uses SQL (Structured Query Language) for dynamic queries.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Concurrency Control</strong></td>
+                            <td>No concurrent transaction controls. Files get corrupted.</td>
+                            <td>High concurrency via locking mechanisms and transaction protocols.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Security &amp; Permissions</strong></td>
+                            <td>Basic OS file permissions. No granular access controls.</td>
+                            <td>Granular access controls (e.g., SQL `GRANT`, `REVOKE` views).</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Backup &amp; Recovery</strong></td>
+                            <td>Manual copying of files. Risky and slow.</td>
+                            <td>Automatic log-based backup and crash recovery subsystems.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Integrity Constraints</strong></td>
+                            <td>Must be coded inside every program.</td>
+                            <td>Enforced centrally by DBMS engines (e.g., `PRIMARY KEY`, `CHECK`).</td>
+                        </tr>
+                        <tr>
+                            <td><strong>User Views</strong></td>
+                            <td>Single view dictated by the flat-file record layout.</td>
+                            <td>Supports multiple virtual views of the same logical data.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Development Cost</strong></td>
+                            <td>Low initial cost but extremely high maintenance.</td>
+                            <td>High initial software/hardware cost but cheap maintenance.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. Characteristics of Database Approach -->
+    <section class="section" id="characteristics">
+        <div class="section-header">
+            <div class="section-number num-blue">4</div>
+            <h2>The 5 Fundamental Characteristics of Database Approach</h2>
+        </div>
+
+        <div class="card" id="self-describing">
+            <h3>1. Self-describing Nature of a Database System <span class="badge badge-pyq">VTU Repeated</span></h3>
+            <p>Unlike a file system where the record layout is hardcoded inside applications, a database system contains a complete definition or description of its own structure and constraints. This metadata is stored in the <strong>DBMS System Catalog</strong> (also known as the **Data Dictionary**).</p>
+            <pre><code>+-------------------------------------------------------------+
+|                     SYSTEM CATALOG                          |
+|  [Table Metadata]      [Attribute Metadata]   [Constraints] |
+|   Table: Student        ID (INT, PK)           ID is unique |
+|   Table: Course         Title (VARCHAR, 50)    Credits &gt; 0  |
++-------------------------------------------------------------+</code></pre>
+            <p><strong>Example:</strong> If a Java program accesses a DBMS database, the program does not need to know if the target table contains 10 or 12 fields. The DBMS queries the System Catalog at runtime to dynamically construct the record representation.</p>
+        </div>
+
+        <div class="card" id="insulation">
+            <h3>2. Insulation between Programs and Data (Program-Data Independence)</h3>
+            <p>Since the structural definitions are stored in the catalog rather than the programs, changes to the database structure (such as adding a field or updating data types) do not require changes to the application programs that access that table. This property is called <strong>Program-Data Independence</strong>.</p>
+            <p>Additionally, <strong>Program-Operation Independence</strong> exists when we can change the internal implementation of a database method (e.g., changing a search algorithm from Linear to B-Tree Indexing) without altering the application invocation call.</p>
+        </div>
+
+        <div class="card" id="abstraction">
+            <h3>3. Data Abstraction</h3>
+            <p>DBMS provides users with a <strong>conceptual representation</strong> of data that hides physical storage details (like how records are packed in blocks, sector addresses, or indexing nodes). This simplifies development and provides a clean view of the logic.</p>
+        </div>
+
+        <div class="card" id="multiple-views">
+            <h3>4. Support for Multiple Views</h3>
+            <p>A database contains many users, each requiring different subsets of information. A <strong>view</strong> is a virtual table derived from real database tables. The DBMS allows each user to see a tailored view of the database while hiding irrelevant fields.</p>
+            <p><strong>Example:</strong> In a University DB, the Student view contains: `[Name, GPA, Registered_Courses]`. The Accounts view contains: `[Name, Fees_Paid, Balance]`. The structural backend is shared, but access is isolated.</p>
+        </div>
+
+        <div class="card" id="data-sharing">
+            <h3>5. Data Sharing and Multi-User Transaction Processing</h3>
+            <p>A DBMS allows multiple users and programs to access the database concurrently. To ensure data remains consistent during updates, the DBMS enforces transaction controls. The concurrency control subsystem guarantees that execution follows <strong>ACID Properties</strong> (Atomicity, Consistency, Isolation, Durability).</p>
+        </div>
+    </section>
+
+    <!-- 5. Actors on the Scene -->
+    <section class="section" id="actors-scene">
+        <div class="section-header">
+            <div class="section-number num-blue">5</div>
+            <h2>Actors on the Scene (The Database Administrators &amp; Users)</h2>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definition</div>
+            <p><strong>Actors on the Scene</strong> are the individuals whose primary jobs involve the day-to-day design, usage, querying, administration, and execution of database systems. They interact directly with the active database environment.</p>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">👤</span> The 4 Primary Actors on the Scene</h3>
+            <ol>
+                <li><strong>Database Administrators (DBA):</strong>
+                    <ul>
+                        <li><strong>Role:</strong> The chief custodian of the enterprise database system.</li>
+                        <li><strong>Responsibilities:</strong>
+                            - Authorizing access permissions to users (Security).
+                            - Coordinating and monitoring database usage.
+                            - Purchasing hardware/software resources.
+                            - Creating database backup and recovery schedules.
+                            - Tuning query performance (creating indexes, system optimization).
+                        </li>
+                    </ul>
+                </li>
+                <li><strong>Database Designers:</strong>
+                    <ul>
+                        <li><strong>Role:</strong> Responsible for identifying the data to be stored and choosing appropriate structures.</li>
+                        <li><strong>Responsibilities:</strong>
+                            - Interacting with end-users to gather business requirements.
+                            - Creating conceptual schema designs (ER diagrams).
+                            - Mapping conceptual models to logical databases (Relational schemas).
+                            - Selecting constraints and table keys.
+                        </li>
+                    </ul>
+                </li>
+                <li><strong>System Analysts and Application Programmers:</strong>
+                    <ul>
+                        <li><strong>Role:</strong> The developers who write code to interface with the database.</li>
+                        <li><strong>Responsibilities:</strong>
+                            - System Analysts collect specifications and plan database applications.
+                            - Application Programmers write clean, debugged code (C#, Java, Python, SQL) to retrieve and update transactional records.
+                        </li>
+                    </ul>
+                </li>
+                <li><strong>End Users:</strong> The people who interact with the system database daily to perform tasks:
+                    <ul>
+                        <li><strong>Casual End Users:</strong> Access the database occasionally, requiring different information each time (e.g., Managers running custom monthly reports).</li>
+                        <li><strong>Naive / Parametric End Users:</strong> Constitute the majority of users. They perform routine transactions using predefined menu/form inputs (e.g., Bank Tellers depositing cash, Railway clerks booking tickets).</li>
+                        <li><strong>Sophisticated End Users:</strong> Include engineers, scientists, and analysts who thoroughly understand DBMS internals and write custom queries to build complex systems.</li>
+                        <li><strong>Standalone End Users:</strong> Maintain personal databases using simple, out-of-the-box packages (e.g., a student maintaining a personal contact book in MS Access).</li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+    </section>
+
+    <!-- 6. Workers Behind the Scene -->
+    <section class="section" id="workers-behind">
+        <div class="section-header">
+            <div class="section-number num-blue">6</div>
+            <h2>Workers Behind the Scene (The Creators of DBMS Tools)</h2>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definition</div>
+            <p><strong>Workers Behind the Scene</strong> are the individuals who are responsible for designing, building, optimization, packaging, and maintaining the actual DBMS software engine itself. They do not interact with the end-user's mini-world databases directly; instead, they build the *tools* that make databases possible.</p>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🔧</span> The 3 Primary Workers Behind the Scene</h3>
+            <ol>
+                <li><strong>DBMS System Designers and Implementers:</strong>
+                    <ul>
+                        <li><strong>Role:</strong> Write the core engine software modules.</li>
+                        <li><strong>Responsibilities:</strong> Build the query parser, compilers, recovery modules, buffer managers, index algorithms, and concurrency locking mechanisms (e.g., software engineers at Oracle, Microsoft, or MySQL).</li>
+                    </ul>
+                </li>
+                <li><strong>Tool Developers:</strong>
+                    <ul>
+                        <li><strong>Role:</strong> Build additional utility packages that sit on top of the DBMS.</li>
+                        <li><strong>Responsibilities:</strong> Create GUI managers (like pgAdmin or phpMyAdmin), report generators, performance monitors, and ER modeling tools.</li>
+                    </ul>
+                </li>
+                <li><strong>Operators and Maintenance Personnel:</strong>
+                    <ul>
+                        <li><strong>Role:</strong> Support staff running large database data centers.</li>
+                        <li><strong>Responsibilities:</strong> Manage server hardware, network lines, database clusters, temperature systems, and security logs in physical data centers.</li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+    </section>
+
+    <!-- 7. Advantages of DBMS -->
+    <section class="section" id="advantages">
+        <div class="section-header">
+            <div class="section-number num-blue">7</div>
+            <h2>The 10 Primary Advantages of Using the DBMS Approach</h2>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">⭐</span> Detailed Enterprise Advantages</h3>
+            <ol>
+                <li><strong>Controlling Data Redundancy:</strong> Instead of duplicating name fields across departments, a DBMS centralizes student data, linking departments via primary/foreign key connections. This eliminates space waste.</li>
+                <li><strong>Restricting Unauthorized Access:</strong> The DBMS enforces security permissions, allowing users to see only what they are authorized to see (e.g., preventing a cashier from viewing employee salary databases).</li>
+                <li><strong>Providing Persistent Storage:</strong> Databases store persistent objects (like profiles, transaction histories) on solid-state non-volatile disks, ensuring they survive system shutdowns.</li>
+                <li><strong>Efficient Query Processing via Indexes:</strong> DBMS uses advanced indexing trees (B-Trees) to locate records in milliseconds, bypassing the need to search millions of records linearly.</li>
+                <li><strong>Backup and Recovery Subsystems:</strong> If a hardware crash occurs mid-day, the recovery log restores the database to its last consistent state, preventing financial data loss.</li>
+                <li><strong>Enforcing Integrity Constraints:</strong> Centralizes rules like `Age >= 18` or `Email LIKE '%@%'`, rejecting invalid inserts immediately.</li>
+                <li><strong>Data Sharing Across Multiple Interfaces:</strong> Connects websites, mobile applications, and admin panels to the same database simultaneously, keeping data synchronized.</li>
+                <li><strong>Providing Multiple User Interfaces:</strong> Offers command-line shells, graphical interfaces (GUIs), API endpoints, and web forms to serve diverse user levels.</li>
+                <li><strong>Enforcing Standardization:</strong> Enforces standard corporate formats for keys, codes, and naming conventions across all departments.</li>
+                <li><strong>Reduced Application Development Time:</strong> Since structural, concurrency, and security logic are handled by the DBMS, developers can focus on business logic, accelerating launches.</li>
+            </ol>
+        </div>
+    </section>
+
+    <!-- 8. When NOT to Use DBMS -->
+    <section class="section" id="when-not-use">
+        <div class="section-header">
+            <div class="section-number num-blue">8</div>
+            <h2>When NOT to Use a DBMS (Critical Constraints)</h2>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">⚠️</span> Scenarios Where DBMS is Unsuitable</h3>
+            <p>Using a DBMS introduces overhead (license cost, hardware, execution delay). Avoid a DBMS in the following situations:</p>
+            <ul>
+                <li><strong>Simple, Small Applications:</strong> If a local retail store only needs to keep track of a few hundred customers, a simple, local Excel spreadsheet or CSV file is faster and cheaper.</li>
+                <li><strong>Strict Real-Time Constraints:</strong> Real-time systems (like aerospace controllers, missile systems, or autonomous car sensors) cannot afford the overhead of database parsing and query compilation. They must access raw memory directly in microseconds.</li>
+                <li><strong>High Overhead / Limited Storage:</strong> Embedded devices (like smartwatches, basic routers, or IoT sensors) lack the RAM or storage capacity to host a multi-gigabyte DBMS engine.</li>
+                <li><strong>Single-User Systems:</strong> When data is created, accessed, and modified by only one user at a time, file system locks are faster than complex database systems.</li>
+                <li><strong>Cost-Sensitive Environments:</strong> If budget constraints prevent the purchase of robust server configurations, flat files or simple text files are preferred.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- ============================== -->
+    <!-- PART B: DATABASE SYSTEM CONCEPTS-->
+    <!-- ============================== -->
+    <div class="part-divider part-b"><span id="database-concepts">Part B — Database System Concepts</span></div>
+
+    <!-- 9. Data Models -->
+    <section class="section" id="data-models">
+        <div class="section-header">
+            <div class="section-number num-purple">9</div>
+            <h2>Data Models: Conceptual, Logical, &amp; Physical</h2>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definition</div>
+            <p>A <strong>Data Model</strong> is a collection of conceptual tools (concepts, structures, operators, constraints) used to describe data, its relationships, its semantics, and its constraints at different levels of abstraction.</p>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🗂️</span> Three Categories of Data Models</h3>
+            <ol>
+                <li><strong>Conceptual Data Model (High-Level):</strong> Describes data as humans see it. Uses terms like *Entities*, *Attributes*, and *Relationships*. Example: The **Entity-Relationship (ER) Model**.</li>
+                <li><strong>Logical / Representational Data Model:</strong> Understood by computer systems and users. Maps conceptual tables to concrete logical schemas. Examples: **Relational Model**, **Object-Oriented Model**.</li>
+                <li><strong>Physical Data Model (Low-Level):</strong> Describes how data is physically laid out on the disk (blocks, sector allocations, indexing details, byte offsets).</li>
+            </ol>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🧬</span> Traditional &amp; Modern Data Models</h3>
+            <ul>
+                <li><strong>Relational Model:</strong> Represents data as collection of tables (Relations) where columns represent attributes and rows represent tuples. Extremely common.</li>
+                <li><strong>Hierarchical Model:</strong> Represents data in a strict tree structure (parent-child relationship). Node navigation is rigid.</li>
+                <li><strong>Network Model:</strong> Represents data as graph nodes connected by pointers. An record can have multiple parents.</li>
+                <li><strong>Object-Oriented Model:</strong> Integrates database structures with object-oriented programming classes. Fields store direct object instances.</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">📊</span> Data Model Comparison Table</h3>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Model Type</th>
+                            <th>Structure Representation</th>
+                            <th>Primary Advantage</th>
+                            <th>Primary Disadvantage</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Relational</strong></td>
+                            <td>Tables (Relations)</td>
+                            <td>Simple structure, powerful SQL query capability.</td>
+                            <td>Difficult to map complex object-oriented hierarchies.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Hierarchical</strong></td>
+                            <td>Tree structure (Root &amp; Branches)</td>
+                            <td>Fast retrievals for strict 1:N parental hierarchies.</td>
+                            <td>Inflexible. Does not support M:N relations easily.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Network</strong></td>
+                            <td>Graphs (Nodes &amp; Links)</td>
+                            <td>Can handle complex M:N relationships natively.</td>
+                            <td>Complex navigation pointers. Hard to maintain.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Object-Oriented</strong></td>
+                            <td>Classes, Objects, Inheritance</td>
+                            <td>Direct mapping to active OO programming languages.</td>
+                            <td>High architectural overhead. Complex query optimizer.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- 10. Schemas and Instances -->
+    <section class="section" id="schemas-states">
+        <div class="section-header">
+            <div class="section-number num-purple">10</div>
+            <h2>Database Schemas, States, and Instances</h2>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definitions</div>
+            <p><strong>Database Schema:</strong> The overall structural design of the database. It is specified during design and rarely changes. Also called **Schema Intension**.</p>
+            <p style="margin-top: 10px;"><strong>Database State:</strong> The actual data records stored in the database at a specific moment in time. It changes constantly as records are inserted/updated. Also called **Schema Extension** or **Database Instance**.</p>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🧬</span> Analogy with Programming Languages</h3>
+            <pre><code>        Programming Analogy:
+        ====================
+        [ Class Definition / Data Types ]    ===▶ Database Schema  (Fixed blueprint)
+        [ Instantiated Runtime Variables ]  ===▶ Database State   (Constantly changes)</code></pre>
+        </div>
+    </section>
+
+    <!-- 11. Three-Schema Architecture -->
+    <section class="section" id="three-schema">
+        <div class="section-header">
+            <div class="section-number num-purple">11</div>
+            <h2>Three-Schema Architecture (ANSI-SPARC Framework)</h2>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🏛️</span> Architectural Blueprint Diagram</h3>
+            <p>To implement data independence, the ANSI-SPARC framework divides the database design into three distinct levels:</p>
+            <pre><code>+-------------------------------------------------------------+
+|    [ View 1: Student ]      [ View 2: Accounts ]    (External)
++-------------------------------------------------------------+
+                            │
+                   (External-Conceptual Mapping)
+                            ▼
++-------------------------------------------------------------+
+|         [ Conceptual Schema: Logical Entities ]    (Conceptual)
+|         Student (ID, Name, GPA, Dept_ID, Fees)
++-------------------------------------------------------------+
+                            │
+                   (Conceptual-Internal Mapping)
+                            ▼
++-------------------------------------------------------------+
+|         [ Internal Schema: Physical Files ]        (Internal)
+|         Student record: 40 bytes, B-Tree index on ID
++-------------------------------------------------------------+</code></pre>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">📝</span> Explanation of the Three Levels</h3>
+            <ol>
+                <li><strong>External Level (View Level):</strong> The topmost level. Describes user-specific views of the database while hiding other parts.</li>
+                <li><strong>Conceptual Level (Logical Level):</strong> The middle level. Describes the overall logical structure of the entire database (entities, data types, relationships, constraints) without physical details.</li>
+                <li><strong>Internal Level (Physical Level):</strong> The lowest level. Describes the physical storage structures (block sizes, path addresses, index trees, data compression).</li>
+            </ol>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🔀</span> Mappings between Levels</h3>
+            <ul>
+                <li><strong>External-Conceptual Mapping:</strong> Translates queries from external views into conceptual queries. Allows views to remain unchanged even if the logical structure changes.</li>
+                <li><strong>Conceptual-Internal Mapping:</strong> Translates conceptual schema records into physical storage formats on disk. Allows storage formats to be tuned without altering logical applications.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- 12. Data Independence -->
+    <section class="section" id="data-independence">
+        <div class="section-header">
+            <div class="section-number num-purple">12</div>
+            <h2>Data Independence: Logical &amp; Physical</h2>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definition</div>
+            <p><strong>Data Independence</strong> is the ability to modify the schema at one level of the three-schema database architecture without needing to modify the schema at the next higher level.</p>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🔄</span> Logical vs. Physical Data Independence</h3>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Logical Data Independence</th>
+                            <th>Physical Data Independence</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Definition</strong></td>
+                            <td>Ability to modify the conceptual schema without altering external schemas or application programs.</td>
+                            <td>Ability to modify the internal physical schema without altering the conceptual schema.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Typical Modifying Scenario</strong></td>
+                            <td>Adding a new entity table, merging tables, or adding an attribute column.</td>
+                            <td>Creating a new index, switching from HDD to SSD, changing block storage structures.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Implementation mapping</strong></td>
+                            <td>Handled at the **External-Conceptual Mapping** layer.</td>
+                            <td>Handled at the **Conceptual-Internal Mapping** layer.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Difficulty Level</strong></td>
+                            <td>Higher complexity because applications are closely tied to conceptual entities.</td>
+                            <td>Easier to implement. Most modern DBMS engines handle this automatically.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- 13. Database Languages -->
+    <section class="section" id="languages">
+        <div class="section-header">
+            <div class="section-number num-purple">13</div>
+            <h2>Database Languages (DDL, DML, DCL, TCL, SDL, VDL)</h2>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🗣️</span> Core Languages Categorization</h3>
+            <ul>
+                <li><strong>DDL (Data Definition Language):</strong> Used by DBA/designers to define the schema structure. Write operations update the System Catalog.
+                    <pre><code><span class="kw">CREATE TABLE</span> <span class="cls">Student</span> (
+    ID <span class="kw">INT PRIMARY KEY</span>,
+    Name <span class="kw">VARCHAR</span>(50),
+    GPA <span class="kw">DECIMAL</span>(3,2)
+);</code></pre>
+                </li>
+                <li><strong>DML (Data Manipulation Language):</strong> Used to retrieve, insert, delete, or update records.
+                    <ul>
+                        <li><strong>High-level (Non-Procedural / Declarative DML):</strong> Specifies *what* data to retrieve, not *how* to locate it (e.g., SQL).
+                            <pre><code><span class="kw">SELECT</span> Name <span class="kw">FROM</span> <span class="cls">Student</span> <span class="kw">WHERE</span> GPA &gt; 9.0;</code></pre>
+                        </li>
+                        <li><strong>Low-Level (Procedural DML):</strong> Hardcoded loops and pointers specifying *how* to access files record-by-record.</li>
+                    </ul>
+                </li>
+                <li><strong>DCL (Data Control Language):</strong> Configures granular security permissions.
+                    <pre><code><span class="kw">GRANT SELECT ON</span> <span class="cls">Student</span> <span class="kw">TO</span> Manager;</code></pre>
+                </li>
+                <li><strong>TCL (Transaction Control Language):</strong> Manages operational scopes.
+                    <pre><code><span class="kw">COMMIT</span>; <span class="cm">-- saves changes permanently</span>
+<span class="kw">ROLLBACK</span>; <span class="cm">-- undoes operational steps</span></code></pre>
+                </li>
+                <li><strong>SDL (Storage Definition Language):</strong> Specifying the physical file layout internally (mostly automated inside modern DBMSs).</li>
+                <li><strong>VDL (View Definition Language):</strong> Defines the mapping of virtual external tables.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- 14. Database Interfaces -->
+    <section class="section" id="interfaces">
+        <div class="section-header">
+            <div class="section-number num-purple">14</div>
+            <h2>Database Interfaces</h2>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🖥️</span> User Interface Types</h3>
+            <ul>
+                <li><strong>Menu-Based Interfaces:</strong> Present lists of choices to the user. Popular for naive users (e.g., ATMs, self-checkout kiosks).</li>
+                <li><strong>Forms-Based Interfaces:</strong> Provide text fields and check boxes where users input data to trigger transactions (e.g., product return forms, flight registration fields).</li>
+                <li><strong>Graphical User Interfaces (GUI):</strong> Render visual schemas, flowcharts, and table grids for analysts (e.g., pgAdmin, DBeaver).</li>
+                <li><strong>Natural Language Interfaces:</strong> Accept questions written in English or voice inputs, translating them internally to SQL queries.</li>
+                <li><strong>Web-Based Interfaces:</strong> Modern web browsers loading form structures to interface with databases remotely.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- 15. Classification of DBMS -->
+    <section class="section" id="classification">
+        <div class="section-header">
+            <div class="section-number num-purple">15</div>
+            <h2>Classification of Database Management Systems</h2>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🗃️</span> Classification Criteria</h3>
+            <p>DBMS engines are classified based on architecture, model, and distribution:</p>
+            <ol>
+                <li><strong>Based on Data Model:</strong> Relational (RDBMS), Object-Oriented (OODBMS), Object-Relational (ORDBMS), NoSQL (Key-Value, Document, Graph).</li>
+                <li><strong>Based on Distribution:</strong>
+                    - *Centralized:* Single computer hosting the DBMS and database files.
+                    - *Distributed:* Database files are spread over multiple physical locations. Can be **Homogeneous** (all sites run the same DBMS) or **Heterogeneous** (different sites run different DBMS engines).
+                </li>
+                <li><strong>Based on User Count:</strong> Single-user vs. Multi-user systems.</li>
+            </ol>
+        </div>
+    </section>
+
+    <!-- ============================== -->
+    <!-- PART C: ENTITY RELATIONSHIP    -->
+    <!-- ============================== -->
+    <div class="part-divider part-c"><span id="er-model">Part C — Entity Relationship Model</span></div>
+
+    <!-- 16. Conceptual Design Process -->
+    <section class="section" id="design-process">
+        <div class="section-header">
+            <div class="section-number num-green">16</div>
+            <h2>High-Level Conceptual Database Design Process</h2>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🗺️</span> Step-by-Step Design Workflow</h3>
+            <pre><code> [ Step 1: Requirements Collection &amp; Analysis ] (Interviews, Forms, Business rules)
+                       │
+                       ▼
+ [ Step 2: Conceptual Database Schema ]          (Creating high-level ER Diagrams)
+                       │
+                       ▼
+ [ Step 3: Logical Database Design ]             (Mapping ER to Relational schemas)
+                       │
+                       ▼
+ [ Step 4: Physical Database Design ]            (Creating physical files, indexing)</code></pre>
+        </div>
+    </section>
+
+    <!-- 17. Entity Types and Sets -->
+    <section class="section" id="entities-sets">
+        <div class="section-header">
+            <div class="section-number num-green">17</div>
+            <h2>Entity Types and Entity Sets</h2>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definitions</div>
+            <p><strong>Entity:</strong> A specific object or concept in the mini-world that has an independent physical or conceptual existence (e.g., a physical Car, a conceptual Course).</p>
+            <p style="margin-top: 10px;"><strong>Entity Set:</strong> A collection of similar entities sharing the same properties or attributes (e.g., the set of all active students in a university database).</p>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">⛓️</span> Strong vs. Weak Entities</h3>
+            <ul>
+                <li><strong>Strong Entity (Regular Entity):</strong> Has a primary key attribute that uniquely identifies each instance. Drawn as a **single rectangle** `[ Student ]`.</li>
+                <li><strong>Weak Entity:</strong> Lacks key attributes of its own and depends on an owner strong entity for identification. It is drawn as a **double rectangle** `[[ Dependent ]]`.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- 18. Attributes and Symbols -->
+    <section class="section" id="attributes-types">
+        <div class="section-header">
+            <div class="section-number num-green">18</div>
+            <h2>Attributes: Types, Symbols, &amp; ER Representations</h2>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🏷️</span> Attribute Categories</h3>
+            <ol>
+                <li><strong>Simple / Atomic Attribute:</strong> Cannot be divided further (e.g., `Age`). Symbol: **Single Oval** `( Age )`.</li>
+                <li><strong>Composite Attribute:</strong> Can be divided into sub-parts (e.g., `Name` into `First_Name` and `Last_Name`).
+                    <pre><code>           ( First_Name )
+          /
+( Name )──( Last_Name )</code></pre>
+                </li>
+                <li><strong>Single-Valued Attribute:</strong> Holds a single value for an entity instance (e.g., `Date_of_Birth`). Symbol: **Single Oval**.</li>
+                <li><strong>Multi-Valued Attribute:</strong> Can hold multiple values for the same entity instance (e.g., `Phone_Numbers`, `College_Degrees`). Symbol: **Double Oval** `(( Phone ))`.</li>
+                <li><strong>Derived Attribute:</strong> Computed dynamically from other stored attributes (e.g., computing `Age` from `Date_of_Birth`). Symbol: **Dashed Oval** `( -Age- )`.</li>
+                <li><strong>Key Attribute:</strong> Uniquely identifies each entity instance. Symbol: **Underlined Text Oval** `( _ID_ )`.</li>
+            </ol>
+        </div>
+    </section>
+
+    <!-- 19. Keys in DBMS -->
+    <section class="section" id="keys-dbms">
+        <div class="section-header">
+            <div class="section-number num-green">19</div>
+            <h2>Database Keys Catalog</h2>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🔑</span> Key Classifications</h3>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Key Type</th>
+                            <th>Description</th>
+                            <th>Example Scenario</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Super Key</strong></td>
+                            <td>A set of one or more attributes that uniquely identifies tuples in a relation.</td>
+                            <td>`{USN}`, `{USN, Name}`, `{USN, Email}`</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Candidate Key</strong></td>
+                            <td>A minimal Super Key (no redundant attributes).</td>
+                            <td>`{USN}` and `{Email}` are candidate keys.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Primary Key</strong></td>
+                            <td>The candidate key chosen by the designer to uniquely identify records.</td>
+                            <td>`{USN}` chosen as primary key.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Alternate Key</strong></td>
+                            <td>Candidate keys that were not chosen as the Primary Key.</td>
+                            <td>`{Email}` is the alternate key.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Composite Key</strong></td>
+                            <td>A primary key composed of two or more attributes.</td>
+                            <td>`{Order_ID, Product_ID}` in a purchase table.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Foreign Key</strong></td>
+                            <td>An attribute that references the Primary Key of another table.</td>
+                            <td>`Dept_ID` inside the `Student` table.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- 20. Relationships & Structural Constraints -->
+    <section class="section" id="relationships">
+        <div class="section-header">
+            <div class="section-number num-green">20</div>
+            <h2>Relationships, Cardinality, &amp; Participation Constraints</h2>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🔀</span> Cardinality Ratios (Mapping Constraints)</h3>
+            <ul>
+                <li><strong>One-to-One (1:1):</strong>
+                    <pre><code>[ Manager ] 1 ─────────── &lt; Manages &gt; ─────────── 1 [ Department ]</code></pre>
+                </li>
+                <li><strong>One-to-Many (1:N):</strong>
+                    <pre><code>[ Department ] 1 ──────── &lt; Employs &gt; ─────────── N [ Employee ]</code></pre>
+                </li>
+                <li><strong>Many-to-Many (M:N):</strong>
+                    <pre><code>[ Student ] M ────────── &lt; Registers &gt; ───────── N [ Course ]</code></pre>
+                </li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">⛓️</span> Participation Constraints</h3>
+            <ul>
+                <li><strong>Total Participation (Double Line):</strong> Every entity in the entity set must participate in the relationship (e.g., Every `Employee` *must* work for a `Department`).</li>
+                <li><strong>Partial Participation (Single Line):</strong> Not all entities participate (e.g., Not all `Employees` manage a `Department`).</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- 21. Weak Entity Types -->
+    <section class="section" id="weak-entities">
+        <div class="section-header">
+            <div class="section-number num-green">21</div>
+            <h2>Weak Entity Types Deep Dive</h2>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🧬</span> Weak Entity Characteristics</h3>
+            <p>A weak entity lacks a primary key. It requires:</p>
+            <ol>
+                <li><strong>Owner Entity Type:</strong> The strong entity it depends on.</li>
+                <li><strong>Identifying Relationship:</strong> The relationship linking them, drawn as a **double diamond** `&lt;&lt; Identifies &gt;&gt;`.</li>
+                <li><strong>Partial Key (Discriminator):</strong> The attribute that uniquely identifies weak entities *under the same parent instance*. Drawn as an **oval with a dashed underline** `( -Name- )`.</li>
+            </ol>
+            <p><strong>Drawn Representation:</strong></p>
+            <pre><code> [ Employee ] 1 ═══════════════ &lt;&lt; Has &gt;&gt; ═══════════════ N [[ Dependent ]]
+   ( _SSN_ )                                                    ( -Name- )</code></pre>
+        </div>
+    </section>
+
+    <!-- 22. Refining ER Design -->
+    <section class="section" id="refining-design">
+        <div class="section-header">
+            <div class="section-number num-green">22</div>
+            <h2>Refining ER Designs &amp; Common Mistakes</h2>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🧹</span> Design Rules &amp; Quality Checks</h3>
+            <ul>
+                <li><strong>Avoid Redundant Relationships:</strong> Don't connect Entity A to B directly if they are already connected via C, unless business rules dictate separate semantics.</li>
+                <li><strong>Entity vs. Attribute placement:</strong> If a concept has attributes of its own (e.g., `Car` has a `LicensePlate`, `Model`, `Color`), represent it as an Entity rather than a simple attribute inside the `Driver` entity.</li>
+                <li><strong>Double check Ca    <!-- ============================== -->
+    <!-- 20 SOLVED ER CASES DIRECTORY   -->
+    <!-- ============================== -->
+    <div class="part-divider part-c"><span id="solved-er-cases">20 Fully Solved ER Diagrams Catalog</span></div>
+
+    <!-- Cases 1 - 5 -->
+    <section class="section" id="er-1-5">
+        <div class="section-header">
+            <div class="section-number num-green">★</div>
+            <h2>Enterprise Systems 1 - 5</h2>
+        </div>
+
+        <!-- Case 1: Banking System -->
+        <div class="problem-card">
+            <div class="problem-header">
+                <h3>Case 1: Banking Database System</h3>
+                <span class="badge badge-imp">Core Case</span>
+            </div>
+            <div class="problem-body">
+                <p><strong>Requirements:</strong> A bank wants to store customer profiles (SSN, Name, Address, Phone) and accounts (AccNo, Balance, Type). Customers can open multiple accounts, and accounts can be shared (joint accounts). Transactions (TxID, Date, Amount) are tied to accounts and must belong to exactly one account.</p>
+                <p><strong>ER Diagram:</strong></p>
+                <pre><code>   ( Name )      ( Address )               ( Balance )    ( Type )
+       \            /                          \            /
+     ( _SSN_ )──[ Customer ] M               M [ Account ]──( _AccNo_ )
+                     │                           │
+                     │                           ║ (Total)
+                     └─────── &lt; Owns &gt; ──────────╣
+                                                 ║ (Total)
+                                                 ▼
+                                           &lt;&lt; AccountTx &gt;&gt;
+                                                 ║ (Total)
+                                                 ▼
+                                           [[ Transaction ]]──( -Date- )
+                                            /           \
+                                       ( _TxID_ )    ( Amount )</code></pre>
+                <p><strong>Key Properties &amp; Constraints:</strong></p>
+                <ul>
+                    <li><strong>Primary Keys:</strong> `Customer.SSN`, `Account.AccNo`. Partial Key: `Transaction.TxID` (dependent on `Account`).</li>
+                    <li><strong>Candidate Keys:</strong> `{Customer.SSN}`, `{Account.AccNo}`.</li>
+                    <li><strong>Foreign Keys (after logical mapping):</strong> `Transaction.AccNo` (references `Account`).</li>
+                    <li><strong>Cardinality:</strong> M:N for `Owns` (customers can have multiple accounts, accounts can have multiple joint owners), 1:N for `Account-Transaction` identifying relationship.</li>
+                    <li><strong>Participation:</strong> Total participation for `Transaction` in `AccountTx` (every transaction must belong to an account).</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Case 2: Hospital Management -->
+        <div class="problem-card">
+            <div class="problem-header">
+                <h3>Case 2: Hospital Management System</h3>
+            </div>
+            <div class="problem-body">
+                <p><strong>Requirements:</strong> Manage Doctors (DocID, Name, Specialization), Patients (PatID, Name, Age, Address), and Rooms (RoomNo, Status, Charge). Doctors treat patients. Patients are admitted to rooms. A patient is treated by at least one doctor and admitted to exactly one room.</p>
+                <p><strong>ER Diagram:</strong></p>
+                <pre><code>( Special )   ( Name )                  ( Name )      ( Age )
+       \        /                          \          /
+     ( _DocID_ )──[ Doctor ] 1             N [ Patient ]──( _PatID_ )
+                       │                         ║ (Total)
+                       │                         ║
+                       └────── &lt; Treats &gt; ───────╢
+                                                 ║
+                                                 ▼
+                                            &lt; Admitted &gt;
+                                                 ║ (Total)
+                                                 ▼
+                                              [ Room ]──( _RoomNo_ )
+                                             /        \
+                                        ( Status )  ( Charge )</code></pre>
+                <p><strong>Key Properties &amp; Constraints:</strong></p>
+                <ul>
+                    <li><strong>Keys:</strong> `Doctor.DocID` (PK), `Patient.PatID` (PK), `Room.RoomNo` (PK).</li>
+                    <li><strong>Cardinality:</strong> `Treats` is 1:N (A doctor treats many patients, but a patient has one primary treating doctor for this record type). `Admitted` is N:1 (Multiple patients share rooms, but each patient is assigned to exactly one room).</li>
+                    <li><strong>Participation Constraints:</strong> Patient participation in both `Treats` and `Admitted` is Total (every patient in the hospital must be treated by a doctor and assigned to a room). Doctor and Room participation is Partial.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Case 3: Library Management -->
+        <div class="problem-card">
+            <div class="problem-header">
+                <h3>Case 3: Library Management System</h3>
+            </div>
+            <div class="problem-body">
+                <p><strong>Requirements:</strong> Track Books (ISBN, Title, Publisher, Qty), Members (CardNo, Name, Email), and Issues (IssueDate, ReturnDate) linking members and books. A book can be issued to multiple members over time, and a member can borrow multiple books.</p>
+                <p><strong>ER Diagram:</strong></p>
+                <pre><code>    ( Title )     ( Publisher )             ( Name )      ( Email )
+        \            /                         \            /
+      ( _ISBN_ )──[ Book ] N ════ &lt; IssuedTo &gt; ════ M [ Member ]──( _CardNo_ )
+                                  /          \
+                           ( IssueDate ) ( ReturnDate )</code></pre>
+                <p><strong>Key Properties &amp; Constraints:</strong></p>
+                <ul>
+                    <li><strong>Keys:</strong> `Book.ISBN` (PK), `Member.CardNo` (PK).</li>
+                    <li><strong>Cardinality:</strong> M:N relationship. Relationship descriptive attributes: `IssueDate`, `ReturnDate` which track when the borrow transaction occurred and when it is due.</li>
+                    <li><strong>Participation:</strong> Partial on both sides (some books are never borrowed; some new members haven't borrowed books yet).</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Case 4: University Database -->
+        <div class="problem-card">
+            <div class="problem-header">
+                <h3>Case 4: University Student Database</h3>
+            </div>
+            <div class="problem-body">
+                <p><strong>Requirements:</strong> Track Departments (DeptID, DeptName, OfficeNo), Students (USN, Name, GPA), and Courses (CourseID, Title, Credits). Departments host courses and register students. Every student belongs to exactly one department, and each course is offered by exactly one department.</p>
+                <p><strong>ER Diagram:</strong></p>
+                <pre><code>  ( _USN_ )──[ Student ] N ═════ &lt; BelongsTo &gt; ═════ 1 [ Department ]──( _DeptID_ )
+                 │                                           │
+             ( Name )                                        ║
+             ( GPA )                                         ║ (Total)
+                                                             ▼
+                                                         &lt; Offers &gt;
+                                                             ▲
+                                                             ║ (Total)
+                                                             │
+                                                          [ Course ]──( _CourseID_ )
+                                                         /        \
+                                                     ( Title )  ( Credits )</code></pre>
+                <p><strong>Constraints:</strong></p>
+                <ul>
+                    <li><strong>Primary Keys:</strong> `Student.USN`, `Department.DeptID`, `Course.CourseID`.</li>
+                    <li><strong>Cardinality:</strong> `BelongsTo` is N:1, `Offers` is 1:N.</li>
+                    <li><strong>Participation:</strong> Total participation on `Student` in `BelongsTo` (every student must belong to a department) and Total on `Course` in `Offers` (every course must be hosted by a department).</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Case 5: Railway Reservation -->
+        <div class="problem-card">
+            <div class="problem-header">
+                <h3>Case 5: Railway Reservation System</h3>
+            </div>
+            <div class="problem-body">
+                <p><strong>Requirements:</strong> Track Trains (TrainNo, TrainName, Type), Passengers (PNR, Name, Age), and Stations (StationCode, StationName). Trains halt at multiple stations. Passengers book tickets on specific trains for specific seats.</p>
+                <p><strong>ER Diagram:</strong></p>
+                <pre><code>    ( TrainName )                                          ( StationName )
+         \                                                        /
+      ( _TrainNo_ )──[ Train ] N ────── &lt; HaltsAt &gt; ────── M [ Station ]──( _StationCode_ )
+                        │                ( HaltTime )
+                        ║
+                   &lt; BookedBy &gt; (SeatNo)
+                        ║
+                        ▼
+                   [ Passenger ]──( _PNR_ )
+                  /           \
+               ( Name )      ( Age )</code></pre>
+                <p><strong>Constraints:</strong></p>
+                <ul>
+                    <li><strong>Keys:</strong> `Train.TrainNo` (PK), `Passenger.PNR` (PK), `Station.StationCode` (PK).</li>
+                    <li><strong>Cardinality &amp; Attributes:</strong> `HaltsAt` is M:N with relationship attribute `HaltTime`. `BookedBy` is 1:N (a passenger books exactly one train, but a train holds multiple passengers) with relationship attribute `SeatNo`.</li>
+                    <li><strong>Participation:</strong> Total on `Passenger` in `BookedBy` (every passenger must book a train ticket).</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cases 6 - 10 -->
+    <section class="section" id="er-6-10">
+        <div class="section-header">
+            <div class="section-number num-green">★</div>
+            <h2>Enterprise Systems 6 - 10</h2>
+        </div>
+
+        <!-- Case 6: Placement Management -->
+        <div class="problem-card">
+            <div class="problem-header">
+                <h3>Case 6: Placement Management System</h3>
+            </div>
+            <div class="problem-body">
+                <p><strong>Requirements:</strong> Track Companies (CompID, CompName, Industry), Students (USN, Name, GPA), and Job Offers (OfferID, Package, Role). Companies make offers to selected students. A student can receive multiple offers, and each company can recruit multiple students.</p>
+                <p><strong>ER Diagram:</strong></p>
+                <pre><code>( CompName )                                                 ( Name )
+     \                                                          /
+   ( _CompID_ )──[ Company ] 1 ────── &lt; Recruits &gt; ────── N [ Student ]──( _USN_ )
+                                      ( Package )               │
+                                      ( Role )                  └── ( GPA )
+                                      ( _OfferID_ )</code></pre>
+                <p><strong>Key Properties &amp; Constraints:</strong></p>
+                <ul>
+                    <li><strong>Keys:</strong> `Company.CompID` (PK), `Student.USN` (PK). `Recruits` is modeled as a relationship with descriptive attributes `OfferID` (PK of offer), `Package`, and `Role` to represent recruitment records.</li>
+                    <li><strong>Cardinality:</strong> 1:N recruitment map from Company to Student.</li>
+                    <li><strong>Participation:</strong> Partial on both sides (some students remain unplaced, some companies do not recruit in a particular session).</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Case 7: Online Shopping -->
+        <div class="problem-card">
+            <div class="problem-header">
+                <h3>Case 7: Online Shopping System</h3>
+            </div>
+            <div class="problem-body">
+                <p><strong>Requirements:</strong> Customers (CustID, Name, Address) place Orders (OrderID, OrderDate, TotalAmount). Orders contain multiple Products (ProdID, ProdName, Price) with a specific quantity for each product.</p>
+                <p><strong>ER Diagram:</strong></p>
+                <pre><code>( Name )     ( Address )                                        ( ProdName )
+   \            /                                                   /
+ ( _CustID_ )──[ Customer ] 1 ── &lt; Places &gt; ── N [ Order ] N ── &lt; Contains &gt; ── M [ Product ]──( _ProdID_ )
+                                                /           \    ( Qty )            \
+                                          ( _OrderID_ ) ( Date )                  ( Price )</code></pre>
+                <p><strong>Key Properties &amp; Constraints:</strong></p>
+                <ul>
+                    <li><strong>Keys:</strong> `Customer.CustID` (PK), `Order.OrderID` (PK), `Product.ProdID` (PK).</li>
+                    <li><strong>Cardinality:</strong> `Places` is 1:N (a customer can place many orders, but each order belongs to one customer). `Contains` is N:M with relationship attribute `Qty` (quantity of each product ordered).</li>
+                    <li><strong>Participation:</strong> Total on `Order` in `Places` (every order must belong to a customer) and `Order` in `Contains` (every order must have at least one product).</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Case 8: Hotel Management -->
+        <div class="problem-card">
+            <div class="problem-header">
+                <h3>Case 8: Hotel Management System</h3>
+            </div>
+            <div class="problem-body">
+                <p><strong>Requirements:</strong> Track Guests (GuestID, Name, Phone), Rooms (RoomNo, RoomType, Tariff), and Bookings. Guests reserve rooms for specific check-in and check-out date intervals. Track booking status.</p>
+                <p><strong>ER Diagram:</strong></p>
+                <pre><code> ( Name )      ( Phone )                                        ( Tariff )
+    \            /                                                 /
+  ( _GuestID_ )──[ Guest ] N ═══════════ &lt; Reserves &gt; ═══════════ N [ Room ]──( _RoomNo_ )
+                                         /     │     \                \
+                                  ( CheckIn )(CheckOut)(Status)     ( RoomType )</code></pre>
+                <p><strong>Key Properties &amp; Constraints:</strong></p>
+                <ul>
+                    <li><strong>Keys:</strong> `Guest.GuestID` (PK), `Room.RoomNo` (PK).</li>
+                    <li><strong>Cardinality:</strong> M:N relationship `Reserves` with relationship attributes: `CheckInDate`, `CheckOutDate`, and `BookingStatus`.</li>
+                    <li><strong>Participation:</strong> Partial on both sides.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Case 9: Airline Reservation -->
+        <div class="problem-card">
+            <div class="problem-header">
+                <h3>Case 9: Airline Reservation Database</h3>
+            </div>
+            <div class="problem-body">
+                <p><strong>Requirements:</strong> Manage Flights (FlightNo, Source, Destination, DepTime), Airports (AirportCode, Name, City), and Passengers (PassID, Name, PassportNo). Flights depart from a source airport and land at a destination airport. Passengers book tickets on flights.</p>
+                <p><strong>ER Diagram:</strong></p>
+                <pre><code>( Name )     ( City )                                           ( Source )
+   \            /                                                   /
+ ( _AirCode_ )──[ Airport ] 1 ── &lt; Departs &gt; ── N [ Flight ] N ── &lt; Carries &gt; ── M [ Passenger ]──( _PassID_ )
+                                                 /           \    ( SeatNo )            \
+                                           ( _FlightNo_ )  ( Dep )                   ( PassportNo )</code></pre>
+                <p><strong>Key Properties &amp; Constraints:</strong></p>
+                <ul>
+                    <li><strong>Keys:</strong> `Airport.AirportCode` (PK), `Flight.FlightNo` (PK), `Passenger.PassID` (PK). Candidate Key: `Passenger.PassportNo`.</li>
+                    <li><strong>Cardinality:</strong> `Departs` is 1:N (Airport to Flight), `Carries` is N:M (Flight to Passenger) with relationship attribute `SeatNo`.</li>
+                    <li><strong>Participation:</strong> Total on `Flight` in `Departs` (every flight must have a departure airport).</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Case 10: Company Database -->
+        <div class="problem-card">
+            <div class="problem-header">
+                <h3>Case 10: Company Database Schema</h3>
+            </div>
+            <div class="problem-body">
+                <p><strong>Requirements:</strong> Track Departments (DeptID, DeptName), Employees (SSN, Name, Salary), and Projects (ProjID, ProjName, Location). Employees manage departments (1:1), employees work for departments (N:1), and work on projects (M:N) with specific hours.</p>
+                <p><strong>ER Diagram:</strong></p>
+                <pre><code>                  ( Salary )     ( DeptName )
+                      \             /
+[ Employee ] M ════ &lt; WorksFor &gt; ══ 1 [ Department ] 1 ── &lt; Controls &gt; ── N [ Project ]──( _ProjID_ )
+  ( _SSN_ )           \                 │                                     ▲
+    │                  \                └─── 1 &lt; Manages &gt; ───────────────────┘
+ ( Name )               \
+                         ▼
+                     &lt; WorksOn &gt; ──── ( Hours )
+                         ▲
+                         ║
+                         └────────────────────────────────────────────────────┘</code></pre>
+                <p><strong>Key Properties &amp; Constraints:</strong></p>
+                <ul>
+                    <li><strong>Keys:</strong> `Employee.SSN` (PK), `Department.DeptID` (PK), `Project.ProjID` (PK).</li>
+                    <li><strong>Cardinality:</strong> `WorksFor` is N:1, `Manages` is 1:1, `WorksOn` is M:N (with relationship attribute `Hours`), `Controls` is 1:N.</li>
+                    <li><strong>Participation:</strong> Total participation on `Employee` in `WorksFor` (every employee must work for a department) and `Project` in `Controls` (every project must be controlled by a department).</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cases 11 - 15 -->
+    <section class="section" id="er-11-15">
+        <div class="section-header">
+            <div class="section-number num-green">★</div>
+            <h2>Enterprise Systems 11 - 15</h2>
+        </div>
+
+        <!-- Case 11: Employee Department -->
+        <div class="problem-card">
+            <div class="problem-header">
+                <h3>Case 11: Employee Department System</h3>
+            </div>
+            <div class="problem-body">
+                <p><strong>Requirements:</strong> Track Employees (EmpID, Name, DateOfJoining, Salary) and Departments (DeptID, DeptName, Location). Each department has one manager (who is also an employee), and each employee works in exactly one department.</p>
+                <p><strong>ER Diagram:</strong></p>
+                <pre><code> ( Name )      ( Salary )                                     ( DeptName )
+    \            /                                                /
+  ( _EmpID_ )──[ Employee ] N ═════ &lt; WorksIn &gt; ═════ 1 [ Department ]──( _DeptID_ )
+                   │                                         │
+                   │                                         ║ (Total)
+                   └────────────── 1 &lt; Manages &gt; ────────────1┘</code></pre>
+                <p><strong>Key Properties &amp; Constraints:</strong></p>
+                <ul>
+                    <li><strong>Primary Keys:</strong> `Employee.EmpID`, `Department.DeptID`.</li>
+                    <li><strong>Foreign Keys:</strong> `Employee.DeptID` (works in), `Department.ManagerEmpID` (manages).</li>
+                    <li><strong>Cardinality &amp; Participation:</strong> `WorksIn` is N:1 with Total participation on the `Employee` side (every employee must be assigned a department). `Manages` is 1:1 with Total participation on the `Department` side (every department must have a manager assigned).</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Case 12: Student Course -->
+        <div class="problem-card">
+            <div class="problem-header">
+                <h3>Case 12: Student Course Registration</h3>
+            </div>
+            <div class="problem-body">
+                <p><strong>Requirements:</strong> Students (USN, Name, Email) enroll in Courses (CourseID, CourseName, Credits). Each student can enroll in multiple courses, and each course can have multiple registered students. Track the Grade obtained by each student in each course.</p>
+                <p><strong>ER Diagram:</strong></p>
+                <pre><code>    ( Name )      ( Email )                                     ( CourseName )
+       \            /                                                 /
+     ( _USN_ )──[ Student ] M ═══════════ &lt; Enrolls &gt; ═══════════ N [ Course ]──( _CourseID_ )
+                                               │                      \
+                                           ( Grade )               ( Credits )</code></pre>
+                <p><strong>Key Properties &amp; Constraints:</strong></p>
+                <ul>
+                    <li><strong>Primary Keys:</strong> `Student.USN`, `Course.CourseID`.</li>
+                    <li><strong>Relationship Attributes:</strong> `Grade` is an attribute of the `Enrolls` M:N relationship, as grades are determined only when a specific student completes a specific course.</li>
+                    <li><strong>Cardinality:</strong> Many-to-Many (M:N).</li>
+                    <li><strong>Participation:</strong> Total on both sides (students must enroll in courses to remain active, courses must have registrations to be active).</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Case 13: PKL Database -->
+        <div class="problem-card">
+            <div class="problem-header">
+                <h3>Case 13: Pro Kabaddi League (PKL) Database</h3>
+            </div>
+            <div class="problem-body">
+                <p><strong>Requirements:</strong> Teams (TeamID, TeamName, Owner), Players (PlayerID, PlayerName, SkillType, Age), and Matches (MatchID, MatchDate, Venue). A team registers multiple players, but a player plays for exactly one team. Two teams participate in a match.</p>
+                <p><strong>ER Diagram:</strong></p>
+                <pre><code>( Owner )    ( TeamName )                                      ( PlayerName )
+    \            /                                                  /
+  ( _TeamID_ )──[ Team ] 1 ════════════ &lt; Registers &gt; ═══════════ N [ Player ]──( _PlayerID_ )
+                    │                                                   │
+                    ║                                               ( Skill )
+              &lt; Participates &gt;
+                    ║
+                    ▼
+                [ Match ]──( _MatchID_ )
+               /         \
+          ( Venue )    ( Date )</code></pre>
+                <p><strong>Key Properties &amp; Constraints:</strong></p>
+                <ul>
+                    <li><strong>Primary Keys:</strong> `Team.TeamID`, `Player.PlayerID`, `Match.MatchID`.</li>
+                    <li><strong>Cardinality:</strong> `Registers` is 1:N (a team has many players, a player belongs to one team). `Participates` is M:N (each match has exactly 2 teams, a team plays multiple matches).</li>
+                    <li><strong>Participation:</strong> Total on `Player` in `Registers` (every PKL player must belong to a franchise team).</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Case 14: Parking System -->
+        <div class="problem-card">
+            <div class="problem-header">
+                <h3>Case 14: Parking Allocation System</h3>
+            </div>
+            <div class="problem-body">
+                <p><strong>Requirements:</strong> Track Vehicles (RegNo, Model, OwnerName) and ParkingSlots (SlotID, FloorNo, SpaceType). Each vehicle is allocated at most one parking slot, and each slot can hold at most one vehicle. Status is updated dynamically.</p>
+                <p><strong>ER Diagram:</strong></p>
+                <pre><code> ( Owner )      ( Model )                                       ( FloorNo )
+    \            /                                                 /
+  ( _RegNo_ )──[ Vehicle ] 1 ────────── &lt; AllocatedTo &gt; ────────── 1 [ ParkingSlot ]──( _SlotID_ )
+                                               │                       \
+                                           ( Status )              ( SpaceType )</code></pre>
+                <p><strong>Key Properties &amp; Constraints:</strong></p>
+                <ul>
+                    <li><strong>Primary Keys:</strong> `Vehicle.RegNo`, `ParkingSlot.SlotID`.</li>
+                    <li><strong>Cardinality:</strong> One-to-One (1:1).</li>
+                    <li><strong>Participation:</strong> Partial on both sides (unregistered visitor vehicles might not get allocated slots; some parking slots remain vacant).</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Case 15: Book Store -->
+        <div class="problem-card">
+            <div class="problem-header">
+                <h3>Case 15: Book Store Inventory</h3>
+            </div>
+            <div class="problem-body">
+                <p><strong>Requirements:</strong> Track Books (ISBN, Title, Price, QtyInStock) and Publishers (PubID, PubName, Address). A publisher publishes multiple books, but each book has exactly one publisher. Track the Date of Publication.</p>
+                <p><strong>ER Diagram:</strong></p>
+                <pre><code> ( Title )      ( Price )                                       ( PubName )
+    \            /                                                 /
+  ( _ISBN_ )──[ Book ] N ══════════ &lt; PublishedBy &gt; ═══════════ 1 [ Publisher ]──( _PubID_ )
+                                         │                             \
+                                     ( PubDate )                    ( Address )</code></pre>
+                <p><strong>Key Properties &amp; Constraints:</strong></p>
+                <ul>
+                    <li><strong>Primary Keys:</strong> `Book.ISBN`, `Publisher.PubID`.</li>
+                    <li><strong>Cardinality:</strong> N:1 (many books can be published by one publisher).</li>
+                    <li><strong>Participation:</strong> Total on the `Book` side (every book in the store catalog must have a registered publisher).</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cases 16 - 20 -->
+    <section class="section" id="er-16-20">
+        <div class="section-header">
+            <div class="section-number num-green">★</div>
+            <h2>Enterprise Systems 16 - 20</h2>
+        </div>
+
+        <!-- Case 16: School Management -->
+        <div class="problem-card">
+            <div class="problem-header">
+                <h3>Case 16: School Student Parent System</h3>
+            </div>
+            <div class="problem-body">
+                <p><strong>Requirements:</strong> Track Students (StudentID, StudentName, Class) and Parents (ParentID, ParentName, PhoneNo). A student can have multiple parents/guardians, and a parent can have multiple children in the school. The system requires registering at least one parent per student.</p>
+                <p><strong>ER Diagram:</strong></p>
+                <pre><code> ( Name )      ( Class )                                       ( ParentName )
+    \            /                                                 /
+  ( _StudID_ )──[ Student ] N ═══════════ &lt; ChildOf &gt; ═══════════ M [ Parent ]──( _ParentID_ )
+                                                                       \
+                                                                    ( PhoneNo )</code></pre>
+                <p><strong>Key Properties &amp; Constraints:</strong></p>
+                <ul>
+                    <li><strong>Primary Keys:</strong> `Student.StudentID`, `Parent.ParentID`.</li>
+                    <li><strong>Cardinality:</strong> Many-to-Many (N:M).</li>
+                    <li><strong>Participation:</strong> Total participation on `Student` in `ChildOf` (every student in school must link to a parent/guardian for security and billing).</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Case 17: Insurance System -->
+        <div class="problem-card">
+            <div class="problem-header">
+                <h3>Case 17: Insurance Management System</h3>
+            </div>
+            <div class="problem-body">
+                <p><strong>Requirements:</strong> Customers (CustID, CustName, Phone) hold Policies (PolicyNo, PolicyType, PremiumAmount). Claims (ClaimID, ClaimDate, ClaimAmount) are made against specific policies. A claim cannot exist without a policy.</p>
+                <p><strong>ER Diagram:</strong></p>
+                <pre><code> ( Name )     ( Phone )                ( Type )    ( Premium )        ( ClaimDate )
+    \            /                        \          /                     /
+  ( _CustID_ )──[ Customer ] 1 ── &lt; Holds &gt; ── N [ Policy ] 1 ═════ &lt;&lt; Claims &gt;&gt; ═════ N [[ Claim ]]
+                                                    \                                      /
+                                               ( _PolicyNo_ )                         ( _ClaimID_ )
+                                                                                      ( ClaimAmt )</code></pre>
+                <p><strong>Key Properties &amp; Constraints:</strong></p>
+                <ul>
+                    <li><strong>Primary Keys:</strong> `Customer.CustID`, `Policy.PolicyNo`. Partial Key: `Claim.ClaimID` (dependent on `Policy`).</li>
+                    <li><strong>Cardinality:</strong> 1:N for `Holds`, 1:N for `Policy-Claim` identifying relationship.</li>
+                    <li><strong>Participation:</strong> Total on `Claim` in `Claims` (claims are weak entities that depend structurally and conceptually on their parent policy).</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Case 18: Cinema Booking -->
+        <div class="problem-card">
+            <div class="problem-header">
+                <h3>Case 18: Cinema Ticket Booking</h3>
+            </div>
+            <div class="problem-body">
+                <p><strong>Requirements:</strong> Customers (CustID, Name, Phone) book Tickets (TicketNo, Price, SeatNo) for Shows (ShowID, ShowTime, Date) in specific Screens (ScreenNo, Capacity). Tickets are weak entities identifying with Shows.</p>
+                <p><strong>ER Diagram:</strong></p>
+                <pre><code>( CustName )                                                            ( ShowTime )
+     \                                                                      /
+   ( _CustID_ )──[ Customer ] 1 ── &lt; Buys &gt; ── N [[ Ticket ]] N ════ &lt;&lt; ForShow &gt;&gt; ════ 1 [ Show ]──( _ShowID_ )
+                                                   /        \                                \
+                                              ( -TicketNo- )( Price )                     ( Date )</code></pre>
+                <p><strong>Key Properties &amp; Constraints:</strong></p>
+                <ul>
+                    <li><strong>Primary Keys:</strong> `Customer.CustID`, `Show.ShowID`. Partial Key: `Ticket.TicketNo`.</li>
+                    <li><strong>Cardinality:</strong> `Buys` is 1:N (a customer can buy many tickets, each ticket belongs to one customer). `ForShow` is N:1 identifying relationship.</li>
+                    <li><strong>Participation:</strong> Total on `Ticket` in `ForShow` identifying relationship.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Case 19: Medical Store -->
+        <div class="problem-card">
+            <div class="problem-header">
+                <h3>Case 19: Medical Store Inventory</h3>
+            </div>
+            <div class="problem-body">
+                <p><strong>Requirements:</strong> Medicines (MedCode, MedName, ExpiryDate, BatchNo) and Distributors (DistID, DistName, Phone). A distributor supplies multiple medicines, and each medicine can be supplied by multiple distributors. Track the UnitPrice and SuppliedQty.</p>
+                <p><strong>ER Diagram:</strong></p>
+                <pre><code> ( MedName )   ( BatchNo )                                     ( DistName )
+    \            /                                                 /
+  ( _MedCode_ )──[ Medicine ] N ════════ &lt; SuppliedBy &gt; ════════ M [ Distributor ]──( _DistID_ )
+                    \                    /          \                  /
+               ( ExpiryDate )      ( UnitPrice ) ( SuppliedQty )     ( Phone )</code></pre>
+                <p><strong>Key Properties &amp; Constraints:</strong></p>
+                <ul>
+                    <li><strong>Primary Keys:</strong> `Medicine.MedCode`, `Distributor.DistID`.</li>
+                    <li><strong>Relationship Attributes:</strong> `UnitPrice`, `SuppliedQty` (tracked per supply batch transaction).</li>
+                    <li><strong>Cardinality &amp; Participation:</strong> Many-to-Many (N:M). Total participation on `Medicine` in `SuppliedBy` (all active inventory stocks must map to a registered distributor).</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Case 20: Inventory System -->
+        <div class="problem-card">
+            <div class="problem-header">
+                <h3>Case 20: Warehouse Inventory System</h3>
+            </div>
+            <div class="problem-body">
+                <p><strong>Requirements:</strong> Products (ProdCode, ProdName, Category) are stored in Warehouses (WarehouseID, Location, Capacity). A warehouse stores multiple products, and products are distributed across multiple warehouses. Track the StockQuantity in each warehouse.</p>
+                <p><strong>ER Diagram:</strong></p>
+                <pre><code> ( ProdName )   ( Category )                                    ( Location )
+    \            /                                                 /
+  ( _ProdCode_ )──[ Product ] N ═════════ &lt; StoredIn &gt; ═════════ M [ Warehouse ]──( _WarehouseID_ )
+                                             │                         \
+                                         ( StockQty )               ( Capacity )</code></pre>
+                <p><strong>Key Properties &amp; Constraints:</strong></p>
+                <ul>
+                    <li><strong>Primary Keys:</strong> `Product.ProdCode`, `Warehouse.WarehouseID`.</li>
+                    <li><strong>Relationship Attributes:</strong> `StockQty` represents the specific stock of a product in a given warehouse.</li>
+                    <li><strong>Cardinality:</strong> Many-to-Many (N:M).</li>
+                    <li><strong>Participation:</strong> Total on `Product` in `StoredIn` (every product must be stored in at least one warehouse).</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================== -->
+    <!-- REPEATED UNIVERSITY QUESTIONS   -->
+    <!-- ============================== -->
+    <div class="part-divider part-a"><span id="repeated-q">Most Repeated University Questions</span></div>
+
+    <section class="section" id="repeated-q-sec">
+        <div class="section-header">
+            <div class="section-number num-blue">?</div>
+            <h2>Standard University Exam Solutions</h2>
+        </div>
+
+        <div class="card">
+            <h3>Q1. Explain the Three-Schema Architecture with a neat diagram. <span class="badge badge-pyq">10 Marks</span></h3>
+            <p><strong>Answer:</strong> Refer to Section 11 of these notes for the complete ANSI-SPARC diagram. The primary goal of this three-level architecture is to separate the user application programs from the physical database files. It consists of the External, Conceptual, and Internal levels, which are insulated from each other using mappings (External-Conceptual and Conceptual-Internal). This ensures data independence.</p>
+        </div>
+
+        <div class="card">
+            <h3>Q2. Explain Program-Data Independence with a suitable example. <span class="badge badge-pyq">5 Marks</span></h3>
+            <p><strong>Answer:</strong> Program-data independence is a core characteristic of the database approach. In traditional file systems, data structures are hardcoded directly within the application scripts. If we need to add a single zip code field to a file record, we must modify the record declaration inside all accessing source files. In a DBMS, the structural mapping definitions are kept isolated in the DBMS System Catalog. Programs only access logical conceptual schemas, allowing us to change storage formatting without rewriting application scripts.</p>
+        </div>
+
+        <div class="card">
+            <h3>Q3. Define Super Key, Candidate Key, Primary Key, and Foreign Key. <span class="badge badge-pyq">5 Marks</span></h3>
+            <p><strong>Answer:</strong>
+                - *Super Key:* A set of one or more attributes that uniquely identifies a row in a table.
+                - *Candidate Key:* A minimal Super Key containing no redundant attributes.
+                - *Primary Key:* The candidate key selected by the designer to serve as the unique identifier for the table.
+                - *Foreign Key:* An attribute in one table that references the primary key of another table to establish logical connections.
+            </p>
+        </div>
+    </section>
+
+    <!-- ============================== -->
+    <!-- LAST NIGHT REVISION SECTION    -->
+    <!-- ============================== -->
+    <div class="part-divider part-b"><span id="last-night">Last Night Revision Section</span></div>
+
+    <section class="section" id="revision-section">
+        <div class="section-header">
+            <div class="section-number num-purple">⚡</div>
+            <h2>30 Important Definitions &amp; Exam Checklist</h2>
+        </div>
+
+        <div class="card">
+            <h3>📖 The 30 Core Definitions Cheatsheet</h3>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>Term</th>
+                            <th>One-Line Exam Definition</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>1</td><td><strong>Database</strong></td><td>A coherent collection of logically related data representing some aspect of the real world.</td></tr>
+                        <tr><td>2</td><td><strong>DBMS</strong></td><td>Software suite used to define, construct, manipulate, share, and protect databases.</td></tr>
+                        <tr><td>3</td><td><strong>Mini-world</strong></td><td>The targeted subset of the real world modeled in the database.</td></tr>
+                        <tr><td>4</td><td><strong>Metadata</strong></td><td>Data about data; describes structures, formats, and constraint rules.</td></tr>
+                        <tr><td>5</td><td><strong>System Catalog</strong></td><td>The repository containing metadata definitions.</td></tr>
+                        <tr><td>6</td><td><strong>Program-Data Independence</strong></td><td>Isolation allowing structural database updates without rewriting application programs.</td></tr>
+                        <tr><td>7</td><td><strong>Data Abstraction</strong></td><td>Suppressing low-level physical storage details to present simple logic.</td></tr>
+                        <tr><td>8</td><td><strong>Database Schema</strong></td><td>The design blueprint of the database, specified during construction.</td></tr>
+                        <tr><td>9</td><td><strong>Database State</strong></td><td>The active records stored at a specific instant of time.</td></tr>
+                        <tr><td>10</td><td><strong>Data Model</strong></td><td>Concepts and constraints defining data relationships and semantics.</td></tr>
+                        <tr><td>11</td><td><strong>Logical Data Independence</strong></td><td>Ability to update conceptual schemas without modifying external views.</td></tr>
+                        <tr><td>12</td><td><strong>Physical Data Independence</strong></td><td>Ability to modify physical internal schemas without modifying conceptual schemas.</td></tr>
+                        <tr><td>13</td><td><strong>DDL</strong></td><td>Data Definition Language; used to build and alter structures.</td></tr>
+                        <tr><td>14</td><td><strong>DML</strong></td><td>Data Manipulation Language; retrieves and updates records.</td></tr>
+                        <tr><td>15</td><td><strong>DBA</strong></td><td>Database Administrator; controls access, security, and resource systems.</td></tr>
+                        <tr><td>16</td><td><strong>Naive User</strong></td><td>End-users executing routine, form-based database operations (e.g., ticket booking).</td></tr>
+                        <tr><td>17</td><td><strong>ACID</strong></td><td>Atomicity, Consistency, Isolation, and Durability transaction guarantees.</td></tr>
+                        <tr><td>18</td><td><strong>Strong Entity</strong></td><td>An independent entity possessing a distinct primary key.</td></tr>
+                        <tr><td>19</td><td><strong>Weak Entity</strong></td><td>A dependent entity lacking a primary key of its own.</td></tr>
+                        <tr><td>20</td><td><strong>Identifying Relationship</strong></td><td>The double-outlined relationship linking a weak entity to its owner.</td></tr>
+                        <tr><td>21</td><td><strong>Discriminator</strong></td><td>The partial key of a weak entity, drawn with a dashed underline.</td></tr>
+                        <tr><td>22</td><td><strong>Simple Attribute</strong></td><td>An atomic attribute that cannot be broken down further.</td></tr>
+                        <tr><td>23</td><td><strong>Composite Attribute</strong></td><td>An attribute composed of sub-fields (e.g., Name made of First/Last).</td></tr>
+                        <tr><td>24</td><td><strong>Derived Attribute</strong></td><td>An attribute computed at runtime (e.g., Age from DateOfBirth).</td></tr>
+                        <tr><td>25</td><td><strong>Primary Key</strong></td><td>Selected candidate key uniquely identifying table tuples.</td></tr>
+                        <tr><td>26</td><td><strong>Candidate Key</strong></td><td>A minimal super key containing no redundant attributes.</td></tr>
+                        <tr><td>27</td><td><strong>Foreign Key</strong></td><td>An attribute mapping to a primary key in another table.</td></tr>
+                        <tr><td>28</td><td><strong>Cardinality Ratio</strong></td><td>The maximum number of relationship instances an entity can participate in.</td></tr>
+                        <tr><td>29</td><td><strong>Total Participation</strong></td><td>Every instance of an entity set must participate in the relationship.</td></tr>
+                        <tr><td>30</td><td><strong>UoD</strong></td><td>Universe of Discourse; another term for the mini-world.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>🧠 Memory Tricks and Shortcuts</h3>
+            <p><strong>1. ANSI-SPARC 3-Schema Levels (E-C-I):</strong> Remember **"Every Class Is Awesome"** -> **E**xternal, **C**onceptual, **I**nternal.</p>
+            <p><strong>2. ACID Properties:</strong> Remember **"A Cold Ice Drink"** -> **A**tomicity, **C**onsistency, **I**solation, **D**urability.</p>
+            <p><strong>3. Super vs. Candidate Key:</strong> **Candidate Key** is the **Super Key** on a strict diet (minimal, zero redundancies allowed).</p>
+        </div>
+    </section>
+
+</div>
+
+<!-- Back to Top Button -->
+<button class="back-to-top" id="backToTopBtn" onclick="window.scrollTo({top:0, behavior:'smooth'})">▲</button>
+
+<script>
+    // Show active link in sidebar on scroll
+    window.addEventListener('scroll', () => {
+        const sections = document.querySelectorAll('.section');
+        const navLinks = document.querySelectorAll('.nav-link');
+        let currentSec = "";
+
+        sections.forEach(sec => {
+            const secTop = sec.offsetTop;
+            if (window.scrollY >= secTop - 60) {
+                currentSec = sec.getAttribute('id');
+            }
+        });
+
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === `#${currentSec}`) {
+                link.classList.add('active');
+            }
+        });
+
+        // Back to top button
+        const backBtn = document.getElementById('backToTopBtn');
+        if (window.scrollY > 300) {
+            backBtn.classList.add('visible');
+        } else {
+            backBtn.classList.remove('visible');
+        }
+    });
+</script>
+</body>
+</html>

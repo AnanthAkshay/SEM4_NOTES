@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>DBMS Lab Experiment 2</title>
+<style>
+body{
+    font-family: Arial, sans-serif;
+    margin:40px;
+    line-height:1.6;
+    background:#f5f5f5;
+}
+.container{
+    background:white;
+    padding:30px;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+h1,h2,h3{
+    color:#003366;
+}
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:15px 0;
+}
+table,th,td{
+    border:1px solid black;
+}
+th{
+    background:#003366;
+    color:white;
+}
+th,td{
+    padding:10px;
+    text-align:left;
+}
+pre{
+    background:#f4f4f4;
+    padding:15px;
+    border-left:5px solid #003366;
+    overflow:auto;
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1 align="center">DATABASE MANAGEMENT SYSTEMS LAB</h1>
+<h2 align="center">Experiment 2</h2>
+
+<h2>Aim</h2>
+<p>To design and implement Supplier, Part and Supply relations and perform SQL operations.</p>
+
+<h2>Problem Statement</h2>
+<p>Consider the relations PART, SUPPLIER and SUPPLY. The Supplier relation holds information about suppliers. The attributes SID, SNAME and SADDR describe the supplier. The Part relation holds PID, PNAME and PCOLOR. The Supply relation contains SID and PID identifying the supplier and supplied part respectively along with Quantity.</p>
+
+<h2>Constraints</h2>
+<ul>
+<li>SID is Primary Key of Supplier.</li>
+<li>PID is Primary Key of Part.</li>
+<li>(SID,PID) is Primary Key of Supply.</li>
+<li>SID in Supply references Supplier(SID).</li>
+<li>PID in Supply references Part(PID).</li>
+<li>Quantity must be greater than 0.</li>
+<li>A supplier can supply many parts.</li>
+<li>A part can be supplied by many suppliers.</li>
+</ul>
+
+<h2>ER Diagram</h2>
+
+<div style="
+    text-align:center;
+    margin-top:20px;
+    margin-bottom:20px;
+">
+
+    <img
+        src="image2.png"
+        alt="Supplier Part Supply ER Diagram"
+        style="
+            width:100%;
+            max-width:1200px;
+            border:1px solid #ccc;
+            border-radius:10px;
+            padding:10px;
+            background:white;
+            box-shadow:0 0 10px rgba(0,0,0,0.1);
+        "
+    >
+
+</div>
+
+<h2>Schema Diagram</h2>
+
+<pre>
+
+SUPPLIER
+-------------------------
+SID        PK
+SNAME
+SADDR
+
+PART
+-------------------------
+PID        PK
+PNAME
+PCOLOR
+
+SUPPLY
+-------------------------
+SID        FK → SUPPLIER.SID
+PID        FK → PART.PID
+Quantity
+
+PRIMARY KEY (SID, PID)
+
+</pre>
+
+<h2>Create Table Statements</h2>
+<pre>
+CREATE TABLE Supplier(
+SID NUMBER PRIMARY KEY,
+SNAME VARCHAR2(30),
+SADDR VARCHAR2(50)
+);
+
+CREATE TABLE Part(
+PID NUMBER PRIMARY KEY,
+PNAME VARCHAR2(30),
+PCOLOR VARCHAR2(20)
+);
+
+CREATE TABLE Supply(
+SID NUMBER,
+PID NUMBER,
+Quantity NUMBER,
+PRIMARY KEY(SID,PID),
+FOREIGN KEY(SID) REFERENCES Supplier(SID),
+FOREIGN KEY(PID) REFERENCES Part(PID)
+);
+</pre>
+
+<h2>Insert Sample Data</h2>
+<pre>
+INSERT INTO Supplier VALUES(1,'ABC Suppliers','Bangalore');
+INSERT INTO Supplier VALUES(2,'XYZ Traders','Mysore');
+INSERT INTO Supplier VALUES(3,'PQR Industries','Hubli');
+
+INSERT INTO Part VALUES(101,'Bolt','Red');
+INSERT INTO Part VALUES(102,'Nut','Blue');
+INSERT INTO Part VALUES(103,'Washer','Green');
+INSERT INTO Part VALUES(104,'Pipe','Red');
+
+INSERT INTO Supply VALUES(1,101,500);
+INSERT INTO Supply VALUES(1,102,300);
+INSERT INTO Supply VALUES(2,103,200);
+INSERT INTO Supply VALUES(2,104,150);
+INSERT INTO Supply VALUES(3,101,250);
+</pre>
+
+<h2>Query 1</h2>
+<p><b>Obtain the details of parts supplied by supplier 'ABC Suppliers'</b></p>
+<pre>
+SELECT P.*
+FROM Part P
+JOIN Supply S ON P.PID=S.PID
+JOIN Supplier SP ON SP.SID=S.SID
+WHERE SP.SNAME='ABC Suppliers';
+</pre>
+
+<h3>Output</h3>
+<table>
+<tr><th>PID</th><th>PNAME</th><th>PCOLOR</th></tr>
+<tr><td>101</td><td>Bolt</td><td>Red</td></tr>
+<tr><td>102</td><td>Nut</td><td>Blue</td></tr>
+</table>
+
+<h2>Query 2</h2>
+<p><b>Obtain names of suppliers who supply 'Bolt'</b></p>
+<pre>
+SELECT SP.SNAME
+FROM Supplier SP
+JOIN Supply S ON SP.SID=S.SID
+JOIN Part P ON P.PID=S.PID
+WHERE P.PNAME='Bolt';
+</pre>
+
+<h3>Output</h3>
+<table>
+<tr><th>SNAME</th></tr>
+<tr><td>ABC Suppliers</td></tr>
+<tr><td>PQR Industries</td></tr>
+</table>
+
+<h2>Query 3</h2>
+<p><b>Delete parts which are in color Red</b></p>
+<pre>
+DELETE FROM Part
+WHERE PCOLOR='Red';
+</pre>
+
+<h3>Output After Deletion</h3>
+<table>
+<tr><th>PID</th><th>PNAME</th><th>PCOLOR</th></tr>
+<tr><td>102</td><td>Nut</td><td>Blue</td></tr>
+<tr><td>103</td><td>Washer</td><td>Green</td></tr>
+</table>
+
+<h2>Result</h2>
+<p>The Supplier-Part-Supply database was successfully designed and implemented. All required SQL queries executed successfully.</p>
+
+</div>
+</body>
+</html>

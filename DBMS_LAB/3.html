@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>DBMS Lab Experiment 3</title>
+<style>
+body{
+    font-family: Arial, sans-serif;
+    margin:40px;
+    line-height:1.6;
+    background:#f5f5f5;
+}
+.container{
+    background:white;
+    padding:30px;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+h1,h2,h3{color:#003366;}
+table{width:100%;border-collapse:collapse;margin:15px 0;}
+table,th,td{border:1px solid black;}
+th{background:#003366;color:white;}
+th,td{padding:10px;text-align:left;}
+pre{background:#f4f4f4;padding:15px;border-left:5px solid #003366;overflow:auto;}
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1 align="center">DATABASE MANAGEMENT SYSTEMS LAB</h1>
+<h2 align="center">Experiment 3</h2>
+
+<h2>Aim</h2>
+<p>To design and implement BOAT, SAILOR and RESERVES relations and perform SQL queries.</p>
+
+<h2>Problem Statement</h2>
+<p>Consider the relations BOAT, SAILOR and RESERVES. Boats are identified by BID, color and name. Sailors are identified by SID, name and age. Sailors can reserve any number of boats and reservation details are stored in RESERVES.</p>
+
+<h2>Constraints</h2>
+<ul>
+<li>BID is Primary Key of BOAT.</li>
+<li>SID is Primary Key of SAILOR.</li>
+<li>(SID,BID,ReserveDate) uniquely identifies a reservation.</li>
+<li>SID in RESERVES references SAILOR(SID).</li>
+<li>BID in RESERVES references BOAT(BID).</li>
+<li>A sailor can reserve many boats.</li>
+<li>A boat can be reserved by many sailors.</li>
+</ul>
+
+<h2>ER Diagram</h2>
+
+<div style="
+    text-align:center;
+    margin-top:20px;
+    margin-bottom:20px;
+">
+
+    <img
+        src="image3.png"
+        style="
+            width:100%;
+            max-width:1200px;
+            border:1px solid #ccc;
+            border-radius:10px;
+            padding:10px;
+            background:white;
+            box-shadow:0 0 10px rgba(0,0,0,0.1);
+        "
+    >
+
+</div>
+
+<h2>Schema Diagram</h2>
+<pre>
+BOAT
+----------------------
+BID (PK)
+BName
+Color
+
+SAILOR
+----------------------
+SID (PK)
+SailorName
+Age
+
+RESERVES
+----------------------
+SID (FK)
+BID (FK)
+ReserveDate
+
+PK(SID,BID,ReserveDate)
+</pre>
+
+<h2>Create Table Statements</h2>
+<pre>
+CREATE TABLE Boat(
+BID NUMBER PRIMARY KEY,
+BName VARCHAR2(30),
+Color VARCHAR2(20)
+);
+
+CREATE TABLE Sailor(
+SID NUMBER PRIMARY KEY,
+SailorName VARCHAR2(30),
+Age NUMBER
+);
+
+CREATE TABLE Reserves(
+SID NUMBER,
+BID NUMBER,
+ReserveDate DATE,
+PRIMARY KEY(SID,BID,ReserveDate),
+FOREIGN KEY(SID) REFERENCES Sailor(SID),
+FOREIGN KEY(BID) REFERENCES Boat(BID)
+);
+</pre>
+
+<h2>Insert Sample Data</h2>
+<pre>
+INSERT INTO Boat VALUES(101,'Sea Queen','Red');
+INSERT INTO Boat VALUES(102,'Ocean Star','Blue');
+INSERT INTO Boat VALUES(103,'Wave Rider','Green');
+
+INSERT INTO Sailor VALUES(1,'Rahul',25);
+INSERT INTO Sailor VALUES(2,'Ananth',21);
+INSERT INTO Sailor VALUES(3,'Sneha',23);
+
+INSERT INTO Reserves VALUES(1,101,DATE '2025-01-10');
+INSERT INTO Reserves VALUES(1,102,DATE '2025-01-11');
+INSERT INTO Reserves VALUES(2,101,DATE '2025-01-12');
+INSERT INTO Reserves VALUES(3,101,DATE '2025-01-13');
+</pre>
+
+<h2>Query 1</h2>
+<p><b>Obtain details of boats reserved by 'Rahul'</b></p>
+<pre>
+SELECT B.*
+FROM Boat B
+JOIN Reserves R ON B.BID=R.BID
+JOIN Sailor S ON S.SID=R.SID
+WHERE S.SailorName='Rahul';
+</pre>
+
+<h3>Output</h3>
+<table>
+<tr><th>BID</th><th>BName</th><th>Color</th></tr>
+<tr><td>101</td><td>Sea Queen</td><td>Red</td></tr>
+<tr><td>102</td><td>Ocean Star</td><td>Blue</td></tr>
+</table>
+
+<h2>Query 2</h2>
+<p><b>Retrieve BID of boats reserved by all sailors</b></p>
+<pre>
+SELECT BID
+FROM Reserves
+GROUP BY BID
+HAVING COUNT(DISTINCT SID)=
+(SELECT COUNT(*) FROM Sailor);
+</pre>
+
+<h3>Output</h3>
+<table>
+<tr><th>BID</th></tr>
+<tr><td>101</td></tr>
+</table>
+
+<h2>Query 3</h2>
+<p><b>Find number of boats reserved by each sailor</b></p>
+<pre>
+SELECT S.SailorName,
+COUNT(R.BID) AS Boats_Reserved
+FROM Sailor S
+LEFT JOIN Reserves R
+ON S.SID=R.SID
+GROUP BY S.SailorName;
+</pre>
+
+<h3>Output</h3>
+<table>
+<tr><th>Sailor Name</th><th>Boats Reserved</th></tr>
+<tr><td>Rahul</td><td>2</td></tr>
+<tr><td>Ananth</td><td>1</td></tr>
+<tr><td>Sneha</td><td>1</td></tr>
+</table>
+
+<h2>Result</h2>
+<p>The Boat-Sailor-Reserves database was successfully designed and implemented. All required SQL queries were executed successfully.</p>
+
+</div>
+</body>
+</html>

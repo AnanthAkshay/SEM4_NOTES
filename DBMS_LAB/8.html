@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>DBMS Lab Experiment 8</title>
+<style>
+body{font-family:Arial,sans-serif;margin:40px;background:#f5f5f5;line-height:1.6}
+.container{background:white;padding:30px;border-radius:10px;box-shadow:0 0 10px rgba(0,0,0,.1)}
+h1,h2,h3{color:#003366}
+pre{background:#f4f4f4;padding:15px;border-left:5px solid #003366;overflow:auto}
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1 align="center">DATABASE MANAGEMENT SYSTEMS LAB</h1>
+<h2 align="center">Experiment 8</h2>
+
+<h2>Aim</h2>
+<p>To perform MongoDB operations on Patient and Doctor collections and update consultation fees.</p>
+
+<h2>Problem Statement</h2>
+<p>Create Patient and Doctor collections using MongoDB and perform the required queries. Also write a program that increases consultation fees of doctors in a given specialization by 20%.</p>
+
+<h2>Create Collections</h2>
+
+<pre>
+db.Doctor.insertMany([
+{
+DoctorID:101,
+DoctorName:"Dr. Kumar",
+Specialization:"Cardiology",
+Fee:500
+},
+{
+DoctorID:102,
+DoctorName:"Dr. Sharma",
+Specialization:"Neurology",
+Fee:700
+}
+]);
+
+db.Patient.insertMany([
+{
+PatientID:1,
+PatientName:"Rahul",
+DoctorID:101,
+AppointmentDate:"2025-01-10"
+},
+{
+PatientID:2,
+PatientName:"Sneha",
+DoctorID:101,
+AppointmentDate:"2025-01-10"
+},
+{
+PatientID:3,
+PatientName:"Ananth",
+DoctorID:102,
+AppointmentDate:"2025-01-12"
+}
+]);
+</pre>
+
+<h2>Query 1</h2>
+<p><b>List all patients treated by doctor 'Dr. Kumar'</b></p>
+
+<pre>
+var doctor =
+db.Doctor.findOne(
+{DoctorName:"Dr. Kumar"}
+);
+
+db.Patient.find(
+{DoctorID:doctor.DoctorID}
+);
+</pre>
+
+<h2>Query 2</h2>
+<p><b>Display names of patients who have appointment on '2025-01-10'</b></p>
+
+<pre>
+db.Patient.find(
+{AppointmentDate:"2025-01-10"},
+{_id:0,PatientName:1}
+);
+</pre>
+
+<h2>Program</h2>
+<p><b>Increase consultation fee of doctors in Cardiology by 20%</b></p>
+
+<pre>
+var result =
+db.Doctor.updateMany(
+{Specialization:"Cardiology"},
+{
+$mul:{Fee:1.20}
+}
+);
+
+print(
+result.modifiedCount +
+" doctors were updated"
+);
+</pre>
+
+<h2>Expected Output</h2>
+
+<pre>
+1 doctors were updated
+</pre>
+
+<h2>Result</h2>
+<p>MongoDB collections were created successfully and the required operations were executed successfully.</p>
+
+</div>
+</body>
+</html>

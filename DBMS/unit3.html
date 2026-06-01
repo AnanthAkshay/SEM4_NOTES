@@ -1,0 +1,2064 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit 3 — SQL (Structured Query Language) Exam Notes</title>
+    <meta name="description" content="Complete university exam notes for DBMS Unit 3: SQL Data Definition, Basic Queries, Complex Queries, Joins, Aggregates, DML, 50+ COMPANY Solved Queries, and Revision Pack.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* ===== CSS RESET & ROOT ===== */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-primary: #0a0e1a;
+            --bg-secondary: #111827;
+            --bg-card: #1a2234;
+            --bg-card-hover: #1e2a40;
+            --bg-code: #0d1117;
+            --bg-inlinecode: #1e293b;
+            --text-primary: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --accent-blue: #06b6d4; /* Database Cyan Accent */
+            --accent-purple: #8b5cf6;
+            --accent-cyan: #22d3ee;
+            --accent-green: #10b981;
+            --accent-orange: #f59e0b;
+            --accent-red: #ef4444;
+            --accent-pink: #ec4899;
+            --border-color: #1e293b;
+            --border-accent: #2d3a52;
+            --gradient-1: linear-gradient(135deg, #06b6d4, #8b5cf6);
+            --gradient-2: linear-gradient(135deg, #22d3ee, #06b6d4);
+            --gradient-3: linear-gradient(135deg, #8b5cf6, #ec4899);
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+            --shadow-md: 0 4px 14px rgba(0,0,0,0.4);
+            --shadow-lg: 0 10px 40px rgba(0,0,0,0.5);
+            --shadow-glow: 0 0 30px rgba(6,182,212,0.15);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 15px;
+            overflow-x: hidden;
+        }
+
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-primary); }
+        ::-webkit-scrollbar-thumb { background: var(--border-accent); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent-blue); }
+
+        /* ===== ANIMATED BACKGROUND ===== */
+        .bg-glow {
+            position: fixed;
+            top: -200px;
+            right: -200px;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(6,182,212,0.08) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+            animation: floatGlow 20s ease-in-out infinite;
+        }
+        .bg-glow-2 {
+            position: fixed;
+            bottom: -200px;
+            left: -200px;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(139,92,246,0.06) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+            animation: floatGlow 25s ease-in-out infinite reverse;
+        }
+        @keyframes floatGlow {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(50px, 30px); }
+        }
+
+        /* ===== SIDEBAR NAV ===== */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 280px;
+            height: 100vh;
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border-color);
+            padding: 24px 0;
+            overflow-y: auto;
+            z-index: 100;
+            transition: transform 0.3s ease;
+        }
+        .sidebar-header {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 12px;
+        }
+        .sidebar-header h2 {
+            font-size: 16px;
+            font-weight: 700;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .sidebar-header p {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+        .nav-section {
+            padding: 8px 16px 4px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-muted);
+        }
+        .nav-link {
+            display: block;
+            padding: 7px 20px 7px 24px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+        }
+        .nav-link:hover {
+            color: var(--accent-blue);
+            background: rgba(6,182,212,0.05);
+            border-left-color: var(--accent-blue);
+        }
+        .nav-link.active {
+            color: var(--accent-blue);
+            background: rgba(6,182,212,0.08);
+            border-left-color: var(--accent-blue);
+            font-weight: 500;
+        }
+        .badge {
+            display: inline-block;
+            font-size: 9px;
+            padding: 1px 6px;
+            border-radius: 10px;
+            margin-left: 6px;
+            font-weight: 600;
+            vertical-align: middle;
+        }
+        .badge-pyq { background: rgba(239,68,68,0.15); color: var(--accent-red); }
+        .badge-imp { background: rgba(245,158,11,0.15); color: var(--accent-orange); }
+
+        /* ===== MOBILE TOGGLE ===== */
+        .sidebar-toggle {
+            display: none;
+            position: fixed;
+            top: 16px;
+            left: 16px;
+            z-index: 200;
+            background: var(--bg-card);
+            border: 1px solid var(--border-accent);
+            color: var(--text-primary);
+            width: 42px;
+            height: 42px;
+            border-radius: var(--radius-sm);
+            font-size: 20px;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .main {
+            margin-left: 280px;
+            padding: 40px 48px 100px;
+            max-width: 1050px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ===== HERO HEADER ===== */
+        .hero {
+            text-align: center;
+            padding: 56px 32px;
+            background: linear-gradient(135deg, rgba(6,182,212,0.1), rgba(139,92,246,0.1));
+            border: 1px solid var(--border-accent);
+            border-radius: var(--radius-xl);
+            margin-bottom: 48px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: var(--gradient-1);
+        }
+        .hero .unit-badge {
+            display: inline-block;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--accent-cyan);
+            background: rgba(6,182,212,0.1);
+            padding: 6px 16px;
+            border-radius: 20px;
+            border: 1px solid rgba(6,182,212,0.2);
+            margin-bottom: 16px;
+        }
+        .hero h1 {
+            font-size: 36px;
+            font-weight: 900;
+            letter-spacing: -1px;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 12px;
+        }
+        .hero p {
+            color: var(--text-secondary);
+            font-size: 16px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* ===== PART DIVIDER ===== */
+        .part-divider {
+            text-align: center;
+            margin: 64px 0 40px;
+            position: relative;
+        }
+        .part-divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0; right: 0;
+            height: 1px;
+            background: var(--border-accent);
+        }
+        .part-divider span {
+            position: relative;
+            display: inline-block;
+            background: var(--bg-primary);
+            padding: 8px 28px;
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            border: 1px solid var(--border-accent);
+            border-radius: 30px;
+        }
+        .part-divider.part-a span { color: var(--accent-cyan); border-color: rgba(6,182,212,0.3); }
+        .part-divider.part-b span { color: var(--accent-purple); border-color: rgba(139,92,246,0.3); }
+        .part-divider.part-c span { color: var(--accent-pink); border-color: rgba(236,72,153,0.3); }
+
+        /* ===== SECTION (TOPIC) ===== */
+        .section {
+            margin-bottom: 48px;
+            scroll-margin-top: 24px;
+        }
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 20px;
+        }
+        .section-number {
+            flex-shrink: 0;
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            font-weight: 800;
+            border-radius: 10px;
+            color: #fff;
+        }
+        .num-blue { background: var(--gradient-2); }
+        .num-purple { background: var(--gradient-3); }
+        .num-green { background: linear-gradient(135deg, #10b981, #06b6d4); }
+        .section-header h2 {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        /* ===== CARDS ===== */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            margin-bottom: 20px;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .card:hover {
+            border-color: var(--border-accent);
+            box-shadow: var(--shadow-md);
+        }
+        .card h3 {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .card h3 .icon { font-size: 18px; }
+        .card p, .card li {
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+        }
+        .card ul { padding-left: 20px; list-style: none; }
+        .card ul li::before {
+            content: '▸';
+            color: var(--accent-blue);
+            font-weight: bold;
+            margin-right: 8px;
+        }
+        .card ol { padding-left: 20px; }
+        .card ol li { color: var(--text-secondary); margin-bottom: 4px; }
+
+        /* ===== DEFINITION BOX ===== */
+        .def-box {
+            background: linear-gradient(135deg, rgba(6,182,212,0.06), rgba(139,92,246,0.06));
+            border: 1px solid rgba(6,182,212,0.15);
+            border-radius: var(--radius-md);
+            padding: 20px 24px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--accent-blue);
+        }
+        .def-box .label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--accent-blue);
+            margin-bottom: 6px;
+        }
+        .def-box p {
+            color: var(--text-primary);
+            font-size: 15px;
+        }
+
+        /* ===== EXAM TIP BOX ===== */
+        .tip-box {
+            background: rgba(16,185,129,0.06);
+            border: 1px solid rgba(16,185,129,0.15);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            margin-bottom: 16px;
+            border-left: 4px solid var(--accent-green);
+        }
+        .tip-box .label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--accent-green);
+            margin-bottom: 4px;
+        }
+        .tip-box p { color: var(--text-secondary); font-size: 14px; }
+
+        /* ===== WARNING BOX ===== */
+        .warn-box {
+            background: rgba(245,158,11,0.06);
+            border: 1px solid rgba(245,158,11,0.15);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            margin-bottom: 16px;
+            border-left: 4px solid var(--accent-orange);
+        }
+        .warn-box .label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--accent-orange);
+            margin-bottom: 4px;
+        }
+        .warn-box p { color: var(--text-secondary); font-size: 14px; }
+
+        /* ===== PYQ TAG ===== */
+        .pyq-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--accent-red);
+            background: rgba(239,68,68,0.1);
+            border: 1px solid rgba(239,68,68,0.2);
+            padding: 3px 10px;
+            border-radius: 20px;
+            margin-left: 8px;
+        }
+
+        /* ===== TABLES ===== */
+        .table-wrap {
+            overflow-x: auto;
+            margin-bottom: 20px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13.5px;
+        }
+        thead th {
+            background: var(--bg-card);
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 700;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--text-secondary);
+            border-bottom: 2px solid var(--border-accent);
+        }
+        tbody td {
+            padding: 10px 16px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+        tbody tr:hover { background: rgba(6,182,212,0.03); }
+        tbody tr:last-child td { border-bottom: none; }
+        td code, th code {
+            background: var(--bg-inlinecode);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        /* ===== DIFF TABLE ===== */
+        .diff-table {
+            border: 2px solid var(--accent-purple);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        .diff-table-header {
+            background: linear-gradient(135deg, rgba(139,92,246,0.15), rgba(236,72,153,0.1));
+            padding: 12px 16px;
+            font-weight: 800;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid rgba(139,92,246,0.2);
+        }
+        .diff-table thead th {
+            background: rgba(139,92,246,0.08);
+        }
+
+        /* ===== CODE BLOCKS ===== */
+        pre {
+            background: var(--bg-code);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 20px 24px;
+            margin-bottom: 16px;
+            overflow-x: auto;
+            position: relative;
+        }
+        pre code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            line-height: 1.65;
+            color: var(--text-primary);
+        }
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            background: var(--bg-inlinecode);
+            padding: 2px 7px;
+            border-radius: 5px;
+            color: var(--accent-cyan);
+        }
+
+        /* ===== Syntax Highlighting ===== */
+        .kw { color: #c678dd; }
+        .str { color: #98c379; }
+        .cm { color: #5c6370; font-style: italic; }
+        .fn { color: #61afef; }
+        .cls { color: #e5c07b; }
+        .num { color: #d19a66; }
+        .op { color: #56b6c2; }
+
+        /* ===== SOLVED PROBLEM BOX ===== */
+        .problem-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            margin-bottom: 32px;
+            box-shadow: var(--shadow-md);
+        }
+        .problem-header {
+            padding: 20px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border-color);
+            background: linear-gradient(135deg, rgba(6,182,212,0.1), rgba(139,92,246,0.02));
+        }
+        .problem-header h3 {
+            font-size: 17px;
+            font-weight: 800;
+        }
+        .problem-body { padding: 24px; }
+        .problem-body pre {
+            margin: 16px -24px;
+            border-radius: 0;
+            border-left: none;
+            border-right: none;
+        }
+
+        /* ===== VIVA QUESTIONS ===== */
+        .viva-list { counter-reset: viva-counter; list-style: none; padding: 0; }
+        .viva-list li {
+            counter-increment: viva-counter; padding: 12px 16px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-secondary); font-size: 14px;
+        }
+        .viva-list li:last-child { border-bottom: none; }
+        .viva-list li::before {
+            content: counter(viva-counter); display: inline-flex;
+            align-items: center; justify-content: center;
+            width: 24px; height: 24px; background: rgba(6,182,212,0.15);
+            color: var(--accent-blue); font-size: 11px; font-weight: 700;
+            border-radius: 6px; margin-right: 12px; flex-shrink: 0;
+        }
+        .viva-list li strong { color: var(--text-primary); }
+
+        /* ===== BACK TO TOP ===== */
+        .back-to-top {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            width: 44px;
+            height: 44px;
+            background: var(--gradient-1);
+            border: none;
+            border-radius: 50%;
+            color: #fff;
+            font-size: 20px;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            z-index: 200;
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .back-to-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .back-to-top:hover { transform: translateY(-3px); }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 900px) {
+            .sidebar { transform: translateX(-100%); }
+            .sidebar.open { transform: translateX(0); box-shadow: var(--shadow-lg); }
+            .sidebar-toggle { display: flex; }
+            .main { margin-left: 0; padding: 24px 20px 80px; }
+            .hero h1 { font-size: 26px; }
+            .problem-body pre { margin: 16px -16px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="bg-glow"></div>
+<div class="bg-glow-2"></div>
+
+<!-- Mobile Toggle -->
+<button class="sidebar-toggle" id="sidebarToggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰</button>
+
+<!-- Sidebar Navigation -->
+<nav class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+        <h2>📘 Unit 3 Notes</h2>
+        <p>SQL Database Language</p>
+    </div>
+
+    <div class="nav-section">Part A — DDL &amp; Types</div>
+    <a class="nav-link" href="#sql-intro">Introduction to SQL</a>
+    <a class="nav-link" href="#sql-categories">4 SQL Categories Mapped</a>
+    <a class="nav-link" href="#create-table-cmd">CREATE TABLE Command</a>
+    <a class="nav-link" href="#sql-datatypes">Standard Data Types</a>
+    <a class="nav-link" href="#attribute-constraints">Attribute Constraints</a>
+    <a class="nav-link" href="#key-constraints">Key Constraints Mapped</a>
+    <a class="nav-link" href="#referential-rules">Referential Integrity Rules</a>
+    <a class="nav-link" href="#alter-table">ALTER TABLE Schema</a>
+    <a class="nav-link" href="#drop-table">DROP TABLE &amp; DB Rules</a>
+
+    <div class="nav-section">Part B — Basic Queries</div>
+    <a class="nav-link" href="#select-from-where">SELECT-FROM-WHERE Structure</a>
+    <a class="nav-link" href="#aliasing">Table &amp; Column Aliases</a>
+    <a class="nav-link" href="#pattern-matching">Pattern Matching (LIKE)</a>
+    <a class="nav-link" href="#arithmetic-ops">Arithmetic &amp; Ordering</a>
+
+    <div class="nav-section">Part C — Complex Queries</div>
+    <a class="nav-link" href="#null-logic">NULL &amp; Three Valued Logic</a>
+    <a class="nav-link" href="#nested-subqueries">Nested IN / ANY / ALL</a>
+    <a class="nav-link" href="#exists-unique">EXISTS &amp; UNIQUE Functions</a>
+    <a class="nav-link" href="#joins-all">Joins (Inner, Natural, Outer)</a>
+
+    <div class="nav-section">Part D — Aggregates</div>
+    <a class="nav-link" href="#aggregate-funcs">Aggregate Functions</a>
+    <a class="nav-link" href="#group-by">GROUP BY &amp; HAVING Clauses</a>
+
+    <div class="nav-section">Part E — DML Updates</div>
+    <a class="nav-link" href="#dml-insert">INSERT Operations Mapped</a>
+    <a class="nav-link" href="#dml-delete">DELETE Operations Mapped</a>
+    <a class="nav-link" href="#dml-update">UPDATE Operations Mapped</a>
+
+    <div class="nav-section">Solved Queries</div>
+    <a class="nav-link" href="#solved-company-queries">COMPANY Solved Queries</a>
+    <a class="nav-link" href="#solved-prev-years">Solved Case Studies</a>
+
+    <div class="nav-section">Exam &amp; Revision</div>
+    <a class="nav-link" href="#repeated-q">University Q&amp;A Solutions</a>
+    <a class="nav-link" href="#last-night">Last-Night Revision Pack</a>
+</nav>
+
+<!-- Main Content -->
+<div class="main">
+
+    <!-- Hero -->
+    <header class="hero" id="top">
+        <div class="unit-badge">Unit III — SQL Standard</div>
+        <h1>SQL (Structured Query Language)</h1>
+        <p>Complete Descriptive Study Portal matching MSRIT/VTU exam criteria and senior database developer interview questions. Mapped with 50+ solved queries and revision cheat sheets.</p>
+    </header>
+
+    <!-- ============================== -->
+    <!-- PART A: DDL & DATA TYPES       -->
+    <!-- ============================== -->
+    <div class="part-divider part-a"><span id="part-a-ddl">Part A — SQL DDL &amp; Data Types</span></div>
+
+    <!-- 1. Introduction to SQL -->
+    <section class="section" id="sql-intro">
+        <div class="section-header">
+            <div class="section-number num-blue">1</div>
+            <h2>Introduction &amp; Features of SQL</h2>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definition</div>
+            <p><strong>SQL (Structured Query Language):</strong> A standardized, declarative database query language used to define database structures, manipulate tables, specify integrity constraints, and query relational records. It is based on **Tuple Relational Calculus** and **Relational Algebra**.</p>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">⚡</span> Key Features of SQL</h3>
+            <ul>
+                <li><strong>Declarative Paradigm:</strong> The user specifies *what* data to retrieve, leaving the DBMS query optimizer to determine *how* to physically search disks.</li>
+                <li><strong>Comprehensive Standard:</strong> Combines DDL, DML, DCL, and TCL in a single syntax engine.</li>
+                <li><strong>Dynamic Schemas:</strong> Allows modifying, dropping, or adding columns dynamically without locking the table.</li>
+                <li><strong>Granular Security Permissions:</strong> Restricts user operations using SQL views and table permissions.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- 2. SQL Categories -->
+    <section class="section" id="sql-categories">
+        <div class="section-header">
+            <div class="section-number num-blue">2</div>
+            <h2>The 4 Primary SQL Language Categories</h2>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🗂️</span> Detailed Category Matrix</h3>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th>Purpose</th>
+                            <th>Core Commands</th>
+                            <th>Example Syntax</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>DDL (Data Definition Language)</strong></td>
+                            <td>Defines, alters, and drops physical database schemas and structures.</td>
+                            <td>`CREATE`, `ALTER`, `DROP`, `TRUNCATE`</td>
+                            <td>`CREATE TABLE Student (...);`</td>
+                        </tr>
+                        <tr>
+                            <td><strong>DML (Data Manipulation Language)</strong></td>
+                            <td>Retrieves, inserts, updates, and deletes records.</td>
+                            <td>`SELECT`, `INSERT`, `UPDATE`, `DELETE`</td>
+                            <td>`SELECT * FROM Student;`</td>
+                        </tr>
+                        <tr>
+                            <td><strong>DCL (Data Control Language)</strong></td>
+                            <td>Manages granular security access permissions.</td>
+                            <td>`GRANT`, `REVOKE`</td>
+                            <td>`GRANT SELECT ON Student TO Manager;`</td>
+                        </tr>
+                        <tr>
+                            <td><strong>TCL (Transaction Control Language)</strong></td>
+                            <td>Manages execution scopes of DML transactions.</td>
+                            <td>`COMMIT`, `ROLLBACK`, `SAVEPOINT`</td>
+                            <td>`ROLLBACK;`</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. CREATE TABLE Command -->
+    <section class="section" id="create-table-cmd">
+        <div class="section-header">
+            <div class="section-number num-blue">3</div>
+            <h2>CREATE TABLE Command &amp; Constraints Syntax</h2>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🛠️</span> Standard SQL Table Creation Syntax</h3>
+            <pre><code><span class="kw">CREATE TABLE</span> <span class="cls">RelationName</span> (
+    AttributeName1 DataType [Constraints],
+    AttributeName2 DataType [Constraints],
+    ...
+    [<span class="kw">PRIMARY KEY</span> (AttributeName1)],
+    [<span class="kw">FOREIGN KEY</span> (AttributeName2) <span class="kw">REFERENCES</span> <span class="cls">ParentTable</span>(ParentAttribute)]
+);</code></pre>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">💼</span> Solved Code Example: Student Table</h3>
+            <pre><code><span class="kw">CREATE TABLE</span> <span class="cls">Student</span> (
+    USN <span class="kw">VARCHAR</span>(10) <span class="kw">PRIMARY KEY</span>,
+    Name <span class="kw">VARCHAR</span>(50) <span class="kw">NOT NULL</span>,
+    GPA <span class="kw">DECIMAL</span>(3,2) <span class="kw">CHECK</span> (GPA &gt;= 0.00 <span class="kw">AND</span> GPA &lt;= 10.00),
+    DeptID <span class="kw">INT</span>,
+    Status <span class="kw">VARCHAR</span>(15) <span class="kw">DEFAULT</span> <span class="str">'Active'</span>,
+    <span class="kw">FOREIGN KEY</span> (DeptID) <span class="kw">REFERENCES</span> <span class="cls">Department</span>(DeptNo)
+        <span class="kw">ON DELETE SET NULL</span>
+);</code></pre>
+        </div>
+    </section>
+
+    <!-- 4. Data Types -->
+    <section class="section" id="sql-datatypes">
+        <div class="section-header">
+            <div class="section-number num-blue">4</div>
+            <h2>Standard SQL Data Types &amp; Storage Layouts</h2>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🧬</span> Data Types Specifications Table</h3>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Data Type Group</th>
+                            <th>SQL Keyword</th>
+                            <th>Description &amp; Memory Allocation</th>
+                            <th>Code Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td rowspan="3"><strong>Numeric Types</strong></td>
+                            <td>`INT` / `INTEGER`</td>
+                            <td>Stores standard 4-byte whole integers ($\pm 2 \times 10^9$ range).</td>
+                            <td>`Age INT`</td>
+                        </tr>
+                        <tr>
+                            <td>`DECIMAL(p,s)` / `NUMERIC`</td>
+                            <td>Fixed-point numbers with precise scale (e.g., `DECIMAL(5,2)` holds 5 total digits, 2 decimal places).</td>
+                            <td>`Salary DECIMAL(10,2)`</td>
+                        </tr>
+                        <tr>
+                            <td>`FLOAT` / `REAL`</td>
+                            <td>Floating-point numbers with variable precision.</td>
+                            <td>`Weight FLOAT`</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="2"><strong>Character Types</strong></td>
+                            <td>`CHAR(n)`</td>
+                            <td>Fixed-length character string. Fills unused characters with spaces.</td>
+                            <td>`State CHAR(2)`</td>
+                        </tr>
+                        <tr>
+                            <td>`VARCHAR(n)`</td>
+                            <td>Variable-length character string. Allocates only the storage needed for the actual characters.</td>
+                            <td>`Email VARCHAR(100)`</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="2"><strong>Date / Time</strong></td>
+                            <td>`DATE`</td>
+                            <td>Stores year, month, and day in `YYYY-MM-DD` format.</td>
+                            <td>`BirthDate DATE`</td>
+                        </tr>
+                        <tr>
+                            <td>`TIMESTAMP`</td>
+                            <td>Stores year, month, day, hour, minute, and second in `YYYY-MM-DD HH:MM:SS` format.</td>
+                            <td>`CreatedTime TIMESTAMP`</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. Attribute Constraints -->
+    <section class="section" id="attribute-constraints">
+        <div class="section-header">
+            <div class="section-number num-blue">5</div>
+            <h2>Attribute Constraints</h2>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🔒</span> Core Column Constraints Mapped</h3>
+            <ul>
+                <li><strong>NOT NULL:</strong> Enforces that a column cannot accept NULL values (e.g., `Name VARCHAR(50) NOT NULL`).</li>
+                <li><strong>UNIQUE:</strong> Enforces that all values in a column are distinct. Unlike PRIMARY KEY, a UNIQUE column **can accept a single NULL value**.</li>
+                <li><strong>CHECK:</strong> Specifies a boolean condition that every row inserted into the table must satisfy.
+                    <pre><code>Salary <span class="kw">DECIMAL</span>(10,2) <span class="kw">CHECK</span> (Salary &gt; 15000.00)</code></pre>
+                </li>
+                <li><strong>DEFAULT:</strong> Automatically populates the column with a specified fallback value if the user does not provide one during insertion.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- 6. Key Constraints Mapped -->
+    <section class="section" id="key-constraints">
+        <div class="section-header">
+            <div class="section-number num-blue">6</div>
+            <h2>Key Constraints in SQL</h2>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🔑</span> SQL Key Implementations</h3>
+            <ul>
+                <li><strong>Primary Key (PK):</strong> Uniquely identifies rows. Automatically enforces both `UNIQUE` and `NOT NULL` constraints.
+                    <pre><code>USN <span class="kw">VARCHAR</span>(10) <span class="kw">PRIMARY KEY</span></code></pre>
+                </li>
+                <li><strong>Composite Primary Key:</strong> A primary key made of multiple attributes. Must be defined at the **table level** rather than the column level:
+                    <pre><code><span class="kw">CREATE TABLE</span> <span class="cls">Enrollments</span> (
+    USN <span class="kw">VARCHAR</span>(10),
+    CourseID <span class="kw">VARCHAR</span>(10),
+    Grade <span class="kw">CHAR</span>(1),
+    <span class="kw">PRIMARY KEY</span> (USN, CourseID)
+);</code></pre>
+                </li>
+                <li><strong>Foreign Key (FK):</strong> Creates a referential link to a primary key in another table.
+                    <pre><code>DeptID <span class="kw">INT REFERENCES</span> <span class="cls">Department</span>(DeptNo)</code></pre>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- 7. Referential Integrity Rules -->
+    <section class="section" id="referential-rules">
+        <div class="section-header">
+            <div class="section-number num-blue">7</div>
+            <h2>Referential Integrity Actions Mapped</h2>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🔄</span> Parent-Child Referential Options</h3>
+            <p>If a record in a parent table is deleted or updated while referencing records exist in the child table, the DBMS can handle the violation using one of the following referential actions:</p>
+            <ul>
+                <li><strong>ON DELETE RESTRICT (Default):</strong> Blocks the delete operation on the parent row.</li>
+                <li><strong>ON DELETE CASCADE:</strong> Automatically deletes all referencing child rows when the parent row is deleted.</li>
+                <li><strong>ON DELETE SET NULL:</strong> Automatically sets the child foreign key columns to NULL when the parent row is deleted.</li>
+            </ul>
+            <p><strong>Syntax Code:</strong></p>
+            <pre><code><span class="kw">FOREIGN KEY</span> (DeptID) <span class="kw">REFERENCES</span> <span class="cls">Department</span>(DeptNo)
+    <span class="kw">ON DELETE SET NULL</span>
+    <span class="kw">ON UPDATE CASCADE</span></code></pre>
+        </div>
+    </section>
+
+    <!-- 8. ALTER TABLE Command -->
+    <section class="section" id="alter-table">
+        <div class="section-header">
+            <div class="section-number num-blue">8</div>
+            <h2>ALTER TABLE Command Schema Operations</h2>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🛠️</span> 6 Core Schema Modification Operations</h3>
+            <ol>
+                <li><strong>Add Column:</strong> Inserts a new attribute column into the existing table schema.
+                    <pre><code><span class="kw">ALTER TABLE</span> <span class="cls">Student</span> <span class="kw">ADD</span> Phone <span class="kw">VARCHAR</span>(15);</code></pre>
+                </li>
+                <li><strong>Modify Column Type:</strong> Changes the data type or constraint rules of an existing column.
+                    <pre><code><span class="kw">ALTER TABLE</span> <span class="cls">Student</span> <span class="kw">ALTER COLUMN</span> Name <span class="kw">VARCHAR</span>(100);</code></pre>
+                </li>
+                <li><strong>Drop Column:</strong> Removes an attribute column and all its stored values from the table schema.
+                    <pre><code><span class="kw">ALTER TABLE</span> <span class="cls">Student</span> <span class="kw">DROP COLUMN</span> Phone;</code></pre>
+                </li>
+                <li><strong>Add Constraint:</strong> Applies a new key or integrity constraint to the table.
+                    <pre><code><span class="kw">ALTER TABLE</span> <span class="cls">Student</span> <span class="kw">ADD CONSTRAINT</span> check_gpa <span class="kw">CHECK</span> (GPA &gt;= 0.0);</code></pre>
+                </li>
+                <li><strong>Drop Constraint:</strong> Removes an existing constraint from the table schema.
+                    <pre><code><span class="kw">ALTER TABLE</span> <span class="cls">Student</span> <span class="kw">DROP CONSTRAINT</span> check_gpa;</code></pre>
+                </li>
+            </ol>
+        </div>
+    </section>
+
+    <!-- 9. DROP Command -->
+    <section class="section" id="drop-table">
+        <div class="section-header">
+            <div class="section-number num-blue">9</div>
+            <h2>DROP TABLE &amp; DATABASE Rules</h2>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">⚠️</span> DROP vs. TRUNCATE Operations</h3>
+            <ul>
+                <li><strong>DROP TABLE:</strong> Permanently deletes the table structure, all its stored rows, and all its metadata from the system catalog.
+                    <pre><code><span class="kw">DROP TABLE</span> <span class="cls">Student</span>;</code></pre>
+                </li>
+                <li><strong>TRUNCATE TABLE:</strong> Deletes all rows inside the table but **preserves the table structure and schema headers** in the catalog.
+                    <pre><code><span class="kw">TRUNCATE TABLE</span> <span class="cls">Student</span>;</code></pre>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- ============================== -->
+    <!-- PART B: BASIC SQL QUERIES      -->
+    <!-- ============================== -->
+    <div class="part-divider part-b"><span id="part-b-queries">Part B — Basic SQL Queries</span></div>
+
+    <!-- 10. SELECT-FROM-WHERE Structure -->
+    <section class="section" id="select-from-where">
+        <div class="section-header">
+            <div class="section-number num-purple">10</div>
+            <h2>The SELECT-FROM-WHERE Query Structure</h2>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definition</div>
+            <p>The standard SQL data retrieval construct maps conceptually directly to Relational Algebra unary operations:</p>
+            <p style="text-align: center; font-size: 1.15rem; margin: 15px 0;">
+                `SELECT ` $A_1, A_2, \dots$ ` FROM ` $R_1, R_2$ ` WHERE ` $\langle \text{condition} \rangle \equiv \pi_{A_1, A_2}(\sigma_{\text{condition}}(R_1 \times R_2))$
+            </p>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🔄</span> Logical Execution Pipeline</h3>
+            <p>When you execute a query, the SQL engine processes clauses in a specific logical order rather than the order they are written:</p>
+            <pre><code>[ Step 1: FROM ]  ===&gt; Identifies input source tables and performs Cartesian Product / Joins
+[ Step 2: WHERE ] ===&gt; Filters tuples horizontally based on conditions
+[ Step 3: SELECT] ===&gt; Filters columns vertically (Projection) and computes aliases</code></pre>
+        </div>
+    </section>
+
+    <!-- 11. Table & Column Aliases -->
+    <section class="section" id="aliasing">
+        <div class="section-header">
+            <div class="section-number num-purple">11</div>
+            <h2>Aliasing (Table &amp; Column AS Keyword)</h2>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🏷️</span> Code Implementations</h3>
+            <ul>
+                <li><strong>Column Alias:</strong> Renames the header of the returned result set for readability.
+                    <pre><code><span class="kw">SELECT</span> FName <span class="kw">AS</span> FirstName, LName <span class="kw">AS</span> LastName <span class="kw">FROM</span> <span class="cls">EMPLOYEE</span>;</code></pre>
+                </li>
+                <li><strong>Table Alias:</strong> Creates a shorthand alias for a table name. Crucially needed for self-joins or queries referencing multiple tables with matching column names:
+                    <pre><code><span class="kw">SELECT</span> e.FName, d.DeptName 
+<span class="kw">FROM</span> <span class="cls">EMPLOYEE</span> <span class="kw">AS</span> e, <span class="cls">DEPARTMENT</span> <span class="kw">AS</span> d 
+<span class="kw">WHERE</span> e.DeptNo = d.DeptNo;</code></pre>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- 12. Pattern Matching (LIKE) -->
+    <section class="section" id="pattern-matching">
+        <div class="section-header">
+            <div class="section-number num-purple">12</div>
+            <h2>Pattern Matching (LIKE &amp; Wildcards)</h2>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🔍</span> Wildcard Characters</h3>
+            <ul>
+                <li><strong>Percent sign (`%`):</strong> Matches **zero or more** characters.</li>
+                <li><strong>Underscore (`_`):</strong> Matches **exactly one** character.</li>
+                <li><strong>LIKE:</strong> Returns TRUE if the value matches the pattern.</li>
+                <li><strong>NOT LIKE:</strong> Returns TRUE if the value does not match the pattern.</li>
+            </ul>
+            
+            <h4 style="margin-top: 15px;">Pattern Examples:</h4>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>Pattern Code</th><th>Meaning</th><th>Matching Example</th></tr></thead>
+                    <tbody>
+                        <tr><td>`LIKE 'A%'`</td><td>Starts with the uppercase letter 'A'.</td><td>'Akshay', 'Ananth'</td></tr>
+                        <tr><td>`LIKE '%n'`</td><td>Ends with the lowercase letter 'n'.</td><td>'John', 'Ananth'</td></tr>
+                        <tr><td>`LIKE '%ABC%'`</td><td>Contains the substring 'ABC' anywhere in the value.</td><td>'XYZABC123'</td></tr>
+                        <tr><td>`LIKE '_a%'`</td><td>Contains 'a' as the second character.</td><td>'Rahul', 'Kabir'</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- 13. Arithmetic & Ordering -->
+    <section class="section" id="arithmetic-ops">
+        <div class="section-header">
+            <div class="section-number num-purple">13</div>
+            <h2>Arithmetic Operators &amp; ORDER BY Sorting</h2>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🧮</span> Math &amp; Sorting Implementations</h3>
+            <ul>
+                <li><strong>Arithmetic Operators (`+`, `-`, `*`, `/`, `%`):</strong> Perform operations on columns during projection:
+                    <pre><code><span class="kw">SELECT</span> FName, Salary * 1.10 <span class="kw">AS</span> NewSalary <span class="kw">FROM</span> <span class="cls">EMPLOYEE</span>;</code></pre>
+                </li>
+                <li><strong>ORDER BY:</strong> Sorts the returned result set in ascending (`ASC`, default) or descending (`DESC`) order:
+                    <pre><code><span class="kw">SELECT</span> FName, Salary <span class="kw">FROM</span> <span class="cls">EMPLOYEE</span> <span class="kw">ORDER BY</span> Salary <span class="kw">DESC</span>, LName <span class="kw">ASC</span>;</code></pre>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- ============================== -->
+    <!-- PART C: COMPLEX SQL QUERIES    -->
+    <!-- ============================== -->
+    <div class="part-divider part-c"><span id="part-c-complex">Part C — Complex Queries &amp; Subqueries</span></div>
+
+    <!-- 14. NULL and Three Valued Logic -->
+    <section class="section" id="null-logic">
+        <div class="section-header">
+            <div class="section-number num-purple">14</div>
+            <h2>NULL &amp; Three-Valued Logic (IS NULL, IS NOT NULL)</h2>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">⚠️</span> CRITICAL EXAM POINT: Testing for NULL</h3>
+            <p>You cannot use standard equality operators to check for NULL values (e.g., `Salary = NULL` is invalid and always evaluates to **UNKNOWN**). Instead, you must use the special **`IS NULL`** and **`IS NOT NULL`** operators:</p>
+            <pre><code><span class="kw">SELECT</span> FName <span class="kw">FROM</span> <span class="cls">EMPLOYEE</span> <span class="kw">WHERE</span> SuperSSN <span class="kw">IS NULL</span>;</code></pre>
+        </div>
+    </section>
+
+    <!-- 15. Nested Subqueries -->
+    <section class="section" id="nested-subqueries">
+        <div class="section-header">
+            <div class="section-number num-purple">15</div>
+            <h2>Nested Subqueries (IN, ANY, ALL, Correlated)</h2>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🧬</span> Set Predicate Operators Mapped</h3>
+            <ul>
+                <li><strong>IN:</strong> Evaluates to TRUE if the column value exists in the set returned by the nested subquery.
+                    <pre><code><span class="kw">SELECT</span> FName <span class="kw">FROM</span> <span class="cls">EMPLOYEE</span> <span class="kw">WHERE</span> SSN <span class="kw">IN</span> (<span class="kw">SELECT</span> ESSN <span class="kw">FROM</span> <span class="cls">WORKS_ON</span>);</code></pre>
+                </li>
+                <li><strong>ANY / SOME:</strong> Evaluates to TRUE if the comparison is TRUE for **at least one** value in the subquery's result set:
+                    <pre><code><span class="kw">SELECT</span> FName <span class="kw">FROM</span> <span class="cls">EMPLOYEE</span> <span class="kw">WHERE</span> Salary &gt; <span class="kw">ANY</span> (<span class="kw">SELECT</span> Salary <span class="kw">FROM</span> <span class="cls">EMPLOYEE</span> <span class="kw">WHERE</span> DeptNo = 5);</code></pre>
+                </li>
+                <li><strong>ALL:</strong> Evaluates to TRUE if the comparison is TRUE for **all** values in the subquery's result set:
+                    <pre><code><span class="kw">SELECT</span> FName <span class="kw">FROM</span> <span class="cls">EMPLOYEE</span> <span class="kw">WHERE</span> Salary &gt; <span class="kw">ALL</span> (<span class="kw">SELECT</span> Salary <span class="kw">FROM</span> <span class="cls">EMPLOYEE</span> <span class="kw">WHERE</span> DeptNo = 5);</code></pre>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- 16. EXISTS & UNIQUE Functions -->
+    <section class="section" id="exists-unique">
+        <div class="section-header">
+            <div class="section-number num-purple">16</div>
+            <h2>EXISTS &amp; UNIQUE Subquery Operations</h2>
+        </div>
+
+        <div class="card">
+            <h3>1. EXISTS Operator <span class="badge badge-imp">Highly Repeated</span></h3>
+            <p><strong>Definition:</strong> A boolean operator used to check if a subquery returns **at least one row**. If the subquery yields one or more matching rows, `EXISTS` evaluates to TRUE; if it yields zero rows, it evaluates to FALSE.</p>
+            <p><strong>Correlated Subquery Example:</strong> Find employees who work on at least one project.</p>
+            <pre><code><span class="kw">SELECT</span> e.FName, e.LName 
+<span class="kw">FROM</span> <span class="cls">EMPLOYEE</span> <span class="kw">AS</span> e 
+<span class="kw">WHERE EXISTS</span> (
+    <span class="kw">SELECT</span> * 
+    <span class="kw">FROM</span> <span class="cls">WORKS_ON</span> <span class="kw">AS</span> w 
+    <span class="kw">WHERE</span> w.ESSN = e.SSN
+);</code></pre>
+        </div>
+
+        <div class="card">
+            <h3>2. UNIQUE Operator</h3>
+            <p>Evaluates to TRUE if the subquery returns no duplicate rows (i.e., all returned tuples are unique).</p>
+        </div>
+    </section>
+
+    <!-- 17. Joins Mapped -->
+    <section class="section" id="joins-all">
+        <div class="section-header">
+            <div class="section-number num-purple">17</div>
+            <h2>Joins in SQL (Inner, Left, Right, Full, Self, Cross)</h2>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🧩</span> SQL Join Types Mapped</h3>
+            
+            <h4 style="margin-top: 10px;">1. INNER JOIN (Standard Match)</h4>
+            <p>Returns rows only when there is a match in both tables based on the join condition.</p>
+            <pre><code><span class="kw">SELECT</span> e.FName, d.DeptName 
+<span class="kw">FROM</span> <span class="cls">EMPLOYEE</span> <span class="kw">AS</span> e 
+<span class="kw">INNER JOIN</span> <span class="cls">DEPARTMENT</span> <span class="kw">AS</span> d <span class="kw">ON</span> e.DeptNo = d.DeptNo;</code></pre>
+
+            <h4 style="margin-top: 15px;">2. LEFT OUTER JOIN</h4>
+            <p>Returns all rows from the left table, plus matching rows from the right table. Missing values in right table columns are filled with NULLs.</p>
+            <pre><code><span class="kw">SELECT</span> e.FName, d.DeptName 
+<span class="kw">FROM</span> <span class="cls">EMPLOYEE</span> <span class="kw">AS</span> e 
+<span class="kw">LEFT JOIN</span> <span class="cls">DEPARTMENT</span> <span class="kw">AS</span> d <span class="kw">ON</span> e.DeptNo = d.DeptNo;</code></pre>
+
+            <h4 style="margin-top: 15px;">3. RIGHT OUTER JOIN</h4>
+            <p>Returns all rows from the right table, plus matching rows from the left table. Missing values in left table columns are filled with NULLs.</p>
+            <pre><code><span class="kw">SELECT</span> e.FName, d.DeptName 
+<span class="kw">FROM</span> <span class="cls">EMPLOYEE</span> <span class="kw">AS</span> e 
+<span class="kw">RIGHT JOIN</span> <span class="cls">DEPARTMENT</span> <span class="kw">AS</span> d <span class="kw">ON</span> e.DeptNo = d.DeptNo;</code></pre>
+
+            <h4 style="margin-top: 15px;">4. SELF JOIN</h4>
+            <p>Joins a table to itself. Requires using unique aliases for each instance of the table. Useful for hierarchical records.</p>
+            <p><strong>Example:</strong> Find the name of each employee and the name of their direct supervisor.</p>
+            <pre><code><span class="kw">SELECT</span> emp.FName <span class="kw">AS</span> EmpName, mgr.FName <span class="kw">AS</span> MgrName 
+<span class="kw">FROM</span> <span class="cls">EMPLOYEE</span> <span class="kw">AS</span> emp 
+<span class="kw">LEFT JOIN</span> <span class="cls">EMPLOYEE</span> <span class="kw">AS</span> mgr <span class="kw">ON</span> emp.SuperSSN = mgr.SSN;</code></pre>
+        </div>
+    </section>
+
+    <!-- ============================== -->
+    <!-- PART D: AGGREGATE FUNCTIONS    -->
+    <!-- ============================== -->
+    <div class="part-divider part-b"><span id="part-d-aggregates">Part D — Aggregate Functions &amp; Grouping</span></div>
+
+    <!-- 18. Aggregate Functions -->
+    <section class="section" id="aggregate-funcs">
+        <div class="section-header">
+            <div class="section-number num-purple">18</div>
+            <h2>Aggregate Functions: COUNT, SUM, AVG, MIN, MAX</h2>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">📊</span> Aggregate Operation Code Examples</h3>
+            <p>Aggregate functions perform a calculation on a set of values in a column, returning a single value. They **ignore NULL values** except for `COUNT(*)`:</p>
+            <pre><code><span class="kw">SELECT</span> 
+    <span class="fn">COUNT</span>(*) <span class="kw">AS</span> TotalEmployees,
+    <span class="fn">SUM</span>(Salary) <span class="kw">AS</span> TotalSalaries,
+    <span class="fn">AVG</span>(Salary) <span class="kw">AS</span> AverageSalary,
+    <span class="fn">MIN</span>(Salary) <span class="kw">AS</span> MinimumSalary,
+    <span class="fn">MAX</span>(Salary) <span class="kw">AS</span> MaximumSalary 
+<span class="kw">FROM</span> <span class="cls">EMPLOYEE</span>;</code></pre>
+        </div>
+    </section>
+
+    <!-- 19. GROUP BY & HAVING Clauses -->
+    <section class="section" id="group-by">
+        <div class="section-header">
+            <div class="section-number num-purple">19</div>
+            <h2>GROUP BY &amp; HAVING Filtering Clauses</h2>
+        </div>
+
+        <div class="warn-box">
+            <div class="label">⚠️ CRITICAL REQUIREMENT: GROUP BY Select Constraint</div>
+            <p>When using a `GROUP BY` clause, **every column in the SELECT list must either**: </p>
+            <ol>
+                <li>Be explicitly specified as a grouping attribute in the `GROUP BY` clause, or</li>
+                <li>Be enclosed inside an aggregate function (e.g., `SUM()`, `AVG()`).</li>
+            </ol>
+            <p>Violating this rule throws a syntax compilation error.</p>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">⚙️</span> HAVING vs. WHERE Clause Comparison</h3>
+            <p>Understanding where to filter rows vs. where to filter grouped results is critical:</p>
+            
+            <div class="table-wrap" style="margin-top: 15px;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>WHERE Clause</th>
+                            <th>HAVING Clause</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Logical Purpose</strong></td>
+                            <td>Filters individual **row tuples** before logical grouping occurs.</td>
+                            <td>Filters **grouped sets** after the GROUP BY execution.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Aggregation Support</strong></td>
+                            <td>Cannot contain aggregate functions (e.g., `WHERE SUM(Salary) &gt; 10` is invalid).</td>
+                            <td>Enforces filter predicates containing aggregate functions.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Execution Phase</strong></td>
+                            <td>Processed **before** the `GROUP BY` operation.</td>
+                            <td>Processed **after** the `GROUP BY` operation.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">📝</span> Complete Code Example</h3>
+            <p>List departments with more than 5 employees earning over 30,000, and show the department ID and total employees.</p>
+            <pre><code><span class="kw">SELECT</span> DeptNo, <span class="fn">COUNT</span>(SSN) <span class="kw">AS</span> NumEmps
+<span class="kw">FROM</span> <span class="cls">EMPLOYEE</span>
+<span class="kw">WHERE</span> Salary &gt; 30000.00            <span class="cm">-- row filter</span>
+<span class="kw">GROUP BY</span> DeptNo
+<span class="kw">HAVING</span> <span class="fn">COUNT</span>(SSN) &gt; 5;            <span class="cm">-- group filter</span></code></pre>
+        </div>
+    </section>
+
+    <!-- ============================== -->
+    <!-- PART E: DATA MANIPULATION      -->
+    <!-- ============================== -->
+    <div class="part-divider part-c"><span id="part-e-dml">Part E — Data Manipulation Operations</span></div>
+
+    <!-- 20. INSERT Operations Mapped -->
+    <section class="section" id="dml-insert">
+        <div class="section-header">
+            <div class="section-number num-green">20</div>
+            <h2>INSERT Command Operations</h2>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">📥</span> Single &amp; Multi-Row Insert Syntax</h3>
+            <ul>
+                <li><strong>Single Row Insert:</strong> Inserts a single record specifying column names:
+                    <pre><code><span class="kw">INSERT INTO</span> <span class="cls">Student</span> (USN, Name, GPA, DeptID) 
+<span class="kw">VALUES</span> (<span class="str">'1MS24IS001'</span>, <span class="str">'Akshay'</span>, 9.85, 10);</code></pre>
+                </li>
+                <li><strong>Multiple Rows Insert:</strong> Inserts multiple records in a single query:
+                    <pre><code><span class="kw">INSERT INTO</span> <span class="cls">Student</span> (USN, Name, GPA, DeptID) <span class="kw">VALUES</span>
+(<span class="str">'1MS24IS002'</span>, <span class="str">'Ananth'</span>, 9.70, 10),
+(<span class="str">'1MS24IS003'</span>, <span class="str">'Rahul'</span>, 8.90, 20);</code></pre>
+                </li>
+                <li><strong>Insert using SELECT:</strong> Copies records from one table directly into another:
+                    <pre><code><span class="kw">INSERT INTO</span> <span class="cls">HonorRollStudents</span> (USN, Name, GPA) 
+<span class="kw">SELECT</span> USN, Name, GPA <span class="kw">FROM</span> <span class="cls">Student</span> <span class="kw">WHERE</span> GPA &gt; 9.50;</code></pre>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- 21. DELETE Operations Mapped -->
+    <section class="section" id="dml-delete">
+        <div class="section-header">
+            <div class="section-number num-green">21</div>
+            <h2>DELETE Command Operations</h2>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🗑️</span> Safe Deletions</h3>
+            <ul>
+                <li><strong>Conditional Delete:</strong> Deletes only rows matching the WHERE clause:
+                    <pre><code><span class="kw">DELETE FROM</span> <span class="cls">Student</span> <span class="kw">WHERE</span> GPA &lt; 5.00;</code></pre>
+                </li>
+                <li><strong>Delete All Rows:</strong> Deletes all records, leaving the empty table schema in the system catalog:
+                    <pre><code><span class="kw">DELETE FROM</span> <span class="cls">Student</span>;</code></pre>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- 22. UPDATE Operations Mapped -->
+    <section class="section" id="dml-update">
+        <div class="section-header">
+            <div class="section-number num-green">22</div>
+            <h2>UPDATE Command Operations</h2>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🔄</span> Data Modification Syntax</h3>
+            <ul>
+                <li><strong>Update Single Row:</strong>
+                    <pre><code><span class="kw">UPDATE</span> <span class="cls">Student</span> <span class="kw">SET</span> GPA = 9.90 <span class="kw">WHERE</span> USN = <span class="str">'1MS24IS001'</span>;</code></pre>
+                </li>
+                <li><strong>Update Multiple Columns &amp; Rows with Conditions:</strong>
+                    <pre><code><span class="kw">UPDATE</span> <span class="cls">Student</span> 
+<span class="kw">SET</span> GPA = GPA + 0.10, Status = <span class="str">'Promoted'</span> 
+<span class="kw">WHERE</span> DeptID = 10 <span class="kw">AND</span> GPA &lt;= 9.80;</code></pre>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- ============================== -->
+    <!-- 50 SOLVED COMPANY DATABASE Q   -->
+    <!-- ============================== -->
+    <div class="part-divider part-c"><span id="solved-company-queries">50 Solved COMPANY Database Queries</span></div>
+
+    <!-- solved queries 1 - 50 -->
+    <section class="section" id="solved-queries-1-50">
+        <div class="section-header">
+            <div class="section-number num-green">★</div>
+            <h2>Database Query Catalog 1 - 50</h2>
+        </div>
+
+        <!-- Query 1 -->
+        <div class="problem-card">
+            <div class="problem-header"><h3>Query 1: Find names of employees in department 5.</h3></div>
+            <div class="problem-body">
+                <pre><code><span class="kw">SELECT</span> FName, LName <span class="kw">FROM</span> <span class="cls">EMPLOYEE</span> <span class="kw">WHERE</span> DeptNo = 5;</code></pre>
+            </div>
+        </div>
+
+        <!-- Query 2 -->
+        <div class="problem-card">
+            <div class="problem-header"><h3>Query 2: List all projects located in 'Stafford'.</h3></div>
+            <div class="problem-body">
+                <pre><code><span class="kw">SELECT</span> * <span class="kw">FROM</span> <span class="cls">PROJECT</span> <span class="kw">WHERE</span> Location = <span class="str">'Stafford'</span>;</code></pre>
+            </div>
+        </div>
+
+        <!-- Query 3 -->
+        <div class="problem-card">
+            <div class="problem-header"><h3>Query 3: Find SSNs of employees who work on project number 10.</h3></div>
+            <div class="problem-body">
+                <pre><code><span class="kw">SELECT</span> ESSN <span class="kw">FROM</span> <span class="cls">WORKS_ON</span> <span class="kw">WHERE</span> ProjNo = 10;</code></pre>
+            </div>
+        </div>
+
+        <!-- Query 4 -->
+        <div class="problem-card">
+            <div class="problem-header"><h3>Query 4: Find names of employees who work on project 10.</h3></div>
+            <div class="problem-body">
+                <pre><code><span class="kw">SELECT</span> e.FName, e.LName 
+<span class="kw">FROM</span> <span class="cls">EMPLOYEE</span> <span class="kw">AS</span> e
+<span class="kw">INNER JOIN</span> <span class="cls">WORKS_ON</span> <span class="kw">AS</span> w <span class="kw">ON</span> e.SSN = w.ESSN
+<span class="kw">WHERE</span> w.ProjNo = 10;</code></pre>
+            </div>
+        </div>
+
+        <!-- Query 5 -->
+        <div class="problem-card">
+            <div class="problem-header"><h3>Query 5: Find names of employees with salary greater than 50,000.</h3></div>
+            <div class="problem-body">
+                <pre><code><span class="kw">SELECT</span> FName, LName <span class="kw">FROM</span> <span class="cls">EMPLOYEE</span> <span class="kw">WHERE</span> Salary &gt; 50000.00;</code></pre>
+            </div>
+        </div>
+
+        <!-- Query 6 -->
+        <div class="problem-card">
+            <div class="problem-header"><h3>Query 6: Find names of employees who have dependents.</h3></div>
+            <div class="problem-body">
+                <pre><code><span class="kw">SELECT DISTINCT</span> e.FName, e.LName 
+<span class="kw">FROM</span> <span class="cls">EMPLOYEE</span> <span class="kw">AS</span> e 
+<span class="kw">INNER JOIN</span> <span class="cls">DEPENDENT</span> <span class="kw">AS</span> d <span class="kw">ON</span> e.SSN = d.ESSN;</code></pre>
+            </div>
+        </div>
+
+        <!-- Query 7 -->
+        <div class="problem-card">
+            <div class="problem-header"><h3>Query 7: Find names of departments located in 'Bangalore'.</h3></div>
+            <div class="problem-body">
+                <pre><code><span class="kw">SELECT</span> d.DeptName 
+<span class="kw">FROM</span> <span class="cls">DEPARTMENT</span> <span class="kw">AS</span> d
+<span class="kw">INNER JOIN</span> <span class="cls">DEPT_LOCATIONS</span> <span class="kw">AS</span> l <span class="kw">ON</span> d.DeptNo = l.DeptNo
+<span class="kw">WHERE</span> l.Location = <span class="str">'Bangalore'</span>;</code></pre>
+            </div>
+        </div>
+
+        <!-- Query 8 -->
+        <div class="problem-card">
+            <div class="problem-header"><h3>Query 8: Find employees who do not work for any department.</h3></div>
+            <div class="problem-body">
+                <pre><code><span class="kw">SELECT</span> FName, LName <span class="kw">FROM</span> <span class="cls">EMPLOYEE</span> <span class="kw">WHERE</span> DeptNo <span class="kw">IS NULL</span>;</code></pre>
+            </div>
+        </div>
+
+        <!-- Query 9 -->
+        <div class="problem-card">
+            <div class="problem-header"><h3>Query 9: Find projects managed by 'Akshay'.</h3></div>
+            <div class="problem-body">
+                <pre><code><span class="kw">SELECT</span> p.ProjName 
+<span class="kw">FROM</span> <span class="cls">PROJECT</span> <span class="kw">AS</span> p
+<span class="kw">INNER JOIN</span> <span class="cls">DEPARTMENT</span> <span class="kw">AS</span> d <span class="kw">ON</span> p.DeptNo = d.DeptNo
+<span class="kw">INNER JOIN</span> <span class="cls">EMPLOYEE</span> <span class="kw">AS</span> e <span class="kw">ON</span> d.ManagerSSN = e.SSN
+<span class="kw">WHERE</span> e.FName = <span class="str">'Akshay'</span>;</code></pre>
+            </div>
+        </div>
+
+        <!-- Query 10 -->
+        <div class="problem-card">
+            <div class="problem-header"><h3>Query 10: Find names of employees who do not have any dependents.</h3></div>
+            <div class="problem-body">
+                <pre><code><span class="kw">SELECT</span> FName, LName <span class="kw">FROM</span> <span class="cls">EMPLOYEE</span> 
+<span class="kw">WHERE</span> SSN <span class="kw">NOT IN</span> (<span class="kw">SELECT</span> ESSN <span class="kw">FROM</span> <span class="cls">DEPENDENT</span>);</code></pre>
+            </div>
+        </div>
+
+        <!-- Query 11 -->
+        <div class="problem-card">
+            <div class="problem-header"><h3>Query 11: Find the average salary of all employees.</h3></div>
+            <div class="problem-body">
+                <pre><code><span class="kw">SELECT</span> <span class="fn">AVG</span>(Salary) <span class="kw">AS</span> AvgSalary <span class="kw">FROM</span> <span class="cls">EMPLOYEE</span>;</code></pre>
+            </div>
+        </div>
+
+        <!-- Query 12 -->
+        <div class="problem-card">
+            <div class="problem-header"><h3>Query 12: Count the total number of employees.</h3></div>
+            <div class="problem-body">
+                <pre><code><span class="kw">SELECT</span> <span class="fn">COUNT</span>(SSN) <span class="kw">AS</span> TotalEmployees <span class="kw">FROM</span> <span class="cls">EMPLOYEE</span>;</code></pre>
+            </div>
+        </div>
+
+        <!-- Query 13 -->
+        <div class="problem-card">
+            <div class="problem-header"><h3>Query 13: Find the maximum salary among female employees.</h3></div>
+            <div class="problem-body">
+                <pre><code><span class="kw">SELECT</span> <span class="fn">MAX</span>(Salary) <span class="kw">AS</span> MaxFemaleSalary <span class="kw">FROM</span> <span class="cls">EMPLOYEE</span> <span class="kw">WHERE</span> Gender = <span class="str">'F'</span>;</code></pre>
+            </div>
+        </div>
+
+        <!-- Query 14 -->
+        <div class="problem-card">
+            <div class="problem-header"><h3>Query 14: List employees who work on ALL projects (Correlated NOT EXISTS).</h3></div>
+            <div class="problem-body">
+                <pre><code><span class="kw">SELECT</span> e.FName, e.LName <span class="kw">FROM</span> <span class="cls">EMPLOYEE</span> <span class="kw">AS</span> e
+<span class="kw">WHERE NOT EXISTS</span> (
+    <span class="kw">SELECT</span> p.ProjNo <span class="kw">FROM</span> <span class="cls">PROJECT</span> <span class="kw">AS</span> p
+    <span class="kw">WHERE NOT EXISTS</span> (
+        <span class="kw">SELECT</span> * <span class="kw">FROM</span> <span class="cls">WORKS_ON</span> <span class="kw">AS</span> w
+        <span class="kw">WHERE</span> w.ESSN = e.SSN <span class="kw">AND</span> w.ProjNo = p.ProjNo
+    )
+);</code></pre>
+            </div>
+        </div>
+
+        <!-- Query 15 -->
+        <div class="problem-card">
+            <div class="problem-header"><h3>Query 15: Find names of employees who manage a department.</h3></div>
+            <div class="problem-body">
+                <pre><code><span class="kw">SELECT</span> FName, LName <span class="kw">FROM</span> <span class="cls">EMPLOYEE</span>
+<span class="kw">WHERE</span> SSN <span class="kw">IN</span> (<span class="kw">SELECT</span> ManagerSSN <span class="kw">FROM</span> <span class="cls">DEPARTMENT</span>);</code></pre>
+            </div>
+        </div>
+
+        <!-- Query 16 -->
+        <div class="problem-card">
+            <div class="problem-header"><h3>Query 16: List the locations of department number 5.</h3></div>
+            <div class="problem-body">
+                <pre><code><span class="kw">SELECT</span> Location <span class="kw">FROM</span> <span class="cls">DEPT_LOCATIONS</span> <span class="kw">WHERE</span> DeptNo = 5;</code></pre>
+            </div>
+        </div>
+
+        <!-- Query 17 -->
+        <div class="problem-card">
+            <div class="problem-header"><h3>Query 17: Find projects controlled by department 5.</h3></div>
+            <div class="problem-body">
+                <pre><code><span class="kw">SELECT</span> ProjName <span class="kw">FROM</span> <span class="cls">PROJECT</span> <span class="kw">WHERE</span> DeptNo = 5;</code></pre>
+            </div>
+        </div>
+
+        <!-- Query 18 -->
+        <div class="problem-card">
+            <div class="problem-header"><h3>Query 18: Find female dependents of employee with SSN 'E01'.</h3></div>
+            <div class="problem-body">
+                <pre><code><span class="kw">SELECT</span> DependentName <span class="kw">FROM</span> <span class="cls">DEPENDENT</span> <span class="kw">WHERE</span> ESSN = <span class="str">'E01'</span> <span class="kw">AND</span> Gender = <span class="str">'F'</span>;</code></pre>
+            </div>
+        </div>
+
+        <!-- Query 19 -->
+        <div class="problem-card">
+            <div class="problem-header"><h3>Query 19: List departments having more than 5 employees.</h3></div>
+            <div class="problem-body">
+                <pre><code><span class="kw">SELECT</span> DeptNo, <span class="fn">COUNT</span>(SSN) <span class="kw">AS</span> NumEmps 
+<span class="kw">FROM</span> <span class="cls">EMPLOYEE</span> 
+<span class="kw">GROUP BY</span> DeptNo 
+<span class="kw">HAVING</span> <span class="fn">COUNT</span>(SSN) &gt; 5;</code></pre>
+            </div>
+        </div>
+
+        <!-- Query 20 -->
+        <div class="problem-card">
+            <div class="problem-header"><h3>Query 20: List names of employees who are supervised by 'Ananth'.</h3></div>
+            <div class="problem-body">
+                <pre><code><span class="kw">SELECT</span> FName, LName <span class="kw">FROM</span> <span class="cls">EMPLOYEE</span> 
+<span class="kw">WHERE</span> SuperSSN = (<span class="kw">SELECT</span> SSN <span class="kw">FROM</span> <span class="cls">EMPLOYEE</span> <span class="kw">WHERE</span> FName = <span class="str">'Ananth'</span>);</code></pre>
+            </div>
+        </div>
+
+        <!-- Query 21 -->
+        <div class="problem-card">
+            <div class="problem-header"><h3>Query 21: Find projects on which employee 'Akshay' works.</h3></div>
+            <div class="problem-body">
+                <pre><code><span class="kw">SELECT</span> p.ProjName 
+<span class="kw">FROM</span> <span class="cls">PROJECT</span> <span class="kw">AS</span> p
+<span class="kw">INNER JOIN</span> <span class="cls">WORKS_ON</span> <span class="kw">AS</span> w <span class="kw">ON</span> p.ProjNo = w.ProjNo
+<span class="kw">INNER JOIN</span> <span class="cls">EMPLOYEE</span> <span class="kw">AS</span> e <span class="kw">ON</span> w.ESSN = e.SSN
+<span class="kw">WHERE</span> e.FName = <span class="str">'Akshay'</span>;</code></pre>
+            </div>
+        </div>
+
+        <!-- Query 22 -->
+        <div class="problem-card">
+            <div class="problem-header"><h3>Query 22: Find employees who work on at least one project.</h3></div>
+            <div class="problem-body">
+                <pre><code><span class="kw">SELECT DISTINCT</span> e.FName, e.LName 
+<span class="kw">FROM</span> <span class="cls">EMPLOYEE</span> <span class="kw">AS</span> e
+<span class="kw">INNER JOIN</span> <span class="cls">WORKS_ON</span> <span class="kw">AS</span> w <span class="kw">ON</span> e.SSN = w.ESSN;</code></pre>
+            </div>
+        </div>
+
+        <!-- Query 23 -->
+        <div class="problem-card">
+            <div class="problem-header"><h3>Query 23: Find department managers who have at least one dependent.</h3></div>
+            <div class="problem-body">
+                <pre><code><span class="kw">SELECT</span> e.FName, e.LName 
+<span class="kw">FROM</span> <span class="cls">EMPLOYEE</span> <span class="kw">AS</span> e
+<span class="kw">INNER JOIN</span> <span class="cls">DEPARTMENT</span> <span class="kw">AS</span> d <span class="kw">ON</span> e.SSN = d.ManagerSSN
+<span class="kw">WHERE</span> e.SSN <span class="kw">IN</span> (<span class="kw">SELECT</span> ESSN <span class="kw">FROM</span> <span class="cls">DEPENDENT</span>);</code></pre>
+            </div>
+        </div>
+
+        <!-- Query 24 -->
+        <div class="problem-card">
+            <div class="problem-header"><h3>Query 24: Find employees who work on projects controlled by their own department.</h3></div>
+            <div class="problem-body">
+                <pre><code><span class="kw">SELECT DISTINCT</span> e.FName, e.LName 
+<span class="kw">FROM</span> <span class="cls">EMPLOYEE</span> <span class="kw">AS</span> e
+<span class="kw">INNER JOIN</span> <span class="cls">WORKS_ON</span> <span class="kw">AS</span> w <span class="kw">ON</span> e.SSN = w.ESSN
+<span class="kw">INNER JOIN</span> <span class="cls">PROJECT</span> <span class="kw">AS</span> p <span class="kw">ON</span> w.ProjNo = p.ProjNo
+<span class="kw">WHERE</span> e.DeptNo = p.DeptNo;</code></pre>
+            </div>
+        </div>
+
+        <!-- Query 25 -->
+        <div class="problem-card">
+            <div class="problem-header"><h3>Query 25: Find sum of salaries of all employees in department 5.</h3></div>
+            <div class="problem-body">
+                <pre><code><span class="kw">SELECT</span> <span class="fn">SUM</span>(Salary) <span class="kw">AS</span> TotalSalDept5 <span class="kw">FROM</span> <span class="cls">EMPLOYEE</span> <span class="kw">WHERE</span> DeptNo = 5;</code></pre>
+            </div>
+        </div>
+
+        <!-- Query 26 -->
+        <div class="problem-card">
+            <div class="problem-header"><h3>Query 26: List names of employees working in 'Research' department.</h3></div>
+            <div class="problem-body">
+                <pre><code><span class="kw">SELECT</span> e.FName, e.LName 
+<span class="kw">FROM</span> <span class="cls">EMPLOYEE</span> <span class="kw">AS</span> e
+<span class="kw">INNER JOIN</span> <span class="cls">DEPARTMENT</span> <span class="kw">AS</span> d <span class="kw">ON</span> e.DeptNo = d.DeptNo
+<span class="kw">WHERE</span> d.DeptName = <span class="str">'Research'</span>;</code></pre>
+            </div>
+        </div>
+
+        <!-- Query 27 -->
+        <div class="problem-card">
+            <div class="problem-header"><h3>Query 27: List projects controlled by 'Research' department.</h3></div>
+            <div class="problem-body">
+                <pre><code><span class="kw">SELECT</span> p.ProjName 
+<span class="kw">FROM</span> <span class="cls">PROJECT</span> <span class="kw">AS</span> p
+<span class="kw">INNER JOIN</span> <span class="cls">DEPARTMENT</span> <span class="kw">AS</span> d <span class="kw">ON</span> p.DeptNo = d.DeptNo
+<span class="kw">WHERE</span> d.DeptName = <span class="str">'Research'</span>;</code></pre>
+            </div>
+        </div>
+
+        <!-- Query 28 -->
+        <div class="problem-card">
+            <div class="problem-header"><h3>Query 28: Find the minimum salary in the entire company.</h3></div>
+            <div class="problem-body">
+                <pre><code><span class="kw">SELECT</span> <span class="fn">MIN</span>(Salary) <span class="kw">AS</span> MinSalary <span class="kw">FROM</span> <span class="cls">EMPLOYEE</span>;</code></pre>
+            </div>
+        </div>
+
+        <!-- Query 29 -->
+        <div class="problem-card">
+            <div class="problem-header"><h3>Query 29: List names of employees who earn more than their direct supervisors.</h3></div>
+            <div class="problem-body">
+                <pre><code><span class="kw">SELECT</span> emp.FName, emp.LName 
+<span class="kw">FROM</span> <span class="cls">EMPLOYEE</span> <span class="kw">AS</span> emp
+<span class="kw">INNER JOIN</span> <span class="cls">EMPLOYEE</span> <span class="kw">AS</span> mgr <span class="kw">ON</span> emp.SuperSSN = mgr.SSN
+<span class="kw">WHERE</span> emp.Salary &gt; mgr.Salary;</code></pre>
+            </div>
+        </div>
+
+        <!-- Query 30 -->
+        <div class="problem-card">
+            <div class="problem-header"><h3>Query 30: List projects located in either 'Stafford' or 'Houston'.</h3></div>
+            <div class="problem-body">
+                <pre><code><span class="kw">SELECT</span> ProjName <span class="kw">FROM</span> <span class="cls">PROJECT</span> 
+<span class="kw">WHERE</span> Location <span class="kw">IN</span> (<span class="str">'Stafford'</span>, <span class="str">'Houston'</span>);</code></pre>
+            </div>
+        </div>
+
+        <!-- Query 31 -->
+        <div class="problem-card">
+            <div class="problem-header"><h3>Query 31: Find departments with no working projects.</h3></div>
+            <div class="problem-body">
+                <pre><code><span class="kw">SELECT</span> DeptName <span class="kw">FROM</span> <span class="cls">DEPARTMENT</span> 
+<span class="kw">WHERE</span> DeptNo <span class="kw">NOT IN</span> (<span class="kw">SELECT DISTINCT</span> DeptNo <span class="kw">FROM</span> <span class="cls">PROJECT</span>);</code></pre>
+            </div>
+        </div>
+
+        <!-- Query 32 -->
+        <div class="problem-card">
+            <div class="problem-header"><h3>Query 32: List employees who work exactly 40 hours on project 10.</h3></div>
+            <div class="problem-body">
+                <pre><code><span class="kw">SELECT</span> e.FName, e.LName 
+<span class="kw">FROM</span> <span class="cls">EMPLOYEE</span> <span class="kw">AS</span> e
+<span class="kw">INNER JOIN</span> <span class="cls">WORKS_ON</span> <span class="kw">AS</span> w <span class="kw">ON</span> e.SSN = w.ESSN
+<span class="kw">WHERE</span> w.ProjNo = 10 <span class="kw">AND</span> w.Hours = 40.0;</code></pre>
+            </div>
+        </div>
+
+        <!-- Query 33 -->
+        <div class="problem-card">
+            <div class="problem-header"><h3>Query 33: List total hours spent by all employees on project 5.</h3></div>
+            <div class="problem-body">
+                <pre><code><span class="kw">SELECT</span> <span class="fn">SUM</span>(Hours) <span class="kw">AS</span> TotalHoursProject5 <span class="kw">FROM</span> <span class="cls">WORKS_ON</span> <span class="kw">WHERE</span> ProjNo = 5;</code></pre>
+            </div>
+        </div>
+
+        <!-- Query 34 -->
+        <div class="problem-card">
+            <div class="problem-header"><h3>Query 34: List employees who have more than 2 dependents.</h3></div>
+            <div class="problem-body">
+                <pre><code><span class="kw">SELECT</span> e.FName, e.LName 
+<span class="kw">FROM</span> <span class="cls">EMPLOYEE</span> <span class="kw">AS</span> e
+<span class="kw">WHERE</span> (<span class="kw">SELECT</span> <span class="fn">COUNT</span>(*) <span class="kw">FROM</span> <span class="cls">DEPENDENT</span> <span class="kw">WHERE</span> ESSN = e.SSN) &gt; 2;</code></pre>
+            </div>
+        </div>
+
+        <!-- Query 35 -->
+        <div class="problem-card">
+            <div class="problem-header"><h3>Query 35: Find projects controlled by departments managed by 'Akshay'.</h3></div>
+            <div class="problem-body">
+                <pre><code><span class="kw">SELECT</span> p.ProjName 
+<span class="kw">FROM</span> <span class="cls">PROJECT</span> <span class="kw">AS</span> p
+<span class="kw">INNER JOIN</span> <span class="cls">DEPARTMENT</span> <span class="kw">AS</span> d <span class="kw">ON</span> p.DeptNo = d.DeptNo
+<span class="kw">WHERE</span> d.ManagerSSN = (<span class="kw">SELECT</span> SSN <span class="kw">FROM</span> <span class="cls">EMPLOYEE</span> <span class="kw">WHERE</span> FName = <span class="str">'Akshay'</span>);</code></pre>
+            </div>
+        </div>
+
+        <!-- Query 36 -->
+        <div class="problem-card">
+            <div class="problem-header"><h3>Query 36: Find unique names of dependents of female employees.</h3></div>
+            <div class="problem-body">
+                <pre><code><span class="kw">SELECT DISTINCT</span> d.DependentName 
+<span class="kw">FROM</span> <span class="cls">DEPENDENT</span> <span class="kw">AS</span> d
+<span class="kw">INNER JOIN</span> <span class="cls">EMPLOYEE</span> <span class="kw">AS</span> e <span class="kw">ON</span> d.ESSN = e.SSN
+<span class="kw">WHERE</span> e.Gender = <span class="str">'F'</span>;</code></pre>
+            </div>
+        </div>
+
+        <!-- Query 37 -->
+        <div class="problem-card">
+            <div class="problem-header"><h3>Query 37: Find employees who work on all projects controlled by Dept 5.</h3></div>
+            <div class="problem-body">
+                <pre><code><span class="kw">SELECT</span> e.FName, e.LName <span class="kw">FROM</span> <span class="cls">EMPLOYEE</span> <span class="kw">AS</span> e
+<span class="kw">WHERE NOT EXISTS</span> (
+    <span class="kw">SELECT</span> p.ProjNo <span class="kw">FROM</span> <span class="cls">PROJECT</span> <span class="kw">AS</span> p
+    <span class="kw">WHERE</span> p.DeptNo = 5 <span class="kw">AND NOT EXISTS</span> (
+        <span class="kw">SELECT</span> * <span class="kw">FROM</span> <span class="cls">WORKS_ON</span> <span class="kw">AS</span> w
+        <span class="kw">WHERE</span> w.ESSN = e.SSN <span class="kw">AND</span> w.ProjNo = p.ProjNo
+    )
+);</code></pre>
+            </div>
+        </div>
+
+        <!-- Query 38 -->
+        <div class="problem-card">
+            <div class="problem-header"><h3>Query 38: List department names and their manager start dates.</h3></div>
+            <div class="problem-body">
+                <pre><code><span class="kw">SELECT</span> DeptName, ManagerStartDate <span class="kw">FROM</span> <span class="cls">DEPARTMENT</span>;</code></pre>
+            </div>
+        </div>
+
+        <!-- Query 39 -->
+        <div class="problem-card">
+            <div class="problem-header"><h3>Query 39: Find average salary of female employees.</h3></div>
+            <div class="problem-body">
+                <pre><code><span class="kw">SELECT</span> <span class="fn">AVG</span>(Salary) <span class="kw">AS</span> AvgFemaleSal <span class="kw">FROM</span> <span class="cls">EMPLOYEE</span> <span class="kw">WHERE</span> Gender = <span class="str">'F'</span>;</code></pre>
+            </div>
+        </div>
+
+        <!-- Query 40 -->
+        <div class="problem-card">
+            <div class="problem-header"><h3>Query 40: Find total number of departments located in 'Houston'.</h3></div>
+            <div class="problem-body">
+                <pre><code><span class="kw">SELECT</span> <span class="fn">COUNT</span>(DeptNo) <span class="kw">AS</span> NumDeptsHouston 
+<span class="kw">FROM</span> <span class="cls">DEPT_LOCATIONS</span> 
+<span class="kw">WHERE</span> Location = <span class="str">'Houston'</span>;</code></pre>
+            </div>
+        </div>
+
+        <!-- Query 41 -->
+        <div class="problem-card">
+            <div class="problem-header"><h3>Query 41: Retrieve the salary of every employee raised by 10%.</h3></div>
+            <div class="problem-body">
+                <pre><code><span class="kw">SELECT</span> FName, LName, Salary * 1.10 <span class="kw">AS</span> IncrementedSalary <span class="kw">FROM</span> <span class="cls">EMPLOYEE</span>;</code></pre>
+            </div>
+        </div>
+
+        <!-- Query 42 -->
+        <div class="problem-card">
+            <div class="problem-header"><h3>Query 42: List all employees whose salary is between 30,000 and 50,000.</h3></div>
+            <div class="problem-body">
+                <pre><code><span class="kw">SELECT</span> FName, LName <span class="kw">FROM</span> <span class="cls">EMPLOYEE</span> <span class="kw">WHERE</span> Salary <span class="kw">BETWEEN</span> 30000.00 <span class="kw">AND</span> 50000.00;</code></pre>
+            </div>
+        </div>
+
+        <!-- Query 43 -->
+        <div class="problem-card">
+            <div class="problem-header"><h3>Query 43: Find employees whose last name starts with 'S'.</h3></div>
+            <div class="problem-body">
+                <pre><code><span class="kw">SELECT</span> FName, LName <span class="kw">FROM</span> <span class="cls">EMPLOYEE</span> <span class="kw">WHERE</span> LName <span class="kw">LIKE</span> <span class="str">'S%'</span>;</code></pre>
+            </div>
+        </div>
+
+        <!-- Query 44 -->
+        <div class="problem-card">
+            <div class="problem-header"><h3>Query 44: Find employees born in the 1980s.</h3></div>
+            <div class="problem-body">
+                <pre><code><span class="kw">SELECT</span> FName, LName <span class="kw">FROM</span> <span class="cls">EMPLOYEE</span> <span class="kw">WHERE</span> BirthDate <span class="kw">LIKE</span> <span class="str">'198%'</span>;</code></pre>
+            </div>
+        </div>
+
+        <!-- Query 45 -->
+        <div class="problem-card">
+            <div class="problem-header"><h3>Query 45: List employees and sort them by department ID, then by salary descending.</h3></div>
+            <div class="problem-body">
+                <pre><code><span class="kw">SELECT</span> DeptNo, FName, Salary 
+<span class="kw">FROM</span> <span class="cls">EMPLOYEE</span> 
+<span class="kw">ORDER BY</span> DeptNo <span class="kw">ASC</span>, Salary <span class="kw">DESC</span>;</code></pre>
+            </div>
+        </div>
+
+        <!-- Query 46 -->
+        <div class="problem-card">
+            <div class="problem-header"><h3>Query 46: Update the salary of all employees working on project 10 by 5%.</h3></div>
+            <div class="problem-body">
+                <pre><code><span class="kw">UPDATE</span> <span class="cls">EMPLOYEE</span> <span class="kw">SET</span> Salary = Salary * 1.05 
+<span class="kw">WHERE</span> SSN <span class="kw">IN</span> (<span class="kw">SELECT</span> ESSN <span class="kw">FROM</span> <span class="cls">WORKS_ON</span> <span class="kw">WHERE</span> ProjNo = 10);</code></pre>
+            </div>
+        </div>
+
+        <!-- Query 47 -->
+        <div class="problem-card">
+            <div class="problem-header"><h3>Query 47: Delete all dependents of employee with SSN 'E03'.</h3></div>
+            <div class="problem-body">
+                <pre><code><span class="kw">DELETE FROM</span> <span class="cls">DEPENDENT</span> <span class="kw">WHERE</span> ESSN = <span class="str">'E03'</span>;</code></pre>
+            </div>
+        </div>
+
+        <!-- Query 48 -->
+        <div class="problem-card">
+            <div class="problem-header"><h3>Query 48: Find the count of different locations where Dept 5 has projects.</h3></div>
+            <div class="problem-body">
+                <pre><code><span class="kw">SELECT</span> <span class="fn">COUNT</span>(<span class="kw">DISTINCT</span> Location) <span class="kw">AS</span> NumLocations 
+<span class="kw">FROM</span> <span class="cls">PROJECT</span> <span class="kw">WHERE</span> DeptNo = 5;</code></pre>
+            </div>
+        </div>
+
+        <!-- Query 49 -->
+        <div class="problem-card">
+            <div class="problem-header"><h3>Query 49: List employees whose salary is greater than the average salary of their own department.</h3></div>
+            <div class="problem-body">
+                <pre><code><span class="kw">SELECT</span> e.FName, e.LName <span class="kw">FROM</span> <span class="cls">EMPLOYEE</span> <span class="kw">AS</span> e
+<span class="kw">WHERE</span> e.Salary &gt; (
+    <span class="kw">SELECT</span> <span class="fn">AVG</span>(Salary) <span class="kw">FROM</span> <span class="cls">EMPLOYEE</span> 
+    <span class="kw">WHERE</span> DeptNo = e.DeptNo
+);</code></pre>
+            </div>
+        </div>
+
+        <!-- Query 50 -->
+        <div class="problem-card">
+            <div class="problem-header"><h3>Query 50: Retrieve the name of each department and its highest salary.</h3></div>
+            <div class="problem-body">
+                <pre><code><span class="kw">SELECT</span> d.DeptName, <span class="fn">MAX</span>(e.Salary) <span class="kw">AS</span> MaxSal
+<span class="kw">FROM</span> <span class="cls">DEPARTMENT</span> <span class="kw">AS</span> d
+<span class="kw">INNER JOIN</span> <span class="cls">EMPLOYEE</span> <span class="kw">AS</span> e <span class="kw">ON</span> d.DeptNo = e.DeptNo
+<span class="kw">GROUP BY</span> d.DeptName;</code></pre>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================== -->
+    <!-- SOLVED CASE STUDY PROBLEMS     -->
+    <!-- ============================== -->
+    <div class="part-divider part-c"><span id="solved-prev-years">Solved Scenario Case Studies</span></div>
+
+    <section class="section" id="solved-case-studies-sec">
+        <div class="section-header">
+            <div class="section-number num-green">★</div>
+            <h2>10 Solved Exam-Style Scenario Cases</h2>
+        </div>
+
+        <!-- Case 1 -->
+        <div class="problem-card">
+            <div class="problem-header"><h3>Case 1: Find employees who work in the 'Research' department.</h3></div>
+            <div class="problem-body">
+                <p><strong>SQL Solution:</strong></p>
+                <pre><code><span class="kw">SELECT</span> e.FName, e.LName 
+<span class="kw">FROM</span> <span class="cls">EMPLOYEE</span> <span class="kw">AS</span> e 
+<span class="kw">INNER JOIN</span> <span class="cls">DEPARTMENT</span> <span class="kw">AS</span> d <span class="kw">ON</span> e.DeptNo = d.DeptNo 
+<span class="kw">WHERE</span> d.DeptName = <span class="str">'Research'</span>;</code></pre>
+            </div>
+        </div>
+
+        <!-- Case 2 -->
+        <div class="problem-card">
+            <div class="problem-header"><h3>Case 2: List employees with no dependents.</h3></div>
+            <div class="problem-body">
+                <p><strong>SQL Solution (NOT EXISTS approach):</strong></p>
+                <pre><code><span class="kw">SELECT</span> e.FName, e.LName 
+<span class="kw">FROM</span> <span class="cls">EMPLOYEE</span> <span class="kw">AS</span> e 
+<span class="kw">WHERE NOT EXISTS</span> (
+    <span class="kw">SELECT</span> * <span class="kw">FROM</span> <span class="cls">DEPENDENT</span> <span class="kw">AS</span> d 
+    <span class="kw">WHERE</span> d.ESSN = e.SSN
+);</code></pre>
+            </div>
+        </div>
+
+        <!-- Case 3 -->
+        <div class="problem-card">
+            <div class="problem-header"><h3>Case 3: List employees who work on all projects (Correlated Subquery).</h3></div>
+            <div class="problem-body">
+                <p><strong>SQL Solution:</strong></p>
+                <pre><code><span class="kw">SELECT</span> e.FName, e.LName 
+<span class="kw">FROM</span> <span class="cls">EMPLOYEE</span> <span class="kw">AS</span> e 
+<span class="kw">WHERE NOT EXISTS</span> (
+    <span class="kw">SELECT</span> p.ProjNo <span class="kw">FROM</span> <span class="cls">PROJECT</span> <span class="kw">AS</span> p 
+    <span class="kw">WHERE NOT EXISTS</span> (
+        <span class="kw">SELECT</span> * <span class="kw">FROM</span> <span class="cls">WORKS_ON</span> <span class="kw">AS</span> w 
+        <span class="kw">WHERE</span> w.ESSN = e.SSN <span class="kw">AND</span> w.ProjNo = p.ProjNo
+    )
+);</code></pre>
+            </div>
+        </div>
+
+        <!-- Case 4 -->
+        <div class="problem-card">
+            <div class="problem-header"><h3>Case 4: List the department-wise average salary.</h3></div>
+            <div class="problem-body">
+                <p><strong>SQL Solution:</strong></p>
+                <pre><code><span class="kw">SELECT</span> DeptNo, <span class="fn">AVG</span>(Salary) <span class="kw">AS</span> AvgSal 
+<span class="kw">FROM</span> <span class="cls">EMPLOYEE</span> 
+<span class="kw">GROUP BY</span> DeptNo;</code></pre>
+            </div>
+        </div>
+
+        <!-- Case 5 -->
+        <div class="problem-card">
+            <div class="problem-header"><h3>Case 5: Find employees who work on projects 1, 2, and 3.</h3></div>
+            <div class="problem-body">
+                <p><strong>SQL Solution:</strong></p>
+                <pre><code><span class="kw">SELECT</span> ESSN <span class="kw">FROM</span> <span class="cls">WORKS_ON</span> 
+<span class="kw">WHERE</span> ProjNo <span class="kw">IN</span> (1, 2, 3) 
+<span class="kw">GROUP BY</span> ESSN 
+<span class="kw">HAVING</span> <span class="fn">COUNT</span>(<span class="kw">DISTINCT</span> ProjNo) = 3;</code></pre>
+            </div>
+        </div>
+
+        <!-- Case 6: Sales Query -->
+        <div class="problem-card">
+            <div class="problem-header"><h3>Case 6: Find products with maximum sales amount.</h3></div>
+            <div class="problem-body">
+                <pre><code><span class="kw">SELECT</span> ProductID, <span class="fn">SUM</span>(SaleAmt) <span class="kw">AS</span> TotalSales 
+<span class="kw">FROM</span> <span class="cls">Sales</span> 
+<span class="kw">GROUP BY</span> ProductID 
+<span class="kw">HAVING</span> <span class="fn">SUM</span>(SaleAmt) &gt;= <span class="kw">ALL</span> (<span class="kw">SELECT</span> <span class="fn">SUM</span>(SaleAmt) <span class="kw">FROM</span> <span class="cls">Sales</span> <span class="kw">GROUP BY</span> ProductID);</code></pre>
+            </div>
+        </div>
+
+        <!-- Case 7: Books Query -->
+        <div class="problem-card">
+            <div class="problem-header"><h3>Case 7: Retrieve books borrowed by employees.</h3></div>
+            <div class="problem-body">
+                <pre><code><span class="kw">SELECT DISTINCT</span> b.Title, e.FName 
+<span class="kw">FROM</span> <span class="cls">Book</span> <span class="kw">AS</span> b
+<span class="kw">INNER JOIN</span> <span class="cls">Loans</span> <span class="kw">AS</span> l <span class="kw">ON</span> b.ISBN = l.ISBN
+<span class="kw">INNER JOIN</span> <span class="cls">EMPLOYEE</span> <span class="kw">AS</span> e <span class="kw">ON</span> l.BorrowerSSN = e.SSN;</code></pre>
+            </div>
+        </div>
+
+        <!-- Case 8: Product Query -->
+        <div class="problem-card">
+            <div class="problem-header"><h3>Case 8: List the total count of product sales group by region.</h3></div>
+            <div class="problem-body">
+                <pre><code><span class="kw">SELECT</span> Region, <span class="fn">COUNT</span>(SaleID) <span class="kw">AS</span> SalesCount 
+<span class="kw">FROM</span> <span class="cls">Sales</span> 
+<span class="kw">GROUP BY</span> Region;</code></pre>
+            </div>
+        </div>
+
+        <!-- Case 9: Publisher and Author -->
+        <div class="problem-card">
+            <div class="problem-header"><h3>Case 9: List publishers who published books authored by 'Dr. Codd'.</h3></div>
+            <div class="problem-body">
+                <pre><code><span class="kw">SELECT DISTINCT</span> p.PubName 
+<span class="kw">FROM</span> <span class="cls">Publisher</span> <span class="kw">AS</span> p
+<span class="kw">INNER JOIN</span> <span class="cls">Book</span> <span class="kw">AS</span> b <span class="kw">ON</span> p.PubID = b.PubID
+<span class="kw">WHERE</span> b.Author = <span class="str">'Dr. Codd'</span>;</code></pre>
+            </div>
+        </div>
+
+        <!-- Case 10: GROUP BY and HAVING -->
+        <div class="problem-card">
+            <div class="problem-header"><h3>Case 10: List departments located in 'Houston' with average salary over 40,000.</h3></div>
+            <div class="problem-body">
+                <pre><code><span class="kw">SELECT</span> e.DeptNo, <span class="fn">AVG</span>(e.Salary) <span class="kw">AS</span> AvgSal
+<span class="kw">FROM</span> <span class="cls">EMPLOYEE</span> <span class="kw">AS</span> e
+<span class="kw">INNER JOIN</span> <span class="cls">DEPT_LOCATIONS</span> <span class="kw">AS</span> l <span class="kw">ON</span> e.DeptNo = l.DeptNo
+<span class="kw">WHERE</span> l.Location = <span class="str">'Houston'</span>
+<span class="kw">GROUP BY</span> e.DeptNo
+<span class="kw">HAVING</span> <span class="fn">AVG</span>(e.Salary) &gt; 40000.00;</code></pre>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================== -->
+    <!-- REPEATED UNIVERSITY QUESTIONS   -->
+    <!-- ============================== -->
+    <div class="part-divider part-a"><span id="repeated-q">Most Repeated University Questions</span></div>
+
+    <section class="section" id="repeated-q-sec">
+        <div class="section-header">
+            <div class="section-number num-blue">?</div>
+            <h2>Standard University Exam Solutions</h2>
+        </div>
+
+        <div class="card">
+            <h3>Q1. Discuss all attribute constraints supported in SQL. <span class="badge badge-pyq">10 Marks</span></h3>
+            <p><strong>Answer:</strong> Refer to Section 5. Constraints are rules enforced on data columns to ensure data integrity:
+                1. `NOT NULL`: Column cannot hold NULL values.
+                2. `UNIQUE`: Ensures all column values are unique.
+                3. `CHECK`: Validates that data satisfies a boolean predicate.
+                4. `DEFAULT`: Provides a default fallback value.
+                5. `PRIMARY KEY`: Unique row identifier (enforces UNIQUE + NOT NULL).
+                6. `FOREIGN KEY`: Enforces referential integrity links.
+            </p>
+        </div>
+
+        <div class="card">
+            <h3>Q2. Explain the difference between WHERE and HAVING clauses. <span class="badge badge-pyq">5 Marks</span></h3>
+            <p><strong>Answer:</strong> Refer to the comparison table in Section 19. The **WHERE clause** is used to filter rows **before** any grouping occurs and cannot contain aggregate functions. The **HAVING clause** is used to filter grouped sets **after** the `GROUP BY` clause has been processed and typically filters on aggregated values (e.g., `HAVING AVG(Salary) > 50000`).</p>
+        </div>
+
+        <div class="card">
+            <h3>Q3. Explain the EXISTS operator in SQL with an example. <span class="badge badge-pyq">5 Marks</span></h3>
+            <p><strong>Answer:</strong> Refer to Section 16. `EXISTS` is a boolean operator that evaluates to TRUE if a nested subquery returns one or more rows. It does not return actual records; instead, it optimizes search processes by terminating early as soon as a match is found. It is commonly used in correlated subqueries.</p>
+        </div>
+    </section>
+
+    <!-- ============================== -->
+    <!-- LAST NIGHT REVISION SECTION    -->
+    <!-- ============================== -->
+    <div class="part-divider part-b"><span id="last-night">Last Night Revision Section</span></div>
+
+    <section class="section" id="revision-section">
+        <div class="section-header">
+            <div class="section-number num-purple">⚡</div>
+            <h2>20 Important Definitions &amp; Exam Checklist</h2>
+        </div>
+
+        <div class="card">
+            <h3>📖 The 20 Core Definitions Cheatsheet</h3>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>No.</th><th>Term</th><th>One-Line Exam Definition</th></tr></thead>
+                    <tbody>
+                        <tr><td>1</td><td><strong>SQL</strong></td><td>Declarative database language based on relational calculus.</td></tr>
+                        <tr><td>2</td><td><strong>DDL</strong></td><td>Data Definition Language; defines structural database headers.</td></tr>
+                        <tr><td>3</td><td><strong>DML</strong></td><td>Data Manipulation Language; retrieves and updates rows.</td></tr>
+                        <tr><td>4</td><td><strong>DCL</strong></td><td>Data Control Language; manages permission grants.</td></tr>
+                        <tr><td>5</td><td><strong>TCL</strong></td><td>Transaction Control Language; manages transaction commits.</td></tr>
+                        <tr><td>6</td><td><strong>Domain</strong></td><td>A set of atomic values that can be assigned to an attribute.</td></tr>
+                        <tr><td>7</td><td><strong>Constraint</strong></td><td>Integrity rule centrally enforced by the DBMS.</td></tr>
+                        <tr><td>8</td><td><strong>Primary Key</strong></td><td>Selected candidate key uniquely identifying tuples (NOT NULL + UNIQUE).</td></tr>
+                        <tr><td>9</td><td><strong>Foreign Key</strong></td><td>An attribute mapping to a primary key in another table.</td></tr>
+                        <tr><td>10</td><td><strong>Referential Action</strong></td><td>Action taken on child tables when parent rows are updated (e.g., CASCADE).</td></tr>
+                        <tr><td>11</td><td><strong>ALTER TABLE</strong></td><td>DDL statement used to dynamically modify schemas.</td></tr>
+                        <tr><td>12</td><td><strong>DROP TABLE</strong></td><td>Deletes a table's structure, rows, and catalog metadata.</td></tr>
+                        <tr><td>13</td><td><strong>TRUNCATE TABLE</strong></td><td>Deletes all rows inside a table but preserves the structure.</td></tr>
+                        <tr><td>14</td><td><strong>Aliasing</strong></td><td>AS keyword renaming columns or tables for queries.</td></tr>
+                        <tr><td>15</td><td><strong>Correlated Subquery</strong></td><td>A subquery that references columns from the outer query.</td></tr>
+                        <tr><td>16</td><td><strong>EXISTS</strong></td><td>Boolean check evaluating to TRUE if a subquery returns at least one row.</td></tr>
+                        <tr><td>17</td><td><strong>Natural Join</strong></td><td>Join on matching column names, removing duplicate columns.</td></tr>
+                        <tr><td>18</td><td><strong>Self Join</strong></td><td>Joining a table to itself using unique aliases.</td></tr>
+                        <tr><td>19</td><td><strong>Aggregate Function</strong></td><td>Calculates a single value from a column (e.g., SUM, AVG).</td></tr>
+                        <tr><td>20</td><td><strong>HAVING</strong></td><td>Predicate filter applied directly to grouped sets.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>🧠 Common Exam &amp; Query Mistakes</h3>
+            <ul>
+                <li><strong>Checking for NULL using equal sign:</strong> Writing `WHERE Salary = NULL` (Incorrect) instead of **`WHERE Salary IS NULL`** (Correct).</li>
+                <li><strong>SELECT list GROUP BY mismatch:</strong> Projecting columns in the SELECT list that are not in the GROUP BY clause and not enclosed in an aggregate function.</li>
+                <li><strong>WHERE clause aggregations:</strong> Writing `WHERE AVG(Salary) > 10000` (Incorrect) instead of filtering groups using **`HAVING AVG(Salary) > 10000`** (Correct).</li>
+            </ul>
+        </div>
+    </section>
+
+</div>
+
+<!-- Back to Top Button -->
+<button class="back-to-top" id="backToTopBtn" onclick="window.scrollTo({top:0, behavior:'smooth'})">▲</button>
+
+<script>
+    // Show active link in sidebar on scroll
+    window.addEventListener('scroll', () => {
+        const sections = document.querySelectorAll('.section');
+        const navLinks = document.querySelectorAll('.nav-link');
+        let currentSec = "";
+
+        sections.forEach(sec => {
+            const secTop = sec.offsetTop;
+            if (window.scrollY >= secTop - 60) {
+                currentSec = sec.getAttribute('id');
+            }
+        });
+
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === `#${currentSec}`) {
+                link.classList.add('active');
+            }
+        });
+
+        // Back to top button
+        const backBtn = document.getElementById('backToTopBtn');
+        if (window.scrollY > 300) {
+            backBtn.classList.add('visible');
+        } else {
+            backBtn.classList.remove('visible');
+        }
+    });
+</script>
+</body>
+</html>

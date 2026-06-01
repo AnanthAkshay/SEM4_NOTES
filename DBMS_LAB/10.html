@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>DBMS Lab Experiment 10</title>
+<style>
+body{font-family:Arial,sans-serif;margin:40px;background:#f5f5f5;line-height:1.6}
+.container{background:white;padding:30px;border-radius:10px;box-shadow:0 0 10px rgba(0,0,0,.1)}
+h1,h2,h3{color:#003366}
+pre{background:#f4f4f4;padding:15px;border-left:5px solid #003366;overflow:auto}
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1 align="center">DATABASE MANAGEMENT SYSTEMS LAB</h1>
+<h2 align="center">Experiment 10</h2>
+
+<h2>Aim</h2>
+<p>To perform MongoDB operations on Boat and Sailor collections and implement a database trigger.</p>
+
+<h2>Problem Statement</h2>
+<p>Create collections and perform MongoDB operations. Write a trigger to prevent modifications to EMPLOYEE table on weekends.</p>
+
+<h2>Create Collections</h2>
+
+<pre>
+db.Boat.insertMany([
+{BID:101, BName:"Sea Queen", Color:"Red"},
+{BID:102, BName:"Ocean Star", Color:"Blue"},
+{BID:103, BName:"Wave Rider", Color:"Red"}
+]);
+
+db.Sailor.insertMany([
+{SID:1, SailorName:"Rahul", Boats:[101,102]},
+{SID:2, SailorName:"Ananth", Boats:[101]},
+{SID:3, SailorName:"Sneha", Boats:[103]}
+]);
+</pre>
+
+<h2>Query 1</h2>
+<p><b>Obtain the number of boats reserved by sailor Rahul.</b></p>
+
+<pre>
+db.Sailor.aggregate([
+{$match:{SailorName:"Rahul"}},
+{
+$project:{
+SailorName:1,
+BoatCount:{$size:"$Boats"}
+}
+}
+]);
+</pre>
+
+<h2>Query 2</h2>
+<p><b>Retrieve boats of color Red.</b></p>
+
+<pre>
+db.Boat.find(
+{Color:"Red"}
+);
+</pre>
+
+<h2>Trigger Program</h2>
+<p><b>Raise an error if EMPLOYEE table is modified on Saturday or Sunday.</b></p>
+
+<pre>
+CREATE OR REPLACE TRIGGER trg_emp_weekend
+BEFORE INSERT OR UPDATE OR DELETE
+ON Employee
+FOR EACH ROW
+BEGIN
+
+IF TO_CHAR(SYSDATE,'DAY')
+IN ('SATURDAY','SUNDAY')
+THEN
+
+RAISE_APPLICATION_ERROR(
+-20001,
+'Modification Not Allowed On Weekend'
+);
+
+END IF;
+
+END;
+/
+</pre>
+
+<h2>Expected Output</h2>
+
+<pre>
+ORA-20001:
+Modification Not Allowed On Weekend
+</pre>
+
+<h2>Result</h2>
+<p>MongoDB operations and trigger execution were implemented successfully.</p>
+
+</div>
+</body>
+</html>

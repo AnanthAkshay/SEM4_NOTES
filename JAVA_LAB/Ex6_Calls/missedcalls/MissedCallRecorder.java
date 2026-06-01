@@ -79,7 +79,7 @@ public class MissedCallRecorder {
 
     public static void main(String[] args) {
         MissedCallRecorder recorder = new MissedCallRecorder();
-        
+
         System.out.println("==================================================");
         System.out.println("     TELEPHONE CALL RECORDER ENGINE (IS48 EX-6)   ");
         System.out.println("==================================================");

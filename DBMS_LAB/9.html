@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>DBMS Lab Experiment 9</title>
+<style>
+body{font-family:Arial,sans-serif;margin:40px;background:#f5f5f5;line-height:1.6}
+.container{background:white;padding:30px;border-radius:10px;box-shadow:0 0 10px rgba(0,0,0,.1)}
+h1,h2,h3{color:#003366}
+pre{background:#f4f4f4;padding:15px;border-left:5px solid #003366;overflow:auto}
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1 align="center">DATABASE MANAGEMENT SYSTEMS LAB</h1>
+<h2 align="center">Experiment 9</h2>
+
+<h2>Aim</h2>
+<p>To perform MongoDB operations on Supplier, Part and Supply collections and implement a PL/SQL program.</p>
+
+<h2>Problem Statement</h2>
+<p>Create collections and perform MongoDB operations. Write a PL/SQL program to copy Shipment records to another table for a specified Part Number.</p>
+
+<h2>Create Collections</h2>
+
+<pre>
+db.Part.insertMany([
+{PID:101, PNAME:"Bolt", PCOLOR:"Red"},
+{PID:102, PNAME:"Nut", PCOLOR:"Blue"}
+]);
+
+db.Supplier.insertMany([
+{SID:1, SNAME:"ABC Suppliers"},
+{SID:2, SNAME:"XYZ Traders"}
+]);
+
+db.Supply.insertMany([
+{SID:1, PID:101, Quantity:500},
+{SID:2, PID:101, Quantity:300},
+{SID:2, PID:102, Quantity:200}
+]);
+</pre>
+
+<h2>Query 1</h2>
+<p><b>Update details of parts for a given PID.</b></p>
+
+<pre>
+db.Part.updateOne(
+{PID:101},
+{
+$set:{
+PNAME:"Steel Bolt",
+PCOLOR:"Green"
+}
+}
+);
+</pre>
+
+<h2>Query 2</h2>
+<p><b>Display all suppliers who supply Part PID = 101.</b></p>
+
+<pre>
+db.Supplier.aggregate([
+{
+$lookup:{
+from:"Supply",
+localField:"SID",
+foreignField:"SID",
+as:"SupplyDetails"
+}
+},
+{$unwind:"$SupplyDetails"},
+{$match:{"SupplyDetails.PID":101}}
+]);
+</pre>
+
+<h2>PL/SQL Program</h2>
+<p><b>Copy Shipment records to another table for a specified PID.</b></p>
+
+<pre>
+CREATE TABLE Shipment_Backup AS
+SELECT *
+FROM Supply
+WHERE 1=2;
+
+DECLARE
+v_pid NUMBER := 101;
+BEGIN
+
+INSERT INTO Shipment_Backup
+SELECT *
+FROM Supply
+WHERE PID = v_pid;
+
+COMMIT;
+
+DBMS_OUTPUT.PUT_LINE(
+'Records Copied Successfully'
+);
+
+END;
+/
+</pre>
+
+<h2>Expected Output</h2>
+
+<pre>
+Records Copied Successfully
+</pre>
+
+<h2>Result</h2>
+<p>MongoDB operations and PL/SQL program were executed successfully.</p>
+
+</div>
+</body>
+</html>

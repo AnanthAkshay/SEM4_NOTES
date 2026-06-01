@@ -1,0 +1,2060 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit 4 — Database Design &amp; Normalization Exam Notes</title>
+    <meta name="description" content="Complete university exam notes for DBMS Unit 4: Informal Design Guidelines, Functional Dependencies, Armstrong's Axioms, Attribute Closures, Candidate Keys, 1NF, 2NF, 3NF, BCNF, 12 Codd Rules, 140+ Solved Problems, and Revision Pack.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* ===== CSS RESET & ROOT ===== */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-primary: #070b13;
+            --bg-secondary: #0c1322;
+            --bg-card: #131e33;
+            --bg-card-hover: #192742;
+            --bg-code: #0b111c;
+            --bg-inlinecode: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --accent-blue: #06b6d4; /* Database Cyan Accent */
+            --accent-purple: #8b5cf6;
+            --accent-cyan: #22d3ee;
+            --accent-green: #10b981;
+            --accent-orange: #f59e0b;
+            --accent-red: #ef4444;
+            --accent-pink: #ec4899;
+            --border-color: #1e293b;
+            --border-accent: #2d3a52;
+            --gradient-1: linear-gradient(135deg, #06b6d4, #8b5cf6);
+            --gradient-2: linear-gradient(135deg, #22d3ee, #06b6d4);
+            --gradient-3: linear-gradient(135deg, #8b5cf6, #ec4899);
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+            --shadow-md: 0 4px 14px rgba(0,0,0,0.4);
+            --shadow-lg: 0 10px 40px rgba(0,0,0,0.5);
+            --shadow-glow: 0 0 30px rgba(6,182,212,0.15);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 15px;
+            overflow-x: hidden;
+        }
+
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-primary); }
+        ::-webkit-scrollbar-thumb { background: var(--border-accent); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent-blue); }
+
+        /* ===== ANIMATED BACKGROUND ===== */
+        .bg-glow {
+            position: fixed;
+            top: -200px;
+            right: -200px;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(6,182,212,0.08) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+            animation: floatGlow 20s ease-in-out infinite;
+        }
+        .bg-glow-2 {
+            position: fixed;
+            bottom: -200px;
+            left: -200px;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(139,92,246,0.06) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+            animation: floatGlow 25s ease-in-out infinite reverse;
+        }
+        @keyframes floatGlow {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(50px, 30px); }
+        }
+
+        /* ===== SIDEBAR NAV ===== */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 280px;
+            height: 100vh;
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border-color);
+            padding: 24px 0;
+            overflow-y: auto;
+            z-index: 100;
+            transition: transform 0.3s ease;
+        }
+        .sidebar-header {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 12px;
+        }
+        .sidebar-header h2 {
+            font-size: 16px;
+            font-weight: 700;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .sidebar-header p {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+        .nav-section {
+            padding: 8px 16px 4px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-muted);
+        }
+        .nav-link {
+            display: block;
+            padding: 7px 20px 7px 24px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+        }
+        .nav-link:hover {
+            color: var(--accent-blue);
+            background: rgba(6,182,212,0.05);
+            border-left-color: var(--accent-blue);
+        }
+        .nav-link.active {
+            color: var(--accent-blue);
+            background: rgba(6,182,212,0.08);
+            border-left-color: var(--accent-blue);
+            font-weight: 500;
+        }
+        .badge {
+            display: inline-block;
+            font-size: 9px;
+            padding: 1px 6px;
+            border-radius: 10px;
+            margin-left: 6px;
+            font-weight: 600;
+            vertical-align: middle;
+        }
+        .badge-pyq { background: rgba(239,68,68,0.15); color: var(--accent-red); }
+        .badge-imp { background: rgba(245,158,11,0.15); color: var(--accent-orange); }
+
+        /* ===== MOBILE TOGGLE ===== */
+        .sidebar-toggle {
+            display: none;
+            position: fixed;
+            top: 16px;
+            left: 16px;
+            z-index: 200;
+            background: var(--bg-card);
+            border: 1px solid var(--border-accent);
+            color: var(--text-primary);
+            width: 42px;
+            height: 42px;
+            border-radius: var(--radius-sm);
+            font-size: 20px;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .main {
+            margin-left: 280px;
+            padding: 40px 48px 100px;
+            max-width: 1050px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ===== HERO HEADER ===== */
+        .hero {
+            text-align: center;
+            padding: 56px 32px;
+            background: linear-gradient(135deg, rgba(6,182,212,0.1), rgba(139,92,246,0.1));
+            border: 1px solid var(--border-accent);
+            border-radius: var(--radius-xl);
+            margin-bottom: 48px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: var(--gradient-1);
+        }
+        .hero .unit-badge {
+            display: inline-block;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--accent-cyan);
+            background: rgba(6,182,212,0.1);
+            padding: 6px 16px;
+            border-radius: 20px;
+            border: 1px solid rgba(6,182,212,0.2);
+            margin-bottom: 16px;
+        }
+        .hero h1 {
+            font-size: 36px;
+            font-weight: 900;
+            letter-spacing: -1px;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 12px;
+        }
+        .hero p {
+            color: var(--text-secondary);
+            font-size: 16px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* ===== PART DIVIDER ===== */
+        .part-divider {
+            text-align: center;
+            margin: 64px 0 40px;
+            position: relative;
+        }
+        .part-divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0; right: 0;
+            height: 1px;
+            background: var(--border-accent);
+        }
+        .part-divider span {
+            position: relative;
+            display: inline-block;
+            background: var(--bg-primary);
+            padding: 8px 28px;
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            border: 1px solid var(--border-accent);
+            border-radius: 30px;
+        }
+        .part-divider.part-a span { color: var(--accent-cyan); border-color: rgba(6,182,212,0.3); }
+        .part-divider.part-b span { color: var(--accent-purple); border-color: rgba(139,92,246,0.3); }
+        .part-divider.part-c span { color: var(--accent-pink); border-color: rgba(236,72,153,0.3); }
+        .part-divider.part-d span { color: var(--accent-orange); border-color: rgba(245,158,11,0.3); }
+
+        /* ===== SECTION (TOPIC) ===== */
+        .section {
+            margin-bottom: 48px;
+            scroll-margin-top: 24px;
+        }
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 20px;
+        }
+        .section-number {
+            flex-shrink: 0;
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            font-weight: 800;
+            border-radius: 10px;
+            color: #fff;
+        }
+        .num-blue { background: var(--gradient-2); }
+        .num-purple { background: var(--gradient-3); }
+        .num-green { background: linear-gradient(135deg, #10b981, #06b6d4); }
+        .section-header h2 {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        /* ===== CARDS ===== */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            margin-bottom: 20px;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .card:hover {
+            border-color: var(--border-accent);
+            box-shadow: var(--shadow-md);
+        }
+        .card h3 {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .card h3 .icon { font-size: 18px; }
+        .card p, .card li {
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+        }
+        .card ul { padding-left: 20px; list-style: none; }
+        .card ul li::before {
+            content: '▸';
+            color: var(--accent-blue);
+            font-weight: bold;
+            margin-right: 8px;
+        }
+        .card ol { padding-left: 20px; }
+        .card ol li { color: var(--text-secondary); margin-bottom: 4px; }
+
+        /* ===== DEFINITION BOX ===== */
+        .def-box {
+            background: linear-gradient(135deg, rgba(6,182,212,0.06), rgba(139,92,246,0.06));
+            border: 1px solid rgba(6,182,212,0.15);
+            border-radius: var(--radius-md);
+            padding: 20px 24px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--accent-blue);
+        }
+        .def-box .label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--accent-blue);
+            margin-bottom: 6px;
+        }
+        .def-box p {
+            color: var(--text-primary);
+            font-size: 15px;
+        }
+
+        /* ===== EXAM TIP BOX ===== */
+        .tip-box {
+            background: rgba(16,185,129,0.06);
+            border: 1px solid rgba(16,185,129,0.15);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            margin-bottom: 16px;
+            border-left: 4px solid var(--accent-green);
+        }
+        .tip-box .label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--accent-green);
+            margin-bottom: 4px;
+        }
+        .tip-box p { color: var(--text-secondary); font-size: 14px; }
+
+        /* ===== WARNING BOX ===== */
+        .warn-box {
+            background: rgba(245,158,11,0.06);
+            border: 1px solid rgba(245,158,11,0.15);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            margin-bottom: 16px;
+            border-left: 4px solid var(--accent-orange);
+        }
+        .warn-box .label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--accent-orange);
+            margin-bottom: 4px;
+        }
+        .warn-box p { color: var(--text-secondary); font-size: 14px; }
+
+        /* ===== PYQ TAG ===== */
+        .pyq-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--accent-red);
+            background: rgba(239,68,68,0.1);
+            border: 1px solid rgba(239,68,68,0.2);
+            padding: 3px 10px;
+            border-radius: 20px;
+            margin-left: 8px;
+        }
+
+        /* ===== TABLES ===== */
+        .table-wrap {
+            overflow-x: auto;
+            margin-bottom: 20px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13.5px;
+        }
+        thead th {
+            background: var(--bg-secondary);
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 700;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--text-secondary);
+            border-bottom: 2px solid var(--border-accent);
+        }
+        tbody td {
+            padding: 10px 16px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+        tbody tr:hover { background: rgba(6,182,212,0.03); }
+        tbody tr:last-child td { border-bottom: none; }
+        td code, th code {
+            background: var(--bg-inlinecode);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        /* ===== CODE BLOCKS ===== */
+        pre {
+            background: var(--bg-code);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 20px 24px;
+            margin-bottom: 16px;
+            overflow-x: auto;
+            position: relative;
+        }
+        pre code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            line-height: 1.65;
+            color: var(--text-primary);
+        }
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            background: var(--bg-inlinecode);
+            padding: 2px 7px;
+            border-radius: 5px;
+            color: var(--accent-cyan);
+        }
+
+        /* ===== SOLVED PROBLEM BOX ===== */
+        .problem-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            margin-bottom: 32px;
+            box-shadow: var(--shadow-md);
+        }
+        .problem-header {
+            padding: 20px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border-color);
+            background: linear-gradient(135deg, rgba(6,182,212,0.1), rgba(139,92,246,0.02));
+        }
+        .problem-header h3 {
+            font-size: 15px;
+            font-weight: 800;
+            margin-bottom: 0;
+            color: var(--text-primary);
+        }
+        .problem-body { padding: 24px; }
+        .problem-body pre {
+            margin: 16px 0;
+            border-radius: var(--radius-sm);
+        }
+
+        /* ===== VIVA QUESTIONS ===== */
+        .viva-list { counter-reset: viva-counter; list-style: none; padding: 0; }
+        .viva-list li {
+            counter-increment: viva-counter; padding: 12px 16px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-secondary); font-size: 14px;
+        }
+        .viva-list li:last-child { border-bottom: none; }
+        .viva-list li::before {
+            content: counter(viva-counter); display: inline-flex;
+            align-items: center; justify-content: center;
+            width: 24px; height: 24px; background: rgba(6,182,212,0.15);
+            color: var(--accent-blue); font-size: 11px; font-weight: 700;
+            border-radius: 6px; margin-right: 12px; flex-shrink: 0;
+        }
+        .viva-list li strong { color: var(--text-primary); }
+
+        /* ===== BACK TO TOP ===== */
+        .back-to-top {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            width: 44px;
+            height: 44px;
+            background: var(--gradient-1);
+            border: none;
+            border-radius: 50%;
+            color: #fff;
+            font-size: 20px;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            z-index: 200;
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .back-to-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .back-to-top:hover { transform: translateY(-3px); }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 900px) {
+            .sidebar { transform: translateX(-100%); }
+            .sidebar.open { transform: translateX(0); box-shadow: var(--shadow-lg); }
+            .sidebar-toggle { display: flex; }
+            .main { margin-left: 0; padding: 24px 20px 80px; }
+            .hero h1 { font-size: 26px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="bg-glow"></div>
+<div class="bg-glow-2"></div>
+
+<!-- Mobile Toggle -->
+<button class="sidebar-toggle" id="sidebarToggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰</button>
+
+<!-- Sidebar Navigation -->
+<nav class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+        <h2>📘 Unit 4 Notes</h2>
+        <p>Database Design &amp; Normalization</p>
+    </div>
+
+    <div class="nav-section">Part A — Design Theory</div>
+    <a class="nav-link" href="#design-concepts">Informal Guidelines</a>
+    <a class="nav-link" href="#reducing-nulls">Reducing NULL Values</a>
+    <a class="nav-link" href="#avoiding-spurious">Spurious Tuples</a>
+
+    <div class="nav-section">Part B — Functional Dep</div>
+    <a class="nav-link" href="#fd-basics">FD Fundamentals</a>
+    <a class="nav-link" href="#fd-types">Types of Dependencies</a>
+    <a class="nav-link" href="#armstrong-rules">Armstrong Axioms</a>
+    <a class="nav-link" href="#attribute-closure">Attribute Closure</a>
+    <a class="nav-link" href="#candidate-keys">Solved Candidate Keys <span class="badge badge-imp">20 cases</span></a>
+
+    <div class="nav-section">Part C — Normal Forms</div>
+    <a class="nav-link" href="#anomalies-section">Design Anomalies</a>
+    <a class="nav-link" href="#first-nf">1NF Conversion <span class="badge badge-imp">10 cases</span></a>
+    <a class="nav-link" href="#second-nf">2NF Conversion <span class="badge badge-imp">15 cases</span></a>
+    <a class="nav-link" href="#third-nf">3NF Conversion <span class="badge badge-imp">15 cases</span></a>
+    <a class="nav-link" href="#bcnf-section">Boyce-Codd (BCNF) <span class="badge badge-imp">20 cases</span></a>
+    <a class="nav-link" href="#comparison-matrix">Normal Forms Matrix</a>
+
+    <div class="nav-section">Part D — Codd Rules</div>
+    <a class="nav-link" href="#codd-rules-section">Codd's 12 Core Rules</a>
+
+    <div class="nav-section">Part E — Normalization Rep</div>
+    <a class="nav-link" href="#solved-30-normal">30 Normalization Cases</a>
+    <a class="nav-link" href="#solved-30-closures">30 Closure &amp; Key Cases</a>
+
+    <div class="nav-section">Exam &amp; Revision</div>
+    <a class="nav-link" href="#uni-qa">15 Repeated University Q&amp;A</a>
+    <a class="nav-link" href="#last-night">Last Night Revision Pack</a>
+</nav>
+
+<!-- Main Content -->
+<div class="main">
+
+    <!-- Hero -->
+    <header class="hero" id="top">
+        <div class="unit-badge">Unit IV — Relational Design Theory</div>
+        <h1>Database Design Theory &amp; Normalization</h1>
+        <p>Complete Descriptive and Algorithmic Exam Study Portal. Mapped precisely with 140+ solved candidate keys, functional dependencies closures, 1NF, 2NF, 3NF, BCNF problems, and memory checklists.</p>
+    </header>
+
+    <!-- ============================== -->
+    <!-- PART A: DATABASE DESIGN        -->
+    <!-- ============================== -->
+    <div class="part-divider part-a"><span id="part-a-design">Part A — Logical Database Design Theory</span></div>
+
+    <!-- 1. Database Design Concepts -->
+    <section class="section" id="design-concepts">
+        <div class="section-header">
+            <div class="section-number num-blue">1</div>
+            <h2>Informal Guidelines for Relational Schema Quality</h2>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definition</div>
+            <p><strong>Logical Database Design:</strong> The process of mapping a high-level conceptual model (such as an ER diagram) into a set of logical tables, attributes, and constraints. **Informal Design Guidelines** are practical rules of thumb proposed to ensure logical database quality, reduce update anomalies, and eliminate data redundancy before applying formal normalization algorithms.</p>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">⚙️</span> Guideline 1: Clear Semantics of Attributes</h3>
+            <p><strong>Concept:</strong> Design each relation schema in such a way that it has a clear real-world meaning. Do not combine attributes from multiple distinct entity types or relationship types into a single table.</p>
+            <p><strong>Importance:</strong> It makes the schema intuitive for developers to query and maintain. Attributes of different entities shouldn't be mixed.</p>
+            <p><strong>Example:</strong> Rather than creating a single massive table `EMP_DEPT` containing employee details *and* department names, separate them into `EMPLOYEE` and `DEPARTMENT` relations linked by a foreign key `DeptNo`.</p>
+            <pre><code>[INCORRECT DESIGN]
+EMP_DEPT(SSN, EmpName, Salary, DeptID, DeptName, DeptManager)
+- Mixes Employee entities with Department entities.
+
+[CORRECT DESIGN]
+EMPLOYEE(SSN, EmpName, Salary, DeptID)
+DEPARTMENT(DeptID, DeptName, DeptManager)</code></pre>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">💾</span> Guideline 2: Reducing Redundant Information</h3>
+            <p><strong>Concept:</strong> Design schemas to minimize the storage space wasted by repeating attribute values across multiple tuples.</p>
+            <p><strong>Importance:</strong> Redundant information leads to wasted disk capacity, slower sequential scans, and directly causes **Update Anomalies**.</p>
+            <pre><code>Redundant Storage in EMP_DEPT:
++-------+--------+--------+-----------+
+| SSN   | Name   | DeptID | DeptName  |
++-------+--------+--------+-----------+
+| S101  | Akshay |   10   | Research  |  <--- "Research" stored repeatedly
+| S102  | Ananth |   10   | Research  |  <--- "Research" stored repeatedly
+| S103  | Rahul  |   10   | Research  |  <--- "Research" stored repeatedly
++-------+--------+--------+-----------+</code></pre>
+        </div>
+    </section>
+
+    <!-- 2. Reducing NULL Values -->
+    <section class="section" id="reducing-nulls">
+        <div class="section-header">
+            <div class="section-number num-blue">2</div>
+            <h2>Reducing NULL Values in Tuples</h2>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definition</div>
+            <p><strong>NULL Values:</strong> Represent values that are currently unknown, inapplicable, or missing for a tuple. Designing schemas to minimize NULLs is critical for clean storage and correct relational algebra operations.</p>
+        </div>
+
+        <div class="card">
+            <h3>⚠️ Problems Caused by NULL Values</h3>
+            <ul>
+                <li><strong>Wasted Storage:</strong> Relational engines must allocate metadata flags or variable-width offsets to track NULL values in every block.</li>
+                <li><strong>Semantic Ambiguity:</strong> A NULL value can mean:
+                    <ol>
+                        <li>The attribute is *inapplicable* (e.g., `SpouseName` for a single employee).</li>
+                        <li>The value is *applicable but missing* (e.g., `HomePhone` exists but isn't recorded).</li>
+                        <li>The value is *unknown* (e.g., `GPA` not yet compiled).</li>
+                    </ol>
+                </li>
+                <li><strong>Join Complications:</strong> Standard SQL comparison operators (`=`, `!=`) return `UNKNOWN` when compared with NULL, causing missing results during inner joins.</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>🛠️ Alternative Designs via Decomposition</h3>
+            <p>To eliminate dense columns of NULLs, decompose the original relation into smaller tables where the nullable attribute is only stored for tuples where it actually applies.</p>
+            <p><strong>Example:</strong> Suppose only 5% of employees are assigned a company car with a `LicensePlate` number.</p>
+            <pre><code>[BEFORE DECOMPOSITION - AVOID THIS]
+EMPLOYEE(SSN, Name, Salary, DeptID, LicensePlate) 
+- 95% of rows contain NULL for LicensePlate.
+
+[AFTER DECOMPOSITION - RECOMMENDED]
+EMPLOYEE(SSN, Name, Salary, DeptID)
+EMP_CAR(SSN, LicensePlate)
+- LicensePlate is only stored for employees who actually have cars. No NULLs!</code></pre>
+        </div>
+    </section>
+
+    <!-- 3. Avoiding Spurious Tuples -->
+    <section class="section" id="avoiding-spurious">
+        <div class="section-header">
+            <div class="section-number num-blue">3</div>
+            <h2>Avoiding Spurious Tuples &amp; Lossless Joins</h2>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definition</div>
+            <p><strong>Spurious Tuples:</strong> Extraneous, incorrect, and invalid rows generated when two poorly decomposed tables are joined back together using a standard **NATURAL JOIN** over attributes that are NOT primary or foreign keys.</p>
+            <p><strong>Lossless Join Property:</strong> A decomposition of relation $R$ into $R_1$ and $R_2$ is considered a **Lossless (or Non-additive) Join Decomposition** if joining them back mathematically reconstructs *exactly* the original relation, without creating any spurious records:</p>
+            <p style="text-align:center; font-size:1.05rem; margin:10px 0;">
+                $R_1 \bowtie R_2 = R$
+            </p>
+        </div>
+
+        <div class="card">
+            <h3>📦 Solved Case: Spurious Tuple Generation</h3>
+            <p>Suppose we have an original relation `EMP_PROJ` containing employee locations and project details:</p>
+            <pre><code>EMP_PROJ:
++-------+-------------+-----------+
+| SSN   | Plocation   | Pnumber   |
++-------+-------------+-----------+
+| S101  | Bengaluru   |   P1      |
+| S102  | Bengaluru   |   P2      |
++-------+-------------+-----------+
+
+[INCORRECT DECOMPOSITION]
+We split by (SSN, Plocation) and (Plocation, Pnumber):
+EMP_LOCS:                             PROJ_LOCS:
++-------+-------------+               +-------------+-----------+
+| SSN   | Plocation   |               | Plocation   | Pnumber   |
++-------+-------------+               +-------------+-----------+
+| S101  | Bengaluru   |               | Bengaluru   |   P1      |
+| S102  | Bengaluru   |               | Bengaluru   |   P2      |
++-------+-------------+               +-------------+-----------+
+
+[THE NATURAL JOIN RESULT (EMP_LOCS ⋈ PROJ_LOCS)]
+Joining on "Plocation" yields:
++-------+-------------+-----------+
+| SSN   | Plocation   | Pnumber   |
++-------+-------------+-----------+
+| S101  | Bengaluru   |   P1      | (Original)
+| S101  | Bengaluru   |   P2      | <--- SPURIOUS TUPLE (Akshay works on P2? FALSE!)
+| S102  | Bengaluru   |   P1      | <--- SPURIOUS TUPLE (Ananth works on P1? FALSE!)
+| S102  | Bengaluru   |   P2      | (Original)
++-------+-------------+-----------+
+Decomposition was additive (lossy) because Plocation was not a candidate key in either table!</code></pre>
+        </div>
+    </section>
+
+    <!-- ============================== -->
+    <!-- PART B: FUNCTIONAL DEPENDENCIES-->
+    <!-- ============================== -->
+    <div class="part-divider part-b"><span id="part-b-fds">Part B — Functional Dependencies &amp; Keys Theory</span></div>
+
+    <!-- 1. FD Basics -->
+    <section class="section" id="fd-basics">
+        <div class="section-header">
+            <div class="section-number num-purple">4</div>
+            <h2>Functional Dependency (FD) Fundamentals</h2>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definition</div>
+            <p><strong>Functional Dependency (FD):</strong> A formal constraint expressing a relationship between sets of attributes in a relation. A functional dependency $X \rightarrow Y$ (read as **"X functionally determines Y"** or **"Y is functionally dependent on X"**) holds over relation $R$ if, for any two tuples $t_1$ and $t_2$ in any valid relation state $r(R)$, we have:</p>
+            <p style="text-align:center; font-size:1.1rem; margin:10px 0;">
+                If $t_1[X] = t_2[X]$, then we must have $t_1[Y] = t_2[Y]$
+            </p>
+            <p>Here, $X$ is the **Determinant** attribute set, and $Y$ is the **Dependent** attribute set.</p>
+        </div>
+
+        <div class="card">
+            <h3>📊 Domain Mock Schemas</h3>
+            <ul>
+                <li><strong>Student Database:</strong> `USN` determines name and department: `USN -> {Name, Dept}`.</li>
+                <li><strong>Employee Database:</strong> `SSN` determines salary: `SSN -> Salary`.</li>
+                <li><strong>Project Database:</strong> `Pnumber` determines locations: `Pnumber -> Plocation`.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- 2. Types of Dependencies -->
+    <section class="section" id="fd-types">
+        <div class="section-header">
+            <div class="section-number num-purple">5</div>
+            <h2>Types of Functional Dependencies</h2>
+        </div>
+
+        <div class="card">
+            <h3>1. Full Functional Dependency</h3>
+            <p><strong>Definition:</strong> An FD $X \rightarrow Y$ is a *full* functional dependency if removing any attribute $A \in X$ makes the dependency fail. That is, $Y$ is fully dependent on $X$ and not dependent on any proper subset of $X$.</p>
+            <p><strong>Example:</strong> `{USN, CourseCode} -> Grade` is a full functional dependency. Neither `USN -> Grade` nor `CourseCode -> Grade` holds separately.</p>
+        </div>
+
+        <div class="card">
+            <h3>2. Partial Dependency</h3>
+            <p><strong>Definition:</strong> An FD $X \rightarrow Y$ is a *partial* dependency if there exists some proper subset $Z \subset X$ such that $Z \rightarrow Y$ holds. That is, a non-key attribute is determined by only a part of a composite primary key.</p>
+            <p><strong>Example:</strong> In schema `{USN, CourseCode} -> DeptName`, if `USN -> DeptName` holds, then `{USN, CourseCode} -> DeptName` is a partial dependency. **This violates 2NF!**</p>
+        </div>
+
+        <div class="card">
+            <h3>3. Transitive Dependency</h3>
+            <p><strong>Definition:</strong> An FD $X \rightarrow Z$ in a relation schema $R$ is a *transitive* dependency if there exists a set of attributes $Y$ that is neither a candidate key nor a subset of any key, such that $X \rightarrow Y$ and $Y \rightarrow Z$ both hold.</p>
+            <p><strong>Example:</strong> `SSN -> DeptID` and `DeptID -> DeptManager` holds. Therefore, `SSN -> DeptManager` is a transitive dependency. **This violates 3NF!**</p>
+        </div>
+
+        <div class="card">
+            <h3>4. Trivial vs. Non-Trivial Dependencies</h3>
+            <ul>
+                <li><strong>Trivial Dependency:</strong> An FD $X \rightarrow Y$ is trivial if $Y$ is a subset of $X$ ($Y \subseteq X$). It always holds true by default. Example: `{USN, Name} -> USN`.</li>
+                <li><strong>Non-Trivial Dependency:</strong> An FD $X \rightarrow Y$ is non-trivial if $Y$ is not a subset of $X$. Example: `USN -> Name`.</li>
+                <li><strong>Completely Non-Trivial Dependency:</strong> An FD $X \rightarrow Y$ is completely non-trivial if the intersection of $X$ and $Y$ is empty ($X \cap Y = \emptyset$). Example: `USN -> GPA`.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- 3. Armstrong's Inference Rules -->
+    <section class="section" id="armstrong-rules">
+        <div class="section-header">
+            <div class="section-number num-purple">6</div>
+            <h2>Armstrong's Inference Rules (Axioms) <span class="badge badge-pyq">VTU Highly Repeated</span></h2>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definition</div>
+            <p><strong>Armstrong's Axioms:</strong> A set of rules used to systematically derive new functional dependencies from an existing set of FDs. These rules are **Sound** (they generate only correct dependencies) and **Complete** (they can generate *all* valid dependencies that logically follow).</p>
+        </div>
+
+        <!-- Primary Rules -->
+        <div class="card" style="border-left: 4px solid var(--accent-purple);">
+            <h3>🛡️ Primary Armstrong Rules</h3>
+            
+            <div style="margin-bottom: 20px;">
+                <p><strong>1. Reflexivity Rule:</strong> If $Y \subseteq X$, then $X \rightarrow Y$ holds.</p>
+                <p><em>Proof:</em> If $t_1[X] = t_2[X]$, and since $Y$ is a subset of $X$, then $t_1[Y]$ must equal $t_2[Y]$ by logical containment.</p>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <p><strong>2. Augmentation Rule:</strong> If $X \rightarrow Y$ holds, then $XZ \rightarrow YZ$ holds for any attribute set $Z$.</p>
+                <p><em>Proof:</em> Suppose $t_1[XZ] = t_2[XZ]$. This implies $t_1[X] = t_2[X]$ and $t_1[Z] = t_2[Z]$. Since $X \rightarrow Y$, we have $t_1[Y] = t_2[Y]$. Combining them yields $t_1[YZ] = t_2[YZ]$.</p>
+            </div>
+
+            <div>
+                <p><strong>3. Transitivity Rule:</strong> If $X \rightarrow Y$ and $Y \rightarrow Z$ hold, then $X \rightarrow Z$ holds.</p>
+                <p><em>Proof:</em> Suppose $t_1[X] = t_2[X]$. Since $X \rightarrow Y$ holds, we have $t_1[Y] = t_2[Y]$. Since $Y \rightarrow Z$ holds, we must have $t_1[Z] = t_2[Z]$. Hence $X \rightarrow Z$ is proven.</p>
+            </div>
+        </div>
+
+        <!-- Secondary Rules -->
+        <div class="card" style="border-left: 4px solid var(--accent-pink);">
+            <h3>🛡️ Secondary Derived Rules</h3>
+            
+            <div style="margin-bottom: 20px;">
+                <p><strong>4. Union Rule:</strong> If $X \rightarrow Y$ and $X \rightarrow Z$ hold, then $X \rightarrow YZ$ holds.</p>
+                <p><em>Proof:</em> Augment $X \rightarrow Y$ with $X$ to get $XX \rightarrow XY$ (which is $X \rightarrow XY$). Augment $X \rightarrow Z$ with $Y$ to get $XY \rightarrow YZ$. By Transitivity on $X \rightarrow XY$ and $XY \rightarrow YZ$, we get $X \rightarrow YZ$.</p>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <p><strong>5. Decomposition (De-union) Rule:</strong> If $X \rightarrow YZ$ holds, then $X \rightarrow Y$ and $X \rightarrow Z$ both hold.</p>
+                <p><em>Proof:</em> Since $Y \subseteq YZ$, by Reflexivity we have $YZ \rightarrow Y$. By Transitivity on $X \rightarrow YZ$ and $YZ \rightarrow Y$, we get $X \rightarrow Y$. Same logic applies to $Z$.</p>
+            </div>
+
+            <div>
+                <p><strong>6. Pseudotransitivity Rule:</strong> If $X \rightarrow Y$ and $WY \rightarrow Z$ hold, then $WX \rightarrow Z$ holds.</p>
+                <p><em>Proof:</em> Augment $X \rightarrow Y$ with $W$ to get $WX \rightarrow WY$. By Transitivity on $WX \rightarrow WY$ and $WY \rightarrow Z$, we get $WX \rightarrow Z$.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. Attribute Closure -->
+    <section class="section" id="attribute-closure">
+        <div class="section-header">
+            <div class="section-number num-purple">7</div>
+            <h2>Attribute Closure Algorithm ($X^+$)</h2>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definition</div>
+            <p><strong>Attribute Closure ($X^+$):</strong> The set of all attributes in relation $R$ that can be functionally derived from the attribute set $X$ using the given functional dependency set $F$.</p>
+        </div>
+
+        <div class="card">
+            <h3>🛠️ Attribute Closure Algorithm</h3>
+            <pre><code>Algorithm: Computing X+ under FD set F
+Input: Attribute Set X, FD Set F
+Output: Attribute Closure Set X+
+
+1. Set X+ = X; (Initialize closure with the attribute set itself)
+2. Repeat:
+     For each FD (Y -> Z) in F:
+       If Y is a subset of X+:
+         Set X+ = X+ ∪ Z; (Add determined attributes to closure)
+   Until no more attributes can be added to X+ in an iteration.
+3. Return X+;</code></pre>
+        </div>
+
+        <div class="card">
+            <h3>📦 Step-by-Step Solved Closure Calculations</h3>
+            <p><strong>Let schema $R(A, B, C, D, E, F)$ and FD set $F = \{A \rightarrow B, B \rightarrow C, CD \rightarrow E, E \rightarrow F\}$</strong></p>
+            
+            <div style="margin-top: 15px;">
+                <p><strong>1. Compute $(A)^+$:</strong></p>
+                <ol>
+                    <li>Start: $(A)^+ = \{A\}$</li>
+                    <li>Apply $A \rightarrow B$ (since $A \subseteq \{A\}$): $(A)^+ = \{A, B\}$</li>
+                    <li>Apply $B \rightarrow C$ (since $B \subseteq \{A, B\}$): $(A)^+ = \{A, B, C\}$</li>
+                    <li>No other FD determinants are subsets of $\{A, B, C\}$. (Stop).</li>
+                    <li><strong>$(A)^+ = \{A, B, C\}$</strong></li>
+                </ol>
+            </div>
+
+            <div style="margin-top: 15px;">
+                <p><strong>2. Compute $(AD)^+$:</strong></p>
+                <ol>
+                    <li>Start: $(AD)^+ = \{A, D\}$</li>
+                    <li>Apply $A \rightarrow B$: $(AD)^+ = \{A, B, D\}$</li>
+                    <li>Apply $B \rightarrow C$: $(AD)^+ = \{A, B, C, D\}$</li>
+                    <li>Apply $CD \rightarrow E$ (since $\{C, D\} \subseteq \{A, B, C, D\}$): $(AD)^+ = \{A, B, C, D, E\}$</li>
+                    <li>Apply $E \rightarrow F$ (since $E \subseteq \{A, B, C, D, E\}$): $(AD)^+ = \{A, B, C, D, E, F\}$</li>
+                    <li><strong>$(AD)^+ = \{A, B, C, D, E, F\}$</strong> (All attributes reached!)</li>
+                </ol>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. Candidate Keys Solved -->
+    <section class="section" id="candidate-keys">
+        <div class="section-header">
+            <div class="section-number num-purple">8</div>
+            <h2>Candidate Keys Identification <span class="badge badge-imp">20 Solved Cases Mapped</span></h2>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definition</div>
+            <p><strong>Superkey:</strong> A set of attributes $S$ of relation $R$ such that the attribute closure contains all attributes of $R$ ($S^+ = R$).</p>
+            <p style="margin-top: 10px;"><strong>Candidate Key ($CK$):</strong> A **minimal superkey**. A set of attributes $K$ is a candidate key if $K^+ = R$, and no proper subset of $K$ is a superkey (uniqueness + minimality).</p>
+        </div>
+
+        <div class="tip-box">
+            <div class="label">💡 Fast Shortcut Method to Find Candidate Keys</div>
+            <p>Look at all attributes of $R$ relative to the FDs in $F$:</p>
+            <ul>
+                <li><strong>Type 1 Attributes:</strong> Appear only on the Left Side (L) of FDs. **MUST** be part of every candidate key.</li>
+                <li><strong>Type 2 Attributes:</strong> Appear only on the Right Side (R) of FDs. **NEVER** part of any candidate key.</li>
+                <li><strong>Type 3 Attributes:</strong> Do not appear anywhere in FDs. **MUST** be part of every candidate key.</li>
+                <li><strong>Type 4 Attributes:</strong> Appear on both Left and Right (LR) sides. May or may not be part of keys; requires closure combinations.</li>
+            </ul>
+        </div>
+
+        <!-- 20 SOLVED KEY CASES -->
+        <div class="dashboard-grid" style="display: grid; grid-template-columns: 1fr; gap: 20px;">
+            
+            <!-- Case 1 to 5 -->
+            <div class="problem-card">
+                <div class="problem-header"><h3>Cases 1 - 5: Basic Key Derivations</h3></div>
+                <div class="problem-body">
+                    <p><strong>Case 1: $R(A, B, C)$, FDs = $\{A \rightarrow B, B \rightarrow C\}$</strong><br>
+                    *Determinant check:* $A$ appears only on the left. Let's find $A^+$:<br>
+                    $A^+ = \{A, B, C\} = R$.<br>
+                    <strong>Candidate Key: $\{A\}$</strong></p>
+                    <hr style="margin:12px 0; border-color:var(--border-color);">
+                    
+                    <p><strong>Case 2: $R(A, B, C, D)$, FDs = $\{AB \rightarrow C, C \rightarrow D\}$</strong><br>
+                    *Check:* $A$ and $B$ only appear on the left. Let's find $(AB)^+$:<br>
+                    $(AB)^+ = \{A, B, C, D\} = R$. No subset is a key since $A^+ = \{A\}$ and $B^+ = \{B\}$.<br>
+                    <strong>Candidate Key: $\{AB\}$</strong></p>
+                    <hr style="margin:12px 0; border-color:var(--border-color);">
+
+                    <p><strong>Case 3: $R(A, B, C, D)$, FDs = $\{A \rightarrow B, B \rightarrow C, C \rightarrow A\}$</strong><br>
+                    *Check:* $D$ does not appear in any FD. It must be in every key. Let's check closures with $D$:<br>
+                    - $(AD)^+ = \{A, B, C, D\} = R$ (Key!)<br>
+                    - $(BD)^+ = \{B, C, A, D\} = R$ (Key!)<br>
+                    - $(CD)^+ = \{C, A, B, D\} = R$ (Key!)<br>
+                    <strong>Candidate Keys: $\{AD, BD, CD\}$</strong></p>
+                    <hr style="margin:12px 0; border-color:var(--border-color);">
+
+                    <p><strong>Case 4: $R(A, B, C, D)$, FDs = $\{A \rightarrow BC, C \rightarrow D, D \rightarrow B\}$</strong><br>
+                    *Check:* $A$ only on left. Find $A^+$:<br>
+                    $A^+ = \{A, B, C, D\} = R$.<br>
+                    <strong>Candidate Key: $\{A\}$</strong></p>
+                    <hr style="margin:12px 0; border-color:var(--border-color);">
+
+                    <p><strong>Case 5: $R(A, B, C, D)$, FDs = $\{A \rightarrow B, B \rightarrow C, C \rightarrow D, D \rightarrow A\}$</strong><br>
+                    *Check:* All attributes are on both left and right (cyclic). Check closures:<br>
+                    $A^+ = R, B^+ = R, C^+ = R, D^+ = R$.<br>
+                    <strong>Candidate Keys: $\{A, B, C, D\}$</strong></p>
+                </div>
+            </div>
+
+            <!-- Case 6 to 10 -->
+            <div class="problem-card">
+                <div class="problem-header"><h3>Cases 6 - 10: Multi-Attribute Key Mappings</h3></div>
+                <div class="problem-body">
+                    <p><strong>Case 6: $R(A, B, C, D, E)$, FDs = $\{A \rightarrow B, BC \rightarrow D, D \rightarrow E\}$</strong><br>
+                    *Check:* $A$ and $C$ only on the left. Find $(AC)^+$:<br>
+                    $(AC)^+ = \{A, C\} \rightarrow \{A, B, C\} \rightarrow \{A, B, C, D\} \rightarrow \{A, B, C, D, E\} = R$.<br>
+                    <strong>Candidate Key: $\{AC\}$</strong></p>
+                    <hr style="margin:12px 0; border-color:var(--border-color);">
+
+                    <p><strong>Case 7: $R(A, B, C, D, E)$, FDs = $\{A \rightarrow BC, CD \rightarrow E, E \rightarrow A\}$</strong><br>
+                    *Check:* $D$ only on the left. Must combine with others:<br>
+                    - $(AD)^+ = \{A, B, C, D, E\} = R$ (Key!)<br>
+                    - $(ED)^+ = \{E, A, D\} \rightarrow \{E, A, B, C, D\} = R$ (Key!)<br>
+                    - $(CD)^+ = \{C, D, E, A, B\} = R$ (Key!)<br>
+                    <strong>Candidate Keys: $\{AD, CD, ED\}$</strong></p>
+                    <hr style="margin:12px 0; border-color:var(--border-color);">
+
+                    <p><strong>Case 8: $R(A, B, C, D, E, F)$, FDs = $\{A \rightarrow B, C \rightarrow D, E \rightarrow F\}$</strong><br>
+                    *Check:* $A, C, E$ only on the left. Find $(ACE)^+$:<br>
+                    $(ACE)^+ = \{A, C, E, B, D, F\} = R$.<br>
+                    <strong>Candidate Key: $\{ACE\}$</strong></p>
+                    <hr style="margin:12px 0; border-color:var(--border-color);">
+
+                    <p><strong>Case 9: $R(A, B, C, D)$, FDs = $\{AB \rightarrow CD, C \rightarrow A, D \rightarrow B\}$</strong><br>
+                    *Check:* Let's compute closures of combinations:<br>
+                    - $(AB)^+ = \{A, B, C, D\} = R$ (Key!)<br>
+                    - $(BC)^+ = \{B, C, A\} \rightarrow \{B, C, A, D\} = R$ (Key!)<br>
+                    - $(AD)^+ = \{A, D, B\} \rightarrow \{A, D, B, C\} = R$ (Key!)<br>
+                    - $(CD)^+ = \{C, D, A, B\} = R$ (Key!)<br>
+                    <strong>Candidate Keys: $\{AB, BC, AD, CD\}$</strong></p>
+                    <hr style="margin:12px 0; border-color:var(--border-color);">
+
+                    <p><strong>Case 10: $R(A, B, C, D, E)$, FDs = $\{A \rightarrow B, C \rightarrow D\}$</strong><br>
+                    *Check:* $E$ does not appear in FDs. $A, C, E$ are only on the left.<br>
+                    $(ACE)^+ = \{A, C, E, B, D\} = R$.<br>
+                    <strong>Candidate Key: $\{ACE\}$</strong></p>
+                </div>
+            </div>
+
+            <!-- Case 11 to 15 -->
+            <div class="problem-card">
+                <div class="problem-header"><h3>Cases 11 - 15: Non-Trivial Intersecting Keys</h3></div>
+                <div class="problem-body">
+                    <p><strong>Case 11: $R(A, B, C, D, E)$, FDs = $\{AB \rightarrow C, C \rightarrow D, D \rightarrow B, D \rightarrow E\}$</strong><br>
+                    - $(AB)^+ = \{A, B, C, D, E\} = R$ (Key!)<br>
+                    - $(AD)^+ = \{A, D, B, E, C\} = R$ (Key!)<br>
+                    - $(AC)^+ = \{A, C, D, B, E\} = R$ (Key!)<br>
+                    <strong>Candidate Keys: $\{AB, AD, AC\}$</strong></p>
+                    <hr style="margin:12px 0; border-color:var(--border-color);">
+
+                    <p><strong>Case 12: $R(A, B, C, D)$, FDs = $\{A \rightarrow B, B \rightarrow C, C \rightarrow D, D \rightarrow B\}$</strong><br>
+                    - $(A)^+ = \{A, B, C, D\} = R$. Since $A$ is on left only, no other keys contain only $A$.<br>
+                    <strong>Candidate Key: $\{A\}$</strong></p>
+                    <hr style="margin:12px 0; border-color:var(--border-color);">
+
+                    <p><strong>Case 13: $R(A, B, C, D, E, F)$, FDs = $\{AB \rightarrow C, C \rightarrow D, D \rightarrow E, E \rightarrow F, F \rightarrow A\}$</strong><br>
+                    - $(AB)^+ = R$ (Key!)<br>
+                    - $(BC)^+ = \{B, C, D, E, F, A\} = R$ (Key!)<br>
+                    - $(BD)^+ = \{B, D, E, F, A, C\} = R$ (Key!)<br>
+                    - $(BE)^+ = \{B, E, F, A, C, D\} = R$ (Key!)<br>
+                    - $(BF)^+ = \{B, F, A, C, D, E\} = R$ (Key!)<br>
+                    <strong>Candidate Keys: $\{AB, BC, BD, BE, BF\}$</strong></p>
+                    <hr style="margin:12px 0; border-color:var(--border-color);">
+
+                    <p><strong>Case 14: $R(A, B, C, D, E)$, FDs = $\{AB \rightarrow C, D \rightarrow E, E \rightarrow D\}$</strong><br>
+                    - $(ABD)^+ = \{A, B, D, C, E\} = R$ (Key!)<br>
+                    - $(ABE)^+ = \{A, B, E, C, D\} = R$ (Key!)<br>
+                    <strong>Candidate Keys: $\{ABD, ABE\}$</strong></p>
+                    <hr style="margin:12px 0; border-color:var(--border-color);">
+
+                    <p><strong>Case 15: $R(A, B, C, D, E, F)$, FDs = $\{AB \rightarrow CD, B \rightarrow E, C \rightarrow F\}$</strong><br>
+                    - $(AB)^+ = \{A, B, C, D, E, F\} = R$.<br>
+                    <strong>Candidate Key: $\{AB\}$</strong></p>
+                </div>
+            </div>
+
+            <!-- Case 16 to 20 -->
+            <div class="problem-card">
+                <div class="problem-header"><h3>Cases 16 - 20: Complex Design Schema Key Resolutions</h3></div>
+                <div class="problem-body">
+                    <p><strong>Case 16: $R(A, B, C, D, E, F, G)$, FDs = $\{AB \rightarrow C, C \rightarrow DE, E \rightarrow F, F \rightarrow G, G \rightarrow A\}$</strong><br>
+                    - $(AB)^+ = R$ (Key!)<br>
+                    - $(BC)^+ = R$ (Key!)<br>
+                    - $(BE)^+ = \{B, E, F, G, A, C, D\} = R$ (Key!)<br>
+                    - $(BF)^+ = \{B, F, G, A, C, D, E\} = R$ (Key!)<br>
+                    - $(BG)^+ = \{B, G, A, C, D, E, F\} = R$ (Key!)<br>
+                    <strong>Candidate Keys: $\{AB, BC, BE, BF, BG\}$</strong></p>
+                    <hr style="margin:12px 0; border-color:var(--border-color);">
+
+                    <p><strong>Case 17: $R(A, B, C, D, E)$, FDs = $\{A \rightarrow BC, CD \rightarrow E, B \rightarrow D\}$</strong><br>
+                    - Let's check $A^+$:<br>
+                    $A^+ = \{A, B, C\} \rightarrow \{A, B, C, D\} \rightarrow \{A, B, C, D, E\} = R$.<br>
+                    <strong>Candidate Key: $\{A\}$</strong></p>
+                    <hr style="margin:12px 0; border-color:var(--border-color);">
+
+                    <p><strong>Case 18: $R(A, B, C, D, E, F)$, FDs = $\{A \rightarrow B, C \rightarrow D, E \rightarrow AD\}$</strong><br>
+                    - Let's check $(CE)^+$:<br>
+                    $(CE)^+ = \{C, E, D, A, B, F\} = R$ (if F was on right, but F does not exist in FDs, so it must be added).<br>
+                    - Correcting for missing F: $F$ must be in every key. Let's find $(CEF)^+$:<br>
+                    $(CEF)^+ = \{C, E, F, D, A, B\} = R$.<br>
+                    <strong>Candidate Key: $\{CEF\}$</strong></p>
+                    <hr style="margin:12px 0; border-color:var(--border-color);">
+
+                    <p><strong>Case 19: $R(A, B, C, D, E)$, FDs = $\{AB \rightarrow C, C \rightarrow D, D \rightarrow E, E \rightarrow A\}$</strong><br>
+                    - $(AB)^+ = R$ (Key!)<br>
+                    - $(BC)^+ = \{B, C, D, E, A\} = R$ (Key!)<br>
+                    - $(BD)^+ = \{B, D, E, A, C\} = R$ (Key!)<br>
+                    - $(BE)^+ = \{B, E, A, C, D\} = R$ (Key!)<br>
+                    <strong>Candidate Keys: $\{AB, BC, BD, BE\}$</strong></p>
+                    <hr style="margin:12px 0; border-color:var(--border-color);">
+
+                    <p><strong>Case 20: $R(A, B, C, D, E, F)$, FDs = $\{AB \rightarrow C, D \rightarrow EF, F \rightarrow B\}$</strong><br>
+                    - Let's check $(AD)^+$:<br>
+                    $(AD)^+ = \{A, D, E, F, B, C\} = R$.<br>
+                    <strong>Candidate Key: $\{AD\}$</strong></p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ============================== -->
+    <!-- PART C: NORMALIZATION          -->
+    <!-- ============================== -->
+    <div class="part-divider part-c"><span id="part-c-normalization">Part C — Normalization and Normal Forms</span></div>
+
+    <!-- 1. Anomalies Section -->
+    <section class="section" id="anomalies-section">
+        <div class="section-header">
+            <div class="section-number num-green">9</div>
+            <h2>Database Anomalies <span class="badge badge-pyq">VTU Guaranteed</span></h2>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definition</div>
+            <p><strong>Anomalies:</strong> Wasted side effects or structural inconsistencies that occur during database write operations due to poorly designed tables containing duplicate data redundant columns.</p>
+        </div>
+
+        <div class="card">
+            <h3>📈 Case Study Table: EMP_DEPT</h3>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>SSN (Key)</th>
+                            <th>EmpName</th>
+                            <th>DeptID</th>
+                            <th>DeptName</th>
+                            <th>DeptMgr</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>S101</td>
+                            <td>Akshay</td>
+                            <td>10</td>
+                            <td>Research</td>
+                            <td>Manager A</td>
+                        </tr>
+                        <tr>
+                            <td>S102</td>
+                            <td>Ananth</td>
+                            <td>10</td>
+                            <td>Research</td>
+                            <td>Manager A</td>
+                        </tr>
+                        <tr>
+                            <td>S103</td>
+                            <td>Rahul</td>
+                            <td>20</td>
+                            <td>Finance</td>
+                            <td>Manager B</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>1. Insertion Anomaly</h3>
+            <p><strong>Problem:</strong> We cannot insert a new entity without dummy values if its existence is dependent on another entity whose key values are not yet determined.</p>
+            <p><strong>Example:</strong> We cannot insert a new Department (e.g., DeptID 30, "Security") until we hire at least one employee to assign to it, because `SSN` is the primary key and cannot be NULL.</p>
+            <p><strong>Solution:</strong> Decompose `EMP_DEPT` into `EMPLOYEE(SSN, Name, DeptID)` and `DEPARTMENT(DeptID, DeptName, DeptMgr)`.</p>
+        </div>
+
+        <div class="card">
+            <h3>2. Deletion Anomaly</h3>
+            <p><strong>Problem:</strong> Deleting a record of one entity unintentionally deletes the only existing record of a completely different entity.</p>
+            <p><strong>Example:</strong> If employee "Rahul" leaves the company and we delete his row `S103` from `EMP_DEPT`, we also completely lose the record of DeptID 20 ("Finance" and its manager) from the database.</p>
+        </div>
+
+        <div class="card">
+            <h3>3. Update (Modification) Anomaly</h3>
+            <p><strong>Problem:</strong> Changing a single real-world value requires updating multiple rows, leading to database inconsistency if some rows are missed.</p>
+            <p><strong>Example:</strong> If DeptID 10's name changes from "Research" to "R&amp;D", we must search and update every single employee assigned to DeptID 10. If we miss any row, the database ends up in an inconsistent state.</p>
+        </div>
+    </section>
+
+    <!-- 2. First Normal Form -->
+    <section class="section" id="first-nf">
+        <div class="section-header">
+            <div class="section-number num-green">10</div>
+            <h2>First Normal Form (1NF) <span class="badge badge-imp">10 Solved Cases</span></h2>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definition</div>
+            <p><strong>First Normal Form (1NF):</strong> A relation is in 1NF if and only if the domain of each attribute contains only **atomic** (indivisible) values, and the value of each attribute in any tuple is a single value from that domain. It forbids:
+                <br>1. **Multi-valued attributes** (multiple phone numbers in a single cell).
+                <br>2. **Composite attributes** (address split into street, city, pin within a single field).
+                <br>3. **Repeating groups** (nested child tables).</p>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="problem-card">
+                <div class="problem-header"><h3>1NF Solved Examples 1 - 5: Multi-Valued Attributes</h3></div>
+                <div class="problem-body">
+                    <p><strong>Example 1: STUDENT(USN, Name, PhoneNumbers)</strong><br>
+                    *UNF State:* `(1MS24, Akshay, {99001, 88002})`<br>
+                    *1NF Conversion:* Split rows so each phone number occupies its own row:<br>
+                    `1MS24, Akshay, 99001`<br>
+                    `1MS24, Akshay, 88002` (Primary Key becomes `{USN, PhoneNumber}`).</p>
+                    <hr style="margin:12px 0; border-color:var(--border-color);">
+
+                    <p><strong>Example 2: EMP_PROJECTS(SSN, Name, Pnumbers)</strong><br>
+                    *UNF State:* `(S101, Akshay, {P1, P2})`<br>
+                    *1NF Conversion:* Create new tuples:<br>
+                    `(S101, Akshay, P1)` and `(S101, Akshay, P2)`.</p>
+                    <hr style="margin:12px 0; border-color:var(--border-color);">
+
+                    <p><strong>Example 3: DEPT(DeptID, Locations)</strong><br>
+                    *UNF State:* `(10, {Bengaluru, Mysuru})`<br>
+                    *1NF Conversion:*<br>
+                    `(10, Bengaluru)` and `(10, Mysuru)`.</p>
+                    <hr style="margin:12px 0; border-color:var(--border-color);">
+
+                    <p><strong>Example 4: SUBJECT(Code, TextbookTitles)</strong><br>
+                    *UNF State:* `(CS41, {Codd Vol1, Codd Vol2})`<br>
+                    *1NF Conversion:*<br>
+                    `(CS41, Codd Vol1)` and `(CS41, Codd Vol2)`.</p>
+                    <hr style="margin:12px 0; border-color:var(--border-color);">
+
+                    <p><strong>Example 5: HOBBY(ID, Hobbies)</strong><br>
+                    *UNF:* `(1, {Reading, Swimming})` &rarr; *1NF:* `(1, Reading)`, `(1, Swimming)`.</p>
+                </div>
+            </div>
+
+            <div class="problem-card">
+                <div class="problem-header"><h3>1NF Solved Examples 6 - 10: Composite Attributes</h3></div>
+                <div class="problem-body">
+                    <p><strong>Example 6: STUDENT(USN, FullName) where FullName = (FirstName, LastName)</strong><br>
+                    *1NF Conversion:* Flatten composite attribute into separate columns:<br>
+                    `STUDENT(USN, FirstName, LastName)`.</p>
+                    <hr style="margin:12px 0; border-color:var(--border-color);">
+
+                    <p><strong>Example 7: CUSTOMER(ID, Address) where Address = (Street, City, Pincode)</strong><br>
+                    *1NF Conversion:* Flatten address:<br>
+                    `CUSTOMER(ID, Street, City, Pincode)`.</p>
+                    <hr style="margin:12px 0; border-color:var(--border-color);">
+
+                    <p><strong>Example 8: ORDER(ID, Date) where Date = (Day, Month, Year)</strong><br>
+                    *1NF:* `ORDER(ID, Day, Month, Year)`.</p>
+                    <hr style="margin:12px 0; border-color:var(--border-color);">
+
+                    <p><strong>Example 9: EMP(ID, JobDetail) where JobDetail = (Title, Grade)</strong><br>
+                    *1NF:* `EMP(ID, Title, Grade)`.</p>
+                    <hr style="margin:12px 0; border-color:var(--border-color);">
+
+                    <p><strong>Example 10: PROJ(No, BudgetScale) where BudgetScale = (MinBudget, MaxBudget)</strong><br>
+                    *1NF:* `PROJ(No, MinBudget, MaxBudget)`.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. Second Normal Form -->
+    <section class="section" id="second-nf">
+        <div class="section-header">
+            <div class="section-number num-green">11</div>
+            <h2>Second Normal Form (2NF) <span class="badge badge-imp">15 Solved Cases</span></h2>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definition</div>
+            <p><strong>Second Normal Form (2NF):</strong> A relation schema is in 2NF if and only if:
+                <br>1. It is in **1NF**.
+                <br>2. Every **non-prime** attribute (attribute not part of any candidate key) is **fully functionally dependent** on the primary key.
+                <br><em>No Partial Dependencies are allowed!</em> If a relation has a single-attribute primary key, it is automatically in 2NF.</p>
+        </div>
+
+        <div class="card">
+            <h3>🛠️ Core Decompositions for Class Standards</h3>
+            
+            <div style="margin-bottom: 20px;">
+                <h4>Case A: EMP_PROJ</h4>
+                <p>Schema: `EMP_PROJ(SSN, Pnumber, Hours, Ename, Pname, Plocation)`<br>
+                Primary Key: `{SSN, Pnumber}`<br>
+                FDs:
+                <br>1. `{SSN, Pnumber} -> Hours` (Full Dependency)
+                <br>2. `SSN -> Ename` (Partial Dependency! SSN is a subset of primary key)
+                <br>3. `Pnumber -> {Pname, Plocation}` (Partial Dependency! Pnumber is a subset of key)</p>
+                <p><strong>2NF Decomposition:</strong>
+                <br>1. `EP_HOURS(SSN, Pnumber, Hours)` (Primary Key: `{SSN, Pnumber}`)
+                <br>2. `EMPLOYEE(SSN, Ename)` (Primary Key: `SSN`)
+                <br>3. `PROJECT(Pnumber, Pname, Plocation)` (Primary Key: `Pnumber`)</p>
+            </div>
+            <hr style="margin:15px 0; border-color:var(--border-color);">
+
+            <div style="margin-bottom: 20px;">
+                <h4>Case B: STUDENT_COURSE</h4>
+                <p>Schema: `STUDENT_COURSE(USN, CourseCode, Grade, StudentName, CourseTitle)`<br>
+                Primary Key: `{USN, CourseCode}`<br>
+                FDs:
+                <br>1. `{USN, CourseCode} -> Grade` (Full)
+                <br>2. `USN -> StudentName` (Partial)
+                <br>3. `CourseCode -> CourseTitle` (Partial)</p>
+                <p><strong>2NF Decomposition:</strong>
+                <br>1. `SC_GRADES(USN, CourseCode, Grade)`
+                <br>2. `STUDENT(USN, StudentName)`
+                <br>3. `COURSE(CourseCode, CourseTitle)`</p>
+            </div>
+            <hr style="margin:15px 0; border-color:var(--border-color);">
+
+            <div>
+                <h4>Case C: ORDER_DETAILS</h4>
+                <p>Schema: `ORDER_DETAILS(OrderID, ProductID, Qty, OrderDate, UnitPrice)`<br>
+                Primary Key: `{OrderID, ProductID}`<br>
+                FDs:
+                <br>1. `{OrderID, ProductID} -> Qty` (Full)
+                <br>2. `OrderID -> OrderDate` (Partial)
+                <br>3. `ProductID -> UnitPrice` (Partial)</p>
+                <p><strong>2NF Decomposition:</strong>
+                <br>1. `ORDER_ITEMS(OrderID, ProductID, Qty)`
+                <br>2. `ORDERS(OrderID, OrderDate)`
+                <br>3. `PRODUCTS(ProductID, UnitPrice)`</p>
+            </div>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="problem-card">
+                <div class="problem-header"><h3>2NF Solved Examples 1 - 8</h3></div>
+                <div class="problem-body" style="font-size: 13.5px;">
+                    <p><strong>1. $R(A, B, C)$, Key $\{AB\}$, FDs = $\{AB \rightarrow C, A \rightarrow C\}$</strong> &rarr; Partial FD: $A \rightarrow C$. Decompose to: $R_1(A, C)$, $R_2(A, B)$.</p>
+                    <p><strong>2. $R(A, B, C, D)$, Key $\{AB\}$, FDs = $\{AB \rightarrow C, B \rightarrow D\}$</strong> &rarr; Partial: $B \rightarrow D$. Decompose to: $R_1(B, D)$, $R_2(AB, C)$.</p>
+                    <p><strong>3. $R(A, B, C, D)$, Key $\{AB\}$, FDs = $\{AB \rightarrow CD, A \rightarrow C\}$</strong> &rarr; Partial: $A \rightarrow C$. Decompose to: $R_1(A, C)$, $R_2(AB, D)$.</p>
+                    <p><strong>4. $R(A, B, C, D, E)$, Key $\{AB\}$, FDs = $\{AB \rightarrow C, A \rightarrow DE\}$</strong> &rarr; Decompose: $R_1(A, D, E)$, $R_2(AB, C)$.</p>
+                    <p><strong>5. $R(A, B, C, D)$, Key $\{A\}$, FDs = $\{A \rightarrow BC, B \rightarrow D\}$</strong> &rarr; Single-attribute key. Automatically in 2NF!</p>
+                    <p><strong>6. $R(A, B, C, D, E)$, Key $\{ABC\}$, FDs = $\{ABC \rightarrow D, C \rightarrow E\}$</strong> &rarr; Decompose: $R_1(C, E)$, $R_2(ABC, D)$.</p>
+                    <p><strong>7. $R(A, B, C, D)$, Key $\{AB\}$, FDs = $\{AB \rightarrow CD, B \rightarrow C\}$</strong> &rarr; Decompose: $R_1(B, C)$, $R_2(AB, D)$.</p>
+                    <p><strong>8. $R(A, B, C)$, Key $\{AB\}$, FDs = $\{AB \rightarrow C\}$</strong> &rarr; No partial dependencies. Automatically in 2NF!</p>
+                </div>
+            </div>
+
+            <div class="problem-card">
+                <div class="problem-header"><h3>2NF Solved Examples 9 - 15</h3></div>
+                <div class="problem-body" style="font-size: 13.5px;">
+                    <p><strong>9. $R(A, B, C, D)$, Key $\{AB\}$, FDs = $\{AB \rightarrow C, A \rightarrow D\}$</strong> &rarr; Decompose: $R_1(A, D)$, $R_2(AB, C)$.</p>
+                    <p><strong>10. $R(A, B, C, D, E)$, Key $\{AB\}$, FDs = $\{AB \rightarrow CDE, B \rightarrow D\}$</strong> &rarr; Decompose: $R_1(B, D)$, $R_2(AB, C, E)$.</p>
+                    <p><strong>11. $R(A, B, C, D)$, Key $\{ABC\}$, FDs = $\{ABC \rightarrow D, AB \rightarrow D\}$</strong> &rarr; AB is superkey. Key is actually $\{AB\}$. Decompose if partial FDs exist.</p>
+                    <p><strong>12. $R(A, B, C, D)$, Key $\{AB\}$, FDs = $\{AB \rightarrow C, B \rightarrow D\}$</strong> &rarr; Decompose: $R_1(B, D)$, $R_2(AB, C)$.</p>
+                    <p><strong>13. $R(A, B, C, D, E)$, Key $\{ABC\}$, FDs = $\{ABC \rightarrow D, BC \rightarrow E\}$</strong> &rarr; Decompose: $R_1(BC, E)$, $R_2(ABC, D)$.</p>
+                    <p><strong>14. $R(A, B, C, D)$, Key $\{AB\}$, FDs = $\{AB \rightarrow C, D \rightarrow C\}$</strong> &rarr; No partial dependency. Already in 2NF.</p>
+                    <p><strong>15. $R(A, B, C, D, E)$, Key $\{AB\}$, FDs = $\{AB \rightarrow CD, A \rightarrow E\}$</strong> &rarr; Decompose: $R_1(A, E)$, $R_2(AB, C, D)$.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. Third Normal Form -->
+    <section class="section" id="third-nf">
+        <div class="section-header">
+            <div class="section-number num-green">12</div>
+            <h2>Third Normal Form (3NF) <span class="badge badge-imp">15 Solved Cases</span></h2>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definition</div>
+            <p><strong>Third Normal Form (3NF):</strong> A relation schema $R$ is in 3NF if and only if it is in **2NF** and, for every non-trivial functional dependency $X \rightarrow Y$ in $R$, at least **one** of the following conditions is satisfied:
+                <br>1. $X$ is a **Superkey** of $R$.
+                <br>2. $Y$ is a **Prime Attribute** (each attribute in $Y$ is a member of some candidate key of $R$).
+                <br><em>No Transitive Dependencies are allowed for non-prime attributes!</em></p>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="problem-card">
+                <div class="problem-header"><h3>3NF Solved Examples 1 - 8</h3></div>
+                <div class="problem-body" style="font-size: 13.5px;">
+                    <p><strong>1. $R(A, B, C, D)$, Key $\{A\}$, FDs = $\{A \rightarrow B, B \rightarrow C, C \rightarrow D\}$</strong><br>
+                    *Violations:* $B \rightarrow C$ and $C \rightarrow D$ ($B, C$ are not superkeys). Decompose to: $R_1(C, D)$, $R_2(B, C)$, $R_3(A, B)$.</p>
+                    <p><strong>2. $R(A, B, C, D)$, Key $\{A\}$, FDs = $\{A \rightarrow B, B \rightarrow CD\}$</strong> &rarr; Transitive: $B \rightarrow CD$. Decompose: $R_1(B, C, D)$, $R_2(A, B)$.</p>
+                    <p><strong>3. $R(A, B, C, D)$, Key $\{AB\}$, FDs = $\{AB \rightarrow C, C \rightarrow D\}$</strong> &rarr; Transitive: $C \rightarrow D$. Decompose: $R_1(C, D)$, $R_2(AB, C)$.</p>
+                    <p><strong>4. $R(A, B, C, D, E)$, Key $\{A\}$, FDs = $\{A \rightarrow B, B \rightarrow C, C \rightarrow DE\}$</strong> &rarr; Decompose: $R_1(C, D, E)$, $R_2(B, C)$, $R_3(A, B)$.</p>
+                    <p><strong>5. $R(A, B, C, D)$, Key $\{A\}$, FDs = $\{A \rightarrow B, B \rightarrow C, C \rightarrow A, C \rightarrow D\}$</strong> &rarr; $C \rightarrow A$ makes $C$ a candidate key. Already in 3NF!</p>
+                    <p><strong>6. $R(A, B, C)$, Key $\{A\}$, FDs = $\{A \rightarrow B, B \rightarrow C\}$</strong> &rarr; Decompose: $R_1(B, C)$, $R_2(A, B)$.</p>
+                    <p><strong>7. $R(A, B, C, D)$, Key $\{AB\}$, FDs = $\{AB \rightarrow C, D \rightarrow C\}$</strong> &rarr; Already in 3NF because $C$ is prime (part of key? No. $C$ is not prime). Wait, is $D$ a key? No. Already in 3NF if FDs are verified.</p>
+                    <p><strong>8. $R(A, B, C, D)$, Key $\{A\}$, FDs = $\{A \rightarrow B, C \rightarrow D\}$</strong> &rarr; Partial dependency. Violates 2NF (hence violates 3NF). Decompose: $R_1(C, D)$, $R_2(A, B)$.</p>
+                </div>
+            </div>
+
+            <div class="problem-card">
+                <div class="problem-header"><h3>3NF Solved Examples 9 - 15</h3></div>
+                <div class="problem-body" style="font-size: 13.5px;">
+                    <p><strong>9. $R(A, B, C, D, E)$, Key $\{A\}$, FDs = $\{A \rightarrow B, B \rightarrow C, D \rightarrow E\}$</strong> &rarr; Partial/Transitive. Decompose: $R_1(D, E)$, $R_2(B, C)$, $R_3(A, B)$.</p>
+                    <p><strong>10. $R(A, B, C, D)$, Key $\{AB\}$, FDs = $\{AB \rightarrow C, C \rightarrow D, D \rightarrow A\}$</strong> &rarr; $D \rightarrow A$ makes $A$ prime. Hence $C \rightarrow D$ is allowed because $D$ is prime. Already in 3NF!</p>
+                    <p><strong>11. $R(A, B, C, D)$, Key $\{A\}$, FDs = $\{A \rightarrow B, B \rightarrow C, C \rightarrow D\}$</strong> &rarr; Decompose: $R_1(C, D)$, $R_2(B, C)$, $R_3(A, B)$.</p>
+                    <p><strong>12. $R(A, B, C, D)$, Key $\{A\}$, FDs = $\{A \rightarrow B, B \rightarrow C, D \rightarrow C\}$</strong> &rarr; Decompose: $R_1(B, C)$, $R_2(D, C)$, $R_3(A, B)$.</p>
+                    <p><strong>13. $R(A, B, C, D)$, Key $\{A\}$, FDs = $\{A \rightarrow B, B \rightarrow CD, C \rightarrow D\}$</strong> &rarr; Decompose: $R_1(C, D)$, $R_2(B, C)$, $R_3(A, B)$.</p>
+                    <p><strong>14. $R(A, B, C, D, E)$, Key $\{A\}$, FDs = $\{A \rightarrow BC, C \rightarrow D, D \rightarrow E\}$</strong> &rarr; Decompose: $R_1(D, E)$, $R_2(C, D)$, $R_3(A, B, C)$.</p>
+                    <p><strong>15. $R(A, B, C, D)$, Key $\{AB\}$, FDs = $\{AB \rightarrow CD, C \rightarrow D\}$</strong> &rarr; Decompose: $R_1(C, D)$, $R_2(AB, C)$.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. Boyce-Codd Normal Form -->
+    <section class="section" id="bcnf-section">
+        <div class="section-header">
+            <div class="section-number num-green">13</div>
+            <h2>Boyce-Codd Normal Form (BCNF) <span class="badge badge-imp">20 Solved Cases</span></h2>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definition</div>
+            <p><strong>Boyce-Codd Normal Form (BCNF):</strong> A stronger version of 3NF. A relation schema $R$ is in BCNF if and only if, for every non-trivial functional dependency $X \rightarrow Y$ in $R$, the determinant $X$ is a **Superkey** of $R$.
+                <br><em>No exceptions are made for prime attributes on the right side!</em> BCNF is stronger than 3NF because it removes all redundancies caused by overlapping candidate keys.</p>
+        </div>
+
+        <div class="dashboard-grid">
+            
+            <div class="problem-card">
+                <div class="problem-header"><h3>BCNF Solved Cases 1 - 10</h3></div>
+                <div class="problem-body" style="font-size: 13.5px;">
+                    <p><strong>1. $R(A, B, C)$, FDs = $\{AB \rightarrow C, C \rightarrow A\}$</strong><br>
+                    *Keys:* $\{AB, BC\}$. *Violation:* $C \rightarrow A$ ($C$ is prime, so it is in 3NF, but $C$ is not a superkey, so it violates BCNF).<br>
+                    <strong>Decomposition: $R_1(C, A)$, $R_2(C, B)$.</strong></p>
+                    <hr style="margin:8px 0; border-color:var(--border-color);">
+
+                    <p><strong>2. $R(A, B, C, D)$, FDs = $\{A \rightarrow B, BC \rightarrow D\}$</strong><br>
+                    *Key:* $\{AC\}$. *Violation:* $A \rightarrow B$ ($A$ is not superkey).<br>
+                    <strong>Decomposition: $R_1(A, B)$, $R_2(A, C, D)$.</strong></p>
+                    <hr style="margin:8px 0; border-color:var(--border-color);">
+
+                    <p><strong>3. $R(A, B, C, D)$, FDs = $\{AB \rightarrow C, C \rightarrow D, D \rightarrow A\}$</strong><br>
+                    *Keys:* $\{AB, BD, BC\}$. *Violation:* $C \rightarrow D$ ($C$ is not superkey), $D \rightarrow A$ ($D$ is not superkey).<br>
+                    <strong>Decomposition: $R_1(C, D)$, $R_2(D, A)$, $R_3(B, C)$.</strong></p>
+                    <hr style="margin:8px 0; border-color:var(--border-color);">
+
+                    <p><strong>4. $R(A, B, C, D)$, FDs = $\{A \rightarrow B, B \rightarrow C, C \rightarrow D\}$</strong> &rarr; Keys: $\{A\}$.<br>
+                    <strong>Decomposition: $R_1(A, B)$, $R_2(B, C)$, $R_3(C, D)$.</strong></p>
+                    <hr style="margin:8px 0; border-color:var(--border-color);">
+
+                    <p><strong>5. $R(A, B, C, D)$, FDs = $\{A \rightarrow B, C \rightarrow D\}$</strong> &rarr; Key: $\{AC\}$.<br>
+                    <strong>Decomposition: $R_1(A, B)$, $R_2(C, D)$, $R_3(A, C)$.</strong></p>
+                    <hr style="margin:8px 0; border-color:var(--border-color);">
+
+                    <p><strong>6. $R(A, B, C, D)$, FDs = $\{AB \rightarrow CD, D \rightarrow B\}$</strong> &rarr; Key: $\{AB, AD\}$. Violation: $D \rightarrow B$.<br>
+                    <strong>Decomposition: $R_1(D, B)$, $R_2(A, D, C)$.</strong></p>
+                    <hr style="margin:8px 0; border-color:var(--border-color);">
+
+                    <p><strong>7. $R(A, B, C, D, E)$, FDs = $\{A \rightarrow B, C \rightarrow D, E \rightarrow A\}$</strong> &rarr; Key: $\{CE\}$. Violation: $A \rightarrow B, C \rightarrow D$.<br>
+                    <strong>Decomposition: $R_1(A, B)$, $R_2(C, D)$, $R_3(E, A, C)$.</strong></p>
+                    <hr style="margin:8px 0; border-color:var(--border-color);">
+
+                    <p><strong>8. $R(A, B, C, D)$, FDs = $\{AB \rightarrow C, D \rightarrow A\}$</strong> &rarr; Key: $\{AB, BD\}$. Violation: $D \rightarrow A$.<br>
+                    <strong>Decomposition: $R_1(D, A)$, $R_2(D, B, C)$.</strong></p>
+                    <hr style="margin:8px 0; border-color:var(--border-color);">
+
+                    <p><strong>9. $R(A, B, C, D, E)$, FDs = $\{AB \rightarrow C, C \rightarrow D, D \rightarrow E, E \rightarrow A\}$</strong> &rarr; Violation: $C \rightarrow D, D \rightarrow E, E \rightarrow A$.<br>
+                    <strong>Decomposition: $R_1(C, D)$, $R_2(D, E)$, $R_3(E, A)$, $R_4(B, C)$.</strong></p>
+                    <hr style="margin:8px 0; border-color:var(--border-color);">
+
+                    <p><strong>10. $R(A, B, C)$, FDs = $\{A \rightarrow B, B \rightarrow C\}$</strong> &rarr; Key: $\{A\}$. Violation: $B \rightarrow C$.<br>
+                    <strong>Decomposition: $R_1(B, C)$, $R_2(A, B)$.</strong></p>
+                </div>
+            </div>
+
+            <div class="problem-card">
+                <div class="problem-header"><h3>BCNF Solved Cases 11 - 20</h3></div>
+                <div class="problem-body" style="font-size: 13.5px;">
+                    <p><strong>11. $R(A, B, C, D)$, FDs = $\{A \rightarrow BC, C \rightarrow D\}$</strong> &rarr; Key: $\{A\}$. Violation: $C \rightarrow D$.<br>
+                    <strong>Decomposition: $R_1(C, D)$, $R_2(A, B, C)$.</strong></p>
+                    <hr style="margin:8px 0; border-color:var(--border-color);">
+
+                    <p><strong>12. $R(A, B, C, D, E)$, FDs = $\{AB \rightarrow CD, E \rightarrow A\}$</strong> &rarr; Key: $\{ABE\}$. Violation: $E \rightarrow A$.<br>
+                    <strong>Decomposition: $R_1(E, A)$, $R_2(A, B, E, C, D)$.</strong></p>
+                    <hr style="margin:8px 0; border-color:var(--border-color);">
+
+                    <p><strong>13. $R(A, B, C, D)$, FDs = $\{A \rightarrow B, B \rightarrow C, C \rightarrow A, D \rightarrow D\}$</strong> &rarr; Key: $\{AD, BD, CD\}$. Already in BCNF (if no non-key violations).</p>
+                    <hr style="margin:8px 0; border-color:var(--border-color);">
+
+                    <p><strong>14. $R(A, B, C, D, E)$, FDs = $\{AB \rightarrow C, C \rightarrow D, D \rightarrow E\}$</strong> &rarr; Key: $\{ABE\}$. Violation: $C \rightarrow D, D \rightarrow E$.<br>
+                    <strong>Decomposition: $R_1(C, D)$, $R_2(D, E)$, $R_3(A, B, C, E)$.</strong></p>
+                    <hr style="margin:8px 0; border-color:var(--border-color);">
+
+                    <p><strong>15. $R(A, B, C, D)$, FDs = $\{A \rightarrow B, B \rightarrow CD\}$</strong> &rarr; Key: $\{A\}$. Violation: $B \rightarrow CD$.<br>
+                    <strong>Decomposition: $R_1(B, C, D)$, $R_2(A, B)$.</strong></p>
+                    <hr style="margin:8px 0; border-color:var(--border-color);">
+
+                    <p><strong>16. $R(A, B, C, D, E)$, FDs = $\{AB \rightarrow C, DE \rightarrow B\}$</strong> &rarr; Key: $\{ADE\}$. Violation: $DE \rightarrow B$.<br>
+                    <strong>Decomposition: $R_1(DE, B)$, $R_2(A, D, E, C)$.</strong></p>
+                    <hr style="margin:8px 0; border-color:var(--border-color);">
+
+                    <p><strong>17. $R(A, B, C, D)$, FDs = $\{A \rightarrow B, C \rightarrow D, D \rightarrow C\}$</strong> &rarr; Key: $\{AC, AD\}$. Violation: $A \rightarrow B$.<br>
+                    <strong>Decomposition: $R_1(A, B)$, $R_2(A, C, D)$.</strong></p>
+                    <hr style="margin:8px 0; border-color:var(--border-color);">
+
+                    <p><strong>18. $R(A, B, C, D, E)$, FDs = $\{AB \rightarrow C, C \rightarrow D, E \rightarrow A\}$</strong> &rarr; Key: $\{ABE\}$. Violation: $C \rightarrow D, E \rightarrow A$.<br>
+                    <strong>Decomposition: $R_1(C, D)$, $R_2(E, A)$, $R_3(A, B, E)$.</strong></p>
+                    <hr style="margin:8px 0; border-color:var(--border-color);">
+
+                    <p><strong>19. $R(A, B, C, D)$, FDs = $\{A \rightarrow B, B \rightarrow C, C \rightarrow D, D \rightarrow A\}$</strong> &rarr; Key: $\{A, B, C, D\}$. Already in BCNF since all determinants are keys!</p>
+                    <hr style="margin:8px 0; border-color:var(--border-color);">
+
+                    <p><strong>20. $R(A, B, C, D)$, FDs = $\{AB \rightarrow C, C \rightarrow A, C \rightarrow D\}$</strong> &rarr; Keys: $\{AB, BC\}$. Violation: $C \rightarrow A$ ($C$ is not superkey).<br>
+                    <strong>Decomposition: $R_1(C, A, D)$, $R_2(C, B)$.</strong></p>
+                </div>
+            </div>
+            
+        </div>
+    </section>
+
+    <!-- 6. Comparison Matrix -->
+    <section class="section" id="comparison-matrix">
+        <div class="section-header">
+            <div class="section-number num-green">14</div>
+            <h2>Relational Normal Forms Comparative Matrix</h2>
+        </div>
+
+        <div class="card">
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Normal Form</th>
+                            <th>Violating Dependency Removed</th>
+                            <th>Redundancy Resolved</th>
+                            <th>Anomalies Prevented</th>
+                            <th>Key Mathematical Criteria</th>
+                            <th>Computational Complexity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>1NF</strong></td>
+                            <td>Multi-valued and Composite attributes.</td>
+                            <td>Extremely Low. Only nesting resolved.</td>
+                            <td>None fully.</td>
+                            <td>All domains must contain only atomic values. No repeating groups.</td>
+                            <td>$O(1)$ linear scan.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>2NF</strong></td>
+                            <td>Partial Dependencies (non-prime determined by part of key).</td>
+                            <td>Moderate. Removes repeats due to key subsets.</td>
+                            <td>Resolved on partial insertions.</td>
+                            <td>Relation must be in 1NF and no partial dependencies exist.</td>
+                            <td>$O(2^k)$ where $k$ is candidate key size.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>3NF</strong></td>
+                            <td>Transitive Dependencies (non-prime determined by non-key).</td>
+                            <td>High. Resolves most repeating data.</td>
+                            <td>Almost all common anomalies solved.</td>
+                            <td>In 2NF and for $X \rightarrow Y$: $X$ is superkey or $Y$ is prime.</td>
+                            <td>NP-Hard (finding prime attributes).</td>
+                        </tr>
+                        <tr>
+                            <td><strong>BCNF</strong></td>
+                            <td>All dependencies where determinant is not a superkey.</td>
+                            <td>Complete (for FDs). No redundancy left.</td>
+                            <td>All anomalies caused by FDs fully resolved.</td>
+                            <td>For every non-trivial $X \rightarrow Y$, $X$ must be a Superkey.</td>
+                            <td>NP-Hard.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================== -->
+    <!-- PART D: CODD RULES             -->
+    <!-- ============================== -->
+    <div class="part-divider part-d"><span id="part-d-codd">Part D — Codd's 12 Core Relational Rules</span></div>
+
+    <!-- 1. Codd's Rules Section -->
+    <section class="section" id="codd-rules-section">
+        <div class="section-header">
+            <div class="section-number num-green">15</div>
+            <h2>Codd's 12 Rules for Relational Databases</h2>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definition</div>
+            <p><strong>Codd's 12 Rules:</strong> Proposed by Dr. E.F. Codd in 1985, these rules define the criteria that a Database Management System must meet to be considered a **truly Relational DBMS (RDBMS)**. There are actually 13 rules (numbered 0 to 12).</p>
+        </div>
+
+        <div class="card">
+            <h3>📜 Comprehensive 12 Rules Mapped</h3>
+            
+            <div style="margin-bottom: 20px;">
+                <p><strong>Rule 0: The Foundation Rule:</strong> The system must be relational, a database, and a management system. It must manage all database contents entirely through its relational capabilities.</p>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <p><strong>Rule 1: The Information Rule:</strong> All information in a relational database must be represented explicitly at the logical level in exactly one way — by values in tables.</p>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <p><strong>Rule 2: Guaranteed Access Rule:</strong> Every single datum (cell value) in the database must be logically addressable by combining: Table Name, Primary Key Value, and Column Name.</p>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <p><strong>Rule 3: Systematic Treatment of NULL Values:</strong> The DBMS must support systematic, DBMS-wide handling of NULL values representing missing or inapplicable data, independent of the column data type.</p>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <p><strong>Rule 4: Active Online Catalog:</strong> The database description (metadata catalog) must be represented at the logical level in the same way as ordinary user data, queryable via SQL.</p>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <p><strong>Rule 5: Powerful Comprehensive Data Sublanguage:</strong> The system must support at least one well-defined declarative language (like SQL) that supports DDL, DML, DCL, and TCL operations.</p>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <p><strong>Rule 6: View Updating Rule:</strong> All views that are theoretically updatable must be updatable by the system.</p>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <p><strong>Rule 7: High-Level Insert, Update, and Delete:</strong> The system must support set-level operations (inserting, updating, or deleting sets of rows in a single operation, not just row-by-row cursors).</p>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <p><strong>Rule 8: Physical Data Independence:</strong> Changes made to the physical storage structures (e.g., indexes, disk paths) must not affect application queries at the logical level.</p>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <p><strong>Rule 9: Logical Data Independence:</strong> Changes made to the logical tables (e.g., splitting or merging tables) must not affect user applications or queries, provided views are maintained.</p>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <p><strong>Rule 10: Integrity Independence:</strong> Integrity constraints (e.g., Primary Keys, Foreign Keys) must be stored in the online catalog, not hardcoded inside application programs.</p>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <p><strong>Rule 11: Distribution Independence:</strong> The database applications must operate unchanged regardless of whether the data is physically stored on a single machine or distributed across multiple servers.</p>
+            </div>
+
+            <div>
+                <p><strong>Rule 12: Nonsubversion Rule:</strong> If the system has a low-level record-by-record interface, it must not bypass the relational security or integrity constraints defined at the high level.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================== -->
+    <!-- PART E: NORMALIZATION REP      -->
+    <!-- ============================== -->
+    <div class="part-divider part-b"><span id="part-e-solved">Part E — Normalization Solved Repository</span></div>
+
+    <!-- 30 Normalization Cases -->
+    <section class="section" id="solved-30-normal">
+        <div class="section-header">
+            <div class="section-number num-purple">16</div>
+            <h2>30 Solved Normalization &amp; Decomposition Problems</h2>
+        </div>
+
+        <!-- 30 Solved Problems Loop -->
+        <div class="dashboard-grid" style="display: grid; grid-template-columns: 1fr; gap: 20px; font-size: 13.5px;">
+            <div class="problem-card">
+                <div class="problem-header"><h3>Solved Problems 1 - 10: 1NF to 2NF Decompositions</h3></div>
+                <div class="problem-body">
+                    <p><strong>P1: $R(A, B, C, D)$, Key $\{AB\}$, FDs = $\{AB \rightarrow C, B \rightarrow D\}$</strong><br>
+                    *Analysis:* $B \rightarrow D$ is partial. 2NF: $R_1(B, D)$, $R_2(AB, C)$. Already in 3NF and BCNF.</p>
+                    <hr style="margin:8px 0; border-color:var(--border-color);">
+                    
+                    <p><strong>P2: $R(A, B, C, D, E)$, Key $\{AB\}$, FDs = $\{AB \rightarrow CD, B \rightarrow E\}$</strong><br>
+                    *Analysis:* $B \rightarrow E$ is partial. 2NF: $R_1(B, E)$, $R_2(AB, C, D)$.</p>
+                    <hr style="margin:8px 0; border-color:var(--border-color);">
+
+                    <p><strong>P3: $R(A, B, C, D)$, Key $\{AB\}$, FDs = $\{AB \rightarrow C, A \rightarrow D\}$</strong><br>
+                    *Analysis:* $A \rightarrow D$ is partial. 2NF: $R_1(A, D)$, $R_2(AB, C)$.</p>
+                    <hr style="margin:8px 0; border-color:var(--border-color);">
+
+                    <p><strong>P4: $R(A, B, C, D, E)$, Key $\{ABC\}$, FDs = $\{ABC \rightarrow D, C \rightarrow E\}$</strong><br>
+                    *Analysis:* $C \rightarrow E$ is partial. 2NF: $R_1(C, E)$, $R_2(ABC, D)$.</p>
+                    <hr style="margin:8px 0; border-color:var(--border-color);">
+
+                    <p><strong>P5: $R(A, B, C, D, E)$, Key $\{AB\}$, FDs = $\{AB \rightarrow C, A \rightarrow D, B \rightarrow E\}$</strong><br>
+                    *Analysis:* Dual partial FDs. 2NF: $R_1(A, D)$, $R_2(B, E)$, $R_3(AB, C)$.</p>
+                    <hr style="margin:8px 0; border-color:var(--border-color);">
+
+                    <p><strong>P6: $R(A, B, C, D)$, Key $\{AB\}$, FDs = $\{AB \rightarrow C, B \rightarrow D, D \rightarrow B\}$</strong><br>
+                    *Analysis:* $B \rightarrow D$ is partial. 2NF: $R_1(B, D)$, $R_2(AB, C)$.</p>
+                    <hr style="margin:8px 0; border-color:var(--border-color);">
+
+                    <p><strong>P7: $R(A, B, C, D)$, Key $\{AB\}$, FDs = $\{AB \rightarrow C, C \rightarrow D\}$</strong><br>
+                    *Analysis:* No partial. Already 2NF. 3NF: $R_1(C, D)$, $R_2(AB, C)$.</p>
+                    <hr style="margin:8px 0; border-color:var(--border-color);">
+
+                    <p><strong>P8: $R(A, B, C, D, E)$, Key $\{AB\}$, FDs = $\{AB \rightarrow CDE, A \rightarrow D\}$</strong><br>
+                    *Analysis:* Partial $A \rightarrow D$. 2NF: $R_1(A, D)$, $R_2(AB, C, E)$.</p>
+                    <hr style="margin:8px 0; border-color:var(--border-color);">
+
+                    <p><strong>P9: $R(A, B, C, D)$, Key $\{AB\}$, FDs = $\{AB \rightarrow CD, B \rightarrow D\}$</strong><br>
+                    *Analysis:* Partial $B \rightarrow D$. 2NF: $R_1(B, D)$, $R_2(AB, C)$.</p>
+                    <hr style="margin:8px 0; border-color:var(--border-color);">
+
+                    <p><strong>P10: $R(A, B, C, D)$, Key $\{AB\}$, FDs = $\{AB \rightarrow C, A \rightarrow D, B \rightarrow C\}$</strong><br>
+                    *Analysis:* Partial $A \rightarrow D$ and $B \rightarrow C$. 2NF: $R_1(A, D)$, $R_2(B, C)$, $R_3(AB, B)$ which is $R_3(A, B)$.</p>
+                </div>
+            </div>
+
+            <div class="problem-card">
+                <div class="problem-header"><h3>Solved Problems 11 - 20: 2NF to 3NF Decompositions</h3></div>
+                <div class="problem-body">
+                    <p><strong>P11: $R(A, B, C, D, E)$, Key $\{A\}$, FDs = $\{A \rightarrow BC, C \rightarrow D, D \rightarrow E\}$</strong><br>
+                    *Analysis:* Transitive FDs. 3NF: $R_1(C, D)$, $R_2(D, E)$, $R_3(A, B, C)$.</p>
+                    <hr style="margin:8px 0; border-color:var(--border-color);">
+
+                    <p><strong>P12: $R(A, B, C, D)$, Key $\{AB\}$, FDs = $\{AB \rightarrow C, C \rightarrow D\}$</strong><br>
+                    *Analysis:* Transitive $C \rightarrow D$. 3NF: $R_1(C, D)$, $R_2(AB, C)$.</p>
+                    <hr style="margin:8px 0; border-color:var(--border-color);">
+
+                    <p><strong>P13: $R(A, B, C, D, E)$, Key $\{A\}$, FDs = $\{A \rightarrow BC, B \rightarrow DE\}$</strong><br>
+                    *Analysis:* Transitive $B \rightarrow DE$. 3NF: $R_1(B, D, E)$, $R_2(A, B, C)$.</p>
+                    <hr style="margin:8px 0; border-color:var(--border-color);">
+
+                    <p><strong>P14: $R(A, B, C, D, E)$, Key $\{A\}$, FDs = $\{A \rightarrow B, B \rightarrow C, C \rightarrow DE\}$</strong><br>
+                    *Analysis:* Transitive chain. 3NF: $R_1(C, D, E)$, $R_2(B, C)$, $R_3(A, B)$.</p>
+                    <hr style="margin:8px 0; border-color:var(--border-color);">
+
+                    <p><strong>P15: $R(A, B, C, D)$, Key $\{AB\}$, FDs = $\{AB \rightarrow C, C \rightarrow D, D \rightarrow C\}$</strong><br>
+                    *Analysis:* $D \rightarrow C$ is prime on right, so it's in 3NF. But violates BCNF. BCNF: $R_1(D, C)$, $R_2(AB, D)$.</p>
+                    <hr style="margin:8px 0; border-color:var(--border-color);">
+
+                    <p><strong>P16: $R(A, B, C, D)$, Key $\{A\}$, FDs = $\{A \rightarrow B, B \rightarrow CD, C \rightarrow D\}$</strong><br>
+                    *Analysis:* Transitive $B \rightarrow C$ and $C \rightarrow D$. 3NF: $R_1(C, D)$, $R_2(B, C)$, $R_3(A, B)$.</p>
+                    <hr style="margin:8px 0; border-color:var(--border-color);">
+
+                    <p><strong>P17: $R(A, B, C, D, E)$, Key $\{A\}$, FDs = $\{A \rightarrow B, B \rightarrow C, C \rightarrow D, D \rightarrow E\}$</strong><br>
+                    *Analysis:* 3NF: $R_1(D, E)$, $R_2(C, D)$, $R_3(B, C)$, $R_4(A, B)$.</p>
+                    <hr style="margin:8px 0; border-color:var(--border-color);">
+
+                    <p><strong>P18: $R(A, B, C, D)$, Key $\{AB\}$, FDs = $\{AB \rightarrow C, C \rightarrow D, D \rightarrow B\}$</strong><br>
+                    *Analysis:* $D \rightarrow B$ creates prime $B$. Already in 3NF. BCNF: $R_1(D, B)$, $R_2(A, D, C)$.</p>
+                    <hr style="margin:8px 0; border-color:var(--border-color);">
+
+                    <p><strong>P19: $R(A, B, C, D)$, Key $\{A\}$, FDs = $\{A \rightarrow B, B \rightarrow C, D \rightarrow C\}$</strong><br>
+                    *Analysis:* 3NF: $R_1(B, C)$, $R_2(D, C)$, $R_3(A, B)$.</p>
+                    <hr style="margin:8px 0; border-color:var(--border-color);">
+
+                    <p><strong>P20: $R(A, B, C, D, E)$, Key $\{A\}$, FDs = $\{A \rightarrow BC, C \rightarrow DE\}$</strong><br>
+                    *Analysis:* Transitive $C \rightarrow DE$. 3NF: $R_1(C, D, E)$, $R_2(A, B, C)$.</p>
+                </div>
+            </div>
+
+            <div class="problem-card">
+                <div class="problem-header"><h3>Solved Problems 21 - 30: 3NF to BCNF Decompositions</h3></div>
+                <div class="problem-body">
+                    <p><strong>P21: $R(A, B, C)$, FDs = $\{AB \rightarrow C, C \rightarrow A\}$</strong><br>
+                    *Analysis:* Key $\{AB, BC\}$. $C \rightarrow A$ violates BCNF. BCNF: $R_1(C, A)$, $R_2(C, B)$.</p>
+                    <hr style="margin:8px 0; border-color:var(--border-color);">
+
+                    <p><strong>P22: $R(A, B, C, D)$, FDs = $\{AB \rightarrow CD, D \rightarrow B\}$</strong><br>
+                    *Analysis:* Key $\{AB, AD\}$. $D \rightarrow B$ violates BCNF. BCNF: $R_1(D, B)$, $R_2(A, C, D)$.</p>
+                    <hr style="margin:8px 0; border-color:var(--border-color);">
+
+                    <p><strong>P23: $R(A, B, C, D)$, FDs = $\{AB \rightarrow C, C \rightarrow A, C \rightarrow D\}$</strong><br>
+                    *Analysis:* Keys $\{AB, BC\}$. $C \rightarrow A$ violates BCNF. BCNF: $R_1(C, A, D)$, $R_2(C, B)$.</p>
+                    <hr style="margin:8px 0; border-color:var(--border-color);">
+
+                    <p><strong>P24: $R(A, B, C, D)$, FDs = $\{AB \rightarrow C, D \rightarrow A\}$</strong><br>
+                    *Analysis:* Keys $\{AB, BD\}$. $D \rightarrow A$ violates BCNF. BCNF: $R_1(D, A)$, $R_2(D, B, C)$.</p>
+                    <hr style="margin:8px 0; border-color:var(--border-color);">
+
+                    <p><strong>P25: $R(A, B, C, D, E)$, FDs = $\{AB \rightarrow C, C \rightarrow D, D \rightarrow E, E \rightarrow A\}$</strong><br>
+                    *Analysis:* BCNF: $R_1(C, D)$, $R_2(D, E)$, $R_3(E, A)$, $R_4(B, C)$.</p>
+                    <hr style="margin:8px 0; border-color:var(--border-color);">
+
+                    <p><strong>P26: $R(A, B, C, D)$, FDs = $\{A \rightarrow BC, C \rightarrow D, D \rightarrow B\}$</strong><br>
+                    *Analysis:* Key $\{A\}$. $C \rightarrow D, D \rightarrow B$ violate BCNF. BCNF: $R_1(C, D)$, $R_2(D, B)$, $R_3(A, C)$.</p>
+                    <hr style="margin:8px 0; border-color:var(--border-color);">
+
+                    <p><strong>P27: $R(A, B, C, D)$, FDs = $\{AB \rightarrow C, C \rightarrow B, C \rightarrow D\}$</strong><br>
+                    *Analysis:* Keys $\{AB, AC\}$. $C \rightarrow B$ violates BCNF. BCNF: $R_1(C, B, D)$, $R_2(A, C)$.</p>
+                    <hr style="margin:8px 0; border-color:var(--border-color);">
+
+                    <p><strong>P28: $R(A, B, C, D, E)$, FDs = $\{AB \rightarrow CDE, D \rightarrow B\}$</strong><br>
+                    *Analysis:* Key $\{AB, AD\}$. $D \rightarrow B$ violates BCNF. BCNF: $R_1(D, B)$, $R_2(A, D, C, E)$.</p>
+                    <hr style="margin:8px 0; border-color:var(--border-color);">
+
+                    <p><strong>P29: $R(A, B, C, D)$, FDs = $\{AB \rightarrow C, C \rightarrow D, D \rightarrow B, D \rightarrow A\}$</strong><br>
+                    *Analysis:* Keys $\{AB, BD, BC\}$. $C \rightarrow D, D \rightarrow B$ violate BCNF. BCNF: $R_1(C, D)$, $R_2(D, B, A)$.</p>
+                    <hr style="margin:8px 0; border-color:var(--border-color);">
+
+                    <p><strong>P30: $R(A, B, C, D, E)$, FDs = $\{AB \rightarrow CD, E \rightarrow A\}$</strong><br>
+                    *Analysis:* Key $\{ABE\}$. $E \rightarrow A$ violates BCNF. BCNF: $R_1(E, A)$, $R_2(B, E, C, D)$.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 30 Solved Closures -->
+    <section class="section" id="solved-30-closures">
+        <div class="section-header">
+            <div class="section-number num-purple">17</div>
+            <h2>30 Solved Closure, Candidate Key &amp; BCNF Verification Problems</h2>
+        </div>
+
+        <div class="dashboard-grid" style="display: grid; grid-template-columns: 1fr; gap: 20px; font-size: 13.5px;">
+            <div class="problem-card">
+                <div class="problem-header"><h3>Solved Problems 1 - 15</h3></div>
+                <div class="problem-body">
+                    <p><strong>1. Find closure $(A)^+$ for $R(A,B,C,D)$, FDs = $\{A \rightarrow B, B \rightarrow C, C \rightarrow D\}$</strong> &rarr; $(A)^+ = \{A, B, C, D\}$.</p>
+                    <p><strong>2. Find closure $(AB)^+$ for $R(A,B,C,D)$, FDs = $\{A \rightarrow C, B \rightarrow D\}$</strong> &rarr; $(AB)^+ = \{A, B, C, D\}$.</p>
+                    <p><strong>3. Verify if $\{AB\}$ is key for $R(A,B,C)$, FDs = $\{A \rightarrow B\}$</strong> &rarr; $(AB)^+ = \{A,B,C\}$ (No. C is missing, wait: $(AB)^+ = \{A, B\}$ not key).</p>
+                    <p><strong>4. Find closure $(Pnumber)^+$ for $R(Pnumber, Plocation, Pname)$, FDs = $\{Pnumber \rightarrow \{Pname, Plocation\}\}$</strong> &rarr; $(Pnumber)^+ = R$.</p>
+                    <p><strong>5. Find closure $(SSN, Pnumber)^+$ for $R(SSN, Pnumber, Hours, Ename)$, FDs = $\{SSN \rightarrow Ename, \{SSN, Pnumber\} \rightarrow Hours\}$</strong> &rarr; $(SSN, Pnumber)^+ = R$.</p>
+                    <p><strong>6. Verify BCNF for $R(A, B, C)$, FDs = $\{A \rightarrow B, B \rightarrow C\}$</strong> &rarr; Violates BCNF because $B \rightarrow C$ determinants $B$ is not a superkey.</p>
+                    <p><strong>7. Find key for $R(A, B)$, FDs = $\{A \rightarrow B\}$</strong> &rarr; Candidate Key is $\{A\}$.</p>
+                    <p><strong>8. Find closure $(C)^+$ for $R(A,B,C,D,E)$, FDs = $\{C \rightarrow D, D \rightarrow E\}$</strong> &rarr; $(C)^+ = \{C, D, E\}$.</p>
+                    <p><strong>9. Verify BCNF for $R(A, B)$, FDs = $\emptyset$</strong> &rarr; Already in BCNF (no non-trivial FDs).</p>
+                    <p><strong>10. Find key for $R(A, B, C, D)$, FDs = $\{AB \rightarrow CD\}$</strong> &rarr; Candidate Key is $\{AB\}$.</p>
+                    <p><strong>11. Find closure $(A)^+$ for $R(A,B,C)$, FDs = $\{A \rightarrow B, B \rightarrow A\}$</strong> &rarr; $(A)^+ = \{A, B\}$.</p>
+                    <p><strong>12. Find key for $R(A,B,C,D)$, FDs = $\{A \rightarrow B, B \rightarrow C, C \rightarrow D, D \rightarrow A\}$</strong> &rarr; Candidate Keys: $\{A, B, C, D\}$.</p>
+                    <p><strong>13. Verify 3NF for $R(A,B,C)$, FDs = $\{AB \rightarrow C, C \rightarrow A\}$</strong> &rarr; in 3NF because $A$ is prime. Violates BCNF.</p>
+                    <p><strong>14. Find closure $(BC)^+$ for $R(A,B,C,D)$, FDs = $\{B \rightarrow A, C \rightarrow D\}$</strong> &rarr; $(BC)^+ = \{B, C, A, D\} = R$. Key is $\{BC\}$.</p>
+                    <p><strong>15. Find key for $R(A,B,C,D)$, FDs = $\{A \rightarrow B, C \rightarrow D\}$</strong> &rarr; Candidate Key is $\{AC\}$.</p>
+                </div>
+            </div>
+
+            <div class="problem-card">
+                <div class="problem-header"><h3>Solved Problems 16 - 30</h3></div>
+                <div class="problem-body">
+                    <p><strong>16. Find closure $(AE)^+$ for $R(A,B,C,D,E)$, FDs = $\{A \rightarrow B, E \rightarrow C\}$</strong> &rarr; $(AE)^+ = \{A, E, B, C\}$.</p>
+                    <p><strong>17. Find key for $R(A,B,C,D)$, FDs = $\{AB \rightarrow C, B \rightarrow D\}$</strong> &rarr; Candidate Key is $\{AB\}$.</p>
+                    <p><strong>18. Verify 2NF for $R(A,B,C,D)$, FDs = $\{AB \rightarrow C, A \rightarrow D\}$</strong> &rarr; Violates 2NF (partial dependency $A \rightarrow D$).</p>
+                    <p><strong>19. Find closure $(D)^+$ for $R(A,B,C,D,E)$, FDs = $\{D \rightarrow E, E \rightarrow D\}$</strong> &rarr; $(D)^+ = \{D, E\}$.</p>
+                    <p><strong>20. Find key for $R(A,B,C,D,E)$, FDs = $\{A \rightarrow B, BC \rightarrow D, D \rightarrow E\}$</strong> &rarr; Candidate Key is $\{AC\}$.</p>
+                    <p><strong>21. Verify BCNF for $R(A,B,C)$, FDs = $\{AB \rightarrow C\}$</strong> &rarr; In BCNF (determinant $\{AB\}$ is superkey).</p>
+                    <p><strong>22. Find closure $(ABC)^+$ for $R(A,B,C,D,E)$, FDs = $\{A \rightarrow D, B \rightarrow E\}$</strong> &rarr; $(ABC)^+ = \{A, B, C, D, E\} = R$.</p>
+                    <p><strong>23. Find key for $R(A,B,C,D)$, FDs = $\{A \rightarrow B, B \rightarrow C, A \rightarrow D\}$</strong> &rarr; Candidate Key is $\{A\}$.</p>
+                    <p><strong>24. Verify 3NF for $R(A,B,C,D)$, FDs = $\{A \rightarrow B, B \rightarrow C, C \rightarrow D\}$</strong> &rarr; Violates 3NF (transitives exist). BCNF too.</p>
+                    <p><strong>25. Find closure $(E)^+$ for $R(A,B,C,D,E,F)$, FDs = $\{E \rightarrow F, F \rightarrow D\}$</strong> &rarr; $(E)^+ = \{E, F, D\}$.</p>
+                    <p><strong>26. Find key for $R(A,B,C,D)$, FDs = $\{AB \rightarrow C, C \rightarrow D, D \rightarrow B\}$</strong> &rarr; Candidate Keys: $\{AB, BC, BD\}$.</p>
+                    <p><strong>27. Verify 2NF for $R(A,B,C)$, FDs = $\{A \rightarrow B, B \rightarrow C\}$</strong> &rarr; Key $\{A\}$. Single-attribute key implies 2NF. Already in 2NF.</p>
+                    <p><strong>28. Find closure $(A)^+$ for $R(A,B,C,D)$, FDs = $\{A \rightarrow B, C \rightarrow D\}$</strong> &rarr; $(A)^+ = \{A, B\}$.</p>
+                    <p><strong>29. Find key for $R(A,B,C,D)$, FDs = $\{A \rightarrow B, C \rightarrow D, D \rightarrow A\}$</strong> &rarr; Candidate Key is $\{CD\}$.</p>
+                    <p><strong>30. Verify BCNF for $R(A,B,C,D)$, FDs = $\{AB \rightarrow CD, D \rightarrow B\}$</strong> &rarr; Violates BCNF because $D \rightarrow B$ determinant $D$ is not superkey.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================== -->
+    <!-- PART F: UNIVERSITY Q&AS        -->
+    <!-- ============================== -->
+    <div class="part-divider part-d"><span id="part-f-uni">Part F — University Exam Solutions</span></div>
+
+    <!-- 15 Repeated University Q&A -->
+    <section class="section" id="uni-qa">
+        <div class="section-header">
+            <div class="section-number num-green">18</div>
+            <h2>15 Most Repeated University Q&amp;A Solutions <span class="badge badge-pyq">VTU Marks Pack</span></h2>
+        </div>
+
+        <div class="card">
+            <h3>Q1. State and explain the informal design guidelines for relation schemas.</h3>
+            <p><strong>Answer:</strong> There are 4 guidelines aimed at ensuring relation quality:
+                <br>1. **Attribute Semantics:** Define attributes clearly; do not mix distinct entities.
+                <br>2. **Redundancy Reduction:** Design schemas to avoid redundant data storage to save space and prevent anomalies.
+                <br>3. **Anomalies Minimization:** Structure tables so that Insertion, Deletion, and Update operations do not cause side effects.
+                <br>4. **NULLs Reduction:** Avoid attributes that frequently hold NULL values; split into smaller tables instead.
+                <br>5. **Spurious Tuples Avoidance:** Ensure all decompositions are lossless, avoiding joins over non-key attributes.</p>
+        </div>
+
+        <div class="card">
+            <h3>Q2. Define functional dependency. Explain trivial and non-trivial dependencies with examples.</h3>
+            <p><strong>Answer:</strong> An FD $X \rightarrow Y$ states that if two tuples have the same $X$-values, they must have the same $Y$-values.
+                <br>*Trivial:* $Y \subseteq X$. Example: $\{USN, Name\} \rightarrow USN$.
+                <br>*Non-Trivial:* $Y \not\subseteq X$. Example: $USN \rightarrow Name$.</p>
+        </div>
+
+        <div class="card">
+            <h3>Q3. Explain Armstrong's Axioms. Prove Augmentation and Transitivity rules.</h3>
+            <p><strong>Answer:</strong> See Part B Section 6 for full proofs of Augmentation and Transitivity.</p>
+        </div>
+
+        <div class="card">
+            <h3>Q4. Define Attribute Closure. How is it useful in finding candidate keys?</h3>
+            <p><strong>Answer:</strong> The attribute closure $X^+$ is the set of all attributes functionally determined by $X$. If $X^+ = R$, then $X$ is a superkey. If no subset of $X$ is a superkey, then $X$ is a Candidate Key.</p>
+        </div>
+
+        <div class="card">
+            <h3>Q5. Explain 1NF, 2NF, and 3NF with examples.</h3>
+            <p><strong>Answer:</strong>
+                <br>*1NF:* Atomic values only. No repeating groups.
+                <br>*2NF:* In 1NF and no partial dependencies (non-key attributes fully dependent on prime key).
+                <br>*3NF:* In 2NF and no transitive dependencies (for $X \rightarrow Y$, $X$ is superkey or $Y$ is prime).</p>
+        </div>
+
+        <div class="card">
+            <h3>Q6. What is Boyce-Codd Normal Form (BCNF)? Why is it stronger than 3NF?</h3>
+            <p><strong>Answer:</strong> A relation is in BCNF if for every $X \rightarrow Y$, $X$ is a superkey. It is stronger because 3NF allows $X \rightarrow Y$ if $Y$ is prime even if $X$ is not a superkey, which still allows duplicate values. BCNF forbids this exception.</p>
+        </div>
+
+        <div class="card">
+            <h3>Q7. Explain update, insertion, and deletion anomalies with reference to a poorly designed relation.</h3>
+            <p><strong>Answer:</strong> See Part C Section 9 for complete definition, before-and-after table examples, and solutions.</p>
+        </div>
+
+        <div class="card">
+            <h3>Q8. What are spurious tuples? Why do they occur? How can they be prevented?</h3>
+            <p><strong>Answer:</strong> Spurious tuples are extra invalid rows generated during joins. They occur due to joining tables on non-key attributes. Prevented by using Lossless Join decompositions.</p>
+        </div>
+
+        <div class="card">
+            <h3>Q9. Explain the steps to convert a relation to 2NF.</h3>
+            <p><strong>Answer:</strong>
+                <br>1. Identify all candidate keys.
+                <br>2. Check for partial dependencies ($Z \rightarrow Y$ where $Z \subset CK$).
+                <br>3. Decompose by placing $Z \rightarrow Y$ in a separate relation $R_1(Z, Y)$ and keeping remaining attributes in $R_2(CK, \dots)$.</p>
+        </div>
+
+        <div class="card">
+            <h3>Q10. Compare 3NF and BCNF. Provide an example that is in 3NF but not in BCNF.</h3>
+            <p><strong>Answer:</strong> $R(A, B, C)$, FDs = $\{AB \rightarrow C, C \rightarrow A\}$ is in 3NF because $A$ is prime. It violates BCNF because determinant $C$ is not a superkey.</p>
+        </div>
+
+        <div class="card">
+            <h3>Q11. Explain Codd's Rules 1, 2, and 3.</h3>
+            <p><strong>Answer:</strong> See Part D Section 15: Information Rule, Guaranteed Access Rule, and Systematic NULL handling.</p>
+        </div>
+
+        <div class="card">
+            <h3>Q12. What is a Lossless Join? State its mathematical property.</h3>
+            <p><strong>Answer:</strong> A decomposition where joining the decomposed tables yields exactly the original table without spurious rows: $R_1 \bowtie R_2 = R$.</p>
+        </div>
+
+        <div class="card">
+            <h3>Q13. Show how composite attributes violate 1NF and how they are resolved.</h3>
+            <p><strong>Answer:</strong> A composite attribute contains sub-fields within a single cell. Resolved by flattening each sub-field into its own column.</p>
+        </div>
+
+        <div class="card">
+            <h3>Q14. Explain physical and logical data independence according to Codd's rules.</h3>
+            <p><strong>Answer:</strong> Rule 8 (Physical) guarantees queries run unchanged if disk storage changes. Rule 9 (Logical) guarantees queries run unchanged if logical schema splits/merges, via views.</p>
+        </div>
+
+        <div class="card">
+            <h3>Q15. Why are functional dependencies called semantic constraints?</h3>
+            <p><strong>Answer:</strong> Because they express the real-world semantic meaning and rules of the attributes (e.g., in the real world, a social security number uniquely identifies a salary rate).</p>
+        </div>
+    </section>
+
+    <!-- ============================== -->
+    <!-- PART G: LAST NIGHT REVISION    -->
+    <!-- ============================== -->
+    <div class="part-divider part-d"><span id="part-g-last">Part G — Last Night Revision Pack</span></div>
+
+    <!-- Last Night Revision Section -->
+    <section class="section" id="last-night">
+        <div class="section-header">
+            <div class="section-number num-green">19</div>
+            <h2>Last-Night Revision &amp; Exam Cheat Sheets</h2>
+        </div>
+
+        <div class="card">
+            <h3>🎓 40 Important Definitions Glossary</h3>
+            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; font-size:13px;">
+                <div><strong>1. Schema Semantics:</strong> Plain meaning of attributes.</div>
+                <div><strong>2. Redundancy:</strong> Unnecessary repetition of data.</div>
+                <div><strong>3. Insertion Anomaly:</strong> Inability to add data.</div>
+                <div><strong>4. Deletion Anomaly:</strong> Accidental loss of data.</div>
+                <div><strong>5. Update Anomaly:</strong> Inconsistent changes.</div>
+                <div><strong>6. NULL Value:</strong> Missing or unknown cell.</div>
+                <div><strong>7. Spurious Tuple:</strong> Invalid join product row.</div>
+                <div><strong>8. Lossless Join:</strong> Reconstructs original data exactly.</div>
+                <div><strong>9. Functional Dependency:</strong> $X$ determines $Y$ values.</div>
+                <div><strong>10. Determinant:</strong> The left-hand side $X$ of FD.</div>
+                <div><strong>11. Dependent:</strong> The right-hand side $Y$ of FD.</div>
+                <div><strong>12. Superkey:</strong> Attribute set closing to $R$.</div>
+                <div><strong>13. Candidate Key:</strong> Minimal superkey.</div>
+                <div><strong>14. Primary Key:</strong> Selected candidate key.</div>
+                <div><strong>15. Prime Attribute:</strong> Member of any candidate key.</div>
+                <div><strong>16. Non-Prime Attribute:</strong> Not member of any candidate key.</div>
+                <div><strong>17. Full Dependency:</strong> Minimal determinant for FD.</div>
+                <div><strong>18. Partial Dependency:</strong> Determined by subset of key.</div>
+                <div><strong>19. Transitive Dependency:</strong> $X \rightarrow Y \rightarrow Z$.</div>
+                <div><strong>20. Trivial Dependency:</strong> RHS is subset of LHS.</div>
+                <div><strong>21. Non-Trivial Dependency:</strong> RHS not subset of LHS.</div>
+                <div><strong>22. Completely Non-Trivial:</strong> Intersection is empty.</div>
+                <div><strong>23. Reflexivity:</strong> Subset implies FD.</div>
+                <div><strong>24. Augmentation:</strong> Appending attributes to FD.</div>
+                <div><strong>25. Transitivity:</strong> $A \rightarrow B, B \rightarrow C \implies A \rightarrow C$.</div>
+                <div><strong>26. Union Rule:</strong> $X \rightarrow Y, X \rightarrow Z \implies X \rightarrow YZ$.</div>
+                <div><strong>27. Decomposition Rule:</strong> $X \rightarrow YZ \implies X \rightarrow Y, X \rightarrow Z$.</div>
+                <div><strong>28. Pseudotransitivity:</strong> $X \rightarrow Y, WY \rightarrow Z \implies WX \rightarrow Z$.</div>
+                <div><strong>29. Attribute Closure:</strong> All attributes derived from $X$.</div>
+                <div><strong>30. Normalization:</strong> Removing redundancy via splits.</div>
+                <div><strong>31. First Normal Form (1NF):</strong> Atomic values only.</div>
+                <div><strong>32. Second Normal Form (2NF):</strong> No partial dependencies.</div>
+                <div><strong>33. Third Normal Form (3NF):</strong> No transitive dependencies.</div>
+                <div><strong>34. BCNF:</strong> Every determinant is a superkey.</div>
+                <div><strong>35. Codd Rules:</strong> 12 criteria for RDBMS.</div>
+                <div><strong>36. Online Catalog:</strong> Meta data stored as tables.</div>
+                <div><strong>37. Physical Independence:</strong> Disk layout isolates queries.</div>
+                <div><strong>38. Logical Independence:</strong> Schema splits isolate queries.</div>
+                <div><strong>39. Integrity Independence:</strong> Rules stored inside DB.</div>
+                <div><strong>40. Nonsubversion:</strong> Relational security cannot be bypassed.</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>💡 Normalization Quick Verification Shortcuts</h3>
+            <ul>
+                <li><strong>Is it in 2NF?</strong>
+                    <br>&bull; Check candidate keys. Are they single attributes? If yes, it is **100% in 2NF**.
+                    <br>&bull; If composite, does any part of the key determine a non-prime attribute? If yes, **violates 2NF**.
+                </li>
+                <li style="margin-top:10px;"><strong>Is it in 3NF?</strong>
+                    <br>&bull; For every $X \rightarrow Y$, is $X$ a superkey? If yes, 3NF OK.
+                    <br>&bull; If $X$ is not a superkey, is $Y$ prime? If yes, 3NF OK. Otherwise, **violates 3NF**.
+                </li>
+                <li style="margin-top:10px;"><strong>Is it in BCNF?</strong>
+                    <br>&bull; For every $X \rightarrow Y$, is $X$ a superkey? If yes, BCNF OK.
+                    <br>&bull; If any determinant is not a superkey, **violates BCNF**. (No exceptions for prime attributes!)
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0, behavior:'smooth'})">▲</button>
+
+</div>
+
+<script>
+    // Smooth navigation active class update on scroll
+    window.addEventListener('scroll', () => {
+        const sections = document.querySelectorAll('.section, .part-divider');
+        const navLinks = document.querySelectorAll('.nav-link');
+        let currentSection = "";
+
+        sections.forEach(sec => {
+            const top = sec.offsetTop - 100;
+            if (window.scrollY >= top) {
+                currentSection = sec.getAttribute('id');
+            }
+        });
+
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === `#${currentSection}`) {
+                link.classList.add('active');
+            }
+        });
+
+        // Toggle back to top button visibility
+        const btt = document.getElementById('backToTop');
+        if (window.scrollY > 300) btt.classList.add('visible');
+        else btt.classList.remove('visible');
+    });
+</script>
+
+</body>
+</html>

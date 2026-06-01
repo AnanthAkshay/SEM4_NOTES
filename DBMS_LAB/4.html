@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>DBMS Lab Experiment 4</title>
+<style>
+body{font-family:Arial,sans-serif;margin:40px;background:#f5f5f5;line-height:1.6}
+.container{background:white;padding:30px;border-radius:10px;box-shadow:0 0 10px rgba(0,0,0,.1)}
+h1,h2,h3{color:#003366}
+pre{background:#f4f4f4;padding:15px;border-left:5px solid #003366;overflow:auto}
+table{width:100%;border-collapse:collapse;margin:15px 0}
+th,td{border:1px solid #000;padding:8px}
+th{background:#003366;color:white}
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1 align="center">DATABASE MANAGEMENT SYSTEMS LAB</h1>
+<h2 align="center">Experiment 4</h2>
+
+<h2>Aim</h2>
+<p>To design and implement the Banking Database and perform SQL queries.</p>
+
+<h2>Problem Statement</h2>
+<p>Consider the Banking database consisting of CUSTOMER, BRANCH, ACCOUNT and TRANSACTION. A customer can have savings and current accounts. Transactions may be deposits or withdrawals.</p>
+
+<h2>Constraints</h2>
+<ul>
+<li>CustomerID is Primary Key of CUSTOMER.</li>
+<li>BranchID is Primary Key of BRANCH.</li>
+<li>AccountNo is Primary Key of ACCOUNT.</li>
+<li>TransactionID is Primary Key of TRANSACTION.</li>
+<li>Customer can have multiple accounts.</li>
+<li>Branch can maintain multiple accounts.</li>
+<li>Account belongs to one Customer and one Branch.</li>
+<li>Transaction belongs to one Account.</li>
+<li>AccountType can be Savings or Current.</li>
+</ul>
+
+<h2>ER Diagram</h2>
+<div style="
+    text-align:center;
+    margin-top:20px;
+    margin-bottom:20px;
+">
+
+    <img
+        src="image4.png"
+        style="
+            width:100%;
+            max-width:1200px;
+            border:1px solid #ccc;
+            border-radius:10px;
+            padding:10px;
+            background:white;
+            box-shadow:0 0 10px rgba(0,0,0,0.1);
+        "
+    >
+
+</div>
+
+<h2>Schema Diagram</h2>
+<pre>
+CUSTOMER
+-------------------------
+CustomerID (PK)
+CustomerName
+City
+
+BRANCH
+-------------------------
+BranchID (PK)
+BranchName
+Location
+
+ACCOUNT
+-------------------------
+AccountNo (PK)
+AccountType
+Balance
+CustomerID (FK)
+BranchID (FK)
+
+TRANSACTION_DETAILS
+-------------------------
+TransactionID (PK)
+TransType
+Amount
+AccountNo (FK)
+</pre>
+
+<h2>Create Table Statements</h2>
+<pre>
+CREATE TABLE Customer(
+CustomerID NUMBER PRIMARY KEY,
+CustomerName VARCHAR2(30),
+City VARCHAR2(30)
+);
+
+CREATE TABLE Branch(
+BranchID NUMBER PRIMARY KEY,
+BranchName VARCHAR2(30),
+Location VARCHAR2(30)
+);
+
+CREATE TABLE Account(
+AccountNo NUMBER PRIMARY KEY,
+AccountType VARCHAR2(20),
+Balance NUMBER,
+CustomerID NUMBER,
+BranchID NUMBER,
+FOREIGN KEY(CustomerID) REFERENCES Customer(CustomerID),
+FOREIGN KEY(BranchID) REFERENCES Branch(BranchID)
+);
+
+CREATE TABLE Transaction_Details(
+TransactionID NUMBER PRIMARY KEY,
+TransType VARCHAR2(20),
+Amount NUMBER,
+AccountNo NUMBER,
+FOREIGN KEY(AccountNo) REFERENCES Account(AccountNo)
+);
+</pre>
+
+<h2>Insert Sample Data</h2>
+<pre>
+INSERT INTO Customer VALUES(1,'Rahul','Bangalore');
+INSERT INTO Customer VALUES(2,'Ananth','Mysore');
+INSERT INTO Customer VALUES(3,'Sneha','Hubli');
+
+INSERT INTO Branch VALUES(101,'SBI Main','Bangalore');
+INSERT INTO Branch VALUES(102,'SBI City','Mysore');
+INSERT INTO Branch VALUES(103,'SBI North','Hubli');
+
+INSERT INTO Account VALUES(1001,'Savings',50000,1,101);
+INSERT INTO Account VALUES(1002,'Current',30000,1,101);
+INSERT INTO Account VALUES(1003,'Savings',25000,2,102);
+INSERT INTO Account VALUES(1004,'Savings',45000,3,103);
+
+INSERT INTO Transaction_Details VALUES(1,'Deposit',5000,1001);
+INSERT INTO Transaction_Details VALUES(2,'Withdrawal',1000,1001);
+INSERT INTO Transaction_Details VALUES(3,'Deposit',3000,1001);
+INSERT INTO Transaction_Details VALUES(4,'Deposit',2000,1002);
+INSERT INTO Transaction_Details VALUES(5,'Withdrawal',500,1003);
+INSERT INTO Transaction_Details VALUES(6,'Deposit',1000,1003);
+INSERT INTO Transaction_Details VALUES(7,'Deposit',2500,1004);
+</pre>
+
+<h2>Query 1</h2>
+<p><b>Obtain details of customers who have both Savings and Current Account.</b></p>
+<pre>
+SELECT C.*
+FROM Customer C
+WHERE C.CustomerID IN
+(
+SELECT CustomerID
+FROM Account
+GROUP BY CustomerID
+HAVING COUNT(DISTINCT AccountType)=2
+);
+</pre>
+
+<h3>Output</h3>
+<table>
+<tr><th>CustomerID</th><th>CustomerName</th><th>City</th></tr>
+<tr><td>1</td><td>Rahul</td><td>Bangalore</td></tr>
+</table>
+
+<h2>Query 2</h2>
+<p><b>Retrieve branch details and number of accounts in each branch.</b></p>
+<pre>
+SELECT B.BranchID,B.BranchName,
+COUNT(A.AccountNo) AS TotalAccounts
+FROM Branch B
+LEFT JOIN Account A
+ON B.BranchID=A.BranchID
+GROUP BY B.BranchID,B.BranchName;
+</pre>
+
+<h3>Output</h3>
+<table>
+<tr><th>BranchID</th><th>BranchName</th><th>Total Accounts</th></tr>
+<tr><td>101</td><td>SBI Main</td><td>2</td></tr>
+<tr><td>102</td><td>SBI City</td><td>1</td></tr>
+<tr><td>103</td><td>SBI North</td><td>1</td></tr>
+</table>
+
+<h2>Query 3</h2>
+<p><b>Obtain customers who have performed at least 3 transactions.</b></p>
+<pre>
+SELECT DISTINCT C.*
+FROM Customer C
+JOIN Account A ON C.CustomerID=A.CustomerID
+JOIN Transaction_Details T ON A.AccountNo=T.AccountNo
+GROUP BY C.CustomerID,C.CustomerName,C.City
+HAVING COUNT(T.TransactionID)>=3;
+</pre>
+
+<h3>Output</h3>
+<table>
+<tr><th>CustomerID</th><th>CustomerName</th><th>City</th></tr>
+<tr><td>1</td><td>Rahul</td><td>Bangalore</td></tr>
+</table>
+
+<h2>Query 4</h2>
+<p><b>Branches having accounts less than average.</b></p>
+<pre>
+SELECT B.BranchID,B.BranchName
+FROM Branch B
+LEFT JOIN Account A
+ON B.BranchID=A.BranchID
+GROUP BY B.BranchID,B.BranchName
+HAVING COUNT(A.AccountNo)
+<
+(
+SELECT AVG(AccountCount)
+FROM
+(
+SELECT COUNT(*) AccountCount
+FROM Account
+GROUP BY BranchID
+)
+);
+</pre>
+
+<h3>Output</h3>
+<table>
+<tr><th>BranchID</th><th>BranchName</th></tr>
+<tr><td>102</td><td>SBI City</td></tr>
+<tr><td>103</td><td>SBI North</td></tr>
+</table>
+
+<h2>Result</h2>
+<p>The Banking Database was successfully designed and implemented and all required SQL queries were executed successfully.</p>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>DBMS Lab Experiment 5</title>
+<style>
+body{font-family:Arial,sans-serif;margin:40px;background:#f5f5f5;line-height:1.6}
+.container{background:white;padding:30px;border-radius:10px;box-shadow:0 0 10px rgba(0,0,0,.1)}
+h1,h2,h3{color:#003366}
+pre{background:#f4f4f4;padding:15px;border-left:5px solid #003366;overflow:auto}
+table{width:100%;border-collapse:collapse;margin:15px 0}
+th,td{border:1px solid #000;padding:8px}
+th{background:#003366;color:white}
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1 align="center">DATABASE MANAGEMENT SYSTEMS LAB</h1>
+<h2 align="center">Experiment 5</h2>
+
+<h2>Aim</h2>
+<p>To design and implement the Library Book Lending System and perform SQL queries.</p>
+
+<h2>Problem Statement</h2>
+<p>Consider the Book Lending System consisting of BOOKS, STUDENT and BORROWS. Students can borrow any number of books. Book details include ISBN, Title, Author and Publisher.</p>
+
+<h2>Constraints</h2>
+<ul>
+<li>ISBN is Primary Key of BOOKS.</li>
+<li>StudentID is Primary Key of STUDENT.</li>
+<li>A student can borrow multiple books.</li>
+<li>A book can be borrowed by multiple students.</li>
+<li>ISBN in BORROWS references BOOKS(ISBN).</li>
+<li>StudentID in BORROWS references STUDENT(StudentID).</li>
+</ul>
+
+<h2>ER Diagram</h2>
+<div style="
+    text-align:center;
+    margin-top:20px;
+    margin-bottom:20px;
+">
+
+    <img
+        src="image5.png"
+        style="
+            width:100%;
+            max-width:1200px;
+            border:1px solid #ccc;
+            border-radius:10px;
+            padding:10px;
+            background:white;
+            box-shadow:0 0 10px rgba(0,0,0,0.1);
+        "
+    >
+
+</div>
+
+<h2>Schema Diagram</h2>
+<pre>
+BOOKS
+-------------------------
+ISBN (PK)
+Title
+Author
+Publisher
+
+STUDENT
+-------------------------
+StudentID (PK)
+StudentName
+Gender
+
+BORROWS
+-------------------------
+StudentID (FK)
+ISBN (FK)
+BorrowDate
+
+PK(StudentID, ISBN)
+</pre>
+
+<h2>Create Table Statements</h2>
+<pre>
+CREATE TABLE Books(
+ISBN VARCHAR2(10) PRIMARY KEY,
+Title VARCHAR2(50),
+Author VARCHAR2(30),
+Publisher VARCHAR2(30)
+);
+
+CREATE TABLE Student(
+StudentID NUMBER PRIMARY KEY,
+StudentName VARCHAR2(30),
+Gender VARCHAR2(10)
+);
+
+CREATE TABLE Borrows(
+StudentID NUMBER,
+ISBN VARCHAR2(10),
+BorrowDate DATE,
+PRIMARY KEY(StudentID,ISBN),
+FOREIGN KEY(StudentID)
+REFERENCES Student(StudentID),
+FOREIGN KEY(ISBN)
+REFERENCES Books(ISBN)
+);
+</pre>
+
+<h2>Insert Sample Data</h2>
+<pre>
+INSERT INTO Books VALUES('123','Database','Korth','McGrawHill');
+INSERT INTO Books VALUES('124','Operating System','Galvin','Wiley');
+INSERT INTO Books VALUES('125','Computer Networks','Tanenbaum','Pearson');
+
+INSERT INTO Student VALUES(1,'Rahul','Male');
+INSERT INTO Student VALUES(2,'Sneha','Female');
+INSERT INTO Student VALUES(3,'Ananth','Male');
+
+INSERT INTO Borrows VALUES(1,'123',DATE '2025-01-10');
+INSERT INTO Borrows VALUES(2,'123',DATE '2025-01-11');
+INSERT INTO Borrows VALUES(3,'124',DATE '2025-01-12');
+INSERT INTO Borrows VALUES(2,'125',DATE '2025-01-13');
+</pre>
+
+<h2>Query 1</h2>
+<p><b>Obtain names of students who borrowed ISBN 123 or ISBN 124.</b></p>
+<pre>
+SELECT DISTINCT S.StudentName
+FROM Student S
+JOIN Borrows B
+ON S.StudentID=B.StudentID
+WHERE B.ISBN IN ('123','124');
+</pre>
+
+<h3>Output</h3>
+<table>
+<tr><th>Student Name</th></tr>
+<tr><td>Rahul</td></tr>
+<tr><td>Sneha</td></tr>
+<tr><td>Ananth</td></tr>
+</table>
+
+<h2>Query 2</h2>
+<p><b>Obtain names of female students who borrowed Database books.</b></p>
+<pre>
+SELECT S.StudentName
+FROM Student S
+JOIN Borrows B
+ON S.StudentID=B.StudentID
+JOIN Books BK
+ON BK.ISBN=B.ISBN
+WHERE S.Gender='Female'
+AND BK.Title='Database';
+</pre>
+
+<h3>Output</h3>
+<table>
+<tr><th>Student Name</th></tr>
+<tr><td>Sneha</td></tr>
+</table>
+
+<h2>Query 3</h2>
+<p><b>Find number of books borrowed by each student.</b></p>
+<pre>
+SELECT S.StudentID,
+S.StudentName,
+COUNT(B.ISBN) AS BooksBorrowed
+FROM Student S
+LEFT JOIN Borrows B
+ON S.StudentID=B.StudentID
+GROUP BY S.StudentID,S.StudentName;
+</pre>
+
+<h3>Output</h3>
+<table>
+<tr><th>StudentID</th><th>Student Name</th><th>Books Borrowed</th></tr>
+<tr><td>1</td><td>Rahul</td><td>1</td></tr>
+<tr><td>2</td><td>Sneha</td><td>2</td></tr>
+<tr><td>3</td><td>Ananth</td><td>1</td></tr>
+</table>
+
+<h2>Result</h2>
+<p>The Library Book Lending database was successfully designed and implemented. All required SQL queries were executed successfully.</p>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>DBMS Lab Experiment 1</title>
+<style>
+body{
+    font-family: Arial, sans-serif;
+    margin:40px;
+    line-height:1.6;
+    background:#f5f5f5;
+}
+.container{
+    background:white;
+    padding:30px;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+h1,h2,h3{
+    color:#003366;
+}
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:15px 0;
+}
+table,th,td{
+    border:1px solid black;
+}
+th{
+    background:#003366;
+    color:white;
+}
+th,td{
+    padding:10px;
+    text-align:left;
+}
+pre{
+    background:#f4f4f4;
+    padding:15px;
+    border-left:5px solid #003366;
+    overflow:auto;
+}
+svg{
+    width:100%;
+    border:1px solid #ccc;
+    margin-top:15px;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<h1 align="center">DATABASE MANAGEMENT SYSTEMS LAB</h1>
+<h2 align="center">Experiment 1</h2>
+
+<h2>Aim</h2>
+
+<p>
+To design an Employee–Department–Project database, create tables,
+insert data and perform SQL operations using Oracle SQL.
+</p>
+
+<h2>Problem Statement</h2>
+
+<p>
+Consider an Employee with a social security number (SSN) working on multiple projects
+with definite hours for each. Each Employee belongs to a Department.
+Each project is associated with some domain areas such as Database,
+Cloud and so on. Each Employee will be assigned to some project.
+</p>
+
+<h2>Constraints</h2>
+
+<ul>
+<li>SSN is Primary Key of Employee.</li>
+<li>DeptNo is Primary Key of Department.</li>
+<li>ProjectNo is Primary Key of Project.</li>
+<li>Each Employee belongs to one Department.</li>
+<li>Each Employee works on one or more Projects.</li>
+<li>Hours worked must be greater than 0.</li>
+<li>DeptNo and ProjectNo are Foreign Keys.</li>
+</ul>
+
+<h2>ER Diagram</h2>
+
+<div style="
+    text-align:center;
+    margin-top:20px;
+    margin-bottom:20px;
+">
+
+    <img
+        src="image1.png"
+        alt="Employee Department Project ER Diagram"
+        style="
+            width:100%;
+            max-width:1200px;
+            border:1px solid #ccc;
+            border-radius:10px;
+            padding:10px;
+            background:white;
+            box-shadow:0 0 10px rgba(0,0,0,0.1);
+        "
+    >
+
+</div>
+<h2>Schema Diagram</h2>
+
+<pre>
+
+DEPARTMENT
+--------------------
+DeptNo (PK)
+DeptName
+
+PROJECT
+--------------------
+ProjectNo (PK)
+ProjectName
+Domain
+
+EMPLOYEE
+--------------------
+SSN (PK)
+EmpName
+Salary
+DeptNo (FK)
+ProjectNo (FK)
+
+WORKS_ON
+--------------------
+SSN (FK)
+ProjectNo (FK)
+Hours
+
+</pre>
+
+<h2>Create Table Statements</h2>
+
+<pre>
+CREATE TABLE Department(
+DeptNo NUMBER PRIMARY KEY,
+DeptName VARCHAR2(30)
+);
+
+CREATE TABLE Project(
+ProjectNo NUMBER PRIMARY KEY,
+ProjectName VARCHAR2(30),
+Domain VARCHAR2(30)
+);
+
+CREATE TABLE Employee(
+SSN NUMBER PRIMARY KEY,
+EmpName VARCHAR2(30),
+Salary NUMBER,
+DeptNo NUMBER,
+ProjectNo NUMBER,
+FOREIGN KEY(DeptNo)
+REFERENCES Department(DeptNo),
+FOREIGN KEY(ProjectNo)
+REFERENCES Project(ProjectNo)
+);
+
+CREATE TABLE Works_On(
+SSN NUMBER,
+ProjectNo NUMBER,
+Hours NUMBER,
+PRIMARY KEY(SSN,ProjectNo),
+FOREIGN KEY(SSN)
+REFERENCES Employee(SSN),
+FOREIGN KEY(ProjectNo)
+REFERENCES Project(ProjectNo)
+);
+</pre>
+
+<h2>Insert Sample Data</h2>
+
+<pre>
+INSERT INTO Department VALUES(10,'CSE');
+INSERT INTO Department VALUES(20,'ISE');
+INSERT INTO Department VALUES(30,'ECE');
+
+INSERT INTO Project VALUES(101,'Library','Database');
+INSERT INTO Project VALUES(102,'AWS Portal','Cloud');
+INSERT INTO Project VALUES(103,'ERP','Database');
+
+INSERT INTO Employee VALUES(1001,'Ananth',50000,10,101);
+INSERT INTO Employee VALUES(1002,'Rahul',55000,10,103);
+INSERT INTO Employee VALUES(1003,'Sneha',60000,20,102);
+INSERT INTO Employee VALUES(1004,'Asha',65000,30,101);
+</pre>
+
+<h2>Query 1</h2>
+
+<p><b>Obtain details of employees assigned to Database project</b></p>
+
+<pre>
+SELECT E.*
+FROM Employee E
+JOIN Project P
+ON E.ProjectNo=P.ProjectNo
+WHERE P.Domain='Database';
+</pre>
+
+<h3>Output</h3>
+
+<table>
+<tr>
+<th>SSN</th>
+<th>EmpName</th>
+<th>Salary</th>
+<th>DeptNo</th>
+<th>ProjectNo</th>
+</tr>
+
+<tr>
+<td>1001</td>
+<td>Ananth</td>
+<td>50000</td>
+<td>10</td>
+<td>101</td>
+</tr>
+
+<tr>
+<td>1002</td>
+<td>Rahul</td>
+<td>55000</td>
+<td>10</td>
+<td>103</td>
+</tr>
+
+<tr>
+<td>1004</td>
+<td>Asha</td>
+<td>65000</td>
+<td>30</td>
+<td>101</td>
+</tr>
+</table>
+
+<h2>Query 2</h2>
+
+<p><b>Number of Employees in each Department</b></p>
+
+<pre>
+SELECT D.DeptNo,
+D.DeptName,
+COUNT(*) AS Employee_Count
+FROM Employee E
+JOIN Department D
+ON E.DeptNo=D.DeptNo
+GROUP BY D.DeptNo,D.DeptName;
+</pre>
+
+<h3>Output</h3>
+
+<table>
+<tr>
+<th>DeptNo</th>
+<th>DeptName</th>
+<th>Employee Count</th>
+</tr>
+
+<tr>
+<td>10</td>
+<td>CSE</td>
+<td>2</td>
+</tr>
+
+<tr>
+<td>20</td>
+<td>ISE</td>
+<td>1</td>
+</tr>
+
+<tr>
+<td>30</td>
+<td>ECE</td>
+<td>1</td>
+</tr>
+</table>
+
+<h2>Query 3</h2>
+
+<p><b>Update Project Details</b></p>
+
+<pre>
+UPDATE Employee
+SET ProjectNo=102
+WHERE SSN=1001;
+
+SELECT *
+FROM Employee
+WHERE SSN=1001;
+</pre>
+
+<h3>Output</h3>
+
+<table>
+<tr>
+<th>SSN</th>
+<th>EmpName</th>
+<th>Salary</th>
+<th>DeptNo</th>
+<th>ProjectNo</th>
+</tr>
+
+<tr>
+<td>1001</td>
+<td>Ananth</td>
+<td>50000</td>
+<td>10</td>
+<td>102</td>
+</tr>
+</table>
+
+<h2>Result</h2>
+
+<p>
+The Employee–Department–Project database was successfully designed,
+implemented and queried using Oracle SQL. All required operations
+were executed successfully and expected results were obtained.
+</p>
+
+</div>
+
+</body>
+</html>

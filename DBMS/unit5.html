@@ -1,0 +1,1736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit 5 — Transaction Processing, Concurrency, Recovery, NoSQL &amp; MongoDB Notes</title>
+    <meta name="description" content="Complete university exam notes for DBMS Unit 5: Transaction Lifecycle, ACID, Concurrency Problems, 2PL Protocols, Recovery Logs, Checkpoints, ARIES, NoSQL CAP Theorem, and MongoDB CRUD.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* ===== CSS RESET & ROOT ===== */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-primary: #070b13;
+            --bg-secondary: #0c1322;
+            --bg-card: #131e33;
+            --bg-card-hover: #192742;
+            --bg-code: #0b111c;
+            --bg-inlinecode: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --accent-blue: #06b6d4; /* Database Cyan Accent */
+            --accent-purple: #8b5cf6;
+            --accent-cyan: #22d3ee;
+            --accent-green: #10b981;
+            --accent-orange: #f59e0b;
+            --accent-red: #ef4444;
+            --accent-pink: #ec4899;
+            --border-color: #1e293b;
+            --border-accent: #2d3a52;
+            --gradient-1: linear-gradient(135deg, #06b6d4, #8b5cf6);
+            --gradient-2: linear-gradient(135deg, #22d3ee, #06b6d4);
+            --gradient-3: linear-gradient(135deg, #8b5cf6, #ec4899);
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+            --shadow-md: 0 4px 14px rgba(0,0,0,0.4);
+            --shadow-lg: 0 10px 40px rgba(0,0,0,0.5);
+            --shadow-glow: 0 0 30px rgba(6,182,212,0.15);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 15px;
+            overflow-x: hidden;
+        }
+
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-primary); }
+        ::-webkit-scrollbar-thumb { background: var(--border-accent); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent-blue); }
+
+        /* ===== ANIMATED BACKGROUND ===== */
+        .bg-glow {
+            position: fixed;
+            top: -200px;
+            right: -200px;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(6,182,212,0.08) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+            animation: floatGlow 20s ease-in-out infinite;
+        }
+        .bg-glow-2 {
+            position: fixed;
+            bottom: -200px;
+            left: -200px;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(139,92,246,0.06) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+            animation: floatGlow 25s ease-in-out infinite reverse;
+        }
+        @keyframes floatGlow {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(50px, 30px); }
+        }
+
+        /* ===== SIDEBAR NAV ===== */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 280px;
+            height: 100vh;
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border-color);
+            padding: 24px 0;
+            overflow-y: auto;
+            z-index: 100;
+            transition: transform 0.3s ease;
+        }
+        .sidebar-header {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 12px;
+        }
+        .sidebar-header h2 {
+            font-size: 16px;
+            font-weight: 700;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .sidebar-header p {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+        .nav-section {
+            padding: 8px 16px 4px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-muted);
+        }
+        .nav-link {
+            display: block;
+            padding: 7px 20px 7px 24px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+        }
+        .nav-link:hover {
+            color: var(--accent-blue);
+            background: rgba(6,182,212,0.05);
+            border-left-color: var(--accent-blue);
+        }
+        .nav-link.active {
+            color: var(--accent-blue);
+            background: rgba(6,182,212,0.08);
+            border-left-color: var(--accent-blue);
+            font-weight: 500;
+        }
+        .badge {
+            display: inline-block;
+            font-size: 9px;
+            padding: 1px 6px;
+            border-radius: 10px;
+            margin-left: 6px;
+            font-weight: 600;
+            vertical-align: middle;
+        }
+        .badge-pyq { background: rgba(239,68,68,0.15); color: var(--accent-red); }
+        .badge-imp { background: rgba(245,158,11,0.15); color: var(--accent-orange); }
+
+        /* ===== MOBILE TOGGLE ===== */
+        .sidebar-toggle {
+            display: none;
+            position: fixed;
+            top: 16px;
+            left: 16px;
+            z-index: 200;
+            background: var(--bg-card);
+            border: 1px solid var(--border-accent);
+            color: var(--text-primary);
+            width: 42px;
+            height: 42px;
+            border-radius: var(--radius-sm);
+            font-size: 20px;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .main {
+            margin-left: 280px;
+            padding: 40px 48px 100px;
+            max-width: 1050px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ===== HERO HEADER ===== */
+        .hero {
+            text-align: center;
+            padding: 56px 32px;
+            background: linear-gradient(135deg, rgba(6,182,212,0.1), rgba(139,92,246,0.1));
+            border: 1px solid var(--border-accent);
+            border-radius: var(--radius-xl);
+            margin-bottom: 48px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: var(--gradient-1);
+        }
+        .hero .unit-badge {
+            display: inline-block;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--accent-cyan);
+            background: rgba(6,182,212,0.1);
+            padding: 6px 16px;
+            border-radius: 20px;
+            border: 1px solid rgba(6,182,212,0.2);
+            margin-bottom: 16px;
+        }
+        .hero h1 {
+            font-size: 36px;
+            font-weight: 900;
+            letter-spacing: -1px;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 12px;
+        }
+        .hero p {
+            color: var(--text-secondary);
+            font-size: 16px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* ===== PART DIVIDER ===== */
+        .part-divider {
+            text-align: center;
+            margin: 64px 0 40px;
+            position: relative;
+        }
+        .part-divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0; right: 0;
+            height: 1px;
+            background: var(--border-accent);
+        }
+        .part-divider span {
+            position: relative;
+            display: inline-block;
+            background: var(--bg-primary);
+            padding: 8px 28px;
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            border: 1px solid var(--border-accent);
+            border-radius: 30px;
+        }
+        .part-divider.part-a span { color: var(--accent-cyan); border-color: rgba(6,182,212,0.3); }
+        .part-divider.part-b span { color: var(--accent-purple); border-color: rgba(139,92,246,0.3); }
+        .part-divider.part-c span { color: var(--accent-pink); border-color: rgba(236,72,153,0.3); }
+        .part-divider.part-d span { color: var(--accent-orange); border-color: rgba(245,158,11,0.3); }
+
+        /* ===== SECTION (TOPIC) ===== */
+        .section {
+            margin-bottom: 48px;
+            scroll-margin-top: 24px;
+        }
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 20px;
+        }
+        .section-number {
+            flex-shrink: 0;
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            font-weight: 800;
+            border-radius: 10px;
+            color: #fff;
+        }
+        .num-blue { background: var(--gradient-2); }
+        .num-purple { background: var(--gradient-3); }
+        .num-green { background: linear-gradient(135deg, #10b981, #06b6d4); }
+        .section-header h2 {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        /* ===== CARDS ===== */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            margin-bottom: 20px;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .card:hover {
+            border-color: var(--border-accent);
+            box-shadow: var(--shadow-md);
+        }
+        .card h3 {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .card h3 .icon { font-size: 18px; }
+        .card p, .card li {
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+        }
+        .card ul { padding-left: 20px; list-style: none; }
+        .card ul li::before {
+            content: '▸';
+            color: var(--accent-blue);
+            font-weight: bold;
+            margin-right: 8px;
+        }
+        .card ol { padding-left: 20px; }
+        .card ol li { color: var(--text-secondary); margin-bottom: 4px; }
+
+        /* ===== DEFINITION BOX ===== */
+        .def-box {
+            background: linear-gradient(135deg, rgba(6,182,212,0.06), rgba(139,92,246,0.06));
+            border: 1px solid rgba(6,182,212,0.15);
+            border-radius: var(--radius-md);
+            padding: 20px 24px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--accent-blue);
+        }
+        .def-box .label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--accent-blue);
+            margin-bottom: 6px;
+        }
+        .def-box p {
+            color: var(--text-primary);
+            font-size: 15px;
+        }
+
+        /* ===== EXAM TIP BOX ===== */
+        .tip-box {
+            background: rgba(16,185,129,0.06);
+            border: 1px solid rgba(16,185,129,0.15);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            margin-bottom: 16px;
+            border-left: 4px solid var(--accent-green);
+        }
+        .tip-box .label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--accent-green);
+            margin-bottom: 4px;
+        }
+        .tip-box p { color: var(--text-secondary); font-size: 14px; }
+
+        /* ===== WARNING BOX ===== */
+        .warn-box {
+            background: rgba(245,158,11,0.06);
+            border: 1px solid rgba(245,158,11,0.15);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            margin-bottom: 16px;
+            border-left: 4px solid var(--accent-orange);
+        }
+        .warn-box .label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--accent-orange);
+            margin-bottom: 4px;
+        }
+        .warn-box p { color: var(--text-secondary); font-size: 14px; }
+
+        /* ===== PYQ TAG ===== */
+        .pyq-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--accent-red);
+            background: rgba(239,68,68,0.1);
+            border: 1px solid rgba(239,68,68,0.2);
+            padding: 3px 10px;
+            border-radius: 20px;
+            margin-left: 8px;
+        }
+
+        /* ===== TABLES ===== */
+        .table-wrap {
+            overflow-x: auto;
+            margin-bottom: 20px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13.5px;
+        }
+        thead th {
+            background: var(--bg-secondary);
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 700;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--text-secondary);
+            border-bottom: 2px solid var(--border-accent);
+        }
+        tbody td {
+            padding: 10px 16px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+        tbody tr:hover { background: rgba(6,182,212,0.03); }
+        tbody tr:last-child td { border-bottom: none; }
+        td code, th code {
+            background: var(--bg-inlinecode);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        /* ===== CODE BLOCKS ===== */
+        pre {
+            background: var(--bg-code);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 20px 24px;
+            margin-bottom: 16px;
+            overflow-x: auto;
+            position: relative;
+        }
+        pre code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            line-height: 1.65;
+            color: var(--text-primary);
+        }
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            background: var(--bg-inlinecode);
+            padding: 2px 7px;
+            border-radius: 5px;
+            color: var(--accent-cyan);
+        }
+
+        /* ===== SOLVED PROBLEM BOX ===== */
+        .problem-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            margin-bottom: 32px;
+            box-shadow: var(--shadow-md);
+        }
+        .problem-header {
+            padding: 20px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border-color);
+            background: linear-gradient(135deg, rgba(6,182,212,0.1), rgba(139,92,246,0.02));
+        }
+        .problem-header h3 {
+            font-size: 15px;
+            font-weight: 800;
+            margin-bottom: 0;
+            color: var(--text-primary);
+        }
+        .problem-body { padding: 24px; }
+        .problem-body pre {
+            margin: 16px 0;
+            border-radius: var(--radius-sm);
+        }
+
+        /* ===== VIVA QUESTIONS ===== */
+        .viva-list { counter-reset: viva-counter; list-style: none; padding: 0; }
+        .viva-list li {
+            counter-increment: viva-counter; padding: 12px 16px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-secondary); font-size: 14px;
+        }
+        .viva-list li:last-child { border-bottom: none; }
+        .viva-list li::before {
+            content: counter(viva-counter); display: inline-flex;
+            align-items: center; justify-content: center;
+            width: 24px; height: 24px; background: rgba(6,182,212,0.15);
+            color: var(--accent-blue); font-size: 11px; font-weight: 700;
+            border-radius: 6px; margin-right: 12px; flex-shrink: 0;
+        }
+        .viva-list li strong { color: var(--text-primary); }
+
+        /* ===== BACK TO TOP ===== */
+        .back-to-top {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            width: 44px;
+            height: 44px;
+            background: var(--gradient-1);
+            border: none;
+            border-radius: 50%;
+            color: #fff;
+            font-size: 20px;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            z-index: 200;
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .back-to-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .back-to-top:hover { transform: translateY(-3px); }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 900px) {
+            .sidebar { transform: translateX(-100%); }
+            .sidebar.open { transform: translateX(0); box-shadow: var(--shadow-lg); }
+            .sidebar-toggle { display: flex; }
+            .main { margin-left: 0; padding: 24px 20px 80px; }
+            .hero h1 { font-size: 26px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="bg-glow"></div>
+<div class="bg-glow-2"></div>
+
+<!-- Mobile Toggle -->
+<button class="sidebar-toggle" id="sidebarToggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰</button>
+
+<!-- Sidebar Navigation -->
+<nav class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+        <h2>📘 Unit 5 Notes</h2>
+        <p>Transactions &amp; Recovery</p>
+    </div>
+
+    <div class="nav-section">Part A — Transactions</div>
+    <a class="nav-link" href="#trans-basics">Single vs. Multi-User</a>
+    <a class="nav-link" href="#read-write-ops">Read &amp; Write Primitives</a>
+    <a class="nav-link" href="#trans-states">Transaction Lifecycle</a>
+    <a class="nav-link" href="#acid-properties">ACID Properties Mapped</a>
+    <a class="nav-link" href="#sql-support">SQL Transaction Control</a>
+
+    <div class="nav-section">Part B — Concurrency</div>
+    <a class="nav-link" href="#concurrency-need">Lost Update &amp; Dirty Reads</a>
+    <a class="nav-link" href="#locking-techniques">Binary &amp; Shared Locks</a>
+    <a class="nav-link" href="#two-phase-locking">Two-Phase Locking (2PL)</a>
+    <a class="nav-link" href="#deadlocks-section">Deadlock Resolutions</a>
+
+    <div class="nav-section">Part C — Recovery</div>
+    <a class="nav-link" href="#recovery-basics">Recovery Logs &amp; Buffers</a>
+    <a class="nav-link" href="#deferred-update">Deferred Updates Scheme</a>
+    <a class="nav-link" href="#immediate-update">Immediate Updates Scheme</a>
+    <a class="nav-link" href="#checkpoints">Checkpoint Mechanisms</a>
+    <a class="nav-link" href="#aries-algorithm">ARIES Protocol Phases</a>
+
+    <div class="nav-section">Part D — NoSQL Databases</div>
+    <a class="nav-link" href="#nosql-basics">Characteristics &amp; CAP</a>
+    <a class="nav-link" href="#nosql-types">4 Core Storage Models</a>
+    <a class="nav-link" href="#sql-vs-nosql">SQL vs. NoSQL Matrix</a>
+
+    <div class="nav-section">Part E — MongoDB CRUD</div>
+    <a class="nav-link" href="#mongodb-basics">BSON &amp; Documents</a>
+    <a class="nav-link" href="#mongodb-crud">Query &amp; CRUD Methods</a>
+    <a class="nav-link" href="#mongodb-operators">Logical &amp; Comparison</a>
+
+    <div class="nav-section">Exam &amp; Revision</div>
+    <a class="nav-link" href="#uni-qa">17 Repeated University Q&amp;A</a>
+    <a class="nav-link" href="#last-night">Last Night Revision Pack</a>
+</nav>
+
+<!-- Main Content -->
+<div class="main">
+
+    <!-- Hero -->
+    <header class="hero" id="top">
+        <div class="unit-badge">Unit V — Core Systems &amp; NoSQL</div>
+        <h1>Transactions, Concurrency, Recovery, NoSQL &amp; MongoDB</h1>
+        <p>Complete Descriptive and Algorithmic Exam Study Portal. Mapped with state transitions, concurrency failure schedules, checkpoint undo/redo determinations, ARIES traces, and MongoDB CRUD operator outputs.</p>
+    </header>
+
+    <!-- ============================== -->
+    <!-- PART A: TRANSACTIONS PROCESSING-->
+    <!-- ============================== -->
+    <div class="part-divider part-a"><span id="part-a-trans">Part A — Introduction to Transaction Processing</span></div>
+
+    <!-- 1. Transaction Basics -->
+    <section class="section" id="trans-basics">
+        <div class="section-header">
+            <div class="section-number num-blue">1</div>
+            <h2>Single-User vs. Multi-User Transactions</h2>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definitions</div>
+            <p><strong>Transaction:</strong> A logical unit of database processing that includes one or more database access operations (read, write, delete, etc.). It acts as a cohesive execution boundary representing a real-world event (e.g., bank transfer).</p>
+            <p style="margin-top: 10px;"><strong>Single-User System:</strong> A database system where at most one user can execute transactions at any given millisecond. No concurrent operations occur.</p>
+            <p style="margin-top: 10px;"><strong>Multi-User System:</strong> A database system supporting dozens or thousands of concurrent users executing transactions simultaneously on shared disk spaces, necessitating **Concurrency Control** protocols.</p>
+        </div>
+
+        <div class="card">
+            <h3>📊 Comparison Matrix</h3>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Single-User Database</th>
+                            <th>Multi-User Database</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Concurrency</strong></td>
+                            <td>Zero. Serial queue only.</td>
+                            <td>Extremely high concurrent threads.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>CPU Utilization</strong></td>
+                            <td>Low. CPU is idle during disk I/O.</td>
+                            <td>Excellent. Interleaves transactions.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Problems Faced</strong></td>
+                            <td>None. Simple database crashes only.</td>
+                            <td>Lost updates, dirty reads, deadlocks.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Complexity</strong></td>
+                            <td>Very Low. Simple restore systems.</td>
+                            <td>High lock managers and schedulers needed.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. Read & Write Operations -->
+    <section class="section" id="read-write-ops">
+        <div class="section-header">
+            <div class="section-number num-blue">2</div>
+            <h2>Read &amp; Write Operations (Primitives)</h2>
+        </div>
+
+        <div class="card">
+            <h3>⚙️ The Database Storage Buffer Model</h3>
+            <p>To understand read/write primitives, we must conceptualize the division between memory buffer pools and physical disk blocks:</p>
+            <pre><code> +------------------+                +-------------------------+
+ | DATABASE DISK    |                | SYSTEM BUFFER POOL (RAM)|
+ |                  |  read_item(X)  |                         |
+ | [ Block containing ] ------------▶| [ Buffer copy of X ]    |
+ | [ item X on Disk   ]              |                         |
+ +------------------+                +-------------------------+
+          ▲                                       │
+          │ write_item(X)                         │
+          │ (Flushes changes                      ▼
+          │  back to disk)          [ Local Program Variable x ]</code></pre>
+        </div>
+
+        <div class="card">
+            <h3>1. Read_item(X) Primitive Mechanics</h3>
+            <p><strong>Syntax:</strong> `read_item(X)`</p>
+            <p><strong>Working Steps:</strong>
+                <ol>
+                    <li>Find the address of the physical disk block containing item $X$.</li>
+                    <li>Copy that disk block into a system memory buffer (if it's not already in RAM).</li>
+                    <li>Assign the value of item $X$ from the buffer copy to the program local variable $x$.</li>
+                </ol>
+            </p>
+        </div>
+
+        <div class="card">
+            <h3>2. Write_item(X) Primitive Mechanics</h3>
+            <p><strong>Syntax:</strong> `write_item(X)`</p>
+            <p><strong>Working Steps:</strong>
+                <ol>
+                    <li>Find the address of the physical disk block containing item $X$.</li>
+                    <li>Copy that disk block into system memory buffer (if not in RAM).</li>
+                    <li>Copy the value of the program local variable $x$ into its correct position inside the memory buffer.</li>
+                    <li>Store (flush) the updated buffer block back to physical disk (either immediately or deferred by the buffer manager).</li>
+                </ol>
+            </p>
+        </div>
+    </section>
+
+    <!-- 3. Transaction States -->
+    <section class="section" id="trans-states">
+        <div class="section-header">
+            <div class="section-number num-blue">3</div>
+            <h2>Transaction States &amp; Lifecycle <span class="badge badge-pyq">VTU Guaranteed</span></h2>
+        </div>
+
+        <div class="card">
+            <h3>🔄 Transaction State Transition Diagram</h3>
+            <pre><code>        +------------+
+        |   ACTIVE   |
+        +------------+
+          /        \
+         / (Read/   \ (Error/
+        /   Write    \ System Failure)
+       ▼     Ends)    ▼
++-----------+       +------------+
+| PARTIALLY |       |   FAILED   |
+| COMMITTED |       +------------+
++-----------+             │
+   /     \                │
+  /       \ (Commit       │ (Rollback/
+ /         \ Failed)      │  Undo)
+▼           ▼             ▼
++-----------+       +------------+
+| COMMITTED |       |   ABORTED  |
++-----------+       +------------+
+     \                   /
+      \                 /
+       ▼               ▼
+        +-------------+
+        | TERMINATED  |
+        +-------------+</code></pre>
+        </div>
+
+        <div class="card">
+            <h3>📝 Detailed States Breakdown</h3>
+            <ul>
+                <li><strong>1. Active:</strong> The initial state. The transaction enters this state when it begins execution and remains here while executing its read/write operations.</li>
+                <li><strong>2. Partially Committed:</strong> Enters this state after the final read/write statement has been successfully executed, but before write logs are permanently flushed to disk.</li>
+                <li><strong>3. Committed:</strong> Enters this state after all database changes and transaction log records have been successfully and permanently written to disk. The transaction completes successfully.</li>
+                <li><strong>4. Failed:</strong> Enters this state when the system detects that normal execution can no longer proceed (due to hardware failure, deadlock, or syntax error).</li>
+                <li><strong>5. Aborted:</strong> Enters this state after all side effects of the failed transaction have been cleaned up and the database is rolled back to its original state (via UNDO logs).</li>
+                <li><strong>6. Terminated:</strong> The final end state. The transaction has completely left the system, freeing active buffer pool allocations.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- 4. ACID Properties -->
+    <section class="section" id="acid-properties">
+        <div class="section-header">
+            <div class="section-number num-blue">4</div>
+            <h2>Desirable Properties of Transactions (ACID)</h2>
+        </div>
+
+        <!-- Atomicity -->
+        <div class="card">
+            <h3>1. Atomicity ("All or Nothing")</h3>
+            <p><strong>Definition:</strong> A transaction is an indivisible unit of work. Either all of its database operations are executed successfully, or none are. No partial state is allowed to persist in the database.</p>
+            <p><strong>Example:</strong> Transferring ₹10,000 from Account $A$ to Account $B$. If the system crashes *after* deducting ₹10,000 from $A$ but *before* adding it to $B$, the system rolls back the deduction. Either both are adjusted, or neither.</p>
+            <p><strong>Implementation:</strong> Managed by the database **Recovery Manager** using transaction logs.</p>
+        </div>
+
+        <!-- Consistency -->
+        <div class="card">
+            <h3>2. Consistency Preservation</h3>
+            <p><strong>Definition:</strong> A transaction must transform the database from one valid state satisfying all integrity constraints to another valid state. It must not violate schema constraints.</p>
+            <p><strong>Example:</strong> In a double-entry banking book, the sum of balances in $A$ and $B$ must remain unchanged before and after the transfer ($A + B = \text{Constant}$).</p>
+            <p><strong>Implementation:</strong> Shared responsibility between **Database Developers** (correct logic) and **DBMS Constraint Managers** (declaring rules).</p>
+        </div>
+
+        <!-- Isolation -->
+        <div class="card">
+            <h3>3. Isolation</h3>
+            <p><strong>Definition:</strong> Even though multiple transactions execute concurrently, they must appear as if they are executing in isolation from one another. The intermediate states of an active transaction must be completely hidden from other concurrent transactions.</p>
+            <p><strong>Example:</strong> While the money transfer is mid-execution, a third auditing transaction must not read $A$'s balance as deducted and $B$'s balance as un-added.</p>
+            <p><strong>Implementation:</strong> Managed by the **Concurrency Control Subsystem** using locks or timestamps.</p>
+        </div>
+
+        <!-- Durability -->
+        <div class="card">
+            <h3>4. Durability (Permanence)</h3>
+            <p><strong>Definition:</strong> Once a transaction commits, its updates to the database must remain permanent and survive any subsequent system crashes or power losses.</p>
+            <p><strong>Example:</strong> If a student's grade update commits, and the college database server crashes a millisecond later, the grade must still exist upon server reboot.</p>
+            <p><strong>Implementation:</strong> Managed by the **Recovery Subsystem** using Write-Ahead Logging (WAL) and disk flushes.</p>
+        </div>
+    </section>
+
+    <!-- 5. SQL support -->
+    <section class="section" id="sql-support">
+        <div class="section-header">
+            <div class="section-number num-blue">5</div>
+            <h2>Transaction Support in SQL</h2>
+        </div>
+
+        <div class="card">
+            <h3>🛠️ Standard SQL Transaction Syntax and Actions</h3>
+            <pre><code><span class="kw">BEGIN TRANSACTION</span>;
+<span class="kw">UPDATE</span> Account <span class="kw">SET</span> Balance = Balance - 10000 <span class="kw">WHERE</span> ID = 'A';
+<span class="kw">SAVEPOINT</span> step1;
+<span class="kw">UPDATE</span> Account <span class="kw">SET</span> Balance = Balance + 10000 <span class="kw">WHERE</span> ID = 'B';
+
+<span class="cm">-- If something goes wrong, rollback only the last update:</span>
+<span class="kw">ROLLBACK TO</span> step1;
+
+<span class="cm">-- If successful, commit all:</span>
+<span class="kw">COMMIT</span>;</code></pre>
+        </div>
+    </section>
+
+    <!-- ============================== -->
+    <!-- PART B: CONCURRENCY CONTROL    -->
+    <!-- ============================== -->
+    <div class="part-divider part-b"><span id="part-b-concurrency">Part B — Concurrency Control &amp; Locking Protocols</span></div>
+
+    <!-- 1. Concurrency Need -->
+    <section class="section" id="concurrency-need">
+        <div class="section-header">
+            <div class="section-number num-purple">6</div>
+            <h2>Need for Concurrency Control (Execution Failures)</h2>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definition</div>
+            <p><strong>Concurrency Control:</strong> The process of managing simultaneous database operations so they do not conflict, preventing database corruption and ensuring transaction isolation.</p>
+        </div>
+
+        <!-- Lost Update -->
+        <div class="card">
+            <h3>1. The Lost Update Problem</h3>
+            <p><strong>Problem:</strong> Occurs when two transactions read the same initial value, update it, and write it back. One transaction overwrites the committed update of the other, losing the first update forever.</p>
+            <pre><code> Lost Update Trace:
++------+-----------------------------+-----------------------------+---------+
+| Time | Transaction T1              | Transaction T2              | Value X |
++------+-----------------------------+-----------------------------+---------+
+| t1   | read_item(X)                |                             |   80    |
+| t2   |                             | read_item(X)                |   80    |
+| t3   | x = x - 10                  |                             |   80    |
+| t4   |                             | x = x + 20                  |   80    |
+| t5   | write_item(X) [writes 70]   |                             |   70    |
+| t6   |                             | write_item(X) [writes 100]  |   100   |
++------+-----------------------------+-----------------------------+---------+
+T1's deduction of 10 is completely lost! Expected final X = 90, actual = 100.</code></pre>
+        </div>
+
+        <!-- Dirty Read -->
+        <div class="card">
+            <h3>2. The Temporary Update (Dirty Read) Problem</h3>
+            <p><strong>Problem:</strong> Occurs when transaction $T_1$ updates a value, and transaction $T_2$ reads that updated value *before* $T_1$ commits. If $T_1$ subsequently fails and aborts, $T_2$ has read a "dirty" (invalid) state that technically never existed.</p>
+            <pre><code> Dirty Read Trace:
++------+-----------------------------+-----------------------------+---------+
+| Time | Transaction T1              | Transaction T2              | Value X |
++------+-----------------------------+-----------------------------+---------+
+| t1   | read_item(X)                |                             |   80    |
+| t2   | x = x - 10                  |                             |   80    |
+| t3   | write_item(X) [writes 70]   |                             |   70    |
+| t4   |                             | read_item(X) [reads 70]     |   70    |
+| t5   | (System Crash / Rollback!)  |                             |   80    |
++------+-----------------------------+-----------------------------+---------+
+T2 read X = 70, which was rolled back to 80. T2 read dirty data!</code></pre>
+        </div>
+
+        <!-- Incorrect Summary -->
+        <div class="card">
+            <h3>3. The Incorrect Summary Problem</h3>
+            <p><strong>Problem:</strong> Occurs when one transaction calculates an aggregate function (e.g., SUM) over multiple rows while another transaction is updating some of those rows. The summary reads some values before the update and others after.</p>
+        </div>
+    </section>
+
+    <!-- 2. Locking Techniques -->
+    <section class="section" id="locking-techniques">
+        <div class="section-header">
+            <div class="section-number num-purple">7</div>
+            <h2>Locking Techniques (Binary &amp; Shared/Exclusive)</h2>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definition</div>
+            <p><strong>Lock:</strong> A mathematical variable associated with a database item that represents the status of that item with respect to possible operations that can be applied to it.</p>
+        </div>
+
+        <div class="card">
+            <h3>1. Binary Locks</h3>
+            <p><strong>Rules:</strong> A binary lock can have only two states: locked (1) or unlocked (0). If an item is locked, no other transaction can access it. Very simple but highly restrictive; prevents concurrent reads.</p>
+        </div>
+
+        <div class="card">
+            <h3>2. Shared vs. Exclusive Locks (Read/Write Locks)</h3>
+            <p>To maximize concurrency, databases support multiple lock modes:</p>
+            <ul>
+                <li><strong>Shared (Read) Lock - `read_lock(X)` or `lock-S(X)`:</strong> Multiple transactions can hold shared locks on the same item concurrently to read its value. No writes are allowed.</li>
+                <li><strong>Exclusive (Write) Lock - `write_lock(X)` or `lock-X(X)`:</strong> Only one transaction can hold an exclusive lock on an item. It allows both read and write operations. No other transaction can hold any lock on that item.</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>📊 Lock Compatibility Matrix</h3>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Lock Requested</th>
+                            <th>Shared (S) Lock Active</th>
+                            <th>Exclusive (X) Lock Active</th>
+                            <th>Unlocked</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Shared (S)</strong></td>
+                            <td style="color:var(--accent-green); font-weight:bold;">Granted (Compatible)</td>
+                            <td style="color:var(--accent-red); font-weight:bold;">Denied (Wait)</td>
+                            <td style="color:var(--accent-green); font-weight:bold;">Granted</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Exclusive (X)</strong></td>
+                            <td style="color:var(--accent-red); font-weight:bold;">Denied (Wait)</td>
+                            <td style="color:var(--accent-red); font-weight:bold;">Denied (Wait)</td>
+                            <td style="color:var(--accent-green); font-weight:bold;">Granted</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. Two-Phase Locking -->
+    <section class="section" id="two-phase-locking">
+        <div class="section-header">
+            <div class="section-number num-purple">8</div>
+            <h2>Two-Phase Locking (2PL) Protocol <span class="badge badge-pyq">VTU Repeated</span></h2>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definition</div>
+            <p><strong>Two-Phase Locking (2PL):</strong> A protocol ensuring that all concurrent transaction schedules are **Conflict-Serializable** (correct execution logic). It enforces a rule that a transaction cannot acquire *any* new lock after it has released its first lock.</p>
+        </div>
+
+        <div class="card">
+            <h3>📈 Two-Phase Lock Transitions</h3>
+            <pre><code> Locks Held
+    ▲
+    │         GROWING PHASE                 SHRINKING PHASE
+    │      (Lock Acquisition)               (Lock Release)
+    │             /\
+    │            /  \
+    │           /    \
+    │          /      \
+    │         /        \
+    │        /          \
+    │       /            \
+  ──┴──────/──────────────\─────────────────────────────────▶ Time
+        Transaction       Lock point
+          Starts      (Max locks acquired)</code></pre>
+        </div>
+
+        <div class="card">
+            <h3>⚙️ The Two Phases Breakdown</h3>
+            <ul>
+                <li><strong>1. Growing Phase:</strong> Enters this phase when it starts. The transaction may acquire new locks of any type but is **strictly forbidden** from releasing any locks.</li>
+                <li><strong>2. Shrinking Phase:</strong> Enters this phase the moment the first lock is released. The transaction may release existing locks but is **strictly forbidden** from acquiring any new locks.</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>📊 Comparison of 2PL Variations</h3>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>2PL Type</th>
+                            <th>Lock Acquisition Rule</th>
+                            <th>Lock Release Rule</th>
+                            <th>Deadlock Status</th>
+                            <th>Cascading Rollback?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Basic 2PL</strong></td>
+                            <td>Acquires on the fly.</td>
+                            <td>Releases anytime during shrinking.</td>
+                            <td>Possible</td>
+                            <td>Possible (not strict)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Conservative 2PL</strong></td>
+                            <td>Acquires *all* needed locks at start.</td>
+                            <td>Releases anytime.</td>
+                            <td style="color:var(--accent-green); font-weight:bold;">Deadlock-Free</td>
+                            <td>Possible</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Strict 2PL</strong></td>
+                            <td>Acquires on the fly.</td>
+                            <td style="color:var(--accent-cyan); font-weight:bold;">Holds Exclusive (X) locks until COMMIT/ABORT.</td>
+                            <td>Possible</td>
+                            <td style="color:var(--accent-green); font-weight:bold;">Prevented</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Rigorous 2PL</strong></td>
+                            <td>Acquires on the fly.</td>
+                            <td style="color:var(--accent-cyan); font-weight:bold;">Holds ALL locks (S and X) until COMMIT/ABORT.</td>
+                            <td>Possible</td>
+                            <td style="color:var(--accent-green); font-weight:bold;">Prevented</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. Deadlocks -->
+    <section class="section" id="deadlocks-section">
+        <div class="section-header">
+            <div class="section-number num-purple">9</div>
+            <h2>Deadlocks management</h2>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definition</div>
+            <p><strong>Deadlock:</strong> A state where two or more transactions are in a circular wait condition, each waiting for a lock held by the other, halting system execution indefinitely.</p>
+        </div>
+
+        <div class="card">
+            <h3>🛠️ Deadlock Prevention Schemes (Timestamp-Based)</h3>
+            <p>Suppose transaction $T_i$ requests a lock held by $T_j$. The system compares their timestamps ($TS$):</p>
+            <ul>
+                <li><strong>Wait-Die Scheme (Non-preemptive):</strong> If $T_i$ is older ($TS(T_i) < TS(T_j)$), $T_i$ is allowed to **wait**. If $T_i$ is younger ($TS(T_i) > TS(T_j)$), $T_i$ **dies** (rolls back and restarts).</li>
+                <li><strong>Wound-Wait Scheme (Preemptive):</strong> If $T_i$ is older ($TS(T_i) < TS(T_j)$), $T_i$ **wounds** $T_j$ (preempts and forces $T_j$ to roll back). If $T_i$ is younger, $T_i$ is allowed to **wait**.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- ============================== -->
+    <!-- PART C: DATABASE RECOVERY      -->
+    <!-- ============================== -->
+    <div class="part-divider part-c"><span id="part-c-recovery">Part C — Database Recovery Techniques</span></div>
+
+    <!-- 1. Recovery Basics -->
+    <section class="section" id="recovery-basics">
+        <div class="section-header">
+            <div class="section-number num-pink">10</div>
+            <h2>Recovery Concepts &amp; Log Records</h2>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definition</div>
+            <p><strong>Database Recovery:</strong> The process of restoring the database to the most recent consistent state that existed just before a system crash, transaction failure, or media failure.</p>
+        </div>
+
+        <div class="card">
+            <h3>📜 Standard Recovery Log Format</h3>
+            <p>The Recovery Manager maintains a write-ahead log containing sequential records of all updates:</p>
+            <ul>
+                <li>`[start_transaction, T]` - Transaction $T$ has started.</li>
+                <li>`[write_item, T, X, old_val, new_val]` - Transaction $T$ modified item $X$ from `old_val` (for UNDO) to `new_val` (for REDO).</li>
+                <li>`[commit, T]` - Transaction $T$ successfully committed.</li>
+                <li>`[abort, T]` - Transaction $T$ aborted.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- 2. Deferred Update -->
+    <section class="section" id="deferred-update">
+        <div class="section-header">
+            <div class="section-number num-pink">11</div>
+            <h2>Deferred Update (No-Undo/Redo Scheme)</h2>
+        </div>
+
+        <div class="card">
+            <h3>⚙️ Operational Working Rules</h3>
+            <p>Under the **Deferred Update Protocol**, write operations are *deferred* and stored in local memory buffers. The physical database is not modified until after the transaction successfully reaches its commit state.</p>
+            <ul>
+                <li><strong>No UNDO Required:</strong> Since the database is never modified on disk prior to commit, a failed transaction has written zero dirty data to disk. Hence, we **never** need to undo any changes.</li>
+                <li><strong>REDO Required:</strong> If the server crashes *after* commit but before all buffer blocks are flushed, committed updates could be lost. Hence, the recovery system must **REDO** all committed updates.</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>📋 Recovery Trace Example</h3>
+            <p>Log state at reboot:</p>
+            <pre><code>[start, T1]
+[write_item, T1, X, 100, 200]
+[commit, T1]
+[start, T2]
+[write_item, T2, Y, 50, 80]
+&lt;--- CRASH at reboot</code></pre>
+            <p><strong>Deffered Update Execution Strategy:</strong>
+                <br>1. Check log. $T_1$ is **committed** (contains `[commit, T1]`). REDO $T_1$: Set $X = 200$.
+                <br>2. $T_2$ is **active** (no commit record). Since updates were deferred, no changes were written to disk for $T_2$. No UNDO needed. Ignore $T_2$.
+            </p>
+        </div>
+    </section>
+
+    <!-- 3. Immediate Update -->
+    <section class="section" id="immediate-update">
+        <div class="section-header">
+            <div class="section-number num-pink">12</div>
+            <h2>Immediate Update (Undo/Redo Scheme)</h2>
+        </div>
+
+        <div class="card">
+            <h3>⚙️ Operational Working Rules</h3>
+            <p>Under the **Immediate Update Protocol**, write operations are written directly to physical disk blocks even *before* the transaction commits. The system must use Write-Ahead Logging (WAL) to flush log records containing the old value prior to modifying the database block.</p>
+            <ul>
+                <li><strong>UNDO Required:</strong> If a transaction fails or crashes before committing, its dirty uncommitted changes are already on disk. The system must **UNDO** these changes (restore old values).</li>
+                <li><strong>REDO Required:</strong> If a committed transaction's changes were not fully flushed from RAM buffer to disk during a crash, we must **REDO** those updates (apply new values).</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>📋 Recovery Trace Example</h3>
+            <p>Log state at reboot:</p>
+            <pre><code>[start, T1]
+[write_item, T1, X, 100, 200]
+[commit, T1]
+[start, T2]
+[write_item, T2, Y, 50, 80]
+&lt;--- CRASH at reboot</code></pre>
+            <p><strong>Immediate Update Execution Strategy:</strong>
+                <br>1. Scan the log. Find all committed transactions: **REDO list = $\{T_1\}$**.
+                <br>2. Find all active/uncommitted transactions: **UNDO list = $\{T_2\}$**.
+                <br>3. **UNDO Phase:** Scan backward and restore $Y = 50$ (undoing $T_2$).
+                <br>4. **REDO Phase:** Scan forward and write $X = 200$ (redoing $T_1$).
+            </p>
+        </div>
+    </section>
+
+    <!-- 4. Checkpoints -->
+    <section class="section" id="checkpoints">
+        <div class="section-header">
+            <div class="section-number num-pink">13</div>
+            <h2>Checkpoint Mechanisms</h2>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definition</div>
+            <p><strong>Checkpoint:</strong> A recovery optimization point. Periodically, the DBMS pauses active transactions, flushes all modified RAM database buffers and log buffers to disk, writes a `[checkpoint]` record in the log, and resumes transactions.</p>
+            <p><strong>Purpose:</strong> It guarantees that all log records prior to the checkpoint correspond to modifications already permanently written to disk. The recovery engine **never** needs to REDO transactions that committed prior to the checkpoint.</p>
+        </div>
+
+        <div class="card">
+            <h3>📈 Visual Checkpoint Recovery Ranges</h3>
+            <pre><code>  T1  |--- Committed ---| [CHECKPOINT]
+  T2  |------ Committed ------------------------&gt; [CRASH] (Redo T2)
+  T3                    |--- Active ------------&gt; [CRASH] (Undo T3)
+  ─────────────────────────────┼────────────────────┼────────▶ Time
+                          Checkpoint              Crash</code></pre>
+        </div>
+    </section>
+
+    <!-- 5. ARIES -->
+    <section class="section" id="aries-algorithm">
+        <div class="section-header">
+            <div class="section-number num-pink">14</div>
+            <h2>The ARIES Recovery Protocol</h2>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definition</div>
+            <p><strong>ARIES (Algorithms for Recovery and Isolation Exploiting Semantics):</strong> A highly robust, industrial-strength recovery algorithm based on three core principles:
+                <br>1. **Write-Ahead Logging (WAL)**.
+                <br>2. **Repeating History during Redo** (restores system to exact crash state).
+                <br>3. **Logging Changes during Undo** (prevents infinite rollback loops during recovery crashes).</p>
+        </div>
+
+        <div class="card">
+            <h3>🛡️ The Three Phases of ARIES</h3>
+            <ol>
+                <li><strong>Analysis Phase:</strong> Scans the log *forward* from the last checkpoint to identify:
+                    <ul>
+                        <li>All active transactions at the time of crash (which must be undone).</li>
+                        <li>All dirty pages in the buffer pool at the time of crash.</li>
+                    </ul>
+                </li>
+                <li><strong>Redo Phase:</strong> Scans *forward* from the earliest dirty page log record. It "repeats history" by re-executing all logged updates (both committed and aborted) to restore the database to its exact physical state at the millisecond of crash.</li>
+                <li><strong>Undo Phase:</strong> Scans *backward* from the crash point, rolling back all transactions that were active at the time of the crash by applying the old values. It writes **CLRs (Compensation Log Records)** for every undo operation to prevent redundant rollbacks if the recovery system crashes during this phase.</li>
+            </ol>
+        </div>
+    </section>
+
+    <!-- ============================== -->
+    <!-- PART D: NOSQL DATABASES        -->
+    <!-- ============================== -->
+    <div class="part-divider part-d"><span id="part-d-nosql">Part D — NoSQL Databases &amp; Distributed Architectures</span></div>
+
+    <!-- 1. NoSQL Basics -->
+    <section class="section" id="nosql-basics">
+        <div class="section-header">
+            <div class="section-number num-green">15</div>
+            <h2>Why NoSQL? Limitations of SQL</h2>
+        </div>
+
+        <div class="card">
+            <h3>⚠️ Limitations of Relational Databases under Big Data Scale</h3>
+            <ul>
+                <li><strong>Rigid Schemas:</strong> Relational tables require a fixed schema. Adding columns dynamically requires schema alterations that can lock massive tables.</li>
+                <li><strong>Horizontal Scaling (Sharding) Difficulties:</strong> SQL relies heavily on joins. Distributing tables across multiple machines (horizontal scaling) makes multi-table joins computationally prohibitive.</li>
+                <li><strong>ACID Overhead:</strong> Enforcing absolute ACID consistency locks resources across distributed servers, drastically slowing down high-velocity ingestion (big data).</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>🛡️ CAP Theorem (Consistency, Availability, Partition Tolerance)</h3>
+            <p>Proposed by Eric Brewer, the CAP theorem states that a distributed data system can provide at most **two** of these three guarantees simultaneously:</p>
+            <ul>
+                <li><strong>Consistency (C):</strong> Every read request across the cluster receives the most recent write or an error.</li>
+                <li><strong>Availability (A):</strong> Every non-failing node returns a non-error response (though not guaranteed to be the most recent write).</li>
+                <li><strong>Partition Tolerance (P):</strong> The system continues to operate despite arbitrary network message losses or node splits.</li>
+            </ul>
+            <p>Since network partitions are inevitable in physical clusters, distributed databases must choose between **CP** (Consistency and Partition Tolerance, sacrifice availability) or **AP** (Availability and Partition Tolerance, sacrifice strict consistency in favor of *Eventual Consistency*).</p>
+        </div>
+    </section>
+
+    <!-- 2. NoSQL Types -->
+    <section class="section" id="nosql-types">
+        <div class="section-header">
+            <div class="section-number num-green">16</div>
+            <h2>The 4 Core NoSQL Storage Models</h2>
+        </div>
+
+        <div class="dashboard-grid">
+            <!-- Key-Value & Document -->
+            <div class="problem-card">
+                <div class="problem-header"><h3>1. Key-Value &amp; 2. Document Databases</h3></div>
+                <div class="problem-body">
+                    <p><strong>Key-Value Stores:</strong> Data is stored as an associative array of key-value pairs. The value is a completely opaque blob to the database engine.
+                        <br>*Use Cases:* Session caching, user profiles.
+                        <br>*Examples:* Redis, Riak.
+                        <br>*Advantages:* Extremely fast sub-millisecond lookup times.</p>
+                    <hr style="margin:12px 0; border-color:var(--border-color);">
+
+                    <p><strong>Document Databases:</strong> Data is stored as documents (JSON, XML, or BSON). Unlike key-value stores, the document structure is transparent to the engine, allowing indexing on nested document attributes.
+                        <br>*Use Cases:* Content management systems, e-commerce product catalogs.
+                        <br>*Examples:* MongoDB, CouchDB.
+                        <br>*Advantages:* Flexible, schema-less, native JSON storage.</p>
+                </div>
+            </div>
+
+            <!-- Column-Family & Graph -->
+            <div class="problem-card">
+                <div class="problem-header"><h3>3. Column-Family &amp; 4. Graph Databases</h3></div>
+                <div class="problem-body">
+                    <p><strong>Column-Family Stores:</strong> Data is stored in columns grouped into family sets, rather than rows. Columns are stored together on disk, allowing highly optimized aggregation query performance.
+                        <br>*Use Cases:* Web analytics, time-series IoT event tracking.
+                        <br>*Examples:* Apache Cassandra, HBase.
+                        <br>*Advantages:* High write speeds, distributed horizontal scaling.</p>
+                    <hr style="margin:12px 0; border-color:var(--border-color);">
+
+                    <p><strong>Graph Databases:</strong> Data is represented using nodes (entities) and edges (relationships) with key-value properties. It optimizes deep graph traversal queries.
+                        <br>*Use Cases:* Social networks, recommendation engines, fraud detection.
+                        <br>*Examples:* Neo4j, OrientDB.
+                        <br>*Advantages:* Highly performant for complex relation paths.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. SQL vs NoSQL -->
+    <section class="section" id="sql-vs-nosql">
+        <div class="section-header">
+            <div class="section-number num-green">17</div>
+            <h2>SQL vs. NoSQL Architectural Comparison</h2>
+        </div>
+
+        <div class="card">
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Relational (SQL) Databases</th>
+                            <th>NoSQL Databases</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Structure</strong></td>
+                            <td>Tabular rows and columns.</td>
+                            <td>JSON documents, key-value, column-family, graphs.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Schema</strong></td>
+                            <td>Fixed static schemas. Declared beforehand.</td>
+                            <td>Dynamic schema-less designs.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Scalability</strong></td>
+                            <td>Vertical scaling (upgrade RAM/CPU).</td>
+                            <td style="color:var(--accent-cyan); font-weight:bold;">Horizontal scaling (adding more cheap nodes).</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Consistency</strong></td>
+                            <td>Strict ACID compliance.</td>
+                            <td>BASE properties (Eventual Consistency). CAP choice.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Query Join</strong></td>
+                            <td>Native SQL Joins. Highly performant.</td>
+                            <td>Joins not supported natively (denormalization required).</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Examples</strong></td>
+                            <td>PostgreSQL, MySQL, Oracle.</td>
+                            <td>MongoDB, Redis, Cassandra, Neo4j.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================== -->
+    <!-- PART E: MONGODB                -->
+    <!-- ============================== -->
+    <div class="part-divider part-a"><span id="part-e-mongodb">Part E — MongoDB CRUD &amp; Query Language</span></div>
+
+    <!-- 1. MongoDB Basics -->
+    <section class="section" id="mongodb-basics">
+        <div class="section-header">
+            <div class="section-number num-blue">18</div>
+            <h2>MongoDB Documents &amp; BSON Data Types</h2>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definition</div>
+            <p><strong>MongoDB:</strong> A highly popular open-source document database. Documents are stored in BSON (Binary JSON) format, which supports more data types (like Date and Binary data) than standard JSON.</p>
+        </div>
+
+        <div class="card">
+            <h3>🧬 BSON Data Types and Examples</h3>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>BSON Data Type</th>
+                            <th>Description</th>
+                            <th>JSON Syntax Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>String</strong></td>
+                            <td>UTF-8 text characters.</td>
+                            <td>`"name": "Akshay"`</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Integer</strong></td>
+                            <td>32-bit or 64-bit whole numbers.</td>
+                            <td>`"age": 20`</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Double</strong></td>
+                            <td>Floating-point decimals.</td>
+                            <td>`"gpa": 9.85`</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Boolean</strong></td>
+                            <td>True or False flag.</td>
+                            <td>`"isRegistered": true`</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Array</strong></td>
+                            <td>Ordered list of elements or objects.</td>
+                            <td>`"hobbies": ["Reading", "Code"]`</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Object</strong></td>
+                            <td>Nested sub-document structures.</td>
+                            <td>`"address": { "city": "Blr", "pin": 560054 }`</td>
+                        </tr>
+                        <tr>
+                            <td><strong>ObjectId</strong></td>
+                            <td>12-byte unique document identifier.</td>
+                            <td>`"_id": ObjectId("507f1f77bcf86cd799439011")`</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Date</strong></td>
+                            <td>Unix epoch milliseconds datetime representation.</td>
+                            <td>`"created": ISODate("2026-06-01T21:00:00Z")`</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. MongoDB CRUD -->
+    <section class="section" id="mongodb-crud">
+        <div class="section-header">
+            <div class="section-number num-blue">19</div>
+            <h2>MongoDB CRUD Query Commands</h2>
+        </div>
+
+        <!-- Create -->
+        <div class="card">
+            <h3>📥 Create Operations (Insert)</h3>
+            <p><strong>Syntax &amp; Example:</strong></p>
+            <pre><code>db.students.insertOne({
+    "usn": "1MS24IS001",
+    "name": "Akshay",
+    "gpa": 9.85
+});
+
+db.students.insertMany([
+    { "usn": "1MS24IS002", "name": "Ananth", "gpa": 9.70 },
+    { "usn": "1MS24IS003", "name": "Rahul", "gpa": 8.90 }
+]);</code></pre>
+        </div>
+
+        <!-- Read -->
+        <div class="card">
+            <h3>📤 Read Operations (Retrieve)</h3>
+            <p><strong>Syntax &amp; Example:</strong></p>
+            <pre><code><span class="cm">// Find all documents:</span>
+db.students.find();
+
+<span class="cm">// Find with condition:</span>
+db.students.find({ "gpa": 9.85 });
+
+<span class="cm">// Find one document matching query:</span>
+db.students.findOne({ "usn": "1MS24IS001" });</code></pre>
+        </div>
+
+        <!-- Update -->
+        <div class="card">
+            <h3>🔄 Update Operations (Modify)</h3>
+            <p><strong>Syntax &amp; Example:</strong></p>
+            <pre><code><span class="cm">// Update single document:</span>
+db.students.updateOne(
+    { "usn": "1MS24IS003" },
+    { $set: { "gpa": 9.10 } }
+);
+
+<span class="cm">// Update multiple matching documents:</span>
+db.students.updateMany(
+    { "gpa": { $lt: 9.00 } },
+    { $set: { "status": "Needs Improvement" } }
+);</code></pre>
+        </div>
+
+        <!-- Delete -->
+        <div class="card">
+            <h3>❌ Delete Operations</h3>
+            <p><strong>Syntax &amp; Example:</strong></p>
+            <pre><code><span class="cm">// Delete one:</span>
+db.students.deleteOne({ "usn": "1MS24IS003" });
+
+<span class="cm">// Delete multiple matching:</span>
+db.students.deleteMany({ "status": "Needs Improvement" });</code></pre>
+        </div>
+    </section>
+
+    <!-- 3. MongoDB Operators -->
+    <section class="section" id="mongodb-operators">
+        <div class="section-header">
+            <div class="section-number num-blue">20</div>
+            <h2>MongoDB Query Operators</h2>
+        </div>
+
+        <div class="card">
+            <h3>🛠️ Comparison &amp; Logical Operator Reference</h3>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Operator Group</th>
+                            <th>Operator</th>
+                            <th>Description</th>
+                            <th>Code Example Query</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td rowspan="4"><strong>Comparison</strong></td>
+                            <td>`$eq`</td>
+                            <td>Equal to.</td>
+                            <td>`db.students.find({ "gpa": { $eq: 9.85 } })`</td>
+                        </tr>
+                        <tr>
+                            <td>`$gt` / `$gte`</td>
+                            <td>Greater than / Greater than or equal to.</td>
+                            <td>`db.students.find({ "gpa": { $gt: 9.00 } })`</td>
+                        </tr>
+                        <tr>
+                            <td>`$lt` / `$lte`</td>
+                            <td>Less than / Less than or equal to.</td>
+                            <td>`db.students.find({ "gpa": { $lte: 9.00 } })`</td>
+                        </tr>
+                        <tr>
+                            <td>`$in`</td>
+                            <td>Matches any value in an array.</td>
+                            <td>`db.students.find({ "usn": { $in: ["1MS24", "1MS25"] } })`</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="2"><strong>Logical</strong></td>
+                            <td>`$and`</td>
+                            <td>Evaluates logical AND on multiple conditions.</td>
+                            <td>`db.students.find({ $and: [ { "gpa": { $gt: 9.0 } }, { "age": 20 } ] })`</td>
+                        </tr>
+                        <tr>
+                            <td>`$or`</td>
+                            <td>Evaluates logical OR on multiple conditions.</td>
+                            <td>`db.students.find({ $or: [ { "gpa": 9.85 }, { "name": "Akshay" } ] })`</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================== -->
+    <!-- PART F: UNIVERSITY Q&AS        -->
+    <!-- ============================== -->
+    <div class="part-divider part-d"><span id="part-f-uni">Part F — University Exam Solutions</span></div>
+
+    <!-- 17 Repeated University Q&A -->
+    <section class="section" id="uni-qa">
+        <div class="section-header">
+            <div class="section-number num-green">21</div>
+            <h2>17 Most Repeated University Q&amp;A Solutions <span class="badge badge-pyq">VTU Marks Pack</span></h2>
+        </div>
+
+        <div class="card">
+            <h3>Q1. Explain ACID properties of transactions with examples.</h3>
+            <p><strong>Answer:</strong> Encompasses Atomicity (all or nothing balance transfer), Consistency Preservation (double entry book totals balance), Isolation (concurrency control locks active state), and Durability (WAL logging protects commits). See Part A Section 4 for complete diagrams and implementations.</p>
+        </div>
+
+        <div class="card">
+            <h3>Q2. Explain the different states of a transaction with transition diagram.</h3>
+            <p><strong>Answer:</strong> See Part A Section 3 for the detailed state transition diagram and descriptions.</p>
+        </div>
+
+        <div class="card">
+            <h3>Q3. Describe problems that occur in concurrent execution with traces.</h3>
+            <p><strong>Answer:</strong> Includes Lost Updates, Dirty Reads, and Incorrect Summaries. See Part B Section 6 for full tracing examples.</p>
+        </div>
+
+        <div class="card">
+            <h3>Q4. Explain two-phase locking (2PL) protocol.</h3>
+            <p><strong>Answer:</strong> The Growing phase allows lock acquisition; the Shrinking phase allows lock release. No locks can be acquired during the shrinking phase. Ensures Conflict-Serializability. See Part B Section 8.</p>
+        </div>
+
+        <div class="card">
+            <h3>Q5. Differentiate between strict 2PL and rigorous 2PL.</h3>
+            <p><strong>Answer:</strong> Strict 2PL holds exclusive locks until commit. Rigorous 2PL holds *all* locks (shared and exclusive) until commit, ensuring strict serializability.</p>
+        </div>
+
+        <div class="card">
+            <h3>Q6. What are the recovery techniques based on deferred updates?</h3>
+            <p><strong>Answer:</strong> All database disk updates are deferred until commit. The system maintains redo lists. No undo operations are ever executed. See Part C Section 11.</p>
+        </div>
+
+        <div class="card">
+            <h3>Q7. Explain immediate update recovery protocol.</h3>
+            <p><strong>Answer:</strong> Disk updates are written immediately. Employs WAL. Uses both undo lists (for active transactions) and redo lists (for committed transactions). See Part C Section 12.</p>
+        </div>
+
+        <div class="card">
+            <h3>Q8. Explain the ARIES recovery algorithm in detail.</h3>
+            <p><strong>Answer:</strong> A three-phase recovery algorithm: Analysis (scans forward), Redo (repeats history forward), and Undo (rolls back backward). Writes CLRs. See Part C Section 14.</p>
+        </div>
+
+        <div class="card">
+            <h3>Q9. Explain the actions taken during a checkpoint.</h3>
+            <p><strong>Answer:</strong> Suspends transactions, flushes active log and RAM dirty buffers to disk, writes `[checkpoint]` log record, and resumes transactions.</p>
+        </div>
+
+        <div class="card">
+            <h3>Q10. What is CAP theorem? Explain its significance.</h3>
+            <p><strong>Answer:</strong> Consistency, Availability, Partition Tolerance. A distributed system can guarantee at most two at once. See Part D Section 15.</p>
+        </div>
+
+        <div class="card">
+            <h3>Q11. Explain characteristics of NoSQL databases.</h3>
+            <p><strong>Answer:</strong> Schema-less, horizontally scalable (sharding), distributed, highly available, and flexible. See Part D Section 15.</p>
+        </div>
+
+        <div class="card">
+            <h3>Q12. Compare key-value stores and document databases.</h3>
+            <p><strong>Answer:</strong> Key-value stores store opaque blobs. Document databases store transparent JSON/BSON structures that can be queried and indexed on nested fields.</p>
+        </div>
+
+        <div class="card">
+            <h3>Q13. Compare SQL and NoSQL databases.</h3>
+            <p><strong>Answer:</strong> See comparison table in Part D Section 17.</p>
+        </div>
+
+        <div class="card">
+            <h3>Q14. Explain BSON data types in MongoDB.</h3>
+            <p><strong>Answer:</strong> String, Integer, Double, Boolean, Array, Object, ObjectId, Date, and Null. See Part E Section 18.</p>
+        </div>
+
+        <div class="card">
+            <h3>Q15. Write MongoDB query commands for CRUD operations.</h3>
+            <p><strong>Answer:</strong> `insertOne()`, `insertMany()`, `find()`, `updateOne()`, and `deleteOne()`. See Part E Section 19.</p>
+        </div>
+
+        <div class="card">
+            <h3>Q16. What is sharding in MongoDB?</h3>
+            <p><strong>Answer:</strong> The process of distributing data across multiple physical machines to support horizontal scaling and high storage capacity.</p>
+        </div>
+
+        <div class="card">
+            <h3>Q17. Explain wound-wait and wait-die deadlock prevention.</h3>
+            <p><strong>Answer:</strong> Wound-wait forces younger lock-holders to abort (preemption). Wait-die forces younger lock-requestors to die (aborts self). See Part B Section 9.</p>
+        </div>
+    </section>
+
+    <!-- ============================== -->
+    <!-- PART G: LAST NIGHT REVISION    -->
+    <!-- ============================== -->
+    <div class="part-divider part-d"><span id="part-g-last">Part G — Last Night Revision Pack</span></div>
+
+    <!-- Last Night Revision Section -->
+    <section class="section" id="last-night">
+        <div class="section-header">
+            <div class="section-number num-green">22</div>
+            <h2>Last-Night Revision &amp; Mnemonics Cheat Sheet</h2>
+        </div>
+
+        <div class="card">
+            <h3>🎓 40 Important Definitions Glossary</h3>
+            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; font-size:13px;">
+                <div><strong>1. Transaction:</strong> Logical block of work.</div>
+                <div><strong>2. Active State:</strong> Initial execute state.</div>
+                <div><strong>3. Committed:</strong> Permanent disk changes state.</div>
+                <div><strong>4. Aborted:</strong> Rolled back failed state.</div>
+                <div><strong>5. Atomicity:</strong> All or nothing execution.</div>
+                <div><strong>6. Consistency:</strong> Preserves database schemas.</div>
+                <div><strong>7. Isolation:</strong> Concurrent hiding.</div>
+                <div><strong>8. Durability:</strong> Committed survivability.</div>
+                <div><strong>9. Lost Update:</strong> Overwritten updates.</div>
+                <div><strong>10. Dirty Read:</strong> Reading uncommitted changes.</div>
+                <div><strong>11. Read Lock (S):</strong> Shared read mode.</div>
+                <div><strong>12. Write Lock (X):</strong> Exclusive write mode.</div>
+                <div><strong>13. Lock Compatibility:</strong> S-S compatible; X incompatible.</div>
+                <div><strong>14. 2PL:</strong> Growing and Shrinking phases.</div>
+                <div><strong>15. Strict 2PL:</strong> Holds X locks till commit.</div>
+                <div><strong>16. Rigorous 2PL:</strong> Holds S/X locks till commit.</div>
+                <div><strong>17. Deadlock:</strong> Circular resources wait state.</div>
+                <div><strong>18. Wait-Die:</strong> Non-preemptive deadlock prevention.</div>
+                <div><strong>19. Wound-Wait:</strong> Preemptive deadlock prevention.</div>
+                <div><strong>20. Recovery:</strong> Crash restoration process.</div>
+                <div><strong>21. Deferred Update:</strong> Updates written only at commit.</div>
+                <div><strong>22. Immediate Update:</strong> Updates written immediately.</div>
+                <div><strong>23. Checkpoint:</strong> Optimized log flush point.</div>
+                <div><strong>24. ARIES:</strong> 3-phase industrial recovery.</div>
+                <div><strong>25. Compensation Log (CLR):</strong> Records rollbacks in logs.</div>
+                <div><strong>26. NoSQL:</strong> Schema-less horizontal databases.</div>
+                <div><strong>27. CAP Theorem:</strong> Consistency, Availability, Partition limit.</div>
+                <div><strong>28. Eventual Consistency:</strong> Data syncs slowly over time.</div>
+                <div><strong>29. Key-Value Store:</strong> Hash-based opaque blobs.</div>
+                <div><strong>30. Document Store:</strong> JSON/BSON storage.</div>
+                <div><strong>31. Column Family:</strong> Multi-column family groups.</div>
+                <div><strong>32. Graph Store:</strong> Edges and node structures.</div>
+                <div><strong>33. BSON:</strong> Binary JSON serialization.</div>
+                <div><strong>34. ObjectId:</strong> 12-byte MongoDB key.</div>
+                <div><strong>35. Sharding:</strong> Distributed document partition.</div>
+                <div><strong>36. Write-Ahead Log (WAL):</strong> Logs written before disk blocks.</div>
+                <div><strong>37. Savepoint:</strong> Transaction partial rollbacks.</div>
+                <div><strong>38. wait_for_graph:</strong> Deadlock cycle detection.</div>
+                <div><strong>39. REDO:</strong> Reapply logged committed writes.</div>
+                <div><strong>40. UNDO:</strong> Rollback active failed writes.</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>💡 Acronym Memory Shortcuts</h3>
+            <ul>
+                <li><strong>ACID:</strong> **A**ll or nothing (Atomicity), **C**orrect totals (Consistency), **I**solated execution (Isolation), **D**isk flushes (Durability).</li>
+                <li><strong>Transaction States:</strong> **A**ngry **P**igeons **C**hase **F**ast **A**ctive **T**igers (Active, Partially Committed, Committed, Failed, Aborted, Terminated).</li>
+                <li><strong>2PL Phases:</strong> **G**rowing (Getting locks), **S**hrinking (Selling/releasing locks).</li>
+                <li><strong>ARIES Phases:</strong> **A**lways **R**un **U**pwards (Analysis, Redo, Undo).</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0, behavior:'smooth'})">▲</button>
+
+</div>
+
+<script>
+    // Smooth navigation active class update on scroll
+    window.addEventListener('scroll', () => {
+        const sections = document.querySelectorAll('.section, .part-divider');
+        const navLinks = document.querySelectorAll('.nav-link');
+        let currentSection = "";
+
+        sections.forEach(sec => {
+            const top = sec.offsetTop - 100;
+            if (window.scrollY >= top) {
+                currentSection = sec.getAttribute('id');
+            }
+        });
+
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === `#${currentSection}`) {
+                link.classList.add('active');
+            }
+        });
+
+        // Toggle back to top button visibility
+        const btt = document.getElementById('backToTop');
+        if (window.scrollY > 300) btt.classList.add('visible');
+        else btt.classList.remove('visible');
+    });
+</script>
+
+</body>
+</html>

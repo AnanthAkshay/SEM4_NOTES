@@ -12,7 +12,7 @@ public class PasswordSecurityApp {
         String password = scanner.nextLine();
 
         System.out.println("\n---------------- SECURITY REPORT ----------------");
-        
+
         // 1. Check for Uppercase, Lowercase, and Digits
         boolean hasUpper = false;
         boolean hasLower = false;

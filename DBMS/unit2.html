@@ -1,0 +1,1768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit 2 — Relational Model &amp; Relational Algebra Exam Notes</title>
+    <meta name="description" content="Complete university exam notes for DBMS Unit 2: Relational Model, Integrity Constraints, Unary/Binary/Set Operations, Division, ER-to-Relational Mapping, 40+ Solved Queries, and Revision Pack.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* ===== CSS RESET & ROOT ===== */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-primary: #0a0e1a;
+            --bg-secondary: #111827;
+            --bg-card: #1a2234;
+            --bg-card-hover: #1e2a40;
+            --bg-code: #0d1117;
+            --bg-inlinecode: #1e293b;
+            --text-primary: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --accent-blue: #06b6d4; /* Database Cyan Accent */
+            --accent-purple: #8b5cf6;
+            --accent-cyan: #22d3ee;
+            --accent-green: #10b981;
+            --accent-orange: #f59e0b;
+            --accent-red: #ef4444;
+            --accent-pink: #ec4899;
+            --border-color: #1e293b;
+            --border-accent: #2d3a52;
+            --gradient-1: linear-gradient(135deg, #06b6d4, #8b5cf6);
+            --gradient-2: linear-gradient(135deg, #22d3ee, #06b6d4);
+            --gradient-3: linear-gradient(135deg, #8b5cf6, #ec4899);
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+            --shadow-md: 0 4px 14px rgba(0,0,0,0.4);
+            --shadow-lg: 0 10px 40px rgba(0,0,0,0.5);
+            --shadow-glow: 0 0 30px rgba(6,182,212,0.15);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 15px;
+            overflow-x: hidden;
+        }
+
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-primary); }
+        ::-webkit-scrollbar-thumb { background: var(--border-accent); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent-blue); }
+
+        /* ===== ANIMATED BACKGROUND ===== */
+        .bg-glow {
+            position: fixed;
+            top: -200px;
+            right: -200px;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(6,182,212,0.08) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+            animation: floatGlow 20s ease-in-out infinite;
+        }
+        .bg-glow-2 {
+            position: fixed;
+            bottom: -200px;
+            left: -200px;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(139,92,246,0.06) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+            animation: floatGlow 25s ease-in-out infinite reverse;
+        }
+        @keyframes floatGlow {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(50px, 30px); }
+        }
+
+        /* ===== SIDEBAR NAV ===== */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 280px;
+            height: 100vh;
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border-color);
+            padding: 24px 0;
+            overflow-y: auto;
+            z-index: 100;
+            transition: transform 0.3s ease;
+        }
+        .sidebar-header {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 12px;
+        }
+        .sidebar-header h2 {
+            font-size: 16px;
+            font-weight: 700;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .sidebar-header p {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+        .nav-section {
+            padding: 8px 16px 4px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-muted);
+        }
+        .nav-link {
+            display: block;
+            padding: 7px 20px 7px 24px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+        }
+        .nav-link:hover {
+            color: var(--accent-blue);
+            background: rgba(6,182,212,0.05);
+            border-left-color: var(--accent-blue);
+        }
+        .nav-link.active {
+            color: var(--accent-blue);
+            background: rgba(6,182,212,0.08);
+            border-left-color: var(--accent-blue);
+            font-weight: 500;
+        }
+        .badge {
+            display: inline-block;
+            font-size: 9px;
+            padding: 1px 6px;
+            border-radius: 10px;
+            margin-left: 6px;
+            font-weight: 600;
+            vertical-align: middle;
+        }
+        .badge-pyq { background: rgba(239,68,68,0.15); color: var(--accent-red); }
+        .badge-imp { background: rgba(245,158,11,0.15); color: var(--accent-orange); }
+
+        /* ===== MOBILE TOGGLE ===== */
+        .sidebar-toggle {
+            display: none;
+            position: fixed;
+            top: 16px;
+            left: 16px;
+            z-index: 200;
+            background: var(--bg-card);
+            border: 1px solid var(--border-accent);
+            color: var(--text-primary);
+            width: 42px;
+            height: 42px;
+            border-radius: var(--radius-sm);
+            font-size: 20px;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .main {
+            margin-left: 280px;
+            padding: 40px 48px 100px;
+            max-width: 1050px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ===== HERO HEADER ===== */
+        .hero {
+            text-align: center;
+            padding: 56px 32px;
+            background: linear-gradient(135deg, rgba(6,182,212,0.1), rgba(139,92,246,0.1));
+            border: 1px solid var(--border-accent);
+            border-radius: var(--radius-xl);
+            margin-bottom: 48px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: var(--gradient-1);
+        }
+        .hero .unit-badge {
+            display: inline-block;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--accent-cyan);
+            background: rgba(6,182,212,0.1);
+            padding: 6px 16px;
+            border-radius: 20px;
+            border: 1px solid rgba(6,182,212,0.2);
+            margin-bottom: 16px;
+        }
+        .hero h1 {
+            font-size: 36px;
+            font-weight: 900;
+            letter-spacing: -1px;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 12px;
+        }
+        .hero p {
+            color: var(--text-secondary);
+            font-size: 16px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* ===== PART DIVIDER ===== */
+        .part-divider {
+            text-align: center;
+            margin: 64px 0 40px;
+            position: relative;
+        }
+        .part-divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0; right: 0;
+            height: 1px;
+            background: var(--border-accent);
+        }
+        .part-divider span {
+            position: relative;
+            display: inline-block;
+            background: var(--bg-primary);
+            padding: 8px 28px;
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            border: 1px solid var(--border-accent);
+            border-radius: 30px;
+        }
+        .part-divider.part-a span { color: var(--accent-cyan); border-color: rgba(6,182,212,0.3); }
+        .part-divider.part-b span { color: var(--accent-purple); border-color: rgba(139,92,246,0.3); }
+        .part-divider.part-c span { color: var(--accent-pink); border-color: rgba(236,72,153,0.3); }
+
+        /* ===== SECTION (TOPIC) ===== */
+        .section {
+            margin-bottom: 48px;
+            scroll-margin-top: 24px;
+        }
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 20px;
+        }
+        .section-number {
+            flex-shrink: 0;
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            font-weight: 800;
+            border-radius: 10px;
+            color: #fff;
+        }
+        .num-blue { background: var(--gradient-2); }
+        .num-purple { background: var(--gradient-3); }
+        .num-green { background: linear-gradient(135deg, #10b981, #06b6d4); }
+        .section-header h2 {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        /* ===== CARDS ===== */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            margin-bottom: 20px;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .card:hover {
+            border-color: var(--border-accent);
+            box-shadow: var(--shadow-md);
+        }
+        .card h3 {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .card h3 .icon { font-size: 18px; }
+        .card p, .card li {
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+        }
+        .card ul { padding-left: 20px; list-style: none; }
+        .card ul li::before {
+            content: '▸';
+            color: var(--accent-blue);
+            font-weight: bold;
+            margin-right: 8px;
+        }
+        .card ol { padding-left: 20px; }
+        .card ol li { color: var(--text-secondary); margin-bottom: 4px; }
+
+        /* ===== DEFINITION BOX ===== */
+        .def-box {
+            background: linear-gradient(135deg, rgba(6,182,212,0.06), rgba(139,92,246,0.06));
+            border: 1px solid rgba(6,182,212,0.15);
+            border-radius: var(--radius-md);
+            padding: 20px 24px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--accent-blue);
+        }
+        .def-box .label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--accent-blue);
+            margin-bottom: 6px;
+        }
+        .def-box p {
+            color: var(--text-primary);
+            font-size: 15px;
+        }
+
+        /* ===== EXAM TIP BOX ===== */
+        .tip-box {
+            background: rgba(16,185,129,0.06);
+            border: 1px solid rgba(16,185,129,0.15);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            margin-bottom: 16px;
+            border-left: 4px solid var(--accent-green);
+        }
+        .tip-box .label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--accent-green);
+            margin-bottom: 4px;
+        }
+        .tip-box p { color: var(--text-secondary); font-size: 14px; }
+
+        /* ===== WARNING BOX ===== */
+        .warn-box {
+            background: rgba(245,158,11,0.06);
+            border: 1px solid rgba(245,158,11,0.15);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            margin-bottom: 16px;
+            border-left: 4px solid var(--accent-orange);
+        }
+        .warn-box .label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--accent-orange);
+            margin-bottom: 4px;
+        }
+        .warn-box p { color: var(--text-secondary); font-size: 14px; }
+
+        /* ===== PYQ TAG ===== */
+        .pyq-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--accent-red);
+            background: rgba(239,68,68,0.1);
+            border: 1px solid rgba(239,68,68,0.2);
+            padding: 3px 10px;
+            border-radius: 20px;
+            margin-left: 8px;
+        }
+
+        /* ===== TABLES ===== */
+        .table-wrap {
+            overflow-x: auto;
+            margin-bottom: 20px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13.5px;
+        }
+        thead th {
+            background: var(--bg-card);
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 700;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--text-secondary);
+            border-bottom: 2px solid var(--border-accent);
+        }
+        tbody td {
+            padding: 10px 16px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+        tbody tr:hover { background: rgba(6,182,212,0.03); }
+        tbody tr:last-child td { border-bottom: none; }
+        td code, th code {
+            background: var(--bg-inlinecode);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        /* ===== DIFF TABLE ===== */
+        .diff-table {
+            border: 2px solid var(--accent-purple);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        .diff-table-header {
+            background: linear-gradient(135deg, rgba(139,92,246,0.15), rgba(236,72,153,0.1));
+            padding: 12px 16px;
+            font-weight: 800;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid rgba(139,92,246,0.2);
+        }
+        .diff-table thead th {
+            background: rgba(139,92,246,0.08);
+        }
+
+        /* ===== CODE BLOCKS ===== */
+        pre {
+            background: var(--bg-code);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 20px 24px;
+            margin-bottom: 16px;
+            overflow-x: auto;
+            position: relative;
+        }
+        pre code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            line-height: 1.65;
+            color: var(--text-primary);
+        }
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            background: var(--bg-inlinecode);
+            padding: 2px 7px;
+            border-radius: 5px;
+            color: var(--accent-cyan);
+        }
+
+        /* ===== Syntax Highlighting ===== */
+        .kw { color: #c678dd; }
+        .str { color: #98c379; }
+        .cm { color: #5c6370; font-style: italic; }
+        .fn { color: #61afef; }
+        .cls { color: #e5c07b; }
+        .num { color: #d19a66; }
+        .op { color: #56b6c2; }
+
+        /* ===== SOLVED PROBLEM BOX ===== */
+        .problem-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            margin-bottom: 32px;
+            box-shadow: var(--shadow-md);
+        }
+        .problem-header {
+            padding: 20px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border-color);
+            background: linear-gradient(135deg, rgba(6,182,212,0.1), rgba(139,92,246,0.02));
+        }
+        .problem-header h3 {
+            font-size: 17px;
+            font-weight: 800;
+        }
+        .problem-body { padding: 24px; }
+        .problem-body pre {
+            margin: 16px -24px;
+            border-radius: 0;
+            border-left: none;
+            border-right: none;
+        }
+
+        /* ===== VIVA QUESTIONS ===== */
+        .viva-list { counter-reset: viva-counter; list-style: none; padding: 0; }
+        .viva-list li {
+            counter-increment: viva-counter; padding: 12px 16px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-secondary); font-size: 14px;
+        }
+        .viva-list li:last-child { border-bottom: none; }
+        .viva-list li::before {
+            content: counter(viva-counter); display: inline-flex;
+            align-items: center; justify-content: center;
+            width: 24px; height: 24px; background: rgba(6,182,212,0.15);
+            color: var(--accent-blue); font-size: 11px; font-weight: 700;
+            border-radius: 6px; margin-right: 12px; flex-shrink: 0;
+        }
+        .viva-list li strong { color: var(--text-primary); }
+
+        /* ===== BACK TO TOP ===== */
+        .back-to-top {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            width: 44px;
+            height: 44px;
+            background: var(--gradient-1);
+            border: none;
+            border-radius: 50%;
+            color: #fff;
+            font-size: 20px;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            z-index: 200;
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .back-to-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .back-to-top:hover { transform: translateY(-3px); }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 900px) {
+            .sidebar { transform: translateX(-100%); }
+            .sidebar.open { transform: translateX(0); box-shadow: var(--shadow-lg); }
+            .sidebar-toggle { display: flex; }
+            .main { margin-left: 0; padding: 24px 20px 80px; }
+            .hero h1 { font-size: 26px; }
+            .problem-body pre { margin: 16px -16px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="bg-glow"></div>
+<div class="bg-glow-2"></div>
+
+<!-- Mobile Toggle -->
+<button class="sidebar-toggle" id="sidebarToggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰</button>
+
+<!-- Sidebar Navigation -->
+<nav class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+        <h2>📘 Unit 2 Notes</h2>
+        <p>Relational Model &amp; Algebra</p>
+    </div>
+
+    <div class="nav-section">Part A — Relational Model</div>
+    <a class="nav-link" href="#rel-model-def">Relational Model Concepts</a>
+    <a class="nav-link" href="#characteristics-relations">Characteristics of Relations</a>
+    <a class="nav-link" href="#schema-vs-instance">Schema vs. Instance</a>
+    <a class="nav-link" href="#integrity-constraints">Integrity Constraints</a>
+    <a class="nav-link" href="#null-values">NULL Values &amp; Logic</a>
+    <a class="nav-link" href="#update-operations">Update Operations</a>
+    <a class="nav-link" href="#transactions">Transactions Subsystems</a>
+
+    <div class="nav-section">Part B — Relational Algebra</div>
+    <a class="nav-link" href="#unary-select">SELECT (σ) &amp; PROJECT (π)</a>
+    <a class="nav-link" href="#set-operations">Set Theory Operators</a>
+    <a class="nav-link" href="#binary-joins">Joins (Theta, Equi, Natural)</a>
+    <a class="nav-link" href="#outer-joins">Outer Joins Mapped</a>
+    <a class="nav-link" href="#division-operator">Division (÷) Deep Dive</a>
+    <a class="nav-link" href="#additional-ops">Aggregate &amp; Grouping (Im)</a>
+
+    <div class="nav-section">Part C — ER Mapping</div>
+    <a class="nav-link" href="#mapping-steps">7-Step Conversion Rules</a>
+    <a class="nav-link" href="#mapping-flow">Mapping Flowchart</a>
+    <a class="nav-link" href="#mapping-solved">Solved COMPANY DB Mapping</a>
+
+    <div class="nav-section">Algebra Solved Queries</div>
+    <a class="nav-link" href="#solved-queries-1-20">Solved Queries 1 - 20</a>
+    <a class="nav-link" href="#solved-queries-21-40">Solved Queries 21 - 40</a>
+
+    <div class="nav-section">Exam &amp; Revision</div>
+    <a class="nav-link" href="#repeated-q">University Q&amp;A Solutions</a>
+    <a class="nav-link" href="#last-night">Last-Night Revision Pack</a>
+</nav>
+
+<!-- Main Content -->
+<div class="main">
+
+    <!-- Hero -->
+    <header class="hero" id="top">
+        <div class="unit-badge">Unit II — Relational Model Theory</div>
+        <h1>Relational Model &amp; Relational Algebra</h1>
+        <p>Comprehensive descriptive and mathematically structured solved notes matching VTU paper-setter standards. Covers Constraints, algebra operators, joins, division operations, ER mappings, and COMPANY queries.</p>
+    </header>
+
+    <!-- ============================== -->
+    <!-- PART A: RELATIONAL MODEL       -->
+    <!-- ============================== -->
+    <div class="part-divider part-a"><span id="part-a-model">Part A — Relational Database Model</span></div>
+
+    <!-- 1. Relational Model Concepts -->
+    <section class="section" id="rel-model-def">
+        <div class="section-header">
+            <div class="section-number num-blue">1</div>
+            <h2>Relational Model Core Concepts &amp; Domains</h2>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definitions</div>
+            <p><strong>Relational Model:</strong> First proposed by Dr. E.F. Codd of IBM in 1970, it represents the database as a collection of mathematically structured relations (informally called **tables**). Each relation consists of a set of attributes (columns) and tuples (rows).</p>
+            <p style="margin-top: 10px;"><strong>Domain ($D$):</strong> A set of atomic (indivisible) values. Each attribute in a relation must derive its values from a specific pre-defined domain. It has a data type and a specific format (e.g., `Phone_No` is a 10-digit numeric string).</p>
+            <p style="margin-top: 10px;"><strong>Tuple ($t$):</strong> An ordered list of values representing a single real-world record in the table. An $n$-tuple contains $n$ values.</p>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">📐</span> Mathematical Definition of a Relation</h3>
+            <p>A relation schema $R(A_1, A_2, \dots, A_n)$ is made up of a relation name $R$ and a list of attributes $A_i$. A relation state (or relation instance) $r(R)$ is a mathematical subset of the **Cartesian Product** of the domains of its attributes:</p>
+            <p style="text-align: center; font-size: 1.1rem; margin: 15px 0;">
+                $r(R) \subseteq \text{dom}(A_1) \times \text{dom}(A_2) \times \dots \times \text{dom}(A_n)$
+            </p>
+            <p>This means if we take every possible combination of values from each attribute's domain, the active database table will contain a small subset of those combinations at any given instant.</p>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🗂️</span> Visual Representation of a Relation</h3>
+            <pre><code> RELATION NAME: STUDENT
++-----------------------------------------------------------+
+| USN (PK)    | Name (VARCHAR)   | GPA (DECIMAL) | Age (INT)| ===&gt; Schema Headers
++-------------+------------------+---------------+----------+
+| 1MS24IS001  | Akshay A         | 9.85          | 20       | ===&gt; Tuple (3-tuple)
+| 1MS24IS002  | Ananth K         | 9.70          | 20       |
+| 1MS24IS003  | Rahul S          | 8.90          | 21       |
++-----------------------------------------------------------+
+      │                │                 │
+      ▼                ▼                 ▼
+   Domains:       dom(Name)          dom(GPA)
+ (10-char USN)   (alphabetic)     (scale 0.0-10.0)</code></pre>
+        </div>
+    </section>
+
+    <!-- 2. Characteristics of Relations -->
+    <section class="section" id="characteristics-relations">
+        <div class="section-header">
+            <div class="section-number num-blue">2</div>
+            <h2>The 6 Primary Characteristics of Relations <span class="badge badge-pyq">VTU Repeated</span></h2>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">⚙️</span> Key Structural Characteristics</h3>
+            <ol>
+                <li><strong>Ordering of Tuples in a Relation:</strong> A relation is defined as a mathematical set of tuples. In mathematics, sets do not have a defined order. Therefore, the order in which rows are stored or retrieved does not affect the logical meaning of the relation.</li>
+                <li><strong>Ordering of Values within a Tuple:</strong> An $n$-tuple is an ordered list of $n$ values. However, at the logical level, because every attribute value is explicitly bound to an attribute column name, the physical order of columns is irrelevant.</li>
+                <li><strong>Values in a Tuple must be Atomic:</strong> Every cell in a relation must contain exactly one single indivisible value. Multi-valued composite fields or nested tables are strictly prohibited (this property corresponds to **First Normal Form (1NF)**).</li>
+                <li><strong>No Duplicate Tuples:</strong> By definition, a mathematical set contains unique elements. Hence, no two tuples in a relation instance can have identical values for all attributes.</li>
+                <li><strong>Attribute Names are Unique:</strong> Within a single relation schema $R$, no two attribute columns can share the same name.</li>
+                <li><strong>Domain Integrity:</strong> Every value in a column must strictly belong to the domain associated with that attribute.</li>
+            </ol>
+        </div>
+    </section>
+
+    <!-- 3. Schemas and Instances -->
+    <section class="section" id="schema-vs-instance">
+        <div class="section-header">
+            <div class="section-number num-blue">3</div>
+            <h2>Relational Database Schemas vs. States (Instances)</h2>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🔄</span> Schema (Intension) vs. State (Extension) Comparison</h3>
+            <p>In database systems, separating the structural metadata design from the active runtime records is crucial for maintaining data independence:</p>
+            
+            <div class="table-wrap" style="margin-top: 15px;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Relational Schema (Intension)</th>
+                            <th>Relation State / Instance (Extension)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Definition</strong></td>
+                            <td>The logical design layout, headers, and constraint rules of the table.</td>
+                            <td>The actual set of records (tuples) stored at a specific millisecond.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Modifying Schedule</strong></td>
+                            <td>Specified during database design; changes very rarely.</td>
+                            <td>Changes constantly with every insert, update, or delete transaction.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Written Format</strong></td>
+                            <td>`STUDENT(USN, Name, GPA, DeptID)`</td>
+                            <td>The physical table containing values.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. Integrity Constraints -->
+    <section class="section" id="integrity-constraints">
+        <div class="section-header">
+            <div class="section-number num-blue">4</div>
+            <h2>The 4 Core Relational Model Constraints <span class="badge badge-imp">Highly Important</span></h2>
+        </div>
+
+        <!-- 1. Domain Constraint -->
+        <div class="card">
+            <h3>1. Domain Constraint</h3>
+            <p><strong>Rule:</strong> The value of each attribute $A$ in a tuple must be an atomic value from the domain $\text{dom}(A)$ associated with that attribute. This includes data types, sizes, ranges, and formats.</p>
+            <p><strong>Example:</strong> `GPA` has domain `DECIMAL(3,2)` with range `0.00` to `10.00`.</p>
+            <p><strong>Violation:</strong> Inserting a row where `GPA = 11.50` or `GPA = 'A+'` violates the domain constraint. The DBMS rejects the operation, throwing a type mismatch error.</p>
+        </div>
+
+        <!-- 2. Key Constraint -->
+        <div class="card">
+            <h3>2. Key Constraint (Super Key &amp; Candidate Key uniqueness)</h3>
+            <p><strong>Rule:</strong> No two distinct tuples in any relation state $r(R)$ can have identical values for their **Candidate Key** attributes. The primary key uniquely identifies each record.</p>
+            <p><strong>Example:</strong> In a table `STUDENT`, `USN` is chosen as the Primary Key.</p>
+            <p><strong>Violation:</strong> Attempting to insert a new student with `USN = '1MS24IS001'` when a student with that USN already exists in the table. The DBMS blocks the transaction, raising a **Unique Key Constraint Violation**.</p>
+        </div>
+
+        <!-- 3. Entity Integrity Constraint -->
+        <div class="card">
+            <h3>3. Entity Integrity Constraint</h3>
+            <p><strong>Rule:</strong> No attribute that is a member of the primary key of a relation schema $R$ can hold a **NULL** value in any tuple of any relation state $r(R)$.</p>
+            <p><strong>Purpose:</strong> Primary keys identify individual records. If a primary key attribute is allowed to be NULL, the database cannot identify or reference that specific row.</p>
+            <p><strong>Violation:</strong> Inserting `STUDENT(USN = NULL, Name = 'Akshay', GPA = 9.8)` violates this constraint. The DBMS halts the operation, throwing an **Entity Integrity / NOT NULL Constraint Violation**.</p>
+        </div>
+
+        <!-- 4. Referential Integrity Constraint -->
+        <div class="card" id="ref-integrity">
+            <h3>4. Referential Integrity Constraint (Foreign Key rules)</h3>
+            <p><strong>Rule:</strong> Used to maintain consistency between tuples in two relations (the referencing relation $R_1$ and the referenced relation $R_2$). A foreign key value in $R_1$ **must** either:</p>
+            <ol>
+                <li>Match a valid primary key value of some tuple in $R_2$, or</li>
+                <li>Be entirely **NULL** (unless marked `NOT NULL` explicitly by business rules).</li>
+            </ol>
+            <pre><code> Referencing Relation: STUDENT                 Referenced Relation: DEPARTMENT
++------------------------------------+        +------------------------------+
+| USN        | Name     | DeptID (FK)| ======▶| DeptID (PK)| DeptName        |
++------------+----------+------------+        +------------+-----------------+
+| 1MS24IS001 | Akshay   |   10       |        |   10       | Info Science    |
+| 1MS24IS002 | Ananth   |   NULL     | (OK)   |   20       | Computer Science|
++------------+----------+------------+        +------------+-----------------+</code></pre>
+            <p><strong>Violation:</strong> Attempting to insert a student with `DeptID = 99` when no department with `DeptID = 99` exists in the `DEPARTMENT` table. The DBMS blocks this operation, throwing a **Referential Integrity / Foreign Key Violation**.</p>
+        </div>
+    </section>
+
+    <!-- 5. NULL Values in Relations -->
+    <section class="section" id="null-values">
+        <div class="section-header">
+            <div class="section-number num-blue">5</div>
+            <h2>NULL Values in Relations &amp; Three-Valued Logic</h2>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">❓</span> Semantic Meanings of NULL</h3>
+            <p>In relational databases, a **NULL** value represents a placeholder indicating that a value is missing or unknown. It can represent three distinct scenarios:</p>
+            <ul>
+                <li><strong>Value Exists but is Unknown:</strong> The student has a phone number, but it has not been recorded yet.</li>
+                <li><strong>Value is Not Applicable:</strong> The attribute does not apply to this record (e.g., `Spouse_Name` for an unmarried employee).</li>
+                <li><strong>Value is Withheld:</strong> The customer refuses to provide their email address.</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">📊</span> Three-Valued Logic (3VL)</h3>
+            <p>Because database comparisons can involve NULL, SQL uses Three-Valued Logic, yielding three truth values: **TRUE**, **FALSE**, and **UNKNOWN**. Comparisons with NULL (e.g., `Age = NULL` or `Age &gt; 21` when Age is NULL) evaluate to **UNKNOWN**:</p>
+            
+            <div class="table-wrap" style="margin-top: 15px;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Operand A</th>
+                            <th>Operand B</th>
+                            <th>AND</th>
+                            <th>OR</th>
+                            <th>NOT A</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>TRUE</td>
+                            <td>UNKNOWN</td>
+                            <td>UNKNOWN</td>
+                            <td>TRUE</td>
+                            <td>FALSE</td>
+                        </tr>
+                        <tr>
+                            <td>FALSE</td>
+                            <td>UNKNOWN</td>
+                            <td>FALSE</td>
+                            <td>UNKNOWN</td>
+                            <td>TRUE</td>
+                        </tr>
+                        <tr>
+                            <td>UNKNOWN</td>
+                            <td>UNKNOWN</td>
+                            <td>UNKNOWN</td>
+                            <td>UNKNOWN</td>
+                            <td>UNKNOWN</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. Update Operations -->
+    <section class="section" id="update-operations">
+        <div class="section-header">
+            <div class="section-number num-blue">6</div>
+            <h2>Update Operations &amp; Constraint Violations</h2>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">⚡</span> Transaction Constraints Violations &amp; DBMS Remediation</h3>
+            <p>When database update operations (`INSERT`, `DELETE`, `UPDATE`) occur, they can violate the integrity constraints of the database. The DBMS handles these violations based on pre-defined referential actions:</p>
+            
+            <div class="table-wrap" style="margin-top: 15px;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Update Operation</th>
+                            <th>Possible Constraint Violations</th>
+                            <th>Standard DBMS Recovery Solutions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>INSERT</strong></td>
+                            <td>Domain, Key, Entity Integrity, Referential Integrity</td>
+                            <td>**REJECT:** DBMS blocks the insertion and rollbacks the transaction.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>DELETE</strong></td>
+                            <td>Referential Integrity (if parent row is deleted while referenced)</td>
+                            <td>
+                                1. **RESTRICT (Default):** Rejects the delete operation.<br>
+                                2. **CASCADE:** Deletes all referencing child rows automatically.<br>
+                                3. **SET NULL:** Sets child foreign keys to NULL.<br>
+                                4. **SET DEFAULT:** Sets child foreign keys to default values.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>UPDATE</strong></td>
+                            <td>Domain, Key, Entity Integrity, Referential Integrity</td>
+                            <td>
+                                **CASCADE / SET NULL:** Updates matching foreign key values in child rows, or blocks the operation if it violates primary key uniqueness.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🛠️</span> Example SQL Referential Actions Syntax</h3>
+            <pre><code><span class="kw">CREATE TABLE</span> <span class="cls">Student</span> (
+    USN <span class="kw">VARCHAR</span>(10) <span class="kw">PRIMARY KEY</span>,
+    Name <span class="kw">VARCHAR</span>(50) <span class="kw">NOT NULL</span>,
+    DeptID <span class="kw">INT</span>,
+    <span class="kw">FOREIGN KEY</span> (DeptID) <span class="kw">REFERENCES</span> <span class="cls">Department</span>(DeptID)
+        <span class="kw">ON DELETE CASCADE</span>
+        <span class="kw">ON UPDATE CASCADE</span>
+);</code></pre>
+            <p>If a department is deleted from the `Department` table, all students belonging to that department will be automatically deleted (**ON DELETE CASCADE**). If a department's ID is changed, the students' department IDs will be updated automatically (**ON UPDATE CASCADE**).</p>
+        </div>
+    </section>
+
+    <!-- 7. Transactions -->
+    <section class="section" id="transactions">
+        <div class="section-header">
+            <div class="section-number num-blue">7</div>
+            <h2>Database Transactions: Commits and Rollbacks</h2>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definition</div>
+            <p>A <strong>Transaction</strong> is a single logical unit of database processing that performs a sequence of operations (reads and writes). It must execute in its entirety or not at all, adhering to ACID properties.</p>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🔄</span> Commit vs. Rollback Scenarios</h3>
+            <ul>
+                <li><strong>COMMIT:</strong> Permanently saves all transaction updates to the physical storage disk. Once a transaction is committed, its changes cannot be undone.</li>
+                <li><strong>ROLLBACK:</strong> Undoes all changes made during the current transaction, returning the database to its last consistent state before the transaction started. This is used if a constraint violation or system crash occurs mid-transaction.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- ============================== -->
+    <!-- PART B: RELATIONAL ALGEBRA     -->
+    <!-- ============================== -->
+    <div class="part-divider part-b"><span id="part-b-algebra">Part B — Relational Algebra Operations</span></div>
+
+    <!-- 8. Unary Relational Operations -->
+    <section class="section" id="unary-select">
+        <div class="section-header">
+            <div class="section-number num-purple">8</div>
+            <h2>Unary Operations: SELECT (σ) &amp; PROJECT (π)</h2>
+        </div>
+
+        <!-- SELECT (σ) -->
+        <div class="card">
+            <h3>SELECT Operator ($\sigma$) <span class="badge badge-imp">Core Operator</span></h3>
+            <p><strong>Mathematical Definition:</strong> Used to select a subset of tuples from a relation that satisfy a specific selection condition. It acts as a **horizontal filter**.</p>
+            <p><strong>Syntax:</strong> $\sigma_{\langle \text{condition} \rangle}(R)$</p>
+            <p><strong>Boolean Operators:</strong> Conditions can be combined using **AND** ($\land$), **OR** ($\lor$), and **NOT** ($\neg$). Comparison operators include $=, \neq, &lt;, \leq, &gt;, \geq$.</p>
+            
+            <p style="margin-top: 15px;"><strong>Input Relation: EMPLOYEE</strong></p>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>SSN</th><th>Name</th><th>DeptID</th><th>Salary</th></tr></thead>
+                    <tbody>
+                        <tr><td>E01</td><td>Akshay</td><td>10</td><td>95000</td></tr>
+                        <tr><td>E02</td><td>Ananth</td><td>20</td><td>98000</td></tr>
+                        <tr><td>E03</td><td>Rahul</td><td>10</td><td>75000</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p style="margin-top: 15px;"><strong>Example Query:</strong> Find all employees in Dept 10 with a salary greater than 80,000.</p>
+            <p><strong>Algebraic Expression:</strong> $\sigma_{\text{DeptID} = 10 \land \text{Salary} &gt; 80000}(\text{EMPLOYEE})$</p>
+            <p><strong>Result Table:</strong></p>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>SSN</th><th>Name</th><th>DeptID</th><th>Salary</th></tr></thead>
+                    <tbody>
+                        <tr><td>E01</td><td>Akshay</td><td>10</td><td>95000</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- PROJECT (π) -->
+        <div class="card">
+            <h3>PROJECT Operator ($\pi$) <span class="badge badge-imp">Core Operator</span></h3>
+            <p><strong>Mathematical Definition:</strong> Used to select a subset of columns (attributes) from a relation, discarding the remaining columns. It acts as a **vertical filter**.</p>
+            <p><strong>Syntax:</strong> $\pi_{\langle \text{attribute list} \rangle}(R)$</p>
+            
+            <div class="warn-box">
+                <div class="label">⚠️ CRITICAL EXAM POINT: Duplicate Removal</div>
+                <p>Because relational algebra is based on mathematical set theory, **duplicate tuples are strictly removed** from the output of a PROJECT operation. In SQL, duplicates are retained by default unless the `DISTINCT` keyword is explicitly specified.</p>
+            </div>
+
+            <p style="margin-top: 15px;"><strong>Example Query:</strong> List all unique department IDs of working employees.</p>
+            <p><strong>Algebraic Expression:</strong> $\pi_{\text{DeptID}}(\text{EMPLOYEE})$</p>
+            <p><strong>Intermediate State (before duplicate removal):</strong> `[10]`, `[20]`, `[10]`</p>
+            <p><strong>Final Result Table (duplicates removed):</strong></p>
+            <div class="table-wrap" style="width: 150px;">
+                <table>
+                    <thead><tr><th>DeptID</th></tr></thead>
+                    <tbody>
+                        <tr><td>10</td></tr>
+                        <tr><td>20</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. Set Theory Operations -->
+    <section class="section" id="set-operations">
+        <div class="section-header">
+            <div class="section-number num-purple">9</div>
+            <h2>Relational Algebra Set Operations (Union, Intersect, Difference, Product)</h2>
+        </div>
+
+        <div class="warn-box">
+            <div class="label">⚠️ CRITICAL REQUIREMENT: Union Compatibility</div>
+            <p>For binary set operations—**UNION** ($\cup$), **INTERSECTION** ($\cap$), and **SET DIFFERENCE** ($-$)—to be performed, the two input relations $R$ and $S$ must be **Union Compatible**:</p>
+            <ol>
+                <li>They must have the exact same number of attributes (columns).</li>
+                <li>The domain of corresponding attributes must be identical (i.e., the data type of the $i$-th column of $R$ must match the $i$-th column of $S$).</li>
+            </ol>
+        </div>
+
+        <!-- Union, Intersect, Difference -->
+        <div class="card">
+            <h3>Set Operations Overview</h3>
+            <ul>
+                <li><strong>UNION ($R \cup S$):</strong> Combines all tuples from both relations, automatically removing duplicate rows.</li>
+                <li><strong>INTERSECTION ($R \cap S$):</strong> Returns only the tuples that exist in both relations $R$ and $S$.</li>
+                <li><strong>SET DIFFERENCE ($R - S$):</strong> Returns tuples that exist in relation $R$ but not in relation $S$. This operation is **not commutative** ($R - S \neq S - R$).</li>
+                <li><strong>CARTESIAN PRODUCT ($R \times S$):</strong> Combines every tuple of relation $R$ with every tuple of relation $S$. If $R$ has $n_1$ tuples and $S$ has $n_2$ tuples, the result relation has $n_1 \times n_2$ tuples.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- 10. Binary Joins -->
+    <section class="section" id="binary-joins">
+        <div class="section-header">
+            <div class="section-number num-purple">10</div>
+            <h2>Binary Operations: Theta Join, Equi Join, &amp; Natural Join</h2>
+        </div>
+
+        <!-- Theta Join -->
+        <div class="card">
+            <h3>1. Theta Join ($\bowtie_\theta$)</h3>
+            <p><strong>Definition:</strong> General join operation that combines related tuples from two relations based on a general join condition $\theta$.</p>
+            <p><strong>Syntax:</strong> $R \bowtie_{\theta} S$ where $\theta$ is a boolean expression of the form $A_i \, \text{op} \, B_j$ (op can be $=, \neq, &lt;, &gt;, \text{etc.}$).</p>
+        </div>
+
+        <!-- Equi Join -->
+        <div class="card">
+            <h3>2. Equi Join ($\bowtie_{=}$)</h3>
+            <p><strong>Definition:</strong> A special type of Theta Join where the join condition uses **only the equality operator** ($=$).</p>
+            <p><strong>Syntax:</strong> $R \bowtie_{R.A = S.B} S$</p>
+        </div>
+
+        <!-- Natural Join -->
+        <div class="card" id="natural-join-sec">
+            <h3>3. Natural Join ($\bowtie$) <span class="badge badge-imp">Highly Repeated</span></h3>
+            <p><strong>Definition:</strong> A special type of Equi Join that automatically joins two relations on **all columns that share the same name**. Crucially, it automatically **removes duplicate join columns** in the output relation.</p>
+            <p><strong>Syntax:</strong> $R \bowtie S$</p>
+            
+            <p style="margin-top: 15px;"><strong>Input Relation R:</strong></p>
+            <div class="table-wrap" style="width: 250px;">
+                <table>
+                    <thead><tr><th>USN</th><th>Name</th><th>DeptID</th></tr></thead>
+                    <tbody>
+                        <tr><td>S01</td><td>Akshay</td><td>10</td></tr>
+                        <tr><td>S02</td><td>Ananth</td><td>20</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p style="margin-top: 15px;"><strong>Input Relation S:</strong></p>
+            <div class="table-wrap" style="width: 250px;">
+                <table>
+                    <thead><tr><th>DeptID</th><th>DeptName</th></tr></thead>
+                    <tbody>
+                        <tr><td>10</td><td>IS</td></tr>
+                        <tr><td>20</td><td>CS</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p style="margin-top: 15px;"><strong>Algebraic Expression:</strong> $R \bowtie S$</p>
+            <p><strong>Result Table:</strong></p>
+            <div class="table-wrap" style="width: 350px;">
+                <table>
+                    <thead><tr><th>USN</th><th>Name</th><th>DeptID</th><th>DeptName</th></tr></thead>
+                    <tbody>
+                        <tr><td>S01</td><td>Akshay</td><td>10</td><td>IS</td></tr>
+                        <tr><td>S02</td><td>Ananth</td><td>20</td><td>CS</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p style="font-size: 13px; color: var(--text-muted); margin-top: 5px;">*Notice that `DeptID` appears only once in the final result table.*</p>
+        </div>
+    </section>
+
+    <!-- 11. Outer Joins -->
+    <section class="section" id="outer-joins">
+        <div class="section-header">
+            <div class="section-number num-purple">11</div>
+            <h2>Outer Joins (Left, Right, and Full)</h2>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">🧩</span> Hiding Missing Info with NULLs</h3>
+            <p>In standard inner joins, if a tuple in one relation does not have a matching tuple in the other relation, that tuple is discarded from the result. **Outer Joins** preserve these unmatched tuples, filling the missing columns with **NULL** values:</p>
+            <ul>
+                <li><strong>Left Outer Join ($R \rtimes S$):</strong> Preserves **all tuples from the left relation** $R$. If there are no matching tuples in the right relation $S$, the columns of $S$ are filled with NULLs.</li>
+                <li><strong>Right Outer Join ($R \ltimes S$):</strong> Preserves **all tuples from the right relation** $S$, filling missing left relation columns with NULLs.</li>
+                <li><strong>Full Outer Join ($R \text{ ⟗ } S$):</strong> Preserves **all tuples from both relations**, filling missing columns on either side with NULLs.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- 12. Division Deep Dive -->
+    <section class="section" id="division-operator">
+        <div class="section-header">
+            <div class="section-number num-purple">12</div>
+            <h2>The Division Operation (÷) Deep Dive <span class="badge badge-imp">VTU 10-Mark Favorite</span></h2>
+        </div>
+
+        <div class="def-box">
+            <div class="label">📖 Definition</div>
+            <p>The <strong>Division Operation ($R \div S$)</strong> is used to solve queries that contain the keyword **"for all"** or **"for every"** (e.g., finding employees who work on *all* projects controlled by a department).</p>
+            <p style="margin-top: 10px;">If $R(X, Y)$ and $S(Y)$ are two relations, the result of $R \div S$ is a relation $T(X)$ that contains all values of $X$ that are paired with **every single value** of $Y$ in relation $R$.</p>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">📐</span> Why is Division Difficult?</h3>
+            <p>Division is a derived operator. It is not a fundamental operator in relational algebra and must be expressed using other basic operators (SELECT, PROJECT, Cartesian Product, and Set Difference):</p>
+            <p style="text-align: center; font-size: 1.1rem; margin: 15px 0;">
+                $R \div S \equiv \pi_X(R) - \pi_X((\pi_X(R) \times S) - R)$
+            </p>
+            <p><strong>Step-by-step breakdown of this equivalence:</strong></p>
+            <ol>
+                <li>$\pi_X(R) \times S$: Generates all possible combinations of $X$ values with $S$ values.</li>
+                <li>$(\pi_X(R) \times S) - R$: Finds the combinations that **do not exist** in the actual relation $R$ (i.e., finding which $X$ values are *missing* a pairing with some $Y$ value).</li>
+                <li>$\pi_X(\dots)$: Collects the $X$ values that have missing pairings.</li>
+                <li>$\pi_X(R) - \dots$: Subtracts the incomplete $X$ values from the set of all $X$ values, leaving only the $X$ values that are paired with **all** $Y$ values.</li>
+            </ol>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">💡</span> Solved Supplier-Part Example</h3>
+            <p>Let relation $R$ represent which suppliers supply which parts, and relation $S$ represent the target set of parts we want supplied.</p>
+            
+            <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+                <div>
+                    <p><strong>Relation R (Supplies):</strong></p>
+                    <div class="table-wrap" style="width: 200px;">
+                        <table>
+                            <thead><tr><th>Supplier</th><th>Part</th></tr></thead>
+                            <tbody>
+                                <tr><td>S1</td><td>P1</td></tr>
+                                <tr><td>S1</td><td>P2</td></tr>
+                                <tr><td>S1</td><td>P3</td></tr>
+                                <tr><td>S2</td><td>P1</td></tr>
+                                <tr><td>S2</td><td>P2</td></tr>
+                                <tr><td>S3</td><td>P1</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div>
+                    <p><strong>Relation S (Target Parts):</strong></p>
+                    <div class="table-wrap" style="width: 120px;">
+                        <table>
+                            <thead><tr><th>Part</th></tr></thead>
+                            <tbody>
+                                <tr><td>P1</td></tr>
+                                <tr><td>P2</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <p style="margin-top: 15px;"><strong>Expression:</strong> $R \div S$ (Find suppliers who supply *all* parts in S, i.e., both P1 and P2)</p>
+            <p><strong>Result Table:</strong></p>
+            <div class="table-wrap" style="width: 150px;">
+                <table>
+                    <thead><tr><th>Supplier</th></tr></thead>
+                    <tbody>
+                        <tr><td>S1</td></tr>
+                        <tr><td>S2</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p style="font-size: 13px; color: var(--text-muted); margin-top: 5px;">*S1 supplies P1, P2, P3 (contains both P1 and P2). S2 supplies P1, P2 (contains both). S3 only supplies P1 (omitted).*</p>
+        </div>
+    </section>
+
+    <!-- 13. Additional Relational Operations -->
+    <section class="section" id="additional-ops">
+        <div class="section-header">
+            <div class="section-number num-purple">13</div>
+            <h2>Additional Operations: RENAME, ASSIGNMENT, &amp; AGGREGATE</h2>
+        </div>
+
+        <div class="card">
+            <h3>1. RENAME Operator ($\rho$)</h3>
+            <p>Used to rename the attributes of a relation, or the relation itself. Useful for self-joins.</p>
+            <p><strong>Syntax:</strong> $\rho_{S(B_1, B_2, \dots, B_n)}(R)$ (renames relation $R$ to $S$, and its attributes to $B_i$).</p>
+        </div>
+
+        <div class="card">
+            <h3>2. ASSIGNMENT Operator ($\leftarrow$)</h3>
+            <p>Allows breaking down complex, nested relational algebra queries into smaller, sequential steps by assigning intermediate results to temporary relation variables (similar to programming variables).</p>
+            <p><strong>Syntax:</strong> $\text{TEMP\_REL} \leftarrow \sigma_{\text{DeptID} = 10}(R)$</p>
+        </div>
+
+        <div class="card">
+            <h3>3. AGGREGATE &amp; GROUPING Operator ($\Im$) <span class="badge badge-imp">Core Operation</span></h3>
+            <p>Used to perform aggregate calculations (SUM, AVG, COUNT, MIN, MAX) on columns, optionally grouping rows by specific attributes.</p>
+            <p><strong>Syntax:</strong> $_{\langle \text{grouping attributes} \rangle}\Im_{\langle \text{function list} \rangle}(R)$</p>
+            <p><strong>Example Query:</strong> Find the average salary of employees in each department.</p>
+            <p><strong>Algebraic Expression:</strong> $_{\text{DeptID}}\Im_{\text{AVERAGE}(\text{Salary})}(\text{EMPLOYEE})$</p>
+        </div>
+    </section>
+
+    <!-- ============================== -->
+    <!-- PART C: ER-TO-RELATIONAL       -->
+    <!-- ============================== -->
+    <div class="part-divider part-c"><span id="part-c-mapping">Part C — ER-to-Relational Mapping</span></div>
+
+    <!-- 14. 7-Step Mapping Algorithm -->
+    <section class="section" id="mapping-steps">
+        <div class="section-header">
+            <div class="section-number num-green">14</div>
+            <h2>The 7-Step ER-to-Relational Mapping Algorithm <span class="badge badge-imp">10 Marks guaranteed</span></h2>
+        </div>
+
+        <div class="card">
+            <h3><span class="icon">📝</span> Complete Conversion Algorithm</h3>
+            <ol>
+                <li><strong>Step 1: Mapping of Regular Strong Entity Types:</strong>
+                    Create a relation $R$ for each strong entity type $E$. Include all simple attributes of $E$ in $R$. Choose one of the key attributes of $E$ as the **Primary Key** of $R$.
+                </li>
+                <li><strong>Step 2: Mapping of Weak Entity Types:</strong>
+                    Create a relation $R$ for each weak entity type $W$. Include all simple attributes of $W$ in $R$. Add the primary key attribute(s) of the owner strong entity type as a **Foreign Key** in $R$. The Primary Key of $R$ is the combination of `{Owner_Primary_Key, Weak_Entity_Partial_Key}`.
+                </li>
+                <li><strong>Step 3: Mapping of Binary 1:1 Relationship Types:</strong>
+                    To map a 1:1 relationship between $S$ and $T$, choose one relation (preferably the one with **Total Participation**) and include the primary key of the other relation as a **Foreign Key** in it. Include any simple attributes of the relationship in that same relation.
+                </li>
+                <li><strong>Step 4: Mapping of Binary 1:N Relationship Types:</strong>
+                    Identify the relation $S$ on the **N-side** of the relationship. Include the primary key of the relation $T$ (on the 1-side) as a **Foreign Key** in $S$. Any simple attributes of the relationship are also placed in $S$.
+                </li>
+                <li><strong>Step 5: Mapping of Binary M:N Relationship Types:</strong>
+                    Create a **new relation $S$ (Relationship Table)** to represent the M:N relationship. Include the primary keys of both participating relations as **Foreign Keys** in $S$. The combination of these two foreign keys forms the composite **Primary Key** of $S$. Include any simple attributes of the M:N relationship in $S$.
+                </li>
+                <li><strong>Step 6: Mapping of Multivalued Attributes:</strong>
+                    Create a **new relation $R$** for each multivalued attribute $A$. Include the attribute $A$ itself in $R$. Add the primary key of the parent entity as a **Foreign Key** in $R$. The composite **Primary Key** of $R$ is the combination of `{Parent_Primary_Key, Attribute_A}`.
+                </li>
+                <li><strong>Step 7: Mapping of N-ary Relationships (N &gt; 2):</strong>
+                    Create a **new relation $S$** to represent the relationship. Include the primary keys of all participating relations as **Foreign Keys** in $S$. The composite **Primary Key** of $S$ is the combination of these foreign keys.
+                </li>
+            </ol>
+        </div>
+    </section>
+
+    <!-- 15. Mapping Flowchart -->
+    <section class="section" id="mapping-flow">
+        <div class="section-header">
+            <div class="section-number num-green">15</div>
+            <h2>Visual Mapping Flowchart</h2>
+        </div>
+
+        <div class="card">
+            <pre><code>+-----------------------------------------------------------------+
+|                       START ER MODEL                            |
++-----------------------------------------------------------------+
+                               │
+                               ▼
++-----------------------------------------------------------------+
+| Step 1: Create Tables for Strong Entities. Identify PKs         |
++-----------------------------------------------------------------+
+                               │
+                               ▼
++-----------------------------------------------------------------+
+| Step 2: Create Tables for Weak Entities. Add Owner PK as FK     |
++-----------------------------------------------------------------+
+                               │
+                               ▼
++-----------------------------------------------------------------+
+| Steps 3 &amp; 4: Map 1:1 and 1:N relations by adding FKs            |
++-----------------------------------------------------------------+
+                               │
+                               ▼
++-----------------------------------------------------------------+
+| Step 5: Map M:N relations by creating custom Relationship Tables|
++-----------------------------------------------------------------+
+                               │
+                               ▼
++-----------------------------------------------------------------+
+| Step 6: Map Multivalued attributes into separate tables         |
++-----------------------------------------------------------------+
+                               │
+                               ▼
++-----------------------------------------------------------------+
+|                    COMPLETED RELATIONAL SCHEMA                  |
++-----------------------------------------------------------------+</code></pre>
+        </div>
+    </section>
+
+    <!-- 16. Solved COMPANY Schema Mapping -->
+    <section class="section" id="mapping-solved">
+        <div class="section-header">
+            <div class="section-number num-green">16</div>
+            <h2>Solved Conversion: COMPANY ER-to-Relational Schema</h2>
+        </div>
+
+        <div class="problem-card">
+            <div class="problem-header">
+                <h3>Solved Mapped COMPANY Schema Tables</h3>
+                <span class="badge badge-imp">Core Mapping</span>
+            </div>
+            <div class="problem-body">
+                <p>Applying the 7-step mapping algorithm to a standard company ER model yields the following relational database tables (primary keys underlined, foreign keys indicated):</p>
+                
+                <pre><code>1. EMPLOYEE( _SSN_ , FName, LName, Salary, SuperSSN(FK), DeptNo(FK) )
+   * Primary Key: SSN
+   * Foreign Keys: SuperSSN (references EMPLOYEE.SSN), DeptNo (references DEPARTMENT.DeptNo)
+
+2. DEPARTMENT( _DeptNo_ , DeptName, ManagerSSN(FK), ManagerStartDate )
+   * Primary Key: DeptNo
+   * Foreign Key: ManagerSSN (references EMPLOYEE.SSN)
+
+3. DEPT_LOCATIONS( _DeptNo(FK)_ , _Location_ )
+   * Primary Key: {DeptNo, Location}
+   * Foreign Key: DeptNo (references DEPARTMENT.DeptNo)
+
+4. PROJECT( _ProjNo_ , ProjName, Location, DeptNo(FK) )
+   * Primary Key: ProjNo
+   * Foreign Key: DeptNo (references DEPARTMENT.DeptNo)
+
+5. WORKS_ON( _ESSN(FK)_ , _ProjNo(FK)_ , Hours )
+   * Primary Key: {ESSN, ProjNo}
+   * Foreign Keys: ESSN (references EMPLOYEE.SSN), ProjNo (references PROJECT.ProjNo)
+
+6. DEPENDENT( _ESSN(FK)_ , _DependentName_ , Gender, Relationship )
+   * Primary Key: {ESSN, DependentName}
+   * Foreign Key: ESSN (references EMPLOYEE.SSN)</code></pre>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================== -->
+    <!-- SOLVED QUERIES DIRECTORY       -->
+    <!-- ============================== -->
+    <div class="part-divider part-c"><span id="solved-algebra-queries">40 Fully Solved Relational Algebra Queries</span></div>
+
+    <!-- Queries 1 - 20 -->
+    <section class="section" id="solved-queries-1-20">
+        <div class="section-header">
+            <div class="section-number num-green">★</div>
+            <h2>Relational Algebra Problems 1 - 20</h2>
+        </div>
+
+        <!-- Query 1 -->
+        <div class="problem-card">
+            <div class="problem-header">
+                <h3>Problem 1: Find names of employees in department 5.</h3>
+            </div>
+            <div class="problem-body">
+                <p><strong>Algebraic Query:</strong></p>
+                <p style="font-size: 1.1rem; color: var(--accent-cyan);">$\pi_{\text{FName}, \text{LName}}(\sigma_{\text{DeptNo} = 5}(\text{EMPLOYEE}))$</p>
+            </div>
+        </div>
+
+        <!-- Query 2 -->
+        <div class="problem-card">
+            <div class="problem-header">
+                <h3>Problem 2: List all projects located in 'Stafford'.</h3>
+            </div>
+            <div class="problem-body">
+                <p><strong>Algebraic Query:</strong></p>
+                <p style="font-size: 1.1rem; color: var(--accent-cyan);">$\sigma_{\text{Location} = \text{'Stafford'}}(\text{PROJECT})$</p>
+            </div>
+        </div>
+
+        <!-- Query 3 -->
+        <div class="problem-card">
+            <div class="problem-header">
+                <h3>Problem 3: Find SSNs of employees who work on project number 10.</h3>
+            </div>
+            <div class="problem-body">
+                <p><strong>Algebraic Query:</strong></p>
+                <p style="font-size: 1.1rem; color: var(--accent-cyan);">$\pi_{\text{ESSN}}(\sigma_{\text{ProjNo} = 10}(\text{WORKS\_ON}))$</p>
+            </div>
+        </div>
+
+        <!-- Query 4 -->
+        <div class="problem-card">
+            <div class="problem-header">
+                <h3>Problem 4: Find names of employees who work on project 10.</h3>
+            </div>
+            <div class="problem-body">
+                <p><strong>Algebraic Query:</strong></p>
+                <p style="font-size: 1.1rem; color: var(--accent-cyan);">$\pi_{\text{FName}, \text{LName}}(\text{EMPLOYEE} \bowtie_{\text{SSN} = \text{ESSN}} (\sigma_{\text{ProjNo} = 10}(\text{WORKS\_ON})))$</p>
+            </div>
+        </div>
+
+        <!-- Query 5 -->
+        <div class="problem-card">
+            <div class="problem-header">
+                <h3>Problem 5: Find names of employees with salary greater than 50,000.</h3>
+            </div>
+            <div class="problem-body">
+                <p><strong>Algebraic Query:</strong></p>
+                <p style="font-size: 1.1rem; color: var(--accent-cyan);">$\pi_{\text{FName}, \text{LName}}(\sigma_{\text{Salary} &gt; 50000}(\text{EMPLOYEE}))$</p>
+            </div>
+        </div>
+
+        <!-- Query 6 -->
+        <div class="problem-card">
+            <div class="problem-header">
+                <h3>Problem 6: Find names of employees who have dependents.</h3>
+            </div>
+            <div class="problem-body">
+                <p><strong>Algebraic Query:</strong></p>
+                <p style="font-size: 1.1rem; color: var(--accent-cyan);">$\pi_{\text{FName}, \text{LName}}(\text{EMPLOYEE} \bowtie_{\text{SSN} = \text{ESSN}} \text{DEPENDENT})$</p>
+            </div>
+        </div>
+
+        <!-- Query 7 -->
+        <div class="problem-card">
+            <div class="problem-header">
+                <h3>Problem 7: Find names of departments located in 'Bangalore'.</h3>
+            </div>
+            <div class="problem-body">
+                <p><strong>Algebraic Query:</strong></p>
+                <p style="font-size: 1.1rem; color: var(--accent-cyan);">$\pi_{\text{DeptName}}(\text{DEPARTMENT} \bowtie \sigma_{\text{Location} = \text{'Bangalore'}}(\text{DEPT\_LOCATIONS}))$</p>
+            </div>
+        </div>
+
+        <!-- Query 8 -->
+        <div class="problem-card">
+            <div class="problem-header">
+                <h3>Problem 8: Find employees who do not work for any department.</h3>
+            </div>
+            <div class="problem-body">
+                <p><strong>Algebraic Query:</strong></p>
+                <p style="font-size: 1.1rem; color: var(--accent-cyan);">$\sigma_{\text{DeptNo} = \text{NULL}}(\text{EMPLOYEE})$</p>
+            </div>
+        </div>
+
+        <!-- Query 9 -->
+        <div class="problem-card">
+            <div class="problem-header">
+                <h3>Problem 9: Find projects managed by 'Akshay'.</h3>
+            </div>
+            <div class="problem-body">
+                <p><strong>Algebraic Query:</strong></p>
+                <p style="font-size: 1.1rem; color: var(--accent-cyan);">$\pi_{\text{ProjName}}(\text{PROJECT} \bowtie_{\text{DeptNo} = \text{DeptNo}} (\text{DEPARTMENT} \bowtie_{\text{ManagerSSN} = \text{SSN}} (\sigma_{\text{FName} = \text{'Akshay'}}(\text{EMPLOYEE}))))$</p>
+            </div>
+        </div>
+
+        <!-- Query 10 -->
+        <div class="problem-card">
+            <div class="problem-header">
+                <h3>Problem 10: Find names of employees who do not have any dependents.</h3>
+            </div>
+            <div class="problem-body">
+                <p><strong>Algebraic Query:</strong></p>
+                <p style="font-size: 1.1rem; color: var(--accent-cyan);">$\pi_{\text{FName}, \text{LName}}(\text{EMPLOYEE}) - \pi_{\text{FName}, \text{LName}}(\text{EMPLOYEE} \bowtie_{\text{SSN} = \text{ESSN}} \text{DEPENDENT})$</p>
+            </div>
+        </div>
+
+        <!-- Queries 11 - 20 (Skeletons compiled to complete algebra statements) -->
+        <div class="problem-card">
+            <div class="problem-header"><h3>Problem 11: Find the average salary of all employees.</h3></div>
+            <div class="problem-body"><p style="font-size: 1.1rem; color: var(--accent-cyan);">$\Im_{\text{AVERAGE}(\text{Salary})}(\text{EMPLOYEE})$</p></div>
+        </div>
+        <div class="problem-card">
+            <div class="problem-header"><h3>Problem 12: Count the total number of employees.</h3></div>
+            <div class="problem-body"><p style="font-size: 1.1rem; color: var(--accent-cyan);">$\Im_{\text{COUNT}(\text{SSN})}(\text{EMPLOYEE})$</p></div>
+        </div>
+        <div class="problem-card">
+            <div class="problem-header"><h3>Problem 13: Find the maximum salary among female employees.</h3></div>
+            <div class="problem-body"><p style="font-size: 1.1rem; color: var(--accent-cyan);">$\Im_{\text{MAX}(\text{Salary})}(\sigma_{\text{Gender} = \text{'F'}}(\text{EMPLOYEE}))$</p></div>
+        </div>
+        <div class="problem-card">
+            <div class="problem-header"><h3>Problem 14: List employee names who work on ALL projects. (Division Case)</h3></div>
+            <div class="problem-body">
+                <p><strong>Algebraic Query:</strong></p>
+                <p style="font-size: 1.1rem; color: var(--accent-cyan);">$\text{TEMP1} \leftarrow \pi_{\text{ESSN}, \text{ProjNo}}(\text{WORKS\_ON}) \div \pi_{\text{ProjNo}}(\text{PROJECT})$</p>
+                <p style="font-size: 1.1rem; color: var(--accent-cyan); margin-top: 5px;">$\pi_{\text{FName}, \text{LName}}(\text{TEMP1} \bowtie_{\text{ESSN} = \text{SSN}} \text{EMPLOYEE})$</p>
+            </div>
+        </div>
+        <div class="problem-card">
+            <div class="problem-header"><h3>Problem 15: Find names of employees who manage a department.</h3></div>
+            <div class="problem-body"><p style="font-size: 1.1rem; color: var(--accent-cyan);">$\pi_{\text{FName}, \text{LName}}(\text{EMPLOYEE} \bowtie_{\text{SSN} = \text{ManagerSSN}} \text{DEPARTMENT})$</p></div>
+        </div>
+        <div class="problem-card">
+            <div class="problem-header"><h3>Problem 16: List the locations of department number 5.</h3></div>
+            <div class="problem-body"><p style="font-size: 1.1rem; color: var(--accent-cyan);">$\pi_{\text{Location}}(\sigma_{\text{DeptNo} = 5}(\text{DEPT\_LOCATIONS}))$</p></div>
+        </div>
+        <div class="problem-card">
+            <div class="problem-header"><h3>Problem 17: Find projects controlled by department 5.</h3></div>
+            <div class="problem-body"><p style="font-size: 1.1rem; color: var(--accent-cyan);">$\pi_{\text{ProjName}}(\sigma_{\text{DeptNo} = 5}(\text{PROJECT}))$</p></div>
+        </div>
+        <div class="problem-card">
+            <div class="problem-header"><h3>Problem 18: Find female dependents of employee with SSN 'E01'.</h3></div>
+            <div class="problem-body"><p style="font-size: 1.1rem; color: var(--accent-cyan);">$\sigma_{\text{ESSN} = \text{'E01'} \land \text{Gender} = \text{'F'}}(\text{DEPENDENT})$</p></div>
+        </div>
+        <div class="problem-card">
+            <div class="problem-header"><h3>Problem 19: List departments having more than 5 employees.</h3></div>
+            <div class="problem-body">
+                <p><strong>Algebraic Query:</strong></p>
+                <p style="font-size: 1.1rem; color: var(--accent-cyan);">$\text{TEMP1} \leftarrow {_{\text{DeptNo}}\Im_{\text{COUNT}(\text{SSN}) \, \text{as} \, \text{NumEmps}}}(\text{EMPLOYEE})$</p>
+                <p style="font-size: 1.1rem; color: var(--accent-cyan); margin-top: 5px;">$\pi_{\text{DeptNo}}(\sigma_{\text{NumEmps} &gt; 5}(\text{TEMP1}))$</p>
+            </div>
+        </div>
+        <div class="problem-card">
+            <div class="problem-header"><h3>Problem 20: List names of employees who are supervised by 'Ananth'.</h3></div>
+            <div class="problem-body">
+                <p><strong>Algebraic Query:</strong></p>
+                <p style="font-size: 1.1rem; color: var(--accent-cyan);">$\text{SUPERVISOR} \leftarrow \pi_{\text{SSN}}(\sigma_{\text{FName} = \text{'Ananth'}}(\text{EMPLOYEE}))$</p>
+                <p style="font-size: 1.1rem; color: var(--accent-cyan); margin-top: 5px;">$\pi_{\text{FName}, \text{LName}}(\text{EMPLOYEE} \bowtie_{\text{SuperSSN} = \text{SSN}} \text{SUPERVISOR})$</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Queries 21 - 40 -->
+    <section class="section" id="solved-queries-21-40">
+        <div class="section-header">
+            <div class="section-number num-green">★</div>
+            <h2>Relational Algebra Problems 21 - 40</h2>
+        </div>
+
+        <div class="problem-card">
+            <div class="problem-header"><h3>Problem 21: Find projects on which employee 'Akshay' works.</h3></div>
+            <div class="problem-body"><p style="font-size: 1.1rem; color: var(--accent-cyan);">$\pi_{\text{ProjName}}(\text{PROJECT} \bowtie (\text{WORKS\_ON} \bowtie_{\text{ESSN} = \text{SSN}} (\sigma_{\text{FName} = \text{'Akshay'}}(\text{EMPLOYEE}))))$</p></div>
+        </div>
+        <div class="problem-card">
+            <div class="problem-header"><h3>Problem 22: Find employees who work on at least one project.</h3></div>
+            <div class="problem-body"><p style="font-size: 1.1rem; color: var(--accent-cyan);">$\pi_{\text{FName}, \text{LName}}(\text{EMPLOYEE} \bowtie_{\text{SSN} = \text{ESSN}} \text{WORKS\_ON})$</p></div>
+        </div>
+        <div class="problem-card">
+            <div class="problem-header"><h3>Problem 23: Find department managers who have at least one dependent.</h3></div>
+            <div class="problem-body"><p style="font-size: 1.1rem; color: var(--accent-cyan);">$\pi_{\text{FName}, \text{LName}}(\text{DEPENDENT} \bowtie_{\text{ESSN} = \text{ManagerSSN}} \text{DEPARTMENT} \bowtie_{\text{ManagerSSN} = \text{SSN}} \text{EMPLOYEE})$</p></div>
+        </div>
+        <div class="problem-card">
+            <div class="problem-header"><h3>Problem 24: Find employees who work on projects controlled by their own department.</h3></div>
+            <div class="problem-body"><p style="font-size: 1.1rem; color: var(--accent-cyan);">$\pi_{\text{FName}, \text{LName}}(\sigma_{\text{DeptNo} = \text{ProjDept}}(\text{EMPLOYEE} \bowtie_{\text{SSN} = \text{ESSN}} \text{WORKS\_ON} \bowtie (\rho_{\text{PROJECT}(\text{ProjNo}, \text{PName}, \text{Loc}, \text{ProjDept})}(\text{PROJECT}))))$</p></div>
+        </div>
+        <div class="problem-card">
+            <div class="problem-header"><h3>Problem 25: Find sum of salaries of all employees in department 5.</h3></div>
+            <div class="problem-body"><p style="font-size: 1.1rem; color: var(--accent-cyan);">$\Im_{\text{SUM}(\text{Salary})}(\sigma_{\text{DeptNo} = 5}(\text{EMPLOYEE}))$</p></div>
+        </div>
+        <div class="problem-card">
+            <div class="problem-header"><h3>Problem 26: List names of employees working in 'Research' department.</h3></div>
+            <div class="problem-body"><p style="font-size: 1.1rem; color: var(--accent-cyan);">$\pi_{\text{FName}, \text{LName}}(\text{EMPLOYEE} \bowtie \sigma_{\text{DeptName} = \text{'Research'}}(\text{DEPARTMENT}))$</p></div>
+        </div>
+        <div class="problem-card">
+            <div class="problem-header"><h3>Problem 27: List projects controlled by 'Research' department.</h3></div>
+            <div class="problem-body"><p style="font-size: 1.1rem; color: var(--accent-cyan);">$\pi_{\text{ProjName}}(\text{PROJECT} \bowtie \sigma_{\text{DeptName} = \text{'Research'}}(\text{DEPARTMENT}))$</p></div>
+        </div>
+        <div class="problem-card">
+            <div class="problem-header"><h3>Problem 28: Find the minimum salary in the entire company.</h3></div>
+            <div class="problem-body"><p style="font-size: 1.1rem; color: var(--accent-cyan);">$\Im_{\text{MIN}(\text{Salary})}(\text{EMPLOYEE})$</p></div>
+        </div>
+        <div class="problem-card">
+            <div class="problem-header"><h3>Problem 29: List names of employees who earn more than their direct supervisors.</h3></div>
+            <div class="problem-body">
+                <p><strong>Algebraic Query:</strong></p>
+                <p style="font-size: 1.1rem; color: var(--accent-cyan);">$\text{SUPER} \leftarrow \rho_{\text{S}(\text{S\_SSN}, \text{S\_Sal})}(\pi_{\text{SSN}, \text{Salary}}(\text{EMPLOYEE}))$</p>
+                <p style="font-size: 1.1rem; color: var(--accent-cyan); margin-top: 5px;">$\pi_{\text{FName}, \text{LName}}(\sigma_{\text{Salary} &gt; \text{S\_Sal}}(\text{EMPLOYEE} \bowtie_{\text{SuperSSN} = \text{S\_SSN}} \text{SUPER}))$</p>
+            </div>
+        </div>
+        <div class="problem-card">
+            <div class="problem-header"><h3>Problem 30: List projects located in either 'Stafford' or 'Houston'.</h3></div>
+            <div class="problem-body"><p style="font-size: 1.1rem; color: var(--accent-cyan);">$\sigma_{\text{Location} = \text{'Stafford'} \lor \text{Location} = \text{'Houston'}}(\text{PROJECT})$</p></div>
+        </div>
+        <div class="problem-card">
+            <div class="problem-header"><h3>Problem 31: Find departments with no working projects.</h3></div>
+            <div class="problem-body"><p style="font-size: 1.1rem; color: var(--accent-cyan);">$\pi_{\text{DeptNo}}(\text{DEPARTMENT}) - \pi_{\text{DeptNo}}(\text{PROJECT})$</p></div>
+        </div>
+        <div class="problem-card">
+            <div class="problem-header"><h3>Problem 32: List employees who work exactly 40 hours on project 10.</h3></div>
+            <div class="problem-body"><p style="font-size: 1.1rem; color: var(--accent-cyan);">$\pi_{\text{FName}, \text{LName}}(\text{EMPLOYEE} \bowtie_{\text{SSN} = \text{ESSN}} (\sigma_{\text{ProjNo} = 10 \land \text{Hours} = 40}(\text{WORKS\_ON})))$</p></div>
+        </div>
+        <div class="problem-card">
+            <div class="problem-header"><h3>Problem 33: List total hours spent by all employees on project 5.</h3></div>
+            <div class="problem-body"><p style="font-size: 1.1rem; color: var(--accent-cyan);">$\Im_{\text{SUM}(\text{Hours})}(\sigma_{\text{ProjNo} = 5}(\text{WORKS\_ON}))$</p></div>
+        </div>
+        <div class="problem-card">
+            <div class="problem-header"><h3>Problem 34: List employees who have more than 2 dependents.</h3></div>
+            <div class="problem-body">
+                <p><strong>Algebraic Query:</strong></p>
+                <p style="font-size: 1.1rem; color: var(--accent-cyan);">$\text{TEMP1} \leftarrow {_{\text{ESSN}}\Im_{\text{COUNT}(\text{DependentName}) \, \text{as} \, \text{NumDep}}}(\text{DEPENDENT})$</p>
+                <p style="font-size: 1.1rem; color: var(--accent-cyan); margin-top: 5px;">$\pi_{\text{FName}, \text{LName}}(\text{EMPLOYEE} \bowtie_{\text{SSN} = \text{ESSN}} (\sigma_{\text{NumDep} &gt; 2}(\text{TEMP1})))$</p>
+            </div>
+        </div>
+        <div class="problem-card">
+            <div class="problem-header"><h3>Problem 35: Find projects controlled by departments managed by 'Akshay'.</h3></div>
+            <div class="problem-body"><p style="font-size: 1.1rem; color: var(--accent-cyan);">$\pi_{\text{ProjName}}(\text{PROJECT} \bowtie (\text{DEPARTMENT} \bowtie_{\text{ManagerSSN} = \text{SSN}} (\sigma_{\text{FName} = \text{'Akshay'}}(\text{EMPLOYEE}))))$</p></div>
+        </div>
+        <div class="problem-card">
+            <div class="problem-header"><h3>Problem 36: Find unique names of dependents of female employees.</h3></div>
+            <div class="problem-body"><p style="font-size: 1.1rem; color: var(--accent-cyan);">$\pi_{\text{DependentName}}(\text{DEPENDENT} \bowtie_{\text{ESSN} = \text{SSN}} (\sigma_{\text{Gender} = \text{'F'}}(\text{EMPLOYEE})))$</p></div>
+        </div>
+        <div class="problem-card">
+            <div class="problem-header"><h3>Problem 37: Find employees who work on all projects controlled by Dept 5. (Division Case)</h3></div>
+            <div class="problem-body">
+                <p><strong>Algebraic Query:</strong></p>
+                <p style="font-size: 1.1rem; color: var(--accent-cyan);">$\text{PROJS} \leftarrow \pi_{\text{ProjNo}}(\sigma_{\text{DeptNo} = 5}(\text{PROJECT}))$</p>
+                <p style="font-size: 1.1rem; color: var(--accent-cyan); margin-top: 5px;">$\text{EMPS} \leftarrow \pi_{\text{ESSN}, \text{ProjNo}}(\text{WORKS\_ON}) \div \text{PROJS}$</p>
+                <p style="font-size: 1.1rem; color: var(--accent-cyan); margin-top: 5px;">$\pi_{\text{FName}, \text{LName}}(\text{EMPS} \bowtie_{\text{ESSN} = \text{SSN}} \text{EMPLOYEE})$</p>
+            </div>
+        </div>
+        <div class="problem-card">
+            <div class="problem-header"><h3>Problem 38: List department names and their manager start dates.</h3></div>
+            <div class="problem-body"><p style="font-size: 1.1rem; color: var(--accent-cyan);">$\pi_{\text{DeptName}, \text{ManagerStartDate}}(\text{DEPARTMENT})$</p></div>
+        </div>
+        <div class="problem-card">
+            <div class="problem-header"><h3>Problem 39: Find average salary of female employees.</h3></div>
+            <div class="problem-body"><p style="font-size: 1.1rem; color: var(--accent-cyan);">$\Im_{\text{AVERAGE}(\text{Salary})}(\sigma_{\text{Gender} = \text{'F'}}(\text{EMPLOYEE}))$</p></div>
+        </div>
+        <div class="problem-card">
+            <div class="problem-header"><h3>Problem 40: Find total number of departments located in 'Houston'.</h3></div>
+            <div class="problem-body"><p style="font-size: 1.1rem; color: var(--accent-cyan);">$\Im_{\text{COUNT}(\text{DeptNo})}(\sigma_{\text{Location} = \text{'Houston'}}(\text{DEPT\_LOCATIONS}))$</p></div>
+        </div>
+    </section>
+
+    <!-- ============================== -->
+    <!-- REPEATED UNIVERSITY QUESTIONS   -->
+    <!-- ============================== -->
+    <div class="part-divider part-a"><span id="repeated-q">Most Repeated University Questions</span></div>
+
+    <section class="section" id="repeated-q-sec">
+        <div class="section-header">
+            <div class="section-number num-blue">?</div>
+            <h2>Standard University Exam Solutions</h2>
+        </div>
+
+        <div class="card">
+            <h3>Q1. Explain SELECT (σ) and PROJECT (π) unary operations in Relational Algebra. <span class="badge badge-pyq">10 Marks</span></h3>
+            <p><strong>Answer:</strong> Refer to Section 8 of these notes for extensive algebraic syntax and tables. SELECT extracts row tuples horizontally matching target logical predicates (e.g., $\sigma_{\text{Age}&gt;20}(R)$). PROJECT extracts columns vertically (e.g., $\pi_{\text{Name}, \text{USN}}(R)$) and strictly deletes duplicate records from the final returned relation. This ensures set compatibility.</p>
+        </div>
+
+        <div class="card">
+            <h3>Q2. Explain relational integrity constraints in detail. <span class="badge badge-pyq">10 Marks</span></h3>
+            <p><strong>Answer:</strong> Refer to Section 4. Relational integrity constraints ensure semantic correctness of data:
+                1. *Domain Constraint:* Atomic column datatypes.
+                2. *Key Constraint:* Primary Key uniqueness.
+                3. *Entity Integrity:* PK cannot be NULL.
+                4. *Referential Integrity:* FK must match referenced PK or be NULL.
+            </p>
+        </div>
+
+        <div class="card">
+            <h3>Q3. Differentiate between Entity Integrity and Referential Integrity. <span class="badge badge-pyq">5 Marks</span></h3>
+            <p><strong>Answer:</strong> **Entity Integrity** enforces that primary keys cannot be NULL, ensuring every row remains identifiable. **Referential Integrity** maps relationships, dictating that foreign keys must reference a valid existing primary key or be NULL, ensuring no orphaned references exist.</p>
+        </div>
+
+        <div class="card">
+            <h3>Q4. Explain different types of JOIN operations in relational algebra. <span class="badge badge-pyq">10 Marks</span></h3>
+            <p><strong>Answer:</strong> Refer to Sections 10 and 11. Joins combine matching tables:
+                - *Theta Join:* Connects rows based on general conditions.
+                - *Equi Join:* Joins using the equality operator.
+                - *Natural Join:* Joins on identical column names, automatically deleting duplicate columns.
+                - *Outer Joins:* Left, Right, Full joins preserving unmatched rows using NULL values.
+            </p>
+        </div>
+
+        <div class="card">
+            <h3>Q5. Explain the DIVISION (÷) operation with an example. <span class="badge badge-pyq">10 Marks</span></h3>
+            <p><strong>Answer:</strong> Refer to Section 12. Used for "for all" queries. If $R(X,Y)$ is divided by $S(Y)$, the result $T(X)$ contains all $X$ values paired with every $Y$ value in $S$. The algebraic equivalence is $R \div S \equiv \pi_X(R) - \pi_X((\pi_X(R) \times S) - R)$.</p>
+        </div>
+    </section>
+
+    <!-- ============================== -->
+    <!-- LAST NIGHT REVISION SECTION    -->
+    <!-- ============================== -->
+    <div class="part-divider part-b"><span id="last-night">Last Night Revision Section</span></div>
+
+    <section class="section" id="revision-section">
+        <div class="section-header">
+            <div class="section-number num-purple">⚡</div>
+            <h2>20 Important Definitions &amp; Exam Checklist</h2>
+        </div>
+
+        <div class="card">
+            <h3>📖 The 20 Core Definitions Cheatsheet</h3>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>No.</th><th>Term</th><th>One-Line Exam Definition</th></tr></thead>
+                    <tbody>
+                        <tr><td>1</td><td><strong>Relation Schema</strong></td><td>The structural definition of a relation, denoted $R(A_1, A_2, \dots, A_n)$.</td></tr>
+                        <tr><td>2</td><td><strong>Relation State</strong></td><td>The active set of tuples stored in a relation at a given moment.</td></tr>
+                        <tr><td>3</td><td><strong>Domain</strong></td><td>A set of atomic values that can be assigned to an attribute.</td></tr>
+                        <tr><td>4</td><td><strong>Tuple</strong></td><td>An ordered list of values representing a single row in a table.</td></tr>
+                        <tr><td>5</td><td><strong>Candidate Key</strong></td><td>A minimal super key uniquely identifying table tuples.</td></tr>
+                        <tr><td>6</td><td><strong>Primary Key</strong></td><td>The candidate key chosen by the designer to uniquely identify tuples.</td></tr>
+                        <tr><td>7</td><td><strong>Foreign Key</strong></td><td>An attribute referencing a primary key in another table.</td></tr>
+                        <tr><td>8</td><td><strong>Entity Integrity</strong></td><td>Constraint dictating that primary key attributes cannot be NULL.</td></tr>
+                        <tr><td>9</td><td><strong>Referential Integrity</strong></td><td>Constraint ensuring foreign keys match an existing PK or are NULL.</td></tr>
+                        <tr><td>10</td><td><strong>NULL</strong></td><td>A placeholder representing missing, unknown, or inapplicable values.</td></tr>
+                        <tr><td>11</td><td><strong>Union Compatibility</strong></td><td>Having the same number of columns with matching domains.</td></tr>
+                        <tr><td>12</td><td><strong>SELECT (σ)</strong></td><td>Horizontal row filtering based on a condition predicate.</td></tr>
+                        <tr><td>13</td><td><strong>PROJECT (π)</strong></td><td>Vertical column filtering, removing duplicate returned rows.</td></tr>
+                        <tr><td>14</td><td><strong>Natural Join (⋈)</strong></td><td>Equi-join on matching attribute names, eliminating duplicate columns.</td></tr>
+                        <tr><td>15</td><td><strong>Left Outer Join</strong></td><td>Join preserving unmatched tuples from the left relation using NULLs.</td></tr>
+                        <tr><td>16</td><td><strong>Division (÷)</strong></td><td>Operator solving "for all" query scenarios.</td></tr>
+                        <tr><td>17</td><td><strong>ACID</strong></td><td>Properties of transactions: Atomicity, Consistency, Isolation, Durability.</td></tr>
+                        <tr><td>18</td><td><strong>Aggregate Function</strong></td><td>Calculates a single value from a set of values (e.g., SUM, AVG).</td></tr>
+                        <tr><td>19</td><td><strong>Grouping</strong></td><td>Partitioning a relation into subsets to calculate aggregates.</td></tr>
+                        <tr><td>20</td><td><strong>Intension</strong></td><td>The logical structural schema of a relation.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>🧠 Memory Tricks and Shortcuts</h3>
+            <p><strong>1. PROJECT duplicate removal:</strong> Remember **"PROJECT = Perfect Sets"** -> Sets can never have duplicates. So Project always removes duplicates.</p>
+            <p><strong>2. Division equivalence formula:</strong> Think **"All - (All possible - Actual)"** -> $\pi_X(R) - \pi_X((\pi_X(R) \times S) - R)$.</p>
+        </div>
+    </section>
+
+</div>
+
+<!-- Back to Top Button -->
+<button class="back-to-top" id="backToTopBtn" onclick="window.scrollTo({top:0, behavior:'smooth'})">▲</button>
+
+<script>
+    // Show active link in sidebar on scroll
+    window.addEventListener('scroll', () => {
+        const sections = document.querySelectorAll('.section');
+        const navLinks = document.querySelectorAll('.nav-link');
+        let currentSec = "";
+
+        sections.forEach(sec => {
+            const secTop = sec.offsetTop;
+            if (window.scrollY >= secTop - 60) {
+                currentSec = sec.getAttribute('id');
+            }
+        });
+
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === `#${currentSec}`) {
+                link.classList.add('active');
+            }
+        });
+
+        // Back to top button
+        const backBtn = document.getElementById('backToTopBtn');
+        if (window.scrollY > 300) {
+            backBtn.classList.add('visible');
+        } else {
+            backBtn.classList.remove('visible');
+        }
+    });
+</script>
+</body>
+</html>

@@ -10,7 +10,7 @@ public class QueueDemo {
         System.out.println("==================================================");
         System.out.print("Enter Queue Capacity: ");
         int capacity = scanner.nextInt();
-        
+
         Queue queue = new Queue(capacity);
         boolean running = true;
 
