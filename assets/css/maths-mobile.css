@@ -1,0 +1,461 @@
+/* All subjects — mobile & touch-friendly styles (Maths, DBMS, Java, DAA, R, MC, labs) */
+
+/* Hide sidebar navigation — use dashboard cards / tables instead */
+.portal-book .sidebar,
+.portal-book aside.sidebar {
+    display: none !important;
+}
+
+.portal-book .sidebar-toggle-master,
+.portal-book .hamburger {
+    display: none !important;
+}
+
+.portal-book .main-content {
+    margin-left: 0 !important;
+    width: 100%;
+    max-width: 1600px;
+}
+
+.portal-book .mobile-header,
+.portal-book .portal-mobile-header {
+    display: none;
+    background-color: var(--bg-panel, #0c1322);
+    border-bottom: 1px solid var(--border-color, #1e293b);
+    padding: 12px 16px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.portal-book .unit-nav-bar {
+    margin-bottom: 20px;
+}
+
+.portal-book .btn-back-cover {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    border-radius: 10px;
+    border: 1px solid var(--border-color, #1e293b);
+    background: var(--bg-card, #131e33);
+    color: var(--text-primary, #f8fafc);
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    touch-action: manipulation;
+}
+
+.portal-book .btn-back-cover svg {
+    width: 18px;
+    height: 18px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+}
+
+.portal-book .syllabus-item.unit-nav-card,
+.portal-book .portal-hub-card {
+    cursor: pointer;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: rgba(37, 99, 235, 0.12);
+    transition: border-color 0.2s, transform 0.2s;
+    position: relative;
+}
+
+.portal-book .syllabus-item.unit-nav-card:hover,
+.portal-book .portal-hub-card:hover {
+    border-color: var(--primary, #2563eb) !important;
+    transform: translateY(-2px);
+}
+
+.portal-book .syllabus-item.unit-nav-card::after,
+.portal-book .portal-hub-card::after {
+    content: "Tap to open →";
+    display: block;
+    margin-top: 10px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--accent-cyan, #06b6d4);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.portal-book .portal-nav-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+}
+
+.portal-book table.lab-exp-table tr.unit-row {
+    cursor: pointer;
+    touch-action: manipulation;
+}
+
+.portal-book .stats-grid {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)) !important;
+}
+
+@media (max-width: 991px) {
+    .portal-book .mobile-header,
+    .portal-book .portal-mobile-header {
+        display: flex;
+        padding-top: max(12px, env(safe-area-inset-top, 0px));
+        padding-left: max(16px, env(safe-area-inset-left, 0px));
+        padding-right: max(16px, env(safe-area-inset-right, 0px));
+    }
+
+    .portal-book .mobile-header .btn-back-cover {
+        width: auto;
+        min-height: 40px;
+        padding: 8px 12px;
+        font-size: 0.8rem;
+    }
+
+    .portal-book .portal-nav-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
+/* --------------------------------------------------------------------------
+   Unit solution pages (MATHS/unit*_solved.html)
+   -------------------------------------------------------------------------- */
+body.portal-enhanced {
+    padding-left: max(12px, env(safe-area-inset-left, 0px));
+    padding-right: max(12px, env(safe-area-inset-right, 0px));
+    padding-bottom: max(20px, env(safe-area-inset-bottom, 0px));
+    overflow-x: hidden;
+}
+
+body.portal-enhanced .container {
+    max-width: 100%;
+    padding: 0 2px;
+}
+
+body.portal-enhanced h1 {
+    font-size: clamp(1.2rem, 5.5vw, 1.75rem);
+    padding-left: 12px;
+    line-height: 1.3;
+    margin-bottom: 12px;
+}
+
+body.portal-enhanced h2 {
+    font-size: clamp(1rem, 4.5vw, 1.35rem);
+    margin: 24px 0 12px;
+}
+
+body.portal-enhanced p {
+    font-size: 0.95rem;
+}
+
+body.portal-enhanced details {
+    touch-action: manipulation;
+}
+
+body.portal-enhanced summary {
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    padding: 14px 16px;
+    font-size: 0.95rem;
+    line-height: 1.35;
+    -webkit-tap-highlight-color: transparent;
+    list-style-position: inside;
+}
+
+body.portal-enhanced .details-content {
+    padding: 12px 14px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+body.portal-enhanced table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    font-size: 0.85rem;
+}
+
+body.portal-enhanced th,
+body.portal-enhanced td {
+    padding: 8px 6px;
+    min-width: 48px;
+}
+
+body.portal-enhanced .formula,
+body.portal-enhanced .step,
+body.portal-enhanced .final {
+    font-size: 0.9rem;
+    word-break: break-word;
+}
+
+body.portal-enhanced mjx-container,
+body.portal-enhanced .MathJax {
+    overflow-x: auto;
+    overflow-y: hidden;
+    max-width: 100%;
+}
+
+body.portal-enhanced img,
+body.portal-enhanced svg {
+    max-width: 100%;
+    height: auto;
+}
+
+body.portal-enhanced .graph-container,
+body.portal-enhanced .simplex-table {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* --------------------------------------------------------------------------
+   Maths IV Hub (Engineering_Mathematics_4th_Sem_Notes_Book.html)
+   -------------------------------------------------------------------------- */
+@media (max-width: 991px) {
+    .portal-book .main-content {
+        padding: calc(72px + env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) max(32px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
+    }
+
+    .portal-book .mobile-header {
+        padding: max(12px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) 12px max(16px, env(safe-area-inset-left, 0px));
+    }
+
+    .portal-book .cover-intro {
+        padding: 24px 18px;
+    }
+
+    .portal-book .cover-intro h1 {
+        font-size: clamp(1.5rem, 7vw, 2.2rem);
+    }
+
+    .portal-book .cover-intro p.subtitle {
+        font-size: 1rem;
+    }
+
+    .portal-book .quick-meta-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .portal-book .card {
+        padding: 18px 14px;
+        margin-bottom: 20px;
+    }
+
+    .portal-book .card-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .portal-book .card-title {
+        font-size: 1.05rem;
+    }
+
+    .portal-book .hero-card {
+        padding: 22px 18px;
+    }
+
+    .portal-book .hero-card h2 {
+        font-size: clamp(1.25rem, 5.5vw, 1.75rem);
+    }
+
+    .portal-book .hero-card p {
+        font-size: 0.95rem;
+    }
+
+    .portal-book .tab-bar {
+        flex-wrap: nowrap;
+        gap: 8px;
+        margin-bottom: 16px;
+        -webkit-overflow-scrolling: touch;
+        scroll-snap-type: x proximity;
+        padding-bottom: 8px;
+    }
+
+    .portal-book .tab-btn {
+        flex: 0 0 auto;
+        min-height: 44px;
+        padding: 12px 16px;
+        font-size: 0.85rem;
+        scroll-snap-align: start;
+        touch-action: manipulation;
+    }
+
+    .portal-book tr.unit-row {
+        min-height: 56px;
+    }
+
+    .portal-book tr.unit-row td {
+        padding: 16px 14px;
+    }
+
+    .portal-book .btn-back-cover {
+        min-height: 44px;
+        width: 100%;
+        justify-content: center;
+        touch-action: manipulation;
+    }
+
+    .portal-book .pdf-viewer-container::before {
+        content: "On phone: tap “Open in New Tab” if content does not load below.";
+        display: block;
+        padding: 10px 14px;
+        font-size: 0.8rem;
+        color: #94a3b8;
+        background: rgba(6, 182, 212, 0.08);
+        border-bottom: 1px solid #1e293b;
+        line-height: 1.4;
+    }
+
+    .portal-book .pdf-viewer-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+        padding: 12px 14px;
+    }
+
+    .portal-book .pdf-viewer-title {
+        font-size: 0.85rem;
+        word-break: break-word;
+    }
+
+    .portal-book .pdf-viewer-actions {
+        flex-direction: column;
+        width: 100%;
+        gap: 8px;
+    }
+
+    .portal-book .btn-action {
+        width: 100%;
+        justify-content: center;
+        min-height: 44px;
+        font-size: 0.9rem;
+        touch-action: manipulation;
+    }
+
+    .portal-book .pdf-iframe {
+        height: min(72vh, 640px);
+        min-height: 360px;
+    }
+
+    .portal-book .pdf-viewer-container.maximized .pdf-iframe {
+        height: calc(100vh - 120px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+    }
+
+    .portal-book .pyq-sidebar {
+        flex-direction: row;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scroll-snap-type: x proximity;
+        padding: 14px;
+        gap: 10px;
+    }
+
+    .portal-book .pyq-sidebar h4 {
+        display: none;
+    }
+
+    .portal-book .pyq-option {
+        flex: 0 0 auto;
+        min-width: min(200px, 75vw);
+        min-height: 44px;
+        scroll-snap-align: start;
+        touch-action: manipulation;
+    }
+
+    .portal-book .formula-section {
+        max-height: none;
+    }
+
+    .portal-book .dashboard-grid {
+        gap: 20px;
+    }
+
+    .portal-book .table-container {
+        overflow: visible;
+    }
+}
+
+@media (max-width: 640px) {
+    .portal-book table.course-table {
+        border: 0;
+    }
+
+    .portal-book table.course-table thead {
+        display: none;
+    }
+
+    .portal-book table.course-table tbody {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .portal-book table.course-table tr.unit-row {
+        display: block;
+        background: var(--bg-card, #131e33);
+        border: 1px solid var(--border-color, #1e293b);
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    .portal-book table.course-table tr.unit-row td {
+        display: block;
+        border: none;
+        padding: 10px 16px;
+        text-align: left;
+    }
+
+    .portal-book table.course-table tr.unit-row td:first-child {
+        background: rgba(37, 99, 235, 0.12);
+        padding-top: 14px;
+        font-size: 1.05rem;
+    }
+
+    .portal-book table.course-table tr.unit-row td:last-child {
+        padding-bottom: 14px;
+    }
+
+    .portal-book table.course-table tr.unit-row td::before {
+        content: attr(data-label);
+        display: block;
+        font-size: 0.65rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--text-muted, #64748b);
+        margin-bottom: 4px;
+    }
+
+    .portal-book table.course-table tr.unit-row td:first-child::before {
+        display: none;
+    }
+
+    .portal-book table.course-table code {
+        font-size: 0.75rem;
+        word-break: break-all;
+    }
+}
+
+@media (max-width: 480px) {
+    .portal-book .meta-stat-num {
+        font-size: 1.25rem;
+    }
+
+    body.portal-enhanced {
+        padding: max(10px, env(safe-area-inset-top, 0px)) max(10px, env(safe-area-inset-right, 0px)) max(16px, env(safe-area-inset-bottom, 0px)) max(10px, env(safe-area-inset-left, 0px));
+    }
+}

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Data Analytics using R — Units 1, 3, 4 &amp; 5 | MSRIT Exam Notes</title>
 <meta name="description" content="Complete exam-oriented notes for Data Analytics using R covering Units 1, 3, 4, and 5 for MSRIT B.E. ISE students.">
 <style>
@@ -163,8 +163,12 @@ strong{color:var(--text);font-weight:700}
 /* DIFF TABLE */
 .diff-tbl th:first-child,.diff-tbl td:first-child{background:rgba(108,99,255,.05)}
 </style>
+  <link rel="stylesheet" href="../assets/css/variables.css">
+  <link rel="stylesheet" href="../assets/css/portal.css">
+  <link rel="stylesheet" href="../assets/css/maths-mobile.css">
+
 </head>
-<body>
+<body class="portal-enhanced" data-subject-id="r" data-subject-title="R Programming" data-portal-base="../">
 
 <!-- HAMBURGER -->
 <button class="hamburger" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰</button>
@@ -3123,5 +3127,7 @@ document.querySelectorAll('.sidebar a[href^="#"]').forEach(a=>{
   });
 });
 </script>
+  <script src="../assets/js/portal-core.js" defer></script>
+  <script src="../assets/js/notes-enhancements.js" defer></script>
 </body>
 </html>

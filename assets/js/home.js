@@ -7,8 +7,6 @@ const STORAGE_KEY = "sem4_portal_progress";
 const SUBJECTS = [
   {
     id: "maths",
-    shortName: "Maths",
-    units: 5,
     title: "Statistics, Probability and Linear Programming",
     icon: "fa-chart-line",
     category: "mathematics",
@@ -22,8 +20,6 @@ const SUBJECTS = [
   },
   {
     id: "microcontroller",
-    shortName: "Microcontrollers",
-    units: 5,
     title: "Microcontrollers",
     icon: "fa-microchip",
     category: "theory",
@@ -37,8 +33,6 @@ const SUBJECTS = [
   },
   {
     id: "daa",
-    shortName: "DAA",
-    units: 5,
     title: "Design and Analysis of Algorithms",
     icon: "fa-diagram-project",
     category: "theory",
@@ -52,8 +46,6 @@ const SUBJECTS = [
   },
   {
     id: "daa-lab",
-    shortName: "DAA Lab",
-    units: 12,
     title: "Design and Analysis of Algorithms Lab",
     icon: "fa-flask",
     category: "lab",
@@ -67,8 +59,6 @@ const SUBJECTS = [
   },
   {
     id: "dbms",
-    shortName: "DBMS",
-    units: 5,
     title: "Database Management Systems",
     icon: "fa-database",
     category: "theory",
@@ -82,8 +72,6 @@ const SUBJECTS = [
   },
   {
     id: "dbms-lab",
-    shortName: "DBMS Lab",
-    units: 12,
     title: "Database Management Systems Lab",
     icon: "fa-server",
     category: "lab",
@@ -97,8 +85,6 @@ const SUBJECTS = [
   },
   {
     id: "java",
-    shortName: "Java",
-    units: 5,
     title: "Advanced Java",
     icon: "fa-mug-hot",
     category: "theory",
@@ -112,8 +98,6 @@ const SUBJECTS = [
   },
   {
     id: "java-lab",
-    shortName: "Java Lab",
-    units: 11,
     title: "Advanced Java Lab",
     icon: "fa-code",
     category: "lab",
@@ -127,8 +111,6 @@ const SUBJECTS = [
   },
   {
     id: "r",
-    shortName: "R Programming",
-    units: 5,
     title: "R Programming",
     icon: "fa-chart-pie",
     category: "theory",
@@ -221,8 +203,7 @@ function renderCards() {
           </div>
           <span class="badge ${badgeClass(s.category)}">${s.badge}</span>
         </div>
-        <h3 class="subject-title">${s.shortName || s.title}</h3>
-        <span class="subject-units-badge">${s.units} ${s.units === 1 ? "unit" : "units"}</span>
+        <h3 class="subject-title">${s.title}</h3>
         ${
           s.examDate && s.examDay
             ? `<p class="subject-exam subject-exam--${s.category}"><i class="fa-regular fa-calendar-days" aria-hidden="true"></i><span>${s.category === "lab" ? "Lab exam" : "SEE"}: ${s.examDate} · ${s.examDay}</span></p>`
@@ -404,71 +385,14 @@ function setupTimetables() {
   });
 }
 
-function renderQuickAccess() {
-  const el = document.getElementById("quickAccess");
-  if (!el) return;
-  el.innerHTML = SUBJECTS.map(
-    (s) =>
-      `<a href="${s.url}" data-subject-id="${s.id}">${s.shortName || s.title}</a>`
-  ).join("");
-  el.querySelectorAll("a").forEach((a) => {
-    a.addEventListener("click", () => {
-      const id = a.getAttribute("data-subject-id");
-      if (id) markVisited(id);
-    });
-  });
-}
-
-function renderRecent() {
-  const section = document.getElementById("recent");
-  const list = document.getElementById("recentList");
-  if (!section || !list || typeof window.SEM4_getRecentSubjects !== "function") return;
-
-  const recent = window.SEM4_getRecentSubjects();
-  if (!recent.length) {
-    section.hidden = true;
-    return;
-  }
-
-  section.hidden = false;
-  list.innerHTML = recent
-    .map((r) => `<a href="${r.url}">${r.title || r.id}</a>`)
-    .join("");
-}
-
-function setupHomeTheme() {
-  const nav = document.getElementById("navMenu");
-  if (!nav || document.getElementById("homeThemeToggle")) return;
-  const li = document.createElement("li");
-  li.innerHTML =
-    '<button type="button" class="nav-link" id="homeThemeToggle" style="border:none;background:transparent;cursor:pointer;font:inherit;">🌓 Theme</button>';
-  nav.appendChild(li);
-  document.getElementById("homeThemeToggle")?.addEventListener("click", () => {
-    const isLight = document.documentElement.getAttribute("data-theme") === "light";
-    if (isLight) {
-      document.documentElement.removeAttribute("data-theme");
-      localStorage.setItem("sem4_theme", "dark");
-    } else {
-      document.documentElement.setAttribute("data-theme", "light");
-      localStorage.setItem("sem4_theme", "light");
-    }
-  });
-  if (localStorage.getItem("sem4_theme") === "light") {
-    document.documentElement.setAttribute("data-theme", "light");
-  }
-}
-
 function init() {
   initProgressRing();
   renderCards();
-  renderQuickAccess();
-  renderRecent();
   updateGlobalProgress();
   setupFilters();
   setupNav();
   setupReset();
   setupTimetables();
-  setupHomeTheme();
 }
 
 document.addEventListener("DOMContentLoaded", init);

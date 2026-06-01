@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
     <title>Engineering Mathematics IV — Premium Student Study Portal</title>
     
     <!-- Google Fonts -->
@@ -236,11 +238,70 @@
            MAIN CONTENT AREA
            ========================================================================== */
         .main-content {
-            margin-left: var(--sidebar-width);
+            margin-left: 0;
             flex: 1;
             padding: 40px 50px;
             max-width: 1600px;
+            width: 100%;
             transition: var(--transition);
+        }
+
+        .sidebar {
+            display: none !important;
+        }
+
+        .unit-nav-bar {
+            margin-bottom: 24px;
+        }
+
+        .btn-back-cover {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-card);
+            color: var(--text-primary);
+            font-family: var(--font-display);
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-back-cover:hover {
+            border-color: var(--primary);
+            background: var(--bg-card-hover);
+            color: var(--accent-cyan);
+        }
+
+        .btn-back-cover svg {
+            width: 18px;
+            height: 18px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+        }
+
+        tr.unit-row {
+            cursor: pointer;
+            transition: var(--transition);
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: rgba(37, 99, 235, 0.15);
+        }
+
+        tr.unit-row:hover td {
+            background-color: rgba(37, 99, 235, 0.08);
+            color: var(--text-primary);
+        }
+
+        tr.unit-row td:first-child strong {
+            color: var(--accent-cyan);
+        }
+
+        tr.unit-row:active td {
+            background-color: rgba(37, 99, 235, 0.15);
         }
 
         .unit-section {
@@ -801,6 +862,13 @@
             border: none;
             color: var(--text-primary);
             cursor: pointer;
+            touch-action: manipulation;
+        }
+
+        .mobile-header .btn-back-cover {
+            width: auto;
+            padding: 8px 14px;
+            font-size: 0.85rem;
         }
 
         .mobile-menu-btn svg {
@@ -812,23 +880,16 @@
         }
 
         @media (max-width: 991px) {
-            .sidebar {
-                transform: translateX(-100%);
-            }
-            .sidebar.mobile-open {
-                transform: translateX(0);
-            }
-            .main-content {
-                margin-left: 0;
-                padding: 100px 20px 40px;
-            }
             .mobile-header {
                 display: flex;
             }
         }
     </style>
+  <link rel="stylesheet" href="assets/css/variables.css">
+  <link rel="stylesheet" href="assets/css/portal.css">
+  <link rel="stylesheet" href="assets/css/maths-mobile.css">
 </head>
-<body class="tex2jax_process">
+<body class="tex2jax_process portal-enhanced portal-book" data-portal-base="">
 
     <!-- Mobile Header Navigation (For Small Screens) -->
     <header class="mobile-header">
@@ -839,80 +900,21 @@
                 <p style="font-size: 0.6rem; color: var(--accent-cyan); text-transform: uppercase; font-weight: 700; letter-spacing: 0.05em;">IS41 / 23CS41</p>
             </div>
         </div>
-        <button class="mobile-menu-btn" onclick="toggleSidebar()">
-            <svg id="menu-icon" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"></path></svg>
+        <button type="button" class="mobile-menu-btn btn-back-cover" id="mobile-back-btn" hidden onclick="showUnit('cover')">
+            <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>
+            Overview
         </button>
     </header>
 
-    <!-- Interactive Navigation Sidebar -->
-    <nav class="sidebar" id="sidebar">
-        <div class="sidebar-brand">
-            <div class="sidebar-logo">Σ</div>
-            <div class="brand-meta">
-                <h1>Maths IV Hub</h1>
-                <p>MSRIT Course Companion</p>
-            </div>
-        </div>
-        
-        <ul class="nav-menu">
-            <li class="nav-header">Overview</li>
-            <li>
-                <button class="nav-item active" id="btn-cover" onclick="showUnit('cover')">
-                    <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5A2.5 2.5 0 0 0 6.5 22H20M4 19.5V3.5A2.5 2.5 0 0 1 6.5 1H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5z"></path></svg>
-                    Syllabus Cover Page
-                </button>
-            </li>
-            
-            <li class="nav-header">Lecture PPT Notes</li>
-            <li>
-                <button class="nav-item" id="btn-unit1" onclick="showUnit('unit1')">
-                    <svg viewBox="0 0 24 24"><path d="M21.21 15.89A10 10 0 1 1 8 2.83M22 12A10 10 0 0 0 12 2v10z"></path></svg>
-                    Unit 1: Stats & Discrete
-                </button>
-            </li>
-            <li>
-                <button class="nav-item" id="btn-unit2" onclick="showUnit('unit2')">
-                    <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
-                    Unit 2: Continuous & Joint
-                </button>
-            </li>
-            <li>
-                <button class="nav-item" id="btn-unit3" onclick="showUnit('unit3')">
-                    <svg viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
-                    Unit 3: Markov & Queues
-                </button>
-            </li>
-            <li>
-                <button class="nav-item" id="btn-unit4" onclick="showUnit('unit4')">
-                    <svg viewBox="0 0 24 24"><path d="M21.21 15.89A10 10 0 1 1 8 2.83M22 12A10 10 0 0 0 12 2v10z"></path></svg>
-                    Unit 4: Sampling Inference
-                </button>
-            </li>
-            <li>
-                <button class="nav-item" id="btn-unit5" onclick="showUnit('unit5')">
-                    <svg viewBox="0 0 24 24"><path d="M3 3h18v18H3zM21 9H3M21 15H3M12 3v18"></path></svg>
-                    Unit 5: LPP & Simplex
-                </button>
-            </li>
-
-            <li class="nav-header">Exams & Banks</li>
-            <li>
-                <button class="nav-item" id="btn-pyq" onclick="showUnit('pyq')">
-                    <svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2zM12 11v6M9 14h6"></path></svg>
-                    Question Bank & PYQs
-                </button>
-            </li>
-        </ul>
-        
-        <div class="sidebar-footer">
-            <p>Course Code: <strong>IS41 / 23CS41</strong></p>
-            <p>Credits: <strong>2 : 1 : 0</strong></p>
-            <p>Developed with ❤️ for MSRIT Students</p>
-        </div>
-    </nav>
-
     <!-- Main Content Canvas -->
     <main class="main-content">
+
+        <div class="unit-nav-bar" id="unit-nav-bar" hidden>
+            <button type="button" class="btn-back-cover" onclick="showUnit('cover')">
+                <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>
+                Back to Course Overview
+            </button>
+        </div>
 
         <!-- ==========================================================================
              0. BOOK COVER / GENERAL OVERVIEW PAGE
@@ -927,7 +929,7 @@
                     Welcome to the ultimate academic companion for 4th Semester Engineering Mathematics. 
                     This interactive student portal provides direct, inline access to the official MSRIT lecture slide PDFs, 
                     syllabus checklists, MathJax LaTeX formula references, and the scanned Semester End Exam (SEE) question banks 
-                    and CIE papers. Toggle through the sidebar to start studying.
+                    and CIE papers. Tap any unit in the table below to open notes and PDFs.
                 </p>
                 
                 <div class="quick-meta-grid">
@@ -952,10 +954,11 @@
                         <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14M22 4L12 14.01l-3-3"></path></svg>
                         Course Structure & Examination Marks Weightage
                     </h3>
+                    <p style="margin-top: 8px; font-size: 0.85rem; color: var(--text-muted);">Tap a unit row to open lecture notes, solutions, and PDFs.</p>
                 </div>
                 
                 <div class="table-container">
-                    <table>
+                    <table class="course-table">
                         <thead>
                             <tr>
                                 <th>Category</th>
@@ -965,45 +968,48 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td><strong>Unit 1</strong></td>
-                                <td>Curve Fitting (Least Squares, Parabolas), Regression (Multiple Plane), Binomial & Poisson Distributions</td>
-                                <td><code>Unit 1(PPT notes).pdf</code></td>
-                                <td><span class="tag-status high">High Core</span></td>
+                            <tr class="unit-row" role="button" tabindex="0" onclick="showUnit('unit1')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showUnit('unit1');}">
+                                <td><strong>Unit 1</strong> · Tap to open</td>
+                                <td data-label="Topics">Curve Fitting (Least Squares, Parabolas), Regression (Multiple Plane), Binomial & Poisson Distributions</td>
+                                <td data-label="PDFs"><code>Unit 1(PPT notes).pdf</code></td>
+                                <td data-label="Priority"><span class="tag-status high">High Core</span></td>
                             </tr>
-                            <tr>
-                                <td><strong>Unit 2</strong></td>
-                                <td>Continuous Distributions (Uniform, Exponential, Gamma, Normal) & Bivariate Joint Distributions</td>
-                                <td><code>Probability Distribution.pdf</code><br><code>joint probability distribution.pdf</code></td>
-                                <td><span class="tag-status critical">Critical</span></td>
+                            <tr class="unit-row" role="button" tabindex="0" onclick="showUnit('unit2')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showUnit('unit2');}">
+                                <td><strong>Unit 2</strong> · Tap to open</td>
+                                <td data-label="Topics">Continuous Distributions (Uniform, Exponential, Gamma, Normal) & Bivariate Joint Distributions</td>
+                                <td data-label="PDFs"><code>Probability Distribution.pdf</code><br><code>joint probability distribution.pdf</code></td>
+                                <td data-label="Priority"><span class="tag-status critical">Critical</span></td>
                             </tr>
-                            <tr>
-                                <td><strong>Unit 3</strong></td>
-                                <td>Markov Chains (TPM, Stationary, absorbing states) & Queuing Systems (M/M/1, M/M/s, M/D/1)</td>
-                                <td><code>Updated Unit - III - IS$1.pdf</code></td>
-                                <td><span class="tag-status high">High Core</span></td>
+                            <tr class="unit-row" role="button" tabindex="0" onclick="showUnit('unit3')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showUnit('unit3');}">
+                                <td><strong>Unit 3</strong> · Tap to open</td>
+                                <td data-label="Topics">Markov Chains (TPM, Stationary, absorbing states) & Queuing Systems (M/M/1, M/M/s, M/D/1)</td>
+                                <td data-label="PDFs"><code>Updated Unit - III - IS$1.pdf</code></td>
+                                <td data-label="Priority"><span class="tag-status high">High Core</span></td>
                             </tr>
-                            <tr>
-                                <td><strong>Unit 4</strong></td>
-                                <td>Sampling Distributions (CLT, SE) & Hypothesis Testing (Z-test, t-test, F-test, Chi-Square test)</td>
-                                <td><code>Unit - IV - IS41.pdf</code></td>
-                                <td><span class="tag-status critical">Critical</span></td>
+                            <tr class="unit-row" role="button" tabindex="0" onclick="showUnit('unit4')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showUnit('unit4');}">
+                                <td><strong>Unit 4</strong> · Tap to open</td>
+                                <td data-label="Topics">Sampling Distributions (CLT, SE) & Hypothesis Testing (Z-test, t-test, F-test, Chi-Square test)</td>
+                                <td data-label="PDFs"><code>Unit - IV - IS41.pdf</code></td>
+                                <td data-label="Priority"><span class="tag-status critical">Critical</span></td>
                             </tr>
-                            <tr>
-                                <td><strong>Unit 5</strong></td>
-                                <td>Linear Programming Problems (Graphical, Simplex, Big-M, Two-Phase Methods, Duality)</td>
-                                <td><code>LPP_I.pdf</code></td>
-                                <td><span class="tag-status medium">Medium</span></td>
+                            <tr class="unit-row" role="button" tabindex="0" onclick="showUnit('unit5')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showUnit('unit5');}">
+                                <td><strong>Unit 5</strong> · Tap to open</td>
+                                <td data-label="Topics">Linear Programming Problems (Graphical, Simplex, Big-M, Two-Phase Methods, Duality)</td>
+                                <td data-label="PDFs"><code>LPP_I.pdf</code></td>
+                                <td data-label="Priority"><span class="tag-status medium">Medium</span></td>
                             </tr>
-                            <tr>
-                                <td><strong>Exams Hub</strong></td>
-                                <td>Scanned Question Bank and CIE/SEE Past Papers (2024–2025)</td>
-                                <td><code>Sem 4 Question Bank.pdf</code> + 5 papers</td>
-                                <td><span class="tag-status critical">Essential</span></td>
+                            <tr class="unit-row" role="button" tabindex="0" onclick="showUnit('pyq')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showUnit('pyq');}">
+                                <td><strong>Exams Hub</strong> · Tap to open</td>
+                                <td data-label="Topics">Scanned Question Bank and CIE/SEE Past Papers (2024–2025)</td>
+                                <td data-label="PDFs"><code>Sem 4 Question Bank.pdf</code> + 5 papers</td>
+                                <td data-label="Priority"><span class="tag-status critical">Essential</span></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
+                <p style="margin-top: 20px; font-size: 0.8rem; color: var(--text-muted); text-align: center;">
+                    Course Code: <strong style="color: var(--text-secondary);">IS41 / 23CS41</strong> · Credits: <strong style="color: var(--text-secondary);">2 : 1 : 0</strong>
+                </p>
             </div>
         </section>
 
@@ -1733,7 +1739,7 @@
                                 <a href="MATHS/Sem 4 Question Bank.pdf" id="pyq-download-link" target="_blank" class="btn-action btn-accent">Open in New Tab</a>
                             </div>
                         </div>
-                        <iframe src="MATHS/Sem 4 Question Bank.pdf" id="pyq-iframe" class="pdf-iframe" style="height: 820px;"></iframe>
+                        <iframe src="MATHS/Sem 4 Question Bank.pdf" id="pyq-iframe" class="pdf-iframe"></iframe>
                     </div>
                 </div>
             </div>
@@ -1745,46 +1751,20 @@
     <script>
         // Switch between units (sections)
         function showUnit(unitId) {
-            // Hide all sections
             const sections = document.querySelectorAll('.unit-section');
             sections.forEach(sec => sec.classList.remove('active'));
-            
-            // Deactivate all nav buttons
-            const navButtons = document.querySelectorAll('.nav-item');
-            navButtons.forEach(btn => btn.classList.remove('active'));
-            
-            // Show target section
+
             const targetSec = document.getElementById(unitId);
             if (targetSec) {
                 targetSec.classList.add('active');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
-            
-            // Activate corresponding button
-            const activeBtn = document.getElementById('btn-' + unitId);
-            if (activeBtn) {
-                activeBtn.classList.add('active');
-            }
 
-            // Close mobile sidebar if open
-            const sidebar = document.getElementById('sidebar');
-            if (sidebar.classList.contains('mobile-open')) {
-                sidebar.classList.remove('mobile-open');
-                document.getElementById('menu-icon').innerHTML = '<path d="M4 6h16M4 12h16M4 18h16"></path>';
-            }
-        }
-
-        // Toggle Sidebar on mobile
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            const menuIcon = document.getElementById('menu-icon');
-            if (sidebar.classList.contains('mobile-open')) {
-                sidebar.classList.remove('mobile-open');
-                menuIcon.innerHTML = '<path d="M4 6h16M4 12h16M4 18h16"></path>';
-            } else {
-                sidebar.classList.add('mobile-open');
-                menuIcon.innerHTML = '<path d="M18 6L6 18M6 6l12 12"></path>';
-            }
+            const onCover = unitId === 'cover';
+            const navBar = document.getElementById('unit-nav-bar');
+            const mobileBack = document.getElementById('mobile-back-btn');
+            if (navBar) navBar.hidden = onCover;
+            if (mobileBack) mobileBack.hidden = onCover;
         }
 
         // Switch tabs in Unit 1
@@ -2054,5 +2034,9 @@
             }
         }
     </script>
+  <script src="assets/js/portal-back-nav.js"></script>
+  <script src="assets/js/portal-core.js" defer></script>
+  <script src="assets/js/notes-enhancements.js" defer></script>
+  <script src="assets/js/book-navigation.js" defer></script>
 </body>
 </html>

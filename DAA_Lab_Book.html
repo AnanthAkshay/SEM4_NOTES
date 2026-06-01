@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>DAA Lab Manual Solutions</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
@@ -761,8 +761,23 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
         }
     </style>
+  <link rel="stylesheet" href="assets/css/variables.css">
+  <link rel="stylesheet" href="assets/css/portal.css">
+  <link rel="stylesheet" href="assets/css/maths-mobile.css">
+
 </head>
-<body>
+<body class="portal-enhanced portal-book" data-portal-base="">
+    <header class="mobile-header portal-mobile-header">
+        <div style="display:flex;align-items:center;gap:10px;">
+            <div class="sidebar-logo" style="width:32px;height:32px;font-size:1rem;border-radius:8px;">D</div>
+            <h1 style="font-family:var(--font-display,Inter,sans-serif);font-size:1rem;font-weight:800;color:var(--text-primary,#f8fafc);line-height:1.1;">DAA Lab</h1>
+        </div>
+        <button type="button" class="btn-back-cover" id="mobile-back-btn" hidden onclick="portalGoHome()">
+            <svg viewBox="0 0 24 24" width="18" height="18"><path d="M19 12H5M12 19l-7-7 7-7" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+            Overview
+        </button>
+    </header>
+
     <div class="sidebar">
         <div class="sidebar-brand">
             <div class="sidebar-logo">D</div>
@@ -788,7 +803,34 @@
     </div>
     
     <div class="main-content">
-        <div id="Experiment_1_MergeSort" class="lab-section">
+        
+        <div class="unit-nav-bar" id="unit-nav-bar" hidden>
+            <button type="button" class="btn-back-cover" onclick="portalGoHome()">
+                <svg viewBox="0 0 24 24" width="18" height="18"><path d="M19 12H5M12 19l-7-7 7-7" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+                Back to Course Overview
+            </button>
+        </div>
+        <div id="daa-lab-cover" class="lab-section active">
+            <div class="card" style="padding:24px;">
+                <h1 style="margin-bottom:12px;">DAA Laboratory Manual</h1>
+                <p style="margin-bottom:20px;color:#94a3b8;">Tap an experiment to open solutions.</p>
+                <div class="portal-nav-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;">
+                    <div class="syllabus-item unit-nav-card" role="button" tabindex="0" onclick="showExp('Experiment_1_MergeSort')" onkeydown="portalCardKey(event,'Experiment_1_MergeSort','showExp')"><div class="syllabus-title">Experiment 1: Merge Sort</div></div>
+                    <div class="syllabus-item unit-nav-card" role="button" tabindex="0" onclick="showExp('Experiment_2_RandomizedQuickSort')" onkeydown="portalCardKey(event,'Experiment_2_RandomizedQuickSort','showExp')"><div class="syllabus-title">Experiment 2: Randomized Quick Sort</div></div>
+                    <div class="syllabus-item unit-nav-card" role="button" tabindex="0" onclick="showExp('Experiment_3_PriorityQueue')" onkeydown="portalCardKey(event,'Experiment_3_PriorityQueue','showExp')"><div class="syllabus-title">Experiment 3: Priority Queue</div></div>
+                    <div class="syllabus-item unit-nav-card" role="button" tabindex="0" onclick="showExp('Experiment_4_CountingSort')" onkeydown="portalCardKey(event,'Experiment_4_CountingSort','showExp')"><div class="syllabus-title">Experiment 4: Counting Sort</div></div>
+                    <div class="syllabus-item unit-nav-card" role="button" tabindex="0" onclick="showExp('Experiment_5_MedianOfMedians')" onkeydown="portalCardKey(event,'Experiment_5_MedianOfMedians','showExp')"><div class="syllabus-title">Experiment 5: Median of Medians</div></div>
+                    <div class="syllabus-item unit-nav-card" role="button" tabindex="0" onclick="showExp('Experiment_6_DisjointSetUnion')" onkeydown="portalCardKey(event,'Experiment_6_DisjointSetUnion','showExp')"><div class="syllabus-title">Experiment 6: Disjoint Set Union</div></div>
+                    <div class="syllabus-item unit-nav-card" role="button" tabindex="0" onclick="showExp('Experiment_7_Dijkstra')" onkeydown="portalCardKey(event,'Experiment_7_Dijkstra','showExp')"><div class="syllabus-title">Experiment 7: Dijkstra</div></div>
+                    <div class="syllabus-item unit-nav-card" role="button" tabindex="0" onclick="showExp('Experiment_8_MatrixChainMultiplication')" onkeydown="portalCardKey(event,'Experiment_8_MatrixChainMultiplication','showExp')"><div class="syllabus-title">Experiment 8: Matrix Chain</div></div>
+                    <div class="syllabus-item unit-nav-card" role="button" tabindex="0" onclick="showExp('Experiment_9_LongestCommonSubsequence')" onkeydown="portalCardKey(event,'Experiment_9_LongestCommonSubsequence','showExp')"><div class="syllabus-title">Experiment 9: LCS</div></div>
+                    <div class="syllabus-item unit-nav-card" role="button" tabindex="0" onclick="showExp('Experiment_10_HuffmanCoding')" onkeydown="portalCardKey(event,'Experiment_10_HuffmanCoding','showExp')"><div class="syllabus-title">Experiment 10: Huffman Coding</div></div>
+                    <div class="syllabus-item unit-nav-card" role="button" tabindex="0" onclick="showExp('Experiment_11_DepthFirstSearch')" onkeydown="portalCardKey(event,'Experiment_11_DepthFirstSearch','showExp')"><div class="syllabus-title">Experiment 11: DFS</div></div>
+                    <div class="syllabus-item unit-nav-card" role="button" tabindex="0" onclick="showExp('Experiment_12_FordFulkersonMaxFlow')" onkeydown="portalCardKey(event,'Experiment_12_FordFulkersonMaxFlow','showExp')"><div class="syllabus-title">Experiment 12: Max Flow</div></div>
+                </div>
+            </div>
+        </div>
+<div id="Experiment_1_MergeSort" class="lab-section">
             <div class="card">
                 <div class="hero-card"><div class="hero-card-tag">DAA Lab Manual</div><h2>EXPERIMENT NUMBER 1</h2><p>Design and Analysis of Algorithms Laboratory Solutions.</p></div>
 
@@ -5844,13 +5886,16 @@ The Ford-Fulkerson (Edmonds-Karp) maximum flow algorithm was successfully design
     </div>
 
     <script>
-        function showExp(id) {
+        window.portalHomeKeys = ['daa-lab-cover'];
+
+        function showExp(id, el) {
             document.querySelectorAll('.lab-section').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-            
-            document.getElementById(id).classList.add('active');
-            event.target.classList.add('active');
-            window.scrollTo(0, 0);
+            const section = document.getElementById(id);
+            if (section) section.classList.add('active');
+            if (el) el.classList.add('active');
+            if (typeof updatePortalBackBar === 'function') updatePortalBackBar(id);
+            else window.scrollTo(0, 0);
         }
         
         document.querySelectorAll('pre').forEach(pre => {
@@ -5861,10 +5906,10 @@ The Ford-Fulkerson (Edmonds-Karp) maximum flow algorithm was successfully design
             code = code.replace(/\b(int|void|if|else|while|for|return|def|import|class|print|from|try|except|break|continue|elif)\b/g, '<span class="j-keyword">$1</span>');
             pre.innerHTML = code;
         });
-
-        if (document.querySelector('.nav-item')) {
-            document.querySelector('.nav-item').click();
-        }
     </script>
+  <script src="assets/js/portal-core.js" defer></script>
+  <script src="assets/js/notes-enhancements.js" defer></script>
+  <script src="assets/js/book-navigation.js" defer></script>
+  <script src="assets/js/portal-back-nav.js"></script>
 </body>
 </html>
