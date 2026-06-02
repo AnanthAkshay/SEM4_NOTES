@@ -720,7 +720,10 @@
                 btn.classList.remove('active');
             });
             // Activate current item
-            document.getElementById('btn-' + sectionId).classList.add('active');
+            const activeBtn = document.getElementById('btn-' + sectionId);
+            if (activeBtn) {
+                activeBtn.classList.add('active');
+            }
             if (typeof updatePortalBackBar === 'function') updatePortalBackBar(sectionId);
             // Close mobile sidebar if open
             }
