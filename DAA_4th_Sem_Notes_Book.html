@@ -593,10 +593,12 @@
     </style>
   <link rel="stylesheet" href="assets/css/variables.css">
   <link rel="stylesheet" href="assets/css/portal.css">
+<link rel="stylesheet" href="assets/css/unit-preview.css">
+
   <link rel="stylesheet" href="assets/css/maths-mobile.css">
 
 </head>
-<body class="portal-enhanced portal-book" data-portal-base="">
+<body class="portal-enhanced portal-book" data-subject-id="daa" data-portal-base="">
     <header class="mobile-header portal-mobile-header">
         <div style="display:flex;align-items:center;gap:10px;">
             <div class="sidebar-logo" style="width:32px;height:32px;font-size:1rem;border-radius:8px;">DA</div>
@@ -705,7 +707,9 @@
                         Course Syllabus Blueprint
                     </h3>
                 </div>
-                <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:16px;">Tap any card to open notes, numerics, or exam papers.</p>
+                <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:16px;">Review unit summaries below, then tap Open Unit on any card.</p>
+                
+                <div id="unit-preview-dashboard" class="unit-preview-dashboard" aria-live="polite"></div>
                 <div class="portal-nav-grid" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px;">
                     <div class="syllabus-item unit-nav-card portal-hub-card" role="button" tabindex="0" onclick="showSection('pyqs')" onkeydown="portalCardKey(event,'pyqs')">
                         <div class="syllabus-title">CIE / SEE Papers Hub</div>
@@ -715,29 +719,7 @@
                         <div class="syllabus-title">Weekly Numerical Tests</div>
                         <div class="syllabus-desc">Practice numerical solutions.</div>
                     </div>
-                    <div class="syllabus-item unit-nav-card" role="button" tabindex="0" onclick="showSection('unit1')" onkeydown="portalCardKey(event,'unit1')">
-                        <div class="syllabus-title">Unit 1: Foundations & Recurrences</div>
-                        <div class="syllabus-desc">Algorithmic design steps, Asymptotic notations (O, Θ, Ω), recursive and non-recursive analysis, Tower of Hanoi recurrence, substitution method, recursion tree, Master Theorem, and probabilistic analysis.</div>
-                    </div>
-                    <div class="syllabus-item unit-nav-card" role="button" tabindex="0" onclick="showSection('unit2')" onkeydown="portalCardKey(event,'unit2')">
-                        <div class="syllabus-title">Unit 2: Sorting, Medians & Pattern Matching</div>
-                        <div class="syllabus-desc">Binary heap structures, HeapSort, Priority Queues, QuickSort tracing and tree of calls, Counting Sort, Radix Sort, Bucket Sort, Quick-Select, Median finding, and Horspool pattern matching.</div>
-                    </div>
-                    <div class="syllabus-item unit-nav-card" role="button" tabindex="0" onclick="showSection('unit3')" onkeydown="portalCardKey(event,'unit3')">
-                        <div class="syllabus-title">Unit 3: Amortized Analysis & Advanced Heaps</div>
-                        <div class="syllabus-desc">Amortized techniques (Aggregate, Accounting, Potential methods), Disjoint set union-find (Union by Rank & Path Compression), and Fibonacci Heaps structure, operations and graph applications.</div>
-                    </div>
-                    <div class="syllabus-item unit-nav-card" role="button" tabindex="0" onclick="showSection('unit4')" onkeydown="portalCardKey(event,'unit4')">
-                        <div class="syllabus-title">Unit 4: Dynamic Programming & Greedy Algorithms</div>
-                        <div class="syllabus-desc">Dynamic programming fundamentals, Matrix Chain Multiplication, Longest Common Subsequence, Optimal BST. Greedy techniques, Activity selection, Huffman coding, Kruskal and Prim MSTs, and Dijkstra's algorithm.</div>
-                    </div>
-                    <div class="syllabus-item unit-nav-card" role="button" tabindex="0" onclick="showSection('unit5')" onkeydown="portalCardKey(event,'unit5')">
-                        <div class="syllabus-title">Unit 5: Graph Flows, Complexities & Shortest Paths</div>
-                        <div class="syllabus-desc">BFS & DFS traversals, Topological sort, Strongly Connected Components (Kosaraju's), Bellman-Ford, Floyd-Warshall, Johnson's algorithm, Maximum flow (Ford-Fulkerson & Edmonds-Karp), P vs NP classes, and approximation algorithms.</div>
-                    </div>
                 </div>
-            </div>
-        </div>
 
         <!-- ======================= SECTION: CIE / SEE PREVIOUS PAPERS ======================= -->
         <div class="unit-section" id="sec-pyqs">
@@ -1053,6 +1035,8 @@
   <script src="assets/js/portal-core.js" defer></script>
   <script src="assets/js/notes-enhancements.js" defer></script>
   <script src="assets/js/book-navigation.js" defer></script>
-  <script src="assets/js/portal-back-nav.js"></script>
+    <script src="assets/js/unit-preview.js" defer></script>
+
+  <script>window.portalHomeKeys = ['home'];</script>
 </body>
 </html>

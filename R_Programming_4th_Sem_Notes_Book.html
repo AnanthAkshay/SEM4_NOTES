@@ -480,10 +480,12 @@
     </style>
   <link rel="stylesheet" href="assets/css/variables.css">
   <link rel="stylesheet" href="assets/css/portal.css">
+<link rel="stylesheet" href="assets/css/unit-preview.css">
+
   <link rel="stylesheet" href="assets/css/maths-mobile.css">
 
 </head>
-<body class="portal-enhanced portal-book" data-portal-base="">
+<body class="portal-enhanced portal-book" data-subject-id="r_programming" data-portal-base="">
     <header class="mobile-header portal-mobile-header">
         <div style="display:flex;align-items:center;gap:10px;">
             <div class="sidebar-logo" style="width:32px;height:32px;font-size:1rem;border-radius:8px;">R</div>
@@ -571,18 +573,16 @@
             </div>
             <div class="card">
                 <div class="card-header"><h3 class="card-title">Course Units</h3>
-                    <p style="font-size:0.85rem;color:var(--text-muted);margin-top:6px;">Tap any card to open.</p>
+                    <p style="font-size:0.85rem;color:var(--text-muted);margin-top:6px;">Review unit summaries below, then tap Open Unit.</p>
                 </div>
+                
+                <div id="unit-preview-dashboard" class="unit-preview-dashboard" aria-live="polite"></div>
                 <div class="portal-nav-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;">
-                    <div class="syllabus-item unit-nav-card" role="button" tabindex="0" onclick="showSection('unit1')" onkeydown="portalCardKey(event,'unit1')"><div class="syllabus-title">Unit 1: Basics &amp; Setup</div><div class="syllabus-desc">R ecosystem, types, and exploration.</div></div>
-                    <div class="syllabus-item unit-nav-card" role="button" tabindex="0" onclick="showSection('unit2')" onkeydown="portalCardKey(event,'unit2')"><div class="syllabus-title">Unit 2: Loading Data</div><div class="syllabus-desc">Vectors, factors, matrices, lists.</div></div>
-                    <div class="syllabus-item unit-nav-card" role="button" tabindex="0" onclick="showSection('unit3')" onkeydown="portalCardKey(event,'unit3')"><div class="syllabus-title">Unit 3: I/O &amp; Aggregations</div><div class="syllabus-desc">apply, tapply, and handling.</div></div>
-                    <div class="syllabus-item unit-nav-card" role="button" tabindex="0" onclick="showSection('unit4')" onkeydown="portalCardKey(event,'unit4')"><div class="syllabus-title">Unit 4: Data Frames &amp; EDA</div><div class="syllabus-desc">Data frames and exploration.</div></div>
-                    <div class="syllabus-item unit-nav-card" role="button" tabindex="0" onclick="showSection('unit5')" onkeydown="portalCardKey(event,'unit5')"><div class="syllabus-title">Unit 5: ggplot2 &amp; Visuals</div><div class="syllabus-desc">Grammar of graphics.</div></div>
-                    <div class="syllabus-item unit-nav-card portal-hub-card" role="button" tabindex="0" onclick="showSection('prep')" onkeydown="portalCardKey(event,'prep')"><div class="syllabus-title">Exam Preparation Hub</div><div class="syllabus-desc">MCQs, viva, and revision.</div></div>
+                    <div class="syllabus-item unit-nav-card portal-hub-card" role="button" tabindex="0" onclick="showSection('prep')" onkeydown="portalCardKey(event,'prep')">
+                        <div class="syllabus-title">Exam Preparation Hub</div>
+                        <div class="syllabus-desc">MCQs, viva questions, and revision kit.</div>
+                    </div>
                 </div>
-            </div>
-        </div>
 
 <!-- UNIT 1 -->
         <div class="unit-section" id="sec-unit1">
@@ -753,6 +753,7 @@
   <script src="assets/js/portal-core.js" defer></script>
   <script src="assets/js/notes-enhancements.js" defer></script>
   <script src="assets/js/book-navigation.js" defer></script>
-  <script src="assets/js/portal-back-nav.js"></script>
+    <script src="assets/js/unit-preview.js" defer></script>
+
 </body>
 </html>

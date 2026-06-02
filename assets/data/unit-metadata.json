@@ -1,0 +1,923 @@
+{
+  "subjects": {
+    "maths": {
+      "id": "maths",
+      "title": "Engineering Mathematics IV",
+      "units": [
+        {
+          "number": 1,
+          "title": "Statistics & Probability Distributions",
+          "topics": [
+            "️ Two & Four Marks Questions (Q1 – Q21)",
+            "Seven Marks Questions (Q22 – Q40)",
+            "Random Variables & Expectation (Q41 – Q58)",
+            "Binomial Distribution",
+            "Poisson Distribution"
+          ],
+          "keyTopics": [
+            "️ Two & Four Marks Questions (Q1 – Q21)",
+            "Seven Marks Questions (Q22 – Q40)",
+            "Random Variables & Expectation (Q41 – Q58)",
+            "Binomial Distribution",
+            "Poisson Distribution"
+          ],
+          "summary": "Complete solutions: formulas → substitution → step-by-step → final answer. Exam ready Unit 1 develops competence in ️ Two & Four Marks Questions (Q1 – Q21), Seven Marks Questions (Q22 – Q40), Random Variables & Expectation (Q41 – Q58), Binomial Distribution, Poisson Distribution. Includes distribution formulas, numerical substitutions, and hypothesis-testing procedures with solved university questions.",
+          "outcomes": [
+            "Compute ️ Two & Four Marks Questions (Q1 – Q21)",
+            "Prove seven marks questions (q22 – q40)",
+            "Apply random variables & expectation (q41 – q58)"
+          ],
+          "studyTime": "3.5 Hours",
+          "examImportance": "medium"
+        },
+        {
+          "number": 2,
+          "title": "UNIT – II: Continuous & Joint Probability Distributions",
+          "topics": [
+            "NORMAL DISTRIBUTION",
+            "EXPONENTIAL DISTRIBUTION",
+            "UNIFORM DISTRIBUTION",
+            "GAMMA DISTRIBUTION",
+            "JOINT PROBABILITY DISTRIBUTIONS (Discrete & Continuous)"
+          ],
+          "keyTopics": [
+            "NORMAL DISTRIBUTION",
+            "EXPONENTIAL DISTRIBUTION",
+            "UNIFORM DISTRIBUTION",
+            "GAMMA DISTRIBUTION",
+            "JOINT PROBABILITY DISTRIBUTIONS (Discrete & Continuous)"
+          ],
+          "summary": "Click any question to reveal the complete step‑by‑step solution Unit 2 develops competence in NORMAL DISTRIBUTION, EXPONENTIAL DISTRIBUTION, UNIFORM DISTRIBUTION, GAMMA DISTRIBUTION, JOINT PROBABILITY DISTRIBUTIONS (Discrete & Continuous). Includes distribution formulas, numerical substitutions, and hypothesis-testing procedures with solved university questions. All questions from Q52, Q53, and Tutorials 4,5,6 are fully solved with clear steps.",
+          "outcomes": [
+            "Compute NORMAL DISTRIBUTION",
+            "Prove exponential distribution",
+            "Apply uniform distribution"
+          ],
+          "studyTime": "3 Hours",
+          "examImportance": "medium"
+        },
+        {
+          "number": 3,
+          "title": "UNIT III: Markov Chains & Queuing Theory",
+          "topics": [
+            "MARKOV CHAIN – Two & Four Marks",
+            "MARKOV CHAIN – Seven Marks",
+            "⏳ QUEUING THEORY – Two & Four Marks",
+            "(M/M/1):(k/FIFO) – Expressions (Q41–Q43)",
+            "(M/M/s):(k/FIFO) – General & Numerical (Q44–Q46)",
+            "(M/G/1) Queuing System (Q47)",
+            "Seven Marks Numerical Problems (Q48–Q60)"
+          ],
+          "keyTopics": [
+            "MARKOV CHAIN – Two & Four Marks",
+            "MARKOV CHAIN – Seven Marks",
+            "⏳ QUEUING THEORY – Two & Four Marks",
+            "(M/M/1):(k/FIFO) – Expressions (Q41–Q43)",
+            "(M/M/s):(k/FIFO) – General & Numerical (Q44–Q46)",
+            "(M/G/1) Queuing System (Q47)"
+          ],
+          "summary": "Complete solutions – definitions, matrix analysis, queuing models. Click any question to reveal answer Unit 3 develops competence in MARKOV CHAIN – Two & Four Marks, MARKOV CHAIN – Seven Marks, ⏳ QUEUING THEORY – Two & Four Marks, (M/M/1):(k/FIFO) – Expressions (Q41–Q43), (M/M/s):(k/FIFO) – General & Numerical (Q44–Q46), (M/G/1) Queuing System (Q47), Seven Marks Numerical Problems (Q48–Q60). Includes distribution formulas, numerical substitutions, and hypothesis-testing procedures with solved university questions.",
+          "outcomes": [
+            "Compute MARKOV CHAIN – Two & Four Marks",
+            "Prove markov chain – seven marks",
+            "Apply ⏳ queuing theory – two & four marks"
+          ],
+          "studyTime": "4 Hours",
+          "examImportance": "low"
+        },
+        {
+          "number": 4,
+          "title": "Unit IV: Testing of Hypothesis – Questions 1 to 20",
+          "topics": [
+            "Definitions (Q1 – Q13)",
+            "Numerical Problems (Q14 – Q20)",
+            "Questions 51 – 62"
+          ],
+          "keyTopics": [
+            "Definitions (Q1 – Q13)",
+            "Numerical Problems (Q14 – Q20)",
+            "Questions 51 – 62"
+          ],
+          "summary": "Complete solutions with definitions, formulas, and step‑by‑step calculations Unit 4 develops competence in Definitions (Q1 – Q13), Numerical Problems (Q14 – Q20), Questions 51 – 62. Includes distribution formulas, numerical substitutions, and hypothesis-testing procedures with solved university questions. Tutorials 10 and 11 – all questions solved with clear steps.",
+          "outcomes": [
+            "Compute Definitions (Q1 – Q13)",
+            "Prove numerical problems (q14 – q20)",
+            "Apply questions 51 – 62"
+          ],
+          "studyTime": "3 Hours",
+          "examImportance": "medium"
+        },
+        {
+          "number": 5,
+          "title": "Unit V: Linear Programming (LPP) – Complete Solutions",
+          "topics": [
+            "Definitions (Q1 – Q10)",
+            "Formulation Problems (Q11 – Q15)",
+            "Standard Form Conversions (Q16 – Q17)",
+            "Graphical Method (Q18 – Q22)",
+            "Simplex & Related Concepts (Q23–Q28)",
+            "Duality (Q29 – Q32)",
+            "Graphical Solutions (Q33 a–i)",
+            "Simplex Method (Q35 a–f)"
+          ],
+          "keyTopics": [
+            "Definitions (Q1 – Q10)",
+            "Formulation Problems (Q11 – Q15)",
+            "Standard Form Conversions (Q16 – Q17)",
+            "Graphical Method (Q18 – Q22)",
+            "Simplex & Related Concepts (Q23–Q28)",
+            "Duality (Q29 – Q32)"
+          ],
+          "summary": "All questions solved with definitions, formulations, graphical graphs, simplex tables, Big‑M, Two‑Phase, and Duality methods Unit 5 develops competence in Definitions (Q1 – Q10), Formulation Problems (Q11 – Q15), Standard Form Conversions (Q16 – Q17), Graphical Method (Q18 – Q22), Simplex & Related Concepts (Q23–Q28), Duality (Q29 – Q32), Graphical Solutions (Q33 a–i). Includes distribution formulas, numerical substitutions, and hypothesis-testing procedures with solved university questions.",
+          "outcomes": [
+            "Compute Definitions (Q1 – Q10)",
+            "Prove formulation problems (q11 – q15)",
+            "Apply standard form conversions (q16 – q17)"
+          ],
+          "studyTime": "4.5 Hours",
+          "examImportance": "medium"
+        }
+      ]
+    },
+    "microcontroller": {
+      "id": "microcontroller",
+      "title": "Microcontrollers & Embedded Systems",
+      "units": [
+        {
+          "number": 1,
+          "title": "ARM Embedded Systems & SoC",
+          "topics": [
+            "Topic 1: Introduction to Embedded Systems & The Engineering Design Process",
+            "Topic 2: Characteristics, Constraints & Applications",
+            "Topic 3: Embedded Processors & Hardware Categories",
+            "Topic 4: CISC vs RISC Design Philosophy",
+            "Topic 5: ARM Design Philosophy & Deviations",
+            "Topic 6: System-on-Chip (SoC) Internal Components",
+            "Topic 7: Operating Systems & Connectivity",
+            "Topic 8: MCU Pin Diagram & Multi-Function Configurations"
+          ],
+          "keyTopics": [
+            "Topic 1: Introduction to Embedded Systems & The Engineering Design Process",
+            "Topic 2: Characteristics, Constraints & Applications",
+            "Topic 3: Embedded Processors & Hardware Categories",
+            "Topic 4: CISC vs RISC Design Philosophy",
+            "Topic 5: ARM Design Philosophy & Deviations",
+            "Topic 6: System-on-Chip (SoC) Internal Components"
+          ],
+          "summary": "| Conceptual Learning using NPTEL video lectures and problem-solving sessions Unit 1 develops competence in Topic 1: Introduction to Embedded Systems & The Engineering Design Process, Topic 2: Characteristics, Constraints & Applications, Topic 3: Embedded Processors & Hardware Categories, Topic 4: CISC vs RISC Design Philosophy, Topic 5: ARM Design Philosophy & Deviations, Topic 6: System-on-Chip (SoC) Internal Components, Topic 7: Operating Systems & Connectivity. Maps ARM Cortex-M0 peripherals, bus protocols, and embedded C patterns to MSRIT viva and SEE questions.",
+          "outcomes": [
+            "Configure Topic 1: Introduction to Embedded Syste…",
+            "Interface topic 2: characteristics, constraints &…",
+            "Troubleshoot topic 3: embedded processors & hardware…"
+          ],
+          "studyTime": "4.5 Hours",
+          "examImportance": "very-high"
+        },
+        {
+          "number": 2,
+          "title": "Peripherals, Memory & Embedded Software",
+          "topics": [
+            "Topic 1: Serial onboard Protocols - UART, I2C, SPI",
+            "Topic 2: Positive Aspects & Limitations of I2C and SPI Protocols",
+            "Topic 3: Direct Memory Access (DMA) Controllers",
+            "Topic 4: Semiconductor Memory Classification",
+            "Topic 5: Asynchronous SRAM Working & Handshaking",
+            "Topic 6: Designing Low-Power Systems & TDP",
+            "Topic 7: Embedded Software Development & Tools",
+            "Topic 8: Endian-ness & Data Alignment"
+          ],
+          "keyTopics": [
+            "Topic 1: Serial onboard Protocols - UART, I2C, SPI",
+            "Topic 2: Positive Aspects & Limitations of I2C and SPI Protocols",
+            "Topic 3: Direct Memory Access (DMA) Controllers",
+            "Topic 4: Semiconductor Memory Classification",
+            "Topic 5: Asynchronous SRAM Working & Handshaking",
+            "Topic 6: Designing Low-Power Systems & TDP"
+          ],
+          "summary": "| Analytical Learning through NPTEL videos, illustrative case problems Unit 2 develops competence in Topic 1: Serial onboard Protocols - UART, I2C, SPI, Topic 2: Positive Aspects & Limitations of I2C and SPI Protocols, Topic 3: Direct Memory Access (DMA) Controllers, Topic 4: Semiconductor Memory Classification, Topic 5: Asynchronous SRAM Working & Handshaking, Topic 6: Designing Low-Power Systems & TDP, Topic 7: Embedded Software Development & Tools. Maps ARM Cortex-M0 peripherals, bus protocols, and embedded C patterns to MSRIT viva and SEE questions.",
+          "outcomes": [
+            "Configure Topic 1: Serial onboard Protocols - UAR…",
+            "Interface topic 2: positive aspects & limitations…",
+            "Troubleshoot topic 3: direct memory access (dma) con…"
+          ],
+          "studyTime": "4 Hours",
+          "examImportance": "very-high"
+        },
+        {
+          "number": 3,
+          "title": "ARM7 Processor Architecture & Assembly Language",
+          "topics": [
+            "Topic 1: ARM7TDMI Architecture & Operating Modes",
+            "Topic 2: Physical General-Purpose & Banked Registers",
+            "Topic 3: ARM7 3-Stage Pipeline & Hazards",
+            "Topic 4: Exceptions & Vector Table",
+            "Topic 5: Advanced Features & AMBA Bus Architecture (AHB & APB)",
+            "Topic 6: CPSR & SPSR Bitwise Layout",
+            "Topic 7: Multi-branching & Subroutines (B and BL)",
+            "Topic 8: Keil Assembler Conditional Codes"
+          ],
+          "keyTopics": [
+            "Topic 1: ARM7TDMI Architecture & Operating Modes",
+            "Topic 2: Physical General-Purpose & Banked Registers",
+            "Topic 3: ARM7 3-Stage Pipeline & Hazards",
+            "Topic 4: Exceptions & Vector Table",
+            "Topic 5: Advanced Features & AMBA Bus Architecture (AHB & APB)",
+            "Topic 6: CPSR & SPSR Bitwise Layout"
+          ],
+          "summary": "| Assembly programming learning skills and algorithm tracing Unit 3 develops competence in Topic 1: ARM7TDMI Architecture & Operating Modes, Topic 2: Physical General-Purpose & Banked Registers, Topic 3: ARM7 3-Stage Pipeline & Hazards, Topic 4: Exceptions & Vector Table, Topic 5: Advanced Features & AMBA Bus Architecture (AHB & APB), Topic 6: CPSR & SPSR Bitwise Layout, Topic 7: Multi-branching & Subroutines (B and BL). Maps ARM Cortex-M0 peripherals, bus protocols, and embedded C patterns to MSRIT viva and SEE questions.",
+          "outcomes": [
+            "Configure Topic 1: ARM7TDMI Architecture & Operat…",
+            "Interface topic 2: physical general-purpose & ban…",
+            "Troubleshoot topic 3: arm7 3-stage pipeline & hazards"
+          ],
+          "studyTime": "4 Hours",
+          "examImportance": "very-high"
+        },
+        {
+          "number": 4,
+          "title": "Memory Access & Interfacing",
+          "topics": [
+            "Topic 1: Load/Store Indexing Modes (Pre, Post, Write-Back)",
+            "Topic 2: Multiple Register Block Transfers (LDM / STM)",
+            "Topic 3: Assembler Directives in Keil ARM",
+            "Topic 4: LPC2148 System-on-Chip Features",
+            "Topic 5: LPC2148 Internal Bus Topology & VPB Bridge",
+            "Topic 6: SOC Programming in Embedded C",
+            "Topic 7: LPC2148 UART1 Register Configurations",
+            "Topic 8: LPC2148 Timer Registers in Polled Mode"
+          ],
+          "keyTopics": [
+            "Topic 1: Load/Store Indexing Modes (Pre, Post, Write-Back)",
+            "Topic 2: Multiple Register Block Transfers (LDM / STM)",
+            "Topic 3: Assembler Directives in Keil ARM",
+            "Topic 4: LPC2148 System-on-Chip Features",
+            "Topic 5: LPC2148 Internal Bus Topology & VPB Bridge",
+            "Topic 6: SOC Programming in Embedded C"
+          ],
+          "summary": "| Assembly programming in high level language learning skills for embedded systems Unit 4 develops competence in Topic 1: Load/Store Indexing Modes (Pre, Post, Write-Back), Topic 2: Multiple Register Block Transfers (LDM / STM), Topic 3: Assembler Directives in Keil ARM, Topic 4: LPC2148 System-on-Chip Features, Topic 5: LPC2148 Internal Bus Topology & VPB Bridge, Topic 6: SOC Programming in Embedded C, Topic 7: LPC2148 UART1 Register Configurations. Maps ARM Cortex-M0 peripherals, bus protocols, and embedded C patterns to MSRIT viva and SEE questions.",
+          "outcomes": [
+            "Configure Topic 1: Load/Store Indexing Modes (Pre…",
+            "Interface topic 2: multiple register block transf…",
+            "Troubleshoot topic 3: assembler directives in keil arm"
+          ],
+          "studyTime": "4.5 Hours",
+          "examImportance": "very-high"
+        },
+        {
+          "number": 5,
+          "title": "ARM Cortex-M Core & NVIC Exception Handling",
+          "topics": [
+            "Topic 1: Cortex-M0 vs Cortex-M0+ Architectures",
+            "Topic 2: Cortex-M0 Operating Modes & States",
+            "Topic 3: Registers and Banked Stack Pointers (MSP vs PSP)",
+            "Topic 4: Unified 4GB Memory Model & Attributes",
+            "Topic 5: Nested Vectored Interrupt Controller (NVIC)",
+            "Topic 6: Power Management using Sleep Modes",
+            "Topic 7: Interrupt Exception States in NVIC",
+            "Topic 8: Cortex-M0 Mandatory Functional Blocks"
+          ],
+          "keyTopics": [
+            "Topic 1: Cortex-M0 vs Cortex-M0+ Architectures",
+            "Topic 2: Cortex-M0 Operating Modes & States",
+            "Topic 3: Registers and Banked Stack Pointers (MSP vs PSP)",
+            "Topic 4: Unified 4GB Memory Model & Attributes",
+            "Topic 5: Nested Vectored Interrupt Controller (NVIC)",
+            "Topic 6: Power Management using Sleep Modes"
+          ],
+          "summary": "| Conceptual Learning using NPTEL video lectures for cortex systems Unit 5 develops competence in Topic 1: Cortex-M0 vs Cortex-M0+ Architectures, Topic 2: Cortex-M0 Operating Modes & States, Topic 3: Registers and Banked Stack Pointers (MSP vs PSP), Topic 4: Unified 4GB Memory Model & Attributes, Topic 5: Nested Vectored Interrupt Controller (NVIC), Topic 6: Power Management using Sleep Modes, Topic 7: Interrupt Exception States in NVIC. Maps ARM Cortex-M0 peripherals, bus protocols, and embedded C patterns to MSRIT viva and SEE questions.",
+          "outcomes": [
+            "Configure Topic 1: Cortex-M0 vs Cortex-M0+ Archit…",
+            "Interface topic 2: cortex-m0 operating modes & st…",
+            "Troubleshoot topic 3: registers and banked stack poi…"
+          ],
+          "studyTime": "4.5 Hours",
+          "examImportance": "very-high"
+        }
+      ]
+    },
+    "daa": {
+      "id": "daa",
+      "title": "Design and Analysis of Algorithms",
+      "units": [
+        {
+          "number": 1,
+          "title": "DAA Unit 1: Foundations of Algorithms",
+          "topics": [
+            "Unit 1 Overview",
+            "Role of Algorithms in Computing",
+            "Fundamental Steps in Algorithm Design & Analysis",
+            "Growth of Functions & Orders of Growth",
+            "Asymptotic Notations — Big-O, Omega, Theta",
+            "Analyzing Non-Recursive Algorithms",
+            "Analyzing Recursive Algorithms — Tower of Hanoi",
+            "Recurrence Relations & Substitution Method"
+          ],
+          "keyTopics": [
+            "Unit 1 Overview",
+            "Role of Algorithms in Computing",
+            "Fundamental Steps in Algorithm Design & Analysis",
+            "Growth of Functions & Orders of Growth",
+            "Asymptotic Notations — Big-O, Omega, Theta",
+            "Analyzing Non-Recursive Algorithms"
+          ],
+          "summary": "Before your computer can solve any problem — sort numbers, find a path on a map, or compress a file — it needs a precise recipe. That recipe is called an  Unit 1 develops competence in Unit 1 Overview, Role of Algorithms in Computing, Fundamental Steps in Algorithm Design & Analysis, Growth of Functions & Orders of Growth, Asymptotic Notations — Big-O, Omega, Theta, Analyzing Non-Recursive Algorithms, Analyzing Recursive Algorithms — Tower of Hanoi. Includes asymptotic notation, recurrence solving, and complexity proofs aligned to SEE marking schemes.",
+          "outcomes": [
+            "Analyze Unit 1 Overview",
+            "Derive role of algorithms in computing",
+            "Implement fundamental steps in algorithm design &…"
+          ],
+          "studyTime": "4.5 Hours",
+          "examImportance": "very-high"
+        },
+        {
+          "number": 2,
+          "title": "DAA Unit 2 — Sorting & Order Statistics | MSRIT IS43",
+          "topics": [
+            "MOST REPEATED — SEE 2024 Q9a · SEE 2023(O) Q10a · VERY IMPORTANT",
+            "] in order",
+            "The Heap Data Structure",
+            "HeapSort",
+            "Priority Queue",
+            "QuickSort",
+            "Counting Sort",
+            "Radix Sort"
+          ],
+          "keyTopics": [
+            "MOST REPEATED — SEE 2024 Q9a · SEE 2023(O) Q10a · VERY IMPORTANT",
+            "] in order",
+            "The Heap Data Structure",
+            "HeapSort",
+            "Priority Queue",
+            "QuickSort"
+          ],
+          "summary": "Heaps · HeapSort · Priority Queues · QuickSort · Linear-Time Sorting · Selection Algorithms Unit 2 develops competence in MOST REPEATED — SEE 2024 Q9a · SEE 2023(O) Q10a · VERY IMPORTANT, ] in order, The Heap Data Structure, HeapSort, Priority Queue, QuickSort, Counting Sort. Includes asymptotic notation, recurrence solving, and complexity proofs aligned to SEE marking schemes.",
+          "outcomes": [
+            "Analyze MOST REPEATED — SEE 2024 Q9a · SEE 2023…",
+            "Derive ] in order",
+            "Implement the heap data structure"
+          ],
+          "studyTime": "4.5 Hours",
+          "examImportance": "very-high"
+        },
+        {
+          "number": 3,
+          "title": "DAA Unit 3 — Amortized Analysis & Advanced Data Structures | MSRIT IS43",
+          "topics": [
+            "What is Amortized Analysis?",
+            "Aggregate Method",
+            "Accounting Method",
+            "Potential Method",
+            "Disjoint Sets — Introduction",
+            "Union by Rank",
+            "Path Compression",
+            "Fibonacci Heaps"
+          ],
+          "keyTopics": [
+            "What is Amortized Analysis?",
+            "Aggregate Method",
+            "Accounting Method",
+            "Potential Method",
+            "Disjoint Sets — Introduction",
+            "Union by Rank"
+          ],
+          "summary": "// Design and Analysis of Algorithms — Complete Exam Notes Unit 3 develops competence in What is Amortized Analysis?, Aggregate Method, Accounting Method, Potential Method, Disjoint Sets — Introduction, Union by Rank, Path Compression. Includes asymptotic notation, recurrence solving, and complexity proofs aligned to SEE marking schemes. Amortized analysis is a method for on a data structure, guaranteeing the .",
+          "outcomes": [
+            "Analyze What is Amortized Analysis?",
+            "Derive aggregate method",
+            "Implement accounting method"
+          ],
+          "studyTime": "4.5 Hours",
+          "examImportance": "very-high"
+        },
+        {
+          "number": 4,
+          "title": "DAA Unit 4: Dynamic Programming & Greedy Algorithms",
+          "topics": [
+            "Unit 4 Overview",
+            "Principles of Dynamic Programming",
+            "Matrix Chain Multiplication (MCM)",
+            "Longest Common Subsequence (LCS)",
+            "Optimal Binary Search Trees (OBST)",
+            "Greedy Technique — Principles & Comparison with DP",
+            "Activity Selection Problem",
+            "Huffman Codes"
+          ],
+          "keyTopics": [
+            "Unit 4 Overview",
+            "Principles of Dynamic Programming",
+            "Matrix Chain Multiplication (MCM)",
+            "Longest Common Subsequence (LCS)",
+            "Optimal Binary Search Trees (OBST)",
+            "Greedy Technique — Principles & Comparison with DP"
+          ],
+          "summary": "Complete exam notes for DAA Unit 4: Matrix Chain Multiplication, LCS, Optimal BST, Activity Selection, Huffman Codes, Kruskal's, Prim's, and Dijkstra's Algorithms with solved PYQs Unit 4 develops competence in Unit 4 Overview, Principles of Dynamic Programming, Matrix Chain Multiplication (MCM), Longest Common Subsequence (LCS), Optimal Binary Search Trees (OBST), Greedy Technique — Principles & Comparison with DP, Activity Selection Problem. Includes asymptotic notation, recurrence solving, and complexity proofs aligned to SEE marking schemes.",
+          "outcomes": [
+            "Analyze Unit 4 Overview",
+            "Derive principles of dynamic programming",
+            "Implement matrix chain multiplication (mcm)"
+          ],
+          "studyTime": "4.5 Hours",
+          "examImportance": "very-high"
+        },
+        {
+          "number": 5,
+          "title": "DAA Unit 5: Graph Algorithms, Complexity & Flow",
+          "topics": [
+            "Unit 5 Overview",
+            "BFS — Breadth First Search",
+            "DFS — Depth First Search",
+            "Topological Sorting",
+            "Strongly Connected Components (Kosaraju's Algorithm)",
+            "Bellman-Ford Algorithm — Single Source Shortest Path",
+            "Dijkstra's Algorithm — Single Source Shortest Path",
+            "Floyd-Warshall — All-Pairs Shortest Paths"
+          ],
+          "keyTopics": [
+            "Unit 5 Overview",
+            "BFS — Breadth First Search",
+            "DFS — Depth First Search",
+            "Topological Sorting",
+            "Strongly Connected Components (Kosaraju's Algorithm)",
+            "Bellman-Ford Algorithm — Single Source Shortest Path"
+          ],
+          "summary": "— \"Design an algorithm for BFS. Determine the BFS for the given graph and write topological sorting using source removal.\" [12 marks] Unit 5 develops competence in Unit 5 Overview, BFS — Breadth First Search, DFS — Depth First Search, Topological Sorting, Strongly Connected Components (Kosaraju's Algorithm), Bellman-Ford Algorithm — Single Source Shortest Path, Dijkstra's Algorithm — Single Source Shortest Path. Includes asymptotic notation, recurrence solving, and complexity proofs aligned to SEE marking schemes.",
+          "outcomes": [
+            "Analyze Unit 5 Overview",
+            "Derive bfs — breadth first search",
+            "Implement dfs — depth first search"
+          ],
+          "studyTime": "4.5 Hours",
+          "examImportance": "very-high"
+        }
+      ]
+    },
+    "dbms": {
+      "id": "dbms",
+      "title": "Database Management Systems",
+      "units": [
+        {
+          "number": 1,
+          "title": "Introduction to DBMS & Entity Relationship Model",
+          "topics": [
+            "What is a DBMS?",
+            "File Processing Flaws",
+            "DBMS vs. File System",
+            "Database Characteristics",
+            "Actors on the Scene",
+            "Workers Behind Scene",
+            "Advantages of DBMS",
+            "When NOT to Use DBMS"
+          ],
+          "keyTopics": [
+            "What is a DBMS?",
+            "File Processing Flaws",
+            "DBMS vs. File System",
+            "Database Characteristics",
+            "Actors on the Scene",
+            "Workers Behind Scene"
+          ],
+          "summary": "Complete university exam notes for DBMS Unit 1: Characteristics, 3-Schema Architecture, Data Independence, Languages, ER Model, 20 Solved ER Diagrams, and Revision Pack Unit 1 develops competence in What is a DBMS?, File Processing Flaws, DBMS vs. File System, Database Characteristics, Actors on the Scene, Workers Behind Scene, Advantages of DBMS. SQL and relational design constructs emphasized include ER Model, transaction, where, normalization, ACID, update.",
+          "outcomes": [
+            "Design What is a DBMS?",
+            "Write file processing flaws",
+            "Evaluate dbms vs. file system"
+          ],
+          "studyTime": "4.5 Hours",
+          "examImportance": "very-high"
+        },
+        {
+          "number": 2,
+          "title": "Relational Model & Relational Algebra",
+          "topics": [
+            "Relational Model Concepts",
+            "Characteristics of Relations",
+            "Schema vs. Instance",
+            "Integrity Constraints",
+            "NULL Values & Logic",
+            "Update Operations",
+            "Transactions Subsystems",
+            "SELECT (σ) & PROJECT (π)"
+          ],
+          "keyTopics": [
+            "Relational Model Concepts",
+            "Characteristics of Relations",
+            "Schema vs. Instance",
+            "Integrity Constraints",
+            "NULL Values & Logic",
+            "Update Operations"
+          ],
+          "summary": "Complete university exam notes for DBMS Unit 2: Relational Model, Integrity Constraints, Unary/Binary/Set Operations, Division, ER-to-Relational Mapping, 40+ Solved Queries, and Revision Pack Unit 2 develops competence in Relational Model Concepts, Characteristics of Relations, Schema vs. Instance, Integrity Constraints, NULL Values & Logic, Update Operations, Transactions Subsystems. SQL and relational design constructs emphasized include Relational Algebra, update, select, insert, delete, transaction.",
+          "outcomes": [
+            "Design Relational Model Concepts",
+            "Write characteristics of relations",
+            "Evaluate schema vs. instance"
+          ],
+          "studyTime": "4.5 Hours",
+          "examImportance": "high"
+        },
+        {
+          "number": 3,
+          "title": "SQL (Structured Query Language)",
+          "topics": [
+            "Introduction to SQL",
+            "SQL Categories Mapped",
+            "CREATE TABLE Command",
+            "Standard Data Types",
+            "Attribute Constraints",
+            "Key Constraints Mapped",
+            "Referential Integrity Rules",
+            "ALTER TABLE Schema"
+          ],
+          "keyTopics": [
+            "Introduction to SQL",
+            "SQL Categories Mapped",
+            "CREATE TABLE Command",
+            "Standard Data Types",
+            "Attribute Constraints",
+            "Key Constraints Mapped"
+          ],
+          "summary": "Complete university exam notes for DBMS Unit 3: SQL Data Definition, Basic Queries, Complex Queries, Joins, Aggregates, DML, 50+ COMPANY Solved Queries, and Revision Pack Unit 3 develops competence in Introduction to SQL, SQL Categories Mapped, CREATE TABLE Command, Standard Data Types, Attribute Constraints, Key Constraints Mapped, Referential Integrity Rules. SQL and relational design constructs emphasized include CREATE TABLE, select, where, GROUP BY, insert, delete.",
+          "outcomes": [
+            "Design Introduction to SQL",
+            "Write sql categories mapped",
+            "Evaluate create table command"
+          ],
+          "studyTime": "4.5 Hours",
+          "examImportance": "high"
+        },
+        {
+          "number": 4,
+          "title": "Database Design Theory & Normalization",
+          "topics": [
+            "Informal Guidelines",
+            "Reducing NULL Values",
+            "Spurious Tuples",
+            "FD Fundamentals",
+            "Types of Dependencies",
+            "Armstrong Axioms",
+            "Attribute Closure",
+            "Design Anomalies"
+          ],
+          "keyTopics": [
+            "Informal Guidelines",
+            "Reducing NULL Values",
+            "Spurious Tuples",
+            "FD Fundamentals",
+            "Types of Dependencies",
+            "Armstrong Axioms"
+          ],
+          "summary": "Complete university exam notes for DBMS Unit 4: Informal Design Guidelines, Functional Dependencies, Armstrong's Axioms, Attribute Closures, Candidate Keys, 1NF, 2NF, 3NF, BCNF, 12 Codd Rules, 140+ Solved Problems, and Revision Pack Unit 4 develops competence in Informal Guidelines, Reducing NULL Values, Spurious Tuples, FD Fundamentals, Types of Dependencies, Armstrong Axioms, Attribute Closure. SQL and relational design constructs emphasized include Normalization, BCNF, update, relational algebra, Join, where.",
+          "outcomes": [
+            "Design Informal Guidelines",
+            "Write reducing null values",
+            "Evaluate spurious tuples"
+          ],
+          "studyTime": "4.5 Hours",
+          "examImportance": "high"
+        },
+        {
+          "number": 5,
+          "title": "Transactions, Concurrency, Recovery, NoSQL & MongoDB",
+          "topics": [
+            "Single vs. Multi-User",
+            "Read & Write Primitives",
+            "Transaction Lifecycle",
+            "ACID Properties Mapped",
+            "SQL Transaction Control",
+            "Lost Update & Dirty Reads",
+            "Binary & Shared Locks",
+            "Two-Phase Locking (2PL)"
+          ],
+          "keyTopics": [
+            "Single vs. Multi-User",
+            "Read & Write Primitives",
+            "Transaction Lifecycle",
+            "ACID Properties Mapped",
+            "SQL Transaction Control",
+            "Lost Update & Dirty Reads"
+          ],
+          "summary": "Complete university exam notes for DBMS Unit 5: Transaction Lifecycle, ACID, Concurrency Problems, 2PL Protocols, Recovery Logs, Checkpoints, ARIES, NoSQL CAP Theorem, and MongoDB CRUD Unit 5 develops competence in Single vs. Multi-User, Read & Write Primitives, Transaction Lifecycle, ACID Properties Mapped, SQL Transaction Control, Lost Update & Dirty Reads, Binary & Shared Locks. SQL and relational design constructs emphasized include Transaction, ACID, Update, delete, where, Join.",
+          "outcomes": [
+            "Design Single vs. Multi-User",
+            "Write read & write primitives",
+            "Evaluate transaction lifecycle"
+          ],
+          "studyTime": "4.5 Hours",
+          "examImportance": "very-high"
+        }
+      ]
+    },
+    "java": {
+      "id": "java",
+      "title": "Advanced Java Programming",
+      "units": [
+        {
+          "number": 1,
+          "title": "Java Basics & Exception Handling",
+          "topics": [
+            "Classes & Objects",
+            "Constructors",
+            "Method Overloading",
+            "Static & Final",
+            "Inheritance Features",
+            "Overriding & Dispatch",
+            "Abstract Classes",
+            "Packages & Protection"
+          ],
+          "keyTopics": [
+            "Classes & Objects",
+            "Constructors",
+            "Method Overloading",
+            "Static & Final",
+            "Inheritance Features",
+            "Overriding & Dispatch"
+          ],
+          "summary": "Complete internal exam notes for Advanced Java Unit 1: OOP Basics, Inheritance, Packages, Interfaces, Exception Handling Unit 1 develops competence in Classes & Objects, Constructors, Method Overloading, Static & Final, Inheritance Features, Overriding & Dispatch, Abstract Classes. Covers core Java APIs, OOP constructs, and servlet/JSP patterns commonly tested in MSRIT papers.",
+          "outcomes": [
+            "Explain Classes & Objects",
+            "Build constructors",
+            "Debug method overloading"
+          ],
+          "studyTime": "4.5 Hours",
+          "examImportance": "high"
+        },
+        {
+          "number": 2,
+          "title": "String Handling, Lambdas, & Multithreading",
+          "topics": [
+            "String Constructors",
+            "String Operations",
+            "Character Extraction",
+            "Case Conversion",
+            "Joining Strings",
+            "Searching Strings",
+            "Modifying Strings",
+            "Essential Methods Table"
+          ],
+          "keyTopics": [
+            "String Constructors",
+            "String Operations",
+            "Character Extraction",
+            "Case Conversion",
+            "Joining Strings",
+            "Searching Strings"
+          ],
+          "summary": "Complete internal exam notes for Advanced Java Unit 2: String Handling, StringBuffer, Lambdas, Functional Interfaces, Multithreading, Thread Synchronization Unit 2 develops competence in String Constructors, String Operations, Character Extraction, Case Conversion, Joining Strings, Searching Strings, Modifying Strings. Covers core Java APIs, OOP constructs, and servlet/JSP patterns commonly tested in MSRIT papers.",
+          "outcomes": [
+            "Explain String Constructors",
+            "Build string operations",
+            "Debug character extraction"
+          ],
+          "studyTime": "4.5 Hours",
+          "examImportance": "very-high"
+        },
+        {
+          "number": 3,
+          "title": "Unit 3 – Advanced Java Exam Notes | MSRIT ISE",
+          "topics": [
+            "Java Collection Framework Overview",
+            "Collection Interfaces",
+            "Collection Classes",
+            "Iterator vs Iterable",
+            "Spliterator",
+            "Working with Maps & Sets",
+            "Comparator Interface",
+            "Comparable Interface"
+          ],
+          "keyTopics": [
+            "Java Collection Framework Overview",
+            "Collection Interfaces",
+            "Collection Classes",
+            "Iterator vs Iterable",
+            "Spliterator",
+            "Working with Maps & Sets"
+          ],
+          "summary": "Collections · Iterator · Maps & Sets · Comparator · Comparable · Generics | MSRIT B.E. ISE — IS45 Unit 3 develops competence in Java Collection Framework Overview, Collection Interfaces, Collection Classes, Iterator vs Iterable, Spliterator, Working with Maps & Sets, Comparator Interface. Covers core Java APIs, OOP constructs, and servlet/JSP patterns commonly tested in MSRIT papers.",
+          "outcomes": [
+            "Explain Java Collection Framework Overview",
+            "Build collection interfaces",
+            "Debug collection classes"
+          ],
+          "studyTime": "4.5 Hours",
+          "examImportance": "very-high"
+        },
+        {
+          "number": 4,
+          "title": "Swing & JDBC Exam Notes",
+          "topics": [
+            "What is Swing?",
+            "Swing Packages",
+            "Exploring Swing",
+            "Event Handling",
+            "JLabel",
+            "JButton",
+            "JTextField",
+            "JFrame"
+          ],
+          "keyTopics": [
+            "What is Swing?",
+            "Swing Packages",
+            "Exploring Swing",
+            "Event Handling",
+            "JLabel",
+            "JButton"
+          ],
+          "summary": "Complete internal exam notes for Advanced Java Unit 4: Swing GUI and JDBC Database Connectivity Unit 4 develops competence in What is Swing?, Swing Packages, Exploring Swing, Event Handling, JLabel, JButton, JTextField. Covers core Java APIs, OOP constructs, and servlet/JSP patterns commonly tested in MSRIT papers. Swing is a in Java used to create window-based applications. It is part of and is built on top of AWT.",
+          "outcomes": [
+            "Explain What is Swing?",
+            "Build swing packages",
+            "Debug exploring swing"
+          ],
+          "studyTime": "4.5 Hours",
+          "examImportance": "very-high"
+        },
+        {
+          "number": 5,
+          "title": "Java Servlets Exam Notes",
+          "topics": [
+            "Java Servlets",
+            "Servlet API",
+            "Servlet Container",
+            "GenericServlet",
+            "ServletContext",
+            "ServletRequest",
+            "ServletResponse",
+            "What is JSP?"
+          ],
+          "keyTopics": [
+            "Java Servlets",
+            "Servlet API",
+            "Servlet Container",
+            "GenericServlet",
+            "ServletContext",
+            "ServletRequest"
+          ],
+          "summary": "Complete internal exam notes for Advanced Java Unit 5: Java Servlets, Servlet API, Life Cycle, JSP Unit 5 develops competence in Java Servlets, Servlet API, Servlet Container, GenericServlet, ServletContext, ServletRequest, ServletResponse. Covers core Java APIs, OOP constructs, and servlet/JSP patterns commonly tested in MSRIT papers. A is a that runs on a (server-side) and is used to handle and generate (HTML responses). It extends the capabilities of a web server.",
+          "outcomes": [
+            "Explain Java Servlets",
+            "Build servlet api",
+            "Debug servlet container"
+          ],
+          "studyTime": "4.5 Hours",
+          "examImportance": "very-high"
+        }
+      ]
+    },
+    "r_programming": {
+      "id": "r_programming",
+      "title": "R Programming for Analytics",
+      "units": [
+        {
+          "number": 1,
+          "title": "R Programming Unit 1 — Introduction & Basics | MSRIT Exam Notes",
+          "topics": [
+            "Introduction to R",
+            "Downloading & Installing R",
+            "IDEs and Text Editors",
+            "Handling Packages in R",
+            "Getting Started (Operators & Printing)",
+            "Working with Directory",
+            "Data Types & Core Structures",
+            "Commands for Data Exploration"
+          ],
+          "keyTopics": [
+            "Introduction to R",
+            "Downloading & Installing R",
+            "IDEs and Text Editors",
+            "Handling Packages in R",
+            "Getting Started (Operators & Printing)",
+            "Working with Directory"
+          ],
+          "summary": "// Data Analytics using R — Complete Comprehensive Study Guide Unit 1 develops competence in Introduction to R, Downloading & Installing R, IDEs and Text Editors, Handling Packages in R, Getting Started (Operators & Printing), Working with Directory, Data Types & Core Structures. Builds practical R fluency with vectors, data frames, tidy manipulation, and visualization pipelines.",
+          "outcomes": [
+            "Load Introduction to R",
+            "Transform downloading & installing r",
+            "Visualize ides and text editors"
+          ],
+          "studyTime": "3.5 Hours",
+          "examImportance": "medium"
+        },
+        {
+          "number": 2,
+          "title": "R Programming Unit 2 — Loading & Handling Data in R | MSRIT Exam Notes",
+          "topics": [
+            "Data Processing Challenges",
+            "Variables, Functions & Scoping",
+            "Missing Values (NA vs NaN)",
+            "Structural Coercion (`as` Operator)",
+            "Vectors & Recycling Rules",
+            "Matrices & Group Operations",
+            "Factors (Nominal & Ordinal)",
+            "Lists & Subsetting (`[]` vs `[[]]`)"
+          ],
+          "keyTopics": [
+            "Data Processing Challenges",
+            "Variables, Functions & Scoping",
+            "Missing Values (NA vs NaN)",
+            "Structural Coercion (`as` Operator)",
+            "Vectors & Recycling Rules",
+            "Matrices & Group Operations"
+          ],
+          "summary": "// Memory-Management, Missing Values, Structures Coercions & Core Analytical Tasks Unit 2 develops competence in Data Processing Challenges, Variables, Functions & Scoping, Missing Values (NA vs NaN), Structural Coercion (`as` Operator), Vectors & Recycling Rules, Matrices & Group Operations, Factors (Nominal & Ordinal). Builds practical R fluency with vectors, data frames, tidy manipulation, and visualization pipelines.",
+          "outcomes": [
+            "Load Data Processing Challenges",
+            "Transform variables, functions & scoping",
+            "Visualize missing values (na vs nan)"
+          ],
+          "studyTime": "3.5 Hours",
+          "examImportance": "medium"
+        },
+        {
+          "number": 3,
+          "title": "R Programming Unit 3 — Data I/O & Aggregation | MSRIT Exam Notes",
+          "topics": [
+            "The aggregate() Function",
+            "The tapply() Function",
+            "Simple Analysis Variables",
+            "Native Input & Output",
+            "read.csv() & read.table()",
+            "Excel, JSON & XML",
+            "Point & Click R GUIs",
+            "Connecting Databases"
+          ],
+          "keyTopics": [
+            "The aggregate() Function",
+            "The tapply() Function",
+            "Simple Analysis Variables",
+            "Native Input & Output",
+            "read.csv() & read.table()",
+            "Excel, JSON & XML"
+          ],
+          "summary": "// Formatted Aggregations, Group Apply, Files Parsers & Enterprise Database Integrations Unit 3 develops competence in The aggregate() Function, The tapply() Function, Simple Analysis Variables, Native Input & Output, read.csv() & read.table(), Excel, JSON & XML, Point & Click R GUIs. Builds practical R fluency with vectors, data frames, tidy manipulation, and visualization pipelines.",
+          "outcomes": [
+            "Load The aggregate() Function",
+            "Transform the tapply() function",
+            "Visualize simple analysis variables"
+          ],
+          "studyTime": "3.5 Hours",
+          "examImportance": "medium"
+        },
+        {
+          "number": 4,
+          "title": "R Programming Unit 4 — Exploring Data & Data Frames | MSRIT Exam Notes",
+          "topics": [
+            "Data Frames in R",
+            "Diagnostic DF Functions",
+            "Loading Data Frames",
+            "Subsetting & Joins",
+            "Exploratory Data Analysis",
+            "Missing, Invalid Values & Outliers",
+            "Descriptive Statistics",
+            "Unit 4 Core Programs"
+          ],
+          "keyTopics": [
+            "Data Frames in R",
+            "Diagnostic DF Functions",
+            "Loading Data Frames",
+            "Subsetting & Joins",
+            "Exploratory Data Analysis",
+            "Missing, Invalid Values & Outliers"
+          ],
+          "summary": "// Rectangular structures, subsetting methods, outlier computations, and descriptive diagnostics Unit 4 develops competence in Data Frames in R, Diagnostic DF Functions, Loading Data Frames, Subsetting & Joins, Exploratory Data Analysis, Missing, Invalid Values & Outliers, Descriptive Statistics. Builds practical R fluency with vectors, data frames, tidy manipulation, and visualization pipelines.",
+          "outcomes": [
+            "Load Data Frames in R",
+            "Transform diagnostic df functions",
+            "Visualize loading data frames"
+          ],
+          "studyTime": "3 Hours",
+          "examImportance": "medium"
+        },
+        {
+          "number": 5,
+          "title": "R Programming Unit 5 — Visualization & Data Management | MSRIT Exam Notes",
+          "topics": [
+            "Histograms & Density Plots",
+            "Scatter & Line Plots",
+            "Bar Charts, Box Plots & Hexbin",
+            "ggplot2 Basics (Grammar of Graphics)",
+            "Data Cleaning Pipeline",
+            "Data Transformations & scale()",
+            "Sampling & Train-Test Splits",
+            "Unit 5 Core Programs"
+          ],
+          "keyTopics": [
+            "Histograms & Density Plots",
+            "Scatter & Line Plots",
+            "Bar Charts, Box Plots & Hexbin",
+            "ggplot2 Basics (Grammar of Graphics)",
+            "Data Cleaning Pipeline",
+            "Data Transformations & scale()"
+          ],
+          "summary": "// Native plots, layer-by-layer Grammar of Graphics, standardization pipelines, and train-test sampling Unit 5 develops competence in Histograms & Density Plots, Scatter & Line Plots, Bar Charts, Box Plots & Hexbin, ggplot2 Basics (Grammar of Graphics), Data Cleaning Pipeline, Data Transformations & scale(), Sampling & Train-Test Splits. Builds practical R fluency with vectors, data frames, tidy manipulation, and visualization pipelines.",
+          "outcomes": [
+            "Load Histograms & Density Plots",
+            "Transform scatter & line plots",
+            "Visualize bar charts, box plots & hexbin"
+          ],
+          "studyTime": "3 Hours",
+          "examImportance": "medium"
+        }
+      ]
+    }
+  }
+}

@@ -887,9 +887,11 @@
     </style>
   <link rel="stylesheet" href="assets/css/variables.css">
   <link rel="stylesheet" href="assets/css/portal.css">
+<link rel="stylesheet" href="assets/css/unit-preview.css">
+
   <link rel="stylesheet" href="assets/css/maths-mobile.css">
 </head>
-<body class="tex2jax_process portal-enhanced portal-book" data-portal-base="">
+<body class="tex2jax_process portal-enhanced portal-book" data-subject-id="maths" data-portal-base="">
 
     <!-- Mobile Header Navigation (For Small Screens) -->
     <header class="mobile-header">
@@ -929,7 +931,7 @@
                     Welcome to the ultimate academic companion for 4th Semester Engineering Mathematics. 
                     This interactive student portal provides direct, inline access to the official MSRIT lecture slide PDFs, 
                     syllabus checklists, MathJax LaTeX formula references, and the scanned Semester End Exam (SEE) question banks 
-                    and CIE papers. Tap any unit in the table below to open notes and PDFs.
+                    and CIE papers. Use the unit preview cards below—tap Open Unit to load notes and PDFs.
                 </p>
                 
                 <div class="quick-meta-grid">
@@ -948,13 +950,15 @@
                 </div>
             </div>
 
-            <div class="card">
+            
+                <div id="unit-preview-dashboard" class="unit-preview-dashboard" aria-live="polite"></div>
+<div class="card">
                 <div class="card-header">
                     <h3 class="card-title">
                         <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14M22 4L12 14.01l-3-3"></path></svg>
                         Course Structure & Examination Marks Weightage
                     </h3>
-                    <p style="margin-top: 8px; font-size: 0.85rem; color: var(--text-muted);">Tap a unit row to open lecture notes, solutions, and PDFs.</p>
+                    <p style="margin-top: 8px; font-size: 0.85rem; color: var(--text-muted);">Use the unit preview cards above, then tap Open Unit to load notes and PDFs.</p>
                 </div>
                 
                 <div class="table-container">
@@ -967,38 +971,7 @@
                                 <th>Priority</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr class="unit-row" role="button" tabindex="0" onclick="showUnit('unit1')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showUnit('unit1');}">
-                                <td><strong>Unit 1</strong> · Tap to open</td>
-                                <td data-label="Topics">Curve Fitting (Least Squares, Parabolas), Regression (Multiple Plane), Binomial & Poisson Distributions</td>
-                                <td data-label="PDFs"><code>Unit 1(PPT notes).pdf</code></td>
-                                <td data-label="Priority"><span class="tag-status high">High Core</span></td>
-                            </tr>
-                            <tr class="unit-row" role="button" tabindex="0" onclick="showUnit('unit2')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showUnit('unit2');}">
-                                <td><strong>Unit 2</strong> · Tap to open</td>
-                                <td data-label="Topics">Continuous Distributions (Uniform, Exponential, Gamma, Normal) & Bivariate Joint Distributions</td>
-                                <td data-label="PDFs"><code>Probability Distribution.pdf</code><br><code>joint probability distribution.pdf</code></td>
-                                <td data-label="Priority"><span class="tag-status critical">Critical</span></td>
-                            </tr>
-                            <tr class="unit-row" role="button" tabindex="0" onclick="showUnit('unit3')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showUnit('unit3');}">
-                                <td><strong>Unit 3</strong> · Tap to open</td>
-                                <td data-label="Topics">Markov Chains (TPM, Stationary, absorbing states) & Queuing Systems (M/M/1, M/M/s, M/D/1)</td>
-                                <td data-label="PDFs"><code>Updated Unit - III - IS$1.pdf</code></td>
-                                <td data-label="Priority"><span class="tag-status high">High Core</span></td>
-                            </tr>
-                            <tr class="unit-row" role="button" tabindex="0" onclick="showUnit('unit4')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showUnit('unit4');}">
-                                <td><strong>Unit 4</strong> · Tap to open</td>
-                                <td data-label="Topics">Sampling Distributions (CLT, SE) & Hypothesis Testing (Z-test, t-test, F-test, Chi-Square test)</td>
-                                <td data-label="PDFs"><code>Unit - IV - IS41.pdf</code></td>
-                                <td data-label="Priority"><span class="tag-status critical">Critical</span></td>
-                            </tr>
-                            <tr class="unit-row" role="button" tabindex="0" onclick="showUnit('unit5')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showUnit('unit5');}">
-                                <td><strong>Unit 5</strong> · Tap to open</td>
-                                <td data-label="Topics">Linear Programming Problems (Graphical, Simplex, Big-M, Two-Phase Methods, Duality)</td>
-                                <td data-label="PDFs"><code>LPP_I.pdf</code></td>
-                                <td data-label="Priority"><span class="tag-status medium">Medium</span></td>
-                            </tr>
-                            <tr class="unit-row" role="button" tabindex="0" onclick="showUnit('pyq')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showUnit('pyq');}">
+                        <tbody><tr class="unit-row" role="button" tabindex="0" onclick="showUnit('pyq')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showUnit('pyq');}">
                                 <td><strong>Exams Hub</strong> · Tap to open</td>
                                 <td data-label="Topics">Scanned Question Bank and CIE/SEE Past Papers (2024–2025)</td>
                                 <td data-label="PDFs"><code>Sem 4 Question Bank.pdf</code> + 5 papers</td>
@@ -1016,6 +989,7 @@
         <!-- ==========================================================================
              1. UNIT 1: STATS & DISCRETE PROBABILITY
              ========================================================================== -->
+        <span id="unit-1" class="portal-unit-anchor" aria-hidden="true"></span>
         <section id="unit1" class="unit-section">
             <div class="hero-card">
                 <span class="hero-card-tag">Unit 1 Notes</span>
@@ -1181,6 +1155,7 @@
         <!-- ==========================================================================
              2. UNIT 2: CONTINUOUS PROBABILITY & JOINT
              ========================================================================== -->
+        <span id="unit-2" class="portal-unit-anchor" aria-hidden="true"></span>
         <section id="unit2" class="unit-section">
             <div class="hero-card" style="border-color: #0d9488;">
                 <span class="hero-card-tag" style="background-color: rgba(13, 148, 136, 0.2); color: #2dd4bf; border-color: rgba(13, 148, 136, 0.4);">Unit 2 Notes</span>
@@ -1314,6 +1289,7 @@
         <!-- ==========================================================================
              3. UNIT 3: MARKOV & QUEUING THEORY
              ========================================================================== -->
+        <span id="unit-3" class="portal-unit-anchor" aria-hidden="true"></span>
         <section id="unit3" class="unit-section">
             <div class="hero-card" style="border-color: #8b5cf6;">
                 <span class="hero-card-tag" style="background-color: rgba(139, 92, 246, 0.2); color: #c084fc; border-color: rgba(139, 92, 246, 0.4);">Unit 3 Notes</span>
@@ -1445,6 +1421,7 @@
         <!-- ==========================================================================
              4. UNIT 4: SAMPLING & STATISTICAL INFERENCE
              ========================================================================== -->
+        <span id="unit-4" class="portal-unit-anchor" aria-hidden="true"></span>
         <section id="unit4" class="unit-section">
             <div class="hero-card" style="border-color: #ec4899;">
                 <span class="hero-card-tag" style="background-color: rgba(236, 72, 153, 0.2); color: #f472b6; border-color: rgba(236, 72, 153, 0.4);">Unit 4 Notes</span>
@@ -1571,6 +1548,7 @@
         <!-- ==========================================================================
              5. UNIT 5: LPP & SIMPLEX METHOD
              ========================================================================== -->
+        <span id="unit-5" class="portal-unit-anchor" aria-hidden="true"></span>
         <section id="unit5" class="unit-section">
             <div class="hero-card" style="border-color: #f59e0b;">
                 <span class="hero-card-tag" style="background-color: rgba(245, 158, 11, 0.2); color: #fbbf24; border-color: rgba(245, 158, 11, 0.4);">Unit 5 Notes</span>
@@ -2038,5 +2016,11 @@
   <script src="assets/js/portal-core.js" defer></script>
   <script src="assets/js/notes-enhancements.js" defer></script>
   <script src="assets/js/book-navigation.js" defer></script>
+  <script>window.portalHomeKeys = ['cover'];</script>
+  <script src="assets/js/portal-core.js" defer></script>
+  <script src="assets/js/notes-enhancements.js" defer></script>
+  <script src="assets/js/book-navigation.js" defer></script>
+  <script src="assets/js/unit-preview.js" defer></script>
+
 </body>
 </html>
