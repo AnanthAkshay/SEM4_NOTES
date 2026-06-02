@@ -218,6 +218,9 @@
             '<div class="unit-preview-card__actions">' +
             '<button type="button" class="unit-preview-open-btn" data-open-unit="' +
             unit.number +
+            '" onclick="if(window.UnitPreview){window.UnitPreview.openUnit(' +
+            unit.number +
+            ');} return false;"' +
             '">' +
             '<svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>' +
             ' Open Unit</button></div></article>'
@@ -247,6 +250,15 @@
                 openUnit(btn.getAttribute('data-open-unit'));
             });
         });
+
+        // Robust fallback: delegated click handler for dynamically replaced content
+        root.addEventListener('click', (e) => {
+            const btn = e.target.closest('[data-open-unit]');
+            if (!btn) return;
+            e.preventDefault();
+            e.stopPropagation();
+            openUnit(btn.getAttribute('data-open-unit'));
+        });
     }
 
     async function init() {
@@ -263,9 +275,12 @@
         root.innerHTML = '<p class="unit-preview-loading">Loading unit summaries…</p>';
 
         try {
-            const res = await fetch(metadataUrl());
-            if (!res.ok) throw new Error('metadata fetch failed');
-            const data = await res.json();
+            let data = window.UNIT_METADATA || null;
+            if (!data) {
+                const res = await fetch(metadataUrl());
+                if (!res.ok) throw new Error('metadata fetch failed');
+                data = await res.json();
+            }
             const subject = data.subjects && data.subjects[sid];
             if (!subject) throw new Error('unknown subject ' + sid);
             renderDashboard(subject);
