@@ -598,10 +598,13 @@
     </style>
   <link rel="stylesheet" href="assets/css/variables.css">
   <link rel="stylesheet" href="assets/css/portal.css">
+<link rel="stylesheet" href="assets/css/unit-preview.css">
+
   <link rel="stylesheet" href="assets/css/maths-mobile.css">
+  <link rel="stylesheet" href="assets/css/dbms-mobile.css">
 
 </head>
-<body class="portal-enhanced portal-book" data-portal-base="">
+<body class="portal-enhanced portal-book" data-subject-id="dbms" data-portal-base="">
     <header class="mobile-header portal-mobile-header">
         <div style="display:flex;align-items:center;gap:10px;">
             <div class="sidebar-logo" style="width:32px;height:32px;font-size:1rem;border-radius:8px;">DB</div>
@@ -706,35 +709,15 @@
                         Course Syllabus Blueprint
                     </h3>
                 </div>
-                <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:16px;">Tap any card to open notes or exam papers.</p>
+                <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:16px;">Review unit summaries below, then tap Open Unit on any card.</p>
+                
+                <div id="unit-preview-dashboard" class="unit-preview-dashboard" aria-live="polite"></div>
                 <div class="portal-nav-grid" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px;">
                     <div class="syllabus-item unit-nav-card portal-hub-card" role="button" tabindex="0" onclick="showSection('pyqs')" onkeydown="portalCardKey(event,'pyqs')">
                         <div class="syllabus-title">CIE / SEE Papers Hub</div>
                         <div class="syllabus-desc">Previous year exam papers (2023–2025).</div>
                     </div>
-                    <div class="syllabus-item unit-nav-card" role="button" tabindex="0" onclick="showSection('unit1')" onkeydown="portalCardKey(event,'unit1')">
-                        <div class="syllabus-title">Unit 1: Intro to DBMS &amp; Entity-Relationship Model</div>
-                        <div class="syllabus-desc">Core characteristics, advantages, three-schema architecture, mappings, data independence, languages, classifications, and rich high-level conceptual design with entity/relationship types and cardinality ratios.</div>
-                    </div>
-                    <div class="syllabus-item unit-nav-card" role="button" tabindex="0" onclick="showSection('unit2')" onkeydown="portalCardKey(event,'unit2')">
-                        <div class="syllabus-title">Unit 2: Relational Model &amp; Relational Algebra</div>
-                        <div class="syllabus-desc">Relational model characteristics, core integrity constraints (Domain, Key, Entity, Referential), and complete Relational Algebra operators (Unary, Set-theoretic, Binary Joins, and mathematical Division deep dive) with solved query mappings and ER conversion rules.</div>
-                    </div>
-                    <div class="syllabus-item unit-nav-card" role="button" tabindex="0" onclick="showSection('unit3')" onkeydown="portalCardKey(event,'unit3')">
-                        <div class="syllabus-title">Unit 3: SQL (Structured Query Language)</div>
-                        <div class="syllabus-desc">SQL command categories (DDL/DML/DCL/TCL), column and key constraints, schema alterations (ALTER/DROP), nested subqueries, pattern matching, three-valued logic, inner/outer joins, aggregates with groupings, and 50+ solved COMPANY queries.</div>
-                    </div>
-                    <div class="syllabus-item unit-nav-card" role="button" tabindex="0" onclick="showSection('unit4')" onkeydown="portalCardKey(event,'unit4')">
-                        <div class="syllabus-title">Unit 4: Database Design &amp; Normalization</div>
-                        <div class="syllabus-desc">Logical database design, informal design guidelines, update anomalies, reducing NULL values, avoiding spurious tuples, functional dependencies, Armstrong's inference rules with proofs, attribute closures, candidate key findings, and relational normal forms (1NF, 2NF, 3NF, BCNF) with Codd's 12 rules.</div>
-                    </div>
-                    <div class="syllabus-item unit-nav-card" role="button" tabindex="0" onclick="showSection('unit5')" onkeydown="portalCardKey(event,'unit5')">
-                        <div class="syllabus-title">Unit 5: Transactions, Concurrency &amp; Recovery</div>
-                        <div class="syllabus-desc">Transaction concepts, ACID properties, execution schedules (serializability), lock-based and timestamp-based concurrency protocols, deadlock management, log-based recovery schemes, immediate and deferred writes, CAP theorem, and distributed NoSQL architectures.</div>
-                    </div>
                 </div>
-            </div>
-        </div>
 
         <!-- ======================= SECTION: CIE / SEE PREVIOUS PAPERS ======================= -->
         <div class="unit-section" id="sec-pyqs">
@@ -745,13 +728,13 @@
             </div>
 
             <div class="tab-bar">
-                <button class="tab-btn active" id="btn-pyq-see2025" onclick="switchPYQ('see2025')">SEE 2025</button>
-                <button class="tab-btn" id="btn-pyq-see2024" onclick="switchPYQ('see2024')">SEE 2024</button>
-                <button class="tab-btn" id="btn-pyq-see2023" onclick="switchPYQ('see2023')">SEE 2023</button>
-                <button class="tab-btn" id="btn-pyq-makeup2023" onclick="switchPYQ('makeup2023')">Makeup 2023</button>
-                <button class="tab-btn" id="btn-pyq-cie12024" onclick="switchPYQ('cie12024')">CIE-1 2024</button>
-                <button class="tab-btn" id="btn-pyq-cie22024" onclick="switchPYQ('cie22024')">CIE-2 2024</button>
-                <button class="tab-btn" id="btn-pyq-cie22025" onclick="switchPYQ('cie22025')">CIE-2 2025</button>
+                <button class="tab-btn active" id="btn-pyq-see2025" onclick="switchPYQ('see2025')"><span class="tab-full">SEE 2025</span><span class="tab-short">SEE 25</span></button>
+                <button class="tab-btn" id="btn-pyq-see2024" onclick="switchPYQ('see2024')"><span class="tab-full">SEE 2024</span><span class="tab-short">SEE 24</span></button>
+                <button class="tab-btn" id="btn-pyq-see2023" onclick="switchPYQ('see2023')"><span class="tab-full">SEE 2023</span><span class="tab-short">SEE 23</span></button>
+                <button class="tab-btn" id="btn-pyq-makeup2023" onclick="switchPYQ('makeup2023')"><span class="tab-full">Makeup 2023</span><span class="tab-short">Mk 23</span></button>
+                <button class="tab-btn" id="btn-pyq-cie12024" onclick="switchPYQ('cie12024')"><span class="tab-full">CIE-1 2024</span><span class="tab-short">C1 24</span></button>
+                <button class="tab-btn" id="btn-pyq-cie22024" onclick="switchPYQ('cie22024')"><span class="tab-full">CIE-2 2024</span><span class="tab-short">C2 24</span></button>
+                <button class="tab-btn" id="btn-pyq-cie22025" onclick="switchPYQ('cie22025')"><span class="tab-full">CIE-2 2025</span><span class="tab-short">C2 25</span></button>
             </div>
             
             <div class="pdf-viewer-container" id="pyq-container">
@@ -783,11 +766,11 @@
                     <div class="tab-bar" style="margin-bottom: 15px;">
                         <button class="tab-btn active" id="btn-u1-notes" onclick="switchUnitDoc(1, 'notes')">
                             <svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
-                            Exam Study Notes
+                            <span class="tab-full">Exam Study Notes</span><span class="tab-short">Notes</span>
                         </button>
                         <button class="tab-btn" id="btn-u1-slides" onclick="switchUnitDoc(1, 'slides')">
                             <svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
-                            Class PPT Slides
+                            <span class="tab-full">Class PPT Slides</span><span class="tab-short">PPT</span>
                         </button>
                     </div>
                     <div class="pdf-viewer-container" id="unit1-container">
@@ -798,7 +781,7 @@
                                 <a class="btn-action btn-accent" id="unit1-download-link" href="DBMS/unit1.html" download>Download Notes</a>
                             </div>
                         </div>
-                        <iframe class="pdf-iframe" id="unit1-iframe" src="DBMS/unit1.html"></iframe>
+                        <iframe class="pdf-iframe dbms-notes-iframe" id="unit1-iframe" src="DBMS/unit1.html"></iframe>
                     </div>
                 </div>
             </div>
@@ -817,15 +800,15 @@
                     <div class="tab-bar" style="margin-bottom: 15px;">
                         <button class="tab-btn active" id="btn-u2-notes" onclick="switchUnitDoc(2, 'notes')">
                             <svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
-                            Exam Study Notes
+                            <span class="tab-full">Exam Study Notes</span><span class="tab-short">Notes</span>
                         </button>
                         <button class="tab-btn" id="btn-u2-slides" onclick="switchUnitDoc(2, 'slides')">
                             <svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
-                            Class PPT Slides
+                            <span class="tab-full">Class PPT Slides</span><span class="tab-short">PPT</span>
                         </button>
                         <button class="tab-btn" id="btn-u2-slides-algebra" onclick="switchUnitDoc(2, 'slides-algebra')">
                             <svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
-                            Relational Algebra Slides
+                            <span class="tab-full">Relational Algebra Slides</span><span class="tab-short">RA PPT</span>
                         </button>
                     </div>
                     <div class="pdf-viewer-container" id="unit2-container">
@@ -836,7 +819,7 @@
                                 <a class="btn-action btn-accent" id="unit2-download-link" href="DBMS/unit2.html" download>Download Notes</a>
                             </div>
                         </div>
-                        <iframe class="pdf-iframe" id="unit2-iframe" src="DBMS/unit2.html"></iframe>
+                        <iframe class="pdf-iframe dbms-notes-iframe" id="unit2-iframe" src="DBMS/unit2.html"></iframe>
                     </div>
                 </div>
             </div>
@@ -855,11 +838,11 @@
                     <div class="tab-bar" style="margin-bottom: 15px;">
                         <button class="tab-btn active" id="btn-u3-notes" onclick="switchUnitDoc(3, 'notes')">
                             <svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
-                            Exam Study Notes
+                            <span class="tab-full">Exam Study Notes</span><span class="tab-short">Notes</span>
                         </button>
                         <button class="tab-btn" id="btn-u3-slides" onclick="switchUnitDoc(3, 'slides')">
                             <svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
-                            Class PPT Slides
+                            <span class="tab-full">Class PPT Slides</span><span class="tab-short">PPT</span>
                         </button>
                     </div>
                     <div class="pdf-viewer-container" id="unit3-container">
@@ -870,7 +853,7 @@
                                 <a class="btn-action btn-accent" id="unit3-download-link" href="DBMS/unit3.html" download>Download Notes</a>
                             </div>
                         </div>
-                        <iframe class="pdf-iframe" id="unit3-iframe" src="DBMS/unit3.html"></iframe>
+                        <iframe class="pdf-iframe dbms-notes-iframe" id="unit3-iframe" src="DBMS/unit3.html"></iframe>
                     </div>
                 </div>
             </div>
@@ -889,11 +872,11 @@
                     <div class="tab-bar" style="margin-bottom: 15px;">
                         <button class="tab-btn active" id="btn-u4-notes" onclick="switchUnitDoc(4, 'notes')">
                             <svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
-                            Exam Study Notes
+                            <span class="tab-full">Exam Study Notes</span><span class="tab-short">Notes</span>
                         </button>
                         <button class="tab-btn" id="btn-u4-slides" onclick="switchUnitDoc(4, 'slides')">
                             <svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
-                            Class PPT Slides
+                            <span class="tab-full">Class PPT Slides</span><span class="tab-short">PPT</span>
                         </button>
                     </div>
                     <div class="pdf-viewer-container" id="unit4-container">
@@ -904,7 +887,7 @@
                                 <a class="btn-action btn-accent" id="unit4-download-link" href="DBMS/unit4.html" download>Download Notes</a>
                             </div>
                         </div>
-                        <iframe class="pdf-iframe" id="unit4-iframe" src="DBMS/unit4.html"></iframe>
+                        <iframe class="pdf-iframe dbms-notes-iframe" id="unit4-iframe" src="DBMS/unit4.html"></iframe>
                     </div>
                 </div>
             </div>
@@ -923,11 +906,11 @@
                     <div class="tab-bar" style="margin-bottom: 15px;">
                         <button class="tab-btn active" id="btn-u5-notes" onclick="switchUnitDoc(5, 'notes')">
                             <svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
-                            Exam Study Notes
+                            <span class="tab-full">Exam Study Notes</span><span class="tab-short">Notes</span>
                         </button>
                         <button class="tab-btn" id="btn-u5-slides" onclick="switchUnitDoc(5, 'slides')">
                             <svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
-                            Class PPT Slides
+                            <span class="tab-full">Class PPT Slides</span><span class="tab-short">PPT</span>
                         </button>
                     </div>
                     <div class="pdf-viewer-container" id="unit5-container">
@@ -938,7 +921,7 @@
                                 <a class="btn-action btn-accent" id="unit5-download-link" href="DBMS/unit5.html" download>Download Notes</a>
                             </div>
                         </div>
-                        <iframe class="pdf-iframe" id="unit5-iframe" src="DBMS/unit5.html"></iframe>
+                        <iframe class="pdf-iframe dbms-notes-iframe" id="unit5-iframe" src="DBMS/unit5.html"></iframe>
                     </div>
                 </div>
             </div>
@@ -1056,6 +1039,7 @@
   <script src="assets/js/portal-core.js" defer></script>
   <script src="assets/js/notes-enhancements.js" defer></script>
   <script src="assets/js/book-navigation.js" defer></script>
-  <script src="assets/js/portal-back-nav.js"></script>
+    <script src="assets/js/unit-preview.js" defer></script>
+
 </body>
 </html>

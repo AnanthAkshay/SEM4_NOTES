@@ -567,6 +567,16 @@
             background-color: rgba(16, 185, 129, 0.1);
             color: var(--text-primary);
         }
+
+        .mc-syllabus-panel {
+            max-height: 850px;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        .mc-ppt-iframe {
+            height: 850px;
+        }
         
         .slide-card:last-child {
             border-bottom: none;
@@ -657,10 +667,13 @@
     </style>
   <link rel="stylesheet" href="assets/css/variables.css">
   <link rel="stylesheet" href="assets/css/portal.css">
+<link rel="stylesheet" href="assets/css/unit-preview.css">
+
   <link rel="stylesheet" href="assets/css/maths-mobile.css">
+  <link rel="stylesheet" href="assets/css/microcontroller-mobile.css">
 
 </head>
-<body class="portal-enhanced portal-book" data-portal-base="">
+<body class="portal-enhanced portal-book" data-subject-id="microcontroller" data-portal-base="">
     <header class="mobile-header portal-mobile-header">
         <div style="display:flex;align-items:center;gap:10px;">
             <div class="sidebar-logo" style="width:32px;height:32px;font-size:1rem;border-radius:8px;">MC</div>
@@ -769,39 +782,19 @@
                         Course Syllabus Blueprint
                     </h3>
                 </div>
-                <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:16px;">Tap any card to open notes, lab manual, or exam papers.</p>
+                <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:16px;">Review unit summaries below, then tap Open Unit on any card.</p>
+                
+                <div id="unit-preview-dashboard" class="unit-preview-dashboard" aria-live="polite"></div>
                 <div class="portal-nav-grid" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px;">
                     <div class="syllabus-item unit-nav-card portal-hub-card" role="button" tabindex="0" onclick="showSection('lab')" onkeydown="portalCardKey(event,'lab')">
                         <div class="syllabus-title">Interactive Lab Hub</div>
-                        <div class="syllabus-desc">Lab manual and experiment guides.</div>
+                        <div class="syllabus-desc">Lab manual and experiment walkthroughs.</div>
                     </div>
                     <div class="syllabus-item unit-nav-card portal-hub-card" role="button" tabindex="0" onclick="showSection('pyqs')" onkeydown="portalCardKey(event,'pyqs')">
                         <div class="syllabus-title">CIE / SEE Papers Hub</div>
-                        <div class="syllabus-desc">Previous year papers (2023–2025).</div>
-                    </div>
-                    <div class="syllabus-item unit-nav-card" role="button" tabindex="0" onclick="showSection('unit1')" onkeydown="portalCardKey(event,'unit1')">
-                        <div class="syllabus-title">Unit 1: ARM Embedded Systems & SoC</div>
-                        <div class="syllabus-desc">RISC vs CISC rules, ARM design parameters, System-on-Chip (SoC) blocks, timers, watchdogs, PLL clock multipliers, and PWM duty cycle mechanics.</div>
-                    </div>
-                    <div class="syllabus-item unit-nav-card" role="button" tabindex="0" onclick="showSection('unit2')" onkeydown="portalCardKey(event,'unit2')">
-                        <div class="syllabus-title">Unit 2: Peripherals, Memory & Software</div>
-                        <div class="syllabus-desc">Serial protocols (I2C, SPI, UART), Direct Memory Access (DMA), SRAM asynchronous read/write cycles, Thermal Design Power, endianness, and CPU status flags.</div>
-                    </div>
-                    <div class="syllabus-item unit-nav-card" role="button" tabindex="0" onclick="showSection('unit3')" onkeydown="portalCardKey(event,'unit3')">
-                        <div class="syllabus-title">Unit 3: ARM7 Architecture & Instruction Set</div>
-                        <div class="syllabus-desc">ARM7 operating modes, register bank mapping, exceptions/vectors sequences, 3-stage pipeline operations, shifted operands barrel shifting, and branching.</div>
-                    </div>
-                    <div class="syllabus-item unit-nav-card" role="button" tabindex="0" onclick="showSection('unit4')" onkeydown="portalCardKey(event,'unit4')">
-                        <div class="syllabus-title">Unit 4: Memory Access & Interfacing</div>
-                        <div class="syllabus-desc">LDR/STR indexing (pre/post-indexing with write-back), block memory LDM/STM stacks, LPC2148 microchip bus topology, timer register sets, and Embedded C pin control.</div>
-                    </div>
-                    <div class="syllabus-item unit-nav-card" role="button" tabindex="0" onclick="showSection('unit5')" onkeydown="portalCardKey(event,'unit5')">
-                        <div class="syllabus-title">Unit 5: ARM Cortex-M0/M0+ NVIC</div>
-                        <div class="syllabus-desc">Cortex-M0 core architecture, Thread/Handler modes, Special registers (MSP/PSP/CONTROL), memory map specifications, NVIC nesting states, and low-power modes.</div>
+                        <div class="syllabus-desc">Official previous year exam papers.</div>
                     </div>
                 </div>
-            </div>
-        </div>
 
         <!-- ======================= SECTION: INTERACTIVE LAB MANUAL ======================= -->
         <div class="unit-section" id="sec-lab">
@@ -901,10 +894,10 @@
   </div>
 </div>
 
-<iframe class="pdf-iframe" id="unit1-ppt-iframe" src="MICROCONTROLLER/MC_UNIT1_PPT1.pdf" style="width: 100%; height: 850px; border: none; border-radius: 12px; background-color: #070b13;"></iframe>
+<iframe class="pdf-iframe mc-ppt-iframe" id="unit1-ppt-iframe" src="MICROCONTROLLER/MC_UNIT1_PPT1.pdf" style="width: 100%; border: none; border-radius: 12px; background-color: #070b13;"></iframe>
 
 </div>
-<div class="syllabus-notes-container" id="unit1-syllabus" style="display:none; max-height: 850px; overflow-y: auto; background-color: var(--bg-panel); border: 1px solid var(--border-color); border-radius: 12px; padding: 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.15);">
+<div class="syllabus-notes-container mc-syllabus-panel" id="unit1-syllabus" style="display:none; background-color: var(--bg-panel); border: 1px solid var(--border-color); border-radius: 12px; padding: 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.15);">
 
     <div style="font-family: var(--font-sans); color: var(--text-secondary); line-height: 1.7;">
         <h3 style="color: var(--accent-cyan); font-family: var(--font-display); font-size: 1.3rem; margin-top: 15px; margin-bottom: 10px; border-bottom: 1px solid var(--border-color); padding-bottom: 5px;">1. Embedded Systems & RISC Architecture</h3>
@@ -979,14 +972,15 @@
   </div>
 </div>
 
-<iframe class="pdf-iframe" id="unit2-ppt-iframe" src="MICROCONTROLLER/MC_UNIT2_PPT1_17_3_26.pdf" style="width: 100%; height: 850px; border: none; border-radius: 12px; background-color: #070b13;"></iframe>
+<iframe class="pdf-iframe mc-ppt-iframe" id="unit2-ppt-iframe" src="MICROCONTROLLER/MC_UNIT2_PPT1_17_3_26.pdf" style="width: 100%; border: none; border-radius: 12px; background-color: #070b13;"></iframe>
 
 </div>
-<div class="syllabus-notes-container" id="unit2-syllabus" style="display:none; max-height: 850px; overflow-y: auto; background-color: var(--bg-panel); border: 1px solid var(--border-color); border-radius: 12px; padding: 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.15);">
+<div class="syllabus-notes-container mc-syllabus-panel" id="unit2-syllabus" style="display:none; background-color: var(--bg-panel); border: 1px solid var(--border-color); border-radius: 12px; padding: 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.15);">
 
     <div style="font-family: var(--font-sans); color: var(--text-secondary); line-height: 1.7;">
         <h3 style="color: var(--accent-cyan); font-family: var(--font-display); font-size: 1.3rem; margin-top: 15px; margin-bottom: 10px; border-bottom: 1px solid var(--border-color); padding-bottom: 5px;">1. On-Board Serial Communication Protocols</h3>
         <p>Embedded systems utilize serial communication to connect controllers with external sensors, memories, and actuators. The three primary standards are:</p>
+        <div class="mc-table-wrap">
         <table style="width: 100%; border-collapse: collapse; margin-top: 10px; margin-bottom: 15px; font-size: 0.85rem; border: 1px solid var(--border-color);">
             <thead>
                 <tr style="background-color: rgba(16, 185, 129, 0.1); border-bottom: 1px solid var(--border-color);">
@@ -1023,6 +1017,7 @@
                 </tr>
             </tbody>
         </table>
+        </div>
         
         <h3 style="color: var(--accent-cyan); font-family: var(--font-display); font-size: 1.3rem; margin-top: 20px; margin-bottom: 10px; border-bottom: 1px solid var(--border-color); padding-bottom: 5px;">2. Direct Memory Access (DMA) & Low Power Design</h3>
         <p><strong>DMA Controllers</strong> act as secondary bus masters. They allow peripheral data transfers (e.g., UART FIFO reads) directly to system SRAM without passing individual bytes through the core registers. This bypasses CPU execution loops completely, leaving the processor free for computation or placing it into low-power sleep states, which minimizes power consumption.</p>
@@ -1081,10 +1076,10 @@
   </div>
 </div>
 
-<iframe class="pdf-iframe" id="unit3-ppt-iframe" src="MICROCONTROLLER/MC_UNIT3_PPT1_21_04_26.pdf" style="width: 100%; height: 850px; border: none; border-radius: 12px; background-color: #070b13;"></iframe>
+<iframe class="pdf-iframe mc-ppt-iframe" id="unit3-ppt-iframe" src="MICROCONTROLLER/MC_UNIT3_PPT1_21_04_26.pdf" style="width: 100%; border: none; border-radius: 12px; background-color: #070b13;"></iframe>
 
 </div>
-<div class="syllabus-notes-container" id="unit3-syllabus" style="display:none; max-height: 850px; overflow-y: auto; background-color: var(--bg-panel); border: 1px solid var(--border-color); border-radius: 12px; padding: 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.15);">
+<div class="syllabus-notes-container mc-syllabus-panel" id="unit3-syllabus" style="display:none; background-color: var(--bg-panel); border: 1px solid var(--border-color); border-radius: 12px; padding: 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.15);">
 
     <div style="font-family: var(--font-sans); color: var(--text-secondary); line-height: 1.7;">
         <h3 style="color: var(--accent-cyan); font-family: var(--font-display); font-size: 1.3rem; margin-top: 15px; margin-bottom: 10px; border-bottom: 1px solid var(--border-color); padding-bottom: 5px;">1. ARM7 Architecture & Registers Bank</h3>
@@ -1092,6 +1087,15 @@
         
         <h4 style="color: var(--text-primary); margin-top: 12px; margin-bottom: 6px;">7 Operating Modes:</h4>
         <p>The processor runs in one of seven operating modes based on privilege levels and exception triggers:</p>
+        <div class="modes-card-grid" aria-label="ARM7 operating modes quick reference">
+            <div class="modes-card"><strong>User</strong>Unprivileged — applications</div>
+            <div class="modes-card"><strong>FIQ</strong>Fast interrupt — extra banked regs</div>
+            <div class="modes-card"><strong>IRQ</strong>Standard interrupt</div>
+            <div class="modes-card"><strong>SVC</strong>Supervisor — reset &amp; SWI</div>
+            <div class="modes-card"><strong>Abort</strong>Memory access fault</div>
+            <div class="modes-card"><strong>Undefined</strong>Illegal instruction</div>
+            <div class="modes-card"><strong>System</strong>Privileged — same bank as User</div>
+        </div>
         <ul style="margin-left: 25px; margin-top: 8px; list-style-type: square;">
             <li><strong>User:</strong> Unprivileged mode where standard user applications execute.</li>
             <li><strong>FIQ (Fast Interrupt):</strong> Entered on a high-priority hardware interrupt. Features extensive banked registers (R8-R14) to avoid stacking context-switching delays.</li>
@@ -1104,6 +1108,7 @@
 
         <h3 style="color: var(--accent-cyan); font-family: var(--font-display); font-size: 1.3rem; margin-top: 20px; margin-bottom: 10px; border-bottom: 1px solid var(--border-color); padding-bottom: 5px;">2. Exception Vector Table & 3-Stage Pipeline</h3>
         <p>Exceptions alter execution flow. The <strong>Exception Vector Table</strong> is a dedicated area in memory (typically starting at <code>0x00000000</code>) containing branch instructions to specific ISR handlers:</p>
+        <div class="mc-table-wrap">
         <table style="width: 100%; border-collapse: collapse; margin-top: 10px; margin-bottom: 15px; font-size: 0.85rem; border: 1px solid var(--border-color);">
             <thead>
                 <tr style="background-color: rgba(16, 185, 129, 0.1); border-bottom: 1px solid var(--border-color);">
@@ -1150,6 +1155,7 @@
                 </tr>
             </tbody>
         </table>
+        </div>
 
         <h4 style="color: var(--text-primary); margin-top: 12px; margin-bottom: 6px;">The 3-Stage Pipeline:</h4>
         <p>ARM7 implements a 3-stage hardware pipeline to execute instructions in parallel:</p>
@@ -1205,10 +1211,10 @@
   </div>
 </div>
 
-<iframe class="pdf-iframe" id="unit4-ppt-iframe" src="MICROCONTROLLER/MC_Unit4_PPT1_Chapter5_05_05_2026.pdf" style="width: 100%; height: 850px; border: none; border-radius: 12px; background-color: #070b13;"></iframe>
+<iframe class="pdf-iframe mc-ppt-iframe" id="unit4-ppt-iframe" src="MICROCONTROLLER/MC_Unit4_PPT1_Chapter5_05_05_2026.pdf" style="width: 100%; border: none; border-radius: 12px; background-color: #070b13;"></iframe>
 
 </div>
-<div class="syllabus-notes-container" id="unit4-syllabus" style="display:none; max-height: 850px; overflow-y: auto; background-color: var(--bg-panel); border: 1px solid var(--border-color); border-radius: 12px; padding: 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.15);">
+<div class="syllabus-notes-container mc-syllabus-panel" id="unit4-syllabus" style="display:none; background-color: var(--bg-panel); border: 1px solid var(--border-color); border-radius: 12px; padding: 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.15);">
 
     <div style="font-family: var(--font-sans); color: var(--text-secondary); line-height: 1.7;">
         <h3 style="color: var(--accent-cyan); font-family: var(--font-display); font-size: 1.3rem; margin-top: 15px; margin-bottom: 10px; border-bottom: 1px solid var(--border-color); padding-bottom: 5px;">1. Memory Access Modes & Block Transfers</h3>
@@ -1273,10 +1279,10 @@
   </div>
 </div>
 
-<iframe class="pdf-iframe" id="unit5-ppt-iframe" src="MICROCONTROLLER/MC_Unit-5_Chapter7.pdf" style="width: 100%; height: 850px; border: none; border-radius: 12px; background-color: #070b13;"></iframe>
+<iframe class="pdf-iframe mc-ppt-iframe" id="unit5-ppt-iframe" src="MICROCONTROLLER/MC_Unit-5_Chapter7.pdf" style="width: 100%; border: none; border-radius: 12px; background-color: #070b13;"></iframe>
 
 </div>
-<div class="syllabus-notes-container" id="unit5-syllabus" style="display:none; max-height: 850px; overflow-y: auto; background-color: var(--bg-panel); border: 1px solid var(--border-color); border-radius: 12px; padding: 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.15);">
+<div class="syllabus-notes-container mc-syllabus-panel" id="unit5-syllabus" style="display:none; background-color: var(--bg-panel); border: 1px solid var(--border-color); border-radius: 12px; padding: 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.15);">
 
     <div style="font-family: var(--font-sans); color: var(--text-secondary); line-height: 1.7;">
         <h3 style="color: var(--accent-cyan); font-family: var(--font-display); font-size: 1.3rem; margin-top: 15px; margin-bottom: 10px; border-bottom: 1px solid var(--border-color); padding-bottom: 5px;">1. ARM Cortex-M0/M0+ Core & Programming Model</h3>
@@ -1284,6 +1290,12 @@
         
         <h4 style="color: var(--text-primary); margin-top: 12px; margin-bottom: 6px;">Modes & Banked Stack Pointers:</h4>
         <p>It simplifies execution with only 2 modes and 2 execution states:</p>
+        <div class="modes-card-grid" aria-label="Cortex-M0 modes quick reference">
+            <div class="modes-card"><strong>Thread Mode</strong>Application code (privileged or user)</div>
+            <div class="modes-card"><strong>Handler Mode</strong>Exceptions &amp; interrupts (always privileged)</div>
+            <div class="modes-card"><strong>MSP</strong>Main stack — kernel &amp; exceptions</div>
+            <div class="modes-card"><strong>PSP</strong>Process stack — user tasks</div>
+        </div>
         <ul style="margin-left: 25px; margin-top: 8px; list-style-type: square;">
             <li><strong>Thread Mode:</strong> The default mode for executing application code. It enters this mode on reset and can run in privileged or unprivileged states.</li>
             <li><strong>Handler Mode:</strong> Entered automatically when handling exceptions or interrupts. It always runs in a privileged state.</li>
@@ -1322,6 +1334,7 @@
 
 <!-- Page Switcher and Tab controls JavaScript -->
     <script>
+        window.portalHomeKeys = ['home'];
         const pyqFiles = {
             see2025: 'MICROCONTROLLER/SEE2025.pdf',
             see2024: 'MICROCONTROLLER/SEE2024.pdf',
@@ -1451,6 +1464,7 @@
   <script src="assets/js/portal-core.js" defer></script>
   <script src="assets/js/notes-enhancements.js" defer></script>
   <script src="assets/js/book-navigation.js" defer></script>
-  <script src="assets/js/portal-back-nav.js"></script>
+    <script src="assets/js/unit-preview.js" defer></script>
+
 </body>
 </html>

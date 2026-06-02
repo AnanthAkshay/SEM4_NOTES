@@ -1,0 +1,255 @@
+/* Microcontrollers — mobile layout (book + unit solved pages with Mode 1/2/3 tabs) */
+
+/* --------------------------------------------------------------------------
+   Unit solved pages (inside iframe): Mode tabs, topics, tables
+   -------------------------------------------------------------------------- */
+body[data-subject-id="microcontroller"] {
+    padding: max(12px, env(safe-area-inset-left, 0px)) max(12px, env(safe-area-inset-right, 0px)) max(20px, env(safe-area-inset-bottom, 0px));
+    padding-top: max(12px, env(safe-area-inset-top, 0px));
+}
+
+body[data-subject-id="microcontroller"] .container {
+    max-width: 100%;
+    padding: 0 2px;
+}
+
+body[data-subject-id="microcontroller"] h1 {
+    font-size: clamp(1.25rem, 5.5vw, 2rem);
+    line-height: 1.25;
+}
+
+body[data-subject-id="microcontroller"] .header-section {
+    padding-bottom: 14px;
+    margin-bottom: 16px;
+}
+
+body[data-subject-id="microcontroller"] .intro-p {
+    font-size: 0.9rem;
+}
+
+/* Mode 1 / 2 / 3 tab bar */
+body[data-subject-id="microcontroller"] .mode-tab-bar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--border-color, #1e293b);
+    -webkit-overflow-scrolling: touch;
+}
+
+body[data-subject-id="microcontroller"] .mode-tab-btn {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    text-align: left;
+    line-height: 1.35;
+}
+
+body[data-subject-id="microcontroller"] .mode-tab-btn .tab-short {
+    display: none;
+}
+
+body[data-subject-id="microcontroller"] .topic-block,
+body[data-subject-id="microcontroller"] .pyq-solved {
+    padding: 18px 14px;
+    margin-bottom: 18px;
+}
+
+body[data-subject-id="microcontroller"] .topic-block h3 {
+    font-size: clamp(1.05rem, 4vw, 1.35rem);
+    padding-left: 10px;
+}
+
+body[data-subject-id="microcontroller"] .topic-block p {
+    text-align: left;
+    hyphens: auto;
+}
+
+body[data-subject-id="microcontroller"] .table-scroll-wrap {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin: 14px 0;
+    border: 1px solid var(--border-color, #1e293b);
+    border-radius: 8px;
+}
+
+body[data-subject-id="microcontroller"] .table-scroll-wrap table {
+    margin: 0;
+    min-width: 520px;
+    font-size: 0.82rem;
+}
+
+body[data-subject-id="microcontroller"] table {
+    min-width: 0;
+}
+
+body[data-subject-id="microcontroller"] th,
+body[data-subject-id="microcontroller"] td {
+    padding: 8px 10px;
+    vertical-align: top;
+}
+
+body[data-subject-id="microcontroller"] pre {
+    font-size: 0.75rem;
+    padding: 12px;
+}
+
+body[data-subject-id="microcontroller"] img {
+    max-width: 100%;
+    height: auto;
+}
+
+body[data-subject-id="microcontroller"] .formula {
+    overflow-x: auto;
+    font-size: 0.85rem;
+}
+
+@media (max-width: 768px) {
+    body[data-subject-id="microcontroller"] .mode-tab-bar {
+        flex-direction: column;
+        position: sticky;
+        top: 0;
+        z-index: 40;
+        background: var(--bg-dark, #070b13);
+        padding-top: 8px;
+        margin-left: -2px;
+        margin-right: -2px;
+        padding-left: 2px;
+        padding-right: 2px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+    }
+
+    body[data-subject-id="microcontroller"] .mode-tab-btn {
+        width: 100%;
+        min-height: 48px;
+        padding: 14px 16px;
+        font-size: 0.9rem;
+        white-space: normal;
+    }
+
+    body[data-subject-id="microcontroller"] .mode-tab-btn .tab-full {
+        display: none;
+    }
+
+    body[data-subject-id="microcontroller"] .mode-tab-btn .tab-short {
+        display: inline;
+    }
+
+    body[data-subject-id="microcontroller"] table:not(.table-scroll-wrap table) {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   Microcontrollers book (parent page)
+   -------------------------------------------------------------------------- */
+.portal-book .mc-syllabus-panel {
+    max-height: 850px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+}
+
+.portal-book .mc-ppt-iframe {
+    width: 100%;
+    height: 850px;
+    border: none;
+    border-radius: 12px;
+    background-color: #070b13;
+}
+
+.portal-book .syllabus-notes-container .mc-table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin: 12px 0 16px;
+    border: 1px solid var(--border-color, #1e293b);
+    border-radius: 8px;
+}
+
+.portal-book .syllabus-notes-container .mc-table-wrap table {
+    margin: 0;
+    min-width: 480px;
+    font-size: 0.8rem;
+}
+
+.portal-book .syllabus-notes-container th,
+.portal-book .syllabus-notes-container td {
+    padding: 8px 10px;
+    vertical-align: top;
+}
+
+.portal-book .syllabus-notes-container h3 {
+    font-size: clamp(1.05rem, 4.5vw, 1.3rem);
+}
+
+.portal-book .syllabus-notes-container h4 {
+    font-size: 1rem;
+}
+
+.portal-book .syllabus-notes-container ul,
+.portal-book .syllabus-notes-container ol {
+    margin-left: 18px;
+    padding-right: 4px;
+}
+
+.portal-book .modes-card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 10px;
+    margin: 16px 0;
+}
+
+.portal-book .modes-card {
+    background: var(--bg-card, #131e33);
+    border: 1px solid var(--border-color, #1e293b);
+    border-radius: 10px;
+    padding: 12px;
+    font-size: 0.8rem;
+}
+
+.portal-book .modes-card strong {
+    display: block;
+    color: var(--accent-cyan, #06b6d4);
+    margin-bottom: 4px;
+    font-size: 0.85rem;
+}
+
+@media (max-width: 991px) {
+    .portal-book .mc-syllabus-panel {
+        max-height: min(72vh, 680px);
+        padding: 16px !important;
+    }
+
+    .portal-book .mc-ppt-iframe {
+        height: min(68vh, 560px) !important;
+    }
+
+    .portal-book .pdf-iframe#unit1-iframe,
+    .portal-book .pdf-iframe#unit2-iframe,
+    .portal-book .pdf-iframe#unit3-iframe,
+    .portal-book .pdf-iframe#unit4-iframe,
+    .portal-book .pdf-iframe#unit5-iframe {
+        min-height: 420px;
+        height: min(78vh, 720px);
+    }
+
+    .portal-book .syllabus-notes-container .mc-table-wrap table {
+        min-width: 420px;
+        font-size: 0.75rem;
+    }
+
+    .portal-book .modes-card-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .portal-book .syllabus-notes-container th,
+    .portal-book .syllabus-notes-container td {
+        padding: 6px 8px;
+        font-size: 0.72rem;
+    }
+}
