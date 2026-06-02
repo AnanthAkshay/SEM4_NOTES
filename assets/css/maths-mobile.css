@@ -164,8 +164,7 @@ body.portal-enhanced details {
 
 body.portal-enhanced summary {
     min-height: 48px;
-    display: flex;
-    align-items: center;
+    display: block;
     padding: 14px 16px;
     font-size: 0.95rem;
     line-height: 1.35;
@@ -200,11 +199,17 @@ body.portal-enhanced .final {
     word-break: break-word;
 }
 
-body.portal-enhanced mjx-container,
-body.portal-enhanced .MathJax {
+body.portal-enhanced mjx-container[display="true"],
+body.portal-enhanced .MathJax_Display {
     overflow-x: auto;
     overflow-y: hidden;
     max-width: 100%;
+}
+
+body.portal-enhanced mjx-container:not([display="true"]),
+body.portal-enhanced .MathJax:not(.MathJax_Display) {
+    overflow-x: visible !important;
+    max-width: none !important;
 }
 
 body.portal-enhanced img,
