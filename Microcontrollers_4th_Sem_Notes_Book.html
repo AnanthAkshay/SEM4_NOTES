@@ -673,7 +673,7 @@
   <link rel="stylesheet" href="assets/css/microcontroller-mobile.css">
 
 </head>
-<body class="portal-enhanced portal-book" data-subject-id="microcontroller" data-portal-base="">
+<body class="portal-enhanced portal-book" data-subject-id="microcontroller" data-portal-base="" class="portal-enhanced portal-book" data-portal-base="">
     <header class="mobile-header portal-mobile-header">
         <div style="display:flex;align-items:center;gap:10px;">
             <div class="sidebar-logo" style="width:32px;height:32px;font-size:1rem;border-radius:8px;">MC</div>
@@ -782,19 +782,16 @@
                         Course Syllabus Blueprint
                     </h3>
                 </div>
-                <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:16px;">Review unit summaries below, then tap Open Unit on any card.</p>
+                <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:16px;">Tap any card to open notes, lab manual, or exam papers.</p>
                 
                 <div id="unit-preview-dashboard" class="unit-preview-dashboard" aria-live="polite"></div>
-                <div class="portal-nav-grid" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px;">
+<div class="portal-nav-grid" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px;">
                     <div class="syllabus-item unit-nav-card portal-hub-card" role="button" tabindex="0" onclick="showSection('lab')" onkeydown="portalCardKey(event,'lab')">
                         <div class="syllabus-title">Interactive Lab Hub</div>
-                        <div class="syllabus-desc">Lab manual and experiment walkthroughs.</div>
-                    </div>
                     <div class="syllabus-item unit-nav-card portal-hub-card" role="button" tabindex="0" onclick="showSection('pyqs')" onkeydown="portalCardKey(event,'pyqs')">
                         <div class="syllabus-title">CIE / SEE Papers Hub</div>
-                        <div class="syllabus-desc">Official previous year exam papers.</div>
-                    </div>
-                </div>
+                            </div>
+        </div>
 
         <!-- ======================= SECTION: INTERACTIVE LAB MANUAL ======================= -->
         <div class="unit-section" id="sec-lab">
@@ -1464,7 +1461,6 @@
   <script src="assets/js/portal-core.js" defer></script>
   <script src="assets/js/notes-enhancements.js" defer></script>
   <script src="assets/js/book-navigation.js" defer></script>
-  <script src="assets/data/unit-metadata.js"></script>
     <script src="assets/js/unit-preview.js" defer></script>
 
 </body>

@@ -23,19 +23,6 @@
   --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-html[data-theme="light"] {
-  --bg-deep: #f3f7ff;
-  --bg-base: #ffffff;
-  --bg-elevated: #f8fbff;
-  --glass-bg: rgba(255, 255, 255, 0.82);
-  --glass-border: rgba(15, 23, 42, 0.12);
-  --glass-border-hover: rgba(59, 130, 246, 0.35);
-  --text-primary: #0f172a;
-  --text-secondary: #334155;
-  --text-muted: #64748b;
-  --shadow-lg: 0 14px 30px rgba(15, 23, 42, 0.12);
-}
-
 *,
 *::before,
 *::after {
@@ -83,8 +70,8 @@ body {
 /* Glass utility */
 .glass {
   background: var(--glass-bg);
-  -webkit-backdrop-filter: blur(16px);
   backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--glass-border);
   border-radius: var(--radius);
 }
@@ -96,8 +83,8 @@ body {
   z-index: 200;
   height: var(--header-h);
   background: rgba(7, 11, 19, 0.85);
-  -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--glass-border);
 }
 
@@ -790,7 +777,6 @@ body {
   position: absolute;
   inset: 0;
   background: rgba(0, 0, 0, 0.75);
-  -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
 }
 
