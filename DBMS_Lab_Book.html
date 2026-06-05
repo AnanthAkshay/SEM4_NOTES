@@ -410,6 +410,135 @@
             .lab-section { display: block !important; page-break-after: always; }
             .exp-panel { box-shadow: none; }
         }
+
+        /* ==================== DBMS LAB — MOBILE RESPONSIVE ==================== */
+        @media (max-width: 991px) {
+            .exp-panel {
+                padding: 22px 16px;
+                border-radius: 10px;
+            }
+            .exp-panel h1 {
+                font-size: clamp(1.05rem, 4.5vw, 1.5rem);
+                line-height: 1.35;
+            }
+            .exp-panel h2 {
+                font-size: clamp(0.95rem, 4vw, 1.2rem);
+            }
+            .exp-panel h3 {
+                font-size: clamp(0.9rem, 3.5vw, 1.05rem);
+            }
+            .exp-panel pre {
+                font-size: 0.72rem;
+                padding: 10px;
+                line-height: 1.45;
+                -webkit-overflow-scrolling: touch;
+                overflow-x: auto;
+            }
+            /* Experiment detail tables scroll horizontally */
+            .exp-panel table:not(.lab-exp-table) {
+                display: block;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .exp-panel {
+                padding: 18px 12px;
+            }
+
+            /* ---- Cover page experiment table → mobile cards ---- */
+
+            /* Hide the TH header row (no <thead> wrapper in HTML) */
+            .exp-panel table.lab-exp-table > tbody > tr:first-child {
+                display: none !important;
+            }
+
+            /* Card list layout */
+            .exp-panel table.lab-exp-table {
+                display: flex !important;
+                flex-direction: column;
+                gap: 12px;
+                border: 0 !important;
+                width: 100%;
+            }
+
+            .exp-panel table.lab-exp-table > tbody {
+                display: flex !important;
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            /* Each experiment row becomes a card */
+            .exp-panel table.lab-exp-table tr.unit-row {
+                display: flex !important;
+                flex-direction: column;
+                background: #eef3fa !important;
+                border: 1px solid #c5d3e3 !important;
+                border-radius: 12px;
+                overflow: hidden;
+                transition: border-color 0.2s, transform 0.15s;
+            }
+
+            .exp-panel table.lab-exp-table tr.unit-row:active {
+                transform: scale(0.98);
+                border-color: #003366 !important;
+            }
+
+            .exp-panel table.lab-exp-table tr.unit-row td {
+                display: block !important;
+                border: none !important;
+                padding: 10px 16px;
+                color: #1e293b !important;
+                font-size: 0.95rem;
+            }
+
+            /* Experiment number badge */
+            .exp-panel table.lab-exp-table tr.unit-row td:first-child {
+                background: #003366;
+                color: #fff !important;
+                padding: 14px 16px 10px;
+                font-size: 1rem;
+                font-weight: 700;
+            }
+
+            /* Title cell */
+            .exp-panel table.lab-exp-table tr.unit-row td:last-child {
+                padding: 8px 16px 16px;
+                line-height: 1.45;
+            }
+
+            .exp-panel table.lab-exp-table tr.unit-row td[data-label]::before {
+                content: attr(data-label);
+                display: block;
+                font-size: 0.65rem;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 0.08em;
+                color: #64748b;
+                margin-bottom: 4px;
+            }
+
+            .exp-panel table.lab-exp-table tr.unit-row td:first-child::before {
+                display: none !important;
+            }
+
+            /* ---- Experiment detail content fixes ---- */
+            .exp-panel pre {
+                font-size: 0.68rem;
+                padding: 10px 8px;
+                word-break: break-word;
+            }
+
+            .exp-panel ul, .exp-panel ol {
+                margin-left: 1rem;
+                font-size: 0.9rem;
+            }
+
+            .exp-panel img {
+                border-radius: 8px;
+            }
+        }
     </style>
   <link rel="stylesheet" href="assets/css/variables.css">
   <link rel="stylesheet" href="assets/css/portal.css">
