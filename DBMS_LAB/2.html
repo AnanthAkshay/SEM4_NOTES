@@ -46,173 +46,282 @@ pre{
   <link rel="stylesheet" href="../assets/css/portal.css">
 </head>
 <body class="portal-enhanced" data-subject-id="dbms-lab" data-subject-title="DBMS Lab" data-unit-number="2" data-portal-base="../">
+
 <div class="container">
 
 <h1 align="center">DATABASE MANAGEMENT SYSTEMS LAB</h1>
-<h2 align="center">Experiment 2</h2>
+<h2 align="center">Experiment 2 — Part, Supplier &amp; Shipment</h2>
 
-<h2>Aim</h2>
-<p>To design and implement Supplier, Part and Supply relations and perform SQL operations.</p>
+<hr>
 
-<h2>Problem Statement</h2>
-<p>Consider the relations PART, SUPPLIER and SUPPLY. The Supplier relation holds information about suppliers. The attributes SID, SNAME and SADDR describe the supplier. The Part relation holds PID, PNAME and PCOLOR. The Supply relation contains SID and PID identifying the supplier and supplied part respectively along with Quantity.</p>
+<h2>PART A — Relational Database (SQL)</h2>
 
-<h2>Constraints</h2>
+<h3>Aim</h3>
+<p>
+To design and implement Part, Supplier, and Shipment (Supply) relations, enforce integrity constraints, and execute SQL queries using Oracle SQL.
+</p>
+
+<h3>Problem Statement</h3>
+<p>
+Consider the relations: PART, SUPPLIER and SUPPLY. The Supplier relation holds information about suppliers. The attributes SID, SNAME, SADDR describe the supplier. The Part relation holds the attributes such as PID, PNAME and PCOLOR. The Shipment relation holds information about shipments that include SID and PID attributes identifying the supplier of the shipment and the part shipped, respectively. The Shipment relation should contain information on the number of parts shipped.
+</p>
+
+<h3>Constraints</h3>
 <ul>
-<li>SID is Primary Key of Supplier.</li>
-<li>PID is Primary Key of Part.</li>
-<li>(SID,PID) is Primary Key of Supply.</li>
-<li>SID in Supply references Supplier(SID).</li>
-<li>PID in Supply references Part(PID).</li>
-<li>Quantity must be greater than 0.</li>
-<li>A supplier can supply many parts.</li>
-<li>A part can be supplied by many suppliers.</li>
+<li>SID is the Primary Key of Supplier.</li>
+<li>PID is the Primary Key of Part.</li>
+<li>(SID, PID) is the composite Primary Key of Shipment.</li>
+<li>SID in Shipment references Supplier(SID).</li>
+<li>PID in Shipment references Part(PID).</li>
+<li>Shipment Quantity (Qty) must be positive (> 0).</li>
 </ul>
 
-<h2>ER Diagram</h2>
-
-<div style="
-    text-align:center;
-    margin-top:20px;
-    margin-bottom:20px;
-">
-
-    <img
-        src="image2.png"
-        alt="Supplier Part Supply ER Diagram"
-        style="
-            width:100%;
-            max-width:1200px;
-            border:1px solid #ccc;
-            border-radius:10px;
-            padding:10px;
-            background:white;
-            box-shadow:0 0 10px rgba(0,0,0,0.1);
-        "
-    >
-
+<h3>ER Diagram</h3>
+<div style="text-align:center; margin-top:20px; margin-bottom:20px;">
+    <img src="image2.png" alt="Supplier Part Supply ER Diagram" style="width:100%; max-width:1200px; border:1px solid #ccc; border-radius:10px; padding:10px; background:white; box-shadow:0 0 10px rgba(0,0,0,0.1);">
 </div>
 
-<h2>Schema Diagram</h2>
-
+<h3>Schema Diagram</h3>
 <pre>
-
-SUPPLIER
--------------------------
-SID        PK
-SNAME
-SADDR
-
-PART
--------------------------
-PID        PK
-PNAME
-PCOLOR
-
-SUPPLY
--------------------------
-SID        FK → SUPPLIER.SID
-PID        FK → PART.PID
-Quantity
-
-PRIMARY KEY (SID, PID)
-
+SUPPLIER ( SID [PK], SName, SAddr )
+PART ( PID [PK], PName, PColor )
+SHIPMENT ( SID [PK, FK], PID [PK, FK], Qty )
 </pre>
 
-<h2>Create Table Statements</h2>
+<h3>Create Table Statements</h3>
 <pre>
 CREATE TABLE Supplier(
-SID NUMBER PRIMARY KEY,
-SNAME VARCHAR2(30),
-SADDR VARCHAR2(50)
+    SID NUMBER PRIMARY KEY,
+    SName VARCHAR2(30) NOT NULL,
+    SAddr VARCHAR2(50)
 );
 
 CREATE TABLE Part(
-PID NUMBER PRIMARY KEY,
-PNAME VARCHAR2(30),
-PCOLOR VARCHAR2(20)
+    PID NUMBER PRIMARY KEY,
+    PName VARCHAR2(30) NOT NULL,
+    PColor VARCHAR2(20) NOT NULL
 );
 
-CREATE TABLE Supply(
-SID NUMBER,
-PID NUMBER,
-Quantity NUMBER,
-PRIMARY KEY(SID,PID),
-FOREIGN KEY(SID) REFERENCES Supplier(SID),
-FOREIGN KEY(PID) REFERENCES Part(PID)
+CREATE TABLE Shipment(
+    SID NUMBER REFERENCES Supplier(SID) ON DELETE CASCADE,
+    PID NUMBER REFERENCES Part(PID) ON DELETE CASCADE,
+    Qty NUMBER CHECK (Qty > 0),
+    PRIMARY KEY(SID, PID)
 );
 </pre>
 
-<h2>Insert Sample Data</h2>
+<h3>Insert Sample Data</h3>
 <pre>
-INSERT INTO Supplier VALUES(1,'ABC Suppliers','Bangalore');
-INSERT INTO Supplier VALUES(2,'XYZ Traders','Mysore');
-INSERT INTO Supplier VALUES(3,'PQR Industries','Hubli');
+INSERT INTO Supplier VALUES(1, 'Acme Corp', 'Bangalore');
+INSERT INTO Supplier VALUES(2, 'Global Parts', 'Mumbai');
+INSERT INTO Supplier VALUES(3, 'Titan Tools', 'Chennai');
 
-INSERT INTO Part VALUES(101,'Bolt','Red');
-INSERT INTO Part VALUES(102,'Nut','Blue');
-INSERT INTO Part VALUES(103,'Washer','Green');
-INSERT INTO Part VALUES(104,'Pipe','Red');
+INSERT INTO Part VALUES(101, 'Bolt', 'Red');
+INSERT INTO Part VALUES(102, 'Nut', 'Blue');
+INSERT INTO Part VALUES(103, 'Screw', 'Red');
+INSERT INTO Part VALUES(104, 'Washer', 'Green');
 
-INSERT INTO Supply VALUES(1,101,500);
-INSERT INTO Supply VALUES(1,102,300);
-INSERT INTO Supply VALUES(2,103,200);
-INSERT INTO Supply VALUES(2,104,150);
-INSERT INTO Supply VALUES(3,101,250);
+INSERT INTO Shipment VALUES(1, 101, 500);
+INSERT INTO Shipment VALUES(1, 102, 300);
+INSERT INTO Shipment VALUES(2, 102, 1000);
+INSERT INTO Shipment VALUES(3, 101, 200);
+INSERT INTO Shipment VALUES(3, 103, 400);
+COMMIT;
 </pre>
 
-<h2>Query 1</h2>
-<p><b>Obtain the details of parts supplied by supplier 'ABC Suppliers'</b></p>
+<h3>Query i</h3>
+<p><b>Obtain the details of parts supplied by supplier Acme Corp.</b></p>
 <pre>
-SELECT P.*
+SELECT P.PID, P.PName, P.PColor, S.Qty
 FROM Part P
-JOIN Supply S ON P.PID=S.PID
-JOIN Supplier SP ON SP.SID=S.SID
-WHERE SP.SNAME='ABC Suppliers';
+JOIN Shipment S ON P.PID = S.PID
+JOIN Supplier Sup ON S.SID = Sup.SID
+WHERE Sup.SName = 'Acme Corp';
 </pre>
 
-<h3>Output</h3>
+<h4>Output</h4>
 <table>
-<tr><th>PID</th><th>PNAME</th><th>PCOLOR</th></tr>
-<tr><td>101</td><td>Bolt</td><td>Red</td></tr>
-<tr><td>102</td><td>Nut</td><td>Blue</td></tr>
+<tr>
+<th>PID</th>
+<th>PName</th>
+<th>PColor</th>
+<th>Qty</th>
+</tr>
+<tr>
+<td>101</td>
+<td>Bolt</td>
+<td>Red</td>
+<td>500</td>
+</tr>
+<tr>
+<td>102</td>
+<td>Nut</td>
+<td>Blue</td>
+<td>300</td>
+</tr>
 </table>
 
-<h2>Query 2</h2>
-<p><b>Obtain names of suppliers who supply 'Bolt'</b></p>
+<h3>Query ii</h3>
+<p><b>Obtain the Names of suppliers who supply Bolt.</b></p>
 <pre>
-SELECT SP.SNAME
-FROM Supplier SP
-JOIN Supply S ON SP.SID=S.SID
-JOIN Part P ON P.PID=S.PID
-WHERE P.PNAME='Bolt';
+SELECT Sup.SName
+FROM Supplier Sup
+JOIN Shipment S ON Sup.SID = S.SID
+JOIN Part P ON S.PID = P.PID
+WHERE P.PName = 'Bolt';
 </pre>
 
-<h3>Output</h3>
+<h4>Output</h4>
 <table>
-<tr><th>SNAME</th></tr>
-<tr><td>ABC Suppliers</td></tr>
-<tr><td>PQR Industries</td></tr>
+<tr>
+<th>SName</th>
+</tr>
+<tr>
+<td>Acme Corp</td>
+</tr>
+<tr>
+<td>Titan Tools</td>
+</tr>
 </table>
 
-<h2>Query 3</h2>
-<p><b>Delete parts which are in color Red</b></p>
+<h3>Query iii</h3>
+<p><b>Delete the parts which are in Red color.</b></p>
 <pre>
+-- Delete RED parts (associated shipments will be deleted via ON DELETE CASCADE)
 DELETE FROM Part
-WHERE PCOLOR='Red';
+WHERE PColor = 'Red';
+
+-- Verify the deletion
+SELECT * FROM Part;
 </pre>
 
-<h3>Output After Deletion</h3>
+<h4>Output</h4>
 <table>
-<tr><th>PID</th><th>PNAME</th><th>PCOLOR</th></tr>
-<tr><td>102</td><td>Nut</td><td>Blue</td></tr>
-<tr><td>103</td><td>Washer</td><td>Green</td></tr>
+<tr>
+<th>PID</th>
+<th>PName</th>
+<th>PColor</th>
+</tr>
+<tr>
+<td>102</td>
+<td>Nut</td>
+<td>Blue</td>
+</tr>
+<tr>
+<td>104</td>
+<td>Washer</td>
+<td>Green</td>
+</tr>
 </table>
+
+<hr>
+
+<h2>PART B — NoSQL (MongoDB) &amp; Procedural SQL (PL/SQL)</h2>
+
+<h3>Aim</h3>
+<p>
+To manage Part and Supplier collections in MongoDB, perform updates/queries, and implement a PL/SQL program in Oracle to copy shipment rows to a backup table.
+</p>
+
+<h3>MongoDB Collections &amp; Document Insertion</h3>
+<pre>
+// Insert Part documents
+db.Part.insertMany([
+  { PID: "P1", PName: "Bolt", Price: 20 },
+  { PID: "P2", PName: "Nut", Price: 10 }
+]);
+
+// Insert Supplier documents
+db.Supplier.insertMany([
+  { SID: 1, SName: "ABC Suppliers", PID: "P1" },
+  { SID: 2, SName: "XYZ Suppliers", PID: "P1" },
+  { SID: 3, SName: "Global Parts", PID: "P2" }
+]);
+</pre>
+
+<h3>MongoDB Query i</h3>
+<p><b>Update the details of parts for a given part identifier: "P1".</b></p>
+<pre>
+db.Part.updateOne(
+  { PID: "P1" },
+  { $set: { Price: 25 } }
+);
+</pre>
+
+<h4>Expected Output</h4>
+<pre>
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+</pre>
+
+<h3>MongoDB Query ii</h3>
+<p><b>Display all suppliers who supply the part with part identifier: "P1".</b></p>
+<pre>
+db.Supplier.find(
+  { PID: "P1" },
+  { SName: 1, _id: 0 }
+);
+</pre>
+
+<h4>Expected Output</h4>
+<pre>
+[ { SName: 'ABC Suppliers' }, { SName: 'XYZ Suppliers' } ]
+</pre>
+
+<h3>PL/SQL Program</h3>
+<p><b>Write a PL/SQL program to copy the contents of the Shipment table to another table for maintaining records for specific part number.</b></p>
+<pre>
+-- Setup tables and insert shipment data
+CREATE TABLE Shipment (
+    SID NUMBER(5),
+    PID VARCHAR2(5),
+    Qty NUMBER(5)
+);
+
+CREATE TABLE Shipment_Backup (
+    SID NUMBER(5),
+    PID VARCHAR2(5),
+    Qty NUMBER(5)
+);
+
+INSERT INTO Shipment VALUES (101, 'P1', 50);
+INSERT INTO Shipment VALUES (102, 'P2', 40);
+INSERT INTO Shipment VALUES (103, 'P1', 30);
+INSERT INTO Shipment VALUES (104, 'P3', 20);
+COMMIT;
+
+-- Copy contents for part PID='P1'
+SET SERVEROUTPUT ON;
+BEGIN
+   INSERT INTO Shipment_Backup
+   SELECT *
+   FROM Shipment
+   WHERE PID = 'P1';
+
+   DBMS_OUTPUT.PUT_LINE('Records copied successfully');
+END;
+/
+</pre>
+
+<h4>Expected Output</h4>
+<pre>
+Records copied successfully
+</pre>
+
+<hr>
 
 <h2>Result</h2>
-<p>The Supplier-Part-Supply database was successfully designed and implemented. All required SQL queries executed successfully.</p>
+<p>
+The tables were created and queried in SQL, parts were updated and matched in MongoDB, and the PL/SQL program successfully copied records to the backup table.
+</p>
 
 </div>
+
   <script src="../assets/js/portal-core.js" defer></script>
   <script src="../assets/js/notes-enhancements.js" defer></script>
 </body>

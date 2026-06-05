@@ -1,59 +1,52 @@
 # EXPERIMENT NUMBER 1
 
 ## TITLE
-Employee – Department – Project Database
-
+Employee – Department – Project Database (Integrated SQL, MongoDB & PL/SQL)
 
 ---
-
 
 ## AIM
-To design, implement, and query an Employee-Department-Project database schema using Oracle SQL, including ER mapping, constraint enforcement, and multi-table joins.
-
+To design, implement, and query an Employee–Department–Project database schema using Oracle SQL (PART A) and MongoDB/PL/SQL (PART B), including ER mapping, constraint enforcement, document indexing, and PL/SQL procedural scripting.
 
 ---
-
 
 ## PROBLEM STATEMENT
-An organization needs a database to manage its workforce, departments, and projects. 
+An organization needs to manage its workforce, departments, and projects.
 * Each employee is uniquely identified by a Social Security Number (SSN) and has a Name, Address, Gender, and Salary.
-* A department has a unique Department Number (DNo), a name (DName), and is managed by an employee (Manager) with a specific manager start date. 
+* A department has a unique Department Number (DNo), a name (DName), and is managed by an employee (Manager) with a specific manager start date.
 * A project is identified by a unique Project Number (PNo) and has a Name, Location, Domain (e.g., Database, Cloud), and is controlled by a single department.
 * Employees can work on multiple projects, with a specific number of hours allocated for each. An employee may also have a supervisor (another employee).
-Develop a relational database system to represent this scenario and write Oracle SQL queries to perform operational queries.
-
+* Develop a database system to represent this scenario and perform the required operations in SQL, MongoDB, and PL/SQL.
 
 ---
-
 
 ## OBJECTIVES
-1. Learn relational database modeling and schema definition using SQL DDL commands.
-2. Implement primary keys, foreign keys, check constraints, and referential integrity.
-3. Master multi-table joins, aggregation (`GROUP BY`), and table updates.
-
+1. Learn relational database modeling, schema definition, and referential integrity using SQL DDL/DML.
+2. Master multi-table joins, aggregation (`GROUP BY`), and updates in SQL.
+3. Implement document-based collections in MongoDB and write find queries using variables.
+4. Implement procedural control flows and updates using PL/SQL anonymous blocks.
 
 ---
-
 
 ## THEORY
-### DBMS Concepts Involved
-A Relational Database Management System (RDBMS) stores data in tables (relations) consisting of rows (tuples) and columns (attributes). In this schema, we represent the standard employee-department-project architecture:
-* **Entities**: `EMPLOYEE` (strong entity), `DEPARTMENT` (strong entity), and `PROJECT` (strong entity).
+### Relational DBMS Concepts (SQL)
+A Relational Database Management System (RDBMS) stores data in tables (relations) consisting of rows (tuples) and columns (attributes).
+* **Entities**: `EMPLOYEE`, `DEPARTMENT`, and `PROJECT`.
 * **Relationships**:
-  * **Works_In** (Employee to Department): Many-to-One (N:1) relationship. An employee belongs to one department; a department contains many employees.
-  * **Manages** (Employee to Department): One-to-One (1:1) relationship. An employee manages at most one department.
-  * **Controls** (Department to Project): One-to-Many (1:N) relationship. A department controls multiple projects.
-  * **Works_On** (Employee to Project): Many-to-Many (M:N) relationship. An employee can work on multiple projects, and a project can have multiple employees. The attribute `Hours` belongs to this relationship.
-  * **Supervises** (Employee to Employee): Unary/Recursive One-to-Many (1:N) relationship. An employee can supervise multiple employees, but an employee has at most one supervisor.
+  * **Works_In** (Employee to Department): Many-to-One (N:1) relationship.
+  * **Controls** (Department to Project): One-to-Many (1:N) relationship.
+  * **Works_On** (Employee to Project): Many-to-Many (M:N) relationship.
 
-### Constraints
-1. **Entity Integrity**: Primary keys must be unique and non-null (e.g., `SSN` in `EMPLOYEE`, `DNo` in `DEPARTMENT`).
-2. **Referential Integrity**: Foreign keys must match a primary key in the referenced table or be null (e.g., `DNo` in `EMPLOYEE` referencing `DNo` in `DEPARTMENT`).
-3. **Domain Constraints**: Attribute values must lie within valid ranges (e.g., `Sex` must be 'M' or 'F', `Salary` must be positive).
+### Document-Oriented DBMS Concepts (MongoDB)
+MongoDB is a document-oriented NoSQL database. Data is stored as BSON (Binary JSON) documents inside collections.
+* **Schema Design**: Referencing by `Dept_No` to represent relationships, and querying using find with criteria.
+* **findOne**: Retrieves a matching document and stores it in a variable for query chaining.
 
+### Procedural SQL (PL/SQL)
+PL/SQL is Oracle's procedural extension to SQL. It allows executing procedural constructs (variables, conditionals, loops) alongside SQL DML.
+* **SQL%ROWCOUNT**: An implicit cursor attribute that returns the number of rows affected by the most recent SQL DML statement.
 
 ---
-
 
 ## ENTITY IDENTIFICATION
 | Entity Name | Attributes | Primary Key | Foreign Key(s) |
@@ -63,9 +56,7 @@ A Relational Database Management System (RDBMS) stores data in tables (relations
 | **PROJECT** | PNo, PName, PLocation, Domain, DNo | PNo | DNo (refs DEPARTMENT) |
 | **WORKS_ON** | SSN, PNo, Hours | (SSN, PNo) | SSN (refs EMPLOYEE), PNo (refs PROJECT) |
 
-
 ---
-
 
 ## CONSTRAINTS
 * **Domain Constraints**:
@@ -73,27 +64,20 @@ A Relational Database Management System (RDBMS) stores data in tables (relations
   * `Salary` in `EMPLOYEE`: `CHECK (Salary > 0)`
   * `Hours` in `WORKS_ON`: `CHECK (Hours > 0)`
 * **Participation Constraints**:
-  * Every department must have a manager (total participation).
-  * Every employee must belong to a department (total participation, modeled by `DNo NOT NULL`).
+  * Every employee must belong to a department (modeled by `DNo NOT NULL`).
 * **Cardinality Ratios**:
   * Employee to Department: N:1
-  * Employee to Employee (Supervisor): N:1
   * Department to Project: 1:N
   * Employee to Project: M:N
 
-
 ---
 
-
 ## ER DIAGRAM
-
-
-
 ### ER Diagram (Figure)
 ![ER Diagram](er_diagram.png)
 
-*Figure: Entity–Relationship diagram (Chen notation). PK = Primary Key, FK = Foreign Key.*
-*Figure: Entity–Relationship diagram (Chen notation). PK = Primary Key, FK = Foreign Key.*
+*Figure: Entity–Relationship diagram (Chen notation).*
+
 ### Mermaid Notation
 ```mermaid
 erDiagram
@@ -133,294 +117,237 @@ erDiagram
     PROJECT ||--|{ WORKS_ON : "includes"
 ```
 
-### ASCII Diagram
-```text
-  +------------------+                    +------------------+
-  |     EMPLOYEE     |1                  1|    DEPARTMENT    |
-  |------------------|------------------->|------------------|
-  | SSN (PK)         |   (Works_In)       | DNo (PK)         |
-  | Name, Address    |                    | DName            |
-  | Sex, Salary      |                    | MgrSSN (FK)      |
-  | SuperSSN (FK)    |                    | MgrStartDate     |
-  | DNo (FK)         |                    +------------------+
-  +------------------+                             |
-         | ^                                       |
-         | | (Supervises)                          |1
-         +-+                                       |
-          N                                        v N (Controls)
-  +------------------+                    +------------------+
-  |     WORKS_ON     |                    |     PROJECT      |
-  |------------------|                    |------------------|
-  | SSN (PK, FK)     |N                  1| PNo (PK)         |
-  | PNo (PK, FK)     |<-------------------| PName, PLocation |
-  | Hours            |    (Works_On)      | Domain           |
-  +------------------+                    | DNo (FK)         |
-                                          +------------------+
-```
-
-
 ---
 
-
 ## SCHEMA DIAGRAM
-
-
-
 ### Schema Diagram (Figure)
 ![Schema Diagram](schema_diagram.png)
 
-*Figure: Relational schema with referential links. Orange = PK, Blue = FK.*
-*Figure: Relational schema with referential links. Orange = PK, Blue = FK.*
-* **EMPLOYEE** ( [SSN] (PK), Name, Address, Sex, Salary, SuperSSN (FK), DNo (FK) )
-* **DEPARTMENT** ( [DNo] (PK), DName, MgrSSN (FK), MgrStartDate )
-* **PROJECT** ( [PNo] (PK), PName, PLocation, Domain, DNo (FK) )
-* **WORKS_ON** ( [SSN] (PK, FK), [PNo] (PK, FK), Hours )
-
+*Figure: Relational schema with referential links.*
 
 ---
 
+## PART A — SQL IMPLEMENTATION
 
-## RELATIONAL MODEL
-* The **EMPLOYEE** relation has `SSN` as the primary key. `DNo` is a foreign key referencing `DEPARTMENT(DNo)`, and `SuperSSN` is a self-referencing foreign key referencing `EMPLOYEE(SSN)`.
-* The **DEPARTMENT** relation has `DNo` as the primary key. `MgrSSN` is a foreign key referencing `EMPLOYEE(SSN)`.
-* The **PROJECT** relation has `PNo` as the primary key. `DNo` is a foreign key referencing `DEPARTMENT(DNo)`.
-* The **WORKS_ON** relation has a composite primary key `(SSN, PNo)`. `SSN` references `EMPLOYEE(SSN)` and `PNo` references `PROJECT(PNo)`.
-
-
----
-
-
-## SQL IMPLEMENTATION
+### DDL: Create Table Statements
 ```sql
--- Dropping existing tables to ensure clean execution
 DROP TABLE WORKS_ON CASCADE CONSTRAINTS;
 DROP TABLE PROJECT CASCADE CONSTRAINTS;
 DROP TABLE EMPLOYEE CASCADE CONSTRAINTS;
 DROP TABLE DEPARTMENT CASCADE CONSTRAINTS;
 
--- 1. Create Department table (without foreign key to Employee first)
-CREATE TABLE DEPARTMENT (
-    DNo INT PRIMARY KEY,
-    DName VARCHAR2(50) NOT NULL,
-    MgrSSN CHAR(9),
-    MgrStartDate DATE
+CREATE TABLE Department(
+    DeptNo NUMBER PRIMARY KEY,
+    DeptName VARCHAR2(30) NOT NULL
 );
 
--- 2. Create Employee table
-CREATE TABLE EMPLOYEE (
-    SSN CHAR(9) PRIMARY KEY,
-    Name VARCHAR2(50) NOT NULL,
-    Address VARCHAR2(100),
-    Sex CHAR(1) CHECK (Sex IN ('M', 'F')),
-    Salary NUMBER(10,2) CHECK (Salary > 0),
-    SuperSSN CHAR(9) REFERENCES EMPLOYEE(SSN),
-    DNo INT REFERENCES DEPARTMENT(DNo)
+CREATE TABLE Project(
+    ProjectNo NUMBER PRIMARY KEY,
+    ProjectName VARCHAR2(30) NOT NULL,
+    Domain VARCHAR2(30)
 );
 
--- 3. Add foreign key from Department to Employee (for MgrSSN)
-ALTER TABLE DEPARTMENT ADD CONSTRAINT fk_dept_mgr FOREIGN KEY (MgrSSN) REFERENCES EMPLOYEE(SSN);
-
--- 4. Create Project table
-CREATE TABLE PROJECT (
-    PNo INT PRIMARY KEY,
-    PName VARCHAR2(50) NOT NULL,
-    PLocation VARCHAR2(50),
-    Domain VARCHAR2(30),
-    DNo INT REFERENCES DEPARTMENT(DNo)
+CREATE TABLE Employee(
+    SSN NUMBER PRIMARY KEY,
+    EmpName VARCHAR2(30) NOT NULL,
+    Salary NUMBER CHECK (Salary > 0),
+    DeptNo NUMBER,
+    ProjectNo NUMBER,
+    FOREIGN KEY(DeptNo) REFERENCES Department(DeptNo),
+    FOREIGN KEY(ProjectNo) REFERENCES Project(ProjectNo)
 );
 
--- 5. Create Works_On table
-CREATE TABLE WORKS_ON (
-    SSN CHAR(9) REFERENCES EMPLOYEE(SSN) ON DELETE CASCADE,
-    PNo INT REFERENCES PROJECT(PNo) ON DELETE CASCADE,
-    Hours NUMBER(4,1) CHECK (Hours > 0),
-    PRIMARY KEY (SSN, PNo)
+CREATE TABLE Works_On(
+    SSN NUMBER,
+    ProjectNo NUMBER,
+    Hours NUMBER CHECK (Hours > 0),
+    PRIMARY KEY(SSN, ProjectNo),
+    FOREIGN KEY(SSN) REFERENCES Employee(SSN) ON DELETE CASCADE,
+    FOREIGN KEY(ProjectNo) REFERENCES Project(ProjectNo) ON DELETE CASCADE
 );
-
--- Inserting Data
--- Insert Departments first (temporarily leaving MgrSSN as NULL)
-INSERT INTO DEPARTMENT VALUES (1, 'Research', NULL, TO_DATE('2025-01-01', 'YYYY-MM-DD'));
-INSERT INTO DEPARTMENT VALUES (2, 'Administration', NULL, TO_DATE('2025-02-15', 'YYYY-MM-DD'));
-INSERT INTO DEPARTMENT VALUES (3, 'Development', NULL, TO_DATE('2025-03-20', 'YYYY-MM-DD'));
-
--- Insert Employees
--- Research Dept
-INSERT INTO EMPLOYEE VALUES ('101', 'Alice Johnson', '123 Pine St, Bangalore', 'F', 80000, NULL, 1);
-INSERT INTO EMPLOYEE VALUES ('102', 'Bob Smith', '456 Oak Rd, Bangalore', 'M', 75000, '101', 1);
-INSERT INTO EMPLOYEE VALUES ('103', 'Charlie Brown', '789 Maple Dr, Mumbai', 'M', 60000, '101', 1);
-
--- Admin Dept
-INSERT INTO EMPLOYEE VALUES ('201', 'Diana Prince', '101 Segway Ave, Chennai', 'F', 95000, NULL, 2);
-INSERT INTO EMPLOYEE VALUES ('202', 'Evan Wright', '202 Lincoln Rd, Chennai', 'M', 55000, '201', 2);
-
--- Dev Dept
-INSERT INTO EMPLOYEE VALUES ('301', 'Fiona Gallagher', '303 Sunset Blvd, Pune', 'F', 110000, NULL, 3);
-INSERT INTO EMPLOYEE VALUES ('302', 'George Miller', '404 Forest Ave, Pune', 'M', 90000, '301', 3);
-INSERT INTO EMPLOYEE VALUES ('303', 'Hannah Abbott', '505 Ridge Rd, Bangalore', 'F', 85000, '301', 3);
-INSERT INTO EMPLOYEE VALUES ('304', 'Ian Malcolm', '606 Chaos St, Pune', 'M', 45000, '302', 3);
-INSERT INTO EMPLOYEE VALUES ('305', 'Julia Roberts', '707 Hollywood Blvd, Bangalore', 'F', 98000, '301', 3);
-
--- Update Department Manager SSNs
-UPDATE DEPARTMENT SET MgrSSN = '101' WHERE DNo = 1;
-UPDATE DEPARTMENT SET MgrSSN = '201' WHERE DNo = 2;
-UPDATE DEPARTMENT SET MgrSSN = '301' WHERE DNo = 3;
-
--- Insert Projects
-INSERT INTO PROJECT VALUES (10, 'Database Migration', 'Bangalore', 'Database', 3);
-INSERT INTO PROJECT VALUES (11, 'Cloud Infrastructure', 'Pune', 'Cloud', 3);
-INSERT INTO PROJECT VALUES (12, 'Big Data Analysis', 'Bangalore', 'Database', 1);
-INSERT INTO PROJECT VALUES (13, 'HR Portal', 'Chennai', 'Web', 2);
-INSERT INTO PROJECT VALUES (14, 'AI Chatbot', 'Bangalore', 'AI', 3);
-
--- Insert Works_On relationships
-INSERT INTO WORKS_ON VALUES ('101', 12, 20.0);
-INSERT INTO WORKS_ON VALUES ('102', 12, 40.0);
-INSERT INTO WORKS_ON VALUES ('103', 12, 35.0);
-INSERT INTO WORKS_ON VALUES ('201', 13, 10.0);
-INSERT INTO WORKS_ON VALUES ('202', 13, 40.0);
-INSERT INTO WORKS_ON VALUES ('301', 10, 15.0);
-INSERT INTO WORKS_ON VALUES ('301', 11, 20.0);
-INSERT INTO WORKS_ON VALUES ('301', 14, 10.0);
-INSERT INTO WORKS_ON VALUES ('302', 10, 30.0);
-INSERT INTO WORKS_ON VALUES ('302', 11, 10.0);
-INSERT INTO WORKS_ON VALUES ('303', 10, 40.0);
-INSERT INTO WORKS_ON VALUES ('304', 14, 45.0);
-INSERT INTO WORKS_ON VALUES ('305', 10, 25.0);
 ```
 
-
----
-
-
-## QUERY IMPLEMENTATION
-
-### i. Obtain the details of employees assigned to “Database” project.
-#### SQL:
+### DML: Insert Sample Data
 ```sql
-SELECT DISTINCT E.SSN, E.Name, E.Address, E.Sex, E.Salary, E.DNo 
-FROM EMPLOYEE E
-JOIN WORKS_ON W ON E.SSN = W.SSN
-JOIN PROJECT P ON W.PNo = P.PNo
-WHERE P.Domain = 'Database' OR P.PName LIKE '%Database%';
+INSERT INTO Department VALUES(10, 'CSE');
+INSERT INTO Department VALUES(20, 'ISE');
+INSERT INTO Department VALUES(30, 'ECE');
+
+INSERT INTO Project VALUES(101, 'Library System', 'Database');
+INSERT INTO Project VALUES(102, 'AWS Portal', 'Cloud');
+INSERT INTO Project VALUES(103, 'ERP Software', 'Database');
+
+INSERT INTO Employee VALUES(1001, 'Ananth', 50000, 10, 101);
+INSERT INTO Employee VALUES(1002, 'Rahul', 55000, 10, 103);
+INSERT INTO Employee VALUES(1003, 'Sneha', 60000, 20, 102);
+INSERT INTO Employee VALUES(1004, 'Asha', 65000, 30, 101);
+
+INSERT INTO Works_On VALUES(1001, 101, 20);
+INSERT INTO Works_On VALUES(1002, 103, 40);
+INSERT INTO Works_On VALUES(1003, 102, 30);
+INSERT INTO Works_On VALUES(1004, 101, 25);
+COMMIT;
 ```
-#### Explanation:
-We join the `EMPLOYEE`, `WORKS_ON`, and `PROJECT` tables using the common keys `SSN` and `PNo`. Then, we apply a filter on the `Domain` or `PName` columns of the `PROJECT` table to match the string "Database".
-#### Expected Output:
-| SSN | Name | Address | Sex | Salary | DNo |
-|---|---|---|---|---|---|
-| 101 | Alice Johnson | 123 Pine St, Bangalore | F | 80000 | 1 |
-| 102 | Bob Smith | 456 Oak Rd, Bangalore | M | 75000 | 1 |
-| 103 | Charlie Brown | 789 Maple Dr, Mumbai | M | 60000 | 1 |
-| 301 | Fiona Gallagher | 303 Sunset Blvd, Pune | F | 110000 | 3 |
-| 302 | George Miller | 404 Forest Ave, Pune | M | 90000 | 3 |
-| 303 | Hannah Abbott | 505 Ridge Rd, Bangalore | F | 85000 | 3 |
-| 305 | Julia Roberts | 707 Hollywood Blvd, Bangalore | F | 98000 | 3 |
 
+### SQL Queries
 
----
-
-
-
-### ii. Find the number of employees working in each department with department details.
-#### SQL:
+#### i. Obtain the details of employees assigned to “Database” project.
 ```sql
-SELECT D.DNo, D.DName, COUNT(E.SSN) AS Number_of_Employees, AVG(E.Salary) AS Average_Salary
-FROM DEPARTMENT D
-LEFT JOIN EMPLOYEE E ON D.DNo = E.DNo
-GROUP BY D.DNo, D.DName
-ORDER BY D.DNo;
+SELECT E.SSN, E.EmpName, E.Salary, E.DeptNo, E.ProjectNo
+FROM Employee E
+JOIN Project P ON E.ProjectNo = P.ProjectNo
+WHERE P.Domain = 'Database';
 ```
-#### Explanation:
-We perform a `LEFT JOIN` between `DEPARTMENT` and `EMPLOYEE` on `DNo` so that even departments with no employees are included in the result. We use the `GROUP BY` clause on the department details and use `COUNT(E.SSN)` to calculate the size of the workforce.
-#### Expected Output:
-| DNo | DName | Number_of_Employees | Average_Salary |
-|---|---|---|---|
-| 1 | Research | 3 | 71666.67 |
-| 2 | Administration | 2 | 75000.00 |
-| 3 | Development | 5 | 85600.00 |
-
-
----
-
-
-
-### iii. Update the Project details of Employee bearing SSN = '304' to ProjectNo = 10 and display the same.
-#### SQL:
-```sql
--- Step 1: Update the record in WORKS_ON
-UPDATE WORKS_ON 
-SET PNo = 10 
-WHERE SSN = '304' AND PNo = 14;
-
--- Step 2: Select to display updated record
-SELECT E.SSN, E.Name, W.PNo, P.PName, W.Hours
-FROM EMPLOYEE E
-JOIN WORKS_ON W ON E.SSN = W.SSN
-JOIN PROJECT P ON W.PNo = P.PNo
-WHERE E.SSN = '304';
-```
-#### Explanation:
-The `UPDATE` statement targets the `WORKS_ON` table, changing the `PNo` value from its previous project (14) to 10 for the employee whose `SSN` is '304'. We join the tables back to display the changed project assignments.
-#### Expected Output:
-| SSN | Name | PNo | PName | Hours |
+*Expected Output:*
+| SSN | EmpName | Salary | DeptNo | ProjectNo |
 |---|---|---|---|---|
-| 304 | Ian Malcolm | 10 | Database Migration | 45 |
+| 1001 | Ananth | 50000 | 10 | 101 |
+| 1002 | Rahul | 55000 | 10 | 103 |
+| 1004 | Asha | 65000 | 30 | 101 |
 
+#### ii. Find the number of employees working in each department with department details.
+```sql
+SELECT D.DeptNo, D.DeptName, COUNT(E.SSN) AS Employee_Count
+FROM Department D
+LEFT JOIN Employee E ON D.DeptNo = E.DeptNo
+GROUP BY D.DeptNo, D.DeptName;
+```
+*Expected Output:*
+| DeptNo | DeptName | Employee_Count |
+|---|---|---|
+| 10 | CSE | 2 |
+| 20 | ISE | 1 |
+| 30 | ECE | 1 |
+
+#### iii. Update the Project details of Employee bearing SSN = 1001 to ProjectNo = 102 and display the same.
+```sql
+UPDATE Employee
+SET ProjectNo = 102
+WHERE SSN = 1001;
+
+SELECT * FROM Employee WHERE SSN = 1001;
+```
+*Expected Output:*
+| SSN | EmpName | Salary | DeptNo | ProjectNo |
+|---|---|---|---|---|
+| 1001 | Ananth | 50000 | 10 | 102 |
 
 ---
 
+## PART B — NOSQL & PROCEDURAL IMPLEMENTATION
+
+### MongoDB Implementation
+```javascript
+// Switch to Database
+use company_db;
+
+db.Employee.insertMany([
+  { Emp_ID: 101, Emp_Name: "Ravi", Dept_No: 10, Salary: 50000, Project_No: "P101" },
+  { Emp_ID: 102, Emp_Name: "Rani", Dept_No: 20, Salary: 60000, Project_No: "P102" },
+  { Emp_ID: 103, Emp_Name: "Kushal", Dept_No: 10, Salary: 55000, Project_No: "P101" }
+]);
+
+db.Department.insertMany([
+  { Dept_No: 10, Dept_Name: "HR" },
+  { Dept_No: 20, Dept_Name: "IT" }
+]);
+```
+
+#### Query i: List all the employees of Department named "HR".
+```javascript
+var dept = db.Department.findOne(
+   { Dept_Name: "HR" }
+);
+
+db.Employee.find(
+   { Dept_No: dept.Dept_No }
+);
+```
+*Expected Output:*
+```json
+[
+  {
+    "_id": ObjectId("6a20078bbc1cfd02008ce5af"),
+    "Emp_ID": 101,
+    "Emp_Name": "Ravi",
+    "Dept_No": 10,
+    "Salary": 50000,
+    "Project_No": "P101"
+  },
+  {
+    "_id": ObjectId("6a20078bbc1cfd02008ce5b1"),
+    "Emp_ID": 103,
+    "Emp_Name": "Kushal",
+    "Dept_No": 10,
+    "Salary": 55000,
+    "Project_No": "P101"
+  }
+]
+```
+
+#### Query ii: Name the employees working on Project Number: "P101".
+```javascript
+db.Employee.find(
+  { Project_No: "P101" },
+  { Emp_Name: 1, _id: 0 }
+);
+```
+*Expected Output:*
+```json
+[
+  { "Emp_Name": "Ravi" },
+  { "Emp_Name": "Kushal" }
+]
+```
+
+### PL/SQL Implementation
+```sql
+CREATE TABLE Employee (
+    Emp_ID NUMBER(5) PRIMARY KEY,
+    Emp_Name VARCHAR2(20),
+    Dept_No NUMBER(8),
+    Salary NUMBER(10)
+);
+
+INSERT INTO Employee VALUES (101, 'Ravi', 10, 50000);
+INSERT INTO Employee VALUES (102, 'Anu', 20, 60000);
+INSERT INTO Employee VALUES (103, 'Kiran', 10, 55000);
+INSERT INTO Employee VALUES (104, 'Priya', 30, 45000);
+COMMIT;
+
+SET SERVEROUTPUT ON;
+DECLARE
+   v_count NUMBER;
+BEGIN
+   UPDATE Employee
+   SET Salary = Salary * 1.15
+   WHERE Dept_No = 10;
+
+   v_count := SQL%ROWCOUNT;
+   DBMS_OUTPUT.PUT_LINE(v_count || ' employees awarded 15% increase');
+END;
+/
+```
+*Expected Output:*
+```text
+2 employees awarded 15% increase
+```
+
+---
 
 ## VIVA QUESTIONS & ANSWERS
-1. **Q:** What is the difference between a primary key and a unique key?
-   * **A:** A table can have only one Primary Key, which cannot accept NULL values. It can have multiple Unique Keys, which can accept NULL values.
-2. **Q:** What is a foreign key?
-   * **A:** A foreign key is a column or set of columns in one table that references the primary key of another table to maintain referential integrity.
-3. **Q:** What is the recursive relationship in the Employee table?
-   * **A:** The supervisor-supervisee relationship, modeled by `SuperSSN` referencing `SSN` in the same table.
-4. **Q:** What does `ON DELETE CASCADE` do?
-   * **A:** When a referenced row in the parent table is deleted, all matching rows in the child table are automatically deleted.
-5. **Q:** Why did we add the MgrSSN constraint using `ALTER TABLE` instead of directly in `CREATE TABLE`?
-   * **A:** To avoid a circular dependency deadlock, as `EMPLOYEE` references `DEPARTMENT` and `DEPARTMENT` references `EMPLOYEE`.
-6. **Q:** What is a composite primary key?
-   * **A:** A primary key consisting of more than one column (e.g., `(SSN, PNo)` in `WORKS_ON`).
-7. **Q:** What is the difference between `CHAR` and `VARCHAR2`?
-   * **A:** `CHAR` is fixed-length, padding empty spaces, while `VARCHAR2` is variable-length and space-efficient.
-8. **Q:** What are aggregate functions?
-   * **A:** Functions like `COUNT`, `SUM`, `AVG`, `MIN`, and `MAX` that operate on a set of values to return a single summary value.
-9. **Q:** When do we use the `HAVING` clause?
-   * **A:** To filter groups created by the `GROUP BY` clause. It cannot be used without `GROUP BY` (conceptually).
-10. **Q:** What is the default join type in SQL?
-    * **A:** An `INNER JOIN`.
-11. **Q:** What is the purpose of the `CHECK` constraint?
-    * **A:** To restrict the range of values that can be placed in a column (e.g., checking `Sex` or `Salary`).
-12. **Q:** What is a schema?
-    * **A:** A logical description of the database structure, tables, columns, data types, and constraints.
-13. **Q:** What is a candidate key?
-    * **A:** A column or group of columns that can uniquely identify a row in a table. The primary key is chosen from the candidate keys.
-14. **Q:** What does `SELECT DISTINCT` do?
-    * **A:** It removes duplicate rows from the query result set.
-15. **Q:** What is referential integrity?
-    * **A:** A rule stating that every foreign key value must either point to a valid primary key value or be NULL.
-
+1. **Q: What is a schema?**
+   * *A:* A schema is the logical description of a database structure, including its tables, columns, constraints, and data types.
+2. **Q: What is the purpose of `findOne` in MongoDB?**
+   * *A:* It returns the first document matching the query criteria, which can be stored in a variable for query chaining.
+3. **Q: What is `SQL%ROWCOUNT`?**
+   * *A:* It is a PL/SQL cursor attribute that returns the number of rows affected by the most recent SQL DML statement.
+4. **Q: What are integrity constraints?**
+   * *A:* Integrity constraints ensure accuracy and consistency of data (e.g. Primary Key, Foreign Key, Check constraints).
+5. **Q: How does NoSQL differ from Relational databases?**
+   * *A:* Relational databases use schemas and tables, whereas NoSQL (like MongoDB) uses flexible schema-less documents.
 
 ---
-
-
-## LAB EXAM QUESTIONS
-1. Write a query to find the names of employees who do not manage any department.
-2. List the names of all employees who have no supervisor.
-3. Write a query to display the manager name and department name for all departments.
-4. Retrieve the project names controlled by the 'Development' department.
-5. List the employees working more than 30 hours on any project.
-6. Display the department details with the maximum average salary.
-7. Retrieve employees whose names start with 'A'.
-8. Find the total hours spent on all projects controlled by department 3.
-9. Write a query to display employee details who work on more than two projects.
-10. Delete the project 'AI Chatbot' and verify the changes in the `WORKS_ON` table.
-
-
----
-
 
 ## RESULT
-The Employee-Department-Project database was successfully designed, implemented with all integrity constraints, populated with data, and verified by running the multi-table join and update queries.
+The Employee–Department–Project database was successfully designed and implemented in Oracle SQL and MongoDB, and the PL/SQL salary update logic was successfully completed.

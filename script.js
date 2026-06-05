@@ -6,6 +6,51 @@ const STORAGE_KEY = "sem4_portal_progress";
 
 const SUBJECTS = [
   {
+    id: "dbms-lab",
+    shortName: "DBMS Lab",
+    units: 5,
+    title: "Database Management Systems Lab",
+    icon: "fa-server",
+    category: "lab",
+    badge: "Lab",
+    url: "DBMS_Lab_Book.html",
+    credits: 1,
+    keywords: ["dbms lab", "24isl47", "isl47", "mongodb", "plsql"],
+    description: "Oracle SQL, MongoDB, and PL/SQL integrated database experiments.",
+    examDate: "08 Jun 2026",
+    examDay: "Monday",
+  },
+  {
+    id: "java-lab",
+    shortName: "Java Lab",
+    units: 12,
+    title: "Advanced Java Lab",
+    icon: "fa-code",
+    category: "lab",
+    badge: "Lab",
+    url: "Java_Advanced_Lab_Book.html",
+    credits: 1,
+    keywords: ["java lab", "swing", "collections", "threads", "oop"],
+    description: "Complex numbers, bank, payroll, queue, and Swing UI experiments.",
+    examDate: "10 Jun 2026",
+    examDay: "Wednesday",
+  },
+  {
+    id: "daa-lab",
+    shortName: "DAA Lab",
+    units: 12,
+    title: "Design and Analysis of Algorithms Lab",
+    icon: "fa-flask",
+    category: "lab",
+    badge: "Lab",
+    url: "DAA_Lab_Book.html",
+    credits: 1,
+    keywords: ["daa lab", "isl", "c", "python", "performance"],
+    description: "12 lab experiments with code and performance plots.",
+    examDate: "12 Jun 2026",
+    examDay: "Friday",
+  },
+  {
     id: "maths",
     shortName: "Maths",
     units: 5,
@@ -51,21 +96,6 @@ const SUBJECTS = [
     examDay: "Tuesday",
   },
   {
-    id: "daa-lab",
-    shortName: "DAA Lab",
-    units: 12,
-    title: "Design and Analysis of Algorithms Lab",
-    icon: "fa-flask",
-    category: "lab",
-    badge: "Lab",
-    url: "DAA_Lab_Book.html",
-    credits: 1,
-    keywords: ["daa lab", "isl", "c", "python", "performance"],
-    description: "12 lab experiments with code and performance plots.",
-    examDate: "12 Jun 2026",
-    examDay: "Friday",
-  },
-  {
     id: "dbms",
     shortName: "DBMS",
     units: 5,
@@ -81,21 +111,6 @@ const SUBJECTS = [
     examDay: "Thursday",
   },
   {
-    id: "dbms-lab",
-    shortName: "DBMS Lab",
-    units: 12,
-    title: "Database Management Systems Lab",
-    icon: "fa-server",
-    category: "lab",
-    badge: "Lab",
-    url: "DBMS_Lab_Book.html",
-    credits: 1,
-    keywords: ["dbms lab", "isl47", "mongodb", "plsql", "trigger"],
-    description: "SQL, MongoDB, PL/SQL, triggers, and cursors.",
-    examDate: "08 Jun 2026",
-    examDay: "Monday",
-  },
-  {
     id: "java",
     shortName: "Java",
     units: 5,
@@ -109,21 +124,6 @@ const SUBJECTS = [
     description: "Collections, Swing, JDBC, and servlet fundamentals.",
     examDate: "29 Jun 2026",
     examDay: "Monday",
-  },
-  {
-    id: "java-lab",
-    shortName: "Java Lab",
-    units: 11,
-    title: "Advanced Java Lab",
-    icon: "fa-code",
-    category: "lab",
-    badge: "Lab",
-    url: "Java_Advanced_Lab_Book.html",
-    credits: 1,
-    keywords: ["java lab", "jsp", "jdbc", "swing", "oop"],
-    description: "Payroll, queues, JDBC, JSP, and UI experiments.",
-    examDate: "10 Jun 2026",
-    examDay: "Wednesday",
   },
   {
     id: "r",
@@ -436,28 +436,6 @@ function renderRecent() {
     .join("");
 }
 
-function setupHomeTheme() {
-  const nav = document.getElementById("navMenu");
-  if (!nav || document.getElementById("homeThemeToggle")) return;
-  const li = document.createElement("li");
-  li.innerHTML =
-    '<button type="button" class="nav-link" id="homeThemeToggle" style="border:none;background:transparent;cursor:pointer;font:inherit;">🌓 Theme</button>';
-  nav.appendChild(li);
-  document.getElementById("homeThemeToggle")?.addEventListener("click", () => {
-    const isLight = document.documentElement.getAttribute("data-theme") === "light";
-    if (isLight) {
-      document.documentElement.removeAttribute("data-theme");
-      localStorage.setItem("sem4_theme", "dark");
-    } else {
-      document.documentElement.setAttribute("data-theme", "light");
-      localStorage.setItem("sem4_theme", "light");
-    }
-  });
-  if (localStorage.getItem("sem4_theme") === "light") {
-    document.documentElement.setAttribute("data-theme", "light");
-  }
-}
-
 function init() {
   initProgressRing();
   renderCards();
@@ -468,7 +446,6 @@ function init() {
   setupNav();
   setupReset();
   setupTimetables();
-  setupHomeTheme();
 }
 
 document.addEventListener("DOMContentLoaded", init);

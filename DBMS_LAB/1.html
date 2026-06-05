@@ -41,11 +41,6 @@ pre{
     border-left:5px solid #003366;
     overflow:auto;
 }
-svg{
-    width:100%;
-    border:1px solid #ccc;
-    margin-top:15px;
-}
 </style>
   <link rel="stylesheet" href="../assets/css/variables.css">
   <link rel="stylesheet" href="../assets/css/portal.css">
@@ -55,159 +50,110 @@ svg{
 <div class="container">
 
 <h1 align="center">DATABASE MANAGEMENT SYSTEMS LAB</h1>
-<h2 align="center">Experiment 1</h2>
+<h2 align="center">Experiment 1 — Employee, Department & Project</h2>
 
-<h2>Aim</h2>
+<hr>
 
+<h2>PART A — Relational Database (SQL)</h2>
+
+<h3>Aim</h3>
 <p>
-To design an Employee–Department–Project database, create tables,
-insert data and perform SQL operations using Oracle SQL.
+To design an Employee–Department–Project database, enforce constraints, create tables, insert sample data, and execute SQL queries.
 </p>
 
-<h2>Problem Statement</h2>
-
+<h3>Problem Statement</h3>
 <p>
-Consider an Employee with a social security number (SSN) working on multiple projects
-with definite hours for each. Each Employee belongs to a Department.
-Each project is associated with some domain areas such as Database,
-Cloud and so on. Each Employee will be assigned to some project.
+Consider an Employee with a social security number (SSN) working on multiple projects with definite hours for each. Each Employee belongs to a Department. Each project is associated with some domain areas such as Database, Cloud and so on. Each Employee will be assigned to some project. Assume the attributes for Employee and Project relations.
 </p>
 
-<h2>Constraints</h2>
-
+<h3>Constraints</h3>
 <ul>
-<li>SSN is Primary Key of Employee.</li>
-<li>DeptNo is Primary Key of Department.</li>
-<li>ProjectNo is Primary Key of Project.</li>
-<li>Each Employee belongs to one Department.</li>
-<li>Each Employee works on one or more Projects.</li>
-<li>Hours worked must be greater than 0.</li>
-<li>DeptNo and ProjectNo are Foreign Keys.</li>
+<li>SSN is the Primary Key of Employee.</li>
+<li>DeptNo is the Primary Key of Department.</li>
+<li>ProjectNo is the Primary Key of Project.</li>
+<li>Each Employee belongs to one Department (represented by DeptNo as Foreign Key referencing Department).</li>
+<li>Each Employee works on a Project (represented by ProjectNo as Foreign Key referencing Project).</li>
+<li>Hours worked by an employee on a project must be positive (> 0).</li>
 </ul>
 
-<h2>ER Diagram</h2>
-
-<div style="
-    text-align:center;
-    margin-top:20px;
-    margin-bottom:20px;
-">
-
-    <img
-        src="image1.png"
-        alt="Employee Department Project ER Diagram"
-        style="
-            width:100%;
-            max-width:1200px;
-            border:1px solid #ccc;
-            border-radius:10px;
-            padding:10px;
-            background:white;
-            box-shadow:0 0 10px rgba(0,0,0,0.1);
-        "
-    >
-
+<h3>ER Diagram</h3>
+<div style="text-align:center; margin-top:20px; margin-bottom:20px;">
+    <img src="image1.png" alt="Employee Department Project ER Diagram" style="width:100%; max-width:1200px; border:1px solid #ccc; border-radius:10px; padding:10px; background:white; box-shadow:0 0 10px rgba(0,0,0,0.1);">
 </div>
-<h2>Schema Diagram</h2>
 
+<h3>Schema Diagram</h3>
 <pre>
-
-DEPARTMENT
---------------------
-DeptNo (PK)
-DeptName
-
-PROJECT
---------------------
-ProjectNo (PK)
-ProjectName
-Domain
-
-EMPLOYEE
---------------------
-SSN (PK)
-EmpName
-Salary
-DeptNo (FK)
-ProjectNo (FK)
-
-WORKS_ON
---------------------
-SSN (FK)
-ProjectNo (FK)
-Hours
-
+DEPARTMENT ( DeptNo [PK], DeptName )
+PROJECT ( ProjectNo [PK], ProjectName, Domain )
+EMPLOYEE ( SSN [PK], EmpName, Salary, DeptNo [FK], ProjectNo [FK] )
+WORKS_ON ( SSN [PK, FK], ProjectNo [PK, FK], Hours )
 </pre>
 
-<h2>Create Table Statements</h2>
-
+<h3>Create Table Statements</h3>
 <pre>
 CREATE TABLE Department(
-DeptNo NUMBER PRIMARY KEY,
-DeptName VARCHAR2(30)
+    DeptNo NUMBER PRIMARY KEY,
+    DeptName VARCHAR2(30) NOT NULL
 );
 
 CREATE TABLE Project(
-ProjectNo NUMBER PRIMARY KEY,
-ProjectName VARCHAR2(30),
-Domain VARCHAR2(30)
+    ProjectNo NUMBER PRIMARY KEY,
+    ProjectName VARCHAR2(30) NOT NULL,
+    Domain VARCHAR2(30)
 );
 
 CREATE TABLE Employee(
-SSN NUMBER PRIMARY KEY,
-EmpName VARCHAR2(30),
-Salary NUMBER,
-DeptNo NUMBER,
-ProjectNo NUMBER,
-FOREIGN KEY(DeptNo)
-REFERENCES Department(DeptNo),
-FOREIGN KEY(ProjectNo)
-REFERENCES Project(ProjectNo)
+    SSN NUMBER PRIMARY KEY,
+    EmpName VARCHAR2(30) NOT NULL,
+    Salary NUMBER CHECK (Salary > 0),
+    DeptNo NUMBER,
+    ProjectNo NUMBER,
+    FOREIGN KEY(DeptNo) REFERENCES Department(DeptNo),
+    FOREIGN KEY(ProjectNo) REFERENCES Project(ProjectNo)
 );
 
 CREATE TABLE Works_On(
-SSN NUMBER,
-ProjectNo NUMBER,
-Hours NUMBER,
-PRIMARY KEY(SSN,ProjectNo),
-FOREIGN KEY(SSN)
-REFERENCES Employee(SSN),
-FOREIGN KEY(ProjectNo)
-REFERENCES Project(ProjectNo)
+    SSN NUMBER,
+    ProjectNo NUMBER,
+    Hours NUMBER CHECK (Hours > 0),
+    PRIMARY KEY(SSN, ProjectNo),
+    FOREIGN KEY(SSN) REFERENCES Employee(SSN) ON DELETE CASCADE,
+    FOREIGN KEY(ProjectNo) REFERENCES Project(ProjectNo) ON DELETE CASCADE
 );
 </pre>
 
-<h2>Insert Sample Data</h2>
-
+<h3>Insert Sample Data</h3>
 <pre>
-INSERT INTO Department VALUES(10,'CSE');
-INSERT INTO Department VALUES(20,'ISE');
-INSERT INTO Department VALUES(30,'ECE');
+INSERT INTO Department VALUES(10, 'CSE');
+INSERT INTO Department VALUES(20, 'ISE');
+INSERT INTO Department VALUES(30, 'ECE');
 
-INSERT INTO Project VALUES(101,'Library','Database');
-INSERT INTO Project VALUES(102,'AWS Portal','Cloud');
-INSERT INTO Project VALUES(103,'ERP','Database');
+INSERT INTO Project VALUES(101, 'Library System', 'Database');
+INSERT INTO Project VALUES(102, 'AWS Portal', 'Cloud');
+INSERT INTO Project VALUES(103, 'ERP Software', 'Database');
 
-INSERT INTO Employee VALUES(1001,'Ananth',50000,10,101);
-INSERT INTO Employee VALUES(1002,'Rahul',55000,10,103);
-INSERT INTO Employee VALUES(1003,'Sneha',60000,20,102);
-INSERT INTO Employee VALUES(1004,'Asha',65000,30,101);
+INSERT INTO Employee VALUES(1001, 'Ananth', 50000, 10, 101);
+INSERT INTO Employee VALUES(1002, 'Rahul', 55000, 10, 103);
+INSERT INTO Employee VALUES(1003, 'Sneha', 60000, 20, 102);
+INSERT INTO Employee VALUES(1004, 'Asha', 65000, 30, 101);
+
+INSERT INTO Works_On VALUES(1001, 101, 20);
+INSERT INTO Works_On VALUES(1002, 103, 40);
+INSERT INTO Works_On VALUES(1003, 102, 30);
+INSERT INTO Works_On VALUES(1004, 101, 25);
+COMMIT;
 </pre>
 
-<h2>Query 1</h2>
-
-<p><b>Obtain details of employees assigned to Database project</b></p>
-
+<h3>Query i</h3>
+<p><b>Obtain the details of employees assigned to “Database” project.</b></p>
 <pre>
-SELECT E.*
+SELECT E.SSN, E.EmpName, E.Salary, E.DeptNo, E.ProjectNo
 FROM Employee E
-JOIN Project P
-ON E.ProjectNo=P.ProjectNo
-WHERE P.Domain='Database';
+JOIN Project P ON E.ProjectNo = P.ProjectNo
+WHERE P.Domain = 'Database';
 </pre>
 
-<h3>Output</h3>
-
+<h4>Output</h4>
 <table>
 <tr>
 <th>SSN</th>
@@ -216,7 +162,6 @@ WHERE P.Domain='Database';
 <th>DeptNo</th>
 <th>ProjectNo</th>
 </tr>
-
 <tr>
 <td>1001</td>
 <td>Ananth</td>
@@ -224,7 +169,6 @@ WHERE P.Domain='Database';
 <td>10</td>
 <td>101</td>
 </tr>
-
 <tr>
 <td>1002</td>
 <td>Rahul</td>
@@ -232,7 +176,6 @@ WHERE P.Domain='Database';
 <td>10</td>
 <td>103</td>
 </tr>
-
 <tr>
 <td>1004</td>
 <td>Asha</td>
@@ -242,41 +185,32 @@ WHERE P.Domain='Database';
 </tr>
 </table>
 
-<h2>Query 2</h2>
-
-<p><b>Number of Employees in each Department</b></p>
-
+<h3>Query ii</h3>
+<p><b>Find the number of employees working in each department with department details.</b></p>
 <pre>
-SELECT D.DeptNo,
-D.DeptName,
-COUNT(*) AS Employee_Count
-FROM Employee E
-JOIN Department D
-ON E.DeptNo=D.DeptNo
-GROUP BY D.DeptNo,D.DeptName;
+SELECT D.DeptNo, D.DeptName, COUNT(E.SSN) AS Employee_Count
+FROM Department D
+LEFT JOIN Employee E ON D.DeptNo = E.DeptNo
+GROUP BY D.DeptNo, D.DeptName;
 </pre>
 
-<h3>Output</h3>
-
+<h4>Output</h4>
 <table>
 <tr>
 <th>DeptNo</th>
 <th>DeptName</th>
 <th>Employee Count</th>
 </tr>
-
 <tr>
 <td>10</td>
 <td>CSE</td>
 <td>2</td>
 </tr>
-
 <tr>
 <td>20</td>
 <td>ISE</td>
 <td>1</td>
 </tr>
-
 <tr>
 <td>30</td>
 <td>ECE</td>
@@ -284,22 +218,21 @@ GROUP BY D.DeptNo,D.DeptName;
 </tr>
 </table>
 
-<h2>Query 3</h2>
-
-<p><b>Update Project Details</b></p>
-
+<h3>Query iii</h3>
+<p><b>Update the Project details of Employee bearing SSN = 1001 to ProjectNo = 102 and display the same.</b></p>
 <pre>
+-- Update employee project assignment
 UPDATE Employee
-SET ProjectNo=102
-WHERE SSN=1001;
+SET ProjectNo = 102
+WHERE SSN = 1001;
 
+-- Display updated record
 SELECT *
 FROM Employee
-WHERE SSN=1001;
+WHERE SSN = 1001;
 </pre>
 
-<h3>Output</h3>
-
+<h4>Output</h4>
 <table>
 <tr>
 <th>SSN</th>
@@ -308,7 +241,6 @@ WHERE SSN=1001;
 <th>DeptNo</th>
 <th>ProjectNo</th>
 </tr>
-
 <tr>
 <td>1001</td>
 <td>Ananth</td>
@@ -318,12 +250,124 @@ WHERE SSN=1001;
 </tr>
 </table>
 
-<h2>Result</h2>
+<hr>
 
+<h2>PART B — NoSQL (MongoDB) &amp; Procedural SQL (PL/SQL)</h2>
+
+<h3>Aim</h3>
 <p>
-The Employee–Department–Project database was successfully designed,
-implemented and queried using Oracle SQL. All required operations
-were executed successfully and expected results were obtained.
+To perform MongoDB operations on Employee and Department collections, and implement salary adjustment logic using a PL/SQL block in Oracle.
+</p>
+
+<h3>MongoDB Collections &amp; Document Insertion</h3>
+<pre>
+// Insert Employee documents
+db.Employee.insertMany([
+  { Emp_ID: 101, Emp_Name: "Ravi", Dept_No: 10, Salary: 50000, Project_No: "P101" },
+  { Emp_ID: 102, Emp_Name: "Rani", Dept_No: 20, Salary: 60000, Project_No: "P102" },
+  { Emp_ID: 103, Emp_Name: "Kushal", Dept_No: 10, Salary: 55000, Project_No: "P101" }
+]);
+
+// Insert Department documents
+db.Department.insertMany([
+  { Dept_No: 10, Dept_Name: "HR" },
+  { Dept_No: 20, Dept_Name: "IT" }
+]);
+</pre>
+
+<h3>MongoDB Query i</h3>
+<p><b>List all the employees of Department named "HR".</b></p>
+<pre>
+var dept = db.Department.findOne(
+  { Dept_Name: "HR" }
+);
+
+db.Employee.find(
+  { Dept_No: dept.Dept_No }
+);
+</pre>
+
+<h4>Expected Output</h4>
+<pre>
+[
+  {
+    _id: ObjectId("6a20078bbc1cfd02008ce5af"),
+    Emp_ID: 101,
+    Emp_Name: 'Ravi',
+    Dept_No: 10,
+    Salary: 50000,
+    Project_No: 'P101'
+  },
+  {
+    _id: ObjectId("6a20078bbc1cfd02008ce5b1"),
+    Emp_ID: 103,
+    Emp_Name: 'Kushal',
+    Dept_No: 10,
+    Salary: 55000,
+    Project_No: 'P101'
+  }
+]
+</pre>
+
+<h3>MongoDB Query ii</h3>
+<p><b>Name the employees working on Project Number: "P101".</b></p>
+<pre>
+db.Employee.find(
+  { Project_No: "P101" },
+  { Emp_Name: 1, _id: 0 }
+);
+</pre>
+
+<h4>Expected Output</h4>
+<pre>
+[
+  { "Emp_Name": "Ravi" },
+  { "Emp_Name": "Kushal" }
+]
+</pre>
+
+<h3>PL/SQL Program</h3>
+<p><b>Write a PL/SQL program that gives all employees in Department 10 a 15% pay increase. Display a message displaying how many employees were awarded the increase.</b></p>
+<pre>
+-- Setup Employee table for PL/SQL execution
+CREATE TABLE Employee (
+    Emp_ID NUMBER(5) PRIMARY KEY,
+    Emp_Name VARCHAR2(20),
+    Dept_No NUMBER(8),
+    Salary NUMBER(10)
+);
+
+INSERT INTO Employee VALUES (101, 'Ravi', 10, 50000);
+INSERT INTO Employee VALUES (102, 'Anu', 20, 60000);
+INSERT INTO Employee VALUES (103, 'Kiran', 10, 55000);
+INSERT INTO Employee VALUES (104, 'Priya', 30, 45000);
+COMMIT;
+
+-- PL/SQL block to update salary
+SET SERVEROUTPUT ON;
+DECLARE
+   v_count NUMBER;
+BEGIN
+   UPDATE Employee
+   SET Salary = Salary * 1.15
+   WHERE Dept_No = 10;
+
+   v_count := SQL%ROWCOUNT;
+   DBMS_OUTPUT.PUT_LINE(v_count || ' employees awarded 15% increase');
+END;
+/
+</pre>
+
+<h4>Expected Output</h4>
+<pre>
+2 employees awarded 15% increase
+</pre>
+
+<hr>
+
+<h2>Result</h2>
+<p>
+The database operations in Oracle SQL, MongoDB, and PL/SQL salary updates were successfully executed and verified with expected outputs.
 </p>
 
 </div>

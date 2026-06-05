@@ -1,384 +1,293 @@
 # EXPERIMENT NUMBER 3
 
 ## TITLE
-Boat – Sailor – Reserves Database
-
+Boat, Sailor &amp; Reserves Database (Integrated SQL, MongoDB &amp; PL/SQL)
 
 ---
-
 
 ## AIM
-To design, implement, and query a Boat-Sailor-Reserves schema using Oracle SQL, and perform relational division queries, reserves calculations, and group aggregations.
-
+To design, implement, and query a Boat, Sailor, and Reserves database schema using Oracle SQL (PART A) and MongoDB/PL/SQL (PART B), including reservation matching, aggregate counts, and table count scripting in PL/SQL.
 
 ---
-
 
 ## PROBLEM STATEMENT
-A yacht club needs a database to keep track of its operations:
-* Each sailor has a unique Sailor ID (SID), Name (SName), Rating (an integer representing skill), and Age.
-* Each boat is identified by a unique Boat ID (BID), Boat Name (BName), and Color.
-* The reservation system (Reserves) logs reservations by recording which sailor (SID) reserved which boat (BID) on which Day (Date).
-Establish a relational database, apply constraints, and write SQL queries to:
-i. Obtain the details of boats reserved by a specific sailor #Sailor_Name.
-ii. Retrieve the BID of boats that have been reserved by ALL sailors (Relational Division).
-iii. Find the total number of boats reserved by each sailor, displaying the sailor's name with their reservation count.
-
+Consider the relations BOAT, SAILOR and RESERVES. The relation BOAT identifies the features of a boat such as unique identifier, color and a name. The list of sailors with attributes such as SailorID, name, age etc., are stored in the relation SAILOR. The sailors are allowed to reserve any number of boats on any day of the week and the records are to be updated in the RESERVES table.
+Perform the required SQL, NoSQL, and PL/SQL operations.
 
 ---
-
 
 ## OBJECTIVES
-1. Implement M:N relationships containing composite primary keys and date columns.
-2. Master the concept of **Relational Division** in SQL using double `NOT EXISTS` or `MINUS` set operations.
-3. Use aggregation (`GROUP BY` and `COUNT`) with `LEFT JOIN` to avoid omitting sailors with zero reservations.
-
+1. Enforce composite key constraints, domain constraints, and check conditions in Oracle SQL.
+2. Master SQL aggregate queries (`COUNT`), grouping (`GROUP BY`), division concepts (all-referencing joins), and filtering.
+3. Design Sailor, Boat, and Reserve collections in MongoDB, count reservations using references, and match by color.
+4. Implement procedural counting logics in PL/SQL.
 
 ---
-
 
 ## THEORY
-### DBMS Concepts Involved
-This schema manages yacht rental activities.
-* **Entities**:
-  * `SAILOR`: Strong entity storing member information (rating, age).
-  * `BOAT`: Strong entity storing fleet data.
-* **Relationships**:
-  * `RESERVES`: Many-to-Many mapping table recording date-stamped boat rentals.
+### Relational Division (SQL)
+Query ii ("boats reserved by *all* sailors") represents a **relational division** problem. In SQL, this is implemented using `GROUP BY` and `HAVING COUNT(DISTINCT SailorID) = (SELECT COUNT(*) FROM Sailor)`.
 
-### Relational Division
-Relational division (R ÷ S) is a relational algebra operation that finds values in one relation that are associated with all values in another relation. In SQL, there is no direct `DIVIDE BY` operator. Instead, we implement it using:
-1. **Double Negation (Double NOT EXISTS)**: "Find boats where there does not exist a sailor for whom there does not exist a reservation of this boat."
-2. **Set Differences (MINUS)**: "Find boats where the set of all sailors MINUS the set of sailors who reserved this boat is empty."
-
+### Document-Oriented Model (MongoDB)
+Modeling in MongoDB can also follow a relational-style referencing pattern where a separate `Reserve` collection contains references to both `SID` and `BID` documents.
+* **countDocuments**: Returns the count of documents that match the query criteria.
 
 ---
-
 
 ## ENTITY IDENTIFICATION
 | Entity Name | Attributes | Primary Key | Foreign Key(s) |
 |---|---|---|---|
-| **SAILOR** | SID, SName, Rating, Age | SID | None |
-| **BOAT** | BID, BName, Color | BID | None |
-| **RESERVES** | SID, BID, Day | (SID, BID, Day) | SID (refs SAILOR), BID (refs BOAT) |
-
+| **BOAT** | BID, BName, Color | BID | - |
+| **SAILOR** | SailorID, SName, Age, Rating | SailorID | - |
+| **RESERVES** | SailorID, BID, Day | (SailorID, BID, Day) | SailorID (refs SAILOR), BID (refs BOAT) |
 
 ---
-
 
 ## CONSTRAINTS
 * **Domain Constraints**:
-  * `Rating` in `SAILOR`: `CHECK (Rating BETWEEN 1 AND 10)`
-  * `Age` in `SAILOR`: `CHECK (Age > 0)`
-* **Key Constraints**:
-  * The primary key of `RESERVES` is `(SID, BID, Day)` to allow the same sailor to reserve the same boat on different days.
-
+  * `Age` in `SAILOR`: `CHECK (Age >= 18)`
+  * `Rating` in `SAILOR`: `CHECK (Rating >= 1 AND Rating <= 10)`
+* **Referential Constraints**:
+  * Reserves table must maintain referential integrity with both Sailor and Boat master tables.
 
 ---
 
-
 ## ER DIAGRAM
-
-
-
 ### ER Diagram (Figure)
 ![ER Diagram](er_diagram.png)
 
-*Figure: Entity–Relationship diagram (Chen notation). PK = Primary Key, FK = Foreign Key.*
-*Figure: Entity–Relationship diagram (Chen notation). PK = Primary Key, FK = Foreign Key.*
+*Figure: Entity–Relationship diagram (Chen notation).*
+
 ### Mermaid Notation
 ```mermaid
 erDiagram
-    SAILOR {
-        int SID PK
-        string SName
-        int Rating
-        int Age
-    }
     BOAT {
         int BID PK
         string BName
         string Color
     }
+    SAILOR {
+        int SailorID PK
+        string SName
+        int Age
+        int Rating
+    }
     RESERVES {
-        int SID PK, FK
+        int SailorID PK, FK
         int BID PK, FK
         date Day PK
     }
 
-    SAILOR ||--|{ RESERVES : "reserves"
-    BOAT ||--|{ RESERVES : "reserved_by"
+    SAILOR ||--o{ RESERVES : reserves
+    BOAT ||--o{ RESERVES : reserved_by
 ```
-
-### ASCII Diagram
-```text
-  +------------------+                   +------------------+
-  |      SAILOR      |1                 1|       BOAT       |
-  |------------------|                   |------------------|
-  | SID (PK)         |                   | BID (PK)         |
-  | SName, Rating    |                   | BName, Color     |
-  | Age              |                   +------------------+
-  +------------------+                            |
-           |                                      |
-           |1                                     |1
-           |           +------------------+       |
-           |           |     RESERVES     |       |
-           +---------->|------------------|<------+
-            (reserves) | SID (PK, FK)     | (reserved_by)
-                      N| BID (PK, FK)     |N
-                       | Day (PK)         |
-                       +------------------+
-```
-
 
 ---
 
-
 ## SCHEMA DIAGRAM
-
-
-
 ### Schema Diagram (Figure)
 ![Schema Diagram](schema_diagram.png)
 
-*Figure: Relational schema with referential links. Orange = PK, Blue = FK.*
-*Figure: Relational schema with referential links. Orange = PK, Blue = FK.*
-* **SAILOR** ( [SID] (PK), SName, Rating, Age )
-* **BOAT** ( [BID] (PK), BName, Color )
-* **RESERVES** ( [SID] (PK, FK1), [BID] (PK, FK2), [Day] (PK) )
-
+*Figure: Relational schema with referential links.*
 
 ---
 
+## PART A — SQL IMPLEMENTATION
 
-## RELATIONAL MODEL
-* **SAILOR**: Primary key is `SID`.
-* **BOAT**: Primary key is `BID`.
-* **RESERVES**: Composite primary key `(SID, BID, Day)`. If `Day` is not part of the primary key, a sailor could only reserve a specific boat once in the entire system history.
-
-
----
-
-
-## SQL IMPLEMENTATION
+### DDL: Create Table Statements
 ```sql
--- Dropping tables to ensure clean runs
-DROP TABLE RESERVES CASCADE CONSTRAINTS;
-DROP TABLE BOAT CASCADE CONSTRAINTS;
-DROP TABLE SAILOR CASCADE CONSTRAINTS;
+DROP TABLE Reserves CASCADE CONSTRAINTS;
+DROP TABLE Sailor CASCADE CONSTRAINTS;
+DROP TABLE Boat CASCADE CONSTRAINTS;
 
--- 1. Create Sailor table
-CREATE TABLE SAILOR (
-    SID INT PRIMARY KEY,
-    SName VARCHAR2(50) NOT NULL,
-    Rating INT CHECK (Rating BETWEEN 1 AND 10),
-    Age INT CHECK (Age > 0)
-);
-
--- 2. Create Boat table
-CREATE TABLE BOAT (
-    BID INT PRIMARY KEY,
-    BName VARCHAR2(50) NOT NULL,
+CREATE TABLE Boat(
+    BID NUMBER PRIMARY KEY,
+    BName VARCHAR2(30) NOT NULL,
     Color VARCHAR2(20) NOT NULL
 );
 
--- 3. Create Reserves table
-CREATE TABLE RESERVES (
-    SID INT REFERENCES SAILOR(SID) ON DELETE CASCADE,
-    BID INT REFERENCES BOAT(BID) ON DELETE CASCADE,
-    Day DATE,
-    PRIMARY KEY (SID, BID, Day)
+CREATE TABLE Sailor(
+    SailorID NUMBER PRIMARY KEY,
+    SName VARCHAR2(30) NOT NULL,
+    Age NUMBER CHECK (Age >= 18),
+    Rating NUMBER CHECK (Rating >= 1 AND Rating <= 10)
 );
 
--- Inserting Sailor Records (10+ records)
-INSERT INTO SAILOR VALUES (1001, 'Dustin', 7, 45);
-INSERT INTO SAILOR VALUES (1002, 'Brutus', 1, 33);
-INSERT INTO SAILOR VALUES (1003, 'Lubber', 8, 55);
-INSERT INTO SAILOR VALUES (1004, 'Andy', 8, 25);
-INSERT INTO SAILOR VALUES (1005, 'Rusty', 10, 35);
-INSERT INTO SAILOR VALUES (1006, 'Horatio', 7, 16);
-INSERT INTO SAILOR VALUES (1007, 'Zorba', 10, 16);
-INSERT INTO SAILOR VALUES (1008, 'Art', 3, 25);
-INSERT INTO SAILOR VALUES (1009, 'Bob', 9, 29);
-INSERT INTO SAILOR VALUES (1010, 'Alice', 9, 28);
-
--- Inserting Boat Records (5+ records)
-INSERT INTO BOAT VALUES (101, 'Interlake', 'Blue');
-INSERT INTO BOAT VALUES (102, 'Interlake', 'Red');
-INSERT INTO BOAT VALUES (103, 'Clipper', 'Green');
-INSERT INTO BOAT VALUES (104, 'Marine', 'Red');
-INSERT INTO BOAT VALUES (105, 'Enterprise', 'Blue');
-
--- Inserting Reserves Records (15+ records)
--- Let's make Boat 103 reserved by ALL 10 sailors for division testing
-INSERT INTO RESERVES VALUES (1001, 103, TO_DATE('2026-05-01', 'YYYY-MM-DD'));
-INSERT INTO RESERVES VALUES (1002, 103, TO_DATE('2026-05-01', 'YYYY-MM-DD'));
-INSERT INTO RESERVES VALUES (1003, 103, TO_DATE('2026-05-01', 'YYYY-MM-DD'));
-INSERT INTO RESERVES VALUES (1004, 103, TO_DATE('2026-05-02', 'YYYY-MM-DD'));
-INSERT INTO RESERVES VALUES (1005, 103, TO_DATE('2026-05-03', 'YYYY-MM-DD'));
-INSERT INTO RESERVES VALUES (1006, 103, TO_DATE('2026-05-04', 'YYYY-MM-DD'));
-INSERT INTO RESERVES VALUES (1007, 103, TO_DATE('2026-05-04', 'YYYY-MM-DD'));
-INSERT INTO RESERVES VALUES (1008, 103, TO_DATE('2026-05-05', 'YYYY-MM-DD'));
-INSERT INTO RESERVES VALUES (1009, 103, TO_DATE('2026-05-05', 'YYYY-MM-DD'));
-INSERT INTO RESERVES VALUES (1010, 103, TO_DATE('2026-05-06', 'YYYY-MM-DD'));
-
--- Other reservations
-INSERT INTO RESERVES VALUES (1001, 101, TO_DATE('2026-05-10', 'YYYY-MM-DD'));
-INSERT INTO RESERVES VALUES (1001, 102, TO_DATE('2026-05-11', 'YYYY-MM-DD'));
-INSERT INTO RESERVES VALUES (1002, 102, TO_DATE('2026-05-12', 'YYYY-MM-DD'));
-INSERT INTO RESERVES VALUES (1004, 101, TO_DATE('2026-05-15', 'YYYY-MM-DD'));
-INSERT INTO RESERVES VALUES (1005, 105, TO_DATE('2026-05-16', 'YYYY-MM-DD'));
-INSERT INTO RESERVES VALUES (1006, 102, TO_DATE('2026-05-17', 'YYYY-MM-DD'));
+CREATE TABLE Reserves(
+    SailorID NUMBER REFERENCES Sailor(SailorID) ON DELETE CASCADE,
+    BID NUMBER REFERENCES Boat(BID) ON DELETE CASCADE,
+    Day DATE,
+    PRIMARY KEY(SailorID, BID, Day)
+);
 ```
 
+### DML: Insert Sample Data
+```sql
+INSERT INTO Boat VALUES(101, 'Sea Queen', 'Red');
+INSERT INTO Boat VALUES(102, 'Ocean Star', 'Blue');
+INSERT INTO Boat VALUES(103, 'Wave Rider', 'Red');
+INSERT INTO Boat VALUES(104, 'Wind Surf', 'Green');
 
----
+INSERT INTO Sailor VALUES(1, 'Rahul', 20, 8);
+INSERT INTO Sailor VALUES(2, 'Ananth', 22, 9);
+INSERT INTO Sailor VALUES(3, 'Sneha', 19, 7);
 
+INSERT INTO Reserves VALUES(1, 101, DATE '2025-01-10');
+INSERT INTO Reserves VALUES(1, 102, DATE '2025-01-11');
+INSERT INTO Reserves VALUES(2, 101, DATE '2025-01-12');
+INSERT INTO Reserves VALUES(3, 103, DATE '2025-01-10');
+COMMIT;
+```
 
-## QUERY IMPLEMENTATION
+### SQL Queries
 
-### i. Obtain the details of the boats reserved by 'Dustin'.
-#### SQL:
+#### i. Obtain the details of the boats reserved by ‘Rahul’.
 ```sql
 SELECT B.BID, B.BName, B.Color, R.Day
-FROM BOAT B
-JOIN RESERVES R ON B.BID = R.BID
-JOIN SAILOR S ON R.SID = S.SID
-WHERE S.SName = 'Dustin';
+FROM Boat B
+JOIN Reserves R ON B.BID = R.BID
+JOIN Sailor S ON R.SailorID = S.SailorID
+WHERE S.SName = 'Rahul';
 ```
-#### Explanation:
-We join the `BOAT`, `RESERVES`, and `SAILOR` tables and filter using the condition `S.SName = 'Dustin'`.
-#### Expected Output:
+*Expected Output:*
 | BID | BName | Color | Day |
 |---|---|---|---|
-| 103 | Clipper | Green | 01-MAY-26 |
-| 101 | Interlake | Blue | 10-MAY-26 |
-| 102 | Interlake | Red | 11-MAY-26 |
+| 101 | Sea Queen | Red | 10-JAN-25 |
+| 102 | Ocean Star | Blue | 11-JAN-25 |
 
-
----
-
-
-
-### ii. Retrieve the BID of the boats reserved necessarily by all the sailors.
-#### SQL (Using NOT EXISTS Division):
+#### ii. Retrieve the BID of the boats reserved necessarily by all the sailors.
 ```sql
-SELECT B.BID, B.BName
-FROM BOAT B
-WHERE NOT EXISTS (
-    SELECT S.SID 
-    FROM SAILOR S
-    WHERE NOT EXISTS (
-        SELECT R.SID 
-        FROM RESERVES R
-        WHERE R.BID = B.BID AND R.SID = S.SID
-    )
-);
+SELECT R.BID
+FROM Reserves R
+GROUP BY R.BID
+HAVING COUNT(DISTINCT R.SailorID) = (SELECT COUNT(*) FROM Sailor);
 ```
-#### SQL (Using MINUS Division):
+*Expected Output:*
+| BID |
+|---|
+| 101 |
+
+#### iii. Find the number of boats reserved by each sailor. Display the Sailor_Name along with the number of boats reserved.
 ```sql
-SELECT B.BID, B.BName
-FROM BOAT B
-WHERE NOT EXISTS (
-    SELECT S.SID FROM SAILOR S
-    MINUS
-    SELECT R.SID FROM RESERVES R WHERE R.BID = B.BID
-);
+SELECT S.SName, COUNT(R.BID) AS Boats_Reserved
+FROM Sailor S
+LEFT JOIN Reserves R ON S.SailorID = R.SailorID
+GROUP BY S.SailorID, S.SName;
 ```
-#### Explanation:
-The division query identifies a boat where there is zero sailors who haven't reserved it. The `MINUS` query takes the set of all sailors and subtracts the set of sailors who have reserved boat `B.BID`. If this difference is empty (`NOT EXISTS`), it means all sailors have reserved that boat.
-#### Expected Output:
-| BID | BName |
+*Expected Output:*
+| SName | Boats_Reserved |
 |---|---|
-| 103 | Clipper |
-
+| Rahul | 2 |
+| Ananth | 1 |
+| Sneha | 1 |
 
 ---
 
+## PART B — NOSQL & PROCEDURAL IMPLEMENTATION
 
+### MongoDB Implementation
+```javascript
+// Switch to Database
+use boat_db;
 
-### iii. Find the number of boats reserved by each sailor. Display the Sailor_Name along with the number of boats reserved.
-#### SQL:
-```sql
-SELECT S.SID, S.SName, COUNT(R.BID) AS Total_Reservations
-FROM SAILOR S
-LEFT JOIN RESERVES R ON S.SID = R.SID
-GROUP BY S.SID, S.SName
-ORDER BY Total_Reservations DESC;
+// Insert Sailor documents
+db.Sailor.insertMany([
+  { SID: 1, SName: "Ramesh" },
+  { SID: 2, SName: "Suresh" }
+]);
+
+// Insert Boat documents
+db.Boat.insertMany([
+  { BID: 101, BName: "Sea King", Color: "Red" },
+  { BID: 102, BName: "Ocean Star", Color: "Blue" }
+]);
+
+// Insert Reserve documents
+db.Reserve.insertMany([
+  { SID: 1, BID: 101 },
+  { SID: 1, BID: 102 },
+  { SID: 2, BID: 102 }
+]);
 ```
-#### Explanation:
-We use a `LEFT JOIN` starting from the `SAILOR` table so that sailors who have never reserved a boat (like `1003` if they didn't reserve 103, but in our case, everyone reserved 103 so count is at least 1) are still listed with a count of 0. We group the results by the sailor's primary identifier and name.
-#### Expected Output:
-| SID | SName | Total_Reservations |
-|---|---|---|
-| 1001 | Dustin | 3 |
-| 1002 | Brutus | 2 |
-| 1004 | Andy | 2 |
-| 1005 | Rusty | 2 |
-| 1006 | Horatio | 2 |
-| 1007 | Zorba | 1 |
-| 1003 | Lubber | 1 |
-| 1008 | Art | 1 |
-| 1009 | Bob | 1 |
-| 1010 | Alice | 1 |
 
+#### Query i: Obtain the number of boats reserved by sailor "Ramesh".
+```javascript
+var sailor = db.Sailor.findOne(
+  { SName: "Ramesh" }
+);
+
+db.Reserve.countDocuments(
+  { SID: sailor.SID }
+);
+```
+*Expected Output:*
+```text
+2
+```
+
+#### Query ii: Retrieve boats of color "Blue".
+```javascript
+db.Boat.find(
+  { Color: "Blue" }
+);
+```
+*Expected Output:*
+```json
+[
+  {
+    "_id": ObjectId("6a215a462dbc9d54be8ce5b2"),
+    "BID": 102,
+    "BName": "Ocean Star",
+    "Color": "Blue"
+  }
+]
+```
+
+### PL/SQL Implementation
+```sql
+CREATE TABLE Boat (
+    BID NUMBER(5) PRIMARY KEY,
+    BName VARCHAR2(30),
+    Color VARCHAR2(20)
+);
+
+INSERT INTO Boat VALUES (1, 'BoatA', 'Red');
+INSERT INTO Boat VALUES (2, 'BoatB', 'Blue');
+INSERT INTO Boat VALUES (3, 'BoatC', 'Green');
+COMMIT;
+
+SET SERVEROUTPUT ON;
+DECLARE
+   v_count NUMBER;
+BEGIN
+   SELECT COUNT(*)
+   INTO v_count
+   FROM Boat;
+   
+   DBMS_OUTPUT.PUT_LINE('Total Boats = ' || v_count);
+END;
+/
+```
+*Expected Output:*
+```text
+Total Boats = 3
+```
 
 ---
-
 
 ## VIVA QUESTIONS & ANSWERS
-1. **Q:** What is relational division?
-   * **A:** It is a binary operator in relational algebra used to express queries involving the phrase "for all" or "every".
-2. **Q:** How is relational division represented in relational algebra?
-   * **A:** By the division symbol (÷). `R ÷ S` yields all values of attributes in R but not in S that are associated with all tuples in S.
-3. **Q:** Why do we use `LEFT JOIN` in aggregation queries?
-   * **A:** To ensure that rows from the left table (e.g., `SAILOR`) are not discarded even if they have no matching records in the right table (e.g., `RESERVES`).
-4. **Q:** What happens if `Day` is omitted from the primary key of `RESERVES`?
-   * **A:** A sailor would be restricted to reserving a specific boat at most once ever.
-5. **Q:** How does `MINUS` operator work?
-   * **A:** It returns all unique rows from the first query that are not present in the second query.
-6. **Q:** Is `DATE` a standard data type in Oracle?
-   * **A:** Yes, it stores both date and time information.
-7. **Q:** What is the difference between `COUNT(*)` and `COUNT(column_name)`?
-   * **A:** `COUNT(*)` counts all rows including NULLs, whereas `COUNT(column_name)` counts only non-NULL values in that column.
-8. **Q:** What is the purpose of `GROUP BY`?
-   * **A:** To partition the table rows into groups based on matching values in the grouping columns, allowing aggregate operations per group.
-9. **Q:** Can we use alias names in the `WHERE` clause?
-   * **A:** No, because the `WHERE` clause is evaluated before select list expressions.
-10. **Q:** What does double negation represent logically?
-    * **A:** $orall x P(x) \equiv 
-eg \exists x 
-eg P(x)$ ("For all x, P(x)" is logically equivalent to "There does not exist x for which P(x) is false").
-11. **Q:** How do you insert a date value in Oracle?
-    * **A:** Using the `TO_DATE` function or using date literals (e.g., `DATE '2026-05-01'`).
-12. **Q:** What is referential integrity in this schema?
-    * **A:** Ensuring `SID` in `RESERVES` exists in `SAILOR` and `BID` in `RESERVES` exists in `BOAT`.
-13. **Q:** What is the rating check constraint in this schema?
-    * **A:** `Rating CHECK (Rating BETWEEN 1 AND 10)`.
-14. **Q:** Does Oracle support the `LIMIT` clause?
-    * **A:** In older versions, we use `ROWNUM` or `FETCH FIRST n ROWS ONLY` in Oracle 12c+.
-15. **Q:** What is a weak entity?
-    * **A:** An entity that does not have a primary key of its own and depends on a parent identifying entity for its existence.
-
+1. **Q: What is a relational division query?**
+   * *A:* A query that finds items in one table associated with all items in another table (e.g. boats reserved by all sailors).
+2. **Q: How do you count matching documents in MongoDB?**
+   * *A:* By using `db.collection.countDocuments({ filter })`.
+3. **Q: What does `LEFT JOIN` do in SQL?**
+   * *A:* It returns all records from the left table, and matching records from the right table. If there is no match, it returns NULL for the right side columns.
+4. **Q: What is an anonymous PL/SQL block?**
+   * *A:* A block of PL/SQL code that is not stored in the database schema. It consists of `DECLARE`, `BEGIN`, and `EXCEPTION` sections.
+5. **Q: How is data grouped in SQL?**
+   * *A:* By using the `GROUP BY` clause, which groups rows having identical values in specified columns into summary rows.
 
 ---
-
-
-## LAB EXAM QUESTIONS
-1. Find the names of sailors who have reserved a Red or Green boat.
-2. Find the names of sailors who have reserved at least two boats.
-3. List the BIDs of boats that have never been reserved.
-4. Display the average age of all sailors.
-5. Find the oldest sailor in the yacht club.
-6. Retrieve sailors with rating greater than 7 who reserved a Red boat.
-7. Find the number of reservations made on each day.
-8. List boats that have been reserved on consecutive days by the same sailor.
-9. Delete reservations made before '2026-05-02' and verify changes.
-10. Show the query to find sailors who have reserved only Red boats.
-
-
----
-
 
 ## RESULT
-The Boat-Sailor-Reserves database was successfully designed, implemented, and queried. The relational division queries using set operators and nested exists correctly identified the boat reserved by all sailors.
+The boat reservation database was successfully designed and queried using SQL and NoSQL, and the PL/SQL program successfully returned the total count of boats.

@@ -4,239 +4,310 @@
 <meta charset="UTF-8">
 <title>DBMS Lab Experiment 4</title>
 <style>
-body{font-family:Arial,sans-serif;margin:40px;background:#f5f5f5;line-height:1.6}
-.container{background:white;padding:30px;border-radius:10px;box-shadow:0 0 10px rgba(0,0,0,.1)}
-h1,h2,h3{color:#003366}
-pre{background:#f4f4f4;padding:15px;border-left:5px solid #003366;overflow:auto}
-table{width:100%;border-collapse:collapse;margin:15px 0}
-th,td{border:1px solid #000;padding:8px}
-th{background:#003366;color:white}
+body{
+    font-family: Arial, sans-serif;
+    margin:40px;
+    line-height:1.6;
+    background:#f5f5f5;
+}
+.container{
+    background:white;
+    padding:30px;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+h1,h2,h3{
+    color:#003366;
+}
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:15px 0;
+}
+table,th,td{
+    border:1px solid black;
+}
+th{
+    background:#003366;
+    color:white;
+}
+th,td{
+    padding:10px;
+    text-align:left;
+}
+pre{
+    background:#f4f4f4;
+    padding:15px;
+    border-left:5px solid #003366;
+    overflow:auto;
+}
 </style>
   <link rel="stylesheet" href="../assets/css/variables.css">
   <link rel="stylesheet" href="../assets/css/portal.css">
 </head>
 <body class="portal-enhanced" data-subject-id="dbms-lab" data-subject-title="DBMS Lab" data-unit-number="4" data-portal-base="../">
+
 <div class="container">
 
 <h1 align="center">DATABASE MANAGEMENT SYSTEMS LAB</h1>
-<h2 align="center">Experiment 4</h2>
+<h2 align="center">Experiment 4 — Books, Student &amp; Borrows</h2>
 
-<h2>Aim</h2>
-<p>To design and implement the Banking Database and perform SQL queries.</p>
+<hr>
 
-<h2>Problem Statement</h2>
-<p>Consider the Banking database consisting of CUSTOMER, BRANCH, ACCOUNT and TRANSACTION. A customer can have savings and current accounts. Transactions may be deposits or withdrawals.</p>
+<h2>PART A — Relational Database (SQL)</h2>
 
-<h2>Constraints</h2>
+<h3>Aim</h3>
+<p>
+To design and implement a Library Book Lending database, enforce constraints, and execute SQL queries using Oracle SQL.
+</p>
+
+<h3>Problem Statement</h3>
+<p>
+Consider the Book Lending system from the library- BOOKS, STUDENT, BORROWS. The students are allowed to borrow any number of books on a given date from the library. The details of the book should include ISBN, Title of the Book, author, price and publisher. All students need not compulsorily borrow books.
+</p>
+
+<h3>Constraints</h3>
 <ul>
-<li>CustomerID is Primary Key of CUSTOMER.</li>
-<li>BranchID is Primary Key of BRANCH.</li>
-<li>AccountNo is Primary Key of ACCOUNT.</li>
-<li>TransactionID is Primary Key of TRANSACTION.</li>
-<li>Customer can have multiple accounts.</li>
-<li>Branch can maintain multiple accounts.</li>
-<li>Account belongs to one Customer and one Branch.</li>
-<li>Transaction belongs to one Account.</li>
-<li>AccountType can be Savings or Current.</li>
+<li>ISBN is the Primary Key of Books.</li>
+<li>StudentID is the Primary Key of Student.</li>
+<li>(StudentID, ISBN) is the composite Primary Key of Borrows.</li>
+<li>StudentID in Borrows references Student(StudentID).</li>
+<li>ISBN in Borrows references Books(ISBN).</li>
+<li>Book price must be positive (> 0).</li>
 </ul>
 
-<h2>ER Diagram</h2>
-<div style="
-    text-align:center;
-    margin-top:20px;
-    margin-bottom:20px;
-">
-
-    <img
-        src="image4.png"
-        style="
-            width:100%;
-            max-width:1200px;
-            border:1px solid #ccc;
-            border-radius:10px;
-            padding:10px;
-            background:white;
-            box-shadow:0 0 10px rgba(0,0,0,0.1);
-        "
-    >
-
+<h3>ER Diagram</h3>
+<div style="text-align:center; margin-top:20px; margin-bottom:20px;">
+    <img src="image4.png" alt="Library Book Lending ER Diagram" style="width:100%; max-width:1200px; border:1px solid #ccc; border-radius:10px; padding:10px; background:white; box-shadow:0 0 10px rgba(0,0,0,0.1);">
 </div>
 
-<h2>Schema Diagram</h2>
+<h3>Schema Diagram</h3>
 <pre>
-CUSTOMER
--------------------------
-CustomerID (PK)
-CustomerName
-City
-
-BRANCH
--------------------------
-BranchID (PK)
-BranchName
-Location
-
-ACCOUNT
--------------------------
-AccountNo (PK)
-AccountType
-Balance
-CustomerID (FK)
-BranchID (FK)
-
-TRANSACTION_DETAILS
--------------------------
-TransactionID (PK)
-TransType
-Amount
-AccountNo (FK)
+BOOKS ( ISBN [PK], Title, Author, Price, Publisher )
+STUDENT ( StudentID [PK], StudentName, Gender )
+BORROWS ( StudentID [PK, FK], ISBN [PK, FK], BorrowDate )
 </pre>
 
-<h2>Create Table Statements</h2>
+<h3>Create Table Statements</h3>
 <pre>
-CREATE TABLE Customer(
-CustomerID NUMBER PRIMARY KEY,
-CustomerName VARCHAR2(30),
-City VARCHAR2(30)
+CREATE TABLE Books(
+    ISBN VARCHAR2(10) PRIMARY KEY,
+    Title VARCHAR2(50) NOT NULL,
+    Author VARCHAR2(30) NOT NULL,
+    Price NUMBER CHECK (Price > 0),
+    Publisher VARCHAR2(30)
 );
 
-CREATE TABLE Branch(
-BranchID NUMBER PRIMARY KEY,
-BranchName VARCHAR2(30),
-Location VARCHAR2(30)
+CREATE TABLE Student(
+    StudentID NUMBER PRIMARY KEY,
+    StudentName VARCHAR2(30) NOT NULL,
+    Gender VARCHAR2(10) CHECK (Gender IN ('Male', 'Female'))
 );
 
-CREATE TABLE Account(
-AccountNo NUMBER PRIMARY KEY,
-AccountType VARCHAR2(20),
-Balance NUMBER,
-CustomerID NUMBER,
-BranchID NUMBER,
-FOREIGN KEY(CustomerID) REFERENCES Customer(CustomerID),
-FOREIGN KEY(BranchID) REFERENCES Branch(BranchID)
-);
-
-CREATE TABLE Transaction_Details(
-TransactionID NUMBER PRIMARY KEY,
-TransType VARCHAR2(20),
-Amount NUMBER,
-AccountNo NUMBER,
-FOREIGN KEY(AccountNo) REFERENCES Account(AccountNo)
+CREATE TABLE Borrows(
+    StudentID NUMBER REFERENCES Student(StudentID) ON DELETE CASCADE,
+    ISBN VARCHAR2(10) REFERENCES Books(ISBN) ON DELETE CASCADE,
+    BorrowDate DATE,
+    PRIMARY KEY(StudentID, ISBN)
 );
 </pre>
 
-<h2>Insert Sample Data</h2>
+<h3>Insert Sample Data</h3>
 <pre>
-INSERT INTO Customer VALUES(1,'Rahul','Bangalore');
-INSERT INTO Customer VALUES(2,'Ananth','Mysore');
-INSERT INTO Customer VALUES(3,'Sneha','Hubli');
+INSERT INTO Books VALUES('123', 'Database Systems', 'Navathe', 500, 'McGrawHill');
+INSERT INTO Books VALUES('124', 'Operating System', 'Galvin', 650, 'Wiley');
+INSERT INTO Books VALUES('125', 'Computer Networks', 'Tanenbaum', 600, 'Pearson');
 
-INSERT INTO Branch VALUES(101,'SBI Main','Bangalore');
-INSERT INTO Branch VALUES(102,'SBI City','Mysore');
-INSERT INTO Branch VALUES(103,'SBI North','Hubli');
+INSERT INTO Student VALUES(1, 'Rahul', 'Male');
+INSERT INTO Student VALUES(2, 'Sneha', 'Female');
+INSERT INTO Student VALUES(3, 'Asha', 'Female');
 
-INSERT INTO Account VALUES(1001,'Savings',50000,1,101);
-INSERT INTO Account VALUES(1002,'Current',30000,1,101);
-INSERT INTO Account VALUES(1003,'Savings',25000,2,102);
-INSERT INTO Account VALUES(1004,'Savings',45000,3,103);
-
-INSERT INTO Transaction_Details VALUES(1,'Deposit',5000,1001);
-INSERT INTO Transaction_Details VALUES(2,'Withdrawal',1000,1001);
-INSERT INTO Transaction_Details VALUES(3,'Deposit',3000,1001);
-INSERT INTO Transaction_Details VALUES(4,'Deposit',2000,1002);
-INSERT INTO Transaction_Details VALUES(5,'Withdrawal',500,1003);
-INSERT INTO Transaction_Details VALUES(6,'Deposit',1000,1003);
-INSERT INTO Transaction_Details VALUES(7,'Deposit',2500,1004);
+INSERT INTO Borrows VALUES(1, '123', DATE '2025-01-10');
+INSERT INTO Borrows VALUES(2, '123', DATE '2025-01-11');
+INSERT INTO Borrows VALUES(2, '124', DATE '2025-01-12');
+COMMIT;
 </pre>
 
-<h2>Query 1</h2>
-<p><b>Obtain details of customers who have both Savings and Current Account.</b></p>
+<h3>Query i</h3>
+<p><b>Obtain the names of the student who has borrowed either book bearing ISBN ‘123’ or ISBN ‘124’.</b></p>
 <pre>
-SELECT C.*
-FROM Customer C
-WHERE C.CustomerID IN
-(
-SELECT CustomerID
-FROM Account
-GROUP BY CustomerID
-HAVING COUNT(DISTINCT AccountType)=2
-);
+SELECT DISTINCT S.StudentName
+FROM Student S
+JOIN Borrows B ON S.StudentID = B.StudentID
+WHERE B.ISBN IN ('123', '124');
 </pre>
 
-<h3>Output</h3>
+<h4>Output</h4>
 <table>
-<tr><th>CustomerID</th><th>CustomerName</th><th>City</th></tr>
-<tr><td>1</td><td>Rahul</td><td>Bangalore</td></tr>
+<tr>
+<th>StudentName</th>
+</tr>
+<tr>
+<td>Rahul</td>
+</tr>
+<tr>
+<td>Sneha</td>
+</tr>
 </table>
 
-<h2>Query 2</h2>
-<p><b>Retrieve branch details and number of accounts in each branch.</b></p>
+<h3>Query ii</h3>
+<p><b>Obtain the Names of female students who have borrowed “Database Systems” books.</b></p>
 <pre>
-SELECT B.BranchID,B.BranchName,
-COUNT(A.AccountNo) AS TotalAccounts
-FROM Branch B
-LEFT JOIN Account A
-ON B.BranchID=A.BranchID
-GROUP BY B.BranchID,B.BranchName;
+SELECT S.StudentName
+FROM Student S
+JOIN Borrows B ON S.StudentID = B.StudentID
+JOIN Books BK ON B.ISBN = BK.ISBN
+WHERE S.Gender = 'Female' AND BK.Title = 'Database Systems';
 </pre>
 
-<h3>Output</h3>
+<h4>Output</h4>
 <table>
-<tr><th>BranchID</th><th>BranchName</th><th>Total Accounts</th></tr>
-<tr><td>101</td><td>SBI Main</td><td>2</td></tr>
-<tr><td>102</td><td>SBI City</td><td>1</td></tr>
-<tr><td>103</td><td>SBI North</td><td>1</td></tr>
+<tr>
+<th>StudentName</th>
+</tr>
+<tr>
+<td>Sneha</td>
+</tr>
 </table>
 
-<h2>Query 3</h2>
-<p><b>Obtain customers who have performed at least 3 transactions.</b></p>
+<h3>Query iii</h3>
+<p><b>Find the number of books borrowed by each student. Display the student details along with the number of books.</b></p>
 <pre>
-SELECT DISTINCT C.*
-FROM Customer C
-JOIN Account A ON C.CustomerID=A.CustomerID
-JOIN Transaction_Details T ON A.AccountNo=T.AccountNo
-GROUP BY C.CustomerID,C.CustomerName,C.City
-HAVING COUNT(T.TransactionID)>=3;
+SELECT S.StudentID, S.StudentName, COUNT(B.ISBN) AS Books_Borrowed
+FROM Student S
+LEFT JOIN Borrows B ON S.StudentID = B.StudentID
+GROUP BY S.StudentID, S.StudentName;
 </pre>
 
-<h3>Output</h3>
+<h4>Output</h4>
 <table>
-<tr><th>CustomerID</th><th>CustomerName</th><th>City</th></tr>
-<tr><td>1</td><td>Rahul</td><td>Bangalore</td></tr>
+<tr>
+<th>StudentID</th>
+<th>StudentName</th>
+<th>Books Borrowed</th>
+</tr>
+<tr>
+<td>1</td>
+<td>Rahul</td>
+<td>1</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Sneha</td>
+<td>2</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Asha</td>
+<td>0</td>
+</tr>
 </table>
 
-<h2>Query 4</h2>
-<p><b>Branches having accounts less than average.</b></p>
+<hr>
+
+<h2>PART B — NoSQL (MongoDB) &amp; Procedural SQL (PL/SQL)</h2>
+
+<h3>Aim</h3>
+<p>
+To perform document-based operations on Book and Student collections in MongoDB, and implement a PL/SQL program in Oracle to apply book price updates.
+</p>
+
+<h3>MongoDB Collections &amp; Document Insertion</h3>
 <pre>
-SELECT B.BranchID,B.BranchName
-FROM Branch B
-LEFT JOIN Account A
-ON B.BranchID=A.BranchID
-GROUP BY B.BranchID,B.BranchName
-HAVING COUNT(A.AccountNo)
-<
-(
-SELECT AVG(AccountCount)
-FROM
-(
-SELECT COUNT(*) AccountCount
-FROM Account
-GROUP BY BranchID
-)
+// Insert Book documents
+db.Book.insertMany([
+  { Book_ID: 1, Title: "Database Systems", Author: "Navathe", Price: 500 },
+  { Book_ID: 2, Title: "Python Programming", Author: "John", Price: 400 }
+]);
+
+// Insert Student documents
+db.Student.insertMany([
+  { SID: 1, SName: "Kushal", Book_ID: 1 },
+  { SID: 2, SName: "Priya", Book_ID: 2 }
+]);
+</pre>
+
+<h3>MongoDB Query i</h3>
+<p><b>Obtain the book details authored by “Navathe”.</b></p>
+<pre>
+db.Book.find(
+  { Author: "Navathe" }
 );
 </pre>
 
-<h3>Output</h3>
-<table>
-<tr><th>BranchID</th><th>BranchName</th></tr>
-<tr><td>102</td><td>SBI City</td></tr>
-<tr><td>103</td><td>SBI North</td></tr>
-</table>
+<h4>Expected Output</h4>
+<pre>
+[
+  {
+    _id: ObjectId("6a2272c847771f32118ce5af"),
+    Book_ID: 1,
+    Title: 'Database Systems',
+    Author: 'Navathe',
+    Price: 500
+  }
+]
+</pre>
+
+<h3>MongoDB Query ii</h3>
+<p><b>Obtain the Names of students who have borrowed “Database Systems” books.</b></p>
+<pre>
+var book = db.Book.findOne(
+  { Title: "Database Systems" }
+);
+
+db.Student.find(
+  { Book_ID: book.Book_ID },
+  { SName: 1, _id: 0 }
+);
+</pre>
+
+<h4>Expected Output</h4>
+<pre>
+[ { SName: 'Kushal' } ]
+</pre>
+
+<h3>PL/SQL Program</h3>
+<p><b>Write a PL/SQL program to increase the price of all books by 10%.</b></p>
+<pre>
+-- Setup Book table
+CREATE TABLE Book (
+    Book_ID NUMBER(5) PRIMARY KEY,
+    Title VARCHAR2(50),
+    Author VARCHAR2(50),
+    Price NUMBER(8,2)
+);
+
+INSERT INTO Book VALUES (101, 'Database Systems', 'Navathe', 500);
+INSERT INTO Book VALUES (102, 'Operating Systems', 'Galvin', 600);
+INSERT INTO Book VALUES (103, 'Python Programming', 'John', 450);
+INSERT INTO Book VALUES (104, 'Computer Networks', 'Tanenbaum', 550);
+COMMIT;
+
+-- Increase prices by 10%
+SET SERVEROUTPUT ON;
+BEGIN
+   UPDATE Book
+   SET Price = Price * 1.10;
+   
+   DBMS_OUTPUT.PUT_LINE('Book prices updated');
+END;
+/
+</pre>
+
+<h4>Expected Output</h4>
+<pre>
+Book prices updated
+</pre>
+
+<hr>
 
 <h2>Result</h2>
-<p>The Banking Database was successfully designed and implemented and all required SQL queries were executed successfully.</p>
+<p>
+The Books-Student database operations were successfully designed, run in SQL &amp; MongoDB, and the PL/SQL program successfully completed the book price updates.
+</p>
 
 </div>
+
   <script src="../assets/js/portal-core.js" defer></script>
   <script src="../assets/js/notes-enhancements.js" defer></script>
 </body>

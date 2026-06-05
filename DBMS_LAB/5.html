@@ -4,189 +4,314 @@
 <meta charset="UTF-8">
 <title>DBMS Lab Experiment 5</title>
 <style>
-body{font-family:Arial,sans-serif;margin:40px;background:#f5f5f5;line-height:1.6}
-.container{background:white;padding:30px;border-radius:10px;box-shadow:0 0 10px rgba(0,0,0,.1)}
-h1,h2,h3{color:#003366}
-pre{background:#f4f4f4;padding:15px;border-left:5px solid #003366;overflow:auto}
-table{width:100%;border-collapse:collapse;margin:15px 0}
-th,td{border:1px solid #000;padding:8px}
-th{background:#003366;color:white}
+body{
+    font-family: Arial, sans-serif;
+    margin:40px;
+    line-height:1.6;
+    background:#f5f5f5;
+}
+.container{
+    background:white;
+    padding:30px;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+h1,h2,h3{
+    color:#003366;
+}
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:15px 0;
+}
+table,th,td{
+    border:1px solid black;
+}
+th{
+    background:#003366;
+    color:white;
+}
+th,td{
+    padding:10px;
+    text-align:left;
+}
+pre{
+    background:#f4f4f4;
+    padding:15px;
+    border-left:5px solid #003366;
+    overflow:auto;
+}
 </style>
   <link rel="stylesheet" href="../assets/css/variables.css">
   <link rel="stylesheet" href="../assets/css/portal.css">
 </head>
 <body class="portal-enhanced" data-subject-id="dbms-lab" data-subject-title="DBMS Lab" data-unit-number="5" data-portal-base="../">
+
 <div class="container">
 
 <h1 align="center">DATABASE MANAGEMENT SYSTEMS LAB</h1>
-<h2 align="center">Experiment 5</h2>
+<h2 align="center">Experiment 5 — Patient, Doctor &amp; Appointment</h2>
 
-<h2>Aim</h2>
-<p>To design and implement the Library Book Lending System and perform SQL queries.</p>
+<hr>
 
-<h2>Problem Statement</h2>
-<p>Consider the Book Lending System consisting of BOOKS, STUDENT and BORROWS. Students can borrow any number of books. Book details include ISBN, Title, Author and Publisher.</p>
+<h2>PART A — Relational Database (SQL)</h2>
 
-<h2>Constraints</h2>
+<h3>Aim</h3>
+<p>
+To design and implement a Hospital Management database, enforce integrity constraints, and execute SQL queries using Oracle SQL.
+</p>
+
+<h3>Problem Statement</h3>
+<p>
+Consider the Hospital management system with Patient, Doctor and Appointment. Patient relation holds the Patient ID, Name, Age, Gender. Doctor relation describes with Doctor ID, Name, Specialization. Each patient has given appointment with some doctor on specific date.
+</p>
+
+<h3>Constraints</h3>
 <ul>
-<li>ISBN is Primary Key of BOOKS.</li>
-<li>StudentID is Primary Key of STUDENT.</li>
-<li>A student can borrow multiple books.</li>
-<li>A book can be borrowed by multiple students.</li>
-<li>ISBN in BORROWS references BOOKS(ISBN).</li>
-<li>StudentID in BORROWS references STUDENT(StudentID).</li>
+<li>PatientID is the Primary Key of Patient.</li>
+<li>DoctorID is the Primary Key of Doctor.</li>
+<li>AppointmentID is the Primary Key of Appointment.</li>
+<li>PatientID in Appointment references Patient(PatientID).</li>
+<li>DoctorID in Appointment references Doctor(DoctorID).</li>
+<li>Doctor consultation Fee must be positive (> 0).</li>
 </ul>
 
-<h2>ER Diagram</h2>
-<div style="
-    text-align:center;
-    margin-top:20px;
-    margin-bottom:20px;
-">
-
-    <img
-        src="image5.png"
-        style="
-            width:100%;
-            max-width:1200px;
-            border:1px solid #ccc;
-            border-radius:10px;
-            padding:10px;
-            background:white;
-            box-shadow:0 0 10px rgba(0,0,0,0.1);
-        "
-    >
-
+<h3>ER Diagram</h3>
+<div style="text-align:center; margin-top:20px; margin-bottom:20px;">
+    <img src="image5.png" alt="Hospital Management ER Diagram" style="width:100%; max-width:1200px; border:1px solid #ccc; border-radius:10px; padding:10px; background:white; box-shadow:0 0 10px rgba(0,0,0,0.1);">
 </div>
 
-<h2>Schema Diagram</h2>
+<h3>Schema Diagram</h3>
 <pre>
-BOOKS
--------------------------
-ISBN (PK)
-Title
-Author
-Publisher
-
-STUDENT
--------------------------
-StudentID (PK)
-StudentName
-Gender
-
-BORROWS
--------------------------
-StudentID (FK)
-ISBN (FK)
-BorrowDate
-
-PK(StudentID, ISBN)
+PATIENT ( PatientID [PK], PatientName, Age, Gender )
+DOCTOR ( DoctorID [PK], DoctorName, Specialization, Fee )
+APPOINTMENT ( AppointmentID [PK], PatientID [FK], DoctorID [FK], AppointmentDate )
 </pre>
 
-<h2>Create Table Statements</h2>
+<h3>Create Table Statements</h3>
 <pre>
-CREATE TABLE Books(
-ISBN VARCHAR2(10) PRIMARY KEY,
-Title VARCHAR2(50),
-Author VARCHAR2(30),
-Publisher VARCHAR2(30)
+CREATE TABLE Patient(
+    PatientID NUMBER PRIMARY KEY,
+    PatientName VARCHAR2(30) NOT NULL,
+    Age NUMBER,
+    Gender VARCHAR2(10) CHECK (Gender IN ('Male', 'Female'))
 );
 
-CREATE TABLE Student(
-StudentID NUMBER PRIMARY KEY,
-StudentName VARCHAR2(30),
-Gender VARCHAR2(10)
+CREATE TABLE Doctor(
+    DoctorID NUMBER PRIMARY KEY,
+    DoctorName VARCHAR2(30) NOT NULL,
+    Specialization VARCHAR2(30) NOT NULL,
+    Fee NUMBER CHECK (Fee > 0)
 );
 
-CREATE TABLE Borrows(
-StudentID NUMBER,
-ISBN VARCHAR2(10),
-BorrowDate DATE,
-PRIMARY KEY(StudentID,ISBN),
-FOREIGN KEY(StudentID)
-REFERENCES Student(StudentID),
-FOREIGN KEY(ISBN)
-REFERENCES Books(ISBN)
+CREATE TABLE Appointment(
+    AppointmentID NUMBER PRIMARY KEY,
+    PatientID NUMBER REFERENCES Patient(PatientID) ON DELETE CASCADE,
+    DoctorID NUMBER REFERENCES Doctor(DoctorID) ON DELETE CASCADE,
+    AppointmentDate DATE
 );
 </pre>
 
-<h2>Insert Sample Data</h2>
+<h3>Insert Sample Data</h3>
 <pre>
-INSERT INTO Books VALUES('123','Database','Korth','McGrawHill');
-INSERT INTO Books VALUES('124','Operating System','Galvin','Wiley');
-INSERT INTO Books VALUES('125','Computer Networks','Tanenbaum','Pearson');
+INSERT INTO Patient VALUES(1, 'Rahul', 25, 'Male');
+INSERT INTO Patient VALUES(2, 'Sneha', 22, 'Female');
+INSERT INTO Patient VALUES(3, 'Ananth', 21, 'Male');
 
-INSERT INTO Student VALUES(1,'Rahul','Male');
-INSERT INTO Student VALUES(2,'Sneha','Female');
-INSERT INTO Student VALUES(3,'Ananth','Male');
+INSERT INTO Doctor VALUES(101, 'Dr. Kumar', 'Cardiology', 500);
+INSERT INTO Doctor VALUES(102, 'Dr. Sharma', 'Neurology', 700);
+INSERT INTO Doctor VALUES(103, 'Dr. Reddy', 'Cardiology', 600);
 
-INSERT INTO Borrows VALUES(1,'123',DATE '2025-01-10');
-INSERT INTO Borrows VALUES(2,'123',DATE '2025-01-11');
-INSERT INTO Borrows VALUES(3,'124',DATE '2025-01-12');
-INSERT INTO Borrows VALUES(2,'125',DATE '2025-01-13');
+INSERT INTO Appointment VALUES(10, 1, 101, DATE '2025-01-10');
+INSERT INTO Appointment VALUES(11, 1, 102, DATE '2025-01-11');
+INSERT INTO Appointment VALUES(12, 2, 101, DATE '2025-01-10');
+INSERT INTO Appointment VALUES(13, 3, 101, DATE '2025-01-12');
+COMMIT;
 </pre>
 
-<h2>Query 1</h2>
-<p><b>Obtain names of students who borrowed ISBN 123 or ISBN 124.</b></p>
+<h3>Query i</h3>
+<p><b>Retrieve the details of doctors consulted by ‘Rahul’.</b></p>
 <pre>
-SELECT DISTINCT S.StudentName
-FROM Student S
-JOIN Borrows B
-ON S.StudentID=B.StudentID
-WHERE B.ISBN IN ('123','124');
+SELECT D.DoctorID, D.DoctorName, D.Specialization, D.Fee
+FROM Doctor D
+JOIN Appointment A ON D.DoctorID = A.DoctorID
+JOIN Patient P ON A.PatientID = P.PatientID
+WHERE P.PatientName = 'Rahul';
 </pre>
 
-<h3>Output</h3>
+<h4>Output</h4>
 <table>
-<tr><th>Student Name</th></tr>
-<tr><td>Rahul</td></tr>
-<tr><td>Sneha</td></tr>
-<tr><td>Ananth</td></tr>
+<tr>
+<th>DoctorID</th>
+<th>DoctorName</th>
+<th>Specialization</th>
+<th>Fee</th>
+</tr>
+<tr>
+<td>101</td>
+<td>Dr. Kumar</td>
+<td>Cardiology</td>
+<td>500</td>
+</tr>
+<tr>
+<td>102</td>
+<td>Dr. Sharma</td>
+<td>Neurology</td>
+<td>700</td>
+</tr>
 </table>
 
-<h2>Query 2</h2>
-<p><b>Obtain names of female students who borrowed Database books.</b></p>
+<h3>Query ii</h3>
+<p><b>Find the DoctorIDs of doctors consulted by all patients.</b></p>
 <pre>
-SELECT S.StudentName
-FROM Student S
-JOIN Borrows B
-ON S.StudentID=B.StudentID
-JOIN Books BK
-ON BK.ISBN=B.ISBN
-WHERE S.Gender='Female'
-AND BK.Title='Database';
+SELECT DoctorID
+FROM Appointment
+GROUP BY DoctorID
+HAVING COUNT(DISTINCT PatientID) = (SELECT COUNT(*) FROM Patient);
 </pre>
 
-<h3>Output</h3>
+<h4>Output</h4>
 <table>
-<tr><th>Student Name</th></tr>
-<tr><td>Sneha</td></tr>
+<tr>
+<th>DoctorID</th>
+</tr>
+<tr>
+<td>101</td>
+</tr>
 </table>
 
-<h2>Query 3</h2>
-<p><b>Find number of books borrowed by each student.</b></p>
+<h3>Query iii</h3>
+<p><b>For each patient, find the number of doctors consulted. Display Patient_Name with the count.</b></p>
 <pre>
-SELECT S.StudentID,
-S.StudentName,
-COUNT(B.ISBN) AS BooksBorrowed
-FROM Student S
-LEFT JOIN Borrows B
-ON S.StudentID=B.StudentID
-GROUP BY S.StudentID,S.StudentName;
+SELECT P.PatientName, COUNT(A.DoctorID) AS Doctors_Consulted
+FROM Patient P
+LEFT JOIN Appointment A ON P.PatientID = A.PatientID
+GROUP BY P.PatientID, P.PatientName;
 </pre>
 
-<h3>Output</h3>
+<h4>Output</h4>
 <table>
-<tr><th>StudentID</th><th>Student Name</th><th>Books Borrowed</th></tr>
-<tr><td>1</td><td>Rahul</td><td>1</td></tr>
-<tr><td>2</td><td>Sneha</td><td>2</td></tr>
-<tr><td>3</td><td>Ananth</td><td>1</td></tr>
+<tr>
+<th>PatientName</th>
+<th>Doctors Consulted</th>
+</tr>
+<tr>
+<td>Rahul</td>
+<td>2</td>
+</tr>
+<tr>
+<td>Sneha</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Ananth</td>
+<td>1</td>
+</tr>
 </table>
+
+<hr>
+
+<h2>PART B — NoSQL (MongoDB) &amp; Procedural SQL (PL/SQL)</h2>
+
+<h3>Aim</h3>
+<p>
+To perform document-based queries in MongoDB on Doctor and Patient collections, and implement doctor fee increments using PL/SQL.
+</p>
+
+<h3>MongoDB Collections &amp; Document Insertion</h3>
+<pre>
+// Insert Doctor documents
+db.Doctor.insertMany([
+  { Doctor_ID: 1, Doctor_Name: "Dr. Kumar", Specialization: "Cardiology", Fee: 1000 },
+  { Doctor_ID: 2, Doctor_Name: "Dr. Ravi", Specialization: "Neurology", Fee: 1200 }
+]);
+
+// Insert Patient documents
+db.Patient.insertMany([
+  { Patient_ID: 1, Patient_Name: "Anita", Doctor_ID: 1, Appointment_Date: "2025-05-10" },
+  { Patient_ID: 2, Patient_Name: "Shruti", Doctor_ID: 1, Appointment_Date: "2025-05-10" },
+  { Patient_ID: 3, Patient_Name: "Meena", Doctor_ID: 2, Appointment_Date: "2025-05-12" }
+]);
+</pre>
+
+<h3>MongoDB Query i</h3>
+<p><b>List all the patients treated by the doctor named "Dr. Kumar".</b></p>
+<pre>
+var doc = db.Doctor.findOne(
+  { Doctor_Name: "Dr. Kumar" }
+);
+
+db.Patient.find(
+  { Doctor_ID: doc.Doctor_ID },
+  { Patient_Name: 1, _id: 0 }
+);
+</pre>
+
+<h4>Expected Output</h4>
+<pre>
+[ { Patient_Name: 'Anita' }, { Patient_Name: 'Shruti' } ]
+</pre>
+
+<h3>MongoDB Query ii</h3>
+<p><b>Display the names of patients who have an appointment on date "2025-05-10".</b></p>
+<pre>
+db.Patient.find(
+  { Appointment_Date: "2025-05-10" },
+  { Patient_Name: 1, _id: 0 }
+);
+</pre>
+
+<h4>Expected Output</h4>
+<pre>
+[ { Patient_Name: 'Anita' }, { Patient_Name: 'Shruti' } ]
+</pre>
+
+<h3>PL/SQL Program</h3>
+<p><b>Write a PL/SQL program that increases the consultation fee of all doctors in specialization "Cardiology" by 20%.</b></p>
+<pre>
+-- Setup Doctor table and insert data
+CREATE TABLE Doctor (
+    Doctor_ID NUMBER(5) PRIMARY KEY,
+    Doctor_Name VARCHAR2(20),
+    Specialization VARCHAR2(20),
+    Fee NUMBER(8,2)
+);
+
+INSERT INTO Doctor VALUES (101, 'Dr. Kumar', 'Cardiology', 1000);
+INSERT INTO Doctor VALUES (102, 'Dr. Ravi', 'Neurology', 1200);
+INSERT INTO Doctor VALUES (103, 'Dr. Meena', 'Cardiology', 1500);
+INSERT INTO Doctor VALUES (104, 'Dr. Priya', 'Orthopedics', 1300);
+COMMIT;
+
+-- Increase Cardiology fees by 20%
+SET SERVEROUTPUT ON;
+DECLARE
+   v_count NUMBER;
+BEGIN
+   UPDATE Doctor
+   SET Fee = Fee * 1.20
+   WHERE Specialization = 'Cardiology';
+
+   v_count := SQL%ROWCOUNT;
+   DBMS_OUTPUT.PUT_LINE(v_count || ' doctors updated');
+END;
+/
+</pre>
+
+<h4>Expected Output</h4>
+<pre>
+2 doctors updated
+</pre>
+
+<hr>
 
 <h2>Result</h2>
-<p>The Library Book Lending database was successfully designed and implemented. All required SQL queries were executed successfully.</p>
+<p>
+The Hospital Management database operations in Oracle SQL and MongoDB were successfully designed and queried, and the PL/SQL program successfully completed the specialization fee adjustments.
+</p>
 
 </div>
+
   <script src="../assets/js/portal-core.js" defer></script>
   <script src="../assets/js/notes-enhancements.js" defer></script>
 </body>

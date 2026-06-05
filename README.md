@@ -90,7 +90,7 @@ SEM4_NOTES/
 ├── 📂 DAA_LAB/                      # DAA lab programs
 ├── 📂 DAA_text/                     # DAA reference textbook excerpts
 ├── 📂 DBMS/                         # DBMS theory notes
-├── 📂 DBMS_LAB/                     # DBMS lab SQL experiments (12 programs)
+├── 📂 DBMS_LAB/                     # DBMS lab integrated experiments (5 programs)
 ├── 📂 JAVA/                         # Advanced Java theory notes
 ├── 📂 JAVA_LAB/                     # Advanced Java lab programs (12 programs)
 ├── 📂 MATHS/                        # Engineering Mathematics notes

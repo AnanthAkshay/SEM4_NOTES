@@ -331,18 +331,18 @@ def upgrade_java_lab(path: Path) -> None:
         ex_cards = ""
         items = [
             ("eclipse", "Eclipse Run Guide", "IDE setup and run workflow"),
-            ("ex1", "Ex 1: Payroll System", "OOP package layout"),
-            ("ex2", "Ex 2: Queue & Exceptions", "Custom exception queue"),
-            ("ex3", "Ex 3: Strings Package", "String operations"),
-            ("ex4", "Ex 4: Palindrome StringBuffer", "Case-insensitive check"),
-            ("ex5", "Ex 5: Password Security", "Password rules"),
-            ("ex6", "Ex 6: Telephone Recorder", "Missed calls simulator"),
-            ("ex7", "Ex 7: Books Collection DB", "Sorted book list"),
-            ("ex8", "Ex 8: Generic Stack Class", "Type-safe stack"),
-            ("ex9", "Ex 9: Student Info Swing", "Swing dialog UI"),
-            ("ex10", "Ex 10: Customer Purchases", "Billing terminal"),
-            ("ex11", "Ex 11: JDBC Swing Form", "MySQL JDBC"),
-            ("ex12", "Ex 12: JSP Shirt Purchase", "JSP web form"),
+            ("ex1", "Ex 1: Complex Arithmetic", "Real and Imaginary multiplication"),
+            ("ex2", "Ex 2: Bank Constraints", "Minimum balance validations"),
+            ("ex3", "Ex 3: Payroll System", "OOP package layout"),
+            ("ex4", "Ex 4: Queue & Exceptions", "Custom exception queue"),
+            ("ex5", "Ex 5: Strings Package", "String operations"),
+            ("ex6", "Ex 6: Palindrome StringBuffer", "Case-insensitive check"),
+            ("ex7", "Ex 7: Password Security", "Password rules"),
+            ("ex8", "Ex 8: Telephone Recorder", "Missed calls simulator"),
+            ("ex9", "Ex 9: Books Collection DB", "Sorted book list"),
+            ("ex10", "Ex 10: Generic Stack Class", "Type-safe stack"),
+            ("ex11", "Ex 11: Student Info Swing", "Swing dialog UI"),
+            ("ex12", "Ex 12: Customer Purchases", "Billing terminal"),
         ]
         for sid, title, desc in items:
             ex_cards += (
