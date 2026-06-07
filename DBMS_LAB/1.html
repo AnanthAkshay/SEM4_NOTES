@@ -82,216 +82,176 @@ Consider an Employee with a social security number (SSN) working on multiple pro
 </div>
 
 <h3>Schema Diagram</h3>
-<pre>
-DEPARTMENT ( DeptNo [PK], DeptName )
-PROJECT ( ProjectNo [PK], ProjectName, Domain )
-EMPLOYEE ( SSN [PK], EmpName, Salary, DeptNo [FK], ProjectNo [FK] )
-WORKS_ON ( SSN [PK, FK], ProjectNo [PK, FK], Hours )
-</pre>
-
-<h3>Create Table Statements</h3>
-<pre>
-CREATE TABLE Department(
-    DeptNo NUMBER PRIMARY KEY,
-    DeptName VARCHAR2(30) NOT NULL
+                <pre>
+EMPLOYEE ( ssn [PK], name, deptno )
+PROJECT ( projectno [PK], projectarea )
+WORKS_ON ( ssn [FK], projectno [FK] )
+                </pre>
+                <h3>Create Table Statements</h3>
+                <pre>
+create table Employee
+(
+ssn varchar(6),
+name varchar(10),
+deptno int,
+primary key(ssn)
 );
 
-CREATE TABLE Project(
-    ProjectNo NUMBER PRIMARY KEY,
-    ProjectName VARCHAR2(30) NOT NULL,
-    Domain VARCHAR2(30)
+create table Project
+(
+projectno varchar(10),
+projectarea varchar(20),
+primary key(projectno)
 );
 
-CREATE TABLE Employee(
-    SSN NUMBER PRIMARY KEY,
-    EmpName VARCHAR2(30) NOT NULL,
-    Salary NUMBER CHECK (Salary > 0),
-    DeptNo NUMBER,
-    ProjectNo NUMBER,
-    FOREIGN KEY(DeptNo) REFERENCES Department(DeptNo),
-    FOREIGN KEY(ProjectNo) REFERENCES Project(ProjectNo)
+create table Works_On
+(
+ssn varchar(6),
+projectno varchar(10),
+foreign key(ssn)references Employee(ssn),
+foreign key(projectno)references Project(projectno)
 );
+                </pre>
+                <h3>Insert Sample Data</h3>
+                <pre>
+INSERT INTO Employee VALUES ('E101','Ravi',10);
+INSERT INTO Employee VALUES ('E102','Anu',20);
+INSERT INTO Employee VALUES ('E103','Kiran',30);
+INSERT INTO Employee VALUES ('E104','Priya',10);
 
-CREATE TABLE Works_On(
-    SSN NUMBER,
-    ProjectNo NUMBER,
-    Hours NUMBER CHECK (Hours > 0),
-    PRIMARY KEY(SSN, ProjectNo),
-    FOREIGN KEY(SSN) REFERENCES Employee(SSN) ON DELETE CASCADE,
-    FOREIGN KEY(ProjectNo) REFERENCES Project(ProjectNo) ON DELETE CASCADE
-);
-</pre>
+INSERT INTO Project VALUES (101,'Database');
+INSERT INTO Project VALUES (102,'Cloud');
+INSERT INTO Project VALUES (103,'Data Science');
 
-<h3>Insert Sample Data</h3>
-<pre>
-INSERT INTO Department VALUES(10, 'CSE');
-INSERT INTO Department VALUES(20, 'ISE');
-INSERT INTO Department VALUES(30, 'ECE');
-
-INSERT INTO Project VALUES(101, 'Library System', 'Database');
-INSERT INTO Project VALUES(102, 'AWS Portal', 'Cloud');
-INSERT INTO Project VALUES(103, 'ERP Software', 'Database');
-
-INSERT INTO Employee VALUES(1001, 'Ananth', 50000, 10, 101);
-INSERT INTO Employee VALUES(1002, 'Rahul', 55000, 10, 103);
-INSERT INTO Employee VALUES(1003, 'Sneha', 60000, 20, 102);
-INSERT INTO Employee VALUES(1004, 'Asha', 65000, 30, 101);
-
-INSERT INTO Works_On VALUES(1001, 101, 20);
-INSERT INTO Works_On VALUES(1002, 103, 40);
-INSERT INTO Works_On VALUES(1003, 102, 30);
-INSERT INTO Works_On VALUES(1004, 101, 25);
-COMMIT;
-</pre>
-
-<h3>Query i</h3>
-<p><b>Obtain the details of employees assigned to “Database” project.</b></p>
-<pre>
-SELECT E.SSN, E.EmpName, E.Salary, E.DeptNo, E.ProjectNo
+INSERT INTO Works_On VALUES ('E101',101);
+INSERT INTO Works_On VALUES ('E102',102);
+INSERT INTO Works_On VALUES ('E103',101);
+INSERT INTO Works_On VALUES ('E104',103);
+                </pre>
+                <h3>Verify Table Insertion</h3>
+                <p><b>select * from Employee;</b></p>
+                <table>
+                    <tr><th>ssn</th><th>name</th><th>deptno</th></tr>
+                    <tr><td>E101</td><td>Ravi</td><td>10</td></tr>
+                    <tr><td>E102</td><td>Anu</td><td>20</td></tr>
+                    <tr><td>E103</td><td>Kiran</td><td>30</td></tr>
+                    <tr><td>E104</td><td>Priya</td><td>10</td></tr>
+                </table>
+                <p><b>select * from Project;</b></p>
+                <table>
+                    <tr><th>projectno</th><th>projectarea</th></tr>
+                    <tr><td>101</td><td>Database</td></tr>
+                    <tr><td>102</td><td>Cloud</td></tr>
+                    <tr><td>103</td><td>Data Science</td></tr>
+                </table>
+                <p><b>select * from Works_On;</b></p>
+                <table>
+                    <tr><th>ssn</th><th>projectno</th></tr>
+                    <tr><td>E101</td><td>101</td></tr>
+                    <tr><td>E102</td><td>102</td></tr>
+                    <tr><td>E103</td><td>101</td></tr>
+                    <tr><td>E104</td><td>103</td></tr>
+                </table>
+                <h3>Query i</h3>
+                <p><b>Obtain the details of employees assigned to “Database” project.</b></p>
+                <pre>
+SELECT E.*
 FROM Employee E
-JOIN Project P ON E.ProjectNo = P.ProjectNo
-WHERE P.Domain = 'Database';
-</pre>
+JOIN Works_On W ON E.ssn = W.ssn
+JOIN Project P ON W.projectno = P.projectno
+WHERE P.projectarea = 'Database';
+                </pre>
+                <h4>Output</h4>
+                <table>
+                    <tr><th>ssn</th><th>name</th><th>deptno</th></tr>
+                    <tr><td>E101</td><td>Ravi</td><td>10</td></tr>
+                    <tr><td>E103</td><td>Kiran</td><td>30</td></tr>
+                </table>
+                <h3>Query ii</h3>
+                <p><b>Find the number of employees working in each department with department details.</b></p>
+                <pre>
+select deptno,count(ssn) as NumberofEmployees 
+from Employee 
+group by deptno;
+                </pre>
+                <h4>Output</h4>
+                <table>
+                    <tr><th>deptno</th><th>NumberofEmployees</th></tr>
+                    <tr><td>10</td><td>2</td></tr>
+                    <tr><td>20</td><td>1</td></tr>
+                    <tr><td>30</td><td>1</td></tr>
+                </table>
+                <h3>Query iii</h3>
+                <p><b>Update the Project details of Employee bearing SSN='E102' to ProjectNo=101 and display the same.</b></p>
+                <pre>
+UPDATE Works_On
+SET projectno = 101
+WHERE SSN = 'E102';
 
-<h4>Output</h4>
-<table>
-<tr>
-<th>SSN</th>
-<th>EmpName</th>
-<th>Salary</th>
-<th>DeptNo</th>
-<th>ProjectNo</th>
-</tr>
-<tr>
-<td>1001</td>
-<td>Ananth</td>
-<td>50000</td>
-<td>10</td>
-<td>101</td>
-</tr>
-<tr>
-<td>1002</td>
-<td>Rahul</td>
-<td>55000</td>
-<td>10</td>
-<td>103</td>
-</tr>
-<tr>
-<td>1004</td>
-<td>Asha</td>
-<td>65000</td>
-<td>30</td>
-<td>101</td>
-</tr>
-</table>
-
-<h3>Query ii</h3>
-<p><b>Find the number of employees working in each department with department details.</b></p>
-<pre>
-SELECT D.DeptNo, D.DeptName, COUNT(E.SSN) AS Employee_Count
-FROM Department D
-LEFT JOIN Employee E ON D.DeptNo = E.DeptNo
-GROUP BY D.DeptNo, D.DeptName;
-</pre>
-
-<h4>Output</h4>
-<table>
-<tr>
-<th>DeptNo</th>
-<th>DeptName</th>
-<th>Employee Count</th>
-</tr>
-<tr>
-<td>10</td>
-<td>CSE</td>
-<td>2</td>
-</tr>
-<tr>
-<td>20</td>
-<td>ISE</td>
-<td>1</td>
-</tr>
-<tr>
-<td>30</td>
-<td>ECE</td>
-<td>1</td>
-</tr>
-</table>
-
-<h3>Query iii</h3>
-<p><b>Update the Project details of Employee bearing SSN = 1001 to ProjectNo = 102 and display the same.</b></p>
-<pre>
--- Update employee project assignment
-UPDATE Employee
-SET ProjectNo = 102
-WHERE SSN = 1001;
-
--- Display updated record
-SELECT *
-FROM Employee
-WHERE SSN = 1001;
-</pre>
-
-<h4>Output</h4>
-<table>
-<tr>
-<th>SSN</th>
-<th>EmpName</th>
-<th>Salary</th>
-<th>DeptNo</th>
-<th>ProjectNo</th>
-</tr>
-<tr>
-<td>1001</td>
-<td>Ananth</td>
-<td>50000</td>
-<td>10</td>
-<td>102</td>
-</tr>
-</table>
-
-<hr>
-
-<h2>PART B — NoSQL (MongoDB) &amp; Procedural SQL (PL/SQL)</h2>
-
-<h3>Aim</h3>
-<p>
-To perform MongoDB operations on Employee and Department collections, and implement salary adjustment logic using a PL/SQL block in Oracle.
-</p>
-
-<h3>MongoDB Collections &amp; Document Insertion</h3>
-<pre>
-// Insert Employee documents
+SELECT * from Works_On;
+                </pre>
+                <h4>Output</h4>
+                <table>
+                    <tr><th>ssn</th><th>projectno</th></tr>
+                    <tr><td>E101</td><td>101</td></tr>
+                    <tr><td>E102</td><td>101</td></tr>
+                    <tr><td>E103</td><td>101</td></tr>
+                    <tr><td>E104</td><td>103</td></tr>
+                </table>
+                <hr>
+                <h2>PART B — NoSQL (MongoDB) &amp; Procedural SQL (PL/SQL)</h2>
+                <h3>Aim</h3>
+                <p>To perform MongoDB operations on Employee and Department collections, and implement salary adjustment logic using a PL/SQL block in Oracle.</p>
+                <h3>MongoDB Collections &amp; Document Insertion</h3>
+                <pre>
 db.Employee.insertMany([
-  { Emp_ID: 101, Emp_Name: "Ravi", Dept_No: 10, Salary: 50000, Project_No: "P101" },
-  { Emp_ID: 102, Emp_Name: "Rani", Dept_No: 20, Salary: 60000, Project_No: "P102" },
-  { Emp_ID: 103, Emp_Name: "Kushal", Dept_No: 10, Salary: 55000, Project_No: "P101" }
+  { Emp_ID:101, Emp_Name:"Ravi", Dept_No:10, Salary:50000, Project_No:"P101"},
+  { Emp_ID:102, Emp_Name:"Rani", Dept_No:20, Salary:60000, Project_No:"P102"},
+  { Emp_ID:103, Emp_Name:"Kushal", Dept_No:10, Salary:55000, Project_No:"P101"}
 ]);
-
-// Insert Department documents
+                </pre>
+                <h4>Output</h4>
+                <pre>
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('6a20078bbc1cfd02008ce5af'),
+    '1': ObjectId('6a20078bbc1cfd02008ce5b0'),
+    '2': ObjectId('6a20078bbc1cfd02008ce5b1')
+  }
+}
+                </pre>
+                <pre>
 db.Department.insertMany([
-  { Dept_No: 10, Dept_Name: "HR" },
-  { Dept_No: 20, Dept_Name: "IT" }
+  {Dept_No:10, Dept_Name:"HR"},
+  {Dept_No:20, Dept_Name:"IT"}
 ]);
-</pre>
-
-<h3>MongoDB Query i</h3>
-<p><b>List all the employees of Department named "HR".</b></p>
-<pre>
-var dept = db.Department.findOne(
-  { Dept_Name: "HR" }
+                </pre>
+                <h4>Output</h4>
+                <pre>
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('6a20078cbc1cfd02008ce5b2'),
+    '1': ObjectId('6a20078cbc1cfd02008ce5b3')
+  }
+}
+                </pre>
+                <h3>MongoDB Query i</h3>
+                <p><b>List all the employees of Department named "HR".</b></p>
+                <pre>
+var dept=db.Department.findOne(
+   {Dept_Name:"HR"}
 );
 
 db.Employee.find(
-  { Dept_No: dept.Dept_No }
+   {Dept_No:dept.Dept_No}
 );
-</pre>
-
-<h4>Expected Output</h4>
-<pre>
-[
+                </pre>
+                <h4>Expected Output</h4>
+                <pre>[
   {
-    _id: ObjectId("6a20078bbc1cfd02008ce5af"),
+    _id: ObjectId('6a20078bbc1cfd02008ce5af'),
     Emp_ID: 101,
     Emp_Name: 'Ravi',
     Dept_No: 10,
@@ -299,37 +259,28 @@ db.Employee.find(
     Project_No: 'P101'
   },
   {
-    _id: ObjectId("6a20078bbc1cfd02008ce5b1"),
+    _id: ObjectId('6a20078bbc1cfd02008ce5b1'),
     Emp_ID: 103,
     Emp_Name: 'Kushal',
     Dept_No: 10,
     Salary: 55000,
     Project_No: 'P101'
   }
-]
-</pre>
-
-<h3>MongoDB Query ii</h3>
-<p><b>Name the employees working on Project Number: "P101".</b></p>
-<pre>
+]</pre>
+                <h3>MongoDB Query ii</h3>
+                <p><b>Name the employees working on Project Number: "P101".</b></p>
+                <pre>
 db.Employee.find(
-  { Project_No: "P101" },
-  { Emp_Name: 1, _id: 0 }
+   {Project_No:"P101"},
+   {Emp_Name:1,_id:0}
 );
-</pre>
-
-<h4>Expected Output</h4>
-<pre>
-[
-  { "Emp_Name": "Ravi" },
-  { "Emp_Name": "Kushal" }
-]
-</pre>
-
-<h3>PL/SQL Program</h3>
-<p><b>Write a PL/SQL program that gives all employees in Department 10 a 15% pay increase. Display a message displaying how many employees were awarded the increase.</b></p>
-<pre>
--- Setup Employee table for PL/SQL execution
+                </pre>
+                <h4>Expected Output</h4>
+                <pre>[ { Emp_Name: 'Ravi' }, { Emp_Name: 'Kushal' } ]</pre>
+                <h3>PL/SQL Program</h3>
+                <p><b>Write a PL/SQL program that gives all employees in Department 10 a 15% pay increase. Display a message displaying how many employees were awarded the increase.</b></p>
+                <p><b>Table Setup:</b></p>
+                <pre>
 CREATE TABLE Employee (
     Emp_ID NUMBER(5) PRIMARY KEY,
     Emp_Name VARCHAR2(20),
@@ -343,7 +294,18 @@ INSERT INTO Employee VALUES (103, 'Kiran', 10, 55000);
 INSERT INTO Employee VALUES (104, 'Priya', 30, 45000);
 COMMIT;
 
--- PL/SQL block to update salary
+SELECT * FROM Employee;
+                </pre>
+                <h4>Initial Employee Table Output</h4>
+                <table>
+                    <tr><th>EMP_ID</th><th>EMP_NAME</th><th>DEPT_NO</th><th>SALARY</th></tr>
+                    <tr><td>101</td><td>Ravi</td><td>10</td><td>50000</td></tr>
+                    <tr><td>102</td><td>Anu</td><td>20</td><td>60000</td></tr>
+                    <tr><td>103</td><td>Kiran</td><td>10</td><td>55000</td></tr>
+                    <tr><td>104</td><td>Priya</td><td>30</td><td>45000</td></tr>
+                </table>
+                <p><b>PL/SQL Block:</b></p>
+                <pre>
 SET SERVEROUTPUT ON;
 DECLARE
    v_count NUMBER;
@@ -356,16 +318,23 @@ BEGIN
    DBMS_OUTPUT.PUT_LINE(v_count || ' employees awarded 15% increase');
 END;
 /
-</pre>
-
-<h4>Expected Output</h4>
-<pre>
+SELECT * FROM Employee;
+                </pre>
+                <h4>Execution Output</h4>
+                <pre>
 2 employees awarded 15% increase
-</pre>
+                </pre>
+                <h4>Updated Employee Table Output</h4>
+                <table>
+                    <tr><th>EMP_ID</th><th>EMP_NAME</th><th>DEPT_NO</th><th>SALARY</th></tr>
+                    <tr><td>101</td><td>Ravi</td><td>10</td><td>57500</td></tr>
+                    <tr><td>102</td><td>Anu</td><td>20</td><td>60000</td></tr>
+                    <tr><td>103</td><td>Kiran</td><td>10</td><td>63250</td></tr>
+                    <tr><td>104</td><td>Priya</td><td>30</td><td>45000</td></tr>
+                </table>
+                <hr>
 
-<hr>
-
-<h2>Result</h2>
+                <h2>Result</h2>
 <p>
 The database operations in Oracle SQL, MongoDB, and PL/SQL salary updates were successfully executed and verified with expected outputs.
 </p>

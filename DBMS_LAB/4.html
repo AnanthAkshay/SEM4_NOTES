@@ -82,194 +82,166 @@ Consider the Book Lending system from the library- BOOKS, STUDENT, BORROWS. The 
 </div>
 
 <h3>Schema Diagram</h3>
-<pre>
-BOOKS ( ISBN [PK], Title, Author, Price, Publisher )
-STUDENT ( StudentID [PK], StudentName, Gender )
-BORROWS ( StudentID [PK, FK], ISBN [PK, FK], BorrowDate )
-</pre>
-
-<h3>Create Table Statements</h3>
-<pre>
-CREATE TABLE Books(
-    ISBN VARCHAR2(10) PRIMARY KEY,
-    Title VARCHAR2(50) NOT NULL,
-    Author VARCHAR2(30) NOT NULL,
-    Price NUMBER CHECK (Price > 0),
-    Publisher VARCHAR2(30)
+                <pre>
+STUDENT ( StudentID [PK], Name, Gender )
+BOOK ( ISBN [PK], Title, Author, Publisher )
+BORROWS ( StudentID [PK, FK], ISBN [PK, FK], BorrowDate [PK] )
+                </pre>
+                <h3>Create Table Statements</h3>
+                <pre>
+CREATE TABLE STUDENT (
+    StudentID INT PRIMARY KEY,
+    Name VARCHAR(50),
+    Gender VARCHAR(10)
 );
 
-CREATE TABLE Student(
-    StudentID NUMBER PRIMARY KEY,
-    StudentName VARCHAR2(30) NOT NULL,
-    Gender VARCHAR2(10) CHECK (Gender IN ('Male', 'Female'))
+CREATE TABLE BOOK (
+    ISBN VARCHAR(10) PRIMARY KEY,
+    Title VARCHAR(50),
+    Author VARCHAR(50),
+    Publisher VARCHAR(50)
 );
 
-CREATE TABLE Borrows(
-    StudentID NUMBER REFERENCES Student(StudentID) ON DELETE CASCADE,
-    ISBN VARCHAR2(10) REFERENCES Books(ISBN) ON DELETE CASCADE,
+CREATE TABLE BORROWS (
+    StudentID INT,
+    ISBN VARCHAR(10),
     BorrowDate DATE,
-    PRIMARY KEY(StudentID, ISBN)
+    PRIMARY KEY (StudentID, ISBN, BorrowDate),
+    FOREIGN KEY (StudentID) REFERENCES STUDENT(StudentID),
+    FOREIGN KEY (ISBN) REFERENCES BOOK(ISBN)
 );
-</pre>
+                </pre>
+                <h3>Insert Sample Data</h3>
+                <pre>
+INSERT INTO STUDENT VALUES (1, 'Asha', 'Female');
+INSERT INTO STUDENT VALUES (2, 'Ravi', 'Male');
+INSERT INTO STUDENT VALUES (3, 'Meena', 'Female');
 
-<h3>Insert Sample Data</h3>
-<pre>
-INSERT INTO Books VALUES('123', 'Database Systems', 'Navathe', 500, 'McGrawHill');
-INSERT INTO Books VALUES('124', 'Operating System', 'Galvin', 650, 'Wiley');
-INSERT INTO Books VALUES('125', 'Computer Networks', 'Tanenbaum', 600, 'Pearson');
+INSERT INTO BOOK VALUES ('123', 'Database', 'Korth', 'McGraw');
+INSERT INTO BOOK VALUES ('124', 'Networks', 'Tanenbaum', 'Pearson');
+INSERT INTO BOOK VALUES ('125', 'AI', 'Russell', 'Elsevier');
 
-INSERT INTO Student VALUES(1, 'Rahul', 'Male');
-INSERT INTO Student VALUES(2, 'Sneha', 'Female');
-INSERT INTO Student VALUES(3, 'Asha', 'Female');
-
-INSERT INTO Borrows VALUES(1, '123', DATE '2025-01-10');
-INSERT INTO Borrows VALUES(2, '123', DATE '2025-01-11');
-INSERT INTO Borrows VALUES(2, '124', DATE '2025-01-12');
-COMMIT;
-</pre>
-
-<h3>Query i</h3>
-<p><b>Obtain the names of the student who has borrowed either book bearing ISBN ‘123’ or ISBN ‘124’.</b></p>
-<pre>
-SELECT DISTINCT S.StudentName
-FROM Student S
-JOIN Borrows B ON S.StudentID = B.StudentID
-WHERE B.ISBN IN ('123', '124');
-</pre>
-
-<h4>Output</h4>
-<table>
-<tr>
-<th>StudentName</th>
-</tr>
-<tr>
-<td>Rahul</td>
-</tr>
-<tr>
-<td>Sneha</td>
-</tr>
-</table>
-
-<h3>Query ii</h3>
-<p><b>Obtain the Names of female students who have borrowed “Database Systems” books.</b></p>
-<pre>
-SELECT S.StudentName
-FROM Student S
-JOIN Borrows B ON S.StudentID = B.StudentID
-JOIN Books BK ON B.ISBN = BK.ISBN
-WHERE S.Gender = 'Female' AND BK.Title = 'Database Systems';
-</pre>
-
-<h4>Output</h4>
-<table>
-<tr>
-<th>StudentName</th>
-</tr>
-<tr>
-<td>Sneha</td>
-</tr>
-</table>
-
-<h3>Query iii</h3>
-<p><b>Find the number of books borrowed by each student. Display the student details along with the number of books.</b></p>
-<pre>
-SELECT S.StudentID, S.StudentName, COUNT(B.ISBN) AS Books_Borrowed
-FROM Student S
-LEFT JOIN Borrows B ON S.StudentID = B.StudentID
-GROUP BY S.StudentID, S.StudentName;
-</pre>
-
-<h4>Output</h4>
-<table>
-<tr>
-<th>StudentID</th>
-<th>StudentName</th>
-<th>Books Borrowed</th>
-</tr>
-<tr>
-<td>1</td>
-<td>Rahul</td>
-<td>1</td>
-</tr>
-<tr>
-<td>2</td>
-<td>Sneha</td>
-<td>2</td>
-</tr>
-<tr>
-<td>3</td>
-<td>Asha</td>
-<td>0</td>
-</tr>
-</table>
-
-<hr>
-
-<h2>PART B — NoSQL (MongoDB) &amp; Procedural SQL (PL/SQL)</h2>
-
-<h3>Aim</h3>
-<p>
-To perform document-based operations on Book and Student collections in MongoDB, and implement a PL/SQL program in Oracle to apply book price updates.
-</p>
-
-<h3>MongoDB Collections &amp; Document Insertion</h3>
-<pre>
-// Insert Book documents
+INSERT INTO BORROWS VALUES (1, '123', '20-JAN-2001');
+INSERT INTO BORROWS VALUES (1, '124', '20-JAN-2002');
+INSERT INTO BORROWS VALUES (2, '125', '20-JAN-2002');
+INSERT INTO BORROWS VALUES (3, '123', '20-JAN-2002');
+                </pre>
+                <h3>Query i</h3>
+                <p><b>Obtain the names of the student who has borrowed either book bearing ISBN '123' or ISBN '124'.</b></p>
+                <pre>
+SELECT DISTINCT s.Name
+FROM STUDENT s
+JOIN BORROWS b ON s.StudentID = b.StudentID
+WHERE b.ISBN IN ('123', '124');
+                </pre>
+                <h4>Output</h4>
+                <table>
+                    <tr><th>NAME</th></tr>
+                    <tr><td>Asha</td></tr>
+                    <tr><td>Meena</td></tr>
+                </table>
+                <h3>Query ii</h3>
+                <p><b>Obtain the Names of female students who have borrowed "Database" books.</b></p>
+                <pre>
+SELECT DISTINCT s.Name
+FROM STUDENT s
+JOIN BORROWS b ON s.StudentID = b.StudentID
+JOIN BOOK bk ON b.ISBN = bk.ISBN
+WHERE s.Gender = 'Female' AND bk.Title = 'Database';
+                </pre>
+                <h4>Output</h4>
+                <table>
+                    <tr><th>NAME</th></tr>
+                    <tr><td>Asha</td></tr>
+                    <tr><td>Meena</td></tr>
+                </table>
+                <h3>Query iii</h3>
+                <p><b>Find the number of books borrowed by each student. Display the student details along with the number of books.</b></p>
+                <pre>
+SELECT s.StudentID, s.Name, COUNT(b.ISBN) AS TotalBooks
+FROM STUDENT s
+LEFT JOIN BORROWS b ON s.StudentID = b.StudentID
+GROUP BY s.StudentID, s.Name;
+                </pre>
+                <h4>Output</h4>
+                <table>
+                    <tr><th>STUDENTID</th><th>NAME</th><th>TOTALBOOKS</th></tr>
+                    <tr><td>1</td><td>Asha</td><td>2</td></tr>
+                    <tr><td>2</td><td>Ravi</td><td>1</td></tr>
+                    <tr><td>3</td><td>Meena</td><td>1</td></tr>
+                </table>
+                <hr>
+                <h2>PART B — NoSQL (MongoDB) &amp; Procedural SQL (PL/SQL)</h2>
+                <h3>Aim</h3>
+                <p>To perform MongoDB operations on Book and Student collections, and implement price adjustments using a PL/SQL block in Oracle.</p>
+                <h3>MongoDB Collections &amp; Document Insertion</h3>
+                <pre>
 db.Book.insertMany([
-  { Book_ID: 1, Title: "Database Systems", Author: "Navathe", Price: 500 },
-  { Book_ID: 2, Title: "Python Programming", Author: "John", Price: 400 }
+  { Book_ID:1, Title:"Database Systems", Author:"Navathe", Price:500 },
+  { Book_ID:2, Title:"Python Programming", Author:"John", Price:400 }
 ]);
-
-// Insert Student documents
+                </pre>
+                <h4>Output</h4>
+                <pre>
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('6a2271ee9153378f068ce5af'),
+    '1': ObjectId('6a2271ee9153378f068ce5b0')
+  }
+}
+                </pre>
+                <pre>
 db.Student.insertMany([
-  { SID: 1, SName: "Kushal", Book_ID: 1 },
-  { SID: 2, SName: "Priya", Book_ID: 2 }
+  { SID:1, SName:"Kushal", Book_ID:1 },
+  { SID:2, SName:"Priya", Book_ID:2 }
 ]);
-</pre>
-
-<h3>MongoDB Query i</h3>
-<p><b>Obtain the book details authored by “Navathe”.</b></p>
-<pre>
+                </pre>
+                <h4>Output</h4>
+                <pre>
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('6a227252494b62d38a8ce5af'),
+    '1': ObjectId('6a227252494b62d38a8ce5b0')
+  }
+}
+                </pre>
+                <h3>MongoDB Query i</h3>
+                <p><b>Obtain the book details authored by "Navathe".</b></p>
+                <pre>
 db.Book.find(
-  { Author: "Navathe" }
+  {Author:"Navathe"}
 );
-</pre>
-
-<h4>Expected Output</h4>
-<pre>
-[
+                </pre>
+                <h4>Expected Output</h4>
+                <pre>[
   {
-    _id: ObjectId("6a2272c847771f32118ce5af"),
+    _id: ObjectId('6a2272c847771f32118ce5af'),
     Book_ID: 1,
     Title: 'Database Systems',
     Author: 'Navathe',
     Price: 500
   }
-]
-</pre>
-
-<h3>MongoDB Query ii</h3>
-<p><b>Obtain the Names of students who have borrowed “Database Systems” books.</b></p>
-<pre>
-var book = db.Book.findOne(
-  { Title: "Database Systems" }
+]</pre>
+                <h3>MongoDB Query ii</h3>
+                <p><b>Obtain the Names of students who have borrowed "Database" books.</b></p>
+                <pre>
+var book=db.Book.findOne(
+  {Title:"Database Systems"}
 );
 
 db.Student.find(
-  { Book_ID: book.Book_ID },
-  { SName: 1, _id: 0 }
+  {Book_ID:book.Book_ID},
+  {SName:1,_id:0}
 );
-</pre>
-
-<h4>Expected Output</h4>
-<pre>
-[ { SName: 'Kushal' } ]
-</pre>
-
-<h3>PL/SQL Program</h3>
-<p><b>Write a PL/SQL program to increase the price of all books by 10%.</b></p>
-<pre>
--- Setup Book table
+                </pre>
+                <h4>Expected Output</h4>
+                <pre>[ { SName: 'Kushal' } ]</pre>
+                <h3>PL/SQL Program</h3>
+                <p><b>Write a PL/SQL program to increase the price of all books by 10%.</b></p>
+                <p><b>Table Setup:</b></p>
+                <pre>
 CREATE TABLE Book (
     Book_ID NUMBER(5) PRIMARY KEY,
     Title VARCHAR2(50),
@@ -283,25 +255,41 @@ INSERT INTO Book VALUES (103, 'Python Programming', 'John', 450);
 INSERT INTO Book VALUES (104, 'Computer Networks', 'Tanenbaum', 550);
 COMMIT;
 
--- Increase prices by 10%
-SET SERVEROUTPUT ON;
+SELECT * FROM Book;
+                </pre>
+                <h4>Initial Book Table Output</h4>
+                <table>
+                    <tr><th>BOOK_ID</th><th>TITLE</th><th>AUTHOR</th><th>PRICE</th></tr>
+                    <tr><td>101</td><td>Database Systems</td><td>Navathe</td><td>500</td></tr>
+                    <tr><td>102</td><td>Operating Systems</td><td>Galvin</td><td>600</td></tr>
+                    <tr><td>103</td><td>Python Programming</td><td>John</td><td>450</td></tr>
+                    <tr><td>104</td><td>Computer Networks</td><td>Tanenbaum</td><td>550</td></tr>
+                </table>
+                <p><b>PL/SQL Block:</b></p>
+                <pre>
 BEGIN
-   UPDATE Book
-   SET Price = Price * 1.10;
-   
-   DBMS_OUTPUT.PUT_LINE('Book prices updated');
+    UPDATE Book
+    SET Price = Price * 1.10;
+    DBMS_OUTPUT.PUT_LINE('Book prices updated');
 END;
 /
-</pre>
-
-<h4>Expected Output</h4>
-<pre>
+SELECT * FROM Book;
+                </pre>
+                <h4>Execution Output</h4>
+                <pre>
 Book prices updated
-</pre>
+                </pre>
+                <h4>Updated Book Table Output</h4>
+                <table>
+                    <tr><th>BOOK_ID</th><th>TITLE</th><th>AUTHOR</th><th>PRICE</th></tr>
+                    <tr><td>101</td><td>Database Systems</td><td>Navathe</td><td>550</td></tr>
+                    <tr><td>102</td><td>Operating Systems</td><td>Galvin</td><td>660</td></tr>
+                    <tr><td>103</td><td>Python Programming</td><td>John</td><td>495</td></tr>
+                    <tr><td>104</td><td>Computer Networks</td><td>Tanenbaum</td><td>605</td></tr>
+                </table>
+                <hr>
 
-<hr>
-
-<h2>Result</h2>
+                <h2>Result</h2>
 <p>
 The Books-Student database operations were successfully designed, run in SQL &amp; MongoDB, and the PL/SQL program successfully completed the book price updates.
 </p>

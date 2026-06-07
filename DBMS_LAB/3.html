@@ -82,238 +82,221 @@ Consider the relations BOAT, SAILOR and RESERVES. The relation BOAT identifies t
 </div>
 
 <h3>Schema Diagram</h3>
-<pre>
-BOAT ( BID [PK], BName, Color )
-SAILOR ( SailorID [PK], SName, Age, Rating )
+                <pre>
+SAILOR ( SailorID [PK], Name, Age )
+BOAT ( BID [PK], BoatName, Color )
 RESERVES ( SailorID [PK, FK], BID [PK, FK], Day [PK] )
-</pre>
-
-<h3>Create Table Statements</h3>
-<pre>
-CREATE TABLE Boat(
-    BID NUMBER PRIMARY KEY,
-    BName VARCHAR2(30) NOT NULL,
-    Color VARCHAR2(20) NOT NULL
+                </pre>
+                <h3>Create Table Statements</h3>
+                <pre>
+CREATE TABLE SAILOR (
+    SailorID INT PRIMARY KEY,
+    Name VARCHAR(50),
+    Age INT CHECK (Age > 0)
 );
 
-CREATE TABLE Sailor(
-    SailorID NUMBER PRIMARY KEY,
-    SName VARCHAR2(30) NOT NULL,
-    Age NUMBER CHECK (Age >= 18),
-    Rating NUMBER CHECK (Rating >= 1 AND Rating <= 10)
+CREATE TABLE BOAT (
+    BID INT PRIMARY KEY,
+    BoatName VARCHAR(50),
+    Color VARCHAR(20)
 );
 
-CREATE TABLE Reserves(
-    SailorID NUMBER REFERENCES Sailor(SailorID) ON DELETE CASCADE,
-    BID NUMBER REFERENCES Boat(BID) ON DELETE CASCADE,
+CREATE TABLE RESERVES (
+    SailorID INT,
+    BID INT,
     Day DATE,
-    PRIMARY KEY(SailorID, BID, Day)
+    PRIMARY KEY (SailorID, BID, Day),
+    FOREIGN KEY (SailorID) REFERENCES SAILOR(SailorID),
+    FOREIGN KEY (BID) REFERENCES BOAT(BID)
 );
-</pre>
+                </pre>
+                <h3>Insert Sample Data</h3>
+                <pre>
+INSERT INTO SAILOR VALUES (1, 'Ravi', 25);
+INSERT INTO SAILOR VALUES (2, 'Meena', 30);
+INSERT INTO SAILOR VALUES (3, 'Arun', 28);
 
-<h3>Insert Sample Data</h3>
-<pre>
-INSERT INTO Boat VALUES(101, 'Sea Queen', 'Red');
-INSERT INTO Boat VALUES(102, 'Ocean Star', 'Blue');
-INSERT INTO Boat VALUES(103, 'Wave Rider', 'Red');
-INSERT INTO Boat VALUES(104, 'Wind Surf', 'Green');
+INSERT INTO BOAT VALUES (101, 'Sea Queen', 'Red');
+INSERT INTO BOAT VALUES (102, 'Wave Rider', 'Blue');
+INSERT INTO BOAT VALUES (103, 'Ocean Star', 'Green');
 
-INSERT INTO Sailor VALUES(1, 'Rahul', 20, 8);
-INSERT INTO Sailor VALUES(2, 'Ananth', 22, 9);
-INSERT INTO Sailor VALUES(3, 'Sneha', 19, 7);
-
-INSERT INTO Reserves VALUES(1, 101, DATE '2025-01-10');
-INSERT INTO Reserves VALUES(1, 102, DATE '2025-01-11');
-INSERT INTO Reserves VALUES(2, 101, DATE '2025-01-12');
-INSERT INTO Reserves VALUES(3, 103, DATE '2025-01-10');
-COMMIT;
-</pre>
-
-<h3>Query i</h3>
-<p><b>Obtain the details of the boats reserved by ‘Rahul’.</b></p>
-<pre>
-SELECT B.BID, B.BName, B.Color, R.Day
-FROM Boat B
-JOIN Reserves R ON B.BID = R.BID
-JOIN Sailor S ON R.SailorID = S.SailorID
-WHERE S.SName = 'Rahul';
-</pre>
-
-<h4>Output</h4>
-<table>
-<tr>
-<th>BID</th>
-<th>BName</th>
-<th>Color</th>
-<th>Day</th>
-</tr>
-<tr>
-<td>101</td>
-<td>Sea Queen</td>
-<td>Red</td>
-<td>10-JAN-25</td>
-</tr>
-<tr>
-<td>102</td>
-<td>Ocean Star</td>
-<td>Blue</td>
-<td>11-JAN-25</td>
-</tr>
-</table>
-
-<h3>Query ii</h3>
-<p><b>Retrieve the BID of the boats reserved necessarily by all the sailors.</b></p>
-<pre>
-SELECT R.BID
-FROM Reserves R
-GROUP BY R.BID
-HAVING COUNT(DISTINCT R.SailorID) = (SELECT COUNT(*) FROM Sailor);
-</pre>
-
-<h4>Output</h4>
-<table>
-<tr>
-<th>BID</th>
-</tr>
-<tr>
-<td>101</td>
-</tr>
-</table>
-
-<h3>Query iii</h3>
-<p><b>Find the number of boats reserved by each sailor. Display the Sailor_Name along with the number of boats reserved.</b></p>
-<pre>
-SELECT S.SName, COUNT(R.BID) AS Boats_Reserved
-FROM Sailor S
-LEFT JOIN Reserves R ON S.SailorID = R.SailorID
-GROUP BY S.SailorID, S.SName;
-</pre>
-
-<h4>Output</h4>
-<table>
-<tr>
-<th>SName</th>
-<th>Boats Reserved</th>
-</tr>
-<tr>
-<td>Rahul</td>
-<td>2</td>
-</tr>
-<tr>
-<td>Ananth</td>
-<td>1</td>
-</tr>
-<tr>
-<td>Sneha</td>
-<td>1</td>
-</tr>
-</table>
-
-<hr>
-
-<h2>PART B — NoSQL (MongoDB) &amp; Procedural SQL (PL/SQL)</h2>
-
-<h3>Aim</h3>
-<p>
-To perform document-based queries on Boat, Sailor, and Reserve collections in MongoDB, and count boats using PL/SQL in Oracle.
-</p>
-
-<h3>MongoDB Collections &amp; Document Insertion</h3>
-<pre>
-// Insert Sailor documents
+INSERT INTO RESERVES VALUES (1, 101, '20-APR-2001');
+INSERT INTO RESERVES VALUES (1, 102, '20-APR-2002');
+INSERT INTO RESERVES VALUES (2, 101, '21-APR-2001');
+INSERT INTO RESERVES VALUES (2, 102, '22-APR-2004');
+INSERT INTO RESERVES VALUES (3, 101, '26-APR-2003');
+                </pre>
+                <h3>Query i</h3>
+                <p><b>Obtain the details of the boats reserved by 'Ravi'.</b></p>
+                <pre>
+SELECT B.*
+FROM BOAT B
+JOIN RESERVES R ON B.BID = R.BID
+JOIN SAILOR S ON S.SailorID = R.SailorID
+WHERE S.Name = 'Ravi';
+                </pre>
+                <h4>Output</h4>
+                <table>
+                    <tr><th>BID</th><th>BOATNAME</th><th>COLOR</th></tr>
+                    <tr><td>101</td><td>Sea Queen</td><td>Red</td></tr>
+                    <tr><td>102</td><td>Wave Rider</td><td>Blue</td></tr>
+                </table>
+                <h3>Query ii</h3>
+                <p><b>Retrieve the BID of the boats reserved necessarily by all the sailors.</b></p>
+                <pre>
+SELECT BID
+FROM RESERVES
+GROUP BY BID
+HAVING COUNT(DISTINCT SailorID) = (SELECT COUNT(*) FROM SAILOR);
+                </pre>
+                <h4>Output</h4>
+                <table>
+                    <tr><th>BID</th></tr>
+                    <tr><td>101</td></tr>
+                </table>
+                <h3>Query iii</h3>
+                <p><b>Find the number of boats reserved by each sailor. Display the Sailor_Name along with the number of boats reserved.</b></p>
+                <pre>
+SELECT S.Name, COUNT(R.BID) AS TotalBoats
+FROM SAILOR S
+LEFT JOIN RESERVES R ON S.SailorID = R.SailorID
+GROUP BY S.Name;
+                </pre>
+                <h4>Output</h4>
+                <table>
+                    <tr><th>NAME</th><th>TOTALBOATS</th></tr>
+                    <tr><td>Arun</td><td>1</td></tr>
+                    <tr><td>Meena</td><td>2</td></tr>
+                    <tr><td>Ravi</td><td>2</td></tr>
+                </table>
+                <hr>
+                <h2>PART B — NoSQL (MongoDB) &amp; Procedural SQL (PL/SQL)</h2>
+                <h3>Aim</h3>
+                <p>To perform MongoDB operations on Sailor, Boat, and Reserve collections, and implement count logic using a PL/SQL block in Oracle.</p>
+                <h3>MongoDB Collections &amp; Document Insertion</h3>
+                <pre>
 db.Sailor.insertMany([
-  { SID: 1, SName: "Ramesh" },
-  { SID: 2, SName: "Suresh" }
+  {SID:1,SName:"Ramesh"},
+  {SID:2,SName:"Suresh"}
 ]);
-
-// Insert Boat documents
+                </pre>
+                <h4>Output</h4>
+                <pre>
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('6a2159745fdbac8b848ce5af'),
+    '1': ObjectId('6a2159745fdbac8b848ce5b0')
+  }
+}
+                </pre>
+                <pre>
 db.Boat.insertMany([
-  { BID: 101, BName: "Sea King", Color: "Red" },
-  { BID: 102, BName: "Ocean Star", Color: "Blue" }
+  {BID:101,BName:"Sea King",Color:"Red"},
+  {BID:102,BName:"Ocean Star",Color:"Blue"}
 ]);
-
-// Insert Reserve documents
+                </pre>
+                <h4>Output</h4>
+                <pre>
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('6a2159a5a394a68ce18ce5b1'),
+    '1': ObjectId('6a2159a5a394a68ce18ce5b2')
+  }
+}
+                </pre>
+                <pre>
 db.Reserve.insertMany([
-  { SID: 1, BID: 101 },
-  { SID: 1, BID: 102 },
-  { SID: 2, BID: 102 }
+  {SID:1,BID:101},
+  {SID:1,BID:102},
+  {SID:2,BID:102}
 ]);
-</pre>
-
-<h3>MongoDB Query i</h3>
-<p><b>Obtain the number of boats reserved by sailor "Ramesh".</b></p>
-<pre>
-var sailor = db.Sailor.findOne(
-  { SName: "Ramesh" }
+                </pre>
+                <h4>Output</h4>
+                <pre>
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('6a2159daa3049e238d8ce5b3'),
+    '1': ObjectId('6a2159daa3049e238d8ce5b4'),
+    '2': ObjectId('6a2159daa3049e238d8ce5b5')
+  }
+}
+                </pre>
+                <h3>MongoDB Query i</h3>
+                <p><b>Obtain the number of boats reserved by sailor "Ramesh".</b></p>
+                <pre>
+var sailor=db.Sailor.findOne(
+  {SName:"Ramesh"}
 );
 
 db.Reserve.countDocuments(
-  { SID: sailor.SID }
+  {SID:sailor.SID}
 );
-</pre>
-
-<h4>Expected Output</h4>
-<pre>
-2
-</pre>
-
-<h3>MongoDB Query ii</h3>
-<p><b>Retrieve boats of color "Blue".</b></p>
-<pre>
+                </pre>
+                <h4>Expected Output</h4>
+                <pre>2</pre>
+                <h3>MongoDB Query ii</h3>
+                <p><b>Retrieve boats of color "Blue".</b></p>
+                <pre>
 db.Boat.find(
-  { Color: "Blue" }
+  {Color:"Blue"}
 );
-</pre>
-
-<h4>Expected Output</h4>
-<pre>
-[
+                </pre>
+                <h4>Expected Output</h4>
+                <pre>[
   {
-    _id: ObjectId("6a215a462dbc9d54be8ce5b2"),
+    _id: ObjectId('6a215a462dbc9d54be8ce5b2'),
     BID: 102,
     BName: 'Ocean Star',
     Color: 'Blue'
   }
-]
-</pre>
-
-<h3>PL/SQL Program</h3>
-<p><b>Write a PL/SQL program to Count the number of boats.</b></p>
-<pre>
--- Setup Boat table and insert data
+]</pre>
+                <h3>PL/SQL Program</h3>
+                <p><b>Write a PL/SQL program to Count the number of boats.</b></p>
+                <p><b>Table Setup:</b></p>
+                <pre>
 CREATE TABLE Boat (
     BID NUMBER(5) PRIMARY KEY,
     BName VARCHAR2(30),
     Color VARCHAR2(20)
 );
 
-INSERT INTO Boat VALUES (1, 'BoatA', 'Red');
-INSERT INTO Boat VALUES (2, 'BoatB', 'Blue');
-INSERT INTO Boat VALUES (3, 'BoatC', 'Green');
+INSERT INTO Boat VALUES (1,'BoatA','Red');
+INSERT INTO Boat VALUES (2,'BoatB','Blue');
+INSERT INTO Boat VALUES (3,'BoatC','Green');
 COMMIT;
 
--- Count boats using PL/SQL block
+SELECT * FROM Boat;
+                </pre>
+                <h4>Initial Boat Table Output</h4>
+                <table>
+                    <tr><th>BID</th><th>BNAME</th><th>COLOR</th></tr>
+                    <tr><td>1</td><td>BoatA</td><td>Red</td></tr>
+                    <tr><td>2</td><td>BoatB</td><td>Blue</td></tr>
+                    <tr><td>3</td><td>BoatC</td><td>Green</td></tr>
+                </table>
+                <p><b>PL/SQL Block:</b></p>
+                <pre>
 SET SERVEROUTPUT ON;
 DECLARE
-   v_count NUMBER;
+    v_count NUMBER;
 BEGIN
-   SELECT COUNT(*)
-   INTO v_count
-   FROM Boat;
-   
-   DBMS_OUTPUT.PUT_LINE('Total Boats = ' || v_count);
+    SELECT COUNT(*)
+    INTO v_count
+    FROM Boat;
+    DBMS_OUTPUT.PUT_LINE('Total Boats = ' || v_count);
 END;
 /
-</pre>
-
-<h4>Expected Output</h4>
-<pre>
+                </pre>
+                <h4>Execution Output</h4>
+                <pre>
 Total Boats = 3
-</pre>
+                </pre>
+                <hr>
 
-<hr>
-
-<h2>Result</h2>
+                <h2>Result</h2>
 <p>
 The boat reservation database was designed and queried successfully in Oracle SQL and MongoDB, and the PL/SQL program successfully returned the total count of boats.
 </p>

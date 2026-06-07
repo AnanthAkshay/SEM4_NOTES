@@ -633,107 +633,120 @@
                 </div>
                 <h3>Schema Diagram</h3>
                 <pre>
-DEPARTMENT ( DeptNo [PK], DeptName )
-PROJECT ( ProjectNo [PK], ProjectName, Domain )
-EMPLOYEE ( SSN [PK], EmpName, Salary, DeptNo [FK], ProjectNo [FK] )
-WORKS_ON ( SSN [PK, FK], ProjectNo [PK, FK], Hours )
+EMPLOYEE ( ssn [PK], name, deptno )
+PROJECT ( projectno [PK], projectarea )
+WORKS_ON ( ssn [FK], projectno [FK] )
                 </pre>
                 <h3>Create Table Statements</h3>
                 <pre>
-CREATE TABLE Department(
-    DeptNo NUMBER PRIMARY KEY,
-    DeptName VARCHAR2(30) NOT NULL
+create table Employee
+(
+ssn varchar(6),
+name varchar(10),
+deptno int,
+primary key(ssn)
 );
 
-CREATE TABLE Project(
-    ProjectNo NUMBER PRIMARY KEY,
-    ProjectName VARCHAR2(30) NOT NULL,
-    Domain VARCHAR2(30)
+create table Project
+(
+projectno varchar(10),
+projectarea varchar(20),
+primary key(projectno)
 );
 
-CREATE TABLE Employee(
-    SSN NUMBER PRIMARY KEY,
-    EmpName VARCHAR2(30) NOT NULL,
-    Salary NUMBER CHECK (Salary > 0),
-    DeptNo NUMBER,
-    ProjectNo NUMBER,
-    FOREIGN KEY(DeptNo) REFERENCES Department(DeptNo),
-    FOREIGN KEY(ProjectNo) REFERENCES Project(ProjectNo)
-);
-
-CREATE TABLE Works_On(
-    SSN NUMBER,
-    ProjectNo NUMBER,
-    Hours NUMBER CHECK (Hours > 0),
-    PRIMARY KEY(SSN, ProjectNo),
-    FOREIGN KEY(SSN) REFERENCES Employee(SSN) ON DELETE CASCADE,
-    FOREIGN KEY(ProjectNo) REFERENCES Project(ProjectNo) ON DELETE CASCADE
+create table Works_On
+(
+ssn varchar(6),
+projectno varchar(10),
+foreign key(ssn)references Employee(ssn),
+foreign key(projectno)references Project(projectno)
 );
                 </pre>
                 <h3>Insert Sample Data</h3>
                 <pre>
-INSERT INTO Department VALUES(10, 'CSE');
-INSERT INTO Department VALUES(20, 'ISE');
-INSERT INTO Department VALUES(30, 'ECE');
+INSERT INTO Employee VALUES ('E101','Ravi',10);
+INSERT INTO Employee VALUES ('E102','Anu',20);
+INSERT INTO Employee VALUES ('E103','Kiran',30);
+INSERT INTO Employee VALUES ('E104','Priya',10);
 
-INSERT INTO Project VALUES(101, 'Library System', 'Database');
-INSERT INTO Project VALUES(102, 'AWS Portal', 'Cloud');
-INSERT INTO Project VALUES(103, 'ERP Software', 'Database');
+INSERT INTO Project VALUES (101,'Database');
+INSERT INTO Project VALUES (102,'Cloud');
+INSERT INTO Project VALUES (103,'Data Science');
 
-INSERT INTO Employee VALUES(1001, 'Ananth', 50000, 10, 101);
-INSERT INTO Employee VALUES(1002, 'Rahul', 55000, 10, 103);
-INSERT INTO Employee VALUES(1003, 'Sneha', 60000, 20, 102);
-INSERT INTO Employee VALUES(1004, 'Asha', 65000, 30, 101);
-
-INSERT INTO Works_On VALUES(1001, 101, 20);
-INSERT INTO Works_On VALUES(1002, 103, 40);
-INSERT INTO Works_On VALUES(1003, 102, 30);
-INSERT INTO Works_On VALUES(1004, 101, 25);
-COMMIT;
+INSERT INTO Works_On VALUES ('E101',101);
+INSERT INTO Works_On VALUES ('E102',102);
+INSERT INTO Works_On VALUES ('E103',101);
+INSERT INTO Works_On VALUES ('E104',103);
                 </pre>
+                <h3>Verify Table Insertion</h3>
+                <p><b>select * from Employee;</b></p>
+                <table>
+                    <tr><th>ssn</th><th>name</th><th>deptno</th></tr>
+                    <tr><td>E101</td><td>Ravi</td><td>10</td></tr>
+                    <tr><td>E102</td><td>Anu</td><td>20</td></tr>
+                    <tr><td>E103</td><td>Kiran</td><td>30</td></tr>
+                    <tr><td>E104</td><td>Priya</td><td>10</td></tr>
+                </table>
+                <p><b>select * from Project;</b></p>
+                <table>
+                    <tr><th>projectno</th><th>projectarea</th></tr>
+                    <tr><td>101</td><td>Database</td></tr>
+                    <tr><td>102</td><td>Cloud</td></tr>
+                    <tr><td>103</td><td>Data Science</td></tr>
+                </table>
+                <p><b>select * from Works_On;</b></p>
+                <table>
+                    <tr><th>ssn</th><th>projectno</th></tr>
+                    <tr><td>E101</td><td>101</td></tr>
+                    <tr><td>E102</td><td>102</td></tr>
+                    <tr><td>E103</td><td>101</td></tr>
+                    <tr><td>E104</td><td>103</td></tr>
+                </table>
                 <h3>Query i</h3>
                 <p><b>Obtain the details of employees assigned to “Database” project.</b></p>
                 <pre>
-SELECT E.SSN, E.EmpName, E.Salary, E.DeptNo, E.ProjectNo
+SELECT E.*
 FROM Employee E
-JOIN Project P ON E.ProjectNo = P.ProjectNo
-WHERE P.Domain = 'Database';
+JOIN Works_On W ON E.ssn = W.ssn
+JOIN Project P ON W.projectno = P.projectno
+WHERE P.projectarea = 'Database';
                 </pre>
                 <h4>Output</h4>
                 <table>
-                    <tr><th>SSN</th><th>EmpName</th><th>Salary</th><th>DeptNo</th><th>ProjectNo</th></tr>
-                    <tr><td>1001</td><td>Ananth</td><td>50000</td><td>10</td><td>101</td></tr>
-                    <tr><td>1002</td><td>Rahul</td><td>55000</td><td>10</td><td>103</td></tr>
-                    <tr><td>1004</td><td>Asha</td><td>65000</td><td>30</td><td>101</td></tr>
+                    <tr><th>ssn</th><th>name</th><th>deptno</th></tr>
+                    <tr><td>E101</td><td>Ravi</td><td>10</td></tr>
+                    <tr><td>E103</td><td>Kiran</td><td>30</td></tr>
                 </table>
                 <h3>Query ii</h3>
                 <p><b>Find the number of employees working in each department with department details.</b></p>
                 <pre>
-SELECT D.DeptNo, D.DeptName, COUNT(E.SSN) AS Employee_Count
-FROM Department D
-LEFT JOIN Employee E ON D.DeptNo = E.DeptNo
-GROUP BY D.DeptNo, D.DeptName;
+select deptno,count(ssn) as NumberofEmployees 
+from Employee 
+group by deptno;
                 </pre>
                 <h4>Output</h4>
                 <table>
-                    <tr><th>DeptNo</th><th>DeptName</th><th>Employee Count</th></tr>
-                    <tr><td>10</td><td>CSE</td><td>2</td></tr>
-                    <tr><td>20</td><td>ISE</td><td>1</td></tr>
-                    <tr><td>30</td><td>ECE</td><td>1</td></tr>
+                    <tr><th>deptno</th><th>NumberofEmployees</th></tr>
+                    <tr><td>10</td><td>2</td></tr>
+                    <tr><td>20</td><td>1</td></tr>
+                    <tr><td>30</td><td>1</td></tr>
                 </table>
                 <h3>Query iii</h3>
-                <p><b>Update the Project details of Employee bearing SSN = 1001 to ProjectNo = 102 and display the same.</b></p>
+                <p><b>Update the Project details of Employee bearing SSN='E102' to ProjectNo=101 and display the same.</b></p>
                 <pre>
-UPDATE Employee
-SET ProjectNo = 102
-WHERE SSN = 1001;
+UPDATE Works_On
+SET projectno = 101
+WHERE SSN = 'E102';
 
-SELECT * FROM Employee WHERE SSN = 1001;
+SELECT * from Works_On;
                 </pre>
                 <h4>Output</h4>
                 <table>
-                    <tr><th>SSN</th><th>EmpName</th><th>Salary</th><th>DeptNo</th><th>ProjectNo</th></tr>
-                    <tr><td>1001</td><td>Ananth</td><td>50000</td><td>10</td><td>102</td></tr>
+                    <tr><th>ssn</th><th>projectno</th></tr>
+                    <tr><td>E101</td><td>101</td></tr>
+                    <tr><td>E102</td><td>101</td></tr>
+                    <tr><td>E103</td><td>101</td></tr>
+                    <tr><td>E104</td><td>103</td></tr>
                 </table>
                 <hr>
                 <h2>PART B — NoSQL (MongoDB) &amp; Procedural SQL (PL/SQL)</h2>
@@ -742,31 +755,53 @@ SELECT * FROM Employee WHERE SSN = 1001;
                 <h3>MongoDB Collections &amp; Document Insertion</h3>
                 <pre>
 db.Employee.insertMany([
-  { Emp_ID: 101, Emp_Name: "Ravi", Dept_No: 10, Salary: 50000, Project_No: "P101" },
-  { Emp_ID: 102, Emp_Name: "Rani", Dept_No: 20, Salary: 60000, Project_No: "P102" },
-  { Emp_ID: 103, Emp_Name: "Kushal", Dept_No: 10, Salary: 55000, Project_No: "P101" }
+  { Emp_ID:101, Emp_Name:"Ravi", Dept_No:10, Salary:50000, Project_No:"P101"},
+  { Emp_ID:102, Emp_Name:"Rani", Dept_No:20, Salary:60000, Project_No:"P102"},
+  { Emp_ID:103, Emp_Name:"Kushal", Dept_No:10, Salary:55000, Project_No:"P101"}
 ]);
-
+                </pre>
+                <h4>Output</h4>
+                <pre>
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('6a20078bbc1cfd02008ce5af'),
+    '1': ObjectId('6a20078bbc1cfd02008ce5b0'),
+    '2': ObjectId('6a20078bbc1cfd02008ce5b1')
+  }
+}
+                </pre>
+                <pre>
 db.Department.insertMany([
-  { Dept_No: 10, Dept_Name: "HR" },
-  { Dept_No: 20, Dept_Name: "IT" }
+  {Dept_No:10, Dept_Name:"HR"},
+  {Dept_No:20, Dept_Name:"IT"}
 ]);
+                </pre>
+                <h4>Output</h4>
+                <pre>
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('6a20078cbc1cfd02008ce5b2'),
+    '1': ObjectId('6a20078cbc1cfd02008ce5b3')
+  }
+}
                 </pre>
                 <h3>MongoDB Query i</h3>
                 <p><b>List all the employees of Department named "HR".</b></p>
                 <pre>
-var dept = db.Department.findOne(
-  { Dept_Name: "HR" }
+var dept=db.Department.findOne(
+   {Dept_Name:"HR"}
 );
 
 db.Employee.find(
-  { Dept_No: dept.Dept_No }
+   {Dept_No:dept.Dept_No}
 );
                 </pre>
                 <h4>Expected Output</h4>
                 <pre>[
   {
-    _id: ObjectId("6a20078bbc1cfd02008ce5af"),
+    _id: ObjectId('6a20078bbc1cfd02008ce5af'),
     Emp_ID: 101,
     Emp_Name: 'Ravi',
     Dept_No: 10,
@@ -774,7 +809,7 @@ db.Employee.find(
     Project_No: 'P101'
   },
   {
-    _id: ObjectId("6a20078bbc1cfd02008ce5b1"),
+    _id: ObjectId('6a20078bbc1cfd02008ce5b1'),
     Emp_ID: 103,
     Emp_Name: 'Kushal',
     Dept_No: 10,
@@ -786,17 +821,15 @@ db.Employee.find(
                 <p><b>Name the employees working on Project Number: "P101".</b></p>
                 <pre>
 db.Employee.find(
-  { Project_No: "P101" },
-  { Emp_Name: 1, _id: 0 }
+   {Project_No:"P101"},
+   {Emp_Name:1,_id:0}
 );
                 </pre>
                 <h4>Expected Output</h4>
-                <pre>[
-  { "Emp_Name": "Ravi" },
-  { "Emp_Name": "Kushal" }
-]</pre>
+                <pre>[ { Emp_Name: 'Ravi' }, { Emp_Name: 'Kushal' } ]</pre>
                 <h3>PL/SQL Program</h3>
                 <p><b>Write a PL/SQL program that gives all employees in Department 10 a 15% pay increase. Display a message displaying how many employees were awarded the increase.</b></p>
+                <p><b>Table Setup:</b></p>
                 <pre>
 CREATE TABLE Employee (
     Emp_ID NUMBER(5) PRIMARY KEY,
@@ -811,6 +844,18 @@ INSERT INTO Employee VALUES (103, 'Kiran', 10, 55000);
 INSERT INTO Employee VALUES (104, 'Priya', 30, 45000);
 COMMIT;
 
+SELECT * FROM Employee;
+                </pre>
+                <h4>Initial Employee Table Output</h4>
+                <table>
+                    <tr><th>EMP_ID</th><th>EMP_NAME</th><th>DEPT_NO</th><th>SALARY</th></tr>
+                    <tr><td>101</td><td>Ravi</td><td>10</td><td>50000</td></tr>
+                    <tr><td>102</td><td>Anu</td><td>20</td><td>60000</td></tr>
+                    <tr><td>103</td><td>Kiran</td><td>10</td><td>55000</td></tr>
+                    <tr><td>104</td><td>Priya</td><td>30</td><td>45000</td></tr>
+                </table>
+                <p><b>PL/SQL Block:</b></p>
+                <pre>
 SET SERVEROUTPUT ON;
 DECLARE
    v_count NUMBER;
@@ -823,12 +868,22 @@ BEGIN
    DBMS_OUTPUT.PUT_LINE(v_count || ' employees awarded 15% increase');
 END;
 /
+SELECT * FROM Employee;
                 </pre>
-                <h4>Expected Output</h4>
+                <h4>Execution Output</h4>
                 <pre>
 2 employees awarded 15% increase
                 </pre>
+                <h4>Updated Employee Table Output</h4>
+                <table>
+                    <tr><th>EMP_ID</th><th>EMP_NAME</th><th>DEPT_NO</th><th>SALARY</th></tr>
+                    <tr><td>101</td><td>Ravi</td><td>10</td><td>57500</td></tr>
+                    <tr><td>102</td><td>Anu</td><td>20</td><td>60000</td></tr>
+                    <tr><td>103</td><td>Kiran</td><td>10</td><td>63250</td></tr>
+                    <tr><td>104</td><td>Priya</td><td>30</td><td>45000</td></tr>
+                </table>
                 <hr>
+
                 <h2>Result</h2>
                 <p>The database operations in Oracle SQL, MongoDB, and PL/SQL salary updates were successfully executed and verified with expected outputs.</p>
                 <hr>
@@ -914,116 +969,160 @@ END;
                 </div>
                 <h3>Schema Diagram</h3>
                 <pre>
-SUPPLIER ( SID [PK], SName, SAddr )
-PART ( PID [PK], PName, PColor )
-SHIPMENT ( SID [PK, FK], PID [PK, FK], Qty )
+PART ( pno [PK], pname, colour )
+SUPPLIER ( sno [PK], sname, address )
+SUPPLY ( pno [PK, FK], sno [PK, FK], quantity )
                 </pre>
                 <h3>Create Table Statements</h3>
                 <pre>
-CREATE TABLE Supplier(
-    SID NUMBER PRIMARY KEY,
-    SName VARCHAR2(30) NOT NULL,
-    SAddr VARCHAR2(50)
+create table part
+(
+pno number(10),
+pname varchar(20),
+colour varchar(20),
+primary key(pno)
 );
 
-CREATE TABLE Part(
-    PID NUMBER PRIMARY KEY,
-    PName VARCHAR2(30) NOT NULL,
-    PColor VARCHAR2(20) NOT NULL
+create table supplier
+(
+sno number(10),
+sname varchar(20),
+address varchar(20),
+primary key(sno)
 );
 
-CREATE TABLE Shipment(
-    SID NUMBER REFERENCES Supplier(SID) ON DELETE CASCADE,
-    PID NUMBER REFERENCES Part(PID) ON DELETE CASCADE,
-    Qty NUMBER CHECK (Qty > 0),
-    PRIMARY KEY(SID, PID)
+create table supply
+(
+pno number(10),
+sno number(10),
+quantity varchar(20),
+primary key(pno,sno),
+foreign key(pno) references part(pno)on delete cascade,
+foreign key(sno) references supplier(sno)on delete cascade
 );
                 </pre>
                 <h3>Insert Sample Data</h3>
                 <pre>
-INSERT INTO Supplier VALUES(1, 'Acme Corp', 'Bangalore');
-INSERT INTO Supplier VALUES(2, 'Global Parts', 'Mumbai');
-INSERT INTO Supplier VALUES(3, 'Titan Tools', 'Chennai');
+insert into part values(1,'plug','black');
+insert into part values(2,'bolt','blue');
+insert into part values(3,'nut','green');
 
-INSERT INTO Part VALUES(101, 'Bolt', 'Red');
-INSERT INTO Part VALUES(102, 'Nut', 'Blue');
-INSERT INTO Part VALUES(103, 'Screw', 'Red');
-INSERT INTO Part VALUES(104, 'Washer', 'Green');
+insert into supplier values(10,'Anoop','udupi');
+insert into supplier values(15,'Bharath','mangalore');
+insert into supplier values(20,'Ram','bangalore');
 
-INSERT INTO Shipment VALUES(1, 101, 500);
-INSERT INTO Shipment VALUES(1, 102, 300);
-INSERT INTO Shipment VALUES(2, 102, 1000);
-INSERT INTO Shipment VALUES(3, 101, 200);
-INSERT INTO Shipment VALUES(3, 103, 400);
-COMMIT;
+insert into supply values(1,10,50);
+insert into supply values(2,10,30);
+insert into supply values(1,15,70);
+insert into supply values(3,15,40);
+insert into supply values(1,20,55);
+insert into supply values(2,20,65);
+insert into supply values(3,20,75);
                 </pre>
+                <h3>Verify Table Insertion</h3>
+                <p><b>select * from part;</b></p>
+                <table>
+                    <tr><th>PNO</th><th>PNAME</th><th>COLOUR</th></tr>
+                    <tr><td>1</td><td>plug</td><td>black</td></tr>
+                    <tr><td>2</td><td>bolt</td><td>blue</td></tr>
+                    <tr><td>3</td><td>nut</td><td>green</td></tr>
+                </table>
+                <p><b>select * from supplier;</b></p>
+                <table>
+                    <tr><th>SNO</th><th>SNAME</th><th>ADDRESS</th></tr>
+                    <tr><td>10</td><td>Anoop</td><td>udupi</td></tr>
+                    <tr><td>15</td><td>Bharath</td><td>mangalore</td></tr>
+                    <tr><td>20</td><td>Ram</td><td>bangalore</td></tr>
+                </table>
+                <p><b>select * from supply;</b></p>
+                <table>
+                    <tr><th>PNO</th><th>SNO</th><th>QUANTITY</th></tr>
+                    <tr><td>1</td><td>10</td><td>50</td></tr>
+                    <tr><td>2</td><td>10</td><td>30</td></tr>
+                    <tr><td>1</td><td>15</td><td>70</td></tr>
+                    <tr><td>3</td><td>15</td><td>40</td></tr>
+                    <tr><td>1</td><td>20</td><td>55</td></tr>
+                    <tr><td>2</td><td>20</td><td>65</td></tr>
+                    <tr><td>3</td><td>20</td><td>75</td></tr>
+                </table>
                 <h3>Query i</h3>
-                <p><b>Obtain the details of parts supplied by supplier Acme Corp.</b></p>
+                <p><b>Obtain the part identifiers of parts supplied by supplier 'Ram'.</b></p>
                 <pre>
-SELECT P.PID, P.PName, P.PColor, S.Qty
-FROM Part P
-JOIN Shipment S ON P.PID = S.PID
-JOIN Supplier Sup ON S.SID = Sup.SID
-WHERE Sup.SName = 'Acme Corp';
+select pno from supply 
+where sno IN(select sno from supplier where sname='Ram');
                 </pre>
                 <h4>Output</h4>
                 <table>
-                    <tr><th>PID</th><th>PName</th><th>PColor</th><th>Qty</th></tr>
-                    <tr><td>101</td><td>Bolt</td><td>Red</td><td>500</td></tr>
-                    <tr><td>102</td><td>Nut</td><td>Blue</td><td>300</td></tr>
+                    <tr><th>PNO</th></tr>
+                    <tr><td>1</td></tr>
+                    <tr><td>2</td></tr>
+                    <tr><td>3</td></tr>
                 </table>
                 <h3>Query ii</h3>
-                <p><b>Obtain the Names of suppliers who supply Bolt.</b></p>
+                <p><b>Obtain the Names of suppliers who supply 'bolt'.</b></p>
                 <pre>
-SELECT Sup.SName
-FROM Supplier Sup
-JOIN Shipment S ON Sup.SID = S.SID
-JOIN Part P ON S.PID = P.PID
-WHERE P.PName = 'Bolt';
+select sname,pname 
+from supplier,supply,part 
+where pname='bolt' AND supply.sno=supplier.sno AND part.pno=supply.pno;
                 </pre>
                 <h4>Output</h4>
                 <table>
-                    <tr><th>SName</th></tr>
-                    <tr><td>Acme Corp</td></tr>
-                    <tr><td>Titan Tools</td></tr>
+                    <tr><th>SNAME</th><th>PNAME</th></tr>
+                    <tr><td>Anoop</td><td>bolt</td></tr>
+                    <tr><td>Ram</td><td>bolt</td></tr>
                 </table>
                 <h3>Query iii</h3>
-                <p><b>Delete the parts which are in Red color.</b></p>
+                <p><b>Delete the parts which are in 'green' color.</b></p>
                 <pre>
-DELETE FROM Part
-WHERE PColor = 'Red';
-
-SELECT * FROM Part;
+delete from part where colour='green';
                 </pre>
                 <h4>Output</h4>
-                <table>
-                    <tr><th>PID</th><th>PName</th><th>PColor</th></tr>
-                    <tr><td>102</td><td>Nut</td><td>Blue</td></tr>
-                    <tr><td>104</td><td>Washer</td><td>Green</td></tr>
-                </table>
+                <pre>1 row deleted.</pre>
                 <hr>
                 <h2>PART B — NoSQL (MongoDB) &amp; Procedural SQL (PL/SQL)</h2>
                 <h3>Aim</h3>
-                <p>To manage Part and Supplier collections in MongoDB, perform updates/queries, and implement a PL/SQL program in Oracle to copy shipment rows to a backup table.</p>
+                <p>To perform MongoDB operations on Part and Supplier collections, and implement record copying using a PL/SQL block in Oracle.</p>
                 <h3>MongoDB Collections &amp; Document Insertion</h3>
                 <pre>
 db.Part.insertMany([
-  { PID: "P1", PName: "Bolt", Price: 20 },
-  { PID: "P2", PName: "Nut", Price: 10 }
+  {PID:"P1", PName:"Bolt", Price:20},
+  {PID:"P2", PName:"Nut", Price:10}
 ]);
-
+                </pre>
+                <h4>Output</h4>
+                <pre>
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('6a2157e7346482d7de8ce5af'),
+    '1': ObjectId('6a2157e7346482d7de8ce5b0')
+  }
+}
+                </pre>
+                <pre>
 db.Supplier.insertMany([
-  { SID: 1, SName: "ABC Suppliers", PID: "P1" },
-  { SID: 2, SName: "XYZ Suppliers", PID: "P1" },
-  { SID: 3, SName: "Global Parts", PID: "P2" }
+  {SID:1,SName:"ABC Suppliers",PID:"P1"},
+  {SID:2,SName:"XYZ Suppliers",PID:"P1"},
+  {SID:3,SName:"Global Parts",PID:"P2"}
 ]);
+                </pre>
+                <h4>Output</h4>
+                <pre>
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('6a215845c53bedb60c8ce5b1'),
+    '1': ObjectId('6a215845c53bedb60c8ce5b2'),
+    '2': ObjectId('6a215845c53bedb60c8ce5b3')
+  }
+}
                 </pre>
                 <h3>MongoDB Query i</h3>
                 <p><b>Update the details of parts for a given part identifier: "P1".</b></p>
                 <pre>
 db.Part.updateOne(
-  { PID: "P1" },
-  { $set: { Price: 25 } }
+  {PID:"P1"},
+  {$set:{Price:25}}
 );
                 </pre>
                 <h4>Expected Output</h4>
@@ -1038,14 +1137,15 @@ db.Part.updateOne(
                 <p><b>Display all suppliers who supply the part with part identifier: "P1".</b></p>
                 <pre>
 db.Supplier.find(
-  { PID: "P1" },
-  { SName: 1, _id: 0 }
+  {PID:"P1"},
+  {SName:1,_id:0}
 );
                 </pre>
                 <h4>Expected Output</h4>
                 <pre>[ { SName: 'ABC Suppliers' }, { SName: 'XYZ Suppliers' } ]</pre>
                 <h3>PL/SQL Program</h3>
                 <p><b>Write a PL/SQL program to copy the contents of the Shipment table to another table for maintaining records for specific part number.</b></p>
+                <p><b>Table Setup:</b></p>
                 <pre>
 CREATE TABLE Shipment (
     SID NUMBER(5),
@@ -1059,28 +1159,48 @@ CREATE TABLE Shipment_Backup (
     Qty NUMBER(5)
 );
 
-INSERT INTO Shipment VALUES (101, 'P1', 50);
-INSERT INTO Shipment VALUES (102, 'P2', 40);
-INSERT INTO Shipment VALUES (103, 'P1', 30);
-INSERT INTO Shipment VALUES (104, 'P3', 20);
+INSERT INTO Shipment VALUES (101,'P1',50);
+INSERT INTO Shipment VALUES (102,'P2',40);
+INSERT INTO Shipment VALUES (103,'P1',30);
+INSERT INTO Shipment VALUES (104,'P3',20);
 COMMIT;
 
+SELECT * FROM Shipment;
+                </pre>
+                <h4>Initial Shipment Table Output</h4>
+                <table>
+                    <tr><th>SID</th><th>PID</th><th>QTY</th></tr>
+                    <tr><td>101</td><td>P1</td><td>50</td></tr>
+                    <tr><td>102</td><td>P2</td><td>40</td></tr>
+                    <tr><td>103</td><td>P1</td><td>30</td></tr>
+                    <tr><td>104</td><td>P3</td><td>20</td></tr>
+                </table>
+                <p><b>PL/SQL Block:</b></p>
+                <pre>
 SET SERVEROUTPUT ON;
 BEGIN
    INSERT INTO Shipment_Backup
    SELECT *
    FROM Shipment
-   WHERE PID = 'P1';
+   WHERE PID='P1';
 
    DBMS_OUTPUT.PUT_LINE('Records copied successfully');
 END;
 /
+SELECT * FROM Shipment_Backup;
                 </pre>
-                <h4>Expected Output</h4>
+                <h4>Execution Output</h4>
                 <pre>
 Records copied successfully
                 </pre>
+                <h4>Shipment Backup Table Output</h4>
+                <table>
+                    <tr><th>SID</th><th>PID</th><th>QTY</th></tr>
+                    <tr><td>101</td><td>P1</td><td>50</td></tr>
+                    <tr><td>103</td><td>P1</td><td>30</td></tr>
+                </table>
                 <hr>
+
                 <h2>Result</h2>
                 <p>The tables were created and queried in SQL, parts were updated and matched in MongoDB, and the PL/SQL program successfully copied records to the backup table.</p>
                 <hr>
@@ -1166,71 +1286,71 @@ Records copied successfully
                 </div>
                 <h3>Schema Diagram</h3>
                 <pre>
-BOAT ( BID [PK], BName, Color )
-SAILOR ( SailorID [PK], SName, Age, Rating )
+SAILOR ( SailorID [PK], Name, Age )
+BOAT ( BID [PK], BoatName, Color )
 RESERVES ( SailorID [PK, FK], BID [PK, FK], Day [PK] )
                 </pre>
                 <h3>Create Table Statements</h3>
                 <pre>
-CREATE TABLE Boat(
-    BID NUMBER PRIMARY KEY,
-    BName VARCHAR2(30) NOT NULL,
-    Color VARCHAR2(20) NOT NULL
+CREATE TABLE SAILOR (
+    SailorID INT PRIMARY KEY,
+    Name VARCHAR(50),
+    Age INT CHECK (Age > 0)
 );
 
-CREATE TABLE Sailor(
-    SailorID NUMBER PRIMARY KEY,
-    SName VARCHAR2(30) NOT NULL,
-    Age NUMBER CHECK (Age >= 18),
-    Rating NUMBER CHECK (Rating >= 1 AND Rating <= 10)
+CREATE TABLE BOAT (
+    BID INT PRIMARY KEY,
+    BoatName VARCHAR(50),
+    Color VARCHAR(20)
 );
 
-CREATE TABLE Reserves(
-    SailorID NUMBER REFERENCES Sailor(SailorID) ON DELETE CASCADE,
-    BID NUMBER REFERENCES Boat(BID) ON DELETE CASCADE,
+CREATE TABLE RESERVES (
+    SailorID INT,
+    BID INT,
     Day DATE,
-    PRIMARY KEY(SailorID, BID, Day)
+    PRIMARY KEY (SailorID, BID, Day),
+    FOREIGN KEY (SailorID) REFERENCES SAILOR(SailorID),
+    FOREIGN KEY (BID) REFERENCES BOAT(BID)
 );
                 </pre>
                 <h3>Insert Sample Data</h3>
                 <pre>
-INSERT INTO Boat VALUES(101, 'Sea Queen', 'Red');
-INSERT INTO Boat VALUES(102, 'Ocean Star', 'Blue');
-INSERT INTO Boat VALUES(103, 'Wave Rider', 'Red');
-INSERT INTO Boat VALUES(104, 'Wind Surf', 'Green');
+INSERT INTO SAILOR VALUES (1, 'Ravi', 25);
+INSERT INTO SAILOR VALUES (2, 'Meena', 30);
+INSERT INTO SAILOR VALUES (3, 'Arun', 28);
 
-INSERT INTO Sailor VALUES(1, 'Rahul', 20, 8);
-INSERT INTO Sailor VALUES(2, 'Ananth', 22, 9);
-INSERT INTO Sailor VALUES(3, 'Sneha', 19, 7);
+INSERT INTO BOAT VALUES (101, 'Sea Queen', 'Red');
+INSERT INTO BOAT VALUES (102, 'Wave Rider', 'Blue');
+INSERT INTO BOAT VALUES (103, 'Ocean Star', 'Green');
 
-INSERT INTO Reserves VALUES(1, 101, DATE '2025-01-10');
-INSERT INTO Reserves VALUES(1, 102, DATE '2025-01-11');
-INSERT INTO Reserves VALUES(2, 101, DATE '2025-01-12');
-INSERT INTO Reserves VALUES(3, 103, DATE '2025-01-10');
-COMMIT;
+INSERT INTO RESERVES VALUES (1, 101, '20-APR-2001');
+INSERT INTO RESERVES VALUES (1, 102, '20-APR-2002');
+INSERT INTO RESERVES VALUES (2, 101, '21-APR-2001');
+INSERT INTO RESERVES VALUES (2, 102, '22-APR-2004');
+INSERT INTO RESERVES VALUES (3, 101, '26-APR-2003');
                 </pre>
                 <h3>Query i</h3>
-                <p><b>Obtain the details of the boats reserved by ‘Rahul’.</b></p>
+                <p><b>Obtain the details of the boats reserved by 'Ravi'.</b></p>
                 <pre>
-SELECT B.BID, B.BName, B.Color, R.Day
-FROM Boat B
-JOIN Reserves R ON B.BID = R.BID
-JOIN Sailor S ON R.SailorID = S.SailorID
-WHERE S.SName = 'Rahul';
+SELECT B.*
+FROM BOAT B
+JOIN RESERVES R ON B.BID = R.BID
+JOIN SAILOR S ON S.SailorID = R.SailorID
+WHERE S.Name = 'Ravi';
                 </pre>
                 <h4>Output</h4>
                 <table>
-                    <tr><th>BID</th><th>BName</th><th>Color</th><th>Day</th></tr>
-                    <tr><td>101</td><td>Sea Queen</td><td>Red</td><td>10-JAN-25</td></tr>
-                    <tr><td>102</td><td>Ocean Star</td><td>Blue</td><td>11-JAN-25</td></tr>
+                    <tr><th>BID</th><th>BOATNAME</th><th>COLOR</th></tr>
+                    <tr><td>101</td><td>Sea Queen</td><td>Red</td></tr>
+                    <tr><td>102</td><td>Wave Rider</td><td>Blue</td></tr>
                 </table>
                 <h3>Query ii</h3>
                 <p><b>Retrieve the BID of the boats reserved necessarily by all the sailors.</b></p>
                 <pre>
-SELECT R.BID
-FROM Reserves R
-GROUP BY R.BID
-HAVING COUNT(DISTINCT R.SailorID) = (SELECT COUNT(*) FROM Sailor);
+SELECT BID
+FROM RESERVES
+GROUP BY BID
+HAVING COUNT(DISTINCT SailorID) = (SELECT COUNT(*) FROM SAILOR);
                 </pre>
                 <h4>Output</h4>
                 <table>
@@ -1240,49 +1360,82 @@ HAVING COUNT(DISTINCT R.SailorID) = (SELECT COUNT(*) FROM Sailor);
                 <h3>Query iii</h3>
                 <p><b>Find the number of boats reserved by each sailor. Display the Sailor_Name along with the number of boats reserved.</b></p>
                 <pre>
-SELECT S.SName, COUNT(R.BID) AS Boats_Reserved
-FROM Sailor S
-LEFT JOIN Reserves R ON S.SailorID = R.UID -- wait, SailorID
-GROUP BY S.SailorID, S.SName;
+SELECT S.Name, COUNT(R.BID) AS TotalBoats
+FROM SAILOR S
+LEFT JOIN RESERVES R ON S.SailorID = R.SailorID
+GROUP BY S.Name;
                 </pre>
                 <h4>Output</h4>
                 <table>
-                    <tr><th>SName</th><th>Boats Reserved</th></tr>
-                    <tr><td>Rahul</td><td>2</td></tr>
-                    <tr><td>Ananth</td><td>1</td></tr>
-                    <tr><td>Sneha</td><td>1</td></tr>
+                    <tr><th>NAME</th><th>TOTALBOATS</th></tr>
+                    <tr><td>Arun</td><td>1</td></tr>
+                    <tr><td>Meena</td><td>2</td></tr>
+                    <tr><td>Ravi</td><td>2</td></tr>
                 </table>
                 <hr>
                 <h2>PART B — NoSQL (MongoDB) &amp; Procedural SQL (PL/SQL)</h2>
                 <h3>Aim</h3>
-                <p>To perform document-based queries on Boat, Sailor, and Reserve collections in MongoDB, and count boats using PL/SQL in Oracle.</p>
+                <p>To perform MongoDB operations on Sailor, Boat, and Reserve collections, and implement count logic using a PL/SQL block in Oracle.</p>
                 <h3>MongoDB Collections &amp; Document Insertion</h3>
                 <pre>
 db.Sailor.insertMany([
-  { SID: 1, SName: "Ramesh" },
-  { SID: 2, SName: "Suresh" }
+  {SID:1,SName:"Ramesh"},
+  {SID:2,SName:"Suresh"}
 ]);
-
+                </pre>
+                <h4>Output</h4>
+                <pre>
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('6a2159745fdbac8b848ce5af'),
+    '1': ObjectId('6a2159745fdbac8b848ce5b0')
+  }
+}
+                </pre>
+                <pre>
 db.Boat.insertMany([
-  { BID: 101, BName: "Sea King", Color: "Red" },
-  { BID: 102, BName: "Ocean Star", Color: "Blue" }
+  {BID:101,BName:"Sea King",Color:"Red"},
+  {BID:102,BName:"Ocean Star",Color:"Blue"}
 ]);
-
+                </pre>
+                <h4>Output</h4>
+                <pre>
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('6a2159a5a394a68ce18ce5b1'),
+    '1': ObjectId('6a2159a5a394a68ce18ce5b2')
+  }
+}
+                </pre>
+                <pre>
 db.Reserve.insertMany([
-  { SID: 1, BID: 101 },
-  { SID: 1, BID: 102 },
-  { SID: 2, BID: 102 }
+  {SID:1,BID:101},
+  {SID:1,BID:102},
+  {SID:2,BID:102}
 ]);
+                </pre>
+                <h4>Output</h4>
+                <pre>
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('6a2159daa3049e238d8ce5b3'),
+    '1': ObjectId('6a2159daa3049e238d8ce5b4'),
+    '2': ObjectId('6a2159daa3049e238d8ce5b5')
+  }
+}
                 </pre>
                 <h3>MongoDB Query i</h3>
                 <p><b>Obtain the number of boats reserved by sailor "Ramesh".</b></p>
                 <pre>
-var sailor = db.Sailor.findOne(
-  { SName: "Ramesh" }
+var sailor=db.Sailor.findOne(
+  {SName:"Ramesh"}
 );
 
 db.Reserve.countDocuments(
-  { SID: sailor.SID }
+  {SID:sailor.SID}
 );
                 </pre>
                 <h4>Expected Output</h4>
@@ -1291,13 +1444,13 @@ db.Reserve.countDocuments(
                 <p><b>Retrieve boats of color "Blue".</b></p>
                 <pre>
 db.Boat.find(
-  { Color: "Blue" }
+  {Color:"Blue"}
 );
                 </pre>
                 <h4>Expected Output</h4>
                 <pre>[
   {
-    _id: ObjectId("6a215a462dbc9d54be8ce5b2"),
+    _id: ObjectId('6a215a462dbc9d54be8ce5b2'),
     BID: 102,
     BName: 'Ocean Star',
     Color: 'Blue'
@@ -1305,6 +1458,7 @@ db.Boat.find(
 ]</pre>
                 <h3>PL/SQL Program</h3>
                 <p><b>Write a PL/SQL program to Count the number of boats.</b></p>
+                <p><b>Table Setup:</b></p>
                 <pre>
 CREATE TABLE Boat (
     BID NUMBER(5) PRIMARY KEY,
@@ -1312,28 +1466,39 @@ CREATE TABLE Boat (
     Color VARCHAR2(20)
 );
 
-INSERT INTO Boat VALUES (1, 'BoatA', 'Red');
-INSERT INTO Boat VALUES (2, 'BoatB', 'Blue');
-INSERT INTO Boat VALUES (3, 'BoatC', 'Green');
+INSERT INTO Boat VALUES (1,'BoatA','Red');
+INSERT INTO Boat VALUES (2,'BoatB','Blue');
+INSERT INTO Boat VALUES (3,'BoatC','Green');
 COMMIT;
 
+SELECT * FROM Boat;
+                </pre>
+                <h4>Initial Boat Table Output</h4>
+                <table>
+                    <tr><th>BID</th><th>BNAME</th><th>COLOR</th></tr>
+                    <tr><td>1</td><td>BoatA</td><td>Red</td></tr>
+                    <tr><td>2</td><td>BoatB</td><td>Blue</td></tr>
+                    <tr><td>3</td><td>BoatC</td><td>Green</td></tr>
+                </table>
+                <p><b>PL/SQL Block:</b></p>
+                <pre>
 SET SERVEROUTPUT ON;
 DECLARE
-   v_count NUMBER;
+    v_count NUMBER;
 BEGIN
-   SELECT COUNT(*)
-   INTO v_count
-   FROM Boat;
-   
-   DBMS_OUTPUT.PUT_LINE('Total Boats = ' || v_count);
+    SELECT COUNT(*)
+    INTO v_count
+    FROM Boat;
+    DBMS_OUTPUT.PUT_LINE('Total Boats = ' || v_count);
 END;
 /
                 </pre>
-                <h4>Expected Output</h4>
+                <h4>Execution Output</h4>
                 <pre>
 Total Boats = 3
                 </pre>
                 <hr>
+
                 <h2>Result</h2>
                 <p>The boat reservation database was designed and queried successfully in Oracle SQL and MongoDB, and the PL/SQL program successfully returned the total count of boats.</p>
                 <hr>
@@ -1419,118 +1584,141 @@ Total Boats = 3
                 </div>
                 <h3>Schema Diagram</h3>
                 <pre>
-BOOKS ( ISBN [PK], Title, Author, Price, Publisher )
-STUDENT ( StudentID [PK], StudentName, Gender )
-BORROWS ( StudentID [PK, FK], ISBN [PK, FK], BorrowDate )
+STUDENT ( StudentID [PK], Name, Gender )
+BOOK ( ISBN [PK], Title, Author, Publisher )
+BORROWS ( StudentID [PK, FK], ISBN [PK, FK], BorrowDate [PK] )
                 </pre>
                 <h3>Create Table Statements</h3>
                 <pre>
-CREATE TABLE Books(
-    ISBN VARCHAR2(10) PRIMARY KEY,
-    Title VARCHAR2(50) NOT NULL,
-    Author VARCHAR2(30) NOT NULL,
-    Price NUMBER CHECK (Price > 0),
-    Publisher VARCHAR2(30)
+CREATE TABLE STUDENT (
+    StudentID INT PRIMARY KEY,
+    Name VARCHAR(50),
+    Gender VARCHAR(10)
 );
 
-CREATE TABLE Student(
-    StudentID NUMBER PRIMARY KEY,
-    StudentName VARCHAR2(30) NOT NULL,
-    Gender VARCHAR2(10) CHECK (Gender IN ('Male', 'Female'))
+CREATE TABLE BOOK (
+    ISBN VARCHAR(10) PRIMARY KEY,
+    Title VARCHAR(50),
+    Author VARCHAR(50),
+    Publisher VARCHAR(50)
 );
 
-CREATE TABLE Borrows(
-    StudentID NUMBER REFERENCES Student(StudentID) ON DELETE CASCADE,
-    ISBN VARCHAR2(10) REFERENCES Books(ISBN) ON DELETE CASCADE,
+CREATE TABLE BORROWS (
+    StudentID INT,
+    ISBN VARCHAR(10),
     BorrowDate DATE,
-    PRIMARY KEY(StudentID, ISBN)
+    PRIMARY KEY (StudentID, ISBN, BorrowDate),
+    FOREIGN KEY (StudentID) REFERENCES STUDENT(StudentID),
+    FOREIGN KEY (ISBN) REFERENCES BOOK(ISBN)
 );
                 </pre>
                 <h3>Insert Sample Data</h3>
                 <pre>
-INSERT INTO Books VALUES('123', 'Database Systems', 'Navathe', 500, 'McGrawHill');
-INSERT INTO Books VALUES('124', 'Operating System', 'Galvin', 650, 'Wiley');
-INSERT INTO Books VALUES('125', 'Computer Networks', 'Tanenbaum', 600, 'Pearson');
+INSERT INTO STUDENT VALUES (1, 'Asha', 'Female');
+INSERT INTO STUDENT VALUES (2, 'Ravi', 'Male');
+INSERT INTO STUDENT VALUES (3, 'Meena', 'Female');
 
-INSERT INTO Student VALUES(1, 'Rahul', 'Male');
-INSERT INTO Student VALUES(2, 'Sneha', 'Female');
-INSERT INTO Student VALUES(3, 'Asha', 'Female');
+INSERT INTO BOOK VALUES ('123', 'Database', 'Korth', 'McGraw');
+INSERT INTO BOOK VALUES ('124', 'Networks', 'Tanenbaum', 'Pearson');
+INSERT INTO BOOK VALUES ('125', 'AI', 'Russell', 'Elsevier');
 
-INSERT INTO Borrows VALUES(1, '123', DATE '2025-01-10');
-INSERT INTO Borrows VALUES(2, '123', DATE '2025-01-11');
-INSERT INTO Borrows VALUES(2, '124', DATE '2025-01-12');
-COMMIT;
+INSERT INTO BORROWS VALUES (1, '123', '20-JAN-2001');
+INSERT INTO BORROWS VALUES (1, '124', '20-JAN-2002');
+INSERT INTO BORROWS VALUES (2, '125', '20-JAN-2002');
+INSERT INTO BORROWS VALUES (3, '123', '20-JAN-2002');
                 </pre>
                 <h3>Query i</h3>
-                <p><b>Obtain the names of the student who has borrowed either book bearing ISBN ‘123’ or ISBN ‘124’.</b></p>
+                <p><b>Obtain the names of the student who has borrowed either book bearing ISBN '123' or ISBN '124'.</b></p>
                 <pre>
-SELECT DISTINCT S.StudentName
-FROM Student S
-JOIN Borrows B ON S.StudentID = B.StudentID
-WHERE B.ISBN IN ('123', '124');
+SELECT DISTINCT s.Name
+FROM STUDENT s
+JOIN BORROWS b ON s.StudentID = b.StudentID
+WHERE b.ISBN IN ('123', '124');
                 </pre>
                 <h4>Output</h4>
                 <table>
-                    <tr><th>StudentName</th></tr>
-                    <tr><td>Rahul</td></tr>
-                    <tr><td>Sneha</td></tr>
+                    <tr><th>NAME</th></tr>
+                    <tr><td>Asha</td></tr>
+                    <tr><td>Meena</td></tr>
                 </table>
                 <h3>Query ii</h3>
-                <p><b>Obtain the Names of female students who have borrowed “Database Systems” books.</b></p>
+                <p><b>Obtain the Names of female students who have borrowed "Database" books.</b></p>
                 <pre>
-SELECT S.StudentName
-FROM Student S
-JOIN Borrows B ON S.StudentID = B.StudentID
-JOIN Books BK ON B.ISBN = BK.ISBN
-WHERE S.Gender = 'Female' AND BK.Title = 'Database Systems';
+SELECT DISTINCT s.Name
+FROM STUDENT s
+JOIN BORROWS b ON s.StudentID = b.StudentID
+JOIN BOOK bk ON b.ISBN = bk.ISBN
+WHERE s.Gender = 'Female' AND bk.Title = 'Database';
                 </pre>
                 <h4>Output</h4>
                 <table>
-                    <tr><th>StudentName</th></tr>
-                    <tr><td>Sneha</td></tr>
+                    <tr><th>NAME</th></tr>
+                    <tr><td>Asha</td></tr>
+                    <tr><td>Meena</td></tr>
                 </table>
                 <h3>Query iii</h3>
                 <p><b>Find the number of books borrowed by each student. Display the student details along with the number of books.</b></p>
                 <pre>
-SELECT S.StudentID, S.StudentName, COUNT(B.ISBN) AS Books_Borrowed
-FROM Student S
-LEFT JOIN Borrows B ON S.StudentID = B.StudentID
-GROUP BY S.StudentID, S.StudentName;
+SELECT s.StudentID, s.Name, COUNT(b.ISBN) AS TotalBooks
+FROM STUDENT s
+LEFT JOIN BORROWS b ON s.StudentID = b.StudentID
+GROUP BY s.StudentID, s.Name;
                 </pre>
                 <h4>Output</h4>
                 <table>
-                    <tr><th>StudentID</th><th>StudentName</th><th>Books Borrowed</th></tr>
-                    <tr><td>1</td><td>Rahul</td><td>1</td></tr>
-                    <tr><td>2</td><td>Sneha</td><td>2</td></tr>
-                    <tr><td>3</td><td>Asha</td><td>0</td></tr>
+                    <tr><th>STUDENTID</th><th>NAME</th><th>TOTALBOOKS</th></tr>
+                    <tr><td>1</td><td>Asha</td><td>2</td></tr>
+                    <tr><td>2</td><td>Ravi</td><td>1</td></tr>
+                    <tr><td>3</td><td>Meena</td><td>1</td></tr>
                 </table>
                 <hr>
                 <h2>PART B — NoSQL (MongoDB) &amp; Procedural SQL (PL/SQL)</h2>
                 <h3>Aim</h3>
-                <p>To perform document-based operations on Book and Student collections in MongoDB, and implement a PL/SQL program in Oracle to apply book price updates.</p>
+                <p>To perform MongoDB operations on Book and Student collections, and implement price adjustments using a PL/SQL block in Oracle.</p>
                 <h3>MongoDB Collections &amp; Document Insertion</h3>
                 <pre>
 db.Book.insertMany([
-  { Book_ID: 1, Title: "Database Systems", Author: "Navathe", Price: 500 },
-  { Book_ID: 2, Title: "Python Programming", Author: "John", Price: 400 }
-]);
-
-db.Student.insertMany([
-  { SID: 1, SName: "Kushal", Book_ID: 1 },
-  { SID: 2, SName: "Priya", Book_ID: 2 }
+  { Book_ID:1, Title:"Database Systems", Author:"Navathe", Price:500 },
+  { Book_ID:2, Title:"Python Programming", Author:"John", Price:400 }
 ]);
                 </pre>
+                <h4>Output</h4>
+                <pre>
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('6a2271ee9153378f068ce5af'),
+    '1': ObjectId('6a2271ee9153378f068ce5b0')
+  }
+}
+                </pre>
+                <pre>
+db.Student.insertMany([
+  { SID:1, SName:"Kushal", Book_ID:1 },
+  { SID:2, SName:"Priya", Book_ID:2 }
+]);
+                </pre>
+                <h4>Output</h4>
+                <pre>
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('6a227252494b62d38a8ce5af'),
+    '1': ObjectId('6a227252494b62d38a8ce5b0')
+  }
+}
+                </pre>
                 <h3>MongoDB Query i</h3>
-                <p><b>Obtain the book details authored by “Navathe”.</b></p>
+                <p><b>Obtain the book details authored by "Navathe".</b></p>
                 <pre>
 db.Book.find(
-  { Author: "Navathe" }
+  {Author:"Navathe"}
 );
                 </pre>
                 <h4>Expected Output</h4>
                 <pre>[
   {
-    _id: ObjectId("6a2272c847771f32118ce5af"),
+    _id: ObjectId('6a2272c847771f32118ce5af'),
     Book_ID: 1,
     Title: 'Database Systems',
     Author: 'Navathe',
@@ -1538,21 +1726,22 @@ db.Book.find(
   }
 ]</pre>
                 <h3>MongoDB Query ii</h3>
-                <p><b>Obtain the Names of students who have borrowed “Database Systems” books.</b></p>
+                <p><b>Obtain the Names of students who have borrowed "Database" books.</b></p>
                 <pre>
-var book = db.Book.findOne(
-  { Title: "Database Systems" }
+var book=db.Book.findOne(
+  {Title:"Database Systems"}
 );
 
 db.Student.find(
-  { Book_ID: book.Book_ID },
-  { SName: 1, _id: 0 }
+  {Book_ID:book.Book_ID},
+  {SName:1,_id:0}
 );
                 </pre>
                 <h4>Expected Output</h4>
                 <pre>[ { SName: 'Kushal' } ]</pre>
                 <h3>PL/SQL Program</h3>
                 <p><b>Write a PL/SQL program to increase the price of all books by 10%.</b></p>
+                <p><b>Table Setup:</b></p>
                 <pre>
 CREATE TABLE Book (
     Book_ID NUMBER(5) PRIMARY KEY,
@@ -1567,20 +1756,40 @@ INSERT INTO Book VALUES (103, 'Python Programming', 'John', 450);
 INSERT INTO Book VALUES (104, 'Computer Networks', 'Tanenbaum', 550);
 COMMIT;
 
-SET SERVEROUTPUT ON;
+SELECT * FROM Book;
+                </pre>
+                <h4>Initial Book Table Output</h4>
+                <table>
+                    <tr><th>BOOK_ID</th><th>TITLE</th><th>AUTHOR</th><th>PRICE</th></tr>
+                    <tr><td>101</td><td>Database Systems</td><td>Navathe</td><td>500</td></tr>
+                    <tr><td>102</td><td>Operating Systems</td><td>Galvin</td><td>600</td></tr>
+                    <tr><td>103</td><td>Python Programming</td><td>John</td><td>450</td></tr>
+                    <tr><td>104</td><td>Computer Networks</td><td>Tanenbaum</td><td>550</td></tr>
+                </table>
+                <p><b>PL/SQL Block:</b></p>
+                <pre>
 BEGIN
-   UPDATE Book
-   SET Price = Price * 1.10;
-   
-   DBMS_OUTPUT.PUT_LINE('Book prices updated');
+    UPDATE Book
+    SET Price = Price * 1.10;
+    DBMS_OUTPUT.PUT_LINE('Book prices updated');
 END;
 /
+SELECT * FROM Book;
                 </pre>
-                <h4>Expected Output</h4>
+                <h4>Execution Output</h4>
                 <pre>
 Book prices updated
                 </pre>
+                <h4>Updated Book Table Output</h4>
+                <table>
+                    <tr><th>BOOK_ID</th><th>TITLE</th><th>AUTHOR</th><th>PRICE</th></tr>
+                    <tr><td>101</td><td>Database Systems</td><td>Navathe</td><td>550</td></tr>
+                    <tr><td>102</td><td>Operating Systems</td><td>Galvin</td><td>660</td></tr>
+                    <tr><td>103</td><td>Python Programming</td><td>John</td><td>495</td></tr>
+                    <tr><td>104</td><td>Computer Networks</td><td>Tanenbaum</td><td>605</td></tr>
+                </table>
                 <hr>
+
                 <h2>Result</h2>
                 <p>The Books-Student database operations were successfully designed, run in SQL &amp; MongoDB, and the PL/SQL program successfully completed the book price updates.</p>
                 <hr>
@@ -1666,119 +1875,136 @@ Book prices updated
                 </div>
                 <h3>Schema Diagram</h3>
                 <pre>
-PATIENT ( PatientID [PK], PatientName, Age, Gender )
-DOCTOR ( DoctorID [PK], DoctorName, Specialization, Fee )
-APPOINTMENT ( AppointmentID [PK], PatientID [FK], DoctorID [FK], AppointmentDate )
+PATIENT ( Patient_ID [PK], Name, Age, Gender )
+DOCTOR ( Doctor_ID [PK], Name, Specialization )
+APPOINTMENT ( Patient_ID [PK, FK], Doctor_ID [PK, FK], Appointment_Date [PK] )
                 </pre>
                 <h3>Create Table Statements</h3>
                 <pre>
-CREATE TABLE Patient(
-    PatientID NUMBER PRIMARY KEY,
-    PatientName VARCHAR2(30) NOT NULL,
-    Age NUMBER,
-    Gender VARCHAR2(10) CHECK (Gender IN ('Male', 'Female'))
+CREATE TABLE PATIENT (
+    Patient_ID INT PRIMARY KEY,
+    Name VARCHAR(50),
+    Age INT,
+    Gender VARCHAR(10)
 );
 
-CREATE TABLE Doctor(
-    DoctorID NUMBER PRIMARY KEY,
-    DoctorName VARCHAR2(30) NOT NULL,
-    Specialization VARCHAR2(30) NOT NULL,
-    Fee NUMBER CHECK (Fee > 0)
+CREATE TABLE DOCTOR (
+    Doctor_ID INT PRIMARY KEY,
+    Name VARCHAR(50),
+    Specialization VARCHAR(50)
 );
 
-CREATE TABLE Appointment(
-    AppointmentID NUMBER PRIMARY KEY,
-    PatientID NUMBER REFERENCES Patient(PatientID) ON DELETE CASCADE,
-    DoctorID NUMBER REFERENCES Doctor(DoctorID) ON DELETE CASCADE,
-    AppointmentDate DATE
+CREATE TABLE APPOINTMENT (
+    Patient_ID INT,
+    Doctor_ID INT,
+    Appointment_Date DATE,
+    PRIMARY KEY(Patient_ID, Doctor_ID, Appointment_Date),
+    FOREIGN KEY(Patient_ID) REFERENCES PATIENT(Patient_ID),
+    FOREIGN KEY(Doctor_ID) REFERENCES DOCTOR(Doctor_ID)
 );
                 </pre>
                 <h3>Insert Sample Data</h3>
                 <pre>
-INSERT INTO Patient VALUES(1, 'Rahul', 25, 'Male');
-INSERT INTO Patient VALUES(2, 'Sneha', 22, 'Female');
-INSERT INTO Patient VALUES(3, 'Ananth', 21, 'Male');
+INSERT INTO PATIENT VALUES (1, 'Anu', 22, 'Female');
+INSERT INTO PATIENT VALUES (2, 'Ravi', 30, 'Male');
 
-INSERT INTO Doctor VALUES(101, 'Dr. Kumar', 'Cardiology', 500);
-INSERT INTO Doctor VALUES(102, 'Dr. Sharma', 'Neurology', 700);
-INSERT INTO Doctor VALUES(103, 'Dr. Reddy', 'Cardiology', 600);
+INSERT INTO DOCTOR VALUES (101, 'Dr. Kumar', 'Cardiology');
+INSERT INTO DOCTOR VALUES (102, 'Dr. Meena', 'Dermatology');
 
-INSERT INTO Appointment VALUES(10, 1, 101, DATE '2025-01-10');
-INSERT INTO Appointment VALUES(11, 1, 102, DATE '2025-01-11');
-INSERT INTO Appointment VALUES(12, 2, 101, DATE '2025-01-10');
-INSERT INTO Appointment VALUES(13, 3, 101, DATE '2025-01-12');
-COMMIT;
+INSERT INTO APPOINTMENT VALUES (1, 101, '01-JAN-2024');
+INSERT INTO APPOINTMENT VALUES (1, 102, '02-JAN-2024');
+INSERT INTO APPOINTMENT VALUES (2, 101, '03-JAN-2024');
                 </pre>
                 <h3>Query i</h3>
-                <p><b>Retrieve the details of doctors consulted by ‘Rahul’.</b></p>
+                <p><b>Retrieve the details of doctors consulted by 'Ravi'.</b></p>
                 <pre>
-SELECT D.DoctorID, D.DoctorName, D.Specialization, D.Fee
-FROM Doctor D
-JOIN Appointment A ON D.DoctorID = A.DoctorID
-JOIN Patient P ON A.PatientID = P.PatientID
-WHERE P.PatientName = 'Rahul';
+SELECT D.*
+FROM DOCTOR D
+JOIN APPOINTMENT A ON D.Doctor_ID = A.Doctor_ID
+JOIN PATIENT P ON A.Patient_ID = P.Patient_ID
+WHERE P.Name = 'Ravi';
                 </pre>
                 <h4>Output</h4>
                 <table>
-                    <tr><th>DoctorID</th><th>DoctorName</th><th>Specialization</th><th>Fee</th></tr>
-                    <tr><td>101</td><td>Dr. Kumar</td><td>Cardiology</td><td>500</td></tr>
-                    <tr><td>102</td><td>Dr. Sharma</td><td>Neurology</td><td>700</td></tr>
+                    <tr><th>DOCTOR_ID</th><th>NAME</th><th>SPECIALIZATION</th></tr>
+                    <tr><td>101</td><td>Dr. Kumar</td><td>Cardiology</td></tr>
                 </table>
                 <h3>Query ii</h3>
                 <p><b>Find the DoctorIDs of doctors consulted by all patients.</b></p>
                 <pre>
-SELECT DoctorID
-FROM Appointment
-GROUP BY DoctorID
-HAVING COUNT(DISTINCT PatientID) = (SELECT COUNT(*) FROM Patient);
+SELECT Doctor_ID
+FROM APPOINTMENT
+GROUP BY Doctor_ID
+HAVING COUNT(DISTINCT Patient_ID) = (SELECT COUNT(*) FROM PATIENT);
                 </pre>
                 <h4>Output</h4>
                 <table>
-                    <tr><th>DoctorID</th></tr>
+                    <tr><th>DOCTOR_ID</th></tr>
                     <tr><td>101</td></tr>
                 </table>
                 <h3>Query iii</h3>
                 <p><b>For each patient, find the number of doctors consulted. Display Patient_Name with the count.</b></p>
                 <pre>
-SELECT P.PatientName, COUNT(A.DoctorID) AS Doctors_Consulted
-FROM Patient P
-LEFT JOIN Appointment A ON P.PatientID = A.PatientID
-GROUP BY P.PatientID, P.PatientName;
+SELECT P.Name, COUNT(A.Doctor_ID) AS Doctor_Count
+FROM PATIENT P
+LEFT JOIN APPOINTMENT A ON P.Patient_ID = A.Patient_ID
+GROUP BY P.Name;
                 </pre>
                 <h4>Output</h4>
                 <table>
-                    <tr><th>PatientName</th><th>Doctors Consulted</th></tr>
-                    <tr><td>Rahul</td><td>2</td></tr>
-                    <tr><td>Sneha</td><td>1</td></tr>
-                    <tr><td>Ananth</td><td>1</td></tr>
+                    <tr><th>NAME</th><th>DOCTOR_COUNT</th></tr>
+                    <tr><td>Anu</td><td>2</td></tr>
+                    <tr><td>Ravi</td><td>1</td></tr>
                 </table>
                 <hr>
                 <h2>PART B — NoSQL (MongoDB) &amp; Procedural SQL (PL/SQL)</h2>
                 <h3>Aim</h3>
-                <p>To perform document-based queries in MongoDB on Doctor and Patient collections, and implement doctor fee increments using PL/SQL.</p>
+                <p>To perform MongoDB operations on Doctor and Patient collections, and implement fee adjustment logic using a PL/SQL block in Oracle.</p>
                 <h3>MongoDB Collections &amp; Document Insertion</h3>
                 <pre>
 db.Doctor.insertMany([
-  { Doctor_ID: 1, Doctor_Name: "Dr. Kumar", Specialization: "Cardiology", Fee: 1000 },
-  { Doctor_ID: 2, Doctor_Name: "Dr. Ravi", Specialization: "Neurology", Fee: 1200 }
+  { Doctor_ID:1, Doctor_Name:"Dr. Kumar", Specialization:"Cardiology", Fee:1000 },
+  { Doctor_ID:2, Doctor_Name:"Dr. Ravi", Specialization:"Neurology", Fee:1200 }
 ]);
-
+                </pre>
+                <h4>Output</h4>
+                <pre>
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('6a2275b652a9f4050d8ce5af'),
+    '1': ObjectId('6a2275b652a9f4050d8ce5b0')
+  }
+}
+                </pre>
+                <pre>
 db.Patient.insertMany([
-  { Patient_ID: 1, Patient_Name: "Anita", Doctor_ID: 1, Appointment_Date: "2025-05-10" },
-  { Patient_ID: 2, Patient_Name: "Shruti", Doctor_ID: 1, Appointment_Date: "2025-05-10" },
-  { Patient_ID: 3, Patient_Name: "Meena", Doctor_ID: 2, Appointment_Date: "2025-05-12" }
+  { Patient_ID:1, Patient_Name:"Anita", Doctor_ID:1, Appointment_Date:"2025-05-10" },
+  { Patient_ID:2, Patient_Name:"Shruti", Doctor_ID:1, Appointment_Date:"2025-05-10" },
+  { Patient_ID:3, Patient_Name:"Meena", Doctor_ID:2, Appointment_Date:"2025-05-12" }
 ]);
+                </pre>
+                <h4>Output</h4>
+                <pre>
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('6a2275f4e935b4340f8ce5b1'),
+    '1': ObjectId('6a2275f4e935b4340f8ce5b2'),
+    '2': ObjectId('6a2275f4e935b4340f8ce5b3')
+  }
+}
                 </pre>
                 <h3>MongoDB Query i</h3>
                 <p><b>List all the patients treated by the doctor named "Dr. Kumar".</b></p>
                 <pre>
-var doc = db.Doctor.findOne(
-  { Doctor_Name: "Dr. Kumar" }
+var doc=db.Doctor.findOne(
+  {Doctor_Name:"Dr. Kumar"}
 );
 
 db.Patient.find(
-  { Doctor_ID: doc.Doctor_ID },
-  { Patient_Name: 1, _id: 0 }
+  {Doctor_ID:doc.Doctor_ID},
+  {Patient_Name:1,_id:0}
 );
                 </pre>
                 <h4>Expected Output</h4>
@@ -1787,14 +2013,15 @@ db.Patient.find(
                 <p><b>Display the names of patients who have an appointment on date "2025-05-10".</b></p>
                 <pre>
 db.Patient.find(
-  { Appointment_Date: "2025-05-10" },
-  { Patient_Name: 1, _id: 0 }
+  {Appointment_Date:"2025-05-10"},
+  {Patient_Name:1,_id:0}
 );
                 </pre>
                 <h4>Expected Output</h4>
                 <pre>[ { Patient_Name: 'Anita' }, { Patient_Name: 'Shruti' } ]</pre>
                 <h3>PL/SQL Program</h3>
-                <p><b>Write a PL/SQL program that increases the consultation fee of all doctors in specialization "Cardiology" by 20%.</b></p>
+                <p><b>Write a PL/SQL program that increases the consultation fee of all doctors in specialization 'Cardiology' by 20%.</b></p>
+                <p><b>Table Setup:</b></p>
                 <pre>
 CREATE TABLE Doctor (
     Doctor_ID NUMBER(5) PRIMARY KEY,
@@ -1809,24 +2036,46 @@ INSERT INTO Doctor VALUES (103, 'Dr. Meena', 'Cardiology', 1500);
 INSERT INTO Doctor VALUES (104, 'Dr. Priya', 'Orthopedics', 1300);
 COMMIT;
 
+SELECT * FROM Doctor;
+                </pre>
+                <h4>Initial Doctor Table Output</h4>
+                <table>
+                    <tr><th>DOCTOR_ID</th><th>DOCTOR_NAME</th><th>SPECIALIZATION</th><th>FEE</th></tr>
+                    <tr><td>101</td><td>Dr. Kumar</td><td>Cardiology</td><td>1200</td></tr>
+                    <tr><td>102</td><td>Dr. Ravi</td><td>Neurology</td><td>1200</td></tr>
+                    <tr><td>103</td><td>Dr. Meena</td><td>Cardiology</td><td>1800</td></tr>
+                    <tr><td>104</td><td>Dr. Priya</td><td>Orthopedics</td><td>1300</td></tr>
+                </table>
+                <p><b>PL/SQL Block:</b></p>
+                <pre>
 SET SERVEROUTPUT ON;
 DECLARE
-   v_count NUMBER;
+    v_count NUMBER;
 BEGIN
-   UPDATE Doctor
-   SET Fee = Fee * 1.20
-   WHERE Specialization = 'Cardiology';
+    UPDATE Doctor
+    SET Fee = Fee * 1.20
+    WHERE Specialization = 'Cardiology';
 
-   v_count := SQL%ROWCOUNT;
-   DBMS_OUTPUT.PUT_LINE(v_count || ' doctors updated');
+    v_count := SQL%ROWCOUNT;
+    DBMS_OUTPUT.PUT_LINE(v_count || ' doctors updated');
 END;
 /
+SELECT * FROM Doctor;
                 </pre>
-                <h4>Expected Output</h4>
+                <h4>Execution Output</h4>
                 <pre>
 2 doctors updated
                 </pre>
+                <h4>Updated Doctor Table Output</h4>
+                <table>
+                    <tr><th>DOCTOR_ID</th><th>DOCTOR_NAME</th><th>SPECIALIZATION</th><th>FEE</th></tr>
+                    <tr><td>101</td><td>Dr. Kumar</td><td>Cardiology</td><td>1440</td></tr>
+                    <tr><td>102</td><td>Dr. Ravi</td><td>Neurology</td><td>1200</td></tr>
+                    <tr><td>103</td><td>Dr. Meena</td><td>Cardiology</td><td>2160</td></tr>
+                    <tr><td>104</td><td>Dr. Priya</td><td>Orthopedics</td><td>1300</td></tr>
+                </table>
                 <hr>
+
                 <h2>Result</h2>
                 <p>The Hospital Management database operations in Oracle SQL and MongoDB were successfully designed and queried, and the PL/SQL program successfully completed the specialization fee adjustments.</p>
                 <hr>

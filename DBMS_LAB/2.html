@@ -82,201 +82,185 @@ Consider the relations: PART, SUPPLIER and SUPPLY. The Supplier relation holds i
 </div>
 
 <h3>Schema Diagram</h3>
-<pre>
-SUPPLIER ( SID [PK], SName, SAddr )
-PART ( PID [PK], PName, PColor )
-SHIPMENT ( SID [PK, FK], PID [PK, FK], Qty )
-</pre>
-
-<h3>Create Table Statements</h3>
-<pre>
-CREATE TABLE Supplier(
-    SID NUMBER PRIMARY KEY,
-    SName VARCHAR2(30) NOT NULL,
-    SAddr VARCHAR2(50)
+                <pre>
+PART ( pno [PK], pname, colour )
+SUPPLIER ( sno [PK], sname, address )
+SUPPLY ( pno [PK, FK], sno [PK, FK], quantity )
+                </pre>
+                <h3>Create Table Statements</h3>
+                <pre>
+create table part
+(
+pno number(10),
+pname varchar(20),
+colour varchar(20),
+primary key(pno)
 );
 
-CREATE TABLE Part(
-    PID NUMBER PRIMARY KEY,
-    PName VARCHAR2(30) NOT NULL,
-    PColor VARCHAR2(20) NOT NULL
+create table supplier
+(
+sno number(10),
+sname varchar(20),
+address varchar(20),
+primary key(sno)
 );
 
-CREATE TABLE Shipment(
-    SID NUMBER REFERENCES Supplier(SID) ON DELETE CASCADE,
-    PID NUMBER REFERENCES Part(PID) ON DELETE CASCADE,
-    Qty NUMBER CHECK (Qty > 0),
-    PRIMARY KEY(SID, PID)
+create table supply
+(
+pno number(10),
+sno number(10),
+quantity varchar(20),
+primary key(pno,sno),
+foreign key(pno) references part(pno)on delete cascade,
+foreign key(sno) references supplier(sno)on delete cascade
 );
-</pre>
+                </pre>
+                <h3>Insert Sample Data</h3>
+                <pre>
+insert into part values(1,'plug','black');
+insert into part values(2,'bolt','blue');
+insert into part values(3,'nut','green');
 
-<h3>Insert Sample Data</h3>
-<pre>
-INSERT INTO Supplier VALUES(1, 'Acme Corp', 'Bangalore');
-INSERT INTO Supplier VALUES(2, 'Global Parts', 'Mumbai');
-INSERT INTO Supplier VALUES(3, 'Titan Tools', 'Chennai');
+insert into supplier values(10,'Anoop','udupi');
+insert into supplier values(15,'Bharath','mangalore');
+insert into supplier values(20,'Ram','bangalore');
 
-INSERT INTO Part VALUES(101, 'Bolt', 'Red');
-INSERT INTO Part VALUES(102, 'Nut', 'Blue');
-INSERT INTO Part VALUES(103, 'Screw', 'Red');
-INSERT INTO Part VALUES(104, 'Washer', 'Green');
-
-INSERT INTO Shipment VALUES(1, 101, 500);
-INSERT INTO Shipment VALUES(1, 102, 300);
-INSERT INTO Shipment VALUES(2, 102, 1000);
-INSERT INTO Shipment VALUES(3, 101, 200);
-INSERT INTO Shipment VALUES(3, 103, 400);
-COMMIT;
-</pre>
-
-<h3>Query i</h3>
-<p><b>Obtain the details of parts supplied by supplier Acme Corp.</b></p>
-<pre>
-SELECT P.PID, P.PName, P.PColor, S.Qty
-FROM Part P
-JOIN Shipment S ON P.PID = S.PID
-JOIN Supplier Sup ON S.SID = Sup.SID
-WHERE Sup.SName = 'Acme Corp';
-</pre>
-
-<h4>Output</h4>
-<table>
-<tr>
-<th>PID</th>
-<th>PName</th>
-<th>PColor</th>
-<th>Qty</th>
-</tr>
-<tr>
-<td>101</td>
-<td>Bolt</td>
-<td>Red</td>
-<td>500</td>
-</tr>
-<tr>
-<td>102</td>
-<td>Nut</td>
-<td>Blue</td>
-<td>300</td>
-</tr>
-</table>
-
-<h3>Query ii</h3>
-<p><b>Obtain the Names of suppliers who supply Bolt.</b></p>
-<pre>
-SELECT Sup.SName
-FROM Supplier Sup
-JOIN Shipment S ON Sup.SID = S.SID
-JOIN Part P ON S.PID = P.PID
-WHERE P.PName = 'Bolt';
-</pre>
-
-<h4>Output</h4>
-<table>
-<tr>
-<th>SName</th>
-</tr>
-<tr>
-<td>Acme Corp</td>
-</tr>
-<tr>
-<td>Titan Tools</td>
-</tr>
-</table>
-
-<h3>Query iii</h3>
-<p><b>Delete the parts which are in Red color.</b></p>
-<pre>
--- Delete RED parts (associated shipments will be deleted via ON DELETE CASCADE)
-DELETE FROM Part
-WHERE PColor = 'Red';
-
--- Verify the deletion
-SELECT * FROM Part;
-</pre>
-
-<h4>Output</h4>
-<table>
-<tr>
-<th>PID</th>
-<th>PName</th>
-<th>PColor</th>
-</tr>
-<tr>
-<td>102</td>
-<td>Nut</td>
-<td>Blue</td>
-</tr>
-<tr>
-<td>104</td>
-<td>Washer</td>
-<td>Green</td>
-</tr>
-</table>
-
-<hr>
-
-<h2>PART B — NoSQL (MongoDB) &amp; Procedural SQL (PL/SQL)</h2>
-
-<h3>Aim</h3>
-<p>
-To manage Part and Supplier collections in MongoDB, perform updates/queries, and implement a PL/SQL program in Oracle to copy shipment rows to a backup table.
-</p>
-
-<h3>MongoDB Collections &amp; Document Insertion</h3>
-<pre>
-// Insert Part documents
+insert into supply values(1,10,50);
+insert into supply values(2,10,30);
+insert into supply values(1,15,70);
+insert into supply values(3,15,40);
+insert into supply values(1,20,55);
+insert into supply values(2,20,65);
+insert into supply values(3,20,75);
+                </pre>
+                <h3>Verify Table Insertion</h3>
+                <p><b>select * from part;</b></p>
+                <table>
+                    <tr><th>PNO</th><th>PNAME</th><th>COLOUR</th></tr>
+                    <tr><td>1</td><td>plug</td><td>black</td></tr>
+                    <tr><td>2</td><td>bolt</td><td>blue</td></tr>
+                    <tr><td>3</td><td>nut</td><td>green</td></tr>
+                </table>
+                <p><b>select * from supplier;</b></p>
+                <table>
+                    <tr><th>SNO</th><th>SNAME</th><th>ADDRESS</th></tr>
+                    <tr><td>10</td><td>Anoop</td><td>udupi</td></tr>
+                    <tr><td>15</td><td>Bharath</td><td>mangalore</td></tr>
+                    <tr><td>20</td><td>Ram</td><td>bangalore</td></tr>
+                </table>
+                <p><b>select * from supply;</b></p>
+                <table>
+                    <tr><th>PNO</th><th>SNO</th><th>QUANTITY</th></tr>
+                    <tr><td>1</td><td>10</td><td>50</td></tr>
+                    <tr><td>2</td><td>10</td><td>30</td></tr>
+                    <tr><td>1</td><td>15</td><td>70</td></tr>
+                    <tr><td>3</td><td>15</td><td>40</td></tr>
+                    <tr><td>1</td><td>20</td><td>55</td></tr>
+                    <tr><td>2</td><td>20</td><td>65</td></tr>
+                    <tr><td>3</td><td>20</td><td>75</td></tr>
+                </table>
+                <h3>Query i</h3>
+                <p><b>Obtain the part identifiers of parts supplied by supplier 'Ram'.</b></p>
+                <pre>
+select pno from supply 
+where sno IN(select sno from supplier where sname='Ram');
+                </pre>
+                <h4>Output</h4>
+                <table>
+                    <tr><th>PNO</th></tr>
+                    <tr><td>1</td></tr>
+                    <tr><td>2</td></tr>
+                    <tr><td>3</td></tr>
+                </table>
+                <h3>Query ii</h3>
+                <p><b>Obtain the Names of suppliers who supply 'bolt'.</b></p>
+                <pre>
+select sname,pname 
+from supplier,supply,part 
+where pname='bolt' AND supply.sno=supplier.sno AND part.pno=supply.pno;
+                </pre>
+                <h4>Output</h4>
+                <table>
+                    <tr><th>SNAME</th><th>PNAME</th></tr>
+                    <tr><td>Anoop</td><td>bolt</td></tr>
+                    <tr><td>Ram</td><td>bolt</td></tr>
+                </table>
+                <h3>Query iii</h3>
+                <p><b>Delete the parts which are in 'green' color.</b></p>
+                <pre>
+delete from part where colour='green';
+                </pre>
+                <h4>Output</h4>
+                <pre>1 row deleted.</pre>
+                <hr>
+                <h2>PART B — NoSQL (MongoDB) &amp; Procedural SQL (PL/SQL)</h2>
+                <h3>Aim</h3>
+                <p>To perform MongoDB operations on Part and Supplier collections, and implement record copying using a PL/SQL block in Oracle.</p>
+                <h3>MongoDB Collections &amp; Document Insertion</h3>
+                <pre>
 db.Part.insertMany([
-  { PID: "P1", PName: "Bolt", Price: 20 },
-  { PID: "P2", PName: "Nut", Price: 10 }
+  {PID:"P1", PName:"Bolt", Price:20},
+  {PID:"P2", PName:"Nut", Price:10}
 ]);
-
-// Insert Supplier documents
-db.Supplier.insertMany([
-  { SID: 1, SName: "ABC Suppliers", PID: "P1" },
-  { SID: 2, SName: "XYZ Suppliers", PID: "P1" },
-  { SID: 3, SName: "Global Parts", PID: "P2" }
-]);
-</pre>
-
-<h3>MongoDB Query i</h3>
-<p><b>Update the details of parts for a given part identifier: "P1".</b></p>
-<pre>
-db.Part.updateOne(
-  { PID: "P1" },
-  { $set: { Price: 25 } }
-);
-</pre>
-
-<h4>Expected Output</h4>
-<pre>
+                </pre>
+                <h4>Output</h4>
+                <pre>
 {
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('6a2157e7346482d7de8ce5af'),
+    '1': ObjectId('6a2157e7346482d7de8ce5b0')
+  }
+}
+                </pre>
+                <pre>
+db.Supplier.insertMany([
+  {SID:1,SName:"ABC Suppliers",PID:"P1"},
+  {SID:2,SName:"XYZ Suppliers",PID:"P1"},
+  {SID:3,SName:"Global Parts",PID:"P2"}
+]);
+                </pre>
+                <h4>Output</h4>
+                <pre>
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('6a215845c53bedb60c8ce5b1'),
+    '1': ObjectId('6a215845c53bedb60c8ce5b2'),
+    '2': ObjectId('6a215845c53bedb60c8ce5b3')
+  }
+}
+                </pre>
+                <h3>MongoDB Query i</h3>
+                <p><b>Update the details of parts for a given part identifier: "P1".</b></p>
+                <pre>
+db.Part.updateOne(
+  {PID:"P1"},
+  {$set:{Price:25}}
+);
+                </pre>
+                <h4>Expected Output</h4>
+                <pre>{
   acknowledged: true,
   insertedId: null,
   matchedCount: 1,
   modifiedCount: 1,
   upsertedCount: 0
-}
-</pre>
-
-<h3>MongoDB Query ii</h3>
-<p><b>Display all suppliers who supply the part with part identifier: "P1".</b></p>
-<pre>
+}</pre>
+                <h3>MongoDB Query ii</h3>
+                <p><b>Display all suppliers who supply the part with part identifier: "P1".</b></p>
+                <pre>
 db.Supplier.find(
-  { PID: "P1" },
-  { SName: 1, _id: 0 }
+  {PID:"P1"},
+  {SName:1,_id:0}
 );
-</pre>
-
-<h4>Expected Output</h4>
-<pre>
-[ { SName: 'ABC Suppliers' }, { SName: 'XYZ Suppliers' } ]
-</pre>
-
-<h3>PL/SQL Program</h3>
-<p><b>Write a PL/SQL program to copy the contents of the Shipment table to another table for maintaining records for specific part number.</b></p>
-<pre>
--- Setup tables and insert shipment data
+                </pre>
+                <h4>Expected Output</h4>
+                <pre>[ { SName: 'ABC Suppliers' }, { SName: 'XYZ Suppliers' } ]</pre>
+                <h3>PL/SQL Program</h3>
+                <p><b>Write a PL/SQL program to copy the contents of the Shipment table to another table for maintaining records for specific part number.</b></p>
+                <p><b>Table Setup:</b></p>
+                <pre>
 CREATE TABLE Shipment (
     SID NUMBER(5),
     PID VARCHAR2(5),
@@ -289,33 +273,49 @@ CREATE TABLE Shipment_Backup (
     Qty NUMBER(5)
 );
 
-INSERT INTO Shipment VALUES (101, 'P1', 50);
-INSERT INTO Shipment VALUES (102, 'P2', 40);
-INSERT INTO Shipment VALUES (103, 'P1', 30);
-INSERT INTO Shipment VALUES (104, 'P3', 20);
+INSERT INTO Shipment VALUES (101,'P1',50);
+INSERT INTO Shipment VALUES (102,'P2',40);
+INSERT INTO Shipment VALUES (103,'P1',30);
+INSERT INTO Shipment VALUES (104,'P3',20);
 COMMIT;
 
--- Copy contents for part PID='P1'
+SELECT * FROM Shipment;
+                </pre>
+                <h4>Initial Shipment Table Output</h4>
+                <table>
+                    <tr><th>SID</th><th>PID</th><th>QTY</th></tr>
+                    <tr><td>101</td><td>P1</td><td>50</td></tr>
+                    <tr><td>102</td><td>P2</td><td>40</td></tr>
+                    <tr><td>103</td><td>P1</td><td>30</td></tr>
+                    <tr><td>104</td><td>P3</td><td>20</td></tr>
+                </table>
+                <p><b>PL/SQL Block:</b></p>
+                <pre>
 SET SERVEROUTPUT ON;
 BEGIN
    INSERT INTO Shipment_Backup
    SELECT *
    FROM Shipment
-   WHERE PID = 'P1';
+   WHERE PID='P1';
 
    DBMS_OUTPUT.PUT_LINE('Records copied successfully');
 END;
 /
-</pre>
-
-<h4>Expected Output</h4>
-<pre>
+SELECT * FROM Shipment_Backup;
+                </pre>
+                <h4>Execution Output</h4>
+                <pre>
 Records copied successfully
-</pre>
+                </pre>
+                <h4>Shipment Backup Table Output</h4>
+                <table>
+                    <tr><th>SID</th><th>PID</th><th>QTY</th></tr>
+                    <tr><td>101</td><td>P1</td><td>50</td></tr>
+                    <tr><td>103</td><td>P1</td><td>30</td></tr>
+                </table>
+                <hr>
 
-<hr>
-
-<h2>Result</h2>
+                <h2>Result</h2>
 <p>
 The tables were created and queried in SQL, parts were updated and matched in MongoDB, and the PL/SQL program successfully copied records to the backup table.
 </p>

@@ -1,0 +1,639 @@
+1.Create an Employee and Department tables, insert suitable tuples and perform the following operations using MongoDB 
+ i. List all the employees of Department named #Dept_name 
+ii. Name the employees working on Project Number :#Project_No 
+
+
+db.Employee.insertMany([
+{ Emp_ID:101, Emp_Name:"Ravi", Dept_No:10, Salary:50000, Project_No:"P101"},
+{ Emp_ID:102, Emp_Name:"Rani", Dept_No:20, Salary:60000, Project_No:"P102"},
+{ Emp_ID:103, Emp_Name:"Kushal", Dept_No:10, Salary:55000, Project_No:"P101"}
+])
+
+
+OUTPUT
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('6a20078bbc1cfd02008ce5af'),
+    '1': ObjectId('6a20078bbc1cfd02008ce5b0'),
+    '2': ObjectId('6a20078bbc1cfd02008ce5b1')
+  }
+}
+
+
+db.Department.insertMany([
+{Dept_No:10, Dept_Name:"HR"},
+{Dept_No:20, Dept_Name:"IT"}
+])
+
+OUTPUT
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('6a20078cbc1cfd02008ce5b2'),
+    '1': ObjectId('6a20078cbc1cfd02008ce5b3')
+  }
+}
+
+
+i.List all the employees of Department named #Dept_name 
+
+var dept=db.Department.findOne(
+   {Dept_Name:"HR"}
+);
+
+db.Employee.find(
+   {Dept_No:dept.Dept_No}
+);
+
+
+OUTPUT
+[
+  {
+    _id: ObjectId('6a20078bbc1cfd02008ce5af'),
+    Emp_ID: 101,
+    Emp_Name: 'Ravi',
+    Dept_No: 10,
+    Salary: 50000,
+    Project_No: 'P101'
+  },
+  {
+    _id: ObjectId('6a20078bbc1cfd02008ce5b1'),
+    Emp_ID: 103,
+    Emp_Name: 'Kushal',
+    Dept_No: 10,
+    Salary: 55000,
+    Project_No: 'P101'
+  }
+]
+
+ii.Name the employees working on Project Number :#Project_No 
+db.Employee.find(
+            {Project_No:"P101"},
+              {Emp_Name:1,_id:0}
+            );
+
+OUTPUT
+[ { Emp_Name: 'Ravi' }, { Emp_Name: 'Kushal' } ]
+
+Write a PL/SQL program that gives all employees in Department #number a 15% pay increase. Display a message displaying how many employees were awarded the increase.
+CREATE TABLE Employee (
+    Emp_ID NUMBER(5) PRIMARY KEY,
+    Emp_Name VARCHAR2(20),
+    Dept_No NUMBER(8),
+    Salary NUMBER(10)
+);
+INSERT INTO Employee VALUES
+(101, 'Ravi', 10, 50000);
+
+INSERT INTO Employee VALUES
+(102, 'Anu', 20, 60000);
+
+INSERT INTO Employee VALUES
+(103, 'Kiran', 10, 55000);
+
+INSERT INTO Employee VALUES
+(104, 'Priya', 30, 45000);
+
+COMMIT;
+SELECT * FROM Employee;
+
+SET SERVEROUTPUT ON;
+
+DECLARE
+   v_count NUMBER;
+BEGIN
+   UPDATE Employee
+   SET Salary = Salary * 1.15
+   WHERE Dept_No = 10;
+
+   v_count := SQL%ROWCOUNT;
+
+   DBMS_OUTPUT.PUT_LINE(
+      v_count || ' employees awarded 15% increase');
+END;
+/
+SELECT * FROM Employee;
+
+OUTPUT
+EMP_ID EMP_NAME   DEPT_NO     SALARY
+---------- -------------------- ---------- ----------
+       101 Ravi 1050000
+       102 Anu2060000
+       103 Kiran1055000
+       104 Priya3045000
+2 employees awarded 15% increase
+
+    EMP_ID EMP_NAME   DEPT_NO     SALARY
+---------- -------------------- ---------- ----------
+       101 Ravi 1057500
+       102 Anu2060000
+       103 Kiran1063250
+       104 Priya3045000
+
+2. Create the table, insert suitable tuples and perform the following operations using MongoDB
+ i. Update the details of parts for a given part identifier: #PID. 
+ii. Display all suppliers who supply the part with part identifier: #PID.
+
+db.Part.insertMany([
+{PID:"P1", PName:"Bolt", Price:20},
+{PID:"P2", PName:"Nut", Price:10}
+])
+OUTPUT
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('6a2157e7346482d7de8ce5af'),
+    '1': ObjectId('6a2157e7346482d7de8ce5b0')
+  }
+}
+
+db.Supplier.insertMany([
+{SID:1,SName:"ABC Suppliers",PID:"P1"},
+{SID:2,SName:"XYZ Suppliers",PID:"P1"},
+{SID:3,SName:"Global Parts",PID:"P2"}
+])
+
+
+
+OUTPUT
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('6a215845c53bedb60c8ce5b1'),
+    '1': ObjectId('6a215845c53bedb60c8ce5b2'),
+    '2': ObjectId('6a215845c53bedb60c8ce5b3')
+  }
+}
+
+i.Update details of Part P1
+db.Part.updateOne(
+ {PID:"P1"},
+ {$set:{Price:25}}
+)
+OUTPUT
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+
+ii.Display suppliers supplying Part P1
+db.Supplier.find(
+ {PID:"P1"},
+ {SName:1,_id:0}
+)
+OUTPUT
+[ { SName: 'ABC Suppliers' }, { SName: 'XYZ Suppliers' } ]
+
+
+
+
+
+
+
+Write a PL/SQL program to copy the contents of the Shipment table to another table for maintaining records for specific part number.
+CREATE TABLE Shipment (
+    SID NUMBER(5),
+    PID VARCHAR2(5),
+    Qty NUMBER(5)
+);
+
+CREATE TABLE Shipment_Backup (
+    SID NUMBER(5),
+    PID VARCHAR2(5),
+    Qty NUMBER(5)
+);
+
+INSERT INTO Shipment VALUES (101,'P1',50);
+INSERT INTO Shipment VALUES (102,'P2',40);
+INSERT INTO Shipment VALUES (103,'P1',30);
+INSERT INTO Shipment VALUES (104,'P3',20);
+
+COMMIT;
+
+SELECT * FROM Shipment;
+
+SET SERVEROUTPUT ON;
+
+BEGIN
+   INSERT INTO Shipment_Backup
+   SELECT *
+   FROM Shipment
+   WHERE PID='P1';
+
+   DBMS_OUTPUT.PUT_LINE(
+      'Records copied successfully');
+END;
+/
+SELECT * FROM Shipment_Backup;
+
+OUTPUT
+      SID PID         QTY
+---------- ----- ----------
+       101 P1 50
+       102 P2 40
+       103 P1 30
+       104 P3 20
+Records copied successfully
+
+       SID PIDQTY
+---------- ----- ----------
+       101 P1 50
+       103 P1 30
+
+
+
+3. Create the table, insert suitable tuples and perform the following operations using MongoDB.
+     i. Obtain the number of boats obtained by sailor :#Sailor_Name 
+     ii. Retrieve boats of color :”#color”
+
+db.Sailor.insertMany([
+{SID:1,SName:"Ramesh"},
+{SID:2,SName:"Suresh"}
+])
+
+OUTPUT
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('6a2159745fdbac8b848ce5af'),
+    '1': ObjectId('6a2159745fdbac8b848ce5b0')
+  }
+}
+
+db.Boat.insertMany([
+{BID:101,BName:"Sea King",Color:"Red"},
+{BID:102,BName:"Ocean Star",Color:"Blue"}
+])
+OUTPUT
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('6a2159a5a394a68ce18ce5b1'),
+    '1': ObjectId('6a2159a5a394a68ce18ce5b2')
+  }
+}
+
+
+db.Reserve.insertMany([
+{SID:1,BID:101},
+{SID:1,BID:102},
+{SID:2,BID:102}
+])
+OUTPUT
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('6a2159daa3049e238d8ce5b3'),
+    '1': ObjectId('6a2159daa3049e238d8ce5b4'),
+    '2': ObjectId('6a2159daa3049e238d8ce5b5')
+  }
+}
+
+i.Number of boats reserved by sailor "Ramesh"
+var sailor=db.Sailor.findOne(
+ {SName:"Ramesh"}
+);
+
+db.Reserve.countDocuments(
+ {SID:sailor.SID}
+)
+
+OUTPUT
+2
+
+ii.Retrieve boats of color "Blue"
+db.Boat.find(
+ {Color:"Blue"}
+)
+OUTPUT
+[
+  {
+    _id: ObjectId('6a215a462dbc9d54be8ce5b2'),
+    BID: 102,
+    BName: 'Ocean Star',
+    Color: 'Blue'
+  }
+]
+Write a PL/SQL program to Count the number of boats.
+CREATE TABLE Boat (
+    BID NUMBER(5) PRIMARY KEY,
+    BName VARCHAR2(30),
+    Color VARCHAR2(20)
+);
+
+INSERT INTO Boat VALUES (1,'BoatA','Red');
+INSERT INTO Boat VALUES (2,'BoatB','Blue');
+INSERT INTO Boat VALUES (3,'BoatC','Green');
+COMMIT;
+
+SELECT * FROM Boat;
+
+SET SERVEROUTPUT ON;
+DECLARE
+   v_count NUMBER;
+BEGIN
+   SELECT COUNT(*)
+   INTO v_count
+   FROM Boat;
+   DBMS_OUTPUT.PUT_LINE(
+      'Total Boats = ' || v_count);
+END;
+/
+
+OUTPUT
+  BID      BNAME         COLOR
+---------- ------------------------------ --------------------
+ 1 BoatA  Red
+ 2 BoatB  Blue
+ 3 BoatC  Green
+Total Boats = 3
+
+
+4. Create the table, insert suitable tuples and perform the following operations using MongoDB
+i. Obtain the book details authored by “author_name”. 
+ii. Obtain the Names of students who have borrowed “Database” books.
+
+db.Book.insertMany([
+{
+ Book_ID:1,
+ Title:"Database Systems",
+ Author:"Navathe",
+ Price:500
+},
+{
+ Book_ID:2,
+ Title:"Python Programming",
+ Author:"John",
+ Price:400
+}
+])
+OUTPUT
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('6a2271ee9153378f068ce5af'),
+    '1': ObjectId('6a2271ee9153378f068ce5b0')
+  }
+}
+db.Student.insertMany([
+{
+ SID:1,
+ SName:"Kushal",
+ Book_ID:1
+},
+{
+ SID:2,
+ SName:"Priya",
+ Book_ID:2
+}
+])
+
+
+OUTPUT
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('6a227252494b62d38a8ce5af'),
+    '1': ObjectId('6a227252494b62d38a8ce5b0')
+  }
+}
+
+i. Obtain the book details authored by “author_name”. 
+
+db.Book.find(
+ {Author:"Navathe"}
+)
+
+OUTPUT
+[
+  {
+    _id: ObjectId('6a2272c847771f32118ce5af'),
+    Book_ID: 1,
+    Title: 'Database Systems',
+    Author: 'Navathe',
+    Price: 500
+  }
+]
+
+ii. Obtain the Names of students who have borrowed “Database” books.
+
+var book=db.Book.findOne(
+ {Title:"Database Systems"}
+);
+
+db.Student.find(
+ {Book_ID:book.Book_ID},
+ {SName:1,_id:0}
+)
+OUTPUT
+[ { SName: 'Kushal' } ]
+
+Write a PL/SQL program to increase the price of all books by 10%.
+CREATE TABLE Book (
+    Book_ID NUMBER(5) PRIMARY KEY,
+    Title VARCHAR2(50),
+    Author VARCHAR2(50),
+    Price NUMBER(8,2)
+);
+
+INSERT INTO Book VALUES
+(101, 'Database Systems', 'Navathe', 500);
+
+INSERT INTO Book VALUES
+(102, 'Operating Systems', 'Galvin', 600);
+
+INSERT INTO Book VALUES
+(103, 'Python Programming', 'John', 450);
+
+INSERT INTO Book VALUES
+(104, 'Computer Networks', 'Tanenbaum', 550);
+
+COMMIT;
+SELECT * FROM Book;
+
+BEGIN
+   UPDATE Book
+   SET Price = Price * 1.10;
+
+   DBMS_OUTPUT.PUT_LINE(
+   'Book prices updated');
+END;
+/
+
+select * from Book;
+
+
+OUTPUT
+       101 Database SystemsNavathe     500
+       102 Operating SystemsGalvin    600
+       103 Python ProgrammingJohn    450
+       104 Computer NetworksTanenbaum    550
+
+Book prices updated
+
+   
+   BOOK_ID TITLEAUTHOR  PRICE
+---------- -------------------- -------------------- ----------
+       101 Database SystemsNavathe     550
+       102 Operating SystemsGalvin    660
+       103 Python ProgrammingJohn    495
+       104 Computer NetworksTanenbaum    605
+
+
+
+5.Create Patient and Doctor collections, insert suitable documents, and perform the following operations using MongoDB:
+ i. List all the patients treated by the doctor named #Doctor_Name. 
+ii. Display the names of patients who have an appointment on date  
+    #Appointment_Date.
+
+db.Doctor.insertMany([
+{
+ Doctor_ID:1,
+ Doctor_Name:"Dr. Kumar",
+ Specialization:"Cardiology",
+ Fee:1000
+},
+{
+ Doctor_ID:2,
+ Doctor_Name:"Dr. Ravi",
+ Specialization:"Neurology",
+ Fee:1200
+}
+])
+
+OUTPUT
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('6a2275b652a9f4050d8ce5af'),
+    '1': ObjectId('6a2275b652a9f4050d8ce5b0')
+  }
+}
+
+
+db.Patient.insertMany([
+{
+ Patient_ID:1,
+ Patient_Name:"Anita",
+ Doctor_ID:1,
+ Appointment_Date:"2025-05-10"
+},
+{
+ Patient_ID:2,
+ Patient_Name:"Shruti",
+ Doctor_ID:1,
+ Appointment_Date:"2025-05-10"
+},
+{
+ Patient_ID:3,
+ Patient_Name:"Meena",
+ Doctor_ID:2,
+ Appointment_Date:"2025-05-12"
+}
+])
+
+
+OUTPUT
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('6a2275f4e935b4340f8ce5b1'),
+    '1': ObjectId('6a2275f4e935b4340f8ce5b2'),
+    '2': ObjectId('6a2275f4e935b4340f8ce5b3')
+  }
+}
+
+i.List patients treated by  Doctor
+
+var doc=db.Doctor.findOne(
+ {Doctor_Name:"Dr. Kumar"}
+);
+
+db.Patient.find(
+ {Doctor_ID:doc.Doctor_ID},
+ {Patient_Name:1,_id:0}
+)
+
+
+OUTPUT
+
+[ { Patient_Name: 'Anita' }, { Patient_Name: 'Shruti' } ]
+
+ii. Display the names of patients who have an appointment on date  
+    #Appointment_Date.
+
+
+db.Patient.find(
+ {Appointment_Date:"2025-05-10"},
+ {Patient_Name:1,_id:0}
+)
+
+
+OUTPUT
+
+[ { Patient_Name: 'Anita' }, { Patient_Name: 'Shruti' } ]
+
+Write a PL/SQL program that increases the consultation fee of all doctors in specialization #Specialization by 20%.
+
+CREATE TABLE Doctor (
+    Doctor_ID NUMBER(5) PRIMARY KEY,
+    Doctor_Name VARCHAR2(20),
+    Specialization VARCHAR2(20),
+    Fee NUMBER(8,2)
+);
+
+
+INSERT INTO Doctor VALUES
+(101, 'Dr. Kumar', 'Cardiology', 1000);
+
+INSERT INTO Doctor VALUES
+(102, 'Dr. Ravi', 'Neurology', 1200);
+
+INSERT INTO Doctor VALUES
+(103, 'Dr. Meena', 'Cardiology', 1500);
+
+INSERT INTO Doctor VALUES
+(104, 'Dr. Priya', 'Orthopedics', 1300);
+
+COMMIT;
+SELECT * FROM Doctor;
+SET SERVEROUTPUT ON;
+
+DECLARE
+   v_count NUMBER;
+BEGIN
+   UPDATE Doctor
+   SET Fee = Fee * 1.20
+   WHERE Specialization = 'Cardiology';
+
+   v_count := SQL%ROWCOUNT;
+
+   DBMS_OUTPUT.PUT_LINE(
+      v_count || ' doctors updated'
+   );
+END;
+/
+
+SELECT * FROM Doctor;
+
+
+OUTPUT
+DOCTOR_ID DOCTOR_NAMESPECIALIZATION    FEE
+---------- -------------------- -------------------- ----------
+       101 Dr. KumarCardiology   1200
+       102 Dr. RaviNeurology   1200
+       103 Dr. MeenaCardiology   1800
+       104 Dr. PriyaOrthopedics   1300
+2 doctors updated
+
+ DOCTOR_ID DOCTOR_NAMESPECIALIZATION    FEE
+---------- -------------------- -------------------- ----------
+       101 Dr. KumarCardiology   1440
+       102 Dr. RaviNeurology   1200
+       103 Dr. MeenaCardiology   2160
+       104 Dr. PriyaOrthopedics   1300
+
