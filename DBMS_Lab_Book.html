@@ -831,6 +831,60 @@ END;
                 <hr>
                 <h2>Result</h2>
                 <p>The database operations in Oracle SQL, MongoDB, and PL/SQL salary updates were successfully executed and verified with expected outputs.</p>
+                <hr>
+                <h2>Viva Voce — Top 50 Questions &amp; Answers</h2>
+                <ol>
+                    <li><b>What is a Database Management System (DBMS)?</b><br>A DBMS is system software that manages the creation, storage, retrieval, update, and deletion of data in databases, providing an interface between users and data.</li>
+                    <li><b>What are the advantages of DBMS over traditional file systems?</b><br>DBMS provides data redundancy control, data consistency, data sharing, integrity constraints, security, backup &amp; recovery, and concurrent access — none of which a flat-file system supports natively.</li>
+                    <li><b>What is DDL? Give examples.</b><br>Data Definition Language (DDL) defines the database structure. Examples: CREATE, ALTER, DROP, TRUNCATE.</li>
+                    <li><b>What is DML? Give examples.</b><br>Data Manipulation Language (DML) manipulates data stored in tables. Examples: SELECT, INSERT, UPDATE, DELETE.</li>
+                    <li><b>What is a Primary Key?</b><br>A primary key is a column (or set of columns) that uniquely identifies each row in a table. It cannot contain NULL values and must be unique.</li>
+                    <li><b>What is a Foreign Key?</b><br>A foreign key is a column in one table that references the primary key of another table, establishing a relationship between the two tables.</li>
+                    <li><b>What is the difference between Primary Key and Unique Key?</b><br>A primary key cannot have NULLs and there can be only one per table. A unique key allows one NULL value and a table can have multiple unique keys.</li>
+                    <li><b>What is an ER Diagram?</b><br>An Entity-Relationship Diagram is a graphical representation of entities, their attributes, and relationships among them in a database design.</li>
+                    <li><b>What is an entity in the ER model?</b><br>An entity is a real-world object or concept that can be distinctly identified, e.g., Employee, Department, Project.</li>
+                    <li><b>What is a relationship in the ER model?</b><br>A relationship is an association between two or more entities, e.g., an Employee BELONGS_TO a Department.</li>
+                    <li><b>What is a strong entity vs a weak entity?</b><br>A strong entity has its own primary key and exists independently. A weak entity depends on a strong entity and uses a partial key along with the owner's key.</li>
+                    <li><b>What are the types of attributes in the ER model?</b><br>Simple, Composite, Single-valued, Multi-valued, Derived, and Key attributes.</li>
+                    <li><b>What is cardinality ratio?</b><br>Cardinality ratio specifies the number of relationship instances an entity can participate in: 1:1, 1:N, M:N.</li>
+                    <li><b>What is participation constraint (total vs partial)?</b><br>Total participation means every entity instance must participate in the relationship. Partial means some may not participate.</li>
+                    <li><b>What is the purpose of the CREATE TABLE statement?</b><br>CREATE TABLE defines a new table in the database, specifying column names, data types, and constraints.</li>
+                    <li><b>What does the NOT NULL constraint do?</b><br>NOT NULL ensures that a column cannot have a NULL value — every row must contain a valid value for that column.</li>
+                    <li><b>What is the CHECK constraint?</b><br>CHECK constraint validates that values in a column satisfy a specified Boolean condition, e.g., CHECK (Salary &gt; 0).</li>
+                    <li><b>What does ON DELETE CASCADE do?</b><br>When a referenced row in the parent table is deleted, ON DELETE CASCADE automatically deletes all matching rows in the child table.</li>
+                    <li><b>What is the difference between DELETE and TRUNCATE?</b><br>DELETE removes specific rows (can use WHERE) and can be rolled back. TRUNCATE removes all rows instantly, cannot use WHERE, and is auto-committed.</li>
+                    <li><b>What is a JOIN? Name its types.</b><br>JOIN combines rows from two or more tables based on a related column. Types: INNER JOIN, LEFT JOIN, RIGHT JOIN, FULL OUTER JOIN, CROSS JOIN.</li>
+                    <li><b>What is an INNER JOIN?</b><br>INNER JOIN returns only the rows where there is a match in both tables on the join condition.</li>
+                    <li><b>What is a LEFT OUTER JOIN?</b><br>LEFT JOIN returns all rows from the left table and matched rows from the right table. Non-matching right-side columns are filled with NULL.</li>
+                    <li><b>What is the GROUP BY clause?</b><br>GROUP BY groups rows sharing a common value into summary rows, typically used with aggregate functions like COUNT, SUM, AVG.</li>
+                    <li><b>What is the difference between WHERE and HAVING?</b><br>WHERE filters rows before grouping. HAVING filters groups after GROUP BY aggregation.</li>
+                    <li><b>What does COUNT() function do?</b><br>COUNT() returns the number of rows matching a condition. COUNT(*) counts all rows; COUNT(column) counts non-NULL values.</li>
+                    <li><b>What is the purpose of the COMMIT statement?</b><br>COMMIT permanently saves all changes made during the current transaction to the database.</li>
+                    <li><b>What is the difference between CHAR and VARCHAR2?</b><br>CHAR stores fixed-length strings (padded with spaces). VARCHAR2 stores variable-length strings using only the space needed.</li>
+                    <li><b>Explain the INSERT INTO syntax.</b><br>INSERT INTO table_name VALUES (val1, val2, ...) inserts a new row. Column names can be specified explicitly: INSERT INTO table(col1, col2) VALUES (val1, val2).</li>
+                    <li><b>What is a composite key?</b><br>A composite key is a primary key made up of two or more columns that together uniquely identify a row, e.g., (SSN, ProjectNo) in WORKS_ON.</li>
+                    <li><b>Can a table have multiple foreign keys?</b><br>Yes. For example, the Employee table has DeptNo as FK referencing Department and ProjectNo as FK referencing Project.</li>
+                    <li><b>What is referential integrity?</b><br>Referential integrity ensures that a foreign key value always refers to an existing primary key value in the referenced table, or is NULL.</li>
+                    <li><b>What is the UPDATE statement used for?</b><br>UPDATE modifies existing data in a table. Syntax: UPDATE table SET column = value WHERE condition.</li>
+                    <li><b>What is a subquery?</b><br>A subquery is a query nested inside another query (in SELECT, WHERE, or FROM clause) that provides intermediate results to the outer query.</li>
+                    <li><b>What is the difference between UNION and UNION ALL?</b><br>UNION combines results of two SELECT queries and removes duplicates. UNION ALL keeps all rows including duplicates.</li>
+                    <li><b>What is the three-schema architecture?</b><br>ANSI-SPARC architecture has three levels: External (user views), Conceptual (logical structure), and Internal (physical storage).</li>
+                    <li><b>What is MongoDB?</b><br>MongoDB is a NoSQL, document-oriented database that stores data in flexible JSON-like BSON documents instead of rows and columns.</li>
+                    <li><b>What is a document in MongoDB?</b><br>A document is a single record in MongoDB stored as a BSON (Binary JSON) object with key-value pairs, similar to a row in RDBMS.</li>
+                    <li><b>What is a collection in MongoDB?</b><br>A collection is a group of related documents in MongoDB, analogous to a table in a relational database.</li>
+                    <li><b>What does insertMany() do in MongoDB?</b><br>insertMany() inserts multiple documents into a collection at once, accepting an array of document objects.</li>
+                    <li><b>What does find() do in MongoDB?</b><br>find() retrieves documents from a collection that match a given filter. Without arguments, it returns all documents.</li>
+                    <li><b>What does findOne() do in MongoDB?</b><br>findOne() returns the first document that matches the filter criteria, or null if no match is found.</li>
+                    <li><b>What is the _id field in MongoDB?</b><br>_id is an auto-generated unique identifier (ObjectId) assigned to every document if not explicitly provided. It acts as the primary key.</li>
+                    <li><b>What is PL/SQL?</b><br>PL/SQL (Procedural Language/SQL) is Oracle's procedural extension to SQL, supporting variables, conditions, loops, and exception handling.</li>
+                    <li><b>What is the structure of a PL/SQL block?</b><br>DECLARE (optional variables), BEGIN (executable statements), EXCEPTION (error handling), END; — followed by / to execute.</li>
+                    <li><b>What is DBMS_OUTPUT.PUT_LINE used for?</b><br>It is a built-in procedure to display output messages on the console in Oracle SQL*Plus or SQL Developer.</li>
+                    <li><b>What is SQL%ROWCOUNT?</b><br>SQL%ROWCOUNT is an implicit cursor attribute that returns the number of rows affected by the most recent DML statement.</li>
+                    <li><b>What is the difference between SQL and PL/SQL?</b><br>SQL is a declarative query language for data operations. PL/SQL is a procedural extension that adds control flow (IF, LOOP), variables, and exception handling around SQL.</li>
+                    <li><b>What does SET SERVEROUTPUT ON do?</b><br>It enables the display of DBMS_OUTPUT.PUT_LINE messages in the SQL*Plus or SQL Developer console.</li>
+                    <li><b>What is the DECLARE section in PL/SQL?</b><br>DECLARE is used to define variables, constants, cursors, and user-defined exceptions before the BEGIN block.</li>
+                    <li><b>Can we use DML statements inside PL/SQL?</b><br>Yes. INSERT, UPDATE, DELETE, and SELECT INTO can all be used inside a PL/SQL BEGIN...END block.</li>
+                </ol>
             </div>
         </div>
 
@@ -1029,6 +1083,60 @@ Records copied successfully
                 <hr>
                 <h2>Result</h2>
                 <p>The tables were created and queried in SQL, parts were updated and matched in MongoDB, and the PL/SQL program successfully copied records to the backup table.</p>
+                <hr>
+                <h2>Viva Voce — Top 50 Questions &amp; Answers</h2>
+                <ol>
+                    <li><b>What is a composite primary key?</b><br>A composite primary key is a primary key composed of two or more columns that together uniquely identify each row, e.g., (SID, PID) in Shipment.</li>
+                    <li><b>Why do we use a composite key in the Shipment table?</b><br>Because a single supplier can supply multiple parts and a single part can be supplied by multiple suppliers — neither SID nor PID alone is unique in Shipment.</li>
+                    <li><b>What is referential integrity constraint?</b><br>It ensures that a foreign key value in a child table must match an existing primary key value in the parent table, or be NULL.</li>
+                    <li><b>What does ON DELETE CASCADE mean?</b><br>When a parent row is deleted, all child rows referencing it are automatically deleted to maintain referential integrity.</li>
+                    <li><b>What happens to Shipment rows when a Supplier is deleted with CASCADE?</b><br>All Shipment rows that reference the deleted Supplier's SID are automatically removed from the Shipment table.</li>
+                    <li><b>What is the difference between DELETE and DROP?</b><br>DELETE removes specific rows from a table (data only). DROP removes the entire table structure along with all its data from the database.</li>
+                    <li><b>What is a schema diagram?</b><br>A schema diagram shows all tables with their columns, data types, primary keys, and foreign key relationships in a compact notation.</li>
+                    <li><b>What are the different categories of SQL commands?</b><br>DDL (CREATE, ALTER, DROP), DML (SELECT, INSERT, UPDATE, DELETE), DCL (GRANT, REVOKE), TCL (COMMIT, ROLLBACK, SAVEPOINT).</li>
+                    <li><b>What is DCL? Give examples.</b><br>Data Control Language controls access privileges. GRANT gives permissions; REVOKE takes them away.</li>
+                    <li><b>What is TCL? Give examples.</b><br>Transaction Control Language manages transactions. Examples: COMMIT (save), ROLLBACK (undo), SAVEPOINT (checkpoint).</li>
+                    <li><b>What does ROLLBACK do?</b><br>ROLLBACK undoes all changes made in the current transaction, reverting the database to its state at the last COMMIT.</li>
+                    <li><b>What is SAVEPOINT?</b><br>SAVEPOINT sets a named point within a transaction to which you can later ROLLBACK without undoing the entire transaction.</li>
+                    <li><b>What is data integrity?</b><br>Data integrity ensures the accuracy, consistency, and reliability of data stored in the database through constraints and validation rules.</li>
+                    <li><b>What are the types of integrity constraints in SQL?</b><br>Domain constraint, Key constraint, Entity integrity (no NULL PKs), Referential integrity (valid FKs), and CHECK constraints.</li>
+                    <li><b>What is a domain constraint?</b><br>A domain constraint restricts the set of allowed values for a column, such as data type, range (CHECK), or enumerated values.</li>
+                    <li><b>What is entity integrity constraint?</b><br>Entity integrity states that the primary key of a table cannot contain NULL values — every row must be uniquely identifiable.</li>
+                    <li><b>What is a natural join?</b><br>A natural join automatically joins two tables on columns with the same name and compatible data types, removing duplicate columns.</li>
+                    <li><b>What is an equi-join?</b><br>An equi-join uses the equality operator (=) to match column values between two tables in the ON or WHERE clause.</li>
+                    <li><b>What is a self-join?</b><br>A self-join joins a table with itself, using table aliases to treat it as two separate tables — useful for hierarchical data.</li>
+                    <li><b>What is a cross join (Cartesian product)?</b><br>A cross join returns every possible combination of rows from two tables — if table A has m rows and B has n rows, result has m×n rows.</li>
+                    <li><b>What is the purpose of the DISTINCT keyword?</b><br>DISTINCT eliminates duplicate rows from the result set of a SELECT query.</li>
+                    <li><b>What is an alias in SQL?</b><br>An alias is a temporary name given to a table or column using the AS keyword, improving query readability.</li>
+                    <li><b>What is the ORDER BY clause?</b><br>ORDER BY sorts the result set by one or more columns in ascending (ASC, default) or descending (DESC) order.</li>
+                    <li><b>What is a view in SQL?</b><br>A view is a virtual table based on a SELECT query. It does not store data physically but presents a customized perspective of existing tables.</li>
+                    <li><b>Can we perform INSERT on a view?</b><br>Yes, if the view is based on a single table, does not use aggregates, DISTINCT, GROUP BY, or JOINs — it must be an updatable view.</li>
+                    <li><b>What is the ALTER TABLE statement?</b><br>ALTER TABLE modifies an existing table structure — adding, dropping, or modifying columns and constraints.</li>
+                    <li><b>How do you add a new column to a table?</b><br>ALTER TABLE table_name ADD (column_name datatype); e.g., ALTER TABLE Supplier ADD (Phone VARCHAR2(15));</li>
+                    <li><b>How do you drop a column from a table?</b><br>ALTER TABLE table_name DROP COLUMN column_name; e.g., ALTER TABLE Part DROP COLUMN PColor;</li>
+                    <li><b>What is a sequence in Oracle?</b><br>A sequence is a database object that generates unique sequential numbers, often used for auto-incrementing primary keys.</li>
+                    <li><b>What is the difference between BETWEEN and IN?</b><br>BETWEEN checks if a value falls within a range (inclusive). IN checks if a value matches any item in a specified list.</li>
+                    <li><b>What does the LIKE operator do?</b><br>LIKE performs pattern matching using wildcards: % (any sequence of characters) and _ (single character).</li>
+                    <li><b>What are wildcards in SQL?</b><br>% matches zero or more characters; _ matches exactly one character. Used with LIKE in WHERE clause for pattern matching.</li>
+                    <li><b>What is MongoDB's equivalent of a table?</b><br>A collection. Collections hold documents (records) and are analogous to tables in relational databases.</li>
+                    <li><b>What is the difference between SQL and NoSQL databases?</b><br>SQL databases are relational with fixed schemas and use SQL. NoSQL databases are non-relational, schema-flexible, and use various query mechanisms (document, key-value, graph).</li>
+                    <li><b>What does updateOne() do in MongoDB?</b><br>updateOne() modifies the first document matching the filter criteria with the specified update operations.</li>
+                    <li><b>What is the $set operator in MongoDB?</b><br>$set updates the value of a specific field. If the field doesn't exist, $set creates it. Other fields remain unchanged.</li>
+                    <li><b>Can MongoDB store nested documents?</b><br>Yes. MongoDB supports embedding documents within documents (sub-documents), enabling hierarchical data storage.</li>
+                    <li><b>What is BSON?</b><br>BSON (Binary JSON) is the binary-encoded format MongoDB uses to store documents. It supports additional data types like Date and ObjectId beyond standard JSON.</li>
+                    <li><b>What is the difference between find() and findOne()?</b><br>find() returns a cursor to all matching documents. findOne() returns only the first matching document as a single object.</li>
+                    <li><b>How do you delete a document in MongoDB?</b><br>Use deleteOne({filter}) to remove one matching document, or deleteMany({filter}) to remove all matching documents.</li>
+                    <li><b>What does acknowledged: true mean in MongoDB output?</b><br>It means the write operation was acknowledged by the MongoDB server and successfully processed.</li>
+                    <li><b>What is the BEGIN...END block in PL/SQL?</b><br>BEGIN...END encloses the executable statements of a PL/SQL block. All DML and procedural logic goes between these keywords.</li>
+                    <li><b>How do you copy data from one table to another in SQL?</b><br>INSERT INTO target_table SELECT * FROM source_table WHERE condition; — this copies matching rows from source to target.</li>
+                    <li><b>What is INSERT INTO...SELECT?</b><br>It inserts rows into a table by selecting data from another table, combining INSERT and SELECT in one statement.</li>
+                    <li><b>What is the difference between implicit and explicit cursors?</b><br>Implicit cursors are auto-created by Oracle for single-row queries (SELECT INTO) and DML. Explicit cursors are user-defined for multi-row query processing.</li>
+                    <li><b>What is an exception in PL/SQL?</b><br>An exception is a runtime error condition. PL/SQL handles them in the EXCEPTION block using WHEN exception_name THEN handler.</li>
+                    <li><b>Name some predefined exceptions in PL/SQL.</b><br>NO_DATA_FOUND, TOO_MANY_ROWS, ZERO_DIVIDE, DUP_VAL_ON_INDEX, VALUE_ERROR, INVALID_CURSOR.</li>
+                    <li><b>What are the advantages of PL/SQL over plain SQL?</b><br>PL/SQL adds procedural logic (IF, LOOP), variables, exception handling, modularity (procedures/functions), and reduces network traffic by executing blocks on the server.</li>
+                    <li><b>What is a stored procedure?</b><br>A stored procedure is a named PL/SQL block stored in the database that can be called repeatedly, accepts parameters, and improves performance.</li>
+                    <li><b>What is the difference between a procedure and a function in PL/SQL?</b><br>A function must return a value using RETURN and can be used in SQL expressions. A procedure does not return a value and is called standalone using EXEC or CALL.</li>
+                </ol>
             </div>
         </div>
 
@@ -1228,6 +1336,60 @@ Total Boats = 3
                 <hr>
                 <h2>Result</h2>
                 <p>The boat reservation database was designed and queried successfully in Oracle SQL and MongoDB, and the PL/SQL program successfully returned the total count of boats.</p>
+                <hr>
+                <h2>Viva Voce — Top 50 Questions &amp; Answers</h2>
+                <ol>
+                    <li><b>What is a ternary composite primary key?</b><br>A primary key composed of three columns, e.g., (SailorID, BID, Day) in Reserves, meaning the combination of all three uniquely identifies each row.</li>
+                    <li><b>Why is (SailorID, BID, Day) used as the composite PK in Reserves?</b><br>Because the same sailor can reserve the same boat on different days — all three columns together are needed to ensure uniqueness.</li>
+                    <li><b>What is a CHECK constraint? Give an example from this experiment.</b><br>CHECK validates column values against a condition. Example: CHECK (Age &gt;= 18) ensures no sailor under 18 is inserted.</li>
+                    <li><b>What is the DATE data type in Oracle?</b><br>DATE stores date and time information (year, month, day, hour, minute, second). It occupies 7 bytes of storage.</li>
+                    <li><b>How do you insert a DATE literal in Oracle?</b><br>Use the DATE keyword with ISO format: DATE '2025-01-10', or use TO_DATE('10-JAN-25', 'DD-MON-YY').</li>
+                    <li><b>What is the relational division operation?</b><br>Division finds tuples in one relation that are associated with ALL tuples in another relation. It answers queries like "boats reserved by ALL sailors".</li>
+                    <li><b>How is division implemented in SQL?</b><br>Using GROUP BY with HAVING COUNT(DISTINCT col) = (SELECT COUNT(*) FROM other_table) — checking that the count matches the total.</li>
+                    <li><b>What does HAVING COUNT(DISTINCT SailorID) = (SELECT COUNT(*) FROM Sailor) do?</b><br>It finds BIDs where the number of distinct sailors who reserved that boat equals the total number of sailors — implementing division.</li>
+                    <li><b>What is the difference between COUNT(*) and COUNT(column)?</b><br>COUNT(*) counts all rows including NULLs. COUNT(column) counts only non-NULL values in that column.</li>
+                    <li><b>What is a correlated subquery?</b><br>A subquery that references columns from the outer query and is re-evaluated for each row of the outer query.</li>
+                    <li><b>What is the difference between IN and EXISTS?</b><br>IN checks if a value is in a result set (value comparison). EXISTS checks if the subquery returns at least one row (boolean check). EXISTS is often faster for large datasets.</li>
+                    <li><b>What is the purpose of LEFT JOIN in counting boats per sailor?</b><br>LEFT JOIN ensures sailors with zero reservations still appear in the result with a count of 0, unlike INNER JOIN which would exclude them.</li>
+                    <li><b>What does GROUP BY do in SQL?</b><br>GROUP BY groups rows with identical values in specified columns into summary rows, enabling aggregate functions to operate on each group.</li>
+                    <li><b>Can we use aggregate functions without GROUP BY?</b><br>Yes, but the aggregate will compute over the entire result set as one group, returning a single row.</li>
+                    <li><b>What is the significance of CHECK(Rating &gt;= 1 AND Rating &lt;= 10)?</b><br>It restricts the Rating column to values between 1 and 10 inclusive, ensuring data validity at the database level.</li>
+                    <li><b>What happens when a Boat is deleted with ON DELETE CASCADE on Reserves?</b><br>All reservation records in Reserves referencing that deleted Boat's BID are automatically removed.</li>
+                    <li><b>What is the difference between DATE and TIMESTAMP in Oracle?</b><br>DATE stores date + time to the second. TIMESTAMP extends this with fractional seconds (up to nanosecond precision) and optional timezone.</li>
+                    <li><b>What is SYSDATE in Oracle?</b><br>SYSDATE is a built-in function that returns the current date and time of the database server.</li>
+                    <li><b>What is the TO_DATE function?</b><br>TO_DATE converts a character string to a DATE value using a specified format mask, e.g., TO_DATE('10-01-2025', 'DD-MM-YYYY').</li>
+                    <li><b>What is the TO_CHAR function?</b><br>TO_CHAR converts a date or number to a formatted character string, e.g., TO_CHAR(SYSDATE, 'DD-MON-YYYY').</li>
+                    <li><b>Can a sailor reserve the same boat on the same day twice?</b><br>No. The composite PK (SailorID, BID, Day) prevents duplicate entries for the same combination.</li>
+                    <li><b>What is normalization?</b><br>Normalization is the process of organizing database tables to minimize redundancy and dependency by dividing tables and defining relationships.</li>
+                    <li><b>What is First Normal Form (1NF)?</b><br>A table is in 1NF if all column values are atomic (no repeating groups or arrays), and each row is unique.</li>
+                    <li><b>What is Second Normal Form (2NF)?</b><br>A table is in 2NF if it is in 1NF and every non-key attribute is fully functionally dependent on the entire primary key (no partial dependencies).</li>
+                    <li><b>What is Third Normal Form (3NF)?</b><br>A table is in 3NF if it is in 2NF and no non-key attribute is transitively dependent on the primary key.</li>
+                    <li><b>What is BCNF (Boyce-Codd Normal Form)?</b><br>BCNF is a stricter version of 3NF where every determinant (left side of an FD) must be a candidate key.</li>
+                    <li><b>Is the Reserves table in 3NF?</b><br>Yes. All attributes are part of the primary key (SailorID, BID, Day), so there are no non-key attributes to violate 2NF or 3NF.</li>
+                    <li><b>What is a functional dependency?</b><br>A functional dependency X → Y means that for each value of X, there is exactly one associated value of Y.</li>
+                    <li><b>What is a candidate key?</b><br>A candidate key is a minimal set of attributes that can uniquely identify every tuple in a relation. A table can have multiple candidate keys.</li>
+                    <li><b>What is a super key?</b><br>A super key is any set of attributes that uniquely identifies tuples. Every candidate key is a super key, but not vice versa.</li>
+                    <li><b>What does countDocuments() do in MongoDB?</b><br>countDocuments() returns the count of documents matching a specified filter in a collection.</li>
+                    <li><b>How is countDocuments() different from count()?</b><br>countDocuments() performs an actual scan and gives accurate counts. count() (deprecated) may return approximate counts from metadata.</li>
+                    <li><b>What is projection in MongoDB find()?</b><br>The second argument to find() specifies which fields to include (1) or exclude (0) in the results, e.g., { SName: 1, _id: 0 }.</li>
+                    <li><b>What does { _id: 0 } do in MongoDB projection?</b><br>It excludes the auto-generated _id field from the query results, since _id is included by default.</li>
+                    <li><b>How do you filter by a field value in MongoDB?</b><br>Pass a filter object to find(), e.g., db.Boat.find({ Color: "Blue" }) returns all boats with Blue color.</li>
+                    <li><b>What is an ObjectId in MongoDB?</b><br>ObjectId is a 12-byte unique identifier auto-assigned to the _id field. It encodes timestamp, machine ID, process ID, and counter.</li>
+                    <li><b>What is SELECT INTO in PL/SQL?</b><br>SELECT INTO fetches data from a table into PL/SQL variables. It must return exactly one row; otherwise it raises NO_DATA_FOUND or TOO_MANY_ROWS.</li>
+                    <li><b>What is the difference between SELECT INTO and INSERT INTO?</b><br>SELECT INTO stores query results into PL/SQL variables (for processing). INSERT INTO adds new rows into a database table.</li>
+                    <li><b>What happens if SELECT INTO returns no rows?</b><br>Oracle raises the NO_DATA_FOUND exception, which can be handled in the EXCEPTION block.</li>
+                    <li><b>What is the NO_DATA_FOUND exception?</b><br>A predefined PL/SQL exception raised when a SELECT INTO statement returns zero rows.</li>
+                    <li><b>What is the TOO_MANY_ROWS exception?</b><br>A predefined exception raised when a SELECT INTO returns more than one row, since it expects exactly one.</li>
+                    <li><b>How do you declare a variable in PL/SQL?</b><br>In the DECLARE section: variable_name datatype; e.g., v_count NUMBER; or v_name VARCHAR2(30);</li>
+                    <li><b>What are scalar data types in PL/SQL?</b><br>NUMBER, VARCHAR2, CHAR, DATE, BOOLEAN, BINARY_INTEGER, PLS_INTEGER — they hold single values.</li>
+                    <li><b>What is the %TYPE attribute in PL/SQL?</b><br>%TYPE declares a variable with the same data type as a table column: v_name Employee.EmpName%TYPE;</li>
+                    <li><b>What is the %ROWTYPE attribute in PL/SQL?</b><br>%ROWTYPE declares a record variable with the same structure as an entire table row: v_emp Employee%ROWTYPE;</li>
+                    <li><b>What is a cursor in PL/SQL?</b><br>A cursor is a pointer to the result set of a SQL query. Implicit cursors handle single-row queries; explicit cursors process multi-row results.</li>
+                    <li><b>What is the NVL function in Oracle?</b><br>NVL(expr, default_value) returns default_value if expr is NULL, otherwise returns expr. Used for NULL handling.</li>
+                    <li><b>What is a trigger in Oracle?</b><br>A trigger is a stored PL/SQL block that automatically executes (fires) in response to DML events (INSERT, UPDATE, DELETE) on a table.</li>
+                    <li><b>What are BEFORE and AFTER triggers?</b><br>BEFORE triggers fire before the DML operation (for validation). AFTER triggers fire after the operation (for logging/auditing).</li>
+                    <li><b>What is the difference between a row-level and statement-level trigger?</b><br>Row-level (FOR EACH ROW) fires once per affected row. Statement-level fires once per DML statement regardless of rows affected.</li>
+                </ol>
             </div>
         </div>
 
@@ -1421,6 +1583,60 @@ Book prices updated
                 <hr>
                 <h2>Result</h2>
                 <p>The Books-Student database operations were successfully designed, run in SQL &amp; MongoDB, and the PL/SQL program successfully completed the book price updates.</p>
+                <hr>
+                <h2>Viva Voce — Top 50 Questions &amp; Answers</h2>
+                <ol>
+                    <li><b>Can a primary key be of VARCHAR2 type?</b><br>Yes. ISBN is a VARCHAR2 primary key in the Books table. Primary keys can be any data type as long as values are unique and non-NULL.</li>
+                    <li><b>Why use VARCHAR2 for ISBN instead of NUMBER?</b><br>ISBNs can contain hyphens and leading zeros (e.g., '978-0-13-468599-1'), which cannot be stored in a NUMBER column.</li>
+                    <li><b>What does the DISTINCT keyword do?</b><br>DISTINCT removes duplicate rows from query results. In this experiment, it ensures each student name appears only once even if they borrowed multiple qualifying books.</li>
+                    <li><b>What is the IN operator in SQL?</b><br>IN checks if a value matches any value in a list or subquery, e.g., WHERE ISBN IN ('123', '124').</li>
+                    <li><b>What is the difference between IN and = operators?</b><br>= compares with a single value. IN compares with a set of values, functioning as multiple OR conditions.</li>
+                    <li><b>What is a CHECK constraint on Gender?</b><br>CHECK (Gender IN ('Male', 'Female')) restricts the column to only allow these specific values.</li>
+                    <li><b>How does LEFT JOIN help find students who haven't borrowed books?</b><br>LEFT JOIN includes ALL students; those without borrows have NULL in borrow columns. COUNT on those NULLs returns 0.</li>
+                    <li><b>What is a NULL value in databases?</b><br>NULL represents a missing, unknown, or inapplicable value. It is not zero, not empty string — it is the absence of a value.</li>
+                    <li><b>What is the IS NULL condition?</b><br>IS NULL checks whether a column contains NULL. You cannot use = NULL because NULL is not equal to anything, not even itself.</li>
+                    <li><b>What is the COALESCE function?</b><br>COALESCE returns the first non-NULL value from a list of arguments. COALESCE(a, b, c) returns a if not NULL, else b, else c.</li>
+                    <li><b>What is the difference between INNER JOIN and LEFT JOIN?</b><br>INNER JOIN returns only matching rows from both tables. LEFT JOIN returns all rows from the left table plus matching rows from the right (NULLs for non-matches).</li>
+                    <li><b>What is the difference between UNION and JOIN?</b><br>JOIN combines columns from multiple tables horizontally. UNION combines rows from multiple queries vertically (stacking results).</li>
+                    <li><b>What is an aggregate function?</b><br>A function that performs a calculation on a set of rows and returns a single value. Examples: COUNT, SUM, AVG, MAX, MIN.</li>
+                    <li><b>Name five aggregate functions in SQL.</b><br>COUNT (count rows), SUM (total), AVG (average), MAX (maximum), MIN (minimum).</li>
+                    <li><b>What does SUM() do?</b><br>SUM() calculates the total of all numeric values in a column, ignoring NULLs.</li>
+                    <li><b>What does AVG() do?</b><br>AVG() calculates the arithmetic mean of all numeric values in a column, ignoring NULLs.</li>
+                    <li><b>What do MAX() and MIN() do?</b><br>MAX() returns the largest value and MIN() returns the smallest value in a column. They work on numbers, strings, and dates.</li>
+                    <li><b>What is the difference between implicit and explicit joins?</b><br>Implicit joins use comma-separated tables with WHERE conditions. Explicit joins use JOIN...ON syntax, which is clearer and preferred.</li>
+                    <li><b>What is a three-table join?</b><br>Joining three tables using two JOIN clauses, e.g., Student JOIN Borrows ON ... JOIN Books ON ... to connect students to their borrowed books.</li>
+                    <li><b>What is the ON clause in a JOIN?</b><br>ON specifies the join condition (matching columns) between two tables, e.g., ON S.StudentID = B.StudentID.</li>
+                    <li><b>Can we join more than two tables? How?</b><br>Yes. Chain multiple JOIN clauses: SELECT ... FROM A JOIN B ON ... JOIN C ON ... JOIN D ON ...</li>
+                    <li><b>What is a subquery?</b><br>A query nested inside another SQL statement, used to provide intermediate results for the outer query's condition or data source.</li>
+                    <li><b>What is a nested subquery vs a correlated subquery?</b><br>Nested subquery executes once independently. Correlated subquery references outer query columns and re-executes for each outer row.</li>
+                    <li><b>What is a multi-row subquery?</b><br>A subquery that returns multiple rows, requiring operators like IN, ANY, ALL, or EXISTS (not = which expects one value).</li>
+                    <li><b>What are ANY and ALL in subqueries?</b><br>ANY means the condition is true for at least one subquery value. ALL means it must be true for every subquery value.</li>
+                    <li><b>What is a scalar subquery?</b><br>A subquery that returns exactly one row and one column (a single value). It can be used anywhere a single value is expected.</li>
+                    <li><b>What is the LIKE operator?</b><br>LIKE performs pattern matching in WHERE clauses. Combined with % and _ wildcards for flexible string searches.</li>
+                    <li><b>What are the pattern matching wildcards % and _?</b><br>% matches zero or more characters (e.g., 'Data%' matches 'Database'). _ matches exactly one character (e.g., 'B_t' matches 'Bat', 'Bit').</li>
+                    <li><b>What is the ORDER BY clause?</b><br>ORDER BY sorts the result set by specified columns in ascending (ASC, default) or descending (DESC) order.</li>
+                    <li><b>What is the BETWEEN operator?</b><br>BETWEEN checks if a value is within an inclusive range: WHERE Price BETWEEN 400 AND 600 returns prices from 400 to 600.</li>
+                    <li><b>What is the purpose of ISBN in book databases?</b><br>ISBN (International Standard Book Number) is a globally unique identifier for books, making it an ideal natural primary key.</li>
+                    <li><b>What does insertMany() return in MongoDB?</b><br>An object with acknowledged: true and an array of insertedIds containing the _id values of all inserted documents.</li>
+                    <li><b>How do you find a document by a field value in MongoDB?</b><br>db.collection.find({ field: value }), e.g., db.Book.find({ Author: "Navathe" }).</li>
+                    <li><b>What does the second argument in find() do?</b><br>It's the projection document specifying which fields to include (1) or exclude (0) in results, e.g., { SName: 1, _id: 0 }.</li>
+                    <li><b>How do you chain findOne() result into another query?</b><br>Store findOne() result in a variable, then use its fields: var b = db.Book.findOne({...}); db.Student.find({ Book_ID: b.Book_ID });</li>
+                    <li><b>What is the $gt operator in MongoDB?</b><br>$gt is a comparison operator meaning "greater than". Usage: { Price: { $gt: 400 } } matches prices over 400.</li>
+                    <li><b>What are comparison operators in MongoDB?</b><br>$eq (equal), $ne (not equal), $gt (greater), $gte (greater or equal), $lt (less), $lte (less or equal), $in, $nin.</li>
+                    <li><b>What is the $or operator in MongoDB?</b><br>$or performs a logical OR on an array of conditions: { $or: [ { Author: "Navathe" }, { Author: "Galvin" } ] }.</li>
+                    <li><b>What is the $and operator in MongoDB?</b><br>$and performs logical AND on conditions. It's implicit when specifying multiple fields: { Author: "Navathe", Price: 500 } is an AND.</li>
+                    <li><b>What is a PL/SQL anonymous block?</b><br>An unnamed, one-time PL/SQL block with DECLARE-BEGIN-END structure that is not stored in the database.</li>
+                    <li><b>What does UPDATE...SET do in PL/SQL?</b><br>Same as SQL UPDATE — modifies column values for rows matching a condition. Inside PL/SQL, you can use variables in the SET and WHERE clauses.</li>
+                    <li><b>How do you apply a percentage increase in SQL?</b><br>UPDATE table SET column = column * 1.10; (for 10% increase). Multiply by (1 + percentage/100).</li>
+                    <li><b>What is the difference between a stored procedure and an anonymous block?</b><br>A stored procedure is named, saved in DB, reusable, and can accept parameters. An anonymous block is unnamed, one-time, and not stored.</li>
+                    <li><b>What is a trigger in PL/SQL?</b><br>A trigger is a PL/SQL block that automatically fires before or after DML events (INSERT, UPDATE, DELETE) on a table.</li>
+                    <li><b>What are the advantages of stored procedures?</b><br>Code reusability, reduced network traffic, improved security (controlled access), precompiled execution (faster), and centralized business logic.</li>
+                    <li><b>What is data abstraction in DBMS?</b><br>Hiding internal implementation details and showing only essential features. Three levels: Physical, Logical, and View level.</li>
+                    <li><b>What is data independence?</b><br>The ability to modify the schema at one level without affecting the schema at the next higher level. Types: Logical and Physical independence.</li>
+                    <li><b>What is the difference between logical and physical data independence?</b><br>Logical independence: changing conceptual schema without changing external views. Physical independence: changing internal storage without changing conceptual schema.</li>
+                    <li><b>What is a database schema vs a database instance?</b><br>Schema is the logical structure (design) of the database, which rarely changes. Instance is the actual data stored at a particular moment (changes frequently).</li>
+                    <li><b>What is the role of a DBA (Database Administrator)?</b><br>A DBA manages the database system: schema design, security/access control, performance tuning, backup/recovery, and user management.</li>
+                </ol>
             </div>
         </div>
 
@@ -1613,6 +1829,60 @@ END;
                 <hr>
                 <h2>Result</h2>
                 <p>The Hospital Management database operations in Oracle SQL and MongoDB were successfully designed and queried, and the PL/SQL program successfully completed the specialization fee adjustments.</p>
+                <hr>
+                <h2>Viva Voce — Top 50 Questions &amp; Answers</h2>
+                <ol>
+                    <li><b>Why does Appointment have its own AppointmentID as primary key?</b><br>AppointmentID is a surrogate key that uniquely identifies each appointment, even if the same patient visits the same doctor on different occasions.</li>
+                    <li><b>What is the difference between a composite PK and a surrogate PK?</b><br>Composite PK uses multiple meaningful columns. Surrogate PK is a single auto-generated column (like AppointmentID) with no business meaning.</li>
+                    <li><b>When would you use a surrogate key over a natural key?</b><br>When the natural key is too long, composite, or likely to change. Surrogate keys simplify joins and foreign key references.</li>
+                    <li><b>What is the Specialization column used for?</b><br>It stores the doctor's area of medical expertise (e.g., Cardiology, Neurology), enabling queries filtered by specialization.</li>
+                    <li><b>What does CHECK (Fee &gt; 0) ensure?</b><br>It prevents insertion of zero or negative consultation fees, maintaining data quality at the database level.</li>
+                    <li><b>How do you join three tables in this experiment?</b><br>Doctor JOIN Appointment ON Doctor.DoctorID = Appointment.DoctorID JOIN Patient ON Appointment.PatientID = Patient.PatientID.</li>
+                    <li><b>What does GROUP BY with HAVING achieve in Query ii?</b><br>It groups appointments by DoctorID, then HAVING filters to keep only doctors where the count of distinct patients equals the total patient count (consulted by ALL).</li>
+                    <li><b>How do you find doctors consulted by ALL patients?</b><br>SELECT DoctorID FROM Appointment GROUP BY DoctorID HAVING COUNT(DISTINCT PatientID) = (SELECT COUNT(*) FROM Patient);</li>
+                    <li><b>What is a many-to-many relationship?</b><br>A relationship where multiple instances of one entity can be related to multiple instances of another, e.g., Patients can see many Doctors and vice versa.</li>
+                    <li><b>How is a many-to-many relationship implemented in RDBMS?</b><br>Using a junction (associative) table with foreign keys referencing both entities, e.g., Appointment links Patient and Doctor.</li>
+                    <li><b>What is a junction/associative table?</b><br>An intermediary table that resolves a M:N relationship into two 1:N relationships. Appointment is the junction table between Patient and Doctor.</li>
+                    <li><b>What is data redundancy?</b><br>Unnecessary duplication of data across tables. It wastes storage and can lead to inconsistencies during updates.</li>
+                    <li><b>How do we reduce data redundancy?</b><br>Through normalization — decomposing tables to eliminate partial and transitive dependencies.</li>
+                    <li><b>What is an update anomaly?</b><br>When updating data in one place requires updating it in multiple places due to redundancy, risking inconsistency if any are missed.</li>
+                    <li><b>What is an insertion anomaly?</b><br>When you cannot insert valid data because other required (but unrelated) data is missing, due to poor table design.</li>
+                    <li><b>What is a deletion anomaly?</b><br>When deleting a row unintentionally removes other useful data because multiple facts are stored in the same table.</li>
+                    <li><b>What is a transitive dependency?</b><br>If A → B and B → C, then A → C is a transitive dependency. Removing these achieves 3NF.</li>
+                    <li><b>What is a partial dependency?</b><br>When a non-key attribute depends on only part of a composite primary key. Removing these achieves 2NF.</li>
+                    <li><b>What is Armstrong's Axioms?</b><br>A set of inference rules for functional dependencies: Reflexivity (if B⊆A then A→B), Augmentation (if A→B then AC→BC), Transitivity (if A→B and B→C then A→C).</li>
+                    <li><b>What is attribute closure?</b><br>The set of all attributes functionally determined by a given set of attributes under a set of FDs. Computed using Armstrong's axioms.</li>
+                    <li><b>What is a candidate key derivation?</b><br>Finding minimal attribute sets whose closure includes all attributes of the relation. These minimal sets are candidate keys.</li>
+                    <li><b>What is a lossless join decomposition?</b><br>Decomposing a table such that joining the resulting tables produces exactly the original data — no spurious tuples.</li>
+                    <li><b>What is dependency preservation?</b><br>A decomposition preserves dependencies if all original FDs can be enforced by checking constraints on individual decomposed tables.</li>
+                    <li><b>What is a transaction in DBMS?</b><br>A transaction is a logical unit of work consisting of one or more SQL operations that must be executed completely or not at all.</li>
+                    <li><b>What are the ACID properties?</b><br>Atomicity (all-or-nothing), Consistency (valid state transitions), Isolation (concurrent transactions don't interfere), Durability (committed changes persist).</li>
+                    <li><b>What is Atomicity?</b><br>Either all operations of a transaction complete successfully, or none of them take effect — no partial execution.</li>
+                    <li><b>What is Consistency?</b><br>A transaction takes the database from one valid state to another, maintaining all integrity constraints.</li>
+                    <li><b>What is Isolation?</b><br>Concurrent transactions execute as if they were running serially, preventing interference between them.</li>
+                    <li><b>What is Durability?</b><br>Once a transaction is committed, its changes are permanent and survive system crashes or failures.</li>
+                    <li><b>What is a schedule in transaction processing?</b><br>A schedule is a chronological sequence of operations (read, write) from multiple concurrent transactions.</li>
+                    <li><b>What is serializability?</b><br>A schedule is serializable if its result is equivalent to some serial execution of the transactions, ensuring correctness.</li>
+                    <li><b>What is conflict serializability?</b><br>Two schedules are conflict equivalent if they have the same set of conflicting operations in the same order. A schedule is conflict-serializable if it is conflict equivalent to a serial schedule.</li>
+                    <li><b>What is a deadlock in DBMS?</b><br>A situation where two or more transactions wait for each other to release locks, creating a cycle of dependencies where none can proceed.</li>
+                    <li><b>What is the MongoDB aggregation pipeline?</b><br>A framework for data processing where documents pass through stages ($match, $group, $sort, $project, etc.) in sequence, each transforming the data.</li>
+                    <li><b>What does the $match stage do in aggregation?</b><br>$match filters documents based on conditions, similar to the WHERE clause in SQL. It should be placed early in the pipeline for efficiency.</li>
+                    <li><b>What does the $group stage do?</b><br>$group groups documents by a specified key and can compute aggregates like $sum, $avg, $count, $max, $min on each group.</li>
+                    <li><b>How do you query by date in MongoDB?</b><br>Use string comparison for string dates: { Appointment_Date: "2025-05-10" } or date operators for ISODate objects.</li>
+                    <li><b>What is indexing in MongoDB?</b><br>Indexes are data structures that improve query performance by allowing MongoDB to locate documents without scanning every document in a collection.</li>
+                    <li><b>What does createIndex() do in MongoDB?</b><br>createIndex({ field: 1 }) creates an ascending index on the specified field. Use -1 for descending. Speeds up queries filtering on that field.</li>
+                    <li><b>How do you sort results in MongoDB?</b><br>Append .sort({ field: 1 }) for ascending or .sort({ field: -1 }) for descending order after a find() query.</li>
+                    <li><b>What is the $inc operator in MongoDB?</b><br>$inc increments a field value by a specified amount: db.Doctor.updateMany({}, { $inc: { Fee: 200 } }) increases all fees by 200.</li>
+                    <li><b>What is SQL%ROWCOUNT in PL/SQL?</b><br>An implicit cursor attribute that returns the number of rows affected by the last DML statement (INSERT, UPDATE, DELETE).</li>
+                    <li><b>What is conditional logic in PL/SQL (IF-THEN-ELSE)?</b><br>IF condition THEN statements; ELSIF condition THEN statements; ELSE statements; END IF; — controls program flow based on conditions.</li>
+                    <li><b>What is a FOR loop in PL/SQL?</b><br>FOR i IN 1..10 LOOP statements; END LOOP; iterates with automatic counter management. Also used with cursors: FOR rec IN cursor LOOP.</li>
+                    <li><b>What is a WHILE loop in PL/SQL?</b><br>WHILE condition LOOP statements; END LOOP; repeats as long as the condition is true. Risk of infinite loop if condition never becomes false.</li>
+                    <li><b>What is exception handling in PL/SQL?</b><br>EXCEPTION block catches runtime errors: WHEN NO_DATA_FOUND THEN ...; WHEN OTHERS THEN ...; prevents program crashes.</li>
+                    <li><b>What is the CAP theorem?</b><br>In distributed databases, you can guarantee at most two of three: Consistency, Availability, and Partition Tolerance.</li>
+                    <li><b>What is the difference between SQL and NoSQL for hospital systems?</b><br>SQL (RDBMS) suits structured, relational hospital data with strict integrity. NoSQL suits flexible, scalable data like patient logs or IoT health data.</li>
+                    <li><b>What are Codd's 12 Rules?</b><br>A set of 13 rules (0-12) proposed by E.F. Codd defining requirements for a system to be considered a true RDBMS, covering data representation, access, integrity, and independence.</li>
+                    <li><b>What is the difference between 2-tier and 3-tier database architecture?</b><br>2-tier: client directly communicates with database server. 3-tier: client communicates with application server, which communicates with database server (better scalability and security).</li>
+                </ol>
             </div>
         </div>
 
