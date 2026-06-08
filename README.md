@@ -139,6 +139,7 @@ SEM4_NOTES/
 - These notes are intended for personal academic use and sharing with fellow MSRIT ISE students.
 - Lab programs follow the official VTU syllabus programs and are exam-ready.
 - If you find any errors or want to contribute corrections, feel free to open an issue or a pull request.
+- Thank you
 
 ---
 
