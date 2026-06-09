@@ -1,0 +1,136 @@
+<USER_REQUEST>
+# 🧠 DAA Lab — All 12 Programs (C + Python)
+### Simple, Well-Commented Implementations
+
+---
+
+## 1. 🛒 Merge Sort — Stable Order ID Sorting
+
+**Context:** Online retail platform sorts thousands of orders by ID before shipping.
+
+> **How it works:** Split array in half → sort each half → merge both sorted halves.
+> Using `<=` during merge ensures **stability** (equal elements keep their original order).
+
+| Complexity | Value |
+|---|---|
+| Time | O(n log n) |
+| Space | O(n) |
+| Stable? | ✅ Yes |
+
+### C
+
+```c
+#include <stdio.h>
+
+void merge(int arr[], int l, int m, int r) {
+    int n1 = m - l + 1, n2 = r - m;
+    int L[n1], R[n2];
+
+    for (int i = 0; i < n1; i++) L[i] = arr[l + i];
+    for (int j = 0; j < n2; j++) R[j] = arr[m + 1 + j];
+
+    int i = 0, j = 0, k = l;
+    while (i < n1 && j < n2)
+        arr[k++] = (L[i] <= R[j]) ? L[i++] : R[j++];  // <= ensures stability
+    while (i < n1) arr[k++] = L[i++];
+    while (j < n2) arr[k++] = R[j++];
+}
+
+void mergeSort(int arr[], int l, int r) {
+    if (l < r) {
+        int m = (l + r) / 2;
+        mergeSort(arr, l, m);
+        mergeSort(arr, m + 1, r);
+        merge(arr, l, m, r);
+    }
+}
+
+int main() {
+    int orderIDs[] = {1005, 1001, 1008, 1003, 1002};
+    int n = 5;
+    mergeSort(orderIDs, 0, n - 1);
+    printf("Sorted Order IDs: ");
+    for (int i = 0; i < n; i++) printf("%d ", orderIDs[i]);
+    printf("\n");
+    return 0;
+}
+```
+
+### Python
+
+```python
+def merge_sort(arr):
+    if len(arr) <= 1:
+        return arr
+
+    mid = len(arr) // 2
+    left  = merge_sort(arr[:mid])
+    right = merge_sort(arr[mid:])
+
+    result, i, j = [], 0, 0
+    while i < len(left) and j < len(right):
+        if left[i] <= right[j]:       # <= ensures stability
+            result.append(left[i]); i += 1
+        else:
+            result.append(right[j]); j += 1
+    result.extend(left[i:])
+    result.extend(right[j:])
+    return result
+
+order_ids = [1005, 1001, 1008, 1003, 1002]
+print("Sorted
+<truncated 34037 bytes>
+]
+cap[0][1]=16; cap[0][2]=13
+cap[1][2]=10; cap[1][3]=12
+cap[2][4]=14
+cap[3][5]=20; cap[3][2]=9
+cap[4][3]=7;  cap[4][5]=4
+
+print("Maximum water flow:", max_flow(cap, 0, 5, n), "units")
+# Output: Maximum water flow: 23 units
+```
+
+---
+
+## 📊 Quick Reference — All 12 Algorithms
+
+| # | Problem | Algorithm | Time Complexity | Space |
+|---|---------|-----------|-----------------|-------|
+| 1 | Order ID Sorting | **Merge Sort** | O(n log n) | O(n) |
+| 2 | Package Sorting | **Randomized Quick Sort** | O(n log n) avg | O(log n) |
+| 3 | Airline Boarding | **Binary Min-Heap** | O(log n) per op | O(n) |
+| 4 | Student Marks | **Counting Sort** | O(n + k) | O(k) |
+| 5 | Hospital Median | **QuickSelect** | O(n) avg | O(1) |
+| 6 | Friend Groups | **DSU (Union-Rank + Path Compress)** | O(α(n)) per op | O(n) |
+| 7 | City Navigation | **Dijkstra's + Min-Heap** | O((V+E) log V) | O(V+E) |
+| 8 | Video Matrices | **Matrix Chain DP** | O(n³) | O(n²) |
+| 9 | Plagiarism Check | **LCS DP** | O(m × n) | O(m × n) |
+| 10 | Text Compression | **Huffman Coding (Greedy)** | O(n log n) | O(n) |
+| 11 | File Traversal | **DFS with Timestamps** | O(V + E) | O(V) |
+| 12 | Water Network | **Ford-Fulkerson / Edmonds-Karp** | O(V × E²) | O(V²) |
+
+---
+
+## 🧩 Category Summary
+
+| Category | Programs |
+|----------|----------|
+| **Sorting** | 1 (Merge Sort), 2 (Quick Sort), 4 (Counting Sort) |
+| **Divide & Conquer** | 1, 2, 5 |
+| **Dynamic Programming** | 8 (Matrix Chain), 9 (LCS) |
+| **Greedy** | 10 (Huffman) |
+| **Graph Algorithms** | 7 (Dijkstra), 11 (DFS), 12 (Max Flow) |
+| **Data Structures** | 3 (Heap), 6 (DSU) |
+
+Use this programs instead of existing ones in DAA
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-06-07T18:26:42+05:30.
+
+The user's current state is as follows:
+Active Document: a:\SEM4_Complete\DBMS_4th_Sem_Notes_Book.html (LANGUAGE_HTML)
+Cursor is on line: 1
+Other open documents:
+- a:\SEM4_Complete\DBMS_4th_Sem_Notes_Book.html (LANGUAGE_HTML)
+</ADDITIONAL_METADATA>

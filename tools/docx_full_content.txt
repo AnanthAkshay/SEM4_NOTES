@@ -1,0 +1,870 @@
+[P] 1. Consider an Employee with a social security number (SSN) working on multiple projects with definite hours for each. Each Employee belongs to a Department. Each project is associated with some domain areas such as Database, Cloud and so on. Each Employee will be assigned to some project. Assume the attributes for Employee and Project relations.
+[P] a) Mention the constraints neatly.
+[P] b) Design the ER diagram for the problem statement 
+[P] c) State the schema diagram for the ER diagram. 
+[P] d) Create the tables, insert suitable tuples and perform the following operations in SQL
+[P]      i. Obtain the details of employees assigned to “Database” project. 
+[P]              ii.Find the number of employees working in each department with department details. 
+[P]               iii. Update the Project details of Employee bearing SSN = #SSN to 
+[P]                ProjectNo = #Project_No and display the same
+[P] create table Employee
+[P] (
+[P] ssn varchar(6),
+[P] name varchar(10),
+[P] deptno int,
+[P] primary key(ssn)
+[P] );
+[P] create table Project
+[P] (
+[P] projectno varchar(10),
+[P] projectarea varchar(20),
+[P] primary key(projectno)
+[P] );
+[P] create table Works_On
+[P] (
+[P] ssn varchar(6),
+[P] projectno varchar(10),
+[P] foreign key(ssn)references Employee(ssn),
+[P] foreign key(projectno)references Project(projectno)
+[P] );
+[P] INSERT INTO Employee VALUES ('E101','Ravi',10);
+[P] INSERT INTO Employee VALUES ('E102','Anu',20);
+[P] INSERT INTO Employee VALUES ('E103','Kiran',30);
+[P] INSERT INTO Employee VALUES ('E104','Priya',10);
+[P] INSERT INTO Project VALUES (101,'Database');
+[P] INSERT INTO Project VALUES (102,'Cloud');
+[P] INSERT INTO Project VALUES (103,'Data Science');
+[P] INSERT INTO Works_On VALUES ('E101',101);
+[P] INSERT INTO Works_On VALUES ('E102',102);
+[P] INSERT INTO Works_On VALUES ('E103',101);
+[P] INSERT INTO Works_On VALUES ('E104',103);
+[P] select * from Employee;
+[TABLE START]
+  Row 0: ['Ssn', 'name', 'deptno']
+  Row 1: ['E101', 'Ravi', '10']
+  Row 2: ['E102', 'Anu', '20']
+  Row 3: ['E103', 'Kiran', '30']
+  Row 4: ['E104', 'Priya', '10']
+[TABLE END]
+[P] select * from Project;
+[TABLE START]
+  Row 0: ['Projectno', 'projectarea']
+  Row 1: ['101', 'Database']
+  Row 2: ['102', 'Cloud']
+  Row 3: ['103', 'Data Science']
+[TABLE END]
+[P] select * from Works_On;
+[TABLE START]
+  Row 0: ['Ssn', 'projectarea']
+  Row 1: ['E101', '101']
+  Row 2: ['E102', '102']
+  Row 3: ['E103', '101']
+  Row 4: ['E104', '103']
+[TABLE END]
+[P] i.   Obtain the details of employees assigned to “Database” project.
+[P] SELECT E.*
+[P] FROM Employee E
+[P] JOIN Works_On W
+[P] ON E.ssn = W.ssn
+[P] JOIN Project P
+[P] ON W.projectno = P.projectno
+[P] WHERE P.projectarea = 'Database';
+[TABLE START]
+  Row 0: ['Ssn', 'name', 'deptno']
+  Row 1: ['E101', 'Ravi', '10']
+  Row 2: ['E103', 'Kiran', '30']
+[TABLE END]
+[P] ii.  Find the number of employees working in each department with   department details. 
+[P] select deptno,count(ssn) as NumberofEmployees 
+[P] from Employee 
+[P] group by deptno;
+[TABLE START]
+  Row 0: ['Deptno', 'NumberofEmployees']
+  Row 1: ['10', '2']
+  Row 2: ['20', '1']
+  Row 3: ['30', '1']
+[TABLE END]
+[P] iii) Update the Project details of Employee bearing SSN='E102' to ProjectNo=101 and display the same
+[P] UPDATE Works_On
+[P] SET projectno = 101
+[P] WHERE SSN = 'E102';
+[P] SELECT*from Works_On;
+[TABLE START]
+  Row 0: ['Ssn', 'projectarea']
+  Row 1: ['E101', '101']
+  Row 2: ['E102', '101']
+  Row 3: ['E103', '101']
+  Row 4: ['E104', '103']
+[TABLE END]
+[P] 2. Consider the relations: PART, SUPPLIER and SUPPLY. The Supplier relation holds information about suppliers. The attributes SID, SNAME, SADDR describes the supplier. The Part relation holds the attributes such as PID, PNAME and PCOLOR. The Shipment relation holds information about shipments that include SID and PID attributes identifying the supplier of the shipment and the part shipped, respectively. The Shipment relation should contain information on the number of parts shipped. 
+[P] a) Mention the constraints neatly.
+[P] b) Design the ER diagram for the problem statement 
+[P] c) State the schema diagram for the ER diagram.
+[P] d) Create the above tables, insert suitable tuples and perform the following operations in Oracle SQL:
+[P]  i. Obtain the details of parts supplied by supplier #SNAME. 
+[P] ii. Obtain the Names of suppliers who supply #PNAME. 
+[P]                              iii. Delete the parts which are in #PCOLOR.
+[P] create table part
+[P] (
+[P] pno number(10),
+[P] pname varchar(20),
+[P] colour varchar(20),
+[P] primary key(pno)
+[P] );
+[P] create table supplier
+[P] (
+[P] sno number(10),
+[P] sname varchar(20),
+[P] address varchar(20),
+[P] primary key(sno)
+[P] );
+[P] create table supply
+[P] (
+[P] pno number(10),
+[P] sno number(10),
+[P] quantity varchar(20),
+[P] primary key(pno,sno),
+[P] foreign key(pno) references part(pno)on delete cascade,
+[P] foreign key(sno) references supplier(sno)on delete cascade
+[P] );
+[P] insert into part values(1,'plug','black');insert into part values(2,'bolt','blue');insert into part values(3,'nut','green');
+[P] insert into supplier values(10,'Anoop','udupi');insert into supplier values(15,'Bharath','mangalore');
+[P] insert into supplier values(20,'Ram','bangalore');
+[P] insert into supply values(1,10,50);
+[P] insert into supply values(2,10,30);
+[P] insert into supply values(1,15,70);
+[P] insert into supply values(3,15,40);insert into supply values(1,20,55);
+[P] insert into supply values(2,20,65);
+[P] insert into supply values(3,20,75);
+[P] select * from part;
+[P] PNO PNAME COLOUR
+[P] 1 plug black
+[P] 2  bolt blue
+[P] 3  nut green
+[P] select * from supply ; PNOSNOQUANTITY  1 10 50   2 10 30   1 15 70  31540  12055  22065  3 2075 select* from supplier ; SNO    SNAME   ADDRESS 10       Anoop            udupi 15       Bharath          mangalore 20      Ram               Bangalore
+[P] Obtain the part identifiers of parts supplied by supplier #supplier_name.
+[P] select pno  from supply 
+[P]  where sno IN(select sno from 
+[P]               supplier where sname='Ram');
+[P] PNO 1 2 3
+[P] Obtain the Names of suppliers who supply #part_name.
+[P] select sname,pname 
+[P]  from supplier,supply,part 
+[P]  where pname='bolt' AND supply.sno=supplier.sno AND part.pno=supply.pno;
+[P] SNAME    PNAME
+[P]  Anoop       bolt
+[P]  Ram           bolt
+[P] Delete the parts which are in #colour.
+[P] delete from part where colour='green';
+[P] 3. Consider the relations BOAT, SAILOR and RESERVES. The relation BOAT identifies the features of a boat such as unique identifier, color and a name. The list of sailors with attributes such as SailorID, name, age etc., are stored in the relation SAILOR. The sailors are allowed to reserve any number of boats on any day of the week and the records are to be updated in the RESERVES table. 
+[P] a) Mention the constraints neatly.
+[P]  b) Design the ER diagram for the problem statement 
+[P] c) State the schema diagram for the ER diagram. 
+[P] d) Create the tables, insert suitable tuples and perform the following operations in SQL:
+[P]  i. Obtain the details of the boats reserved by ‘#Sailor_Name’. 
+[P] ii. Retrieve the BID of the boats reserved necessarily by all the sailors. 
+[P] iii. Find the number of boats reserved by each sailor. Display the Sailor_Name along with the number of boats reserved. 
+[P] CREATE TABLE SAILOR (
+[P]     SailorID INT PRIMARY KEY,
+[P]     Name VARCHAR(50),
+[P]     Age INT CHECK (Age > 0)
+[P] );
+[P] CREATE TABLE BOAT (
+[P]     BID INT PRIMARY KEY,
+[P]     BoatName VARCHAR(50),
+[P]     Color VARCHAR(20)
+[P] );
+[P] CREATE TABLE RESERVES (
+[P]     SailorID INT,
+[P]     BID INT,
+[P]     Day DATE,
+[P]     PRIMARY KEY (SailorID, BID, Day),
+[P]     FOREIGN KEY (SailorID) REFERENCES SAILOR(SailorID),
+[P]     FOREIGN KEY (BID) REFERENCES BOAT(BID)
+[P] );
+[P] INSERT INTO SAILOR VALUES (1, 'Ravi', 25);
+[P] INSERT INTO SAILOR VALUES (2, 'Meena', 30);
+[P] INSERT INTO SAILOR VALUES (3, 'Arun', 28);
+[P] INSERT INTO BOAT VALUES (101, 'Sea Queen', 'Red');
+[P] INSERT INTO BOAT VALUES (102, 'Wave Rider', 'Blue');
+[P] INSERT INTO BOAT VALUES (103, 'Ocean Star', 'Green');
+[P] INSERT INTO RESERVES VALUES (1, 101, '20-APR-2001');
+[P] INSERT INTO RESERVES VALUES (1, 102, '20-APR-2002');
+[P] INSERT INTO RESERVES VALUES (2, 101, '21-APR-2001');
+[P] INSERT INTO RESERVES VALUES (2, 102, '22-APR-2004');
+[P] INSERT INTO RESERVES VALUES (3, 101, '26-APR-2003');
+[P] i. Obtain the details of the boats reserved by ‘#Sailor_Name’. 
+[P] SELECT B.*
+[P] FROM BOAT B
+[P] JOIN RESERVES R ON B.BID = R.BID
+[P] JOIN SAILOR S ON S.SailorID = R.SailorID
+[P] WHERE S.Name = 'Ravi';
+[TABLE START]
+  Row 0: ['BID', 'BoatName', 'Color']
+  Row 1: ['101', 'Sea Queen', 'Red']
+  Row 2: ['102', 'Wave Rider', 'Blue']
+[TABLE END]
+[P] ii. Retrieve the BID of the boats reserved necessarily by all the sailors. 
+[P] SELECT BID
+[P] FROM RESERVES
+[P] GROUP BY BID
+[P] HAVING COUNT(DISTINCT SailorID) = 
+[P]        (SELECT COUNT(*) FROM SAILOR);
+[TABLE START]
+  Row 0: ['BID']
+  Row 1: ['101']
+[TABLE END]
+[P] iii. Find the number of boats reserved by each sailor. Display the Sailor_Name along with the number of boats reserved. 
+[P] SELECT S.Name, COUNT(R.BID) AS TotalBoats
+[P] FROM SAILOR S
+[P] LEFT JOIN RESERVES R ON S.SailorID = R.SailorID
+[P] GROUP BY S.Name;
+[TABLE START]
+  Row 0: ['Name', 'TotalBoats']
+  Row 1: ['Arun', '1']
+  Row 2: ['Meena', '2']
+  Row 3: ['Ravi', '2']
+[TABLE END]
+[P] 4.Consider the Book Lending system from the library- BOOKS, STUDENT, BORROWS. The students are allowed to borrow any number of books on a given date from the library. The details of the book should include ISBN, Title of the Book, author, and publisher. All students need not compulsorily borrow books.
+[P]  a) Mention the constraints neatly.
+[P]  b) Design the ER diagram for the problem statement
+[P]  c) State the schema diagram for the ER diagram. 
+[P] d) Create the above tables, insert suitable tuples and perform the following operations in SQL:
+[P]  i. Obtain the names of the student who has borrowed either book bearing ISBN ‘123’ or ISBN ‘124’. ii. Obtain the Names of female students who have borrowed “Database” books.
+[P]  iii. Find the number of books borrowed by each student. Display the student details along with the number of books.
+[P] CREATE TABLE STUDENT (
+[P]     StudentID INT PRIMARY KEY,
+[P]     Name VARCHAR(50),
+[P]     Gender VARCHAR(10)
+[P] );
+[P] CREATE TABLE BOOK (
+[P]     ISBN VARCHAR(10) PRIMARY KEY,
+[P]     Title VARCHAR(50),
+[P]     Author VARCHAR(50),
+[P]     Publisher VARCHAR(50)
+[P] );
+[P] CREATE TABLE BORROWS (
+[P]     StudentID INT,
+[P]     ISBN VARCHAR(10),
+[P]     BorrowDate DATE,
+[P]     PRIMARY KEY (StudentID, ISBN, BorrowDate),
+[P]     FOREIGN KEY (StudentID) REFERENCES STUDENT(StudentID),
+[P]     FOREIGN KEY (ISBN) REFERENCES BOOK(ISBN)
+[P] ); 
+[P] -- Students
+[P] INSERT INTO STUDENT VALUES (1, 'Asha', 'Female');
+[P] INSERT INTO STUDENT VALUES (2, 'Ravi', 'Male');
+[P] INSERT INTO STUDENT VALUES (3, 'Meena', 'Female');
+[P] -- Books
+[P] INSERT INTO BOOK VALUES ('123', 'Database', 'Korth', 'McGraw');
+[P] INSERT INTO BOOK VALUES ('124', 'Networks', 'Tanenbaum', 'Pearson');
+[P] INSERT INTO BOOK VALUES ('125', 'AI', 'Russell', 'Elsevier');
+[P] -- Borrows
+[P] INSERT INTO BORROWS VALUES (1, '123', '20-JAN-2001');
+[P] INSERT INTO BORROWS VALUES (1, '124', '20-JAN-2002');
+[P] INSERT INTO BORROWS VALUES (2, '125', '20-JAN-2002');
+[P] INSERT INTO BORROWS VALUES (3, '123', '20-JAN-2002');
+[P] i. Obtain the names of the student who has borrowed either book bearing ISBN ‘123’ or ISBN ‘124’.
+[P] SELECT DISTINCT s.Name
+[P] FROM STUDENT s
+[P] JOIN BORROWS b ON s.StudentID = b.StudentID
+[P] WHERE b.ISBN IN ('123', '124');
+[TABLE START]
+  Row 0: ['Name']
+  Row 1: ['Asha']
+  Row 2: ['Meena']
+[TABLE END]
+[P] ii. Obtain the Names of female students who have borrowed “Database” books.
+[P] SELECT DISTINCT s.NameFROM STUDENT sJOIN BORROWS b ON s.StudentID = b.StudentIDJOIN BOOK bk ON b.ISBN = bk.ISBNWHERE s.Gender = 'Female'AND bk.Title = 'Database';
+[TABLE START]
+  Row 0: ['Name']
+  Row 1: ['Asha']
+  Row 2: ['Meena']
+[TABLE END]
+[P] iii. Find the number of books borrowed by each student. Display the 
+[P]      student details along with the number of books.
+[P] SELECT s.StudentID, s.Name, COUNT(b.ISBN) AS TotalBooks
+[P] FROM STUDENT s
+[P] LEFT JOIN BORROWS b ON s.StudentID = b.StudentID
+[P] GROUP BY s.StudentID, s.Name;
+[TABLE START]
+  Row 0: ['StudentID', 'Name', 'TotalBooks']
+  Row 1: ['1', 'Asha', '2']
+  Row 2: ['2', 'Ravi', '1']
+  Row 3: ['3', 'Meena', '1']
+[TABLE END]
+[P] 5. Consider the Hospital management system with Patient, Doctor and Appointment. Patient relation holds the Patient ID, Name, Age, Gender. Doctor relation describes with Doctor ID, Name, Specialization Each patient has given appointment with some doctor on specific date. a) Mention the constraints neatly. 
+[P] b) Design the ER diagram for the problem statement 
+[P] c) State the schema diagram for the ER diagram. 
+[P] d) Create the above tables, insert suitable tuples and perform the following operations in Oracle SQL
+[P] : i. Retrieve the details of doctors consulted by ‘#Patient_Name’. 
+[P] ii. Find the DoctorIDs of doctors consulted by all patients. 
+[P] iii. For each patient, find the number of doctors consulted. Display Patient_Name with the count.
+[P] CREATE TABLE PATIENT (
+[P]     Patient_ID INT PRIMARY KEY,
+[P]     Name VARCHAR(50),
+[P]     Age INT,
+[P]     Gender VARCHAR(10)
+[P] );
+[P] CREATE TABLE DOCTOR (
+[P]     Doctor_ID INT PRIMARY KEY,
+[P]     Name VARCHAR(50),
+[P]     Specialization VARCHAR(50)
+[P] );
+[P] CREATE TABLE APPOINTMENT (
+[P]     Patient_ID INT,
+[P]     Doctor_ID INT,
+[P]     Appointment_Date DATE,
+[P]     PRIMARY KEY(Patient_ID, Doctor_ID, Appointment_Date),
+[P]     FOREIGN KEY(Patient_ID) REFERENCES PATIENT(Patient_ID),
+[P]     FOREIGN KEY(Doctor_ID) REFERENCES DOCTOR(Doctor_ID)
+[P] );
+[P] INSERT INTO PATIENT VALUES (1, 'Anu', 22, 'Female');
+[P] INSERT INTO PATIENT VALUES (2, 'Ravi', 30, 'Male');
+[P] INSERT INTO DOCTOR VALUES (101, 'Dr. Kumar', 'Cardiology');
+[P] INSERT INTO DOCTOR VALUES (102, 'Dr. Meena', 'Dermatology');
+[P] INSERT INTO APPOINTMENT VALUES (1, 101, '01-JAN-2024');
+[P] INSERT INTO APPOINTMENT VALUES (1, 102, '02-JAN-2024');
+[P] INSERT INTO APPOINTMENT VALUES (2, 101, '03-JAN-2024');
+[P] i. Retrieve the details of doctors consulted by ‘#Patient_Name’
+[P] SELECT D.*
+[P] FROM DOCTOR D
+[P] JOIN APPOINTMENT A ON D.Doctor_ID = A.Doctor_ID
+[P] JOIN PATIENT P ON A.Patient_ID = P.Patient_ID
+[P] WHERE P.Name = 'Ravi';
+[TABLE START]
+  Row 0: ['Doctor_ID', 'Name', 'Specialization']
+  Row 1: ['101', 'Dr.Kumar', 'Cardiology']
+[TABLE END]
+[P] ii. Find the DoctorIDs of doctors consulted by all patients. 
+[P] SELECT Doctor_ID
+[P] FROM APPOINTMENT
+[P] GROUP BY Doctor_ID
+[P] HAVING COUNT(DISTINCT Patient_ID) = 
+[P]        (SELECT COUNT(*) FROM PATIENT);
+[TABLE START]
+  Row 0: ['Doctor_ID']
+  Row 1: ['101']
+[TABLE END]
+[P] iii. For each patient, find the number of doctors consulted. Display 
+[P]      Patient_Name with the count.
+[P] SELECT P.Name, COUNT(A.Doctor_ID) AS Doctor_Count
+[P] FROM PATIENT P
+[P] LEFT JOIN APPOINTMENT A ON P.Patient_ID = A.Patient_ID
+[P] GROUP BY P.Name;
+[TABLE START]
+  Row 0: ['Name', 'Doctor_Count']
+  Row 1: ['Anu', '2']
+  Row 2: ['Ravi', '1']
+[TABLE END]
+[P] 1.Create an Employee and Department tables, insert suitable tuples and perform the following operations using MongoDB 
+[P]  i. List all the employees of Department named #Dept_name 
+[P] ii. Name the employees working on Project Number :#Project_No 
+[P] db.Employee.insertMany([
+[P] { Emp_ID:101, Emp_Name:"Ravi", Dept_No:10, Salary:50000, Project_No:"P101"},
+[P] { Emp_ID:102, Emp_Name:"Rani", Dept_No:20, Salary:60000, Project_No:"P102"},
+[P] { Emp_ID:103, Emp_Name:"Kushal", Dept_No:10, Salary:55000, Project_No:"P101"}
+[P] ])
+[P] OUTPUT
+[P] {
+[P]   acknowledged: true,
+[P]   insertedIds: {
+[P]     '0': ObjectId('6a20078bbc1cfd02008ce5af'),
+[P]     '1': ObjectId('6a20078bbc1cfd02008ce5b0'),
+[P]     '2': ObjectId('6a20078bbc1cfd02008ce5b1')
+[P]   }
+[P] }
+[P] db.Department.insertMany([
+[P] {Dept_No:10, Dept_Name:"HR"},
+[P] {Dept_No:20, Dept_Name:"IT"}
+[P] ])
+[P] OUTPUT
+[P] {
+[P]   acknowledged: true,
+[P]   insertedIds: {
+[P]     '0': ObjectId('6a20078cbc1cfd02008ce5b2'),
+[P]     '1': ObjectId('6a20078cbc1cfd02008ce5b3')
+[P]   }
+[P] }
+[P] i.List all the employees of Department named #Dept_name 
+[P] var dept=db.Department.findOne(
+[P]    {Dept_Name:"HR"}
+[P] );
+[P] db.Employee.find(
+[P]    {Dept_No:dept.Dept_No}
+[P] );
+[P] OUTPUT
+[P] [
+[P]   {
+[P]     _id: ObjectId('6a20078bbc1cfd02008ce5af'),
+[P]     Emp_ID: 101,
+[P]     Emp_Name: 'Ravi',
+[P]     Dept_No: 10,
+[P]     Salary: 50000,
+[P]     Project_No: 'P101'
+[P]   },
+[P]   {
+[P]     _id: ObjectId('6a20078bbc1cfd02008ce5b1'),
+[P]     Emp_ID: 103,
+[P]     Emp_Name: 'Kushal',
+[P]     Dept_No: 10,
+[P]     Salary: 55000,
+[P]     Project_No: 'P101'
+[P]   }
+[P] ]
+[P] ii.Name the employees working on Project Number :#Project_No 
+[P] db.Employee.find(
+[P]             {Project_No:"P101"},
+[P]               {Emp_Name:1,_id:0}
+[P]             );
+[P] OUTPUT
+[P] [ { Emp_Name: 'Ravi' }, { Emp_Name: 'Kushal' } ]
+[P] Write a PL/SQL program that gives all employees in Department #number a 15% pay increase. Display a message displaying how many employees were awarded the increase.
+[P] CREATE TABLE Employee (
+[P]     Emp_ID NUMBER(5) PRIMARY KEY,
+[P]     Emp_Name VARCHAR2(20),
+[P]     Dept_No NUMBER(8),
+[P]     Salary NUMBER(10)
+[P] );
+[P] INSERT INTO Employee VALUES
+[P] (101, 'Ravi', 10, 50000);
+[P] INSERT INTO Employee VALUES
+[P] (102, 'Anu', 20, 60000);
+[P] INSERT INTO Employee VALUES
+[P] (103, 'Kiran', 10, 55000);
+[P] INSERT INTO Employee VALUES
+[P] (104, 'Priya', 30, 45000);
+[P] COMMIT;
+[P] SELECT * FROM Employee;
+[P] SET SERVEROUTPUT ON;
+[P] DECLARE
+[P]    v_count NUMBER;
+[P] BEGIN
+[P]    UPDATE Employee
+[P]    SET Salary = Salary * 1.15
+[P]    WHERE Dept_No = 10;
+[P]    v_count := SQL%ROWCOUNT;
+[P]    DBMS_OUTPUT.PUT_LINE(
+[P]       v_count || ' employees awarded 15% increase');
+[P] END;
+[P] /
+[P] SELECT * FROM Employee;
+[P] OUTPUT
+[P] EMP_ID EMP_NAME   DEPT_NO     SALARY
+[P] ---------- -------------------- ---------- ----------
+[P]        101 Ravi 1050000
+[P]        102 Anu2060000
+[P]        103 Kiran1055000
+[P]        104 Priya3045000
+[P] 2 employees awarded 15% increase
+[P]     EMP_ID EMP_NAME   DEPT_NO     SALARY
+[P] ---------- -------------------- ---------- ----------
+[P]        101 Ravi 1057500
+[P]        102 Anu2060000
+[P]        103 Kiran1063250
+[P]        104 Priya3045000
+[P] 2. Create the table, insert suitable tuples and perform the following operations using MongoDB
+[P]  i. Update the details of parts for a given part identifier: #PID. 
+[P] ii. Display all suppliers who supply the part with part identifier: #PID.
+[P] db.Part.insertMany([
+[P] {PID:"P1", PName:"Bolt", Price:20},
+[P] {PID:"P2", PName:"Nut", Price:10}
+[P] ])
+[P] OUTPUT
+[P] {
+[P]   acknowledged: true,
+[P]   insertedIds: {
+[P]     '0': ObjectId('6a2157e7346482d7de8ce5af'),
+[P]     '1': ObjectId('6a2157e7346482d7de8ce5b0')
+[P]   }
+[P] }
+[P] db.Supplier.insertMany([
+[P] {SID:1,SName:"ABC Suppliers",PID:"P1"},
+[P] {SID:2,SName:"XYZ Suppliers",PID:"P1"},
+[P] {SID:3,SName:"Global Parts",PID:"P2"}
+[P] ])
+[P] OUTPUT
+[P] {
+[P]   acknowledged: true,
+[P]   insertedIds: {
+[P]     '0': ObjectId('6a215845c53bedb60c8ce5b1'),
+[P]     '1': ObjectId('6a215845c53bedb60c8ce5b2'),
+[P]     '2': ObjectId('6a215845c53bedb60c8ce5b3')
+[P]   }
+[P] }
+[P] i.Update details of Part P1
+[P] db.Part.updateOne(
+[P]  {PID:"P1"},
+[P]  {$set:{Price:25}}
+[P] )
+[P] OUTPUT
+[P] {
+[P]   acknowledged: true,
+[P]   insertedId: null,
+[P]   matchedCount: 1,
+[P]   modifiedCount: 1,
+[P]   upsertedCount: 0
+[P] }
+[P] ii.Display suppliers supplying Part P1
+[P] db.Supplier.find(
+[P]  {PID:"P1"},
+[P]  {SName:1,_id:0}
+[P] )
+[P] OUTPUT
+[P] [ { SName: 'ABC Suppliers' }, { SName: 'XYZ Suppliers' } ]
+[P] Write a PL/SQL program to copy the contents of the Shipment table to another table for maintaining records for specific part number.
+[P] CREATE TABLE Shipment (
+[P]     SID NUMBER(5),
+[P]     PID VARCHAR2(5),
+[P]     Qty NUMBER(5)
+[P] );
+[P] CREATE TABLE Shipment_Backup (
+[P]     SID NUMBER(5),
+[P]     PID VARCHAR2(5),
+[P]     Qty NUMBER(5)
+[P] );
+[P] INSERT INTO Shipment VALUES (101,'P1',50);
+[P] INSERT INTO Shipment VALUES (102,'P2',40);
+[P] INSERT INTO Shipment VALUES (103,'P1',30);
+[P] INSERT INTO Shipment VALUES (104,'P3',20);
+[P] COMMIT;
+[P] SELECT * FROM Shipment;
+[P] SET SERVEROUTPUT ON;
+[P] BEGIN
+[P]    INSERT INTO Shipment_Backup
+[P]    SELECT *
+[P]    FROM Shipment
+[P]    WHERE PID='P1';
+[P]    DBMS_OUTPUT.PUT_LINE(
+[P]       'Records copied successfully');
+[P] END;
+[P] /
+[P] SELECT * FROM Shipment_Backup;
+[P] OUTPUT
+[P]       SID PID         QTY
+[P] ---------- ----- ----------
+[P]        101 P1 50
+[P]        102 P2 40
+[P]        103 P1 30
+[P]        104 P3 20
+[P] Records copied successfully
+[P]        SID PIDQTY
+[P] ---------- ----- ----------
+[P]        101 P1 50
+[P]        103 P1 30
+[P] 3. Create the table, insert suitable tuples and perform the following operations using MongoDB.
+[P]      i. Obtain the number of boats obtained by sailor :#Sailor_Name 
+[P]      ii. Retrieve boats of color :”#color”
+[P] db.Sailor.insertMany([
+[P] {SID:1,SName:"Ramesh"},
+[P] {SID:2,SName:"Suresh"}
+[P] ])
+[P] OUTPUT
+[P] {
+[P]   acknowledged: true,
+[P]   insertedIds: {
+[P]     '0': ObjectId('6a2159745fdbac8b848ce5af'),
+[P]     '1': ObjectId('6a2159745fdbac8b848ce5b0')
+[P]   }
+[P] }
+[P] db.Boat.insertMany([
+[P] {BID:101,BName:"Sea King",Color:"Red"},
+[P] {BID:102,BName:"Ocean Star",Color:"Blue"}
+[P] ])
+[P] OUTPUT
+[P] {
+[P]   acknowledged: true,
+[P]   insertedIds: {
+[P]     '0': ObjectId('6a2159a5a394a68ce18ce5b1'),
+[P]     '1': ObjectId('6a2159a5a394a68ce18ce5b2')
+[P]   }
+[P] }
+[P] db.Reserve.insertMany([
+[P] {SID:1,BID:101},
+[P] {SID:1,BID:102},
+[P] {SID:2,BID:102}
+[P] ])
+[P] OUTPUT
+[P] {
+[P]   acknowledged: true,
+[P]   insertedIds: {
+[P]     '0': ObjectId('6a2159daa3049e238d8ce5b3'),
+[P]     '1': ObjectId('6a2159daa3049e238d8ce5b4'),
+[P]     '2': ObjectId('6a2159daa3049e238d8ce5b5')
+[P]   }
+[P] }
+[P] i.Number of boats reserved by sailor "Ramesh"
+[P] var sailor=db.Sailor.findOne(
+[P]  {SName:"Ramesh"}
+[P] );
+[P] db.Reserve.countDocuments(
+[P]  {SID:sailor.SID}
+[P] )
+[P] OUTPUT
+[P] 2
+[P] ii.Retrieve boats of color "Blue"
+[P] db.Boat.find(
+[P]  {Color:"Blue"}
+[P] )
+[P] OUTPUT
+[P] [
+[P]   {
+[P]     _id: ObjectId('6a215a462dbc9d54be8ce5b2'),
+[P]     BID: 102,
+[P]     BName: 'Ocean Star',
+[P]     Color: 'Blue'
+[P]   }
+[P] ]
+[P] Write a PL/SQL program to Count the number of boats.
+[P] CREATE TABLE Boat (
+[P]     BID NUMBER(5) PRIMARY KEY,
+[P]     BName VARCHAR2(30),
+[P]     Color VARCHAR2(20)
+[P] );
+[P] INSERT INTO Boat VALUES (1,'BoatA','Red');
+[P] INSERT INTO Boat VALUES (2,'BoatB','Blue');
+[P] INSERT INTO Boat VALUES (3,'BoatC','Green');
+[P] COMMIT;
+[P] SELECT * FROM Boat;
+[P] SET SERVEROUTPUT ON;
+[P] DECLARE
+[P]    v_count NUMBER;
+[P] BEGIN
+[P]    SELECT COUNT(*)
+[P]    INTO v_count
+[P]    FROM Boat;
+[P]    DBMS_OUTPUT.PUT_LINE(
+[P]       'Total Boats = ' || v_count);
+[P] END;
+[P] /
+[P] OUTPUT
+[P]   BID      BNAME         COLOR
+[P] ---------- ------------------------------ --------------------
+[P]  1 BoatA  Red
+[P]  2 BoatB  Blue
+[P]  3 BoatC  Green
+[P] Total Boats = 3
+[P] 4. Create the table, insert suitable tuples and perform the following operations using MongoDB
+[P] i. Obtain the book details authored by “author_name”. 
+[P] ii. Obtain the Names of students who have borrowed “Database” books.
+[P] db.Book.insertMany([
+[P] {
+[P]  Book_ID:1,
+[P]  Title:"Database Systems",
+[P]  Author:"Navathe",
+[P]  Price:500
+[P] },
+[P] {
+[P]  Book_ID:2,
+[P]  Title:"Python Programming",
+[P]  Author:"John",
+[P]  Price:400
+[P] }
+[P] ])
+[P] OUTPUT
+[P] {
+[P]   acknowledged: true,
+[P]   insertedIds: {
+[P]     '0': ObjectId('6a2271ee9153378f068ce5af'),
+[P]     '1': ObjectId('6a2271ee9153378f068ce5b0')
+[P]   }
+[P] }
+[P] db.Student.insertMany([
+[P] {
+[P]  SID:1,
+[P]  SName:"Kushal",
+[P]  Book_ID:1
+[P] },
+[P] {
+[P]  SID:2,
+[P]  SName:"Priya",
+[P]  Book_ID:2
+[P] }
+[P] ])
+[P] OUTPUT
+[P] {
+[P]   acknowledged: true,
+[P]   insertedIds: {
+[P]     '0': ObjectId('6a227252494b62d38a8ce5af'),
+[P]     '1': ObjectId('6a227252494b62d38a8ce5b0')
+[P]   }
+[P] }
+[P] i. Obtain the book details authored by “author_name”. 
+[P] db.Book.find(
+[P]  {Author:"Navathe"}
+[P] )
+[P] OUTPUT
+[P] [
+[P]   {
+[P]     _id: ObjectId('6a2272c847771f32118ce5af'),
+[P]     Book_ID: 1,
+[P]     Title: 'Database Systems',
+[P]     Author: 'Navathe',
+[P]     Price: 500
+[P]   }
+[P] ]
+[P] ii. Obtain the Names of students who have borrowed “Database” books.
+[P] var book=db.Book.findOne(
+[P]  {Title:"Database Systems"}
+[P] );
+[P] db.Student.find(
+[P]  {Book_ID:book.Book_ID},
+[P]  {SName:1,_id:0}
+[P] )
+[P] OUTPUT
+[P] [ { SName: 'Kushal' } ]
+[P] Write a PL/SQL program to increase the price of all books by 10%.
+[P] CREATE TABLE Book (
+[P]     Book_ID NUMBER(5) PRIMARY KEY,
+[P]     Title VARCHAR2(50),
+[P]     Author VARCHAR2(50),
+[P]     Price NUMBER(8,2)
+[P] );
+[P] INSERT INTO Book VALUES
+[P] (101, 'Database Systems', 'Navathe', 500);
+[P] INSERT INTO Book VALUES
+[P] (102, 'Operating Systems', 'Galvin', 600);
+[P] INSERT INTO Book VALUES
+[P] (103, 'Python Programming', 'John', 450);
+[P] INSERT INTO Book VALUES
+[P] (104, 'Computer Networks', 'Tanenbaum', 550);
+[P] COMMIT;
+[P] SELECT * FROM Book;
+[P] BEGIN
+[P]    UPDATE Book
+[P]    SET Price = Price * 1.10;
+[P]    DBMS_OUTPUT.PUT_LINE(
+[P]    'Book prices updated');
+[P] END;
+[P] /
+[P] select * from Book;
+[P] OUTPUT
+[P]        101 Database SystemsNavathe     500
+[P]        102 Operating SystemsGalvin    600
+[P]        103 Python ProgrammingJohn    450
+[P]        104 Computer NetworksTanenbaum    550
+[P] Book prices updated
+[P]    BOOK_ID TITLEAUTHOR  PRICE
+[P] ---------- -------------------- -------------------- ----------
+[P]        101 Database SystemsNavathe     550
+[P]        102 Operating SystemsGalvin    660
+[P]        103 Python ProgrammingJohn    495
+[P]        104 Computer NetworksTanenbaum    605
+[P] 5.Create Patient and Doctor collections, insert suitable documents, and perform the following operations using MongoDB:
+[P]  i. List all the patients treated by the doctor named #Doctor_Name. 
+[P] ii. Display the names of patients who have an appointment on date  
+[P]     #Appointment_Date.
+[P] db.Doctor.insertMany([
+[P] {
+[P]  Doctor_ID:1,
+[P]  Doctor_Name:"Dr. Kumar",
+[P]  Specialization:"Cardiology",
+[P]  Fee:1000
+[P] },
+[P] {
+[P]  Doctor_ID:2,
+[P]  Doctor_Name:"Dr. Ravi",
+[P]  Specialization:"Neurology",
+[P]  Fee:1200
+[P] }
+[P] ])
+[P] OUTPUT
+[P] {
+[P]   acknowledged: true,
+[P]   insertedIds: {
+[P]     '0': ObjectId('6a2275b652a9f4050d8ce5af'),
+[P]     '1': ObjectId('6a2275b652a9f4050d8ce5b0')
+[P]   }
+[P] }
+[P] db.Patient.insertMany([
+[P] {
+[P]  Patient_ID:1,
+[P]  Patient_Name:"Anita",
+[P]  Doctor_ID:1,
+[P]  Appointment_Date:"2025-05-10"
+[P] },
+[P] {
+[P]  Patient_ID:2,
+[P]  Patient_Name:"Shruti",
+[P]  Doctor_ID:1,
+[P]  Appointment_Date:"2025-05-10"
+[P] },
+[P] {
+[P]  Patient_ID:3,
+[P]  Patient_Name:"Meena",
+[P]  Doctor_ID:2,
+[P]  Appointment_Date:"2025-05-12"
+[P] }
+[P] ])
+[P] OUTPUT
+[P] {
+[P]   acknowledged: true,
+[P]   insertedIds: {
+[P]     '0': ObjectId('6a2275f4e935b4340f8ce5b1'),
+[P]     '1': ObjectId('6a2275f4e935b4340f8ce5b2'),
+[P]     '2': ObjectId('6a2275f4e935b4340f8ce5b3')
+[P]   }
+[P] }
+[P] i.List patients treated by  Doctor
+[P] var doc=db.Doctor.findOne(
+[P]  {Doctor_Name:"Dr. Kumar"}
+[P] );
+[P] db.Patient.find(
+[P]  {Doctor_ID:doc.Doctor_ID},
+[P]  {Patient_Name:1,_id:0}
+[P] )
+[P] OUTPUT
+[P] [ { Patient_Name: 'Anita' }, { Patient_Name: 'Shruti' } ]
+[P] ii. Display the names of patients who have an appointment on date  
+[P]     #Appointment_Date.
+[P] db.Patient.find(
+[P]  {Appointment_Date:"2025-05-10"},
+[P]  {Patient_Name:1,_id:0}
+[P] )
+[P] OUTPUT
+[P] [ { Patient_Name: 'Anita' }, { Patient_Name: 'Shruti' } ]
+[P] Write a PL/SQL program that increases the consultation fee of all doctors in specialization #Specialization by 20%.
+[P] CREATE TABLE Doctor (
+[P]     Doctor_ID NUMBER(5) PRIMARY KEY,
+[P]     Doctor_Name VARCHAR2(20),
+[P]     Specialization VARCHAR2(20),
+[P]     Fee NUMBER(8,2)
+[P] );
+[P] INSERT INTO Doctor VALUES
+[P] (101, 'Dr. Kumar', 'Cardiology', 1000);
+[P] INSERT INTO Doctor VALUES
+[P] (102, 'Dr. Ravi', 'Neurology', 1200);
+[P] INSERT INTO Doctor VALUES
+[P] (103, 'Dr. Meena', 'Cardiology', 1500);
+[P] INSERT INTO Doctor VALUES
+[P] (104, 'Dr. Priya', 'Orthopedics', 1300);
+[P] COMMIT;
+[P] SELECT * FROM Doctor;
+[P] SET SERVEROUTPUT ON;
+[P] DECLARE
+[P]    v_count NUMBER;
+[P] BEGIN
+[P]    UPDATE Doctor
+[P]    SET Fee = Fee * 1.20
+[P]    WHERE Specialization = 'Cardiology';
+[P]    v_count := SQL%ROWCOUNT;
+[P]    DBMS_OUTPUT.PUT_LINE(
+[P]       v_count || ' doctors updated'
+[P]    );
+[P] END;
+[P] /
+[P] SELECT * FROM Doctor;
+[P] OUTPUT
+[P] DOCTOR_ID DOCTOR_NAMESPECIALIZATION    FEE
+[P] ---------- -------------------- -------------------- ----------
+[P]        101 Dr. KumarCardiology   1200
+[P]        102 Dr. RaviNeurology   1200
+[P]        103 Dr. MeenaCardiology   1800
+[P]        104 Dr. PriyaOrthopedics   1300
+[P] 2 doctors updated
+[P]  DOCTOR_ID DOCTOR_NAMESPECIALIZATION    FEE
+[P] ---------- -------------------- -------------------- ----------
+[P]        101 Dr. KumarCardiology   1440
+[P]        102 Dr. RaviNeurology   1200
+[P]        103 Dr. MeenaCardiology   2160
+[P]        104 Dr. PriyaOrthopedics   1300
