@@ -4501,13 +4501,101 @@ The maximum possible water flow from the source reservoir to the destination zon
             else window.scrollTo(0, 0);
         }
         
-        document.querySelectorAll('pre').forEach(pre => {
-            let code = pre.innerHTML;
-            code = code.replace(/\/\*([\s\S]*?)\*\//g, '<span class="j-comment">/*$1*/</span>');
-            code = code.replace(/\/\/(.*)/g, '<span class="j-comment">//$1</span>');
-            code = code.replace(/"(.*?)"/g, '<span class="j-string">"$1"</span>');
-            code = code.replace(/\b(int|void|if|else|while|for|return|def|import|class|print|from|try|except|break|continue|elif)\b/g, '<span class="j-keyword">$1</span>');
-            pre.innerHTML = code;
+        function highlightDAA(code, lang) {
+            let escaped = code
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;");
+
+            let placeholders = [];
+
+            if (lang === 'c') {
+                // 1. Hide multi-line comments
+                escaped = escaped.replace(/\/\*[\s\S]*?\*\//g, function(match) {
+                    placeholders.push('<span class="j-comment">' + match + '</span>');
+                    return '___PLACEHOLDER_' + (placeholders.length - 1) + '___';
+                });
+
+                // 2. Hide single-line comments
+                escaped = escaped.replace(/\/\/.*/g, function(match) {
+                    placeholders.push('<span class="j-comment">' + match + '</span>');
+                    return '___PLACEHOLDER_' + (placeholders.length - 1) + '___';
+                });
+
+                // 3. Hide strings
+                escaped = escaped.replace(/"(\\.|[^"\\])*"/g, function(match) {
+                    placeholders.push('<span class="j-string">' + match + '</span>');
+                    return '___PLACEHOLDER_' + (placeholders.length - 1) + '___';
+                });
+
+                // 4. Hide characters
+                escaped = escaped.replace(/'(\\.|[^'\\])'/g, function(match) {
+                    placeholders.push('<span class="j-string">' + match + '</span>');
+                    return '___PLACEHOLDER_' + (placeholders.length - 1) + '___';
+                });
+
+                // 5. C Keywords
+                const keywordRegex = /(<[^>]+>)|(\b(int|void|if|else|while|for|return|break|continue|char|double|float|struct|typedef|#include|#define|#ifndef|#endif)\b)/g;
+                escaped = escaped.replace(keywordRegex, function(match, g1, g2) {
+                    if (g1) return g1;
+                    return '<span class="j-keyword">' + g2 + '</span>';
+                });
+
+            } else if (lang === 'python') {
+                // 1. Hide triple-quoted strings
+                escaped = escaped.replace(/"""[\s\S]*?"""|'''[\s\S]*?'''/g, function(match) {
+                    placeholders.push('<span class="j-string">' + match + '</span>');
+                    return '___PLACEHOLDER_' + (placeholders.length - 1) + '___';
+                });
+
+                // 2. Hide double-quoted strings
+                escaped = escaped.replace(/"(\\.|[^"\\])*"/g, function(match) {
+                    placeholders.push('<span class="j-string">' + match + '</span>');
+                    return '___PLACEHOLDER_' + (placeholders.length - 1) + '___';
+                });
+
+                // 3. Hide single-quoted strings
+                escaped = escaped.replace(/'(\\.|[^'\\])*'/g, function(match) {
+                    placeholders.push('<span class="j-string">' + match + '</span>');
+                    return '___PLACEHOLDER_' + (placeholders.length - 1) + '___';
+                });
+
+                // 4. Hide comments starting with #
+                escaped = escaped.replace(/#.*/g, function(match) {
+                    placeholders.push('<span class="j-comment">' + match + '</span>');
+                    return '___PLACEHOLDER_' + (placeholders.length - 1) + '___';
+                });
+
+                // 5. Python Keywords
+                const keywordRegex = /(<[^>]+>)|(\b(def|class|return|if|elif|else|while|for|in|import|from|print|try|except|break|continue|and|or|not|is|None|True|False|self|as)\b)/g;
+                escaped = escaped.replace(keywordRegex, function(match, g1, g2) {
+                    if (g1) return g1;
+                    return '<span class="j-keyword">' + g2 + '</span>';
+                });
+            }
+
+            // Restore strings & comments
+            for (let i = placeholders.length - 1; i >= 0; i--) {
+                escaped = escaped.replace('___PLACEHOLDER_' + i + '___', placeholders[i]);
+            }
+
+            return escaped;
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            document.querySelectorAll('pre').forEach(pre => {
+                let lang = '';
+                if (pre.classList.contains('language-c')) {
+                    lang = 'c';
+                } else if (pre.classList.contains('language-python')) {
+                    lang = 'python';
+                }
+                
+                if (lang) {
+                    let rawCode = pre.textContent;
+                    pre.innerHTML = highlightDAA(rawCode, lang);
+                }
+            });
         });
     </script>
   <script src="assets/js/portal-core.js" defer></script>

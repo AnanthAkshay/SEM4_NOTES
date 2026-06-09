@@ -1,0 +1,1332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IS48 Advanced Java Lab – Viva Questions</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Inter:wght@300;400;500;600;700&display=swap');
+
+  :root {
+    --bg:        #0d1117;
+    --surface:   #161b22;
+    --card:      #1c2430;
+    --border:    #30363d;
+    --accent:    #f78166;
+    --blue:      #79c0ff;
+    --green:     #56d364;
+    --yellow:    #e3b341;
+    --purple:    #d2a8ff;
+    --text:      #e6edf3;
+    --muted:     #8b949e;
+    --mono:      'JetBrains Mono', monospace;
+    --sans:      'Inter', system-ui, sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  /* ── Header ── */
+  header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 36px 32px 28px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  header h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--blue);
+    letter-spacing: -0.3px;
+  }
+  header p {
+    color: var(--muted);
+    font-size: 0.85rem;
+    margin-top: 4px;
+  }
+  .meta-row {
+    display: flex;
+    gap: 20px;
+    margin-top: 14px;
+    flex-wrap: wrap;
+  }
+  .badge {
+    background: #21262d;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 3px 12px;
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+  .badge span { color: var(--text); font-weight: 600; }
+
+  /* ── Layout ── */
+  .wrapper {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  /* ── Stats bar ── */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    margin-bottom: 40px;
+  }
+  .stat-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    text-align: center;
+  }
+  .stat-card .num { font-size: 2rem; font-weight: 700; }
+  .stat-card .label { font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
+
+  /* ── Section headers ── */
+  .section-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 40px 0 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-tag {
+    background: #21262d;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--accent);
+    white-space: nowrap;
+  }
+  .section-head h2 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .q-count {
+    margin-left: auto;
+    font-size: 0.75rem;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  /* ── Q&A Cards ── */
+  .qa-list { display: flex; flex-direction: column; gap: 10px; }
+
+  details {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  details[open] { border-color: #3d444d; }
+  details[open] summary { background: #1e2a38; }
+
+  summary {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 18px;
+    cursor: pointer;
+    list-style: none;
+    font-weight: 500;
+    color: var(--text);
+    font-size: 0.93rem;
+    user-select: none;
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary:hover { background: #1e2733; }
+
+  .q-num {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--muted);
+    min-width: 28px;
+    padding-top: 2px;
+  }
+  .q-text { flex: 1; }
+  .arrow {
+    color: var(--muted);
+    font-size: 0.8rem;
+    padding-top: 3px;
+    transition: transform 0.2s;
+  }
+  details[open] .arrow { transform: rotate(90deg); }
+
+  .answer {
+    padding: 0 18px 18px 58px;
+    font-size: 0.9rem;
+    color: #c9d1d9;
+    line-height: 1.75;
+    border-top: 1px solid #21262d;
+    padding-top: 14px;
+  }
+  .answer code {
+    font-family: var(--mono);
+    background: #0d1117;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 2px 7px;
+    font-size: 0.82rem;
+    color: var(--green);
+  }
+  .answer pre {
+    font-family: var(--mono);
+    background: #0d1117;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+    font-size: 0.8rem;
+    color: var(--green);
+    overflow-x: auto;
+    margin-top: 10px;
+    line-height: 1.6;
+  }
+  .answer ul, .answer ol {
+    padding-left: 20px;
+    margin-top: 6px;
+  }
+  .answer li { margin-bottom: 4px; }
+  .highlight { color: var(--yellow); font-weight: 600; }
+  .tip {
+    background: #1a2332;
+    border-left: 3px solid var(--blue);
+    border-radius: 0 6px 6px 0;
+    padding: 10px 14px;
+    margin-top: 10px;
+    font-size: 0.85rem;
+    color: var(--blue);
+  }
+  .tip strong { color: var(--yellow); }
+
+  /* ── Footer ── */
+  footer {
+    text-align: center;
+    padding: 30px;
+    color: var(--muted);
+    font-size: 0.78rem;
+    border-top: 1px solid var(--border);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>IS48 — Advanced Java Lab &nbsp;·&nbsp; Viva Questions</h1>
+  <p>M.S. Ramaiah Institute of Technology &nbsp;·&nbsp; VTU &nbsp;·&nbsp; 4th Semester</p>
+  <div class="meta-row">
+    <div class="badge">Course Code <span>IS48</span></div>
+    <div class="badge">Credits <span>0:0:1</span></div>
+    <div class="badge">Contact <span>30P</span></div>
+    <div class="badge">Coordinator <span>Mrs. Evangeline D</span></div>
+    <div class="badge">Difficulty <span>Medium</span></div>
+  </div>
+</header>
+
+<div class="wrapper">
+
+  <!-- Stats -->
+  <div class="stats">
+    <div class="stat-card"><div class="num" style="color:var(--blue)">80</div><div class="label">Total Questions</div></div>
+    <div class="stat-card"><div class="num" style="color:var(--green)">10</div><div class="label">Experiments Covered</div></div>
+    <div class="stat-card"><div class="num" style="color:var(--yellow)">8</div><div class="label">Topic Groups</div></div>
+    <div class="stat-card"><div class="num" style="color:var(--purple)">Med</div><div class="label">Difficulty Level</div></div>
+  </div>
+
+
+  <!-- ════════════════════════════════════════════════ -->
+  <!-- GROUP 1 – Packages & Interfaces (Exp 1, 3) -->
+  <!-- ════════════════════════════════════════════════ -->
+  <div class="section-head">
+    <div class="section-tag">EXP 1 · 3</div>
+    <h2>Packages &amp; Interfaces</h2>
+    <div class="q-count">Q 1 – 14</div>
+  </div>
+  <div class="qa-list">
+
+    <details>
+      <summary><span class="q-num">Q1</span><span class="q-text">What is a package in Java and why is it used?</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        A <span class="highlight">package</span> is a namespace that groups related classes and interfaces together. It prevents naming conflicts and controls access. You declare it with <code>package packageName;</code> at the top of a file.<br><br>
+        Benefits: organised code, name collision avoidance, access protection (<code>protected</code> and default access are package-scoped).<br>
+        Example: <code>package PayrollManagement;</code>
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q2</span><span class="q-text">How do you import a class from another package?</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        Use the <code>import</code> keyword followed by the fully qualified name.<br>
+        <pre>import PayrollManagement.Employee;   // specific class
+import PayrollManagement.*;           // all classes</pre>
+        In the Payroll system the <code>Company</code> package imports from <code>PayrollManagement</code>.
+        <div class="tip"><strong>Key point:</strong> java.lang.* is imported automatically; all others must be explicit.</div>
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q3</span><span class="q-text">What is an interface in Java? How is it different from an abstract class?</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        An <span class="highlight">interface</span> is a contract — it declares method signatures that implementing classes must provide.
+        <ul>
+          <li>All methods are <code>public abstract</code> by default (Java 7)</li>
+          <li>Can have <code>default</code> and <code>static</code> methods (Java 8+)</li>
+          <li>All fields are <code>public static final</code></li>
+        </ul>
+        <br>Key differences from abstract class:
+        <ul>
+          <li>A class can implement <em>multiple</em> interfaces but extend only <em>one</em> abstract class</li>
+          <li>Abstract classes can have constructors, state, and non-abstract methods freely</li>
+          <li>Interface provides 100% abstraction (pre Java 8)</li>
+        </ul>
+        In Exp 1, <code>Payable</code> is an interface with <code>calculate()</code>; <code>FullTime</code>, <code>PartTime</code>, and <code>Intern</code> implement it.
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q4</span><span class="q-text">Can a class implement multiple interfaces? Give an example.</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        Yes. Java allows multiple interface implementation to simulate multiple inheritance of type.<br>
+        <pre>interface Payable  { double calculate(); }
+interface Taxable  { double computeTax(); }
+
+class FullTime extends Employee implements Payable, Taxable {
+    public double calculate()  { return salary; }
+    public double computeTax() { return salary * 0.3; }
+}</pre>
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q5</span><span class="q-text">What is the difference between method overriding and method overloading?</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        <ul>
+          <li><span class="highlight">Overriding</span> – same method signature in a subclass; resolved at <em>runtime</em> (dynamic dispatch). Used for interface implementation and polymorphism.</li>
+          <li><span class="highlight">Overloading</span> – same method name but different parameter list in the <em>same</em> class; resolved at <em>compile time</em>.</li>
+        </ul>
+        In the Payroll system, each subclass <em>overrides</em> <code>calculate()</code> from <code>Payable</code>.
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q6</span><span class="q-text">What is runtime polymorphism? How does it apply to the Payroll system?</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        Runtime polymorphism means the JVM decides at runtime which overridden method to call based on the actual object type, not the reference type.<br>
+        <pre>Employee[] staff = { new FullTime(...), new PartTime(...), new Intern(...) };
+for (Employee e : staff) {
+    // JVM calls the correct calculate() at runtime
+    System.out.println(((Payable)e).calculate());
+}</pre>
+        This is possible because <code>FullTime</code>, <code>PartTime</code>, and <code>Intern</code> all have different implementations of <code>calculate()</code>.
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q7</span><span class="q-text">Can an interface have a constructor? Why or why not?</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        <span class="highlight">No.</span> Interfaces cannot be instantiated directly, so constructors are meaningless. An interface defines a contract, not an object blueprint. Only classes (including abstract classes) can have constructors.
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q8</span><span class="q-text">What is a parameterised constructor? Why is it used in the Employee class?</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        A parameterised constructor accepts arguments to initialise an object's fields at creation time, ensuring the object is always in a valid state.<br>
+        <pre>public Employee(String name, int age, double salary, String designation) {
+    this.name        = name;
+    this.age         = age;
+    this.salary      = salary;
+    this.designation = designation;
+}</pre>
+        Subclasses call <code>super(name, age, salary, designation)</code> to reuse this initialisation.
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q9</span><span class="q-text">What is the role of the 'super' keyword when used in subclass constructors?</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        <code>super()</code> invokes the parent class constructor. It <em>must</em> be the first statement in a subclass constructor. If omitted, the compiler inserts a no-arg <code>super()</code> call automatically — which fails if the parent has no default constructor.
+        <pre>class FullTime extends Employee {
+    public FullTime(String name, int age, double salary) {
+        super(name, age, salary, "Full-Time");
+    }
+}</pre>
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q10</span><span class="q-text">What is the StringManipulator interface? List the eight methods it must define.</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        <code>StringManipulator</code> (Exp 3) is an interface in the <code>stringoperations</code> package:
+        <ol>
+          <li><code>String reverse(String input)</code></li>
+          <li><code>String toUpperCase(String input)</code></li>
+          <li><code>String toLowerCase(String input)</code></li>
+          <li><code>String concatenate(String s1, String s2)</code></li>
+          <li><code>int countVowels(String input)</code></li>
+          <li><code>int wordCount(String input)</code></li>
+          <li>(Two more student-defined methods, e.g. <code>isPalindrome()</code> and <code>trim()</code>)</li>
+        </ol>
+        The class <code>StringProcessor</code> implements all these methods.
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q11</span><span class="q-text">What is a default method in a Java interface? (Java 8)</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        A <span class="highlight">default method</span> provides a method body inside an interface so that implementing classes can inherit it without overriding. It solves backward compatibility — adding new methods to an existing interface without breaking all implementations.
+        <pre>interface StringManipulator {
+    default String trim(String s) { return s.trim(); }
+}</pre>
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q12</span><span class="q-text">What is the difference between 'extends' and 'implements'?</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        <ul>
+          <li><code>extends</code> — used when a class inherits another class, or an interface extends another interface. Only <em>one</em> class can be extended.</li>
+          <li><code>implements</code> — used when a class promises to fulfil an interface contract. Multiple interfaces can be implemented simultaneously.</li>
+        </ul>
+        Example: <code>class FullTime extends Employee implements Payable</code>
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q13</span><span class="q-text">How are access modifiers different across packages?</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        <ul>
+          <li><code>public</code> — accessible everywhere</li>
+          <li><code>protected</code> — accessible within the same package <em>and</em> subclasses in other packages</li>
+          <li><em>default</em> (no modifier) — accessible only within the same package</li>
+          <li><code>private</code> — accessible only within the declaring class</li>
+        </ul>
+        In the Payroll system, the <code>Company</code> package can only access members marked <code>public</code> in <code>PayrollManagement</code>.
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q14</span><span class="q-text">What happens if a class declares that it implements an interface but does not implement all its methods?</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        A <span class="highlight">compile-time error</span> occurs: <em>"ClassName is not abstract and does not override abstract method methodName() in InterfaceName"</em>.<br><br>
+        The only valid alternatives are:
+        <ul>
+          <li>Implement all abstract methods, <em>or</em></li>
+          <li>Declare the class itself <code>abstract</code></li>
+        </ul>
+      </div>
+    </details>
+
+  </div><!-- /qa-list -->
+
+
+  <!-- ════════════════════════════════════════════════ -->
+  <!-- GROUP 2 – Exception Handling (Exp 2, 4) -->
+  <!-- ════════════════════════════════════════════════ -->
+  <div class="section-head">
+    <div class="section-tag">EXP 2 · 4</div>
+    <h2>Exception Handling &amp; Custom Exceptions</h2>
+    <div class="q-count">Q 15 – 28</div>
+  </div>
+  <div class="qa-list">
+
+    <details>
+      <summary><span class="q-num">Q15</span><span class="q-text">How do you create a custom exception in Java?</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        Extend <code>Exception</code> (checked) or <code>RuntimeException</code> (unchecked):
+        <pre>class QueueOverflowException extends Exception {
+    public QueueOverflowException(String msg) {
+        super(msg);
+    }
+}</pre>
+        Throw it with <code>throw new QueueOverflowException("Queue is full!");</code>
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q16</span><span class="q-text">What is the difference between checked and unchecked exceptions?</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        <ul>
+          <li><span class="highlight">Checked</span> — subclasses of <code>Exception</code> (not <code>RuntimeException</code>). Must be declared with <code>throws</code> or caught in a <code>try-catch</code>. E.g., <code>IOException</code>, <code>QueueOverflowException</code>.</li>
+          <li><span class="highlight">Unchecked</span> — subclasses of <code>RuntimeException</code>. No mandatory handling. E.g., <code>NullPointerException</code>, <code>ArrayIndexOutOfBoundsException</code>.</li>
+        </ul>
+        <div class="tip"><strong>Exam tip:</strong> Custom exceptions for Queue extend <code>Exception</code>, making them checked — the caller is forced to handle them.</div>
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q17</span><span class="q-text">What is the difference between 'throw' and 'throws'?</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        <ul>
+          <li><code>throw</code> — used inside a method body to actually raise an exception object: <code>throw new QueueOverflowException("full");</code></li>
+          <li><code>throws</code> — used in a method signature to declare that the method <em>may</em> throw a checked exception, passing responsibility to the caller: <code>void enqueue(int x) throws QueueOverflowException</code></li>
+        </ul>
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q18</span><span class="q-text">What is Queue Overflow and Queue Underflow?</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        <ul>
+          <li><span class="highlight">Queue Overflow</span> — occurs when trying to <code>enqueue</code> an element into a <em>full</em> queue (rear == max–1).</li>
+          <li><span class="highlight">Queue Underflow</span> — occurs when trying to <code>dequeue</code> from an <em>empty</em> queue (front == –1).</li>
+        </ul>
+        Both are modelled as custom exceptions so the caller can handle them gracefully instead of getting a cryptic <code>ArrayIndexOutOfBoundsException</code>.
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q19</span><span class="q-text">What is the purpose of the 'finally' block?</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        The <code>finally</code> block executes <em>always</em> — whether or not an exception was thrown or caught. It is used for resource cleanup (closing files, DB connections, etc.).<br>
+        Exception: <code>finally</code> does not execute if <code>System.exit()</code> is called or if the JVM crashes.
+        <pre>try {
+    enqueue(99);
+} catch (QueueOverflowException e) {
+    System.out.println(e.getMessage());
+} finally {
+    System.out.println("Enqueue attempt done.");
+}</pre>
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q20</span><span class="q-text">What is a multi-catch block? (Java 7)</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        Java 7 introduced the ability to catch multiple exceptions in a single <code>catch</code> block using <code>|</code>:
+        <pre>try {
+    // ...
+} catch (QueueOverflowException | QueueUnderflowException e) {
+    System.out.println("Queue error: " + e.getMessage());
+}</pre>
+        This reduces code duplication. The caught variable is effectively <code>final</code>.
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q21</span><span class="q-text">What custom exceptions does Exp 4 (Palindrome Checker) require?</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        Two custom exceptions:
+        <ul>
+          <li><code>InvalidInputException</code> — thrown when the input contains non-alphabetical characters.</li>
+          <li><code>ShortStringException</code> — thrown when the string length is less than 3.</li>
+        </ul>
+        Validation order matters: check length first, then character validity, then perform palindrome check.
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q22</span><span class="q-text">Can we have a try block without a catch block?</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        Yes — if a <code>finally</code> block is present. The syntax <code>try { } finally { }</code> is valid. The exception propagates up after <code>finally</code> executes. However, a <code>try</code> block with <em>neither</em> <code>catch</code> nor <code>finally</code> is a compile error.
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q23</span><span class="q-text">What is exception propagation?</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        If a method does not catch a thrown exception, it propagates up the call stack to the calling method. If no method handles it, the JVM prints the stack trace and terminates the program. This chain is called <span class="highlight">exception propagation</span>.
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q24</span><span class="q-text">Can a subclass override a method and throw broader exceptions than the parent?</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        <span class="highlight">No</span> — this would violate the Liskov Substitution Principle. A subclass override can:
+        <ul>
+          <li>Throw fewer or narrower checked exceptions</li>
+          <li>Throw no checked exceptions</li>
+          <li>Throw any unchecked exceptions freely</li>
+        </ul>
+        It <em>cannot</em> throw new or broader checked exceptions.
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q25</span><span class="q-text">How do you validate that a string contains only alphabetical characters in the Palindrome program?</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        <pre>if (!input.matches("[a-zA-Z]+")) {
+    throw new InvalidInputException("Only alphabets allowed!");
+}</pre>
+        Alternative: iterate and use <code>Character.isLetter(ch)</code> for each character.
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q26</span><span class="q-text">What is the getMessage() method and where is it defined?</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        <code>getMessage()</code> is defined in <code>java.lang.Throwable</code>, the root of all Java exceptions. It returns the detail message string passed to the exception constructor via <code>super(msg)</code>. Used to display human-readable error information.
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q27</span><span class="q-text">What is the exception class hierarchy in Java?</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        <pre>Object
+ └── Throwable
+      ├── Error          (JVM-level, don't catch)
+      └── Exception      (application-level)
+           ├── IOException, SQLException …  (checked)
+           └── RuntimeException             (unchecked)
+                ├── NullPointerException
+                ├── ArithmeticException
+                └── …</pre>
+        Custom exceptions extend <code>Exception</code> or <code>RuntimeException</code>.
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q28</span><span class="q-text">What is the difference between Error and Exception?</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        <ul>
+          <li><span class="highlight">Error</span> — serious JVM-level problems that applications cannot and should not try to handle: <code>OutOfMemoryError</code>, <code>StackOverflowError</code>.</li>
+          <li><span class="highlight">Exception</span> — recoverable conditions that application code can and should handle.</li>
+        </ul>
+      </div>
+    </details>
+
+  </div>
+
+
+  <!-- ════════════════════════════════════════════════ -->
+  <!-- GROUP 3 – String & StringBuffer (Exp 4, 5) -->
+  <!-- ════════════════════════════════════════════════ -->
+  <div class="section-head">
+    <div class="section-tag">EXP 4 · 5</div>
+    <h2>String, StringBuffer &amp; StringBuilder</h2>
+    <div class="q-count">Q 29 – 41</div>
+  </div>
+  <div class="qa-list">
+
+    <details>
+      <summary><span class="q-num">Q29</span><span class="q-text">What is the difference between String, StringBuffer, and StringBuilder?</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        <ul>
+          <li><span class="highlight">String</span> — immutable; every modification creates a new object. Thread-safe by nature.</li>
+          <li><span class="highlight">StringBuffer</span> — mutable; all methods are <code>synchronized</code> → thread-safe but slower.</li>
+          <li><span class="highlight">StringBuilder</span> — mutable; methods are <em>not</em> synchronized → faster but not thread-safe.</li>
+        </ul>
+        For the Palindrome Checker, <code>StringBuffer</code> is used because <code>reverse()</code> is a built-in method.
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q30</span><span class="q-text">How does StringBuffer's reverse() method work? Write the logic manually.</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        <code>new StringBuffer(str).reverse().toString()</code> reverses the character sequence in-place.<br>Manual equivalent:
+        <pre>String s = "RACECAR";
+StringBuilder sb = new StringBuilder();
+for (int i = s.length()-1; i >= 0; i--)
+    sb.append(s.charAt(i));
+String reversed = sb.toString(); // "RACECAR"</pre>
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q31</span><span class="q-text">Why is String immutable in Java?</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        Java designers made <code>String</code> immutable for:
+        <ul>
+          <li><span class="highlight">Security</span> — class names, file paths, network connections use strings; mutation would be a vulnerability.</li>
+          <li><span class="highlight">String pool / caching</span> — multiple references can safely share the same object.</li>
+          <li><span class="highlight">Thread safety</span> — immutable objects are inherently safe across threads.</li>
+          <li><span class="highlight">Hashcode caching</span> — stable hashcode makes Strings safe as HashMap keys.</li>
+        </ul>
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q32</span><span class="q-text">How do you check if a character is uppercase, lowercase, or a digit in Java?</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        Use the <code>Character</code> utility class:
+        <pre>Character.isUpperCase(ch)   // A-Z
+Character.isLowerCase(ch)   // a-z
+Character.isDigit(ch)       // 0-9
+Character.isLetter(ch)      // any letter
+Character.isLetterOrDigit(ch)</pre>
+        Used in Exp 5 to validate password strength.
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q33</span><span class="q-text">How do you mask a password in Exp 5 (keep first and last character, replace rest with '*')?</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        <pre>String mask(String pwd) {
+    if (pwd.length() <= 2) return pwd;
+    StringBuilder sb = new StringBuilder();
+    sb.append(pwd.charAt(0));
+    for (int i = 1; i < pwd.length()-1; i++) sb.append('*');
+    sb.append(pwd.charAt(pwd.length()-1));
+    return sb.toString();
+}
+// "Hello@1" → "H*****1"</pre>
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q34</span><span class="q-text">How do you count special characters in a string?</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        <pre>int countSpecial(String pwd) {
+    int count = 0;
+    for (char c : pwd.toCharArray())
+        if (!Character.isLetterOrDigit(c)) count++;
+    return count;
+}
+// Alternatively: pwd.replaceAll("[a-zA-Z0-9]", "").length()</pre>
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q35</span><span class="q-text">What does the String.replace() method do, and how is it used to replace vowels with '#'?</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        <code>replace(CharSequence target, CharSequence replacement)</code> replaces every occurrence. For vowel masking, <code>replaceAll()</code> with regex is cleaner:
+        <pre>String masked = password.replaceAll("[aeiouAEIOU]", "#");
+// "Hello@1" → "H#ll#@1"</pre>
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q36</span><span class="q-text">What is the String pool and how does it relate to == vs .equals()?</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        Java maintains a <span class="highlight">string pool</span> (intern pool) for string literals. Two literals with the same value share the same object:
+        <pre>String a = "hello";
+String b = "hello";
+a == b       // true  (same pool object)
+
+String c = new String("hello");
+a == c       // false (c is on heap, not pool)
+a.equals(c)  // true  (value comparison)</pre>
+        <div class="tip"><strong>Always use <code>.equals()</code></strong> to compare string content, never <code>==</code>.</div>
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q37</span><span class="q-text">How do you count vowels in a string? (Exp 3)</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        <pre>int countVowels(String input) {
+    int count = 0;
+    for (char c : input.toLowerCase().toCharArray())
+        if ("aeiou".indexOf(c) != -1) count++;
+    return count;
+}</pre>
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q38</span><span class="q-text">How do you count the number of words in a string? (Exp 3)</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        <pre>int wordCount(String input) {
+    if (input == null || input.trim().isEmpty()) return 0;
+    return input.trim().split("\\s+").length;
+}
+// "  hello   world  " → 2</pre>
+        Using <code>\\s+</code> handles multiple consecutive spaces correctly.
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q39</span><span class="q-text">What are common StringBuffer methods used in lab programs?</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        <ul>
+          <li><code>append(str)</code> — appends to end</li>
+          <li><code>insert(index, str)</code> — inserts at position</li>
+          <li><code>delete(start, end)</code> — removes characters</li>
+          <li><code>reverse()</code> — reverses in-place</li>
+          <li><code>replace(start, end, str)</code> — replaces segment</li>
+          <li><code>charAt(index)</code> — gets character</li>
+          <li><code>length()</code>, <code>toString()</code></li>
+        </ul>
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q40</span><span class="q-text">How is a palindrome check implemented using StringBuffer?</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        <pre>boolean isPalindrome(String s) {
+    String clean = s.toLowerCase();
+    String rev   = new StringBuffer(clean).reverse().toString();
+    return clean.equals(rev);
+}
+// "RACECAR" → reversed "racecar" == "racecar" → true</pre>
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q41</span><span class="q-text">What is StringBuilder's advantage over StringBuffer in single-threaded programs?</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        <code>StringBuilder</code> has no synchronization overhead (no <code>synchronized</code> keyword on its methods), making it approximately 10–15% faster in benchmarks for single-threaded use. Since lab programs are single-threaded, <code>StringBuilder</code> is the more efficient choice — but the syllabus specifically requires <code>StringBuffer</code> for the Palindrome Checker.
+      </div>
+    </details>
+
+  </div>
+
+
+  <!-- ════════════════════════════════════════════════ -->
+  <!-- GROUP 4 – Collections (Exp 6, 7) -->
+  <!-- ════════════════════════════════════════════════ -->
+  <div class="section-head">
+    <div class="section-tag">EXP 6 · 7</div>
+    <h2>Collections Framework</h2>
+    <div class="q-count">Q 42 – 56</div>
+  </div>
+  <div class="qa-list">
+
+    <details>
+      <summary><span class="q-num">Q42</span><span class="q-text">What is the Java Collections Framework?</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        A unified architecture for representing and manipulating collections of objects. It provides:
+        <ul>
+          <li>Interfaces: <code>List</code>, <code>Set</code>, <code>Queue</code>, <code>Map</code>, <code>Deque</code></li>
+          <li>Implementations: <code>ArrayList</code>, <code>LinkedList</code>, <code>HashSet</code>, <code>HashMap</code>, etc.</li>
+          <li>Algorithms: <code>Collections.sort()</code>, <code>Collections.shuffle()</code>, etc.</li>
+        </ul>
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q43</span><span class="q-text">What collection class is most appropriate for Exp 6 (Missed Calls)? Why?</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        A <span class="highlight">LinkedList</span> used as a <code>Deque</code> (double-ended queue) is most appropriate because:
+        <ul>
+          <li>Calls are recalled in <em>arrival order</em> (FIFO)</li>
+          <li>The oldest call must be removed when the 4th call arrives (<code>removeFirst()</code>)</li>
+          <li>New calls are added at the tail (<code>addLast()</code>)</li>
+          <li>Fixed max capacity of 3 can be enforced manually</li>
+        </ul>
+        <code>ArrayDeque</code> is also a valid choice.
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q44</span><span class="q-text">What is the difference between ArrayList and LinkedList?</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        <ul>
+          <li><span class="highlight">ArrayList</span> — backed by a dynamic array. O(1) random access, O(n) insertion/deletion in the middle.</li>
+          <li><span class="highlight">LinkedList</span> — doubly-linked list. O(n) random access, O(1) insertion/deletion at head or tail.</li>
+        </ul>
+        Choose <code>LinkedList</code> when frequent insertions/deletions at both ends are needed (Exp 6). Choose <code>ArrayList</code> for random access (Exp 7 book list).
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q45</span><span class="q-text">How do you sort a List of objects by a field (e.g., book price) using Comparator?</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        <pre>// Java 8 lambda
+books.sort(Comparator.comparingDouble(Book::getPrice));
+
+// Traditional anonymous class
+Collections.sort(books, new Comparator&lt;Book&gt;() {
+    public int compare(Book a, Book b) {
+        return Double.compare(a.getPrice(), b.getPrice());
+    }
+});</pre>
+        Exp 7 requires sorting in <em>ascending</em> order of price, storing the result in a new list.
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q46</span><span class="q-text">What is the difference between Comparable and Comparator?</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        <ul>
+          <li><span class="highlight">Comparable</span> — implemented by the class itself (<code>implements Comparable&lt;T&gt;</code>). Defines the <em>natural ordering</em> via <code>compareTo()</code>. Only one ordering per class.</li>
+          <li><span class="highlight">Comparator</span> — external strategy object. Allows multiple, custom orderings without modifying the class.</li>
+        </ul>
+        For books (price sort), use <code>Comparator</code>; you could also define natural order by title using <code>Comparable</code>.
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q47</span><span class="q-text">How do you filter a list to get all books above a given price?</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        <pre>// Traditional loop
+List&lt;Book&gt; expensive = new ArrayList&lt;&gt;();
+for (Book b : books)
+    if (b.getPrice() > threshold) expensive.add(b);
+
+// Java 8 Stream
+List&lt;Book&gt; expensive = books.stream()
+    .filter(b -> b.getPrice() > threshold)
+    .collect(Collectors.toList());</pre>
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q48</span><span class="q-text">How do you find all books by a given author? (Exp 7)</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        <pre>List&lt;Book&gt; byAuthor = new ArrayList&lt;&gt;();
+for (Book b : books)
+    if (b.getAuthor().equalsIgnoreCase(authorName))
+        byAuthor.add(b);</pre>
+        Using <code>equalsIgnoreCase</code> handles case mismatch in user input.
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q49</span><span class="q-text">How do you maintain a unique book ID for each book? (Exp 7)</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        Use a <span class="highlight">HashMap</span> where the key is the book ID and the value is the <code>Book</code> object:
+        <pre>Map&lt;Integer, Book&gt; bookDB = new HashMap&lt;&gt;();
+bookDB.put(101, new Book("DBMS", "Navathe", "Pearson", 499.0));</pre>
+        The <code>List</code> stores insertion-ordered books; the <code>Map</code> enables O(1) lookup by ID.
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q50</span><span class="q-text">What is a helper class and why is it used in Exp 6?</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        A helper (model) class encapsulates data. In Exp 6, <code>Call</code> is the helper class:
+        <pre>class Call {
+    String number;
+    String callerName;
+    LocalTime time;
+    Call(String num, String name) {
+        this.number     = num;
+        this.callerName = name;
+        this.time       = LocalTime.now();
+    }
+}</pre>
+        It keeps the data and the collection management code separate, following <em>Separation of Concerns</em>.
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q51</span><span class="q-text">What is the Iterator interface and how is it used?</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        <code>Iterator</code> provides a standard way to traverse and optionally remove elements from any collection:
+        <pre>Iterator&lt;Call&gt; it = missedCalls.iterator();
+while (it.hasNext()) {
+    Call c = it.next();
+    if (shouldDelete(c)) it.remove();  // safe removal during iteration
+}</pre>
+        Using <code>it.remove()</code> is the safe way to delete during iteration; directly calling <code>list.remove()</code> in a for-each loop causes <code>ConcurrentModificationException</code>.
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q52</span><span class="q-text">What is the difference between List, Set, and Map in Java?</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        <ul>
+          <li><span class="highlight">List</span> — ordered, allows duplicates. Index-based access. (<code>ArrayList</code>, <code>LinkedList</code>)</li>
+          <li><span class="highlight">Set</span> — unordered (usually), no duplicates. (<code>HashSet</code>, <code>TreeSet</code>)</li>
+          <li><span class="highlight">Map</span> — key-value pairs, unique keys. (<code>HashMap</code>, <code>TreeMap</code>)</li>
+        </ul>
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q53</span><span class="q-text">What is a Queue interface? What are its key methods?</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        <code>java.util.Queue</code> extends <code>Collection</code> and models a FIFO structure:
+        <ul>
+          <li><code>offer(e)</code> / <code>add(e)</code> — insert at tail</li>
+          <li><code>poll()</code> / <code>remove()</code> — remove from head</li>
+          <li><code>peek()</code> / <code>element()</code> — inspect head without removing</li>
+        </ul>
+        The difference: <code>offer/poll/peek</code> return <code>null</code> or <code>false</code> on failure; <code>add/remove/element</code> throw exceptions.
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q54</span><span class="q-text">What is the Collections utility class? Name any three useful methods.</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        <code>java.util.Collections</code> provides static utility methods for collection manipulation:
+        <ul>
+          <li><code>Collections.sort(list)</code> — natural sort</li>
+          <li><code>Collections.sort(list, comparator)</code> — custom sort</li>
+          <li><code>Collections.reverse(list)</code> — reverse in-place</li>
+          <li><code>Collections.shuffle(list)</code> — random shuffle</li>
+          <li><code>Collections.unmodifiableList(list)</code> — read-only wrapper</li>
+        </ul>
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q55</span><span class="q-text">What is autoboxing and how does it apply to collections?</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        Java collections can only store objects, not primitives. <span class="highlight">Autoboxing</span> automatically converts primitives to their wrapper types and back:
+        <pre>List&lt;Integer&gt; list = new ArrayList&lt;&gt;();
+list.add(42);         // autoboxing: int → Integer
+int x = list.get(0);  // unboxing:  Integer → int</pre>
+        This is relevant when storing book prices (<code>double</code> → <code>Double</code>) or queue elements.
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q56</span><span class="q-text">What does Collections.unmodifiableList() do and when would you use it?</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        It returns a read-only view of the list. Any attempt to <code>add</code>, <code>remove</code>, or <code>set</code> throws <code>UnsupportedOperationException</code>. Useful when a method returns a list that callers should not modify — for example, returning the sorted price list in Exp 7 to prevent accidental corruption of the master list.
+      </div>
+    </details>
+
+  </div>
+
+
+  <!-- ════════════════════════════════════════════════ -->
+  <!-- GROUP 5 – Generics (Exp 8) -->
+  <!-- ════════════════════════════════════════════════ -->
+  <div class="section-head">
+    <div class="section-tag">EXP 8</div>
+    <h2>Generics</h2>
+    <div class="q-count">Q 57 – 64</div>
+  </div>
+  <div class="qa-list">
+
+    <details>
+      <summary><span class="q-num">Q57</span><span class="q-text">What are generics in Java and why are they used?</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        Generics allow classes, interfaces, and methods to operate on a type specified at compile time. Benefits:
+        <ul>
+          <li><span class="highlight">Type safety</span> — catches type mismatches at compile time, not runtime</li>
+          <li><span class="highlight">No casting</span> — eliminates explicit casts</li>
+          <li><span class="highlight">Reusability</span> — one class works for multiple types</li>
+        </ul>
+        <code>Stack&lt;String&gt;</code> and <code>Stack&lt;Integer&gt;</code> from the same <code>Stack&lt;T&gt;</code> class.
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q58</span><span class="q-text">Write the skeleton of a generic Stack class. (Exp 8)</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        <pre>class Stack&lt;T&gt; {
+    private Object[] data;
+    private int top = -1;
+    private int capacity;
+
+    Stack(int cap) { capacity = cap; data = new Object[cap]; }
+
+    void push(T item) {
+        if (top == capacity-1) throw new RuntimeException("Stack Full");
+        data[++top] = item;
+    }
+
+    @SuppressWarnings("unchecked")
+    T pop() {
+        if (isEmpty()) throw new RuntimeException("Stack Empty");
+        return (T) data[top--];
+    }
+
+    boolean isEmpty()  { return top == -1; }
+    void clear()       { top = -1; }
+
+    void display() {
+        for (int i = top; i >= 0; i--) System.out.println(data[i]);
+    }
+}</pre>
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q59</span><span class="q-text">What is type erasure in Java generics?</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        At compile time, the Java compiler replaces type parameters with <code>Object</code> (or their upper bound) and inserts casts where needed. At runtime, <em>no type information</em> about generic parameters exists in the bytecode. This is called <span class="highlight">type erasure</span>.<br><br>
+        Implication: you cannot do <code>new T[]</code> or <code>instanceof T</code> at runtime, which is why the generic Stack uses <code>new Object[]</code>.
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q60</span><span class="q-text">What is a bounded type parameter? Give an example.</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        A bounded type parameter restricts which types can be used:
+        <pre>&lt;T extends Number&gt;     // T must be Number or a subclass
+&lt;T extends Comparable&lt;T&gt;&gt;  // T must implement Comparable</pre>
+        Example — a generic max method:
+        <pre>static &lt;T extends Comparable&lt;T&gt;&gt; T max(T a, T b) {
+    return a.compareTo(b) >= 0 ? a : b;
+}</pre>
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q61</span><span class="q-text">What is the difference between Stack (java.util) and a user-defined generic Stack?</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        <ul>
+          <li><code>java.util.Stack</code> — legacy class, extends <code>Vector</code> (synchronized), inherits many unrelated methods like <code>get(int)</code>.</li>
+          <li>User-defined <code>Stack&lt;T&gt;</code> — clean API with only <code>push</code>, <code>pop</code>, <code>peek</code>, <code>isEmpty</code>, <code>clear</code>, <code>display</code>. Preferred in modern code.</li>
+        </ul>
+        The syllabus asks for a <em>user-defined</em> generic class for this reason.
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q62</span><span class="q-text">How do you instantiate a generic Stack for String and Integer?</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        <pre>Stack&lt;String&gt;  sStack = new Stack&lt;&gt;(5);
+sStack.push("Hello");
+sStack.push("World");
+
+Stack&lt;Integer&gt; iStack = new Stack&lt;&gt;(5);
+iStack.push(10);
+iStack.push(20);</pre>
+        The diamond operator <code>&lt;&gt;</code> (Java 7+) infers the type from the declaration.
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q63</span><span class="q-text">Why can't you create an array of a generic type directly (e.g., new T[10])?</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        Due to <em>type erasure</em>, the JVM doesn't know <code>T</code> at runtime. Array creation requires a concrete runtime type. The workaround is to use <code>new Object[10]</code> and cast elements to <code>T</code> when retrieved.
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q64</span><span class="q-text">What is a generic method? How is it different from a generic class?</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        A <span class="highlight">generic method</span> declares its own type parameter independent of the class:
+        <pre>static &lt;T&gt; void printArray(T[] arr) {
+    for (T item : arr) System.out.print(item + " ");
+}</pre>
+        A generic <em>class</em> defines T for the whole class; all methods share it. A generic <em>method</em> defines T only for that method call — useful in utility/static methods.
+      </div>
+    </details>
+
+  </div>
+
+
+  <!-- ════════════════════════════════════════════════ -->
+  <!-- GROUP 6 – Swing (Exp 9, 10) -->
+  <!-- ════════════════════════════════════════════════ -->
+  <div class="section-head">
+    <div class="section-tag">EXP 9 · 10</div>
+    <h2>Java Swing &amp; GUI</h2>
+    <div class="q-count">Q 65 – 80</div>
+  </div>
+  <div class="qa-list">
+
+    <details>
+      <summary><span class="q-num">Q65</span><span class="q-text">What is Java Swing? How does it differ from AWT?</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        <span class="highlight">Swing</span> is a GUI toolkit built on top of AWT as part of Java Foundation Classes (JFC).<br><br>
+        Key differences:
+        <ul>
+          <li>Swing is <em>lightweight</em> — components are rendered by Java itself, not OS-native peers → look-and-feel is consistent across platforms.</li>
+          <li>AWT is <em>heavyweight</em> — delegates to OS-native widgets. Platform-dependent look.</li>
+          <li>Swing offers far more components: <code>JTable</code>, <code>JTree</code>, <code>JOptionPane</code>, etc.</li>
+          <li>AWT components start with <code>Button</code>; Swing with <code>JButton</code>.</li>
+        </ul>
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q66</span><span class="q-text">What is JFrame and how do you create a basic window?</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        <code>JFrame</code> is the top-level container for a Swing application — it's the window.
+        <pre>JFrame frame = new JFrame("Student Info");
+frame.setSize(600, 400);
+frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+frame.setLayout(new FlowLayout());
+// add components...
+frame.setVisible(true);</pre>
+        <code>setDefaultCloseOperation(EXIT_ON_CLOSE)</code> ensures the JVM exits when the window is closed.
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q67</span><span class="q-text">What is ActionListener and how is it used in Swing?</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        <code>ActionListener</code> is a functional interface from <code>java.awt.event</code>. It is implemented to respond to button clicks and similar actions:
+        <pre>JButton btn = new JButton("Compute");
+btn.addActionListener(new ActionListener() {
+    public void actionPerformed(ActionEvent e) {
+        // compute CGPA
+    }
+});
+// Java 8 lambda:
+btn.addActionListener(e -> computeCGPA());</pre>
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q68</span><span class="q-text">What is the difference between JTextField, JTextArea, and JPasswordField?</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        <ul>
+          <li><span class="highlight">JTextField</span> — single-line text input.</li>
+          <li><span class="highlight">JTextArea</span> — multi-line text display/input. Used in Exp 9 to display the student collection.</li>
+          <li><span class="highlight">JPasswordField</span> — single-line, masks input with echo character (e.g., <code>•</code>). Used in Exp 10 for password entry.</li>
+        </ul>
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q69</span><span class="q-text">How do you show a validation error message in a Swing popup?</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        <pre>JOptionPane.showMessageDialog(
+    frame,                        // parent component
+    "Age must be a number!",      // message
+    "Validation Error",           // title
+    JOptionPane.ERROR_MESSAGE     // icon type
+);</pre>
+        Icon types: <code>ERROR_MESSAGE</code>, <code>WARNING_MESSAGE</code>, <code>INFORMATION_MESSAGE</code>, <code>QUESTION_MESSAGE</code>.
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q70</span><span class="q-text">How is CGPA computed from four SGPAs in Exp 9?</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        CGPA is the arithmetic mean of the four semester GPAs:
+        <pre>double cgpa = (sgpa1 + sgpa2 + sgpa3 + sgpa4) / 4.0;</pre>
+        Validation needed: each SGPA must be in the range [0.0, 10.0]. Show an error dialog if any value is out of range or not a number.
+        <pre>try {
+    double s = Double.parseDouble(sgpaField.getText());
+    if (s < 0 || s > 10) throw new NumberFormatException();
+} catch (NumberFormatException ex) {
+    JOptionPane.showMessageDialog(this, "Invalid SGPA!", "Error", JOptionPane.ERROR_MESSAGE);
+}</pre>
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q71</span><span class="q-text">How do you enable or disable a button programmatically in Swing?</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        <pre>computeButton.setEnabled(true);   // enable
+doneButton.setEnabled(false);     // disable (greyed out)</pre>
+        In Exp 9, the workflow is:
+        <ol>
+          <li>Initially both enabled.</li>
+          <li>After "Compute" → disable Compute, enable Done.</li>
+          <li>After "Done" → re-enable Compute for the next entry.</li>
+        </ol>
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q72</span><span class="q-text">What is JOptionPane.showInputDialog() and when is it used?</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        It displays a dialog that prompts the user for text input and returns the entered string (or <code>null</code> if cancelled).
+        <pre>String userId = JOptionPane.showInputDialog(frame,
+    "Enter Customer ID:", "Login", JOptionPane.QUESTION_MESSAGE);</pre>
+        Used in Exp 10 to get the customer ID after successful login.
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q73</span><span class="q-text">What is JOptionPane.showConfirmDialog() and what values can it return?</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        Displays a Yes/No/Cancel dialog:
+        <pre>int result = JOptionPane.showConfirmDialog(frame,
+    "Customer exists. Proceed?", "Confirm", JOptionPane.YES_NO_OPTION);</pre>
+        Return values:
+        <ul>
+          <li><code>JOptionPane.YES_OPTION</code> (0)</li>
+          <li><code>JOptionPane.NO_OPTION</code> (1)</li>
+          <li><code>JOptionPane.CANCEL_OPTION</code> (2)</li>
+          <li><code>JOptionPane.CLOSED_OPTION</code> (-1) — dialog closed without selection</li>
+        </ul>
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q74</span><span class="q-text">What is JOptionPane.showOptionDialog()? How is it used for discounts in Exp 10?</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        It creates a fully custom dialog with user-defined button labels:
+        <pre>String[] discounts = {"10% - Regular", "20% - Member", "30% - Premium"};
+int choice = JOptionPane.showOptionDialog(
+    frame,
+    "Select Discount Type:",
+    "Discount Options",
+    JOptionPane.DEFAULT_OPTION,
+    JOptionPane.QUESTION_MESSAGE,
+    null,
+    discounts,
+    discounts[0]
+);
+// choice = 0, 1, or 2 → apply corresponding discount</pre>
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q75</span><span class="q-text">What is a Layout Manager in Swing? Name three commonly used ones.</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        A <span class="highlight">Layout Manager</span> controls how components are positioned and sized within a container.
+        <ul>
+          <li><code>FlowLayout</code> — components placed left-to-right, top-to-bottom. Default for JPanel.</li>
+          <li><code>BorderLayout</code> — five regions: North, South, East, West, Center. Default for JFrame's content pane.</li>
+          <li><code>GridLayout</code> — equal-sized cells in rows and columns.</li>
+          <li><code>GridBagLayout</code> — most flexible; full control over cell size and position.</li>
+        </ul>
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q76</span><span class="q-text">What is the Event Dispatch Thread (EDT) in Swing?</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        Swing is <em>single-threaded</em>. All GUI creation and updates must happen on the <span class="highlight">Event Dispatch Thread (EDT)</span>. Use <code>SwingUtilities.invokeLater()</code>:
+        <pre>SwingUtilities.invokeLater(() -> {
+    new StudentForm().setVisible(true);
+});</pre>
+        Updating UI components from other threads causes intermittent bugs and race conditions.
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q77</span><span class="q-text">What is a JComboBox and how is it used for category selection in Exp 9?</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        <code>JComboBox</code> is a drop-down list:
+        <pre>String[] categories = {"General", "OBC", "SC/ST", "EWS"};
+JComboBox&lt;String&gt; categoryBox = new JComboBox&lt;&gt;(categories);
+// Get selected value:
+String selected = (String) categoryBox.getSelectedItem();</pre>
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q78</span><span class="q-text">How do you validate that a USN field follows the correct format (e.g., 1MS22IS001)?</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        Use regex:
+        <pre>String usn = usnField.getText().trim();
+if (!usn.matches("1MS\\d{2}[A-Z]{2}\\d{3}")) {
+    JOptionPane.showMessageDialog(this,
+        "Invalid USN format!", "Error", JOptionPane.ERROR_MESSAGE);
+}</pre>
+        Pattern breakdown: <code>1MS</code> (literal) + 2-digit year + 2-letter branch + 3-digit roll.
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q79</span><span class="q-text">What is the difference between JDialog and JOptionPane?</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        <ul>
+          <li><span class="highlight">JOptionPane</span> — static factory methods for standard dialogs (message, input, confirm, option). Fastest way to show simple dialogs.</li>
+          <li><span class="highlight">JDialog</span> — a full-featured dialog window you build from scratch. Used when JOptionPane is not sufficient (custom layout, multiple input fields, etc.).</li>
+        </ul>
+        <code>JOptionPane</code> internally creates a <code>JDialog</code> to render itself.
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="q-num">Q80</span><span class="q-text">What does setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE) do? What are the other options?</span><span class="arrow">▶</span></summary>
+      <div class="answer">
+        It specifies what happens when the user clicks the window's close (X) button:
+        <ul>
+          <li><code>EXIT_ON_CLOSE</code> — calls <code>System.exit(0)</code>; terminates the JVM.</li>
+          <li><code>DISPOSE_ON_CLOSE</code> — disposes only this window; JVM continues if other windows exist.</li>
+          <li><code>HIDE_ON_CLOSE</code> — hides the window but keeps it in memory.</li>
+          <li><code>DO_NOTHING_ON_CLOSE</code> — no automatic action; handle manually with <code>WindowListener</code>.</li>
+        </ul>
+      </div>
+    </details>
+
+  </div>
+
+</div><!-- /wrapper -->
+
+<footer>
+  IS48 Advanced Java Lab &nbsp;·&nbsp; MSRIT / VTU &nbsp;·&nbsp; 80 Questions &nbsp;·&nbsp; Generated for exam preparation
+</footer>
+
+</body>
+</html>
